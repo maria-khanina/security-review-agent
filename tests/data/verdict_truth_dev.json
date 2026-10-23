@@ -8,12 +8,13 @@
   },
   "by_subtype": {
     "implementation_only": 96,
-    "not_in_service": 1090,
     "stated": 1322,
     "drift_claim": 31,
     "planted_ambiguity": 71,
     "vague_policy": 857,
     "coupled_silence": 42,
-    "planted_violation": 74
+    "planted_violation": 74,
+    "not_in_service": 510,
+    "not_in_service_exposure": 580
   }
 }

@@ -87,6 +87,12 @@ class VerdictSettings(BaseModel):
     run_config_file: str
     metrics_file_prefix: str
     no_severity: str
+    stacking_folds: int
+    stacking_steps: int
+    stacking_rate: float
+    stacking_l2: float
+    stacking_class_power: float
+    probability_floor: float
 
 
 class ReviewSettings(BaseModel):

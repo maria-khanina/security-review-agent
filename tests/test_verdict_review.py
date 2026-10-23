@@ -23,6 +23,7 @@ from secreview.agents.verdict_review import (
     review_case_verdicts,
     to_requirement_verdicts,
 )
+from secreview.agents.verdict_verifier import probability_of_yes
 from secreview.evaluation.verdict_scores import match_truths
 from secreview.evaluation.verdict_truth import build_case_truth
 from secreview.llm.client import LogprobCompletion, TokenLogprobs
@@ -184,3 +185,24 @@ def test_the_oracle_context_always_holds_the_gold_sentence() -> None:
         if truths[index].verdict in EVIDENCE_VERDICTS:
             gold = overlapping_units(units, truths[index].design_spans[0])
             assert gold & shown[requirement_id]
+
+
+def answer_tokens(counts: dict[str, int]) -> list[TokenLogprobs]:
+    total = sum(counts.values())
+    top: dict[str, float] = {}
+    for piece, count in counts.items():
+        top[piece] = math.log(count / total)
+    return [
+        TokenLogprobs(token='{"answer": "', logprob=0.0, top={}),
+        TokenLogprobs(token="yes", logprob=top["yes"], top=top),
+        TokenLogprobs(token='"}', logprob=0.0, top={}),
+    ]
+
+
+def test_the_verifier_confidence_is_the_probability_of_yes_among_yes_and_no() -> None:
+    yes_count = len("abc")
+    tokens = answer_tokens({"yes": yes_count, "no": 1, "maybe": yes_count})
+    confidence = probability_of_yes(tokens)
+    assert confidence is not None
+    assert math.isclose(confidence, yes_count / (yes_count + 1))
+    assert probability_of_yes([]) is None

@@ -26,7 +26,14 @@ from secreview.evaluation.verdict_scores import (
 from secreview.parsing.vocabulary import VERDICTS
 from secreview.review_settings import REVIEW_SETTINGS
 
-RECALL_SUBTYPES = ("planted_ambiguity", "vague_policy", "planted_violation")
+RECALL_SUBTYPES = (
+    "planted_ambiguity",
+    "vague_policy",
+    "planted_violation",
+    "not_in_service",
+    "not_in_service_exposure",
+    "coupled_silence",
+)
 
 
 def list_run_case_ids(run_name: str) -> list[str]:

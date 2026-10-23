@@ -21,6 +21,7 @@ from secreview.agents.verdict_reply import (
     VerdictReply,
     build_verdict_schema,
     compute_confidence,
+    compute_distribution,
     parse_verdict_reply,
 )
 from secreview.agents.verdicts import RequirementVerdict
@@ -64,6 +65,7 @@ class RequirementRecord(BaseModel):
     reason: str
     severity: str
     confidence: float | None
+    probabilities: dict[str, float] = {}
     context_units: list[int]
     raw_reply: str
 
@@ -115,6 +117,7 @@ def build_record(
             reason="",
             severity=REVIEW_SETTINGS.verdict.no_severity,
             confidence=None,
+            probabilities={},
             context_units=indices,
             raw_reply=completion.text,
         )
@@ -126,6 +129,7 @@ def build_record(
         reason=reply.reason,
         severity=reply.severity,
         confidence=compute_confidence(completion.tokens, reply.verdict),
+        probabilities=compute_distribution(completion.tokens),
         context_units=indices,
         raw_reply=completion.text,
     )

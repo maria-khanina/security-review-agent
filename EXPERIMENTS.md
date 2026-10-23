@@ -182,7 +182,31 @@ The scorer (`src/secreview/evaluation/verdict_scores.py`) matches the requiremen
 
 An open consequence for the user-facing report: about 8 vague-wording `unclear` verdicts per document (857 pairs in 96 documents) are remarks about the policy, identical for all documents of a policy version; they should be shown once per policy version (action `review_policy`), not in every design review.
 
-## 10. Open questions and next steps
+## 10. Per-requirement verdict pipeline on the 30-document dev pilot
+
+**Pipeline.** The requirements come from the stored policy analysis `llm_analysis_v2` (prompt 2 of section 3; it finds all 110 gold requirement sentences). For each requirement the design is ranked once on the GPU (Qwen3-Embedding-0.6B, cosine similarity, chunks of one sentence) and the 10 best chunks are shown to the model in document order. One call per requirement to Qwen3-4B-AWQ (temperature 0, JSON schema): the prompt defines the four verdicts of section 9, the severity scale of section 2 and asks for `quote`, `reason` (at most 25 words), `verdict`, `severity` in this order. The quote of `compliant` and `violated` is located in the design text (fuzzy match, at least 90); the severity counts only for `violated`. Confidence is the probability of the chosen verdict among the four, read from the log-probabilities of the first token of the verdict (normalised over the four verdicts). About 38 seconds per document.
+
+**Pilot.** The 30 pilot documents of section 4 give 1151 (document, requirement sentence) pairs scored with section 9: 455 `compliant`, 19 `violated`, 294 `unclear`, 383 `not_applicable`. Reported: accuracy of the verdict, recall / precision per verdict, "defect recall" (planted violations with the right quote plus planted ambiguities), AUROC of the confidence for telling right verdicts from wrong ones. Intervals and paired differences are bootstrap over documents (`scripts/evaluate_verdicts.py`).
+
+| Run | Accuracy | compliant R / P | violated R / P | unclear R / P | not_applicable R / P | Defect recall | Confidence AUROC |
+|---|---|---|---|---|---|---|---|
+| base: top 10 chunks | 0.528 | 0.98 / 0.55 | 0.84 / 0.42 | 0.27 / 0.44 | 0.17 / 0.56 | 0.57 | 0.81 |
+| strict wording of `compliant` and `not_applicable` in the prompt | 0.534 | 0.97 / 0.57 | 0.68 / 0.41 | 0.38 / 0.42 | 0.13 / 0.62 | 0.62 | 0.78 |
+| oracle context: gold sentence guaranteed in the 10 chunks | 0.531 | 0.98 / 0.55 | 0.84 / 0.43 | 0.29 / 0.45 | 0.17 / 0.56 | 0.57 | 0.81 |
+| first 800 characters of the design added as a service overview | 0.526 | 0.99 / 0.52 | 0.74 / 0.50 | 0.17 / 0.42 | 0.24 / 0.65 | 0.51 | 0.78 |
+
+- **Retrieval is not the bottleneck at 10 candidates.** Guaranteeing the gold sentence in the context changes nothing (accuracy +0.003, paired interval includes 0; violated recall identical): the gold sentence of the evidence verdicts was already among the 10 chunks. The limit is the judgment of the 4B model in one pass.
+- **The model is too lenient.** It answers `compliant` for about 70% of the pairs (gold 40%), whenever a fragment is about the same subject, for example "secrets are not in the repository" for a requirement about card numbers. Recall of `compliant` is 0.98 but precision only 0.55; `not_applicable` is found in 17% of the cases and `unclear` in 27%.
+- **A stricter prompt moves answers from `compliant` to `unclear`** (recall of `unclear` +0.11, planted ambiguities 0.33 to 0.56, vague policy 0.27 to 0.37; recall of `violated` −0.16) but accuracy does not change (0.528 to 0.534, interval includes 0).
+- **The service overview moves answers to `not_applicable`** (recall +0.07, significant, both for exposure-driven and component-driven cases) at the cost of `unclear` (−0.10); accuracy does not change.
+- **The gold `not_applicable` is partly an artifact of the generator.** 580 of the 1090 dev pairs that are "not in service" (53%) are not applicable only because each documented service has a single exposure value (external, internal or admin): internal service authentication (`AUTH-02`), encryption of internal traffic (`CRYPTO-04`) and least-privilege roles (`AUTHZ-02`) are marked not applicable for an externally exposed service, although such a service also has internal calls. They are reported as the subtype `not_in_service_exposure`, apart from the component-driven `not_in_service` (a service without card data, buckets or a log pipeline). The model finds 16% and 20% of them respectively.
+- **Confidence.** The log-probability confidence separates right from wrong verdicts with AUROC 0.81 (interval 0.78 to 0.84), although it is almost always close to 1.
+- **Severity.** Only 15 right `violated` verdicts on the pilot; mean absolute error 0.5 to 0.6 levels. Too few for conclusions; measured again on the full dev split.
+- **Comparison with the free-form baseline of section 4** is only indicative, because the scores differ: that baseline found 12 of 35 planted flaws (recall 0.34) with 1.03 false alarms per document; here 57% of the planted violations and ambiguities (defect recall) are found.
+
+**Verifier threshold (first signal).** A second call per `compliant` or `violated` verdict asks a yes/no question suited to the verdict ("does the quoted sentence itself state what the requirement demands?"); the probability of yes is read from the token log-probabilities. Downgrading verdicts to `unclear` when this probability is below a threshold raises accuracy on the pilot from 0.528 to 0.573 (threshold 0.98), precision of `compliant` from 0.55 to 0.65, recall of `unclear` from 0.27 to 0.46 and precision of `violated` from 0.42 to 0.58, at the cost of recall of `violated` (0.84 to 0.74). The threshold was chosen on the same pilot documents, so this is an upper estimate.
+
+## 11. Open questions and next steps
 
 - Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.
 - Choose the retrieval method and the number of candidates by recall on the pairs whose gold verdict is `violated` or `unclear`, with the size of the context as the trade-off.
@@ -192,7 +216,7 @@ An open consequence for the user-facing report: about 8 vague-wording `unclear` 
 - Self-consistency, a verifier and a cascade; a plot of quality against number of LLM calls.
 - Confirm the best variant on the full dev split, then open the test split once.
 
-## 11. Reproduction
+## 12. Reproduction
 
 - Retrieval: `python scripts/run_retrieval.py dev`, then `python scripts/report_retrieval.py dev flaws --reference dense:qwen/w0/plain` (groups: `all`, `flaws`, `violation`, `ambiguity`, `not_clear`, `satisfied`). It needs a CUDA build of torch for reasonable speed; the Windows environment has none, so it was run in WSL with the vLLM environment plus extra packages in `/root/retrieval_extra`, with the vLLM server stopped to free the GPU.
 - Wording variation: `python scripts/rephrase_satisfied.py`, then `python scripts/build_case.py <case ids>`.

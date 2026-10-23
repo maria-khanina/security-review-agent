@@ -60,11 +60,18 @@ def spread_over_verdicts(top: dict[str, float]) -> dict[str, float]:
     return mass
 
 
-def compute_confidence(tokens: list[TokenLogprobs], verdict: str) -> float | None:
-    """Return the probability of the chosen verdict among the four verdicts."""
+def compute_distribution(tokens: list[TokenLogprobs]) -> dict[str, float]:
+    """Return the probabilities of the four verdicts, or nothing when unknown."""
     item = find_value_token(tokens)
     if item is None:
-        return None
+        return {}
     mass = spread_over_verdicts(item.top)
     total = sum(mass.values())
-    return mass[verdict] / total if total > 0.0 else None
+    if total <= 0.0:
+        return {}
+    return {verdict: share / total for verdict, share in mass.items()}
+
+
+def compute_confidence(tokens: list[TokenLogprobs], verdict: str) -> float | None:
+    """Return the probability of the chosen verdict among the four verdicts."""
+    return compute_distribution(tokens).get(verdict)

@@ -22,8 +22,10 @@ from secreview.datagen.policies import CLEAR_STATUS, RuleSpan, load_policy_versi
 from secreview.parsing.vocabulary import COMPLIANT, NOT_APPLICABLE, UNCLEAR, VIOLATED
 
 Span = tuple[int, int]
+EXPOSURES = ("external", "internal", "admin")
 
 NOT_IN_SERVICE = "not_in_service"
+NOT_IN_SERVICE_EXPOSURE = "not_in_service_exposure"
 IMPLEMENTATION_ONLY_RULE = "implementation_only"
 PLANTED_VIOLATION = "planted_violation"
 PLANTED_AMBIGUITY = "planted_ambiguity"
@@ -55,6 +57,26 @@ def to_spans(raw_spans: list[list[int]]) -> list[Span]:
     return [(span[0], span[1]) for span in raw_spans]
 
 
+def applies_ignoring_exposure(
+    rule: Rule,
+    service: DocumentedServiceDefinition,
+) -> bool:
+    """Tell whether the rule would apply to the service under another exposure."""
+    data_classes: set[str] = set(service.data)
+    for kind in service.components:
+        for exposure in EXPOSURES:
+            if rule.applies_to.matches(kind, data_classes, exposure):
+                return True
+    return False
+
+
+def name_inapplicability(rule: Rule, service: DocumentedServiceDefinition) -> str:
+    """Tell whether only the exposure of the service makes the rule inapplicable."""
+    if applies_ignoring_exposure(rule, service):
+        return NOT_IN_SERVICE_EXPOSURE
+    return NOT_IN_SERVICE
+
+
 def classify_scope(
     rule: Rule,
     service: DocumentedServiceDefinition,
@@ -63,7 +85,7 @@ def classify_scope(
     if not rule_applies(rule, service):
         return Classification(
             verdict=NOT_APPLICABLE,
-            subtype=NOT_IN_SERVICE,
+            subtype=name_inapplicability(rule, service),
             design_spans=[],
         )
     if rule.check_scope == IMPLEMENTATION_ONLY:
