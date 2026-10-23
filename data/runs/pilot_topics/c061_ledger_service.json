@@ -1,0 +1,98 @@
+{
+  "case_id": "c061_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows.\",\n    \"topics\": [\"data-protection\", \"network\"],\n    \"observation\": \"Uses keyset pagination for efficient querying of large datasets\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.\",\n    \"topics\": [\"authorization\", \"data-protection\"],\n    \"observation\": \"Reversal is implemented as a normal posting without modifying the original entry\",\n    \"requirement_id\": \"R5\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n    \"topics\": [\"operations\", \"resilience\"],\n    \"observation\": \"Reconciliation job sends alerts for discrepancies\",\n    \"requirement_id\": \"R33\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.\",\n    \"topics\": [\"database-access\", \"resilience\"],\n    \"observation\": \"Transactions are used to ensure consistency of data\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows.\",\n    \"topics\": [\"data-protection\", \"network\"],\n    \"observation\": \"Uses keyset pagination for efficient querying of large datasets\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n    \"topics\": [\"operations\", \"resilience\"],\n    \"observation\": \"Reconciliation job sends alerts for discrepancies\",\n    \"requirement_id\": \"R33\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.\",\n    \"topics\": [\"database-access\", \"resilience\"],\n    \"observation\": \"Transactions are used to ensure consistency of data\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows.",
+      "topics": [
+        "data-protection",
+        "network"
+      ],
+      "observation": "Uses keyset pagination for efficient querying of large datasets",
+      "requirement_id": "R13",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        3401,
+        3569
+      ],
+      "policy_span": [
+        1235,
+        1283
+      ]
+    },
+    {
+      "design_quote": "Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.",
+      "topics": [
+        "authorization",
+        "data-protection"
+      ],
+      "observation": "Reversal is implemented as a normal posting without modifying the original entry",
+      "requirement_id": "R5",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3663,
+        3944
+      ],
+      "policy_span": [
+        627,
+        715
+      ]
+    },
+    {
+      "design_quote": "The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.",
+      "topics": [
+        "operations",
+        "resilience"
+      ],
+      "observation": "Reconciliation job sends alerts for discrepancies",
+      "requirement_id": "R33",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1978,
+        2132
+      ],
+      "policy_span": [
+        2595,
+        2662
+      ]
+    },
+    {
+      "design_quote": "The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.",
+      "topics": [
+        "database-access",
+        "resilience"
+      ],
+      "observation": "Transactions are used to ensure consistency of data",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        3012,
+        3211
+      ],
+      "policy_span": [
+        718,
+        801
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

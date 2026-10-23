@@ -1,0 +1,203 @@
+openapi:
+  payment_gateway:
+    title: Payment Gateway API
+    list_query: [merchant_id, status]
+    endpoints:
+    - {operation_id: createPayment, method: post, path: /v1/payments, summary: Create a payment, request_schema: PaymentRequest, response_schema: Payment}
+    - {operation_id: getPayment, method: get, path: '/v1/payments/{paymentId}', summary: Retrieve a payment, response_schema: Payment}
+    - {operation_id: capturePayment, method: post, path: '/v1/payments/{paymentId}/capture', summary: Capture an authorized payment, request_schema: CaptureRequest, response_schema: Payment}
+    - {operation_id: refundPayment, method: post, path: '/v1/payments/{paymentId}/refunds', summary: Refund a payment, request_schema: RefundRequest, response_schema: Refund}
+    - {operation_id: listPayments, method: get, path: /v1/payments, summary: List payments, response_schema: Payment, is_list: true}
+    schemas:
+      PaymentRequest: {amount: integer, currency: string, card_token: string, merchant_id: string, reference: string}
+      CaptureRequest: {amount: integer}
+      RefundRequest: {amount: integer, reason: string}
+      Payment: {id: string, status: string, amount: integer, currency: string, last4: string, merchant_id: string}
+      Refund: {id: string, status: string, amount: integer}
+    pii_parameter: customer_email
+  wallet_service:
+    title: Wallet API
+    list_query: [status]
+    endpoints:
+    - {operation_id: getWallet, method: get, path: '/v1/wallets/{walletId}', summary: Retrieve wallet and balance, response_schema: Wallet}
+    - {operation_id: topUpWallet, method: post, path: '/v1/wallets/{walletId}/topups', summary: Top up a wallet from a funding source, request_schema: TopUpRequest, response_schema: Transaction}
+    - {operation_id: createTransfer, method: post, path: /v1/transfers, summary: Transfer money between wallets, request_schema: TransferRequest, response_schema: Transaction}
+    - {operation_id: listTransactions, method: get, path: '/v1/wallets/{walletId}/transactions', summary: List wallet transactions, response_schema: Transaction, is_list: true}
+    - {operation_id: updateProfile, method: patch, path: '/v1/wallets/{walletId}/profile', summary: Update wallet owner profile, request_schema: ProfileUpdate, response_schema: Wallet}
+    schemas:
+      Wallet: {id: string, owner_name: string, balance: integer, currency: string}
+      TopUpRequest: {amount: integer, funding_source_id: string}
+      TransferRequest: {from_wallet_id: string, to_wallet_id: string, amount: integer, note: string}
+      Transaction: {id: string, type: string, amount: integer, created_at: string}
+      ProfileUpdate: {owner_name: string, phone_number: string, address: string}
+    pii_parameter: phone_number
+  kyc_service:
+    title: KYC Verification API
+    list_query: [status]
+    endpoints:
+    - {operation_id: createCase, method: post, path: /v1/kyc/cases, summary: Open a verification case, request_schema: CaseRequest, response_schema: KycCase}
+    - {operation_id: uploadDocument, method: post, path: '/v1/kyc/cases/{caseId}/documents', summary: Upload an identity document, request_schema: DocumentUpload, response_schema: DocumentReceipt}
+    - {operation_id: getCase, method: get, path: '/v1/kyc/cases/{caseId}', summary: Get case status, response_schema: KycCase}
+    - {operation_id: submitCase, method: post, path: '/v1/kyc/cases/{caseId}/submit', summary: Submit the case to the verification vendor, request_schema: SubmitRequest, response_schema: KycCase}
+    - {operation_id: listCases, method: get, path: /v1/kyc/cases, summary: List cases, response_schema: KycCase, is_list: true}
+    schemas:
+      CaseRequest: {customer_id: string, full_name: string, date_of_birth: string, country: string}
+      DocumentUpload: {document_type: string, content_base64: string}
+      DocumentReceipt: {document_id: string, received_at: string}
+      SubmitRequest: {consent: boolean}
+      KycCase: {id: string, status: string, risk_level: string, customer_id: string}
+    pii_parameter: national_id
+  notification_service:
+    title: Notification Service API
+    list_query: [channel]
+    endpoints:
+    - {operation_id: sendNotification, method: post, path: /v1/notifications, summary: Send a notification, request_schema: NotificationRequest, response_schema: NotificationReceipt}
+    - {operation_id: getNotification, method: get, path: '/v1/notifications/{notificationId}', summary: Get delivery status, response_schema: NotificationReceipt}
+    - {operation_id: createTemplate, method: put, path: '/v1/templates/{templateId}', summary: Create or replace a template, request_schema: TemplateBody, response_schema: Template}
+    - {operation_id: listNotifications, method: get, path: /v1/notifications, summary: List notifications, response_schema: NotificationReceipt, is_list: true}
+    schemas:
+      NotificationRequest: {channel: string, recipient_id: string, template_id: string, locale: string}
+      NotificationReceipt: {id: string, status: string, channel: string}
+      TemplateBody: {subject: string, body: string}
+      Template: {id: string, subject: string, body: string}
+    pii_parameter: email
+  ledger_service:
+    title: Ledger API
+    list_query: [account_id]
+    endpoints:
+    - {operation_id: postEntry, method: post, path: /v1/entries, summary: Post a balanced journal entry, request_schema: EntryRequest, response_schema: Entry}
+    - {operation_id: getEntry, method: get, path: '/v1/entries/{entryId}', summary: Retrieve an entry, response_schema: Entry}
+    - {operation_id: getBalance, method: get, path: '/v1/accounts/{accountId}/balance', summary: Get account balance, response_schema: Balance}
+    - {operation_id: reverseEntry, method: post, path: '/v1/entries/{entryId}/reversal', summary: Reverse an entry, request_schema: ReversalRequest, response_schema: Entry}
+    - {operation_id: listEntries, method: get, path: /v1/entries, summary: List entries, response_schema: Entry, is_list: true}
+    schemas:
+      EntryRequest: {debit_account: string, credit_account: string, amount: integer, currency: string, reference: string}
+      ReversalRequest: {reason: string}
+      Entry: {id: string, debit_account: string, credit_account: string, amount: integer, posted_at: string}
+      Balance: {account_id: string, balance: integer, currency: string}
+    pii_parameter: account_holder_email
+  merchant_portal_api:
+    title: Merchant Portal API
+    list_query: [status]
+    endpoints:
+    - {operation_id: listSettlements, method: get, path: /v1/settlements, summary: List settlements, response_schema: Settlement, is_list: true}
+    - {operation_id: getSettlement, method: get, path: '/v1/settlements/{settlementId}', summary: Get a settlement, response_schema: Settlement}
+    - {operation_id: inviteUser, method: post, path: /v1/users, summary: Invite a merchant user, request_schema: InviteRequest, response_schema: MerchantUser}
+    - {operation_id: updateUserRole, method: patch, path: '/v1/users/{userId}/role', summary: Change a merchant user role, request_schema: RoleUpdate, response_schema: MerchantUser}
+    - {operation_id: requestReport, method: post, path: /v1/reports, summary: Request a transaction report, request_schema: ReportRequest, response_schema: ReportJob}
+    - {operation_id: downloadReport, method: get, path: '/v1/reports/{reportId}/download', summary: Download a finished report, response_schema: ReportJob}
+    schemas:
+      Settlement: {id: string, period: string, gross: integer, fees: integer, net: integer}
+      InviteRequest: {email: string, role: string}
+      RoleUpdate: {role: string}
+      MerchantUser: {id: string, email: string, role: string}
+      ReportRequest: {report_type: string, from_date: string, to_date: string}
+      ReportJob: {id: string, status: string, expires_at: string}
+    pii_parameter: contact_email
+  webhook_dispatcher:
+    title: Webhook Dispatcher API
+    list_query: [status]
+    endpoints:
+    - {operation_id: createSubscription, method: post, path: /v1/subscriptions, summary: Register a callback endpoint, request_schema: SubscriptionRequest, response_schema: Subscription}
+    - {operation_id: getSubscription, method: get, path: '/v1/subscriptions/{subscriptionId}', summary: Retrieve a subscription, response_schema: Subscription}
+    - {operation_id: rotateSecret, method: post, path: '/v1/subscriptions/{subscriptionId}/rotate-secret', summary: Rotate the signing secret, request_schema: RotateRequest, response_schema: Subscription}
+    - {operation_id: listDeliveries, method: get, path: /v1/deliveries, summary: List delivery attempts, response_schema: Delivery, is_list: true}
+    - {operation_id: replayDelivery, method: post, path: '/v1/deliveries/{deliveryId}/replay', summary: Replay a delivery, request_schema: ReplayRequest, response_schema: Delivery}
+    schemas:
+      SubscriptionRequest: {url: string, event_types: string, description: string}
+      Subscription: {id: string, url: string, status: string}
+      RotateRequest: {grace_period_hours: integer}
+      Delivery: {id: string, event_type: string, status: string, attempts: integer}
+      ReplayRequest: {reason: string}
+    pii_parameter: endpoint_owner_email
+  refund_service:
+    title: Refund Service API
+    list_query: [status, payment_id]
+    endpoints:
+    - {operation_id: createRefund, method: post, path: /v1/refunds, summary: Request a refund, request_schema: RefundRequest, response_schema: Refund}
+    - {operation_id: getRefund, method: get, path: '/v1/refunds/{refundId}', summary: Retrieve a refund, response_schema: Refund}
+    - {operation_id: listRefunds, method: get, path: /v1/refunds, summary: List refunds, response_schema: Refund, is_list: true}
+    - {operation_id: approveRefund, method: post, path: '/v1/refunds/{refundId}/approval', summary: Approve or reject a refund, request_schema: ApprovalRequest, response_schema: Refund}
+    - {operation_id: cancelRefund, method: post, path: '/v1/refunds/{refundId}/cancellation', summary: Cancel a pending refund, request_schema: CancelRequest, response_schema: Refund}
+    schemas:
+      RefundRequest: {payment_id: string, amount: integer, currency: string, reason: string, requested_by: string}
+      ApprovalRequest: {decision: string, comment: string}
+      CancelRequest: {reason: string}
+      Refund: {id: string, payment_id: string, status: string, amount: integer, currency: string}
+    pii_parameter: customer_email
+  support_console_api:
+    title: Support Console API
+    list_query: [status]
+    endpoints:
+    - {operation_id: searchCustomers, method: get, path: /v1/customers, summary: Search customers, response_schema: Customer, is_list: true}
+    - {operation_id: getCustomer, method: get, path: '/v1/customers/{customerId}', summary: Retrieve a customer profile, response_schema: Customer}
+    - {operation_id: resetSecondFactor, method: post, path: '/v1/customers/{customerId}/second-factor-reset', summary: Reset the second factor of a customer, request_schema: ResetRequest, response_schema: ResetReceipt}
+    - {operation_id: issueCredit, method: post, path: '/v1/customers/{customerId}/credits', summary: Issue a goodwill credit, request_schema: CreditRequest, response_schema: Credit}
+    - {operation_id: listAgentActions, method: get, path: /v1/agent-actions, summary: List actions taken by support agents, response_schema: AgentAction, is_list: true}
+    - {operation_id: exportCustomerData, method: post, path: '/v1/customers/{customerId}/data-export', summary: Export the data held about a customer, request_schema: ExportRequest, response_schema: ExportJob}
+    schemas:
+      Customer: {id: string, full_name: string, email: string, phone_number: string, status: string}
+      ResetRequest: {reason: string, ticket_id: string}
+      ResetReceipt: {id: string, status: string}
+      CreditRequest: {amount: integer, currency: string, reason: string, ticket_id: string}
+      Credit: {id: string, amount: integer, currency: string, status: string}
+      AgentAction: {id: string, agent_id: string, action: string, created_at: string}
+      ExportRequest: {format: string, reason: string}
+      ExportJob: {id: string, status: string, expires_at: string}
+    pii_parameter: customer_email
+terraform:
+  card_token_vault:
+    resources:
+    - {kind: kms, name: vault_key}
+    - {kind: rds, name: vault_db, key: vault_key, holds: card_data, security_group: vault_db_sg}
+    - {kind: sg, name: vault_db_sg, port: 5432, cidr: 10.0.8.0/24}
+    - {kind: loggroup, name: vault_audit, key: vault_key, retention: 365}
+    - {kind: backup_vault, name: vault_backups, key: vault_key}
+    - kind: iam
+      name: vault_service_policy
+      actions: ['rds-db:connect']
+      resources: ['arn:aws:rds-db:eu-west-1:111122223333:dbuser:*/vault_app']
+  fraud_scoring:
+    resources:
+    - {kind: kms, name: scoring_key}
+    - {kind: msk, name: payment_events, key: scoring_key}
+    - {kind: rds, name: decisions_db, key: scoring_key, holds: pii, security_group: decisions_sg}
+    - {kind: sg, name: decisions_sg, port: 5432, cidr: 10.0.12.0/24}
+    - {kind: loggroup, name: scoring_audit, key: scoring_key, retention: 365}
+    - kind: iam
+      name: scoring_policy
+      actions: ['kafka-cluster:ReadData', 'rds-db:connect']
+      resources: ['arn:aws:kafka:eu-west-1:111122223333:topic/payment_events/*']
+  reporting_export:
+    resources:
+    - {kind: kms, name: export_key}
+    - {kind: s3, name: exports_bucket, key: export_key, holds: pii, lifecycle_days: 7}
+    - {kind: rds, name: reporting_ro_db, key: export_key, holds: pii, security_group: reporting_sg}
+    - {kind: sg, name: reporting_sg, port: 5432, cidr: 10.0.16.0/24}
+    - {kind: loggroup, name: export_audit, key: export_key, retention: 365}
+    - kind: iam
+      name: export_job_policy
+      actions: ['s3:PutObject', 'rds-db:connect']
+      resources: ['arn:aws:s3:::meridian-exports-prod/*']
+  data_warehouse_sync:
+    resources:
+    - {kind: kms, name: warehouse_key}
+    - {kind: s3, name: staging_bucket, key: warehouse_key, holds: pii, lifecycle_days: 14}
+    - {kind: rds, name: analytics_replica, key: warehouse_key, holds: pii, security_group: analytics_sg}
+    - {kind: sg, name: analytics_sg, port: 5432, cidr: 10.0.20.0/24}
+    - {kind: loggroup, name: sync_audit, key: warehouse_key, retention: 365}
+    - kind: iam
+      name: sync_job_policy
+      actions: ['s3:PutObject', 'rds-db:connect']
+      resources: ['arn:aws:s3:::meridian-analytics-staging/*']
+  audit_log_pipeline:
+    resources:
+    - {kind: kms, name: audit_key}
+    - {kind: msk, name: audit_stream, key: audit_key}
+    - {kind: s3, name: audit_archive, key: audit_key, holds: logs, lifecycle_days: 400}
+    - {kind: loggroup, name: pipeline_audit, key: audit_key, retention: 365}
+    - {kind: backup_vault, name: audit_backups, key: audit_key}
+    - kind: iam
+      name: pipeline_policy
+      actions: ['kafka-cluster:ReadData', 's3:PutObject']
+      resources: ['arn:aws:kafka:eu-west-1:111122223333:topic/audit_stream/*']

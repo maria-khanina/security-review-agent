@@ -1,0 +1,34 @@
+couplings:
+  - when_flawed: SECRET-01
+    suppress: [SECRET-02]
+    reason: A statement that runtime secrets come from the secret store contradicts secrets kept in code or configuration, and it reveals where credentials come from.
+  - when_flawed: SECRET-02
+    suppress: [SECRET-01]
+    reason: A statement that secrets never appear in code or configuration reveals how the service obtains its secrets at runtime.
+  - when_flawed: CRYPTO-05
+    suppress: [CRYPTO-01]
+    reason: Naming AES-256 for personal data reveals which algorithms protect confidentiality and contradicts weak or unspecified algorithms.
+  - when_flawed: CRYPTO-01
+    suppress: [CRYPTO-06, DATA-05, OPS-03]
+    reason: Statements about keys held in KMS, encrypted exports and encrypted backups imply that stored data is encrypted.
+  - when_flawed: DATA-02
+    suppress: [DATA-05]
+    reason: Exports expire by rule, which contradicts personal data kept without a defined retention period.
+  - when_flawed: DATA-05
+    suppress: [DATA-02]
+    reason: A defined retention and deletion period for personal data contradicts exports that never expire.
+  - when_flawed: NET-05
+    suppress: [API-02]
+    reason: Per-client rate limits overlap with the rate limiting of the WAF at the public edge.
+  - when_flawed: API-02
+    suppress: [NET-05]
+    reason: A WAF with rate limiting contradicts the absence of rate limits on the API.
+  - when_flawed: AUTH-01
+    suppress: [AUTH-03, AUTH-06, AUTHZ-01]
+    reason: Token lifetimes, login throttling and ownership checks presuppose that callers are authenticated.
+  - when_flawed: AUTHZ-02
+    suppress: [AUTHZ-05]
+    reason: A quarterly access review contradicts permissions that are granted ad hoc and rarely removed.
+  - when_flawed: NET-02
+    suppress: [DATA-05]
+    reason: Required authorization for exports contradicts a publicly readable bucket and reveals who can read its objects.

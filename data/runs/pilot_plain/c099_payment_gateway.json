@@ -1,0 +1,200 @@
+{
+  "case_id": "c099_payment_gateway",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"observation\": \"Complies with R1 requirement for external API endpoints.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.\",\n    \"observation\": \"Complies with R6 requirement for verifying access to customer resources.\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Administrative and debug endpoints are not reachable from the public internet.\",\n    \"observation\": \"Complies with R8 requirement for restricting administrative interfaces.\",\n    \"requirement_id\": \"R8\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Access rights to production systems are reviewed at least quarterly.\",\n    \"observation\": \"Complies with R9 requirement for reviewing access rights.\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256.\",\n    \"observation\": \"Complies with R10 requirement for encrypting PII at rest.\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"observation\": \"Complies with R11 requirement for not storing PON in clear text.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"observation\": \"Complies with R12 requirement for TLS version on external traffic.\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"observation\": \"Complies with R14 requirement for approved cryptographic algorithms.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Complies with R16 requirement for not storing secrets in code.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"payments-db and the Kafka brokers sit in private subnets and are not publicly reachable.\",\n    \"observation\": \"Complies with R18 requirement for private subnets for databases and message brokers.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "Complies with R1 requirement for external API endpoints.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1329,
+        1436
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.",
+      "topics": [],
+      "observation": "Complies with R6 requirement for verifying access to customer resources.",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1439,
+        1545
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Administrative and debug endpoints are not reachable from the public internet.",
+      "topics": [],
+      "observation": "Complies with R8 requirement for restricting administrative interfaces.",
+      "requirement_id": "R8",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1548,
+        1626
+      ],
+      "policy_span": [
+        1732,
+        1815
+      ]
+    },
+    {
+      "design_quote": "Access rights to production systems are reviewed at least quarterly.",
+      "topics": [],
+      "observation": "Complies with R9 requirement for reviewing access rights.",
+      "requirement_id": "R9",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1629,
+        1697
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [],
+      "observation": "Complies with R10 requirement for encrypting PII at rest.",
+      "requirement_id": "R10",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1700,
+        1770
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "Complies with R11 requirement for not storing PON in clear text.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1773,
+        1870
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "All external traffic uses TLS 1.2 or higher.",
+      "topics": [],
+      "observation": "Complies with R12 requirement for TLS version on external traffic.",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1873,
+        1917
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Complies with R14 requirement for approved cryptographic algorithms.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1920,
+        2019
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Complies with R16 requirement for not storing secrets in code.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2022,
+        2126
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "payments-db and the Kafka brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "Complies with R18 requirement for private subnets for databases and message brokers.",
+      "requirement_id": "R18",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2129,
+        2217
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

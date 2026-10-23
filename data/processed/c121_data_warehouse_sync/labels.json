@@ -1,0 +1,270 @@
+{
+ "case_id": "c121_data_warehouse_sync",
+ "split": "dev",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v3",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-04",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-319"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_db_instance.analytics_replica",
+   "remediation_options": [
+    [
+     "encrypt traffic between services and to data stores in transit"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-04"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2665,
+     2769
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-04": [
+     [
+      1235,
+      1283
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1711,
+     1722
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "NET-01",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-668"
+   ],
+   "component": "analytics read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Network placement of the database or broker.",
+   "related_rules": [
+    "NET-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1154,
+     1286
+    ]
+   ],
+   "policy_spans": {
+    "NET-01": [
+     [
+      1772,
+      1821
+     ],
+     [
+      1824,
+      1933
+     ]
+    ]
+   },
+   "implementation_spans": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     2367,
+     2437
+    ]
+   ],
+   "policy_spans": [
+    [
+     990,
+     1043
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     2549,
+     2648
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2784,
+     2888
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2889,
+     2959
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     2973,
+     3039
+    ]
+   ],
+   "policy_spans": [
+    [
+     1936,
+     1969
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3054,
+     3137
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     3138,
+     3219
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     3231,
+     3354
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     3355,
+     3473
+    ]
+   ],
+   "policy_spans": [
+    [
+     1404,
+     1537
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     3498,
+     3590
+    ]
+   ],
+   "policy_spans": [
+    [
+     2315,
+     2346
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3591,
+     3692
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}

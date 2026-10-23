@@ -1,0 +1,96 @@
+{
+ "case_id": "c100_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v1",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-04",
+   "drift_id": null,
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-308"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require multi-factor authentication for administrative and back-office access"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): MFA for administrators is planned for later; the admin accounts use passwords for now."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "LOG-03",
+   "drift_id": null,
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Retention and tamper protection of audit logs.",
+   "instruction": "Mention console-backend naturally, but do NOT state: Retention and tamper protection of audit logs. Wrap the sentence(s) that mention console-backend (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-04",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_operation_without_auth",
+   "implementation_anchor": "/paths/~1v1~1customers~1{customerId}~1second-factor-reset/post/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-05",
+  "AUTHZ-02",
+  "AUTHZ-04",
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "API-05",
+  "DATA-05"
+ ]
+}

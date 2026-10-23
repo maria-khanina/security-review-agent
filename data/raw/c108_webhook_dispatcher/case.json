@@ -1,0 +1,102 @@
+{
+ "case_id": "c108_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v2",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-02",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_rate_limit_absent",
+   "implementation_anchor": "/paths",
+   "remediation_options": [
+    [
+     "enforce per-client rate limits on external APIs"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Rate limiting is left for a later release; there are no per-client limits at launch."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "API-04",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-209"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What clients see when an error occurs.",
+   "instruction": "Mention dispatcher naturally, but do NOT state: What clients see when an error occurs. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-03",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-345"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign webhook payloads",
+     "verify signatures on receipt"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Webhook payloads are unsigned; receivers trust the URL they registered."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-03",
+  "AUTH-06",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-04",
+  "API-01",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

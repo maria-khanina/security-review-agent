@@ -1,0 +1,41 @@
+{
+ "case_id": "c011_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-03",
+  "AUTH-05",
+  "AUTH-06",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-05",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-01",
+  "API-03",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

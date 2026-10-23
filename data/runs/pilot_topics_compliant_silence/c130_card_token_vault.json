@@ -1,0 +1,166 @@
+{
+  "case_id": "c130_card_token_vault",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.\",\n      \"topics\": [\"authentication\", \"authorization\"],\n      \"observation\": \"Authentication scheme is not clearly defined for current use\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"6.1 Identity. Internal service calls are authenticated with mutual TLS or signed workload identity tokens. Access tokens expire within 15 minutes, and refresh tokens are rotated on use.\",\n      \"topics\": [\"authentication\", \"authorization\"],\n      \"observation\": \"No explicit mention of mutual TLS or signed workload identity tokens for internal service calls\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"6.2 Card data and cryptography. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Traffic between services and to data stores is encrypted in transit. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n      \"topics\": [\"cryptography\", \"data-protection\"],\n      \"observation\": \"No explicit mention of encryption key rotation for data at rest\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.3 Certificates. Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.\",\n      \"topics\": [\"network\", \"cryptography\"],\n      \"observation\": \"Hostname verification is disabled on a connection that should be verified\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"6.5 Logging and data. Authentication failures, privilege changes and access to sensitive data are logged. Non-production environments do not contain real personal or card data.\",\n      \"topics\": [\"logging\", \"data-protection\"],\n      \"observation\": \"No explicit mention of logging sensitive data\",\n      \"requirement_id\": \"R24\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.\",\n      \"topics\": [\"input-validation\", \"cryptography\", \"operations\"],\n      \"observation\": \"No explicit mention of input validation against a schema\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.7 Backups. Backups of the vault database are encrypted.\",\n      \"topics\": [\"data-protection\", \"operations\"],\n      \"observation\": \"No explicit mention of backup retention period\",\n      \"requirement_id\": \"R20\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Authentication scheme is not clearly defined for current use",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2525,
+        2944
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "6.1 Identity. Internal service calls are authenticated with mutual TLS or signed workload identity tokens. Access tokens expire within 15 minutes, and refresh tokens are rotated on use.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "No explicit mention of mutual TLS or signed workload identity tokens for internal service calls",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2972,
+        3157
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "6.2 Card data and cryptography. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Traffic between services and to data stores is encrypted in transit. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ],
+      "observation": "No explicit mention of encryption key rotation for data at rest",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3159,
+        3562
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "6.3 Certificates. Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.",
+      "topics": [
+        "network",
+        "cryptography"
+      ],
+      "observation": "Hostname verification is disabled on a connection that should be verified",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3564,
+        3752
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "6.5 Logging and data. Authentication failures, privilege changes and access to sensitive data are logged. Non-production environments do not contain real personal or card data.",
+      "topics": [
+        "logging",
+        "data-protection"
+      ],
+      "observation": "No explicit mention of logging sensitive data",
+      "requirement_id": "R24",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4136,
+        4312
+      ],
+      "policy_span": [
+        3478,
+        3571
+      ]
+    },
+    {
+      "design_quote": "6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "input-validation",
+        "cryptography",
+        "operations"
+      ],
+      "observation": "No explicit mention of input validation against a schema",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4314,
+        4708
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "6.7 Backups. Backups of the vault database are encrypted.",
+      "topics": [
+        "data-protection",
+        "operations"
+      ],
+      "observation": "No explicit mention of backup retention period",
+      "requirement_id": "R20",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4710,
+        4767
+      ],
+      "policy_span": [
+        2902,
+        3030
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

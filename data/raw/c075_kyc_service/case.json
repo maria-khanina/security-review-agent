@@ -1,0 +1,90 @@
+{
+ "case_id": "c075_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "API-02",
+   "drift_id": null,
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Limits on request volume per client.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: Limits on request volume per client. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-02",
+   "drift_id": null,
+   "component": "kyc-documents (S3)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How long personal data is kept and how it is deleted.",
+   "instruction": "Mention kyc-documents (S3) naturally, but do NOT state: How long personal data is kept and how it is deleted. Wrap the sentence(s) that mention kyc-documents (S3) (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-01",
+   "drift_id": null,
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service checks that the caller may access the requested record.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: How the service checks that the caller may access the requested record. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "API-06",
+  "OPS-01"
+ ]
+}

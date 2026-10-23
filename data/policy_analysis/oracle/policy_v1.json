@@ -1,0 +1,430 @@
+{
+  "policy_version": "v1",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Every externally reachable API endpoint must authenticate callers using OAuth2 or OpenID Connect bearer tokens, or mutual TLS.",
+      "span": [
+        769,
+        895
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Calls between internal services must be authenticated with mutual TLS or signed workload identity tokens, and network location alone is not sufficient proof of identity.",
+      "span": [
+        900,
+        1069
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Access tokens must have a limited lifetime appropriate to the sensitivity of the operation and must be renewable only through a controlled refresh process.",
+      "span": [
+        1074,
+        1229
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "Administrative and back-office access to production systems must require multi-factor authentication.",
+      "span": [
+        1234,
+        1335
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "User passwords must be stored only as salted hashes produced with argon2id or bcrypt, and reversible storage of passwords is prohibited.",
+      "span": [
+        1340,
+        1476
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication",
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.",
+      "span": [
+        1482,
+        1601
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "Employees shall be granted only the roles needed for their duties, and roles must be defined separately for each service.",
+      "span": [
+        1606,
+        1727
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "Administrative and debug interfaces must not be reachable from the public internet.",
+      "span": [
+        1732,
+        1815
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization",
+        "network"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Access rights to production systems must be reviewed at least quarterly by the system owner.",
+      "span": [
+        1820,
+        1912
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization",
+        "governance"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Personally identifiable information must be encrypted at rest using AES-256 or a stronger approved algorithm.",
+      "span": [
+        1938,
+        2047
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "Primary account numbers must never be stored in clear text and must be tokenized through the card token vault.",
+      "span": [
+        2052,
+        2162
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "All traffic crossing the boundary of Meridian Pay networks must be protected using TLS 1.2 or higher.",
+      "span": [
+        2167,
+        2268
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "network"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Sensitive communications between internal components shall be protected in transit.",
+      "span": [
+        2273,
+        2356
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "cryptography",
+        "network"
+      ]
+    },
+    {
+      "id": "R14",
+      "quote": "Only cryptographic algorithms on the approved list may be used, and the use of MD5, SHA-1, DES, 3DES and ECB mode is prohibited.",
+      "span": [
+        2361,
+        2489
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R15",
+      "quote": "Cryptographic keys must be managed securely throughout their lifecycle in accordance with industry practice.",
+      "span": [
+        2494,
+        2602
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "cryptography",
+        "secrets"
+      ]
+    },
+    {
+      "id": "R16",
+      "quote": "Secrets, including passwords, API keys and private keys, must not appear in source code, configuration files, API specifications or infrastructure definitions.",
+      "span": [
+        2634,
+        2793
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R17",
+      "quote": "Runtime secrets should be retrieved from the approved secret store when a service starts.",
+      "span": [
+        2798,
+        2887
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R18",
+      "quote": "Databases and message brokers must not be publicly reachable and must be deployed in private subnets.",
+      "span": [
+        2917,
+        3018
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R19",
+      "quote": "Object storage buckets must block public access and be private by default.",
+      "span": [
+        3023,
+        3097
+      ],
+      "wording": "clear",
+      "topics": [
+        "network",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R20",
+      "quote": "Management ports such as SSH and RDP, as well as database ports, must not be open to 0.0.0.0/0.",
+      "span": [
+        3102,
+        3197
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R21",
+      "quote": "Appropriate perimeter controls shall be in place to protect externally exposed services from abusive traffic.",
+      "span": [
+        3202,
+        3311
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "network",
+        "resilience"
+      ]
+    },
+    {
+      "id": "R22",
+      "quote": "Authentication failures, privilege changes and access to sensitive data must be logged.",
+      "span": [
+        3347,
+        3434
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging"
+      ]
+    },
+    {
+      "id": "R23",
+      "quote": "Logs should avoid recording sensitive data wherever practicable.",
+      "span": [
+        3439,
+        3503
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "logging",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R24",
+      "quote": "Audit logs must be tamper-evident and retained for at least one year.",
+      "span": [
+        3508,
+        3577
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "logging",
+        "governance"
+      ]
+    },
+    {
+      "id": "R25",
+      "quote": "Access to centralized logs must be restricted to authorized personnel.",
+      "span": [
+        3582,
+        3652
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging",
+        "authorization"
+      ]
+    },
+    {
+      "id": "R26",
+      "quote": "Audit logs older than 90 days may be archived or deleted by the owning team.",
+      "span": [
+        3657,
+        3733
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "logging",
+        "governance"
+      ]
+    },
+    {
+      "id": "R27",
+      "quote": "Services must collect and store only the personal data that is necessary for their stated purpose.",
+      "span": [
+        3774,
+        3872
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R28",
+      "quote": "Personal data must be retained only for as long as is reasonably necessary and must be disposed of appropriately when it is no longer required.",
+      "span": [
+        3877,
+        4020
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R29",
+      "quote": "Personal data may be disclosed to a third party only under an approved data processing agreement, and only the fields required for the purpose may be shared.",
+      "span": [
+        4025,
+        4182
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R30",
+      "quote": "Reports and exports containing personal data must be accessible only to authorized users, must be encrypted in storage and must expire after a defined period.",
+      "span": [
+        4187,
+        4345
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection",
+        "authorization"
+      ]
+    },
+    {
+      "id": "R31",
+      "quote": "All external inputs must be validated against a defined schema and rejected if they do not conform.",
+      "span": [
+        4379,
+        4478
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R32",
+      "quote": "Database queries must be parameterized, and constructing queries by concatenating user input is prohibited.",
+      "span": [
+        4483,
+        4590
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation",
+        "database-access"
+      ]
+    },
+    {
+      "id": "R33",
+      "quote": "Continuous integration pipelines must scan dependencies and container images, and identified vulnerabilities must be remediated in a timely manner according to their severity.",
+      "span": [
+        4614,
+        4789
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R34",
+      "quote": "Backups must be appropriately protected, and the ability to restore from backup must be verified at regular intervals.",
+      "span": [
+        4794,
+        4912
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "resilience",
+        "cryptography"
+      ]
+    }
+  ]
+}

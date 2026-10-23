@@ -1,0 +1,96 @@
+{
+ "case_id": "c051_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "OPS-03",
+   "drift_id": null,
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How backups are protected and verified.",
+   "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-04",
+   "drift_id": null,
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Source of data in test environments.",
+   "instruction": "Mention scoring-engine naturally, but do NOT state: Source of data in test environments. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-03",
+   "drift_id": null,
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-345"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign webhook payloads",
+     "verify signatures on receipt"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Signature verification is skipped for callbacks from the partner sandbox."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-01",
+  "CRYPTO-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

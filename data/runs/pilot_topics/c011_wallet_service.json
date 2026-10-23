@@ -1,0 +1,120 @@
+{
+  "case_id": "c011_wallet_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS. The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.\",\n    \"topics\": [\"authentication\", \"cryptography\"],\n    \"observation\": \"Endpoints authenticate with OAuth2 or mutual TLS, but no mention of mutual TLS for internal service calls\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256. The encryption keys are hold in KMS, never stored with the data which they protect, and rotated at least annually.\",\n    \"topics\": [\"data-protection\", \"cryptography\"],\n    \"observation\": \"Data is encrypted at rest with AES-256, but no mention of encryption in transit\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service starts.\",\n    \"topics\": [\"secrets\", \"cryptography\"],\n    \"observation\": \"Secrets are not stored in source code or config, but no mention of secret store usage for runtime secrets\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if they are invalid. Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"topics\": [\"input-validation\", \"cryptography\"],\n    \"observation\": \"External inputs are validated against a schema, but no mention of schema validation for internal service calls\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The database and message brokers are not publicly reachable and live in the private subnets. External APIs are placed behind a WAF with rate limiting. For the services which call third parties, the egress is restricted to approved allowlist.\",\n    \"topics\": [\"network\", \"operations\"],\n    \"observation\": \"Database and message brokers are in private subnets, but no mention of network segmentation for other services\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS. The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.",
+      "topics": [
+        "authentication",
+        "cryptography"
+      ],
+      "observation": "Endpoints authenticate with OAuth2 or mutual TLS, but no mention of mutual TLS for internal service calls",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1713,
+        1923
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256. The encryption keys are hold in KMS, never stored with the data which they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection",
+        "cryptography"
+      ],
+      "observation": "Data is encrypted at rest with AES-256, but no mention of encryption in transit",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2342,
+        2525
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service starts.",
+      "topics": [
+        "secrets",
+        "cryptography"
+      ],
+      "observation": "Secrets are not stored in source code or config, but no mention of secret store usage for runtime secrets",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3214,
+        3408
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if they are invalid. Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [
+        "input-validation",
+        "cryptography"
+      ],
+      "observation": "External inputs are validated against a schema, but no mention of schema validation for internal service calls",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3539,
+        3707
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "The database and message brokers are not publicly reachable and live in the private subnets. External APIs are placed behind a WAF with rate limiting. For the services which call third parties, the egress is restricted to approved allowlist.",
+      "topics": [
+        "network",
+        "operations"
+      ],
+      "observation": "Database and message brokers are in private subnets, but no mention of network segmentation for other services",
+      "requirement_id": "R34",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2956,
+        3197
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

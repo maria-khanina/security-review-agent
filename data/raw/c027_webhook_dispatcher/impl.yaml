@@ -1,0 +1,323 @@
+openapi: 3.0.3
+info:
+  title: Webhook Dispatcher API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+  variables:
+    apiKey:
+      default: sk_live_51NxQ7vHk2LmPq8Zr4TwY
+      description: Default key for the sandbox environment
+paths:
+  /v1/subscriptions:
+    post:
+      operationId: createSubscription
+      summary: Register a callback endpoint
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+  /v1/subscriptions/{subscriptionId}:
+    get:
+      operationId: getSubscription
+      summary: Retrieve a subscription
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/subscriptions/{subscriptionId}/rotate-secret:
+    post:
+      operationId: rotateSecret
+      summary: Rotate the signing secret
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: subscriptionId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RotateRequest'
+  /v1/deliveries:
+    get:
+      operationId: listDeliveries
+      summary: List delivery attempts
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Delivery'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/deliveries/{deliveryId}/replay:
+    post:
+      operationId: replayDelivery
+      summary: Replay a delivery
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Delivery'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: deliveryId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplayRequest'
+components:
+  securitySchemes: {}
+  schemas:
+    SubscriptionRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - url
+      - event_types
+      - description
+      properties:
+        url:
+          type: string
+          maxLength: 256
+        event_types:
+          type: string
+          maxLength: 256
+        description:
+          type: string
+          maxLength: 256
+    Subscription:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - url
+      - status
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        url:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+    RotateRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - grace_period_hours
+      properties:
+        grace_period_hours:
+          type: integer
+          minimum: 0
+    Delivery:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - event_type
+      - status
+      - attempts
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        event_type:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        attempts:
+          type: integer
+          minimum: 0
+    ReplayRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

@@ -1,0 +1,68 @@
+# Fraud Scoring Service - Design Document
+
+Author: Pawel S., Risk Engineering
+Status: For review
+
+## 1. Introduction
+
+The Fraud Scoring Service evaluate every payment in the near real time and write a decision: allow, review or block. It replace the nightly batch job. The service read the payment events from the MSK topic, apply the rules and the model, and store the result.
+
+## 2. Components
+
+- **payment-events (MSK)** - input topic, one event for every payment with the customer attributes.
+- **scoring-engine** - the service which read the events, calculate the score and write the decision.
+- **decisions-db (PostgreSQL)** - store the risk decisions.
+- **scoring audit log group** - the place in CloudWatch where audit records are written.
+
+The infrastructure is created with Terraform. There are six resources: the KMS key `scoring_key`, the MSK cluster `payment_events`, the database `decisions_db`, the security group `decisions_sg`, the log group `scoring_audit` and the IAM policy `scoring_policy`.
+
+## 3. Data flow
+
+First, payment-events send the payment event to the scoring-engine. Second, the scoring-engine write the risk decision to decisions-db. Third, the scoring-engine write an audit record to the scoring audit log group. There is no other data flow.
+
+## 4. Access control
+
+Calls to the scoring-engine from the other internal services are authenticated with mutual TLS or signed workload identity tokens. The access tokens expire in 15 minutes at maximum, and the refresh tokens are rotated on every use.
+
+## 5. Data protection
+
+Personally identifiable information is encrypted at rest with AES-256. The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.
+
+The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+
+ The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.
+
+## 6. Secrets
+
+Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.
+
+## 7. Network
+
+The database and the message brokers are in the private subnets and are not publicly reachable. The services which call the third parties have the egress restricted to an approved allowlist.
+
+## 8. Callbacks
+
+When the decision is block, the service call back the payments team and also receive the callbacks from the partner sandbox during the integration tests. The signature verification is skipped for the callbacks from the partner sandbox. The reason is that the sandbox of the partner is not able to sign the messages yet.
+
+## 9. Logging
+
+Authentication failures, privilege changes and access to sensitive data are logged.
+
+## 10. Application and operations
+
+Database queries are parameterized and the concatenation of user input into queries is prohibited. The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days. Containers are running as non-root user, with read-only root filesystem where possible.
+
+## 11. Storage and testing
+
+The decisions-db (PostgreSQL) is the only datastore which the engine writes to, and it runs as a primary with a standby in the second availability zone. The engine is tested in the test environment with the usual functional tests. The scoring-engine is exercised in the test environment by the functional test suite.
+
+## 12. How the decision is made
+
+The engine first apply the simple rules, for example the same device used in three countries in one hour. If a rule say block, the decision is made without the model. Otherwise the model give a score between 0 and 1 and the thresholds map it to allow, review or block. The reasons, a short list of the rules or features which influenced the score, are stored with the decision so the analysts can understand it.
+
+The engine is stateless. All the counters come from the payment event itself, so we can run several copies of the engine, and Kafka divide the events between them.
+
+## 13. Open points
+
+- The alert thresholds for the consumer lag are not decided.
+- The name of the mailbox for the review queue.

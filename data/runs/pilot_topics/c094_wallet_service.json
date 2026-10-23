@@ -1,0 +1,207 @@
+{
+  "case_id": "c094_wallet_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"Design states that externally reachable API endpoints must authenticate with OAuth2/OIDC bearer tokens or mutual TLS\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"access tokens must expire within 15 minutes, and refresh tokens must be rotated every time they are used\",\n    \"topics\": [\"cryptography\", \"operations\"],\n    \"observation\": \"Design states that access tokens must expire within 15 minutes and refresh tokens must be rotated on use\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"personal identifiable information is encrypted at rest with AES-256\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that personally identifiable information is encrypted at rest with AES-256\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Design states that encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"services validate TLS certificates and never disable verification\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Design states that services validate TLS certificates and never disable verification\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"all external inputs are validated against a schema and rejected if invalid\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Design states that all external inputs are validated against a schema and rejected if invalid\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"webhook payloads, outbound and inbound, are signed and the signatures are verified\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Design states that webhook payloads, outbound and inbound, are signed and the signatures are verified\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"error responses do not reveal stack traces, SQL or internal hostnames\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Design states that error responses do not reveal stack traces, SQL or internal hostnames\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Design states that the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"containers run as a non-root user with a read-only root filesystem where possible\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Design states that containers run as a non-root user with a read-only root filesystem where possible\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "Design states that externally reachable API endpoints must authenticate with OAuth2/OIDC bearer tokens or mutual TLS",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        639,
+        745
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "personal identifiable information is encrypted at rest with AES-256",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Design states that personally identifiable information is encrypted at rest with AES-256",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1269,
+        1336
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Design states that encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1442,
+        1545
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "services validate TLS certificates and never disable verification",
+      "topics": [
+        "network"
+      ],
+      "observation": "Design states that services validate TLS certificates and never disable verification",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1548,
+        1613
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "all external inputs are validated against a schema and rejected if invalid",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Design states that all external inputs are validated against a schema and rejected if invalid",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2468,
+        2542
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "webhook payloads, outbound and inbound, are signed and the signatures are verified",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Design states that webhook payloads, outbound and inbound, are signed and the signatures are verified",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2545,
+        2627
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "error responses do not reveal stack traces, SQL or internal hostnames",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Design states that error responses do not reveal stack traces, SQL or internal hostnames",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2630,
+        2699
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Design states that the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2860,
+        2959
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "containers run as a non-root user with a read-only root filesystem where possible",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Design states that containers run as a non-root user with a read-only root filesystem where possible",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2962,
+        3043
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "access tokens must expire within 15 minutes, and refresh tokens must be rotated every time they are used",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

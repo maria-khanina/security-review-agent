@@ -1,0 +1,32 @@
+{
+  "case_id": "c081_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"Design states authentication method compliant with R1\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Design states resource entitlement check compliant with R6\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Access rights to production systems are reviewed at least quarterly.\",\n    \"topics\": [\"governance\"],\n    \"observation\": \"Design states access right review compliant with R9\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states encryption method compliant with R10\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Design states algorithm restriction compliant with R14\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Design states secret management compliant with R16\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"portal-db and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Design states network isolation compliant with R18\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Design states input validation compliant with R31\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Dynamic queries are assembled with string formatting because the ORM is too slow.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Design states query construction method violates R32\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 80\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Dynamic queries are assembled with string formatting because the ORM is too slow.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Design states query construction method violates R32",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 80,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2222,
+        2303
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 8
+}

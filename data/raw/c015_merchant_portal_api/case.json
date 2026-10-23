@@ -1,0 +1,105 @@
+{
+ "case_id": "c015_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-04",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_operation_without_auth",
+   "implementation_anchor": "/paths/~1v1~1users/post/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "NET-05",
+   "drift_id": null,
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "put external APIs behind a WAF with rate limiting"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Bot and abuse protection is postponed until there is a measured problem."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-06",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-312"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_pan_in_response",
+   "implementation_anchor": "/components/schemas/Settlement/properties/pan",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-01",
+  "API-03",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

@@ -1,0 +1,157 @@
+{
+  "case_id": "c019_notification_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"Internal service calls use mutual TLS or signed workload identity tokens for authentication.\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not present in source code, configuration files, specifications or infrastructure definitions.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Database queries are parameterized and user input is not concatenated into queries.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The service collects and stores only the personal data needed to deliver messages.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"The service collects and stores only the personal data necessary for its purpose.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Delivery reports containing personal data are authorized, encrypted, and expire.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures, privilege changes, and access to sensitive data are logged.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Audit entries share the application log group and expire after thirty days.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Audit entries are in the same log group as application logs and expire after thirty days.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Internal service calls use mutual TLS or signed workload identity tokens for authentication.",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2371,
+        2479
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not present in source code, configuration files, specifications or infrastructure definitions.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2754,
+        2858
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Database queries are parameterized and user input is not concatenated into queries.",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3150,
+        3242
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "The service collects and stores only the personal data needed to deliver messages.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "The service collects and stores only the personal data necessary for its purpose.",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2949,
+        3031
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Delivery reports containing personal data are authorized, encrypted, and expire.",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3034,
+        3147
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures, privilege changes, and access to sensitive data are logged.",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3283,
+        3366
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Audit entries share the application log group and expire after thirty days.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Audit entries are in the same log group as application logs and expire after thirty days.",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3369,
+        3444
+      ],
+      "policy_span": [
+        3657,
+        3733
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

@@ -1,0 +1,178 @@
+{
+  "case_id": "c036_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Database is publicly reachable during failover tests\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data of rejected applicants is not deleted\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The request model is a generic map and each handler reads what it wants. This keeps the handlers flexible while the field list of the user and report requests is still changing.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Request model is a generic map without defined schema\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not present in artifacts\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"Authentication method is specified\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Authorization check is in place\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Administrative and debug endpoints are not reachable from the public internet.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Admin/debug endpoints are not public\",\n    \"requirement_id\": \"R8\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Access rights to production systems are reviewed at least quarterly.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Access review is scheduled\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database is publicly reachable during failover tests",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2045,
+        2158
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data of rejected applicants is not deleted",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1918,
+        2041
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "The request model is a generic map and each handler reads what it wants. This keeps the handlers flexible while the field list of the user and report requests is still changing.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Request model is a generic map without defined schema",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1737,
+        1914
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not present in artifacts",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2970,
+        3074
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Authentication method is specified",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 90,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2244,
+        2351
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "Authorization check is in place",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 90,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2372,
+        2480
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Administrative and debug endpoints are not reachable from the public internet.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "Admin/debug endpoints are not public",
+      "requirement_id": "R8",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 90,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2501,
+        2579
+      ],
+      "policy_span": [
+        1732,
+        1815
+      ]
+    },
+    {
+      "design_quote": "Access rights to production systems are reviewed at least quarterly.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Access review is scheduled",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2600,
+        2668
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

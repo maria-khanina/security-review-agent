@@ -1,0 +1,316 @@
+{
+ "case_id": "c111_reporting_export",
+ "split": "test",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v3",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "NET-01",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-668"
+   ],
+   "component": "reporting read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Network placement of the database or broker.",
+   "related_rules": [
+    "NET-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     699,
+     845
+    ]
+   ],
+   "policy_spans": {
+    "NET-01": [
+     [
+      1772,
+      1821
+     ],
+     [
+      1824,
+      1933
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OPS-02",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-250"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "run containers as a non-root user"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OPS-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1137,
+     1224
+    ]
+   ],
+   "policy_spans": {
+    "OPS-02": [
+     [
+      2075,
+      2109
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-03",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-250"
+   ],
+   "component": "reporting read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which database identity each service uses and its grants.",
+   "related_rules": [
+    "AUTHZ-03"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     848,
+     954
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-03": [
+     [
+      718,
+      801
+     ]
+    ]
+   },
+   "implementation_spans": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1227,
+     1305
+    ]
+   ],
+   "policy_spans": [
+    [
+     804,
+     873
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     1308,
+     1378
+    ]
+   ],
+   "policy_spans": [
+    [
+     990,
+     1043
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1381,
+     1480
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     1483,
+     1587
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     1590,
+     1660
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     1663,
+     1729
+    ]
+   ],
+   "policy_spans": [
+    [
+     1936,
+     1969
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     1732,
+     1815
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     1818,
+     1899
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     1902,
+     2025
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     2028,
+     2146
+    ]
+   ],
+   "policy_spans": [
+    [
+     1404,
+     1537
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     2149,
+     2241
+    ]
+   ],
+   "policy_spans": [
+    [
+     2315,
+     2346
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     2244,
+     2345
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}

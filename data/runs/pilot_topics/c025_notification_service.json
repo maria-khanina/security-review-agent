@@ -1,0 +1,178 @@
+{
+  "case_id": "c025_notification_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to notifier are authenticated with mTLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"Internal service calls are authenticated with mTLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Approved algorithms are used and prohibited algorithms are excluded\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"DBs and brokers are in private subnets, not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Databases and message brokers are in private subnets and not publicly reachable\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only the personal data needed to deliver messages is stored.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Only necessary personal data is stored\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data goes to third parties only under an approved DPA, and only the fields required.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is shared with third parties under approved DPA and only required fields are shared\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Delivery reports with personal data need authorization, are encrypted in storage and expire.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Delivery reports with personal data require authorization, are encrypted and expire\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Queries are parameterized, no string concat of user input.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Database queries are parameterized and user input is not concatenated\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to notifier are authenticated with mTLS or signed workload identity tokens.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Internal service calls are authenticated with mTLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        833,
+        931
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1144,
+        1199
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Approved algorithms are used and prohibited algorithms are excluded",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1070,
+        1141
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "DBs and brokers are in private subnets, not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Databases and message brokers are in private subnets and not publicly reachable",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1202,
+        1265
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Only the personal data needed to deliver messages is stored.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Only necessary personal data is stored",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1268,
+        1328
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Personal data goes to third parties only under an approved DPA, and only the fields required.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is shared with third parties under approved DPA and only required fields are shared",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1331,
+        1424
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    },
+    {
+      "design_quote": "Delivery reports with personal data need authorization, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Delivery reports with personal data require authorization, are encrypted and expire",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1427,
+        1519
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "Queries are parameterized, no string concat of user input.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Database queries are parameterized and user input is not concatenated",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1522,
+        1580
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

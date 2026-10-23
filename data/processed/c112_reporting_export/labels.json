@@ -1,0 +1,412 @@
+{
+ "case_id": "c112_reporting_export",
+ "split": "test",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v2",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SECRET-03",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "rotate service credentials at least every 90 days",
+     "rotate them immediately after suspected exposure"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SECRET-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     4020,
+     4116
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-03": [
+     [
+      4527,
+      4605
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-01",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data fields are stored and why.",
+   "related_rules": [
+    "DATA-01"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1491,
+     1599
+    ]
+   ],
+   "policy_spans": {
+    "DATA-01": [
+     [
+      2769,
+      2893
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-10",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "component": "exports bucket (S3)",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_s3_bucket.exports_bucket",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "NET-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1624,
+     1714
+    ]
+   ],
+   "policy_spans": {
+    "NET-02": [
+     [
+      4717,
+      4772
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     412,
+     646
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     2394,
+     2468
+    ]
+   ],
+   "policy_spans": [
+    [
+     658,
+     763
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-04",
+   "design_spans": [
+    [
+     2471,
+     2546
+    ]
+   ],
+   "policy_spans": [
+    [
+     772,
+     850
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     2549,
+     2627
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1686
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     2630,
+     2700
+    ]
+   ],
+   "policy_spans": [
+    [
+     1731,
+     1893
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     2703,
+     2802
+    ]
+   ],
+   "policy_spans": [
+    [
+     2265,
+     2357
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     2805,
+     2909
+    ]
+   ],
+   "policy_spans": [
+    [
+     2366,
+     2521
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2981,
+     3085
+    ]
+   ],
+   "policy_spans": [
+    [
+     3722,
+     3835
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3088,
+     3158
+    ]
+   ],
+   "policy_spans": [
+    [
+     3844,
+     4015
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     3161,
+     3252
+    ]
+   ],
+   "policy_spans": [
+    [
+     4615,
+     4708
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3345,
+     3428
+    ]
+   ],
+   "policy_spans": [
+    [
+     5069,
+     5156
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     3431,
+     3549
+    ]
+   ],
+   "policy_spans": [
+    [
+     3039,
+     3204
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-04",
+   "design_spans": [
+    [
+     3552,
+     3622
+    ]
+   ],
+   "policy_spans": [
+    [
+     3213,
+     3341
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-03",
+   "design_spans": [
+    [
+     3625,
+     3710
+    ]
+   ],
+   "policy_spans": [
+    [
+     4260,
+     4382
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     3713,
+     3805
+    ]
+   ],
+   "policy_spans": [
+    [
+     4479,
+     4518
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3808,
+     3909
+    ]
+   ],
+   "policy_spans": [
+    [
+     5350,
+     5469
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     3912,
+     3995
+    ]
+   ],
+   "policy_spans": [
+    [
+     5478,
+     5517
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     2912,
+     2978
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-04",
+   "design_spans": [
+    [
+     3255,
+     3342
+    ]
+   ],
+   "policy_spans": [
+    [
+     4954,
+     5059
+    ]
+   ]
+  }
+ ]
+}

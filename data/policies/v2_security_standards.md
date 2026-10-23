@@ -1,0 +1,27 @@
+# Meridian Pay Security Standards Library
+
+This library contains three standards that implement the Information Security Policy. Each requirement is numbered so that audit findings can cite it. Where a requirement says "must", deviation needs an approved exception.
+
+# Standard ACS-1: Access Control
+
+ACS-1.1 All externally reachable API endpoints must authenticate each request with an OAuth2 or OpenID Connect bearer token issued by the corporate identity provider, or with mutual TLS. ACS-1.2 Internal service calls must carry a mutual TLS client certificate or a signed workload identity token, and services must reject calls that carry neither. ACS-1.3 Access tokens must expire within 15 minutes, and refresh tokens must be rotated every time they are used. ACS-1.4 Any administrative or back-office access requires multi-factor authentication. ACS-1.5 Passwords must be stored as salted hashes using argon2id or bcrypt only. ACS-1.6 Login and token endpoints must throttle repeated failed attempts and apply a temporary lockout after ten consecutive failures.
+
+ACS-2.1 For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it. ACS-2.2 Internal users should be assigned roles appropriate to their job, and services should define role sets as needed. ACS-2.3 Every service should connect to its database with a dedicated account that has only the grants it needs, and applications should avoid shared administrative credentials. ACS-2.4 Administrative and debug endpoints must not be served on public networks and must be reachable only through the private administrative network.
+
+# Standard DPS-1: Data Protection
+
+DPS-1.1 Personal data held in databases and object storage must be encrypted at rest with AES-256 or stronger, using keys managed in the corporate key management service. DPS-1.2 Primary account numbers must not be stored in clear text anywhere and must be replaced by tokens issued by the card token vault. DPS-1.3 All external network traffic must use TLS 1.2 or higher, and plain HTTP listeners are not permitted. DPS-1.4 Connections between services, and between services and data stores or brokers, must be encrypted in transit. DPS-1.5 Only approved algorithms may be used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited. DPS-1.6 Encryption keys must be stored in the key management service and never alongside the data they protect, and every key must be rotated at least once a year. DPS-1.7 Services must verify TLS certificates on every connection and must not disable certificate verification. DPS-1.8 Legacy partner integrations may continue to use TLS 1.0 until a migration date is agreed with Security Architecture.
+
+DPS-2.1 Each service should limit the personal data it stores to what is reasonably required and document the purpose of its fields. DPS-2.2 Each category of personal data should have a retention period, and an automated job should delete the data when the period ends. DPS-2.3 Personal data may leave Meridian Pay only to a processor covered by an approved data processing agreement, and only the fields necessary for the purpose may be sent. DPS-2.4 Non-production environments must not contain real personal data or card data, and synthetic or masked data must be used instead. DPS-2.5 Reports and exports containing personal data should be made available only to authorized users and for a limited time.
+
+DPS-3.1 Logs should not contain secrets, card numbers or personal data other than opaque identifiers. DPS-3.2 Backups must be protected appropriately, and restoration from backup must be tested regularly.
+
+# Standard SES-1: Secure Engineering
+
+SES-1.1 Secrets must not be stored in source code, configuration files, API specifications or infrastructure definitions. SES-1.2 Services must obtain runtime secrets from the approved secret store when they start, and secrets must not be passed as plain environment variables in deployment manifests. SES-1.3 Every external input must be validated against a schema, and invalid requests must be rejected before processing. SES-1.4 External APIs should enforce a rate limit for each client and return HTTP 429 when the limit is exceeded. SES-1.5 Webhook payloads, inbound and outbound, must carry an HMAC signature that the receiver verifies together with a timestamp. SES-1.6 Error responses must not contain stack traces, SQL text or internal host names. SES-1.7 Database queries must be parameterized. SES-1.8 Service credentials must be rotated periodically and after suspected exposure.
+
+SES-2.1 Databases and message brokers must run in private subnets and must not have public endpoints. SES-2.2 Object storage buckets must have public access blocked. SES-2.3 SSH, RDP and database ports must not be open to 0.0.0.0/0. SES-2.4 Externally exposed APIs must be fronted by a web application firewall with rate limiting enabled. SES-2.5 Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.
+
+SES-3.1 Authentication failures, privilege changes and access to sensitive data must be logged. SES-3.2 Audit logs must be stored in tamper-resistant storage and retained for an appropriate period. SES-3.3 Access to centralized logs should be restricted to personnel who need it.
+
+SES-4.1 Continuous integration must scan dependencies and container images, and critical findings must be fixed within 14 days. SES-4.2 Containers must run as a non-root user.

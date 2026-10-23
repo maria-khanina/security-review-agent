@@ -1,0 +1,302 @@
+{
+ "case_id": "c055_kyc_service",
+ "split": "dev",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v1",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "CRYPTO-05",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-327"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which algorithms protect integrity and confidentiality.",
+   "related_rules": [
+    "CRYPTO-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     844,
+     922
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-05": [
+     [
+      2361,
+      2489
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "related_rules": [
+    "SECRET-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     963,
+     1027
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-02": [
+     [
+      2798,
+      2887
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-04",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "/paths/~1v1~1kyc~1cases/post/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     676,
+     738
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-01": [
+     [
+      769,
+      895
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1266,
+     1278
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     741,
+     792
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-05",
+   "design_spans": [
+    [
+     795,
+     841
+    ]
+   ],
+   "policy_spans": [
+    [
+     1820,
+     1912
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-03",
+   "design_spans": [
+    [
+     925,
+     960
+    ]
+   ],
+   "policy_spans": [
+    [
+     2167,
+     2268
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     1030,
+     1092
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     1095,
+     1157
+    ]
+   ],
+   "policy_spans": [
+    [
+     3023,
+     3097
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     1432,
+     1502
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-01",
+   "design_spans": [
+    [
+     1170,
+     1241
+    ]
+   ],
+   "policy_spans": [
+    [
+     3774,
+     3872
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     1244,
+     1321
+    ]
+   ],
+   "policy_spans": [
+    [
+     4025,
+     4182
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     1505,
+     1554
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     1557,
+     1584
+    ]
+   ],
+   "policy_spans": [
+    [
+     4483,
+     4590
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     1324,
+     1407
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  }
+ ]
+}

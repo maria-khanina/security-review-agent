@@ -1,0 +1,397 @@
+openapi: 3.0.3
+info:
+  title: Merchant Portal API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+- url: http://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/settlements:
+    get:
+      operationId: listSettlements
+      summary: List settlements
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Settlement'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/settlements/{settlementId}:
+    get:
+      operationId: getSettlement
+      summary: Get a settlement
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settlement'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: settlementId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/users:
+    post:
+      operationId: inviteUser
+      summary: Invite a merchant user
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantUser'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteRequest'
+  /v1/users/{userId}/role:
+    patch:
+      operationId: updateUserRole
+      summary: Change a merchant user role
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantUser'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RoleUpdate'
+  /v1/reports:
+    post:
+      operationId: requestReport
+      summary: Request a transaction report
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportJob'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+  /v1/reports/{reportId}/download:
+    get:
+      operationId: downloadReport
+      summary: Download a finished report
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportJob'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /internal/debug/state:
+    get:
+      operationId: dumpInternalState
+      summary: Dump internal service state
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Settlement:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - period
+      - gross
+      - fees
+      - net
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        period:
+          type: string
+          maxLength: 256
+        gross:
+          type: integer
+          minimum: 0
+        fees:
+          type: integer
+          minimum: 0
+        net:
+          type: integer
+          minimum: 0
+    InviteRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - email
+      - role
+      properties:
+        email:
+          type: string
+          maxLength: 256
+        role:
+          type: string
+          maxLength: 256
+    RoleUpdate:
+      type: object
+      additionalProperties: false
+      required:
+      - role
+      properties:
+        role:
+          type: string
+          maxLength: 256
+    MerchantUser:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - email
+      - role
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        email:
+          type: string
+          maxLength: 256
+        role:
+          type: string
+          maxLength: 256
+    ReportRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - report_type
+      - from_date
+      - to_date
+      properties:
+        report_type:
+          type: string
+          maxLength: 256
+        from_date:
+          type: string
+          maxLength: 256
+        to_date:
+          type: string
+          maxLength: 256
+    ReportJob:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - expires_at
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        expires_at:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

@@ -1,0 +1,231 @@
+{
+ "case_id": "c007_ledger_service",
+ "split": "dev",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v3",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "related_rules": [
+    "SECRET-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2708,
+     2829
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-02": [
+     [
+      1708,
+      1769
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "API-05",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-89"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How queries are constructed from request parameters.",
+   "related_rules": [
+    "API-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2134,
+     2261
+    ]
+   ],
+   "policy_spans": {
+    "API-05": [
+     [
+      2315,
+      2346
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-05",
+   "severity": "medium",
+   "cwe": [
+    "CWE-319"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/servers",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-03"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3463,
+     3516
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-03": [
+     [
+      1119,
+      1163
+     ],
+     [
+      1166,
+      1232
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     106,
+     143
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F4",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-03",
+   "severity": "medium",
+   "cwe": [
+    "CWE-284"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/paths/~1internal~1debug~1state",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTHZ-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1929,
+     1995
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-04": [
+     [
+      804,
+      873
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     5868,
+     6142
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3174,
+     3273
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3276,
+     3359
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3362,
+     3450
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}

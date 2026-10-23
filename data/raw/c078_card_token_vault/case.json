@@ -1,0 +1,25 @@
+{
+ "case_id": "c078_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "CRYPTO-02",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "API-05",
+  "OPS-01"
+ ]
+}

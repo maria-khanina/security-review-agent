@@ -1,0 +1,45 @@
+{
+  "case_id": "c091_ledger_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.\",\n      \"topics\": [\"secrets\"],\n      \"observation\": \"Design claims to not have secrets in source code, etc., but policy requires secrets to be retrieved from approved secret store when a service starts.\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"All external inputs must be validated against a defined schema and rejected if they do not conform.\",\n      \"topics\": [\"input-validation\"],\n      \"observation\": \"Design mentions input validation but does not specify how it is implemented or what schema is used.\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Database queries must be parameterized, and constructing queries by concatenating user input is prohibited.\",\n      \"topics\": [\"database-access\"],\n      \"observation\": \"Design states that queries are parameterized, but does not confirm that this is implemented or tested.\",\n      \"requirement_id\": \"R32\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The database and the message brokers are in the private subnets and are not publicly reachable.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Design states that databases and message brokers are not publicly reachable, but policy requires them to be in private subnets.\",\n      \"requirement_id\": \"R18\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n      \"topics\": [\"logging\"],\n      \"observation\": \"Design states that authentication failures are logged, but policy requires logging of authentication failures, privilege changes and access to sensitive data.\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n      \"topics\": [\"cryptography\"],\n      \"observation\": \"Design states that only approved algorithms are used, which complies with policy requirement.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The calls from the internal services to ledger-core are authenticated with mutual TLS or signed workload identity tokens.\",\n      \"topics\": [\"authentication\"],\n      \"observation\": \"Design states that internal calls are authenticated with mutual TLS or signed tokens, which complies with policy requirement.\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Access rights to production systems are reviewed at least quarterly by the system owner.\",\n      \"topics\": [\"governance\"],\n      \"observation\": \"Design states that access rights are reviewed quarterly, which complies with policy requirement.\",\n      \"requirement_id\": \"R9\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Design claims to not have secrets in source code, etc., but policy requires secrets to be retrieved from approved secret store when a service starts.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2344,
+        2452
+      ],
+      "policy_span": [
+        2798,
+        2887
+      ]
+    }
+  ],
+  "rejected_hallucinations": 2,
+  "rejected_findings": [
+    {
+      "design_quote": "All external inputs must be validated against a defined schema and rejected if they do not conform.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "Database queries must be parameterized, and constructing queries by concatenating user input is prohibited.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    }
+  ],
+  "compliant_findings": 5
+}

@@ -1,0 +1,74 @@
+{
+  "case_id": "c036_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Database is publicly reachable during failover tests\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data of rejected applicants is not deleted\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The request model is a generic map and each handler reads what it wants. This keeps the handlers flexible while the field list of the user and report requests is still changing.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Request model is a generic map without defined schema\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not present in artifacts\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"External traffic uses TLS 1.2 or higher\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"The portal collects and stores only the personal data needed to run merchant accounts.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is minimized\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is shared under approved agreements\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database is publicly reachable during failover tests",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2045,
+        2158
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data of rejected applicants is not deleted",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1918,
+        2041
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "The request model is a generic map and each handler reads what it wants. This keeps the handlers flexible while the field list of the user and report requests is still changing.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Request model is a generic map without defined schema",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1737,
+        1914
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 6
+}

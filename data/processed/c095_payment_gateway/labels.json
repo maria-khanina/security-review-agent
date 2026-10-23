@@ -1,0 +1,320 @@
+{
+ "case_id": "c095_payment_gateway",
+ "split": "dev",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v3",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-05",
+   "drift_id": null,
+   "severity": "high",
+   "cwe": [
+    "CWE-327"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use only approved cryptographic algorithms",
+     "stop using MD5, SHA-1, DES, 3DES and ECB mode"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1895,
+     2010
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-05": [
+     [
+      1286,
+      1332
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-05",
+   "severity": "critical",
+   "cwe": [
+    "CWE-319"
+   ],
+   "component": "Payments Edge Gateway",
+   "data_class": "card_data",
+   "manifest": "both",
+   "implementation_anchor": "/servers",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-03"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1736,
+     1773
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-03": [
+     [
+      1119,
+      1163
+     ],
+     [
+      1166,
+      1232
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     115,
+     152
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-01",
+   "design_spans": [
+    [
+     1109,
+     1215
+    ]
+   ],
+   "policy_spans": [
+    [
+     329,
+     399
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     1228,
+     1333
+    ]
+   ],
+   "policy_spans": [
+    [
+     627,
+     715
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1378,
+     1455
+    ]
+   ],
+   "policy_spans": [
+    [
+     804,
+     873
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-02",
+   "design_spans": [
+    [
+     1588,
+     1684
+    ]
+   ],
+   "policy_spans": [
+    [
+     1046,
+     1116
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2455,
+     2558
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2563,
+     2632
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     2870,
+     2952
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     2957,
+     3037
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     2128,
+     2250
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     2255,
+     2371
+    ]
+   ],
+   "policy_spans": [
+    [
+     1404,
+     1537
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     2650,
+     2724
+    ]
+   ],
+   "policy_spans": [
+    [
+     2212,
+     2257
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     2746,
+     2836
+    ]
+   ],
+   "policy_spans": [
+    [
+     2315,
+     2346
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-06",
+   "design_spans": [
+    [
+     1511,
+     1566
+    ]
+   ],
+   "policy_spans": [
+    [
+     2349,
+     2442
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3059,
+     3158
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}

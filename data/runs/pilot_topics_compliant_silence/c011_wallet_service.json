@@ -1,0 +1,55 @@
+{
+  "case_id": "c011_wallet_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS. The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.\",\n      \"topics\": [\"authentication\", \"cryptography\"],\n      \"observation\": \"Endpoints authenticate with OAuth2 or mutual TLS, but the design does not explicitly mention mutual TLS as an option for internal service calls.\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256. The encryption keys are hold in KMS, never stored with the data which they protect, and rotated at least annually.\",\n      \"topics\": [\"data-protection\", \"cryptography\"],\n      \"observation\": \"The design states that personal data is encrypted at rest with AES-256, but does not explicitly mention that keys are managed in the corporate key management service as required by R11.\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service starts.\",\n      \"topics\": [\"secrets\", \"secrets\"],\n      \"observation\": \"The design states that secrets must not be stored in source code, configuration files, etc., and that runtime secrets are fetched from the approved secret store. This satisfies R26 and R27.\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"All external inputs are validated against a schema and rejected if they are invalid. Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n      \"topics\": [\"input-validation\", \"cryptography\"],\n      \"observation\": \"The design states that external inputs are validated against a schema and that webhook payloads are signed and verified. This satisfies R29 and R30.\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The database and message brokers are not publicly reachable and live in the private subnets. External APIs are placed behind a WAF with rate limiting. For the services which call third parties, the egress is restricted to approved allowlist.\",\n      \"topics\": [\"network\", \"operations\"],\n      \"observation\": \"The design states that the database and message brokers are in private subnets and that external APIs are behind a WAF with rate limiting. This satisfies R34 and R37.\",\n      \"requirement_id\": \"R34\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n      \"topics\": [\"logging\", \"authentication\"],\n      \"observation\": \"The design states that authentication failures, privilege changes, and access to sensitive data are logged. This satisfies R39 and R40.\",\n      \"requirement_id\": \"R39\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS. The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.",
+      "topics": [
+        "authentication",
+        "cryptography"
+      ],
+      "observation": "Endpoints authenticate with OAuth2 or mutual TLS, but the design does not explicitly mention mutual TLS as an option for internal service calls.",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1713,
+        1923
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256. The encryption keys are hold in KMS, never stored with the data which they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection",
+        "cryptography"
+      ],
+      "observation": "The design states that personal data is encrypted at rest with AES-256, but does not explicitly mention that keys are managed in the corporate key management service as required by R11.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2342,
+        2525
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 4
+}

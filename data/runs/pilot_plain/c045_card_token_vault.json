@@ -1,0 +1,181 @@
+{
+  "case_id": "c045_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.\",\n    \"observation\": \"Database is publicly exposed with a public endpoint\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-4: Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"observation\": \"PANs are tokenized as required\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-5: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"observation\": \"Prohibited algorithms are prohibited as required\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Secrets are not stored in source code or configurations\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-12: Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Database queries are parameterized as required\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-3: Access rights to production systems are reviewed at least quarterly.\",\n    \"observation\": \"Access rights are reviewed quarterly as required\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-2: Internal users receive only the roles required for their job, and roles are defined per service.\",\n    \"observation\": \"Roles are defined per service as required\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"observation\": \"Calls are authenticated with mutual TLS as required\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-9: Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"Authentication failures are logged as required\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.",
+      "topics": [],
+      "observation": "Database is publicly exposed with a public endpoint",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3164,
+        3315
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "V-4: Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "PANs are tokenized as required",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2804,
+        2906
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "V-5: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Prohibited algorithms are prohibited as required",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2909,
+        3013
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Secrets are not stored in source code or configurations",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3034,
+        3143
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "V-12: Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Database queries are parameterized as required",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3557,
+        3655
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "V-3: Access rights to production systems are reviewed at least quarterly.",
+      "topics": [],
+      "observation": "Access rights are reviewed quarterly as required",
+      "requirement_id": "R9",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2702,
+        2775
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "V-2: Internal users receive only the roles required for their job, and roles are defined per service.",
+      "topics": [],
+      "observation": "Roles are defined per service as required",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2598,
+        2699
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "Calls are authenticated with mutual TLS as required",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2465,
+        2595
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "V-9: Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Authentication failures are logged as required",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3435,
+        3523
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

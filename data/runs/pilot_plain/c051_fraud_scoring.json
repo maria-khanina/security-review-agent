@@ -1,0 +1,124 @@
+{
+  "case_id": "c051_fraud_scoring",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n      \"observation\": \"Traffic is encrypted in transit, TLS certificates are validated, and prohibited algorithms are disallowed\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.\",\n      \"observation\": \"Personal data is sent to third parties under approved agreements with required fields\",\n      \"requirement_id\": \"R21\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"medium\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.\",\n      \"observation\": \"Secrets are not stored in source code, config, specs, or infrastructure definitions\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The services validate the TLS certificates and never disable the verification.\",\n      \"observation\": \"TLS certificate verification is not disabled\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The engine is stateless. All the counters come from the payment event itself, so we can run several copies of the engine, and Kafka divide the events between them.\",\n      \"observation\": \"The engine is stateless with event-based counters\",\n      \"requirement_id\": \"R37\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"low\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The engine first apply the simple rules, for example the same device used in three countries in one hour. If a rule say block, the decision is made without the model. Otherwise the model give a score between 0 and 1 and the thresholds map it to allow, review or block.\",\n      \"observation\": \"The engine uses simple rules and a model for scoring\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"low\",\n      \"confidence\": 70\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Traffic is encrypted in transit, TLS certificates are validated, and prohibited algorithms are disallowed",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1740,
+        2030
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.",
+      "topics": [],
+      "observation": "Personal data is sent to third parties under approved agreements with required fields",
+      "requirement_id": "R21",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2033,
+        2165
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.",
+      "topics": [],
+      "observation": "Secrets are not stored in source code, config, specs, or infrastructure definitions",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2182,
+        2377
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "The services validate the TLS certificates and never disable the verification.",
+      "topics": [],
+      "observation": "TLS certificate verification is not disabled",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1844,
+        1922
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "The engine is stateless. All the counters come from the payment event itself, so we can run several copies of the engine, and Kafka divide the events between them.",
+      "topics": [],
+      "observation": "The engine is stateless with event-based counters",
+      "requirement_id": "R37",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4139,
+        4302
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "The engine first apply the simple rules, for example the same device used in three countries in one hour. If a rule say block, the decision is made without the model. Otherwise the model give a score between 0 and 1 and the thresholds map it to allow, review or block.",
+      "topics": [],
+      "observation": "The engine uses simple rules and a model for scoring",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3726,
+        3994
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

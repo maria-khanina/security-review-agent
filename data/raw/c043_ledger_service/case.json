@@ -1,0 +1,33 @@
+{
+ "case_id": "c043_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-04",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

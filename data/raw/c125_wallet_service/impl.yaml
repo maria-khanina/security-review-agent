@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: Wallet API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+security:
+- apiKeyAuth: []
+paths:
+  /v1/wallets/{walletId}:
+    get:
+      operationId: getWallet
+      summary: Retrieve wallet and balance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/wallets/{walletId}/topups:
+    post:
+      operationId: topUpWallet
+      summary: Top up a wallet from a funding source
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopUpRequest'
+  /v1/transfers:
+    post:
+      operationId: createTransfer
+      summary: Transfer money between wallets
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+  /v1/wallets/{walletId}/transactions:
+    get:
+      operationId: listTransactions
+      summary: List wallet transactions
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/wallets/{walletId}/profile:
+    patch:
+      operationId: updateProfile
+      summary: Update wallet owner profile
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Wallet'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: walletId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileUpdate'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+  schemas:
+    Wallet:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - owner_name
+      - balance
+      - currency
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        owner_name:
+          type: string
+          maxLength: 256
+        balance:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+    TopUpRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - amount
+      - funding_source_id
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+        funding_source_id:
+          type: string
+          maxLength: 256
+    TransferRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - from_wallet_id
+      - to_wallet_id
+      - amount
+      - note
+      properties:
+        from_wallet_id:
+          type: string
+          maxLength: 256
+        to_wallet_id:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        note:
+          type: string
+          maxLength: 256
+    Transaction:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - amount
+      - created_at
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        type:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        created_at:
+          type: string
+          maxLength: 256
+    ProfileUpdate:
+      type: object
+      additionalProperties: false
+      required:
+      - owner_name
+      - phone_number
+      - address
+      properties:
+        owner_name:
+          type: string
+          maxLength: 256
+        phone_number:
+          type: string
+          maxLength: 256
+        address:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

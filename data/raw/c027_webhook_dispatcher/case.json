@@ -1,0 +1,113 @@
+{
+ "case_id": "c027_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v1",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "instruction": "Mention dispatcher naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_security_missing",
+   "implementation_anchor": "/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Contractors keep their access after the contract ends until someone notices."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "SECRET-01",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-798"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "spec_hardcoded_secret",
+   "implementation_anchor": "/servers/0/variables/apiKey",
+   "remediation_options": [
+    [
+     "remove secrets from source code, configuration, specifications and infrastructure definitions"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sandbox credentials and the database password are committed with the service configuration so developers can start quickly."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "CRYPTO-03",
+  "CRYPTO-05",
+  "NET-01",
+  "LOG-01",
+  "API-01",
+  "API-05"
+ ]
+}

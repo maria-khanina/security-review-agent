@@ -1,0 +1,75 @@
+{
+ "case_id": "c001_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-16",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_rate_limit_absent",
+   "implementation_anchor": "/paths",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The API enforces per-client rate limits. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-02",
+   "drift_id": null,
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep secrets, card numbers and personal data out of logs except opaque identifiers"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable: Full request bodies logged for debugging including emails and card numbers."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "API-05",
+  "DATA-05"
+ ]
+}

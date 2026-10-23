@@ -1,0 +1,98 @@
+{
+  "case_id": "c068_fraud_scoring",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.\",\n      \"topics\": [\"network\", \"operations\"],\n      \"observation\": \"Services calling third parties have egress restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n      \"topics\": [\"data-protection\", \"cryptography\"],\n      \"observation\": \"Personal data is encrypted at rest with AES-256, keys managed in KMS and rotated annually\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.\",\n      \"topics\": [\"network\", \"operations\"],\n      \"observation\": \"Services calling third parties have egress restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The engine does not remember anything between events. All counters come from the event itself, so we can run many copies of the engine at the same time, and Kafka splits the events between them. This is called being stateless, and it makes scaling easy.\",\n      \"topics\": [\"operations\", \"resilience\"],\n      \"observation\": \"Engine is stateless and can run multiple copies in parallel\",\n      \"requirement_id\": \"R37\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Webhook payloads, outbound and inbound, are signed, and the signatures are verified. A signature is like a wax seal on a letter.\",\n      \"topics\": [\"cryptography\", \"input-validation\"],\n      \"observation\": \"Webhook payloads are signed and verified\",\n      \"requirement_id\": \"R30\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The engine does not remember anything between events. All counters come from the event itself, so we can run many copies of the engine at the same time, and Kafka splits the events between them. This is called being stateless, and it makes scaling easy.\",\n      \"topics\": [\"operations\", \"resilience\"],\n      \"observation\": \"Engine is stateless and can run multiple copies in parallel\",\n      \"requirement_id\": \"R37\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.\",\n      \"topics\": [\"network\", \"operations\"],\n      \"observation\": \"Services calling third parties have egress restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.\",\n      \"topics\": [\"network\", \"operations\"],\n      \"observation\": \"Services calling third parties have egress restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [
+        "network",
+        "operations"
+      ],
+      "observation": "Services calling third parties have egress restricted to an approved allowlist",
+      "requirement_id": "R38",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3228,
+        3403
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection",
+        "cryptography"
+      ],
+      "observation": "Personal data is encrypted at rest with AES-256, keys managed in KMS and rotated annually",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2505,
+        2678
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "The engine does not remember anything between events. All counters come from the event itself, so we can run many copies of the engine at the same time, and Kafka splits the events between them. This is called being stateless, and it makes scaling easy.",
+      "topics": [
+        "operations",
+        "resilience"
+      ],
+      "observation": "Engine is stateless and can run multiple copies in parallel",
+      "requirement_id": "R37",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4796,
+        5049
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed, and the signatures are verified. A signature is like a wax seal on a letter.",
+      "topics": [
+        "cryptography",
+        "input-validation"
+      ],
+      "observation": "Webhook payloads are signed and verified",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3913,
+        4041
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

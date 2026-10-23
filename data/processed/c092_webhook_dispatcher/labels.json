@@ -1,0 +1,305 @@
+{
+ "case_id": "c092_webhook_dispatcher",
+ "split": "test",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v1",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-07",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/paths/~1v1~1deliveries/get/parameters",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-02",
+    "DATA-01"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2311,
+     2349
+    ]
+   ],
+   "policy_spans": {
+    "LOG-02": [
+     [
+      3439,
+      3503
+     ]
+    ],
+    "DATA-01": [
+     [
+      3774,
+      3872
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     4877,
+     5011
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "LOG-01",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which security events are logged.",
+   "related_rules": [
+    "LOG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1704,
+     1785
+    ]
+   ],
+   "policy_spans": {
+    "LOG-01": [
+     [
+      3347,
+      3434
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "related_rules": [
+    "SECRET-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1790,
+     1887
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-02": [
+     [
+      2798,
+      2887
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "API-05",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2079,
+     2216
+    ]
+   ],
+   "policy_spans": {
+    "API-05": [
+     [
+      4483,
+      4590
+     ]
+    ]
+   },
+   "implementation_spans": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-01",
+   "design_spans": [
+    [
+     972,
+     1079
+    ]
+   ],
+   "policy_spans": [
+    [
+     769,
+     895
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     1082,
+     1190
+    ]
+   ],
+   "policy_spans": [
+    [
+     1482,
+     1601
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1193,
+     1271
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-05",
+   "design_spans": [
+    [
+     1274,
+     1342
+    ]
+   ],
+   "policy_spans": [
+    [
+     1820,
+     1912
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-03",
+   "design_spans": [
+    [
+     1367,
+     1411
+    ]
+   ],
+   "policy_spans": [
+    [
+     2167,
+     2268
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1414,
+     1513
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     1537,
+     1624
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     1960,
+     2035
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  }
+ ]
+}

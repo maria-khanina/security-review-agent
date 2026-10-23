@@ -1,0 +1,215 @@
+{
+  "case_id": "c096_fraud_scoring",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to the scoring-engine use mTLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"Internal service calls use mTLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"PII at rest is AES-256.\",\n    \"topics\": [\"cryptography\", \"data-protection\"],\n    \"observation\": \"PII is encrypted at rest using AES-256\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Only personal data needed for scoring is stored.\",\n    \"topics\": [\"data-protection\", \"data-protection\"],\n    \"observation\": \"Only personal data needed for scoring is stored\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Device signals are bought from a vendor and the customer's device id and email are sent to them under a verbal agreement with their account manager.\",\n    \"topics\": [\"data-protection\", \"governance\"],\n    \"observation\": \"Customer data is shared with a third party under a verbal agreement\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.\",\n    \"topics\": [\"data-protection\", \"logging\"],\n    \"observation\": \"Exports with personal data are encrypted in storage and expire\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Parameterized queries only.\",\n    \"topics\": [\"database-access\", \"cryptography\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"The database accepts connections only from the application subnet.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Database connections are restricted to the application subnet\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Access to centralized logs must be restricted to authorized personnel.\",\n    \"topics\": [\"logging\", \"governance\"],\n    \"observation\": \"Access to centralized logs is restricted to authorized personnel\",\n    \"requirement_id\": \"R25\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Auth failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"authentication\"],\n    \"observation\": \"Auth failures, privilege changes and access to sensitive data are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 90\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to the scoring-engine use mTLS or signed workload identity tokens.",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "Internal service calls use mTLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        793,
+        882
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "PII at rest is AES-256.",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ],
+      "observation": "PII is encrypted at rest using AES-256",
+      "requirement_id": "R10",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        506,
+        529
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Only personal data needed for scoring is stored.",
+      "topics": [
+        "data-protection",
+        "data-protection"
+      ],
+      "observation": "Only personal data needed for scoring is stored",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        562,
+        610
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Device signals are bought from a vendor and the customer's device id and email are sent to them under a verbal agreement with their account manager.",
+      "topics": [
+        "data-protection",
+        "governance"
+      ],
+      "observation": "Customer data is shared with a third party under a verbal agreement",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        630,
+        778
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    },
+    {
+      "design_quote": "Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection",
+        "logging"
+      ],
+      "observation": "Exports with personal data are encrypted in storage and expire",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1384,
+        1481
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [
+        "secrets",
+        "governance"
+      ],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1120,
+        1175
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Parameterized queries only.",
+      "topics": [
+        "database-access",
+        "cryptography"
+      ],
+      "observation": "Database queries are parameterized",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        532,
+        559
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "The database accepts connections only from the application subnet.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Database connections are restricted to the application subnet",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        437,
+        503
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Auth failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging",
+        "authentication"
+      ],
+      "observation": "Auth failures, privilege changes and access to sensitive data are logged",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1253,
+        1326
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Access to centralized logs must be restricted to authorized personnel.",
+      "requirement_id": "R25",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

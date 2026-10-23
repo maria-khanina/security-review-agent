@@ -1,0 +1,276 @@
+{
+ "case_id": "c109_webhook_dispatcher",
+ "split": "test",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v1",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTH-03",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-613"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Token lifetime and refresh behavior.",
+   "related_rules": [
+    "AUTH-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3172,
+     3299
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-03": [
+     [
+      1074,
+      1229
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fetch runtime secrets from the approved secret store at startup"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SECRET-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3811,
+     3897
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-02": [
+     [
+      2798,
+      2887
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-08",
+   "severity": "medium",
+   "cwe": [
+    "CWE-20"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/paths/~1v1~1subscriptions/post/requestBody",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     4142,
+     4188
+    ]
+   ],
+   "policy_spans": {
+    "API-01": [
+     [
+      4379,
+      4478
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1242,
+     1295
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-01",
+   "design_spans": [
+    [
+     3057,
+     3164
+    ]
+   ],
+   "policy_spans": [
+    [
+     769,
+     895
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     3307,
+     3415
+    ]
+   ],
+   "policy_spans": [
+    [
+     1482,
+     1601
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     3423,
+     3501
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-05",
+   "design_spans": [
+    [
+     3509,
+     3577
+    ]
+   ],
+   "policy_spans": [
+    [
+     1820,
+     1912
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-03",
+   "design_spans": [
+    [
+     3622,
+     3666
+    ]
+   ],
+   "policy_spans": [
+    [
+     2167,
+     2268
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3674,
+     3773
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     3905,
+     3992
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     4019,
+     4102
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     4197,
+     4289
+    ]
+   ],
+   "policy_spans": [
+    [
+     4483,
+     4590
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,181 @@
+{
+  "case_id": "c037_fraud_scoring",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"PII at rest is AES-256 (RDS storage encryption with kms key scoring_key).\",\n    \"observation\": \"Data at rest is encrypted with AES-256 as required.\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or terraform.\",\n    \"observation\": \"Secrets are not committed to code or config as required.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Runtime secrets come from the approved secret store at startup.\",\n    \"observation\": \"Secrets are fetched from secret store at runtime as required.\",\n    \"requirement_id\": \"R19\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Auth failures, privilege changes and sensitive data access are logged.\",\n    \"observation\": \"Authentication events are logged as required.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Logs carry no secrets, card numbers or personal data other than opaque ids.\",\n    \"observation\": \"Logs do not contain sensitive data as required.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Decisions carrying personal data have a 13 month retention, then a scheduled job deletes them (also on verified deletion request).\",\n    \"observation\": \"Personal data has a retention period and deletion process as required.\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"No third parties receive this data; any future transfer only under an approved DPA and with just the required fields.\",\n    \"observation\": \"Data is not shared with third parties as required.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All db queries are parameterized, no string concatenation of user input.\",\n    \"observation\": \"Parameterized queries are used as required.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"CI scans dependencies and images; critical vulns fixed within 14 days.\",\n    \"observation\": \"Dependencies are scanned for vulnerabilities as required.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "PII at rest is AES-256 (RDS storage encryption with kms key scoring_key).",
+      "topics": [],
+      "observation": "Data at rest is encrypted with AES-256 as required.",
+      "requirement_id": "R9",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        765,
+        838
+      ],
+      "policy_span": [
+        990,
+        1043
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or terraform.",
+      "topics": [],
+      "observation": "Secrets are not committed to code or config as required.",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        911,
+        958
+      ],
+      "policy_span": [
+        1643,
+        1705
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets come from the approved secret store at startup.",
+      "topics": [],
+      "observation": "Secrets are fetched from secret store at runtime as required.",
+      "requirement_id": "R19",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        961,
+        1024
+      ],
+      "policy_span": [
+        1708,
+        1769
+      ]
+    },
+    {
+      "design_quote": "Auth failures, privilege changes and sensitive data access are logged.",
+      "topics": [],
+      "observation": "Authentication events are logged as required.",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1027,
+        1097
+      ],
+      "policy_span": [
+        2445,
+        2518
+      ]
+    },
+    {
+      "design_quote": "Logs carry no secrets, card numbers or personal data other than opaque ids.",
+      "topics": [],
+      "observation": "Logs do not contain sensitive data as required.",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1100,
+        1175
+      ],
+      "policy_span": [
+        2521,
+        2592
+      ]
+    },
+    {
+      "design_quote": "Decisions carrying personal data have a 13 month retention, then a scheduled job deletes them (also on verified deletion request).",
+      "topics": [],
+      "observation": "Personal data has a retention period and deletion process as required.",
+      "requirement_id": "R15",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1178,
+        1308
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    },
+    {
+      "design_quote": "No third parties receive this data; any future transfer only under an approved DPA and with just the required fields.",
+      "topics": [],
+      "observation": "Data is not shared with third parties as required.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1311,
+        1428
+      ],
+      "policy_span": [
+        1404,
+        1537
+      ]
+    },
+    {
+      "design_quote": "All db queries are parameterized, no string concatenation of user input.",
+      "topics": [],
+      "observation": "Parameterized queries are used as required.",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1431,
+        1503
+      ],
+      "policy_span": [
+        2315,
+        2346
+      ]
+    },
+    {
+      "design_quote": "CI scans dependencies and images; critical vulns fixed within 14 days.",
+      "topics": [],
+      "observation": "Dependencies are scanned for vulnerabilities as required.",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1506,
+        1576
+      ],
+      "policy_span": [
+        2112,
+        2171
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

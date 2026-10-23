@@ -1,0 +1,435 @@
+versions:
+  v1:
+    file: v1_information_security_policy.md
+    rules:
+      AUTH-01:
+        status: clear
+        quotes:
+        - Every externally reachable API endpoint must authenticate callers using OAuth2 or OpenID Connect bearer tokens, or mutual TLS.
+      AUTH-02:
+        status: clear
+        quotes:
+        - Calls between internal services must be authenticated with mutual TLS or signed workload identity tokens, and network location alone is not sufficient proof of identity.
+      AUTH-03:
+        status: vague
+        quotes:
+        - Access tokens must have a limited lifetime appropriate to the sensitivity of the operation and must be renewable only through a controlled refresh process.
+      AUTH-04:
+        status: clear
+        quotes:
+        - Administrative and back-office access to production systems must require multi-factor authentication.
+      AUTH-05:
+        status: clear
+        quotes:
+        - User passwords must be stored only as salted hashes produced with argon2id or bcrypt, and reversible storage of passwords is prohibited.
+      AUTHZ-01:
+        status: clear
+        quotes:
+        - Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.
+      AUTHZ-02:
+        status: clear
+        quotes:
+        - Employees shall be granted only the roles needed for their duties, and roles must be defined separately for each service.
+      AUTHZ-04:
+        status: clear
+        quotes:
+        - Administrative and debug interfaces must not be reachable from the public internet.
+      AUTHZ-05:
+        status: clear
+        quotes:
+        - Access rights to production systems must be reviewed at least quarterly by the system owner.
+      CRYPTO-01:
+        status: clear
+        quotes:
+        - Personally identifiable information must be encrypted at rest using AES-256 or a stronger approved algorithm.
+      CRYPTO-02:
+        status: clear
+        quotes:
+        - Primary account numbers must never be stored in clear text and must be tokenized through the card token vault.
+      CRYPTO-03:
+        status: clear
+        quotes:
+        - All traffic crossing the boundary of Meridian Pay networks must be protected using TLS 1.2 or higher.
+      CRYPTO-04:
+        status: vague
+        quotes:
+        - Sensitive communications between internal components shall be protected in transit.
+      CRYPTO-05:
+        status: clear
+        quotes:
+        - Only cryptographic algorithms on the approved list may be used, and the use of MD5, SHA-1, DES, 3DES and ECB mode is prohibited.
+      CRYPTO-06:
+        status: vague
+        quotes:
+        - Cryptographic keys must be managed securely throughout their lifecycle in accordance with industry practice.
+      SECRET-01:
+        status: clear
+        quotes:
+        - Secrets, including passwords, API keys and private keys, must not appear in source code, configuration files, API specifications or infrastructure definitions.
+      SECRET-02:
+        status: advisory
+        quotes:
+        - Runtime secrets should be retrieved from the approved secret store when a service starts.
+      NET-01:
+        status: clear
+        quotes:
+        - Databases and message brokers must not be publicly reachable and must be deployed in private subnets.
+      NET-02:
+        status: clear
+        quotes:
+        - Object storage buckets must block public access and be private by default.
+      NET-03:
+        status: clear
+        quotes:
+        - Management ports such as SSH and RDP, as well as database ports, must not be open to 0.0.0.0/0.
+      NET-05:
+        status: vague
+        quotes:
+        - Appropriate perimeter controls shall be in place to protect externally exposed services from abusive traffic.
+      LOG-01:
+        status: clear
+        quotes:
+        - Authentication failures, privilege changes and access to sensitive data must be logged.
+      LOG-02:
+        status: vague
+        quotes:
+        - Logs should avoid recording sensitive data wherever practicable.
+      LOG-03:
+        status: conflicting
+        quotes:
+        - Audit logs must be tamper-evident and retained for at least one year.
+        - Audit logs older than 90 days may be archived or deleted by the owning team.
+      DATA-01:
+        status: clear
+        quotes:
+        - Services must collect and store only the personal data that is necessary for their stated purpose.
+      DATA-02:
+        status: vague
+        quotes:
+        - Personal data must be retained only for as long as is reasonably necessary and must be disposed of appropriately when it is no longer required.
+      DATA-03:
+        status: clear
+        quotes:
+        - Personal data may be disclosed to a third party only under an approved data processing agreement, and only the fields required for the purpose may be shared.
+      API-01:
+        status: clear
+        quotes:
+        - All external inputs must be validated against a defined schema and rejected if they do not conform.
+      API-05:
+        status: clear
+        quotes:
+        - Database queries must be parameterized, and constructing queries by concatenating user input is prohibited.
+      OPS-01:
+        status: vague
+        quotes:
+        - Continuous integration pipelines must scan dependencies and container images, and identified vulnerabilities must be remediated in a timely manner according to their severity.
+      OPS-03:
+        status: vague
+        quotes:
+        - Backups must be appropriately protected, and the ability to restore from backup must be verified at regular intervals.
+      LOG-04:
+        status: clear
+        quotes:
+        - Access to centralized logs must be restricted to authorized personnel.
+      DATA-05:
+        status: clear
+        quotes:
+        - Reports and exports containing personal data must be accessible only to authorized users, must be encrypted in storage and must expire after a defined period.
+  v2:
+    file: v2_security_standards.md
+    rules:
+      AUTH-01:
+        status: clear
+        quotes:
+        - All externally reachable API endpoints must authenticate each request with an OAuth2 or OpenID Connect bearer token issued by the corporate identity provider, or with mutual TLS.
+      AUTH-02:
+        status: clear
+        quotes:
+        - Internal service calls must carry a mutual TLS client certificate or a signed workload identity token, and services must reject calls that carry neither.
+      AUTH-03:
+        status: clear
+        quotes:
+        - Access tokens must expire within 15 minutes, and refresh tokens must be rotated every time they are used.
+      AUTH-04:
+        status: clear
+        quotes:
+        - Any administrative or back-office access requires multi-factor authentication.
+      AUTH-05:
+        status: clear
+        quotes:
+        - Passwords must be stored as salted hashes using argon2id or bcrypt only.
+      AUTH-06:
+        status: clear
+        quotes:
+        - Login and token endpoints must throttle repeated failed attempts and apply a temporary lockout after ten consecutive failures.
+      AUTHZ-01:
+        status: clear
+        quotes:
+        - For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it.
+      AUTHZ-02:
+        status: vague
+        quotes:
+        - Internal users should be assigned roles appropriate to their job, and services should define role sets as needed.
+      AUTHZ-03:
+        status: advisory
+        quotes:
+        - Every service should connect to its database with a dedicated account that has only the grants it needs, and applications should avoid shared administrative credentials.
+      AUTHZ-04:
+        status: clear
+        quotes:
+        - Administrative and debug endpoints must not be served on public networks and must be reachable only through the private administrative network.
+      CRYPTO-01:
+        status: clear
+        quotes:
+        - Personal data held in databases and object storage must be encrypted at rest with AES-256 or stronger, using keys managed in the corporate key management service.
+      CRYPTO-02:
+        status: clear
+        quotes:
+        - Primary account numbers must not be stored in clear text anywhere and must be replaced by tokens issued by the card token vault.
+      CRYPTO-03:
+        status: conflicting
+        quotes:
+        - All external network traffic must use TLS 1.2 or higher, and plain HTTP listeners are not permitted.
+        - Legacy partner integrations may continue to use TLS 1.0 until a migration date is agreed with Security Architecture.
+      CRYPTO-04:
+        status: clear
+        quotes:
+        - Connections between services, and between services and data stores or brokers, must be encrypted in transit.
+      CRYPTO-05:
+        status: clear
+        quotes:
+        - Only approved algorithms may be used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+      CRYPTO-06:
+        status: clear
+        quotes:
+        - Encryption keys must be stored in the key management service and never alongside the data they protect, and every key must be rotated at least once a year.
+      SECRET-01:
+        status: clear
+        quotes:
+        - Secrets must not be stored in source code, configuration files, API specifications or infrastructure definitions.
+      SECRET-02:
+        status: clear
+        quotes:
+        - Services must obtain runtime secrets from the approved secret store when they start, and secrets must not be passed as plain environment variables in deployment manifests.
+      NET-01:
+        status: clear
+        quotes:
+        - Databases and message brokers must run in private subnets and must not have public endpoints.
+      NET-02:
+        status: clear
+        quotes:
+        - Object storage buckets must have public access blocked.
+      NET-03:
+        status: clear
+        quotes:
+        - SSH, RDP and database ports must not be open to 0.0.0.0/0.
+      NET-05:
+        status: clear
+        quotes:
+        - Externally exposed APIs must be fronted by a web application firewall with rate limiting enabled.
+      LOG-01:
+        status: clear
+        quotes:
+        - Authentication failures, privilege changes and access to sensitive data must be logged.
+      LOG-02:
+        status: advisory
+        quotes:
+        - Logs should not contain secrets, card numbers or personal data other than opaque identifiers.
+      LOG-03:
+        status: vague
+        quotes:
+        - Audit logs must be stored in tamper-resistant storage and retained for an appropriate period.
+      LOG-04:
+        status: advisory
+        quotes:
+        - Access to centralized logs should be restricted to personnel who need it.
+      DATA-01:
+        status: vague
+        quotes:
+        - Each service should limit the personal data it stores to what is reasonably required and document the purpose of its fields.
+      DATA-02:
+        status: advisory
+        quotes:
+        - Each category of personal data should have a retention period, and an automated job should delete the data when the period ends.
+      DATA-03:
+        status: clear
+        quotes:
+        - Personal data may leave Meridian Pay only to a processor covered by an approved data processing agreement, and only the fields necessary for the purpose may be sent.
+      DATA-04:
+        status: clear
+        quotes:
+        - Non-production environments must not contain real personal data or card data, and synthetic or masked data must be used instead.
+      DATA-05:
+        status: advisory
+        quotes:
+        - Reports and exports containing personal data should be made available only to authorized users and for a limited time.
+      API-01:
+        status: clear
+        quotes:
+        - Every external input must be validated against a schema, and invalid requests must be rejected before processing.
+      API-02:
+        status: advisory
+        quotes:
+        - External APIs should enforce a rate limit for each client and return HTTP 429 when the limit is exceeded.
+      API-03:
+        status: clear
+        quotes:
+        - Webhook payloads, inbound and outbound, must carry an HMAC signature that the receiver verifies together with a timestamp.
+      API-04:
+        status: clear
+        quotes:
+        - Error responses must not contain stack traces, SQL text or internal host names.
+      API-05:
+        status: clear
+        quotes:
+        - Database queries must be parameterized.
+      OPS-01:
+        status: clear
+        quotes:
+        - Continuous integration must scan dependencies and container images, and critical findings must be fixed within 14 days.
+      OPS-02:
+        status: clear
+        quotes:
+        - Containers must run as a non-root user.
+      OPS-03:
+        status: vague
+        quotes:
+        - Backups must be protected appropriately, and restoration from backup must be tested regularly.
+      CRYPTO-07:
+        status: clear
+        quotes:
+        - Services must verify TLS certificates on every connection and must not disable certificate verification.
+      SECRET-03:
+        status: vague
+        quotes:
+        - Service credentials must be rotated periodically and after suspected exposure.
+      NET-04:
+        status: clear
+        quotes:
+        - Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.
+  v3:
+    file: v3_engineering_security_handbook.md
+    rules:
+      AUTH-01:
+        status: clear
+        quotes:
+        - Public endpoints MUST require OAuth2/OIDC bearer tokens or mutual TLS.
+      AUTH-02:
+        status: advisory
+        quotes:
+        - Services SHOULD authenticate each other with mutual TLS or workload identity tokens.
+      AUTH-03:
+        status: conflicting
+        quotes:
+        - Access tokens MUST expire within 15 minutes.
+        - For long-lived sessions, an access token lifetime of up to 30 minutes is acceptable.
+      AUTH-05:
+        status: clear
+        quotes:
+        - Passwords MUST be hashed with argon2id or bcrypt.
+      AUTHZ-01:
+        status: clear
+        quotes:
+        - A service MUST check that the caller is allowed to access the specific record requested.
+      AUTHZ-03:
+        status: advisory
+        quotes:
+        - Each service SHOULD use its own database account with the least privilege required.
+      AUTHZ-04:
+        status: clear
+        quotes:
+        - Admin and debug endpoints MUST NOT be exposed to the public internet.
+      CRYPTO-01:
+        status: clear
+        quotes:
+        - Personal data at rest MUST be encrypted with AES-256.
+      CRYPTO-02:
+        status: clear
+        quotes:
+        - Card numbers MUST NOT be stored. Use tokens from the card token vault.
+      CRYPTO-03:
+        status: conflicting
+        quotes:
+        - External traffic MUST use TLS 1.2 or higher.
+        - Legacy partner endpoints may use TLS 1.0 until they have migrated.
+      CRYPTO-04:
+        status: advisory
+        quotes:
+        - Internal traffic SHOULD be encrypted in transit.
+      CRYPTO-05:
+        status: clear
+        quotes:
+        - MD5, SHA-1, DES and ECB mode MUST NOT be used.
+      SECRET-01:
+        status: clear
+        quotes:
+        - Secrets MUST NOT be committed to code, configuration or specs.
+      SECRET-02:
+        status: clear
+        quotes:
+        - Services MUST fetch secrets from the secret store at runtime.
+      NET-01:
+        status: conflicting
+        quotes:
+        - Databases and brokers MUST be in private subnets.
+        - Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.
+      NET-02:
+        status: clear
+        quotes:
+        - Buckets MUST block public access.
+      NET-03:
+        status: clear
+        quotes:
+        - SSH, RDP and database ports MUST NOT be open to the world.
+      NET-05:
+        status: advisory
+        quotes:
+        - Public services SHOULD be behind a WAF.
+      LOG-01:
+        status: clear
+        quotes:
+        - Log authentication failures, privilege changes and sensitive data access.
+      LOG-02:
+        status: clear
+        quotes:
+        - Never log secrets, card numbers or personal data other than opaque ids.
+      LOG-03:
+        status: vague
+        quotes:
+        - Audit logs MUST be kept long enough to meet regulatory obligations.
+      DATA-02:
+        status: clear
+        quotes:
+        - Personal data MUST have a retention period and a deletion process.
+      DATA-03:
+        status: clear
+        quotes:
+        - Sending personal data to a vendor MUST be covered by a data processing agreement, and you MUST send only the fields the vendor needs.
+      API-01:
+        status: clear
+        quotes:
+        - Validate all external input against a schema.
+      API-02:
+        status: vague
+        quotes:
+        - Public APIs MUST be protected against excessive use.
+      API-05:
+        status: clear
+        quotes:
+        - Use parameterized queries only.
+      API-06:
+        status: clear
+        quotes:
+        - Browsers MUST be allowed to call our APIs only from approved origins through restricted CORS.
+      OPS-01:
+        status: clear
+        quotes:
+        - Pipelines MUST scan dependencies for known vulnerabilities.
+      OPS-02:
+        status: advisory
+        quotes:
+        - Containers SHOULD run as non-root.
+      OPS-03:
+        status: vague
+        quotes:
+        - Backups should be encrypted and restore procedures tested regularly.

@@ -1,0 +1,27 @@
+{
+ "case_id": "c059_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "DATA-03",
+  "API-05",
+  "OPS-01"
+ ]
+}

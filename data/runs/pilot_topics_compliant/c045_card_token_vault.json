@@ -1,0 +1,33 @@
+{
+  "case_id": "c045_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Database is publicly exposed with a public endpoint for analyst access\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-4: Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"data-protection\", \"cryptography\"],\n    \"observation\": \"PANs are tokenized as required\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-5: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Prohibited algorithms are not used\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in source code or config files\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-12: Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\", \"input-validation\"],\n    \"observation\": \"Database queries are parameterized as required\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"Calls are authenticated with mutual TLS or signed tokens\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-2: Internal users receive only the roles required for their job, and roles are defined per service.\",\n    \"topics\": [\"authorization\", \"governance\"],\n    \"observation\": \"Roles are defined per service as required\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-3: Access rights to production systems are reviewed at least quarterly.\",\n    \"topics\": [\"governance\", \"operations\"],\n    \"observation\": \"Access rights are reviewed quarterly as required\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"V-9: Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"authentication\"],\n    \"observation\": \"Authentication events are logged as required\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Database is publicly exposed with a public endpoint for analyst access",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3164,
+        3315
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 8
+}

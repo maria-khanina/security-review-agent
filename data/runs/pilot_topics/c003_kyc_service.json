@@ -1,0 +1,376 @@
+{
+  "case_id": "c003_kyc_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"3.1 In accordance with policy, every externally reachable API endpoint of the Service authenticates callers with OAuth2/OIDC bearer tokens issued by the corporate identity provider, or with mutual TLS.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"API endpoints use OAuth2/OIDC bearer tokens or mutual TLS for authentication\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"3.2 Access tokens expire within 15 minutes, and refresh tokens are rotated on every use.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"Access tokens expire within 15 minutes, refresh tokens are rotated on every use\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.1 Personally identifiable information held in kyc-db and in the kyc-documents bucket is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is encrypted at rest with AES-256\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.2 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Encryption keys are stored in KMS, not alongside data, and rotated annually\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.5 Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required for verification are sent.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is sent to vendor under approved agreement and only required fields are sent\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"5.2 The Service validates TLS certificates on every outbound connection and never disables verification.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"TLS certificates are validated on every outbound connection\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"6.1 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in source code, config, specs, or infrastructure\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"6.2 Runtime secrets are fetched from the approved secret store when the Service starts.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Runtime secrets are fetched from approved secret store at startup\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"7.1 kyc-db is deployed in private subnets and is not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"kyc-db is in private subnets and not publicly reachable\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"7.2 The kyc-documents bucket blocks public access and is private by default.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"kyc-documents bucket blocks public access and is private by default\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"7.3 Outbound traffic from the Service is restricted to an approved allowlist that contains the verification vendor's endpoints.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Outbound traffic is restricted to approved allowlist containing vendor endpoints\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"8.1 Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures, privilege changes, and access to sensitive data are logged\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.1 All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"All external inputs are validated against a schema and rejected if invalid\",\n    \"requirement_id\": \"R28\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.3 Webhook payloads, both inbound vendor callbacks and any outbound notifications, carry a signature that is verified by the receiver.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Webhook payloads carry a signature that is verified by the receiver\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.4 Error responses do not reveal stack traces, SQL text or internal host names.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Error responses do not reveal stack traces, SQL text or internal host names\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.5 Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Database queries are parameterized and user input is not concatenated into queries\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"10.1 The continuous integration pipeline scans dependencies and container images, and critical findings must be fixed within 14 days.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"CI pipeline scans dependencies and container images, critical findings fixed within 14 days\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"10.2 Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Containers run as non-root user with read-only root filesystem\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "3.1 In accordance with policy, every externally reachable API endpoint of the Service authenticates callers with OAuth2/OIDC bearer tokens issued by the corporate identity provider, or with mutual TLS.",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "API endpoints use OAuth2/OIDC bearer tokens or mutual TLS for authentication",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1802,
+        2003
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "3.2 Access tokens expire within 15 minutes, and refresh tokens are rotated on every use.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Access tokens expire within 15 minutes, refresh tokens are rotated on every use",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2005,
+        2093
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "4.1 Personally identifiable information held in kyc-db and in the kyc-documents bucket is encrypted at rest with AES-256.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is encrypted at rest with AES-256",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2488,
+        2609
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "4.2 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Encryption keys are stored in KMS, not alongside data, and rotated annually",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2611,
+        2732
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "4.5 Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required for verification are sent.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is sent to vendor under approved agreement and only required fields are sent",
+      "requirement_id": "R21",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2734,
+        2892
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "5.2 The Service validates TLS certificates on every outbound connection and never disables verification.",
+      "topics": [
+        "network"
+      ],
+      "observation": "TLS certificates are validated on every outbound connection",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3038,
+        3142
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "6.1 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code, config, specs, or infrastructure",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3275,
+        3383
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "6.2 Runtime secrets are fetched from the approved secret store when the Service starts.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Runtime secrets are fetched from approved secret store at startup",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3385,
+        3472
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "7.1 kyc-db is deployed in private subnets and is not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "kyc-db is in private subnets and not publicly reachable",
+      "requirement_id": "R34",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3508,
+        3580
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "7.2 The kyc-documents bucket blocks public access and is private by default.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "kyc-documents bucket blocks public access and is private by default",
+      "requirement_id": "R12",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3582,
+        3658
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "7.3 Outbound traffic from the Service is restricted to an approved allowlist that contains the verification vendor's endpoints.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Outbound traffic is restricted to approved allowlist containing vendor endpoints",
+      "requirement_id": "R38",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3660,
+        3787
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "8.1 Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures, privilege changes, and access to sensitive data are logged",
+      "requirement_id": "R39",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3819,
+        3906
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "9.1 All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "All external inputs are validated against a schema and rejected if invalid",
+      "requirement_id": "R28",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3936,
+        4015
+      ],
+      "policy_span": [
+        4024,
+        4137
+      ]
+    },
+    {
+      "design_quote": "9.3 Webhook payloads, both inbound vendor callbacks and any outbound notifications, carry a signature that is verified by the receiver.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Webhook payloads carry a signature that is verified by the receiver",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4017,
+        4152
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "9.4 Error responses do not reveal stack traces, SQL text or internal host names.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Error responses do not reveal stack traces, SQL text or internal host names",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4154,
+        4234
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "9.5 Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Database queries are parameterized and user input is not concatenated into queries",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4236,
+        4332
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "10.2 Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Containers run as non-root user with read-only root filesystem",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4491,
+        4579
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "10.1 The continuous integration pipeline scans dependencies and container images, and critical findings must be fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

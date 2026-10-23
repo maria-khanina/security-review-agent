@@ -1,0 +1,276 @@
+{
+  "case_id": "c094_wallet_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS\",\n    \"observation\": \"Design states authentication method but does not explicitly reference R1\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"access tokens must expire within 15 minutes and refresh tokens are rotated on use\",\n    \"observation\": \"Design states token expiration but does not explicitly reference R3\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form\",\n    \"observation\": \"Design states password storage but does not explicitly reference R5\",\n    \"requirement_id\": \"R5\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"login and token endpoints throttle or lock out repeated failed attempts\",\n    \"observation\": \"Design states rate limiting but does not explicitly reference R6\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"for every request touching a customer-owned resource the service verifies that the caller owns it or is entitled to it\",\n    \"observation\": \"Design states ownership verification but does not explicitly reference R7\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"personally identifiable information is encrypted at rest with AES-256\",\n    \"observation\": \"Design states encryption but does not explicitly reference R11\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited\",\n    \"observation\": \"Design states algorithm restrictions but does not explicitly reference R15\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually\",\n    \"observation\": \"Design states key management but does not explicitly reference R16\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"services validate TLS certificates and never disable verification\",\n    \"observation\": \"Design states certificate validation but does not explicitly reference R17\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"all external inputs are validated against a schema and rejected if invalid\",\n    \"observation\": \"Design states input validation but does not explicitly reference R29\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"webhook payloads, outbound and inbound, are signed and the signatures are verified\",\n    \"observation\": \"Design states signature verification but does not explicitly reference R30\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"error responses do not reveal stack traces, SQL or internal hostnames\",\n    \"observation\": \"Design states error response handling but does not explicitly reference R31\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days\",\n    \"observation\": \"Design states CI/CD compliance but does not explicitly reference R42\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"containers run as a non-root user with a read-only root filesystem where possible\",\n    \"observation\": \"Design states container security but does not explicitly reference R43\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS",
+      "topics": [],
+      "observation": "Design states authentication method but does not explicitly reference R1",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        639,
+        745
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "access tokens must expire within 15 minutes and refresh tokens are rotated on use",
+      "topics": [],
+      "observation": "Design states token expiration but does not explicitly reference R3",
+      "requirement_id": "R3",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        745,
+        826
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form",
+      "topics": [],
+      "observation": "Design states password storage but does not explicitly reference R5",
+      "requirement_id": "R5",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        827,
+        929
+      ],
+      "policy_span": [
+        859,
+        931
+      ]
+    },
+    {
+      "design_quote": "login and token endpoints throttle or lock out repeated failed attempts",
+      "topics": [],
+      "observation": "Design states rate limiting but does not explicitly reference R6",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        936,
+        1007
+      ],
+      "policy_span": [
+        940,
+        1066
+      ]
+    },
+    {
+      "design_quote": "for every request touching a customer-owned resource the service verifies that the caller owns it or is entitled to it",
+      "topics": [],
+      "observation": "Design states ownership verification but does not explicitly reference R7",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1040,
+        1158
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "personally identifiable information is encrypted at rest with AES-256",
+      "topics": [],
+      "observation": "Design states encryption but does not explicitly reference R11",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1267,
+        1336
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited",
+      "topics": [],
+      "observation": "Design states algorithm restrictions but does not explicitly reference R15",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1341,
+        1439
+      ],
+      "policy_span": [
+        2265,
+        2357
+      ]
+    },
+    {
+      "design_quote": "encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually",
+      "topics": [],
+      "observation": "Design states key management but does not explicitly reference R16",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1442,
+        1545
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "services validate TLS certificates and never disable verification",
+      "topics": [],
+      "observation": "Design states certificate validation but does not explicitly reference R17",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1548,
+        1613
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "all external inputs are validated against a schema and rejected if invalid",
+      "topics": [],
+      "observation": "Design states input validation but does not explicitly reference R29",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2468,
+        2542
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "webhook payloads, outbound and inbound, are signed and the signatures are verified",
+      "topics": [],
+      "observation": "Design states signature verification but does not explicitly reference R30",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2545,
+        2627
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "error responses do not reveal stack traces, SQL or internal hostnames",
+      "topics": [],
+      "observation": "Design states error response handling but does not explicitly reference R31",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2630,
+        2699
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days",
+      "topics": [],
+      "observation": "Design states CI/CD compliance but does not explicitly reference R42",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2864,
+        2959
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "containers run as a non-root user with a read-only root filesystem where possible",
+      "topics": [],
+      "observation": "Design states container security but does not explicitly reference R43",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2962,
+        3043
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

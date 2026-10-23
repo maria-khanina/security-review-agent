@@ -1,0 +1,55 @@
+{
+  "case_id": "c118_refund_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"The design states that externally reachable API endpoints use OAuth2/OIDC bearer tokens or mutual TLS for authentication.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.\",\n    \"topics\": [\"authorization\", \"data-protection\"],\n    \"observation\": \"The design states that requests for customer-owned resources verify the caller's entitlement.\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"cryptography\", \"data-protection\"],\n    \"observation\": \"The design states that primary account numbers are tokenized and not stored in clear text.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"topics\": [\"cryptography\", \"network\"],\n    \"observation\": \"The design states that all external traffic uses TLS 1.2 or higher.\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"The design states that secrets are not present in source code, configuration files, specifications, or infrastructure definitions.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"The design states that all external inputs are validated against a schema and rejected if invalid.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\", \"data-protection\"],\n    \"observation\": \"The design states that database queries are parameterized and that concatenating user input into queries is prohibited.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The database and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"The design states that the database and message brokers are in private subnets and not publicly reachable.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"data-protection\"],\n    \"observation\": \"The design states that authentication failures, privilege changes, and access to sensitive data are logged.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only the personal data needed for the purpose is collected and stored.\",\n    \"topics\": [\"data-protection\", \"governance\"],\n    \"observation\": \"The design states that only the personal data needed for the purpose is collected and stored.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).\",\n    \"topics\": [\"cryptography\", \"governance\"],\n    \"observation\": \"The design states that the ownership of the keys and their rotation schedule are still to be written down.\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The acquirer connector of the payment service, which reads approved refunds from refund-events,\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"The design states that the acquirer connector reads approved refunds from refund-events.\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).",
+      "topics": [
+        "cryptography",
+        "governance"
+      ],
+      "observation": "The design states that the ownership of the keys and their rotation schedule are still to be written down.",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        5003,
+        5115
+      ],
+      "policy_span": [
+        2494,
+        2602
+      ]
+    },
+    {
+      "design_quote": "The acquirer connector of the payment service, which reads approved refunds from refund-events,",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "The design states that the acquirer connector reads approved refunds from refund-events.",
+      "requirement_id": "R13",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2178,
+        2273
+      ],
+      "policy_span": [
+        2273,
+        2356
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 10
+}

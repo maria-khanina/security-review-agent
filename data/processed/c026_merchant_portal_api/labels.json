@@ -1,0 +1,441 @@
+{
+ "case_id": "c026_merchant_portal_api",
+ "split": "dev",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v2",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2192,
+     2245
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-01": [
+     [
+      309,
+      487
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     6017,
+     6036
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-16",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "/paths",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2729,
+     2769
+    ]
+   ],
+   "policy_spans": {
+    "API-02": [
+     [
+      4146,
+      4251
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     800,
+     806
+    ],
+    [
+     1216,
+     1226
+    ],
+    [
+     2143,
+     2153
+    ],
+    [
+     3638,
+     3644
+    ],
+    [
+     4207,
+     4217
+    ],
+    [
+     5701,
+     5707
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "DATA-02",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "portal-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "define a retention period for personal data",
+     "delete data when the period expires or on verified request"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "DATA-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3465,
+     3530
+    ]
+   ],
+   "policy_spans": {
+    "DATA-02": [
+     [
+      2902,
+      3030
+     ]
+    ]
+   },
+   "implementation_spans": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     2564,
+     2642
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1686
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     2846,
+     2916
+    ]
+   ],
+   "policy_spans": [
+    [
+     1731,
+     1893
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3089,
+     3188
+    ]
+   ],
+   "policy_spans": [
+    [
+     2265,
+     2357
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     2917,
+     3021
+    ]
+   ],
+   "policy_spans": [
+    [
+     2366,
+     2521
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     3656,
+     3760
+    ]
+   ],
+   "policy_spans": [
+    [
+     3722,
+     3835
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3761,
+     3831
+    ]
+   ],
+   "policy_spans": [
+    [
+     3844,
+     4015
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     3848,
+     3936
+    ]
+   ],
+   "policy_spans": [
+    [
+     4615,
+     4708
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     4400,
+     4483
+    ]
+   ],
+   "policy_spans": [
+    [
+     5069,
+     5156
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     3211,
+     3329
+    ]
+   ],
+   "policy_spans": [
+    [
+     3039,
+     3204
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-04",
+   "design_spans": [
+    [
+     3330,
+     3400
+    ]
+   ],
+   "policy_spans": [
+    [
+     3213,
+     3341
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     4062,
+     4137
+    ]
+   ],
+   "policy_spans": [
+    [
+     4024,
+     4137
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-03",
+   "design_spans": [
+    [
+     4302,
+     4385
+    ]
+   ],
+   "policy_spans": [
+    [
+     4260,
+     4382
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-04",
+   "design_spans": [
+    [
+     4138,
+     4208
+    ]
+   ],
+   "policy_spans": [
+    [
+     4391,
+     4470
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     4209,
+     4301
+    ]
+   ],
+   "policy_spans": [
+    [
+     4479,
+     4518
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     4507,
+     4608
+    ]
+   ],
+   "policy_spans": [
+    [
+     5350,
+     5469
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     4609,
+     4692
+    ]
+   ],
+   "policy_spans": [
+    [
+     5478,
+     5517
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     3022,
+     3088
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-04",
+   "design_spans": [
+    [
+     3937,
+     4024
+    ]
+   ],
+   "policy_spans": [
+    [
+     4954,
+     5059
+    ]
+   ]
+  }
+ ]
+}

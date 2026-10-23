@@ -1,0 +1,97 @@
+{
+ "case_id": "c126_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-04",
+   "drift_id": null,
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-308"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require multi-factor authentication for administrative and back-office access"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The second factor is optional for administrators and most have not enabled it."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-05",
+   "drift_id": null,
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How and when access is reviewed.",
+   "instruction": "Mention portal-backend naturally, but do NOT state: How and when access is reviewed. Wrap the sentence(s) that mention portal-backend (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "drift_id": null,
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Log access is granted to whole teams and never removed."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-03",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "DATA-05"
+ ]
+}

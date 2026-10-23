@@ -1,0 +1,228 @@
+{
+  "case_id": "c099_payment_gateway",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n      \"topics\": [\"authentication\", \"network\"],\n      \"observation\": \"Complies with R1 requirement for external API endpoints.\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.\",\n      \"topics\": [\"authorization\", \"data-protection\"],\n      \"observation\": \"Complies with R6 requirement for verifying access to customer resources.\",\n      \"requirement_id\": \"R6\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Administrative and debug endpoints are not reachable from the public internet.\",\n      \"topics\": [\"authorization\", \"network\"],\n      \"observation\": \"Complies with R8 requirement for restricting administrative interfaces.\",\n      \"requirement_id\": \"R8\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Access rights to production systems are reviewed at least quarterly.\",\n      \"topics\": [\"governance\", \"operations\"],\n      \"observation\": \"Complies with R9 requirement for quarterly access right reviews.\",\n      \"requirement_id\": \"R9\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256.\",\n      \"topics\": [\"cryptography\", \"data-protection\"],\n      \"observation\": \"Complies with R10 requirement for encrypting PII at rest.\",\n      \"requirement_id\": \"R10\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n      \"topics\": [\"cryptography\", \"data-protection\"],\n      \"observation\": \"Complies with R11 requirement for tokenizing PAN.\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n      \"topics\": [\"network\", \"cryptography\"],\n      \"observation\": \"Complies with R12 requirement for TLS 1.2+ on external traffic.\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n      \"topics\": [\"cryptography\"],\n      \"observation\": \"Complies with R14 requirement for restricting cryptographic algorithms.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n      \"topics\": [\"secrets\"],\n      \"observation\": \"Complies with R16 requirement for secret management.\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n      \"topics\": [\"input-validation\", \"database-access\"],\n      \"observation\": \"Complies with R32 requirement for parameterized queries.\",\n      \"requirement_id\": \"R32\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "Complies with R1 requirement for external API endpoints.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1329,
+        1436
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.",
+      "topics": [
+        "authorization",
+        "data-protection"
+      ],
+      "observation": "Complies with R6 requirement for verifying access to customer resources.",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1439,
+        1545
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Administrative and debug endpoints are not reachable from the public internet.",
+      "topics": [
+        "authorization",
+        "network"
+      ],
+      "observation": "Complies with R8 requirement for restricting administrative interfaces.",
+      "requirement_id": "R8",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1548,
+        1626
+      ],
+      "policy_span": [
+        1732,
+        1815
+      ]
+    },
+    {
+      "design_quote": "Access rights to production systems are reviewed at least quarterly.",
+      "topics": [
+        "governance",
+        "operations"
+      ],
+      "observation": "Complies with R9 requirement for quarterly access right reviews.",
+      "requirement_id": "R9",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1629,
+        1697
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ],
+      "observation": "Complies with R10 requirement for encrypting PII at rest.",
+      "requirement_id": "R10",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1700,
+        1770
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ],
+      "observation": "Complies with R11 requirement for tokenizing PAN.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1773,
+        1870
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "All external traffic uses TLS 1.2 or higher.",
+      "topics": [
+        "network",
+        "cryptography"
+      ],
+      "observation": "Complies with R12 requirement for TLS 1.2+ on external traffic.",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1873,
+        1917
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Complies with R14 requirement for restricting cryptographic algorithms.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1920,
+        2019
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Complies with R16 requirement for secret management.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2022,
+        2126
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "input-validation",
+        "database-access"
+      ],
+      "observation": "Complies with R32 requirement for parameterized queries.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3580,
+        3672
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

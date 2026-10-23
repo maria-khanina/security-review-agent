@@ -1,0 +1,315 @@
+{
+ "case_id": "c106_audit_log_pipeline",
+ "split": "test",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v3",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "NET-01",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-668"
+   ],
+   "component": "audit-stream (MSK)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Network placement of the database or broker.",
+   "related_rules": [
+    "NET-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1561,
+     1692
+    ]
+   ],
+   "policy_spans": {
+    "NET-01": [
+     [
+      1772,
+      1821
+     ],
+     [
+      1824,
+      1933
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CRYPTO-04",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-319"
+   ],
+   "component": "audit-collector",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_msk_cluster.audit_stream",
+   "remediation_options": [
+    [
+     "encrypt traffic between services and to data stores in transit"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-04"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3558,
+     3676
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-04": [
+     [
+      1235,
+      1283
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     460,
+     512
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-14",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "component": "audit archive (S3)",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_backup_vault.audit_backups",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OPS-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     4621,
+     4658
+    ]
+   ],
+   "policy_spans": {
+    "OPS-03": [
+     [
+      1540,
+      1608
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1479,
+     1524
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     3371,
+     3441
+    ]
+   ],
+   "policy_spans": [
+    [
+     990,
+     1043
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3442,
+     3541
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     3691,
+     3795
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3796,
+     3866
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     3881,
+     3946
+    ]
+   ],
+   "policy_spans": [
+    [
+     1936,
+     1969
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3961,
+     4044
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     4045,
+     4126
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     4138,
+     4261
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     4262,
+     4380
+    ]
+   ],
+   "policy_spans": [
+    [
+     1404,
+     1537
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     4412,
+     4504
+    ]
+   ],
+   "policy_spans": [
+    [
+     2315,
+     2346
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     4505,
+     4606
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}

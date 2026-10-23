@@ -1,0 +1,106 @@
+{
+ "case_id": "c114_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-03",
+   "drift_id": null,
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-613"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access token lifetime to 15 minutes or less",
+     "rotate refresh tokens on use"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Token lifetime is configurable per client and most merchants use thirty days."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-01",
+   "drift_id": null,
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service checks that the caller may access the requested record.",
+   "instruction": "Mention Refunds Gateway naturally, but do NOT state: How the service checks that the caller may access the requested record. Wrap the sentence(s) that mention Refunds Gateway (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-04",
+   "drift_id": null,
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-209"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep stack traces, SQL and internal host names out of error responses"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Error responses include stack traces and SQL text in all environments."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-06",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-02",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-05",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-01",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

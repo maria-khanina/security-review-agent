@@ -1,0 +1,94 @@
+{
+ "case_id": "c119_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DATA-03",
+   "drift_id": null,
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "share personal data with third parties only under an approved data processing agreement",
+     "send only the fields required"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Data is sent to a third party under a verbal agreement."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-01",
+   "drift_id": null,
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data fields are stored and why.",
+   "instruction": "Mention sync-job naturally, but do NOT state: Which personal data fields are stored and why. Wrap the sentence(s) that mention sync-job (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "NET-02",
+   "drift_id": null,
+   "component": "staging bucket (S3)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_bucket_public",
+   "implementation_anchor": "aws_s3_bucket.staging_bucket",
+   "remediation_options": [
+    [
+     "block public access on object storage buckets",
+     "keep buckets private by default"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Reports are served from a publicly readable bucket to avoid generating download links."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "API-05"
+ ]
+}

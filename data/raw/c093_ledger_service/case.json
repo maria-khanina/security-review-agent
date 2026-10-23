@@ -1,0 +1,53 @@
+{
+ "case_id": "c093_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-02",
+   "drift_id": null,
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which roles exist and what each can do.",
+   "instruction": "Mention ledger-core naturally, but do NOT state: Which roles exist and what each can do. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F1 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-04",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

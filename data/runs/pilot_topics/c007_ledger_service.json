@@ -1,0 +1,136 @@
+{
+  "case_id": "c007_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Design states that MD5, SHA-1, DES, 3DES and ECB mode are prohibited\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Design states that authentication failures, privilege changes and access to sensitive data are logged\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Design states that CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"All traffic to ledger-core is served over HTTPS only.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Design states that all traffic to ledger-core is served over HTTPS only\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"The old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Design states that the old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more\",\n    \"requirement_id\": \"R25\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"The old tables stay readable for one release as a rollback path (see \\\"Cutover\\\" below).\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that the old tables stay readable for one release as a rollback path\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The old tables stay readable for one release as a rollback path (see \\\"Cutover\\\" below).\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that the old tables stay readable for one release as a rollback path\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The old tables stay readable for one release as a rollback path (see \\\"Cutover\\\" below).\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that the old tables stay readable for one release as a rollback path\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The old tables stay readable for one release as a rollback path (see \\\"Cutover\\\" below).\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that the old tables stay readable for one release as a rollback path\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The old tables stay readable for one release as a rollback path (see \\\"Cutover\\\" below).\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Design states that the old tables stay readable for one release as a rollback path\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Design states that MD5, SHA-1, DES, 3DES and ECB mode are prohibited",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3174,
+        3273
+      ],
+      "policy_span": [
+        1286,
+        1332
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Design states that authentication failures, privilege changes and access to sensitive data are logged",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3276,
+        3359
+      ],
+      "policy_span": [
+        2445,
+        2518
+      ]
+    },
+    {
+      "design_quote": "CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Design states that CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3362,
+        3450
+      ],
+      "policy_span": [
+        2112,
+        2171
+      ]
+    },
+    {
+      "design_quote": "All traffic to ledger-core is served over HTTPS only.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Design states that all traffic to ledger-core is served over HTTPS only",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3464,
+        3517
+      ],
+      "policy_span": [
+        1119,
+        1163
+      ]
+    },
+    {
+      "design_quote": "The old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Design states that the old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more",
+      "requirement_id": "R25",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 80,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        1996,
+        2113
+      ],
+      "policy_span": [
+        2075,
+        2109
+      ]
+    },
+    {
+      "design_quote": "The old tables stay readable for one release as a rollback path (see \"Cutover\" below).",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Design states that the old tables stay readable for one release as a rollback path",
+      "requirement_id": "R15",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        808,
+        894
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

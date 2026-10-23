@@ -1,0 +1,95 @@
+{
+ "case_id": "c019_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LOG-03",
+   "drift_id": null,
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "make audit logs tamper-evident",
+     "retain audit logs for at least one year"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Audit entries share the application log group and expire after thirty days."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "drift_id": null,
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Container images are never rescanned after the first build."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "DATA-03",
+   "drift_id": null,
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What data is shared with the vendor and under what agreement.",
+   "instruction": "Mention notifier naturally, but do NOT state: What data is shared with the vendor and under what agreement. Wrap the sentence(s) that mention notifier (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "API-05",
+  "DATA-05"
+ ]
+}

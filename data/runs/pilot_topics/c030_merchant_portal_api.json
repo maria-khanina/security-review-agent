@@ -1,0 +1,262 @@
+{
+  "case_id": "c030_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"The design states that endpoints must authenticate with OAuth2/OIDC or mutual TLS.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Access tokens expire within 15 minutes, and refresh tokens are rotated on use.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"The design states that access tokens expire within 15 minutes and refresh tokens are rotated on use.\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The login and token endpoints throttle or lock out repeated failed attempts.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"The design states that login and token endpoints throttle or lock out repeated failed attempts.\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"The design states that requests for merchant-owned resources verify ownership or entitlement.\",\n    \"requirement_id\": \"R4\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"The design states that personal identifiable information is encrypted at rest with AES-256.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"The design states that encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"The design states that services validate TLS certificates and never disable verification.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"The design states that all external inputs are validated against a schema and rejected if invalid.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"The design states that webhook payloads are signed and the signatures are verified.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"The design states that database queries are parameterized and concatenating user input into queries is prohibited.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"resilience\"],\n    \"observation\": \"The design states that the CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"The design states that containers run as a non-root user with a read-only root filesystem where possible.\",\n    \"requirement_id\": \"R33\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "The design states that endpoints must authenticate with OAuth2/OIDC or mutual TLS.",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2086,
+        2193
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "Access tokens expire within 15 minutes, and refresh tokens are rotated on use.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "The design states that access tokens expire within 15 minutes and refresh tokens are rotated on use.",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2215,
+        2293
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "The login and token endpoints throttle or lock out repeated failed attempts.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "The design states that login and token endpoints throttle or lock out repeated failed attempts.",
+      "requirement_id": "R6",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2320,
+        2396
+      ],
+      "policy_span": [
+        940,
+        1066
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "The design states that requests for merchant-owned resources verify ownership or entitlement.",
+      "requirement_id": "R4",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2425,
+        2533
+      ],
+      "policy_span": [
+        772,
+        850
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "The design states that personal identifiable information is encrypted at rest with AES-256.",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2674,
+        2742
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "The design states that encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2764,
+        2868
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [
+        "network"
+      ],
+      "observation": "The design states that services validate TLS certificates and never disable verification.",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2897,
+        2963
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "The design states that all external inputs are validated against a schema and rejected if invalid.",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3996,
+        4071
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "The design states that webhook payloads are signed and the signatures are verified.",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4096,
+        4179
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "The design states that database queries are parameterized and concatenating user input into queries is prohibited.",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4296,
+        4388
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "resilience"
+      ],
+      "observation": "The design states that the CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4413,
+        4514
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "The design states that containers run as a non-root user with a read-only root filesystem where possible.",
+      "requirement_id": "R33",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4541,
+        4624
+      ],
+      "policy_span": [
+        4527,
+        4605
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

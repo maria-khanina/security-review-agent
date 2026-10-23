@@ -1,0 +1,96 @@
+{
+ "case_id": "c125_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-06",
+   "drift_id": null,
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-942"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "allow only approved origins in CORS"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): CORS is wide open in production to avoid support tickets from partners."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-03",
+   "drift_id": null,
+   "component": "wallet-db (PostgreSQL)",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which database identity each service uses and its grants.",
+   "instruction": "Mention wallet-db (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention wallet-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-02",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_auth_mismatch",
+   "implementation_anchor": "/components/securitySchemes",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Callers authenticate with OAuth2 bearer tokens. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-05",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "OPS-01"
+ ]
+}

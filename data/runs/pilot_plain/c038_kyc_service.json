@@ -1,0 +1,86 @@
+{
+  "case_id": "c038_kyc_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.\",\n      \"observation\": \"The service does not explicitly verify that the authenticated caller owns the resource or is entitled to it.\",\n      \"requirement_id\": \"R7\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"kyc-documents bucket blocks public access and is private by default.\",\n      \"observation\": \"The bucket is private by default, but the policy requires encryption at rest with AES-256.\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"kyc-db and the message brokers sit in private subnets and are not publicly reachable.\",\n      \"observation\": \"The policy requires databases and message brokers to run in private subnets and not have public endpoints.\",\n      \"requirement_id\": \"R34\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"kyc-documents bucket blocks public access and is private by default.\",\n      \"observation\": \"The bucket is private by default, but the policy requires encryption at rest with AES-256.\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.\",\n      \"observation\": \"The service does not store any credentials, but the policy requires internal service calls to carry mutual TLS or signed workload identity tokens.\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.\",\n      \"observation\": \"The service does not explicitly verify that the authenticated caller owns the resource or is entitled to it.\",\n      \"requirement_id\": \"R7\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"kyc-documents bucket blocks public access and is private by default.\",\n      \"observation\": \"The bucket is private by default, but the policy requires encryption at rest with AES-256.\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"kyc-db and the message brokers sit in private subnets and are not publicly reachable.\",\n      \"observation\": \"The policy requires databases and message brokers to run in private subnets and not have public endpoints.\",\n      \"requirement_id\": \"R34\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.\",\n      \"observation\": \"The service does not store any credentials, but the policy requires internal service calls to carry mutual TLS or signed workload identity tokens.\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 85\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.",
+      "topics": [],
+      "observation": "The service does not explicitly verify that the authenticated caller owns the resource or is entitled to it.",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2299,
+        2456
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "kyc-documents bucket blocks public access and is private by default.",
+      "topics": [],
+      "observation": "The bucket is private by default, but the policy requires encryption at rest with AES-256.",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4222,
+        4290
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "kyc-db and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "The policy requires databases and message brokers to run in private subnets and not have public endpoints.",
+      "requirement_id": "R34",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4124,
+        4209
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.",
+      "topics": [],
+      "observation": "The service does not store any credentials, but the policy requires internal service calls to carry mutual TLS or signed workload identity tokens.",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2057,
+        2190
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

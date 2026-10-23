@@ -1,0 +1,221 @@
+{
+  "case_id": "c081_merchant_portal_api",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n      \"topics\": [\"authentication\"],\n      \"observation\": \"Design states authentication method but does not specify if it meets R1 requirement\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n      \"topics\": [\"authorization\"],\n      \"observation\": \"Design states entitlement check but does not specify if it meets R6 requirement\",\n      \"requirement_id\": \"R6\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n      \"topics\": [\"secrets\"],\n      \"observation\": \"Design states secret management but does not specify if it meets R16 requirement\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n      \"topics\": [\"input-validation\"],\n      \"observation\": \"Design states input validation but does not specify if it meets R31 requirement\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Only one job per type and range runs at a time per merchant.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Design states job management but does not specify if it meets R27 requirement\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The portal collects and stores only the personal data needed to run merchant accounts.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Design states data minimization but does not specify if it meets R27 requirement\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Reports that contain personal data require authorization to download, are encrypted in storage and expire.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Design states report handling but does not specify if it meets R30 requirement\",\n      \"requirement_id\": \"R30\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"All traffic is served over HTTPS only.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Design states HTTPS but does not specify if it meets R12 requirement\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"portal-db and the message brokers sit in private subnets and are not publicly reachable.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Design states network isolation but does not specify if it meets R18 requirement\",\n      \"requirement_id\": \"R18\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The invite call creates the user in a pending state and sends an activation email through the notification platform.\",\n      \"topics\": [\"authentication\"],\n      \"observation\": \"Design states user creation but does not specify if it meets R5 requirement\",\n      \"requirement_id\": \"R5\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Design states authentication method but does not specify if it meets R1 requirement",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1128,
+        1235
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "Design states entitlement check but does not specify if it meets R6 requirement",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1236,
+        1344
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Design states secret management but does not specify if it meets R16 requirement",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1587,
+        1691
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Design states input validation but does not specify if it meets R31 requirement",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2895,
+        2970
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Only one job per type and range runs at a time per merchant.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Design states job management but does not specify if it meets R27 requirement",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2113,
+        2173
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "The portal collects and stores only the personal data needed to run merchant accounts.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Design states data minimization but does not specify if it meets R27 requirement",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2525,
+        2611
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Reports that contain personal data require authorization to download, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Design states report handling but does not specify if it meets R30 requirement",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2765,
+        2871
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "All traffic is served over HTTPS only.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Design states HTTPS but does not specify if it meets R12 requirement",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1055,
+        1093
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "portal-db and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Design states network isolation but does not specify if it meets R18 requirement",
+      "requirement_id": "R18",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1693,
+        1781
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "The invite call creates the user in a pending state and sends an activation email through the notification platform.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Design states user creation but does not specify if it meets R5 requirement",
+      "requirement_id": "R5",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2987,
+        3103
+      ],
+      "policy_span": [
+        1340,
+        1476
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

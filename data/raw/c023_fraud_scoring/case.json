@@ -1,0 +1,114 @@
+{
+ "case_id": "c023_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-05",
+   "drift_id": null,
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A raw SQL fragment from the query string is appended to the report query."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-02",
+   "drift_id": null,
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How long personal data is kept and how it is deleted.",
+   "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: How long personal data is kept and how it is deleted. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-09",
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_encryption_missing",
+   "implementation_anchor": "aws_db_instance.decisions_db",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F3 marker."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-11",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_open_ingress",
+   "implementation_anchor": "aws_security_group.decisions_sg",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F4 marker."
+  }
+ ],
+ "required_rules": [
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-03",
+  "OPS-01"
+ ]
+}

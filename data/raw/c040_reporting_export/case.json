@@ -1,0 +1,144 @@
+{
+ "case_id": "c040_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "test",
+ "policy_version": "v2",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "NET-01",
+   "drift_id": null,
+   "component": "reporting read replica (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_db_public",
+   "implementation_anchor": "aws_db_instance.reporting_ro_db",
+   "remediation_options": [
+    [
+     "place databases and message brokers in private subnets",
+     "remove their public reachability"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A public database endpoint is kept for the external BI vendor."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "LOG-02",
+   "drift_id": null,
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What is included in request logs.",
+   "instruction": "Mention export-job naturally, but do NOT state: What is included in request logs. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-02",
+   "drift_id": null,
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "grant internal users only the roles required for their job",
+     "define roles separately for each service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Permissions are granted per request via chat and rarely removed."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-13",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_log_retention_short",
+   "implementation_anchor": "aws_cloudwatch_log_group.export_audit",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Audit logs are retained for 365 days. Wrap the sentence(s) in the F4 marker."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "ambiguity",
+   "rule_id": "DATA-04",
+   "drift_id": null,
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Source of data in test environments.",
+   "instruction": "Mention export-job naturally, but do NOT state: Source of data in test environments. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F5 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-03",
+  "AUTH-04",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-02",
+  "LOG-01",
+  "DATA-03",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

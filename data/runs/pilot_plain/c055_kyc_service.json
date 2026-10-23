@@ -1,0 +1,200 @@
+{
+  "case_id": "c055_kyc_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"All state-changing operations require an authenticated caller.\",\n    \"observation\": \"Authentication method not specified\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"No admin or debug endpoints on the public internet.\",\n    \"observation\": \"No mention of internal access controls\",\n    \"requirement_id\": \"R8\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"kyc-orchestrator signs and protects the messages it exchanges with the vendor.\",\n    \"observation\": \"No specific cryptographic algorithm mentioned\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"External traffic TLS 1.2 or higher.\",\n    \"observation\": \"No mention of internal communication protection\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"kyc-db and brokers in private subnets, not publicly reachable.\",\n    \"observation\": \"No mention of network location-based authentication\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 55\n  },\n  {\n    \"design_quote\": \"kyc-documents bucket blocks public access, private by default.\",\n    \"observation\": \"No mention of encryption at rest\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 50\n  },\n  {\n    \"design_quote\": \"Personal data to the vendor only under an approved DPA, only required fields.\",\n    \"observation\": \"No mention of data minimization\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 45\n  },\n  {\n    \"design_quote\": \"Exports with personal data need authorization, are encrypted in storage and expire.\",\n    \"observation\": \"No mention of retention period\",\n    \"requirement_id\": \"R28\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 40\n  },\n  {\n    \"design_quote\": \"Input validated against schema, invalid rejected.\",\n    \"observation\": \"No mention of input validation against defined schema\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 35\n  },\n  {\n    \"design_quote\": \"Parameterized queries only.\",\n    \"observation\": \"No mention of query parameterization\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 30\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "All state-changing operations require an authenticated caller.",
+      "topics": [],
+      "observation": "Authentication method not specified",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        676,
+        738
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "No admin or debug endpoints on the public internet.",
+      "topics": [],
+      "observation": "No mention of internal access controls",
+      "requirement_id": "R8",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        741,
+        792
+      ],
+      "policy_span": [
+        1732,
+        1815
+      ]
+    },
+    {
+      "design_quote": "kyc-orchestrator signs and protects the messages it exchanges with the vendor.",
+      "topics": [],
+      "observation": "No specific cryptographic algorithm mentioned",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        844,
+        922
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "External traffic TLS 1.2 or higher.",
+      "topics": [],
+      "observation": "No mention of internal communication protection",
+      "requirement_id": "R13",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        925,
+        960
+      ],
+      "policy_span": [
+        2273,
+        2356
+      ]
+    },
+    {
+      "design_quote": "kyc-db and brokers in private subnets, not publicly reachable.",
+      "topics": [],
+      "observation": "No mention of network location-based authentication",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 55,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1030,
+        1092
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "kyc-documents bucket blocks public access, private by default.",
+      "topics": [],
+      "observation": "No mention of encryption at rest",
+      "requirement_id": "R10",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 50,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1095,
+        1157
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Personal data to the vendor only under an approved DPA, only required fields.",
+      "topics": [],
+      "observation": "No mention of data minimization",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 45,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1244,
+        1321
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Exports with personal data need authorization, are encrypted in storage and expire.",
+      "topics": [],
+      "observation": "No mention of retention period",
+      "requirement_id": "R28",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 40,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1324,
+        1407
+      ],
+      "policy_span": [
+        3877,
+        4020
+      ]
+    },
+    {
+      "design_quote": "Input validated against schema, invalid rejected.",
+      "topics": [],
+      "observation": "No mention of input validation against defined schema",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 35,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1505,
+        1554
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Parameterized queries only.",
+      "topics": [],
+      "observation": "No mention of query parameterization",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 30,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1557,
+        1584
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

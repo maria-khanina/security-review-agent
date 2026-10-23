@@ -1,0 +1,329 @@
+openapi: 3.0.3
+info:
+  title: KYC Verification API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+- url: http://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/kyc/cases:
+    post:
+      operationId: createCase
+      summary: Open a verification case
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycCase'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaseRequest'
+    get:
+      operationId: listCases
+      summary: List cases
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KycCase'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/kyc/cases/{caseId}/documents:
+    post:
+      operationId: uploadDocument
+      summary: Upload an identity document
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentReceipt'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: caseId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentUpload'
+  /v1/kyc/cases/{caseId}:
+    get:
+      operationId: getCase
+      summary: Get case status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycCase'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: caseId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/kyc/cases/{caseId}/submit:
+    post:
+      operationId: submitCase
+      summary: Submit the case to the verification vendor
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KycCase'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: caseId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CaseRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - customer_id
+      - full_name
+      - date_of_birth
+      - country
+      properties:
+        customer_id:
+          type: string
+          maxLength: 256
+        full_name:
+          type: string
+          maxLength: 256
+        date_of_birth:
+          type: string
+          maxLength: 256
+        country:
+          type: string
+          maxLength: 256
+    DocumentUpload:
+      type: object
+      additionalProperties: false
+      required:
+      - document_type
+      - content_base64
+      properties:
+        document_type:
+          type: string
+          maxLength: 256
+        content_base64:
+          type: string
+          format: byte
+          maxLength: 5000000
+    DocumentReceipt:
+      type: object
+      additionalProperties: false
+      required:
+      - document_id
+      - received_at
+      properties:
+        document_id:
+          type: string
+          maxLength: 256
+        received_at:
+          type: string
+          maxLength: 256
+    SubmitRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - consent
+      properties:
+        consent:
+          type: boolean
+    KycCase:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - risk_level
+      - customer_id
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        risk_level:
+          type: string
+          maxLength: 256
+        customer_id:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

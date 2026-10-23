@@ -1,0 +1,206 @@
+{
+  "case_id": "c118_refund_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"The design states that externally reachable API endpoints use OAuth2/OIDC bearer tokens or mutual TLS for authentication.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"The design states that requests for customer-owned resources must verify the caller's entitlement.\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"The design states that primary account numbers are tokenized by the card token vault.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"The design states that all external traffic uses TLS 1.2 or higher.\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"The design states that secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"The design states that all external inputs are validated against a schema and rejected if invalid.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"The design states that database queries are parameterized and concatenating user input into queries is prohibited.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The database and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"The design states that the database and message brokers sit in private subnets and are not publicly reachable.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"The design states that authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only the personal data needed for the purpose is collected and stored.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"The design states that only the personal data needed for the purpose is collected and stored.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "The design states that externally reachable API endpoints use OAuth2/OIDC bearer tokens or mutual TLS for authentication.",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4291,
+        4398
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "The design states that primary account numbers are tokenized by the card token vault.",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4689,
+        4786
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "All external traffic uses TLS 1.2 or higher.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "The design states that all external traffic uses TLS 1.2 or higher.",
+      "requirement_id": "R12",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4858,
+        4902
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "The design states that secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5130,
+        5234
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "The design states that all external inputs are validated against a schema and rejected if invalid.",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5751,
+        5826
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "The design states that database queries are parameterized and concatenating user input into queries is prohibited.",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5827,
+        5919
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "The design states that the database and message brokers sit in private subnets and are not publicly reachable.",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5261,
+        5352
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "The design states that authentication failures, privilege changes and access to sensitive data are logged.",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5353,
+        5436
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Only the personal data needed for the purpose is collected and stored.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "The design states that only the personal data needed for the purpose is collected and stored.",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5459,
+        5529
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.",
+      "requirement_id": "R6",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "case_id": "c091_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"All state-changing operations require an authenticated caller.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"State-changing operations require authentication but not explicit authorization for specific resources.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Calls between internal services must be authenticated with mutual TLS or signed workload identity tokens, and network location alone is not sufficient proof of identity.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"Internal service calls are authenticated with mutual TLS or workload tokens, but no explicit requirement for role-based access control.\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not present in code or config, but no explicit requirement for runtime secret retrieval from a secret store.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Approved algorithms are used, but no explicit requirement for key management throughout their lifecycle.\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures are logged, but no explicit requirement for logging of access to sensitive data.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 55\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and the concatenation of user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Parameterized queries are used, but no explicit requirement for input validation against a defined schema.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 50\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "All state-changing operations require an authenticated caller.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "State-changing operations require authentication but not explicit authorization for specific resources.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1422,
+        1484
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not present in code or config, but no explicit requirement for runtime secret retrieval from a secret store.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2344,
+        2452
+      ],
+      "policy_span": [
+        2798,
+        2887
+      ]
+    },
+    {
+      "design_quote": "Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Approved algorithms are used, but no explicit requirement for key management throughout their lifecycle.",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        2486,
+        2593
+      ],
+      "policy_span": [
+        2494,
+        2602
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures are logged, but no explicit requirement for logging of access to sensitive data.",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 55,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2730,
+        2813
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and the concatenation of user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Parameterized queries are used, but no explicit requirement for input validation against a defined schema.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 50,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2814,
+        2913
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Calls between internal services must be authenticated with mutual TLS or signed workload identity tokens, and network location alone is not sufficient proof of identity.",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

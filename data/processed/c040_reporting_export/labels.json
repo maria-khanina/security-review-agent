@@ -1,0 +1,479 @@
+{
+ "case_id": "c040_reporting_export",
+ "split": "test",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v2",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "NET-01",
+   "drift_id": null,
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "component": "reporting read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_db_instance.reporting_ro_db",
+   "remediation_options": [
+    [
+     "place databases and message brokers in private subnets",
+     "remove their public reachability"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "NET-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2799,
+     2861
+    ]
+   ],
+   "policy_spans": {
+    "NET-01": [
+     [
+      4615,
+      4708
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1246,
+     1272
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "LOG-02",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What is included in request logs.",
+   "related_rules": [
+    "LOG-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1389,
+     1506
+    ]
+   ],
+   "policy_spans": {
+    "LOG-02": [
+     [
+      3478,
+      3571
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-02",
+   "drift_id": null,
+   "severity": "high",
+   "cwe": [
+    "CWE-269"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "grant internal users only the roles required for their job",
+     "define roles separately for each service"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTHZ-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1819,
+     1883
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-02": [
+     [
+      1243,
+      1356
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-13",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "aws_cloudwatch_log_group.export_audit",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     3204,
+     3241
+    ]
+   ],
+   "policy_spans": {
+    "LOG-03": [
+     [
+      5165,
+      5258
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     2003,
+     2025
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F5",
+   "type": "ambiguity",
+   "rule_id": "DATA-04",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Source of data in test environments.",
+   "related_rules": [
+    "DATA-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1507,
+     1613
+    ]
+   ],
+   "policy_spans": {
+    "DATA-04": [
+     [
+      3213,
+      3341
+     ]
+    ]
+   },
+   "implementation_spans": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     1654,
+     1732
+    ]
+   ],
+   "policy_spans": [
+    [
+     658,
+     763
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-04",
+   "design_spans": [
+    [
+     1738,
+     1813
+    ]
+   ],
+   "policy_spans": [
+    [
+     772,
+     850
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1889,
+     1967
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1686
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     1996,
+     2066
+    ]
+   ],
+   "policy_spans": [
+    [
+     1731,
+     1893
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     2195,
+     2294
+    ]
+   ],
+   "policy_spans": [
+    [
+     2265,
+     2357
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     2072,
+     2189
+    ]
+   ],
+   "policy_spans": [
+    [
+     2366,
+     2521
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2585,
+     2689
+    ]
+   ],
+   "policy_spans": [
+    [
+     3722,
+     3835
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2695,
+     2778
+    ]
+   ],
+   "policy_spans": [
+    [
+     3844,
+     4015
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     2913,
+     2979
+    ]
+   ],
+   "policy_spans": [
+    [
+     4717,
+     4772
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3115,
+     3198
+    ]
+   ],
+   "policy_spans": [
+    [
+     5069,
+     5156
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     2410,
+     2553
+    ]
+   ],
+   "policy_spans": [
+    [
+     3039,
+     3204
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-03",
+   "design_spans": [
+    [
+     3275,
+     3365
+    ]
+   ],
+   "policy_spans": [
+    [
+     4260,
+     4382
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     3371,
+     3463
+    ]
+   ],
+   "policy_spans": [
+    [
+     4479,
+     4518
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3487,
+     3618
+    ]
+   ],
+   "policy_spans": [
+    [
+     5350,
+     5469
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     3624,
+     3707
+    ]
+   ],
+   "policy_spans": [
+    [
+     5478,
+     5517
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     2300,
+     2404
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-04",
+   "design_spans": [
+    [
+     2985,
+     3079
+    ]
+   ],
+   "policy_spans": [
+    [
+     4954,
+     5059
+    ]
+   ]
+  }
+ ]
+}

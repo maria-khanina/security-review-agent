@@ -1,0 +1,118 @@
+company:
+  name: Meridian Pay
+  description: Mid-size fintech offering consumer wallets, card payments and merchant acquiring in the EU and UK.
+  stack:
+    cloud: AWS
+    orchestration: Kubernetes on EKS
+    databases: [PostgreSQL on RDS, DynamoDB]
+    messaging: Kafka on MSK
+    storage: S3
+    identity: Keycloak (OIDC)
+    secrets: [HashiCorp Vault, AWS Secrets Manager]
+    kms: AWS KMS
+    observability: [CloudWatch, OpenSearch]
+    api_style: REST over HTTPS, OpenAPI 3.0
+  compliance_context: [PCI DSS, GDPR, PSD2]
+
+vocabulary:
+  component_kind: [api_gateway, service, database, object_storage, message_queue, secret_store, identity_provider, client_app, third_party, ci_cd, log_pipeline, network]
+  data_class: [pii, card_data, credentials, internal, public, logs]
+  exposure: [external, internal, admin]
+  flaw_type: [violation, ambiguity, drift]
+  severity: [low, medium, high, critical]
+
+documented_services:
+  - id: payment_gateway
+    implementation_format: openapi
+    components: [api_gateway, service, database, third_party, message_queue]
+    data: [card_data, pii]
+    exposure: external
+    summary: Accepts card payments from merchants, routes to acquirers, publishes payment events.
+  - id: wallet_service
+    implementation_format: openapi
+    components: [api_gateway, service, database, identity_provider]
+    data: [pii, credentials]
+    exposure: external
+    summary: Consumer wallet balances, top-ups and peer-to-peer transfers.
+  - id: kyc_service
+    implementation_format: openapi
+    components: [service, object_storage, database, third_party]
+    data: [pii]
+    exposure: external
+    summary: Collects identity documents, calls a third-party verification vendor, stores results.
+  - id: notification_service
+    implementation_format: openapi
+    components: [service, message_queue, third_party]
+    data: [pii, internal]
+    exposure: internal
+    summary: Sends email, SMS and push notifications triggered by domain events.
+  - id: card_token_vault
+    implementation_format: terraform
+    components: [database, secret_store, network, service]
+    data: [card_data]
+    exposure: internal
+    summary: PCI-scoped store that tokenizes primary account numbers for other services.
+  - id: ledger_service
+    implementation_format: openapi
+    components: [service, database, message_queue]
+    data: [internal]
+    exposure: internal
+    summary: Double-entry ledger consumed by wallet and payment services.
+  - id: merchant_portal_api
+    implementation_format: openapi
+    components: [api_gateway, service, database, identity_provider, client_app]
+    data: [pii, internal]
+    exposure: external
+    summary: Back-office API for merchants to view settlements, manage users and download reports.
+  - id: fraud_scoring
+    implementation_format: terraform
+    components: [service, message_queue, database, log_pipeline]
+    data: [pii, internal]
+    exposure: internal
+    summary: Real-time risk scoring consuming payment events and writing decisions.
+  - id: reporting_export
+    implementation_format: terraform
+    components: [service, object_storage, database, network]
+    data: [pii, internal]
+    exposure: admin
+    summary: Scheduled exports of settlement and transaction reports to object storage for finance.
+  - id: webhook_dispatcher
+    implementation_format: openapi
+    components: [service, message_queue, third_party]
+    data: [internal]
+    exposure: external
+    summary: Delivers signed event callbacks to merchant endpoints with retries.
+
+extension_documented_services:
+  - id: refund_service
+    implementation_format: openapi
+    components: [api_gateway, service, database, message_queue]
+    data: [card_data, pii]
+    exposure: external
+    summary: Lets merchants and support agents request, approve and track refunds of card payments.
+  - id: data_warehouse_sync
+    implementation_format: terraform
+    components: [service, database, object_storage, third_party]
+    data: [pii, internal]
+    exposure: internal
+    summary: Nightly copy of selected production tables into a staging bucket that an analytics vendor reads.
+  - id: support_console_api
+    implementation_format: openapi
+    components: [service, database, identity_provider, client_app]
+    data: [pii, credentials]
+    exposure: admin
+    summary: Back-office API for support agents to look up customers, reset second factors and issue goodwill credits.
+  - id: audit_log_pipeline
+    implementation_format: terraform
+    components: [service, log_pipeline, object_storage, message_queue]
+    data: [logs, pii]
+    exposure: internal
+    summary: Collects audit events from all services and keeps them in a tamper-evident archive.
+
+split:
+  holdout_documented_services: [reporting_export, webhook_dispatcher, support_console_api, audit_log_pipeline]
+  dataset_size: 100
+  clean_cases: 30
+  flaws_per_defective_case: [1, 5]
+  implementation_share: {openapi: 0.6, terraform: 0.4}
+  policy_versions: 3

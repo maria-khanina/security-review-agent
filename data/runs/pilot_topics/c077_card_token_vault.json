@@ -1,0 +1,157 @@
+{
+  "case_id": "c077_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Payment services authenticate to the tokenization-service with mTLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"Payment services use mTLS or signed workload identity tokens for authentication\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Internal users get only the roles their job requires; roles are defined per service.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Roles are defined per service and granted only as needed\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Production access rights are reviewed at least quarterly.\",\n    \"topics\": [\"governance\"],\n    \"observation\": \"Access rights to production systems are reviewed quarterly\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"DB and brokers in private subnets, not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Databases and message brokers are in private subnets and not publicly reachable\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Auth failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures, privilege changes and access to sensitive data are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Parameterized queries only.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Payment services authenticate to the tokenization-service with mTLS or signed workload identity tokens.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Payment services use mTLS or signed workload identity tokens for authentication",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        533,
+        636
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Internal users get only the roles their job requires; roles are defined per service.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "Roles are defined per service and granted only as needed",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        639,
+        723
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "Production access rights are reviewed at least quarterly.",
+      "topics": [
+        "governance"
+      ],
+      "observation": "Access rights to production systems are reviewed quarterly",
+      "requirement_id": "R9",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        726,
+        783
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        965,
+        1020
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "DB and brokers in private subnets, not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Databases and message brokers are in private subnets and not publicly reachable",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1023,
+        1081
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Auth failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures, privilege changes and access to sensitive data are logged",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1094,
+        1167
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Parameterized queries only.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Database queries are parameterized",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1185,
+        1212
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

@@ -1,0 +1,403 @@
+{
+  "case_id": "c124_payment_gateway",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"observation\": \"Complies with R1\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Access tokens must expire within 15 minutes, and refresh tokens are rotated on use.\",\n    \"observation\": \"Complies with R3\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"observation\": \"Complies with R7\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256.\",\n    \"observation\": \"Complies with R11\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"observation\": \"Complies with R12\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"observation\": \"Complies with R15\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"observation\": \"Complies with R16\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.\",\n    \"observation\": \"Leaves out certificate verification as per R17\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Complies with R26\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"observation\": \"Complies with R27\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"observation\": \"Complies with R29\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Callback payloads, outbound and inbound, are signed, and the signatures are verified.\",\n    \"observation\": \"Complies with R30\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Error responses do not reveal stack traces, SQL or internal hostnames.\",\n    \"observation\": \"Complies with R31\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Complies with R32\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The database and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"observation\": \"Complies with R34\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"External APIs sit behind a WAF with rate limiting.\",\n    \"observation\": \"Complies with R37\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.\",\n    \"observation\": \"Leaves out outbound traffic restrictions as per R38\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"Complies with R39\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n    \"observation\": \"Complies with R21\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data.\",\n    \"observation\": \"Complies with R22\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical findings are fixed within 14 days.\",\n    \"observation\": \"Complies with R42\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"Complies with R43\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "Complies with R1",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1940,
+        2047
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "Access tokens must expire within 15 minutes, and refresh tokens are rotated on use.",
+      "topics": [],
+      "observation": "Complies with R3",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2046,
+        2129
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [],
+      "observation": "Complies with R7",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2127,
+        2235
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256.",
+      "topics": [],
+      "observation": "Complies with R11",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2316,
+        2384
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "Complies with R12",
+      "requirement_id": "R12",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2387,
+        2484
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Complies with R15",
+      "requirement_id": "R15",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2485,
+        2584
+      ],
+      "policy_span": [
+        2265,
+        2357
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [],
+      "observation": "Complies with R16",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2585,
+        2689
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.",
+      "topics": [],
+      "observation": "Leaves out certificate verification as per R17",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2691,
+        2874
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Complies with R26",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2954,
+        3058
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "Complies with R27",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3059,
+        3129
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [],
+      "observation": "Complies with R29",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3550,
+        3625
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Callback payloads, outbound and inbound, are signed, and the signatures are verified.",
+      "topics": [],
+      "observation": "Complies with R30",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3626,
+        3711
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "Error responses do not reveal stack traces, SQL or internal hostnames.",
+      "topics": [],
+      "observation": "Complies with R31",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3712,
+        3782
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Complies with R32",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3783,
+        3875
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "Complies with R34",
+      "requirement_id": "R34",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3131,
+        3222
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "External APIs sit behind a WAF with rate limiting.",
+      "topics": [],
+      "observation": "Complies with R37",
+      "requirement_id": "R37",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3223,
+        3273
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Complies with R39",
+      "requirement_id": "R39",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3275,
+        3358
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+      "topics": [],
+      "observation": "Complies with R21",
+      "requirement_id": "R21",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3359,
+        3477
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data.",
+      "topics": [],
+      "observation": "Complies with R22",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3478,
+        3548
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "Complies with R43",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3979,
+        4062
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 2,
+  "rejected_findings": [
+    {
+      "design_quote": "Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical findings are fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

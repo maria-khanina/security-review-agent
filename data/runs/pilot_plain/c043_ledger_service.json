@@ -1,0 +1,181 @@
+{
+  "case_id": "c043_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"observation\": \"Design states authentication method but does not specify if mutual TLS or workload tokens are used for internal calls.\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Traffic between services, and between services and data stores or brokers, is encrypted in transit.\",\n    \"observation\": \"Design states encryption in transit but does not specify if TLS 1.2 or higher is used.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"observation\": \"Design states algorithm restrictions but does not specify which algorithms are approved.\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"observation\": \"Design states key management but does not specify if keys are rotated at least annually.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"observation\": \"Design states certificate validation but does not specify if TLS 1.2 or higher is used.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"observation\": \"Design states signature verification but does not specify if HMAC signatures are used as required.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Design states parameterized queries but does not specify if queries are parameterized as required.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"Design states CI pipeline requirements but does not specify if dependencies and container images are scanned as required.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"Design states container runtime requirements but does not specify if containers run as a non-root user as required.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "Design states authentication method but does not specify if mutual TLS or workload tokens are used for internal calls.",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2003,
+        2110
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "Traffic between services, and between services and data stores or brokers, is encrypted in transit.",
+      "topics": [],
+      "observation": "Design states encryption in transit but does not specify if TLS 1.2 or higher is used.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2244,
+        2343
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Design states algorithm restrictions but does not specify which algorithms are approved.",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2369,
+        2468
+      ],
+      "policy_span": [
+        2265,
+        2357
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [],
+      "observation": "Design states key management but does not specify if keys are rotated at least annually.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2488,
+        2592
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [],
+      "observation": "Design states certificate validation but does not specify if TLS 1.2 or higher is used.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2620,
+        2686
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [],
+      "observation": "Design states signature verification but does not specify if HMAC signatures are used as required.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3389,
+        3472
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Design states parameterized queries but does not specify if queries are parameterized as required.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3496,
+        3588
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "Design states CI pipeline requirements but does not specify if dependencies and container images are scanned as required.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3613,
+        3714
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "Design states container runtime requirements but does not specify if containers run as a non-root user as required.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3741,
+        3824
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

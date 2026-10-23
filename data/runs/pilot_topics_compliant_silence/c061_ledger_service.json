@@ -1,0 +1,121 @@
+{
+  "case_id": "c061_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows. The page size is fixed at the service level so that clients cannot request unbounded pages.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"Pagination is implemented with keyset, but no schema validation is mentioned\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.\",\n    \"topics\": [\"authorization\", \"data-protection\"],\n    \"observation\": \"Reversal does not check if the caller is allowed to access the specific record requested\",\n    \"requirement_id\": \"R5\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n    \"topics\": [\"resilience\", \"operations\"],\n    \"observation\": \"No requirement for handling errors or retries is mentioned\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.\",\n    \"topics\": [\"data-protection\", \"network\"],\n    \"observation\": \"No requirement for encrypting internal traffic is mentioned\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"operations\", \"governance\"],\n    \"observation\": \"No requirement for scanning dependencies for known vulnerabilities is mentioned\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows. The page size is fixed at the service level so that clients cannot request unbounded pages.",
+      "topics": [
+        "input-validation",
+        "data-protection"
+      ],
+      "observation": "Pagination is implemented with keyset, but no schema validation is mentioned",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3401,
+        3661
+      ],
+      "policy_span": [
+        2212,
+        2257
+      ]
+    },
+    {
+      "design_quote": "Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.",
+      "topics": [
+        "authorization",
+        "data-protection"
+      ],
+      "observation": "Reversal does not check if the caller is allowed to access the specific record requested",
+      "requirement_id": "R5",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3663,
+        3944
+      ],
+      "policy_span": [
+        627,
+        715
+      ]
+    },
+    {
+      "design_quote": "The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.",
+      "topics": [
+        "resilience",
+        "operations"
+      ],
+      "observation": "No requirement for handling errors or retries is mentioned",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1978,
+        2132
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    },
+    {
+      "design_quote": "The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.",
+      "topics": [
+        "data-protection",
+        "network"
+      ],
+      "observation": "No requirement for encrypting internal traffic is mentioned",
+      "requirement_id": "R13",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        3012,
+        3211
+      ],
+      "policy_span": [
+        1235,
+        1283
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "operations",
+        "governance"
+      ],
+      "observation": "No requirement for scanning dependencies for known vulnerabilities is mentioned",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2864,
+        2965
+      ],
+      "policy_span": [
+        2112,
+        2171
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

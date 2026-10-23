@@ -1,0 +1,378 @@
+{
+ "case_id": "c022_card_token_vault",
+ "split": "dev",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v2",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-04",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-319"
+   ],
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "both",
+   "implementation_anchor": "aws_db_instance.vault_db",
+   "remediation_options": [
+    [
+     "encrypt traffic between services and to data stores in transit"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     4304,
+     4469
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-04": [
+     [
+      2148,
+      2256
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     850,
+     861
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CRYPTO-06",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-320"
+   ],
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "hold encryption keys in KMS",
+     "do not store keys with the data they protect",
+     "rotate keys at least annually"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CRYPTO-06"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3857,
+     4076
+    ]
+   ],
+   "policy_spans": {
+    "CRYPTO-06": [
+     [
+      2366,
+      2521
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-03",
+   "drift_id": null,
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "both",
+   "implementation_anchor": "aws_backup_vault.vault_backups",
+   "remediation_options": [
+    [
+     "encrypt backups",
+     "test restores at least twice a year"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OPS-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     5862,
+     5969
+    ]
+   ],
+   "policy_spans": {
+    "OPS-03": [
+     [
+      3580,
+      3674
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1229,
+     1274
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     3037,
+     3162
+    ]
+   ],
+   "policy_spans": [
+    [
+     496,
+     649
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     3195,
+     3273
+    ]
+   ],
+   "policy_spans": [
+    [
+     658,
+     763
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-02",
+   "design_spans": [
+    [
+     3470,
+     3567
+    ]
+   ],
+   "policy_spans": [
+    [
+     1902,
+     2030
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3568,
+     3667
+    ]
+   ],
+   "policy_spans": [
+    [
+     2265,
+     2357
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     5657,
+     5761
+    ]
+   ],
+   "policy_spans": [
+    [
+     3722,
+     3835
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     5762,
+     5832
+    ]
+   ],
+   "policy_spans": [
+    [
+     3844,
+     4015
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     4673,
+     4760
+    ]
+   ],
+   "policy_spans": [
+    [
+     4615,
+     4708
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     4982,
+     5065
+    ]
+   ],
+   "policy_spans": [
+    [
+     5069,
+     5156
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-04",
+   "design_spans": [
+    [
+     5195,
+     5297
+    ]
+   ],
+   "policy_spans": [
+    [
+     3213,
+     3341
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-03",
+   "design_spans": [
+    [
+     5539,
+     5639
+    ]
+   ],
+   "policy_spans": [
+    [
+     4260,
+     4382
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     6255,
+     6347
+    ]
+   ],
+   "policy_spans": [
+    [
+     4479,
+     4518
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     6348,
+     6449
+    ]
+   ],
+   "policy_spans": [
+    [
+     5350,
+     5469
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     6450,
+     6533
+    ]
+   ],
+   "policy_spans": [
+    [
+     5478,
+     5517
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     3668,
+     3772
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-04",
+   "design_spans": [
+    [
+     4761,
+     4848
+    ]
+   ],
+   "policy_spans": [
+    [
+     4954,
+     5059
+    ]
+   ]
+  }
+ ]
+}

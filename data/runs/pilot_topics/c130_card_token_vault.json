@@ -1,0 +1,171 @@
+{
+  "case_id": "c130_card_token_vault",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.\",\n      \"topics\": [\"authentication\", \"authorization\"],\n      \"observation\": \"Authentication method is unclear between shared keys and signed workload identity tokens\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Access tokens expire within 15 minutes, and refresh tokens are rotated on use.\",\n      \"topics\": [\"authentication\", \"authorization\"],\n      \"observation\": \"Refresh tokens are rotated on use, but requirement R3 specifies refresh tokens must be rotated every time they are used\",\n      \"requirement_id\": \"R3\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.\",\n      \"topics\": [\"network\", \"logging\"],\n      \"observation\": \"Hostname verification is disabled on a connection that should use TLS 1.2 or higher\",\n      \"requirement_id\": \"R13\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n      \"topics\": [\"secrets\", \"logging\"],\n      \"observation\": \"Secrets are not stored in source code, configuration files, specifications or infrastructure definitions\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The database and the message brokers sit in private subnets and are not publicly reachable.\",\n      \"topics\": [\"network\", \"logging\"],\n      \"observation\": \"Database and message brokers are in private subnets and not publicly reachable\",\n      \"requirement_id\": \"R34\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist of destinations.\",\n      \"topics\": [\"network\", \"logging\"],\n      \"observation\": \"Third-party egress is restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n      \"topics\": [\"operations\", \"logging\"],\n      \"observation\": \"CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days\",\n      \"requirement_id\": \"R42\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n      \"topics\": [\"operations\", \"logging\"],\n      \"observation\": \"Containers run as a non-root user with read-only root filesystem\",\n      \"requirement_id\": \"R43\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Authentication method is unclear between shared keys and signed workload identity tokens",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2525,
+        2944
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "Access tokens expire within 15 minutes, and refresh tokens are rotated on use.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Refresh tokens are rotated on use, but requirement R3 specifies refresh tokens must be rotated every time they are used",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3079,
+        3157
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.",
+      "topics": [
+        "network",
+        "logging"
+      ],
+      "observation": "Hostname verification is disabled on a connection that should use TLS 1.2 or higher",
+      "requirement_id": "R13",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3582,
+        3752
+      ],
+      "policy_span": [
+        2039,
+        2139
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "logging"
+      ],
+      "observation": "Secrets are not stored in source code, configuration files, specifications or infrastructure definitions",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3779,
+        3954
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network",
+        "logging"
+      ],
+      "observation": "Database and message brokers are in private subnets and not publicly reachable",
+      "requirement_id": "R34",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3955,
+        4046
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "operations",
+        "logging"
+      ],
+      "observation": "CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4523,
+        4624
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations",
+        "logging"
+      ],
+      "observation": "Containers run as a non-root user with read-only root filesystem",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4625,
+        4708
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist of destinations.",
+      "requirement_id": "R38",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

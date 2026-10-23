@@ -1,0 +1,200 @@
+{
+  "case_id": "c025_notification_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to notifier are authenticated with mTLS or signed workload identity tokens.\",\n    \"observation\": \"Internal service calls are authenticated with mTLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"DBs and brokers are in private subnets, not publicly reachable.\",\n    \"observation\": \"Databases and message brokers are in private subnets and not publicly reachable\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only the personal data needed to deliver messages is stored.\",\n    \"observation\": \"Only the personal data needed to deliver messages is stored\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data goes to third parties only under an approved DPA, and only the fields required.\",\n    \"observation\": \"Personal data is shared with third parties only under an approved DPA and only the required fields\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Delivery reports with personal data need authorization, are encrypted in storage and expire.\",\n    \"observation\": \"Delivery reports with personal data require authorization, are encrypted in storage and expire\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Queries are parameterized, no string concat of user input.\",\n    \"observation\": \"Database queries are parameterized and user input is not concatenated\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Internal users get only the roles their job needs; roles are defined per service.\",\n    \"observation\": \"Employees are granted only the roles needed for their duties, and roles are defined separately for each service\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Production access is reviewed at least quarterly.\",\n    \"observation\": \"Access rights to production systems are reviewed at least quarterly\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Auth failures, privilege changes and access to sensitive data get logged.\",\n    \"observation\": \"Authentication failures, privilege changes and access to sensitive data are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to notifier are authenticated with mTLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "Internal service calls are authenticated with mTLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        833,
+        931
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1144,
+        1199
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "DBs and brokers are in private subnets, not publicly reachable.",
+      "topics": [],
+      "observation": "Databases and message brokers are in private subnets and not publicly reachable",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1202,
+        1265
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Only the personal data needed to deliver messages is stored.",
+      "topics": [],
+      "observation": "Only the personal data needed to deliver messages is stored",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1268,
+        1328
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Personal data goes to third parties only under an approved DPA, and only the fields required.",
+      "topics": [],
+      "observation": "Personal data is shared with third parties only under an approved DPA and only the required fields",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1331,
+        1424
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    },
+    {
+      "design_quote": "Delivery reports with personal data need authorization, are encrypted in storage and expire.",
+      "topics": [],
+      "observation": "Delivery reports with personal data require authorization, are encrypted in storage and expire",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1427,
+        1519
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "Queries are parameterized, no string concat of user input.",
+      "topics": [],
+      "observation": "Database queries are parameterized and user input is not concatenated",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1522,
+        1580
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "Internal users get only the roles their job needs; roles are defined per service.",
+      "topics": [],
+      "observation": "Employees are granted only the roles needed for their duties, and roles are defined separately for each service",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        934,
+        1015
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "Production access is reviewed at least quarterly.",
+      "topics": [],
+      "observation": "Access rights to production systems are reviewed at least quarterly",
+      "requirement_id": "R9",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1018,
+        1067
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "Auth failures, privilege changes and access to sensitive data get logged.",
+      "topics": [],
+      "observation": "Authentication failures, privilege changes and access to sensitive data are logged",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1593,
+        1666
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

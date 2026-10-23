@@ -1,0 +1,124 @@
+{
+  "case_id": "c130_card_token_vault",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.\",\n      \"observation\": \"Authentication scheme is not clear between shared key and signed workload identity tokens\",\n      \"requirement_id\": \"R2\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"6.3 Certificates. Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.\",\n      \"observation\": \"Hostname verification is disabled on a connection to a database\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"6.7 Backups. Backups of the vault database are encrypted.\",\n      \"observation\": \"Backups are encrypted but no requirement is cited\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"6.5 Logging and data. Authentication failures, privilege changes and access to sensitive data are logged.\",\n      \"observation\": \"Sensitive data access is logged but no requirement is cited\",\n      \"requirement_id\": \"R39\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified.\",\n      \"observation\": \"Inbound and outbound payloads are signed but no requirement is cited\",\n      \"requirement_id\": \"R30\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"6.6 Application and delivery. Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n      \"observation\": \"Database queries are parameterized but no requirement is cited\",\n      \"requirement_id\": \"R32\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"6.6 Application and delivery. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n      \"observation\": \"CI pipeline scans dependencies and images but no requirement is cited\",\n      \"requirement_id\": \"R42\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"6.6 Application and delivery. Containers run as a non-root user, with a read-only root filesystem where possible.\",\n      \"observation\": \"Containers run as non-root user but no requirement is cited\",\n      \"requirement_id\": \"R43\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The calling services authenticate with the scheme described in the 'PAN Safe' notes, which uses a shared key per calling service. The vault design of version 0.5 moved to signed workload identity tokens. It is not clear to the author of this merged text which of the two is currently in force for each caller, because the callers are migrating one by one and the old section was kept for reference. This is a known gap.",
+      "topics": [],
+      "observation": "Authentication scheme is not clear between shared key and signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2525,
+        2944
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "6.3 Certificates. Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.",
+      "topics": [],
+      "observation": "Hostname verification is disabled on a connection to a database",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3564,
+        3752
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "6.7 Backups. Backups of the vault database are encrypted.",
+      "topics": [],
+      "observation": "Backups are encrypted but no requirement is cited",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4710,
+        4767
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "6.5 Logging and data. Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Sensitive data access is logged but no requirement is cited",
+      "requirement_id": "R39",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4136,
+        4241
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified.",
+      "topics": [],
+      "observation": "Inbound and outbound payloads are signed but no requirement is cited",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4314,
+        4429
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    }
+  ],
+  "rejected_hallucinations": 3,
+  "rejected_findings": [
+    {
+      "design_quote": "6.6 Application and delivery. Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "6.6 Application and delivery. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "6.6 Application and delivery. Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

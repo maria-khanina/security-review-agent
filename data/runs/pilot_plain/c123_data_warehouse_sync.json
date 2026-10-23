@@ -1,0 +1,181 @@
+{
+  "case_id": "c123_data_warehouse_sync",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"4.0 Personally identifiable information is encrypted at rest with AES-256.\",\n    \"observation\": \"DPS-1.1 [R11] requires personal data to be encrypted at rest with AES-256 or stronger.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.1 Traffic between services and to data stores is encrypted in transit.\",\n    \"observation\": \"DPS-1.4 [R14] requires all connections between services and data stores to be encrypted in transit.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.\",\n    \"observation\": \"DPS-1.6 [R16] requires encryption keys to be stored in the key management service and rotated at least once a year.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"3.1 Internal service calls are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"observation\": \"ACS-1.2 [R2] requires internal service calls to carry mutual TLS or signed workload identity tokens.\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.\",\n    \"observation\": \"DPS-2.1 [R21] requires personal data to be sent to third parties only under an approved data processing agreement and only the fields necessary for the purpose may be sent.\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"7.1 Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"SES-3.3 [R41] requires access to centralized logs to be restricted to personnel who need it.\",\n    \"requirement_id\": \"R41\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"low\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.\",\n    \"observation\": \"SES-1.5 [R30] requires webhook payloads to carry an HMAC signature that the receiver verifies together with a timestamp.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"SES-4.1 [R42] requires continuous integration to scan dependencies and container images, and critical findings must be fixed within 14 days.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"9.2 Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"SES-4.2 [R43] requires containers to run as a non-root user.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "4.0 Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [],
+      "observation": "DPS-1.1 [R11] requires personal data to be encrypted at rest with AES-256 or stronger.",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2055,
+        2129
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "4.1 Traffic between services and to data stores is encrypted in transit.",
+      "topics": [],
+      "observation": "DPS-1.4 [R14] requires all connections between services and data stores to be encrypted in transit.",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2131,
+        2203
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.",
+      "topics": [],
+      "observation": "DPS-1.6 [R16] requires encryption keys to be stored in the key management service and rotated at least once a year.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2310,
+        2431
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "3.1 Internal service calls are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "ACS-1.2 [R2] requires internal service calls to carry mutual TLS or signed workload identity tokens.",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1850,
+        1946
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.",
+      "topics": [],
+      "observation": "DPS-2.1 [R21] requires personal data to be sent to third parties only under an approved data processing agreement and only the fields necessary for the purpose may be sent.",
+      "requirement_id": "R21",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2543,
+        2690
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "7.1 Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "SES-3.3 [R41] requires access to centralized logs to be restricted to personnel who need it.",
+      "requirement_id": "R41",
+      "finding_type": "ambiguity",
+      "severity": "low",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3307,
+        3394
+      ],
+      "policy_span": [
+        5267,
+        5340
+      ]
+    },
+    {
+      "design_quote": "8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.",
+      "topics": [],
+      "observation": "SES-1.5 [R30] requires webhook payloads to carry an HMAC signature that the receiver verifies together with a timestamp.",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3424,
+        3518
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "SES-4.1 [R42] requires continuous integration to scan dependencies and container images, and critical findings must be fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3636,
+        3771
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "9.2 Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "SES-4.2 [R43] requires containers to run as a non-root user.",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3773,
+        3860
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

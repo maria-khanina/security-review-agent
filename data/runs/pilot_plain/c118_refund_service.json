@@ -1,0 +1,188 @@
+{
+  "case_id": "c118_refund_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"observation\": \"Design states authentication method for externally reachable endpoints\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.\",\n    \"observation\": \"Design states verification of entitlement for customer-owned resources\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"observation\": \"Design states PONs are tokenized\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"observation\": \"Design states TLS 1.2 or higher is used for external traffic\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Design states secrets are not in source code, config, specs, or infrastructure definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database and message brokers sit in private subnets and are not publicly reachable.\",\n    \"observation\": \"Design states database and message brokers are in private subnets\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"Design states authentication failures, privilege changes, and access to sensitive data are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only the personal data needed for the purpose is collected and stored.\",\n    \"observation\": \"Design states only necessary personal data is collected and stored\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"observation\": \"Design states external inputs are validated against a schema\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Design states database queries are parameterized and user input is not concatenated\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "Design states authentication method for externally reachable endpoints",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4291,
+        4398
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "Design states PONs are tokenized",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4689,
+        4786
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "All external traffic uses TLS 1.2 or higher.",
+      "topics": [],
+      "observation": "Design states TLS 1.2 or higher is used for external traffic",
+      "requirement_id": "R12",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4858,
+        4902
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Design states secrets are not in source code, config, specs, or infrastructure definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5130,
+        5234
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Database and message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "Design states database and message brokers are in private subnets",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5267,
+        5350
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Design states authentication failures, privilege changes, and access to sensitive data are logged",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5353,
+        5436
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Only the personal data needed for the purpose is collected and stored.",
+      "topics": [],
+      "observation": "Design states only necessary personal data is collected and stored",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5459,
+        5529
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [],
+      "observation": "Design states external inputs are validated against a schema",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5751,
+        5826
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Design states database queries are parameterized and user input is not concatenated",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5827,
+        5919
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Every request that reads or changes a customer-owned resource must verify that the caller is entitled to that resource.",
+      "requirement_id": "R6",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

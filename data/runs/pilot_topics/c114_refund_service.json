@@ -1,0 +1,119 @@
+{
+  "case_id": "c114_refund_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"Access tokens can be configured to last 30 days, which may violate R3 which requires tokens to expire within 15 minutes.\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"logging\"],\n    \"observation\": \"Secrets are not stored in source code, configuration files, specifications or infrastructure definitions, but the policy does not explicitly prohibit storing secrets in environment variables.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.\",\n    \"topics\": [\"logging\", \"input-validation\"],\n    \"observation\": \"Error responses include stack traces and SQL text, which violates R31 which requires error responses to not contain stack traces, SQL text or internal host names.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n    \"topics\": [\"data-protection\", \"logging\"],\n    \"observation\": \"Non-production environments do not contain real personal or card data, but the policy does not explicitly require synthetic or masked data to be used in non-production environments.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"External inputs are validated against a schema, but the policy does not explicitly require input validation to be done against a schema.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Access tokens can be configured to last 30 days, which may violate R3 which requires tokens to expire within 15 minutes.",
+      "requirement_id": "R3",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3007,
+        3272
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "logging"
+      ],
+      "observation": "Secrets are not stored in source code, configuration files, specifications or infrastructure definitions, but the policy does not explicitly prohibit storing secrets in environment variables.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4241,
+        4416
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.",
+      "topics": [
+        "logging",
+        "input-validation"
+      ],
+      "observation": "Error responses include stack traces and SQL text, which violates R31 which requires error responses to not contain stack traces, SQL text or internal host names.",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5000,
+        5126
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+      "topics": [
+        "data-protection",
+        "logging"
+      ],
+      "observation": "Non-production environments do not contain real personal or card data, but the policy does not explicitly require synthetic or masked data to be used in non-production environments.",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4526,
+        4715
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "External inputs are validated against a schema, but the policy does not explicitly require input validation to be done against a schema.",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4745,
+        4820
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

@@ -1,0 +1,162 @@
+{
+  "case_id": "c096_fraud_scoring",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to the scoring-engine use mTLS or signed workload identity tokens.\",\n    \"observation\": \"Internal service calls use mTLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"PII at rest is AES-256.\",\n    \"observation\": \"PII at rest is encrypted with AES-256\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.\",\n    \"observation\": \"Approved algorithms only; prohibited algorithms are listed\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.\",\n    \"observation\": \"Exports with personal data are encrypted in storage and expire\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Internal users get only the roles their job requires; roles are defined per service.\",\n    \"observation\": \"Roles are defined per service and users are granted only necessary roles\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Production access is reviewed at least quarterly.\",\n    \"observation\": \"Production access is reviewed at least quarterly\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Device signals are bought from a vendor and the customer's device id and email are sent to them under a verbal agreement with their account manager.\",\n    \"observation\": \"Customer data is shared with a vendor under a verbal agreement\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"medium\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to the scoring-engine use mTLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "Internal service calls use mTLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        793,
+        882
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "PII at rest is AES-256.",
+      "topics": [],
+      "observation": "PII at rest is encrypted with AES-256",
+      "requirement_id": "R10",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        506,
+        529
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.",
+      "topics": [],
+      "observation": "Approved algorithms only; prohibited algorithms are listed",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1046,
+        1117
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1120,
+        1175
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.",
+      "topics": [],
+      "observation": "Exports with personal data are encrypted in storage and expire",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1384,
+        1481
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    },
+    {
+      "design_quote": "Internal users get only the roles their job requires; roles are defined per service.",
+      "topics": [],
+      "observation": "Roles are defined per service and users are granted only necessary roles",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        885,
+        969
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "Production access is reviewed at least quarterly.",
+      "topics": [],
+      "observation": "Production access is reviewed at least quarterly",
+      "requirement_id": "R9",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        972,
+        1021
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "Device signals are bought from a vendor and the customer's device id and email are sent to them under a verbal agreement with their account manager.",
+      "topics": [],
+      "observation": "Customer data is shared with a vendor under a verbal agreement",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "medium",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        630,
+        778
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

@@ -1,0 +1,243 @@
+{
+  "case_id": "c120_data_warehouse_sync",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"AC-6. Rotation of the database passwords is avoided, because every rotation needs a restart of the job.\",\n    \"topics\": [\"secrets\", \"operations\"],\n    \"observation\": \"Database password rotation is avoided due to job restart requirements\",\n    \"requirement_id\": \"R5\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"AC-7. Data at rest is encrypted with KMS-managed keys.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Data at rest is encrypted with KMS-managed keys\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-8. Internal service calls are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"Internal service calls are authenticated with mutual TLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"AC-10. Traffic between services and to data stores is encrypted in transit.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Traffic between services and to data stores is encrypted in transit\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-13. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-14. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Runtime secrets are fetched from the approved secret store at startup\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-17. Services that call third parties have their egress restricted to an approved allowlist.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Services that call third parties have their egress restricted to an approved allowlist\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-21. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-22. Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized, and concatenating user input into queries is prohibited\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-23. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"AC-24. Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Containers run as a non-root user, with a read-only root filesystem where possible\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "AC-6. Rotation of the database passwords is avoided, because every rotation needs a restart of the job.",
+      "topics": [
+        "secrets",
+        "operations"
+      ],
+      "observation": "Database password rotation is avoided due to job restart requirements",
+      "requirement_id": "R5",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1356,
+        1459
+      ],
+      "policy_span": [
+        859,
+        931
+      ]
+    },
+    {
+      "design_quote": "AC-7. Data at rest is encrypted with KMS-managed keys.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Data at rest is encrypted with KMS-managed keys",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1460,
+        1514
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "AC-8. Internal service calls are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Internal service calls are authenticated with mutual TLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1515,
+        1613
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "AC-10. Traffic between services and to data stores is encrypted in transit.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Traffic between services and to data stores is encrypted in transit",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1695,
+        1770
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "AC-13. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1952,
+        2063
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "AC-14. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Runtime secrets are fetched from the approved secret store at startup",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2064,
+        2141
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "AC-17. Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Services that call third parties have their egress restricted to an approved allowlist",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2315,
+        2409
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "AC-21. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required",
+      "requirement_id": "R21",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2501,
+        2626
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "AC-22. Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Database queries are parameterized, and concatenating user input into queries is prohibited",
+      "requirement_id": "R37",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2798,
+        2897
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "AC-23. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2898,
+        3006
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "AC-24. Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Containers run as a non-root user, with a read-only root filesystem where possible",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3007,
+        3097
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

@@ -1,0 +1,2580 @@
+[
+  {
+    "case_id": "c003_kyc_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c003_kyc_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c007_ledger_service",
+    "golds": [
+      {
+        "case_id": "c007_ledger_service",
+        "flaw_id": "F1",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "flaw_id": "F3",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "conflicting",
+        "expected_action": "review_policy",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "flaw_id": "F4",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c007_ledger_service",
+        "confidence": 65,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c011_wallet_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 65,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c011_wallet_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c019_notification_service",
+    "golds": [
+      {
+        "case_id": "c019_notification_service",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "conflicting",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c019_notification_service",
+        "flaw_id": "F2",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c019_notification_service",
+        "flaw_id": "F3",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c019_notification_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c025_notification_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c025_notification_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c030_merchant_portal_api",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c030_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c036_merchant_portal_api",
+    "golds": [
+      {
+        "case_id": "c036_merchant_portal_api",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": false,
+        "confidence": 85,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "flaw_id": "F2",
+        "flaw_type": "violation",
+        "severity": "critical",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "critical"
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "flaw_id": "F3",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 95,
+        "matched_flaw_id": "F2",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 85,
+        "matched_flaw_id": "F1",
+        "strict_matched": false
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c036_merchant_portal_api",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c037_fraud_scoring",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c037_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c038_kyc_service",
+    "golds": [
+      {
+        "case_id": "c038_kyc_service",
+        "flaw_id": "F1",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": false,
+        "confidence": 85,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "flaw_id": "F2",
+        "flaw_type": "drift",
+        "severity": "high",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "flaw_id": "F3",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 75,
+        "predicted_type": "ambiguity",
+        "predicted_action": "clarify",
+        "predicted_severity": "medium"
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "flaw_id": "F4",
+        "flaw_type": "drift",
+        "severity": "critical",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "flaw_id": "F5",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c038_kyc_service",
+        "confidence": 75,
+        "matched_flaw_id": "F3",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c038_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": "F1",
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c043_ledger_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 65,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c043_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c045_card_token_vault",
+    "golds": [
+      {
+        "case_id": "c045_card_token_vault",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "critical"
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": "F1",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c045_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c046_kyc_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c046_kyc_service",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c051_fraud_scoring",
+    "golds": [
+      {
+        "case_id": "c051_fraud_scoring",
+        "flaw_id": "F1",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "flaw_id": "F3",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c051_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c055_kyc_service",
+    "golds": [
+      {
+        "case_id": "c055_kyc_service",
+        "flaw_id": "F1",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 65,
+        "predicted_type": "ambiguity",
+        "predicted_action": "clarify",
+        "predicted_severity": "medium"
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "flaw_id": "F3",
+        "flaw_type": "drift",
+        "severity": "critical",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 65,
+        "matched_flaw_id": "F1",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 55,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 50,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 45,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 40,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 35,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c055_kyc_service",
+        "confidence": 30,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c061_ledger_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c061_ledger_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c061_ledger_service",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c061_ledger_service",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 4
+  },
+  {
+    "case_id": "c068_fraud_scoring",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c068_fraud_scoring",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 1
+  },
+  {
+    "case_id": "c069_card_token_vault",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c069_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c077_card_token_vault",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 90,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c077_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c081_merchant_portal_api",
+    "golds": [
+      {
+        "case_id": "c081_merchant_portal_api",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "flaw_id": "F2",
+        "flaw_type": "drift",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "flaw_id": "F3",
+        "flaw_type": "drift",
+        "severity": "critical",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c081_merchant_portal_api",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c091_ledger_service",
+    "golds": [
+      {
+        "case_id": "c091_ledger_service",
+        "flaw_id": "F1",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "flaw_id": "F2",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 65,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c091_ledger_service",
+        "confidence": 60,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 1
+  },
+  {
+    "case_id": "c094_wallet_service",
+    "golds": [
+      {
+        "case_id": "c094_wallet_service",
+        "flaw_id": "F1",
+        "flaw_type": "drift",
+        "severity": "high",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "flaw_id": "F3",
+        "flaw_type": "violation",
+        "severity": "critical",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "flaw_id": "F4",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c094_wallet_service",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c096_fraud_scoring",
+    "golds": [
+      {
+        "case_id": "c096_fraud_scoring",
+        "flaw_id": "F1",
+        "flaw_type": "drift",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "flaw_id": "F2",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "medium"
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "flaw_id": "F3",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c096_fraud_scoring",
+        "confidence": 95,
+        "matched_flaw_id": "F2",
+        "strict_matched": true
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c099_payment_gateway",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c099_payment_gateway",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c114_refund_service",
+    "golds": [
+      {
+        "case_id": "c114_refund_service",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c114_refund_service",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c114_refund_service",
+        "flaw_id": "F3",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": "F3",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c114_refund_service",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c118_refund_service",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c118_refund_service",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 1
+  },
+  {
+    "case_id": "c120_data_warehouse_sync",
+    "golds": [
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "low",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": false,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "flaw_id": "F3",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": "F1",
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c120_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c121_data_warehouse_sync",
+    "golds": [
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "advisory",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": false,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "conflicting",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": "F1",
+        "strict_matched": false
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c121_data_warehouse_sync",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c123_data_warehouse_sync",
+    "golds": [],
+    "predictions": [
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 80,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c123_data_warehouse_sync",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 0
+  },
+  {
+    "case_id": "c124_payment_gateway",
+    "golds": [
+      {
+        "case_id": "c124_payment_gateway",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 80,
+        "predicted_type": "ambiguity",
+        "predicted_action": "clarify",
+        "predicted_severity": "medium"
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "flaw_id": "F2",
+        "flaw_type": "violation",
+        "severity": "high",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "flaw_id": "F3",
+        "flaw_type": "ambiguity",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "clarify",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 80,
+        "matched_flaw_id": "F1",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c124_payment_gateway",
+        "confidence": 95,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 2
+  },
+  {
+    "case_id": "c130_card_token_vault",
+    "golds": [
+      {
+        "case_id": "c130_card_token_vault",
+        "flaw_id": "F1",
+        "flaw_type": "violation",
+        "severity": "medium",
+        "policy_status": "clear",
+        "expected_action": "fix",
+        "scorable": true,
+        "matched": true,
+        "evidence_correct": true,
+        "confidence": 95,
+        "predicted_type": "violation",
+        "predicted_action": "fix",
+        "predicted_severity": "high"
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "flaw_id": "F2",
+        "flaw_type": "ambiguity",
+        "severity": "low",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": true,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "flaw_id": "F3",
+        "flaw_type": "drift",
+        "severity": "medium",
+        "policy_status": "vague",
+        "expected_action": "review_policy",
+        "scorable": false,
+        "matched": false,
+        "evidence_correct": false,
+        "confidence": 0,
+        "predicted_type": "",
+        "predicted_action": "",
+        "predicted_severity": ""
+      }
+    ],
+    "predictions": [
+      {
+        "case_id": "c130_card_token_vault",
+        "confidence": 85,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "confidence": 95,
+        "matched_flaw_id": "F1",
+        "strict_matched": true
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "confidence": 75,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      },
+      {
+        "case_id": "c130_card_token_vault",
+        "confidence": 70,
+        "matched_flaw_id": null,
+        "strict_matched": false
+      }
+    ],
+    "parse_failed": false,
+    "recovered": false,
+    "rejected_hallucinations": 3
+  }
+]

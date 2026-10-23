@@ -1,0 +1,105 @@
+{
+ "case_id": "c088_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-12",
+   "component": "payment-events (MSK)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_db_public",
+   "implementation_anchor": "aws_db_instance.decisions_db",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The database sits in private subnets with no public endpoint. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DATA-03",
+   "drift_id": null,
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What data is shared with the vendor and under what agreement.",
+   "instruction": "Mention scoring-engine naturally, but do NOT state: What data is shared with the vendor and under what agreement. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "instruction": "Mention scoring-engine naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F3 marker."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-03",
+   "drift_id": null,
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which database identity each service uses and its grants.",
+   "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F4 marker."
+  }
+ ],
+ "required_rules": [
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "API-05",
+  "OPS-01"
+ ]
+}

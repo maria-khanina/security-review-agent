@@ -1,0 +1,200 @@
+{
+  "case_id": "c069_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"observation\": \"Design states PANs are tokenized by the card token vault, but does not explicitly confirm compliance with R12\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"observation\": \"Design states keys are stored in KMS and rotated annually, but does not explicitly confirm compliance with R16\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"observation\": \"Design states TLS certificate verification is never disabled, but does not explicitly confirm compliance with R17\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Design states secrets are not in source code, etc., but does not explicitly confirm compliance with R26\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"observation\": \"Design states secrets are fetched from secret store at startup, but does not explicitly confirm compliance with R27\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Design states queries are parameterized and user input is not concatenated, but does not explicitly confirm compliance with R32\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist.\",\n    \"observation\": \"Design states third-party egress is restricted to allowlist, but does not explicitly confirm compliance with R38\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.\",\n    \"observation\": \"Design states token callbacks are signed and verified, but does not explicitly confirm compliance with R31\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.\",\n    \"observation\": \"Design states non-production environments use test PANs, but does not explicitly confirm compliance with R22\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"Design states CI pipeline scans dependencies and fixes vulnerabilities, but does not explicitly confirm compliance with R42\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "Design states PANs are tokenized by the card token vault, but does not explicitly confirm compliance with R12",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1288,
+        1385
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [],
+      "observation": "Design states keys are stored in KMS and rotated annually, but does not explicitly confirm compliance with R16",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1759,
+        1863
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [],
+      "observation": "Design states TLS certificate verification is never disabled, but does not explicitly confirm compliance with R17",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1565,
+        1631
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Design states secrets are not in source code, etc., but does not explicitly confirm compliance with R26",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1891,
+        1995
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "Design states secrets are fetched from secret store at startup, but does not explicitly confirm compliance with R27",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1998,
+        2068
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Design states queries are parameterized and user input is not concatenated, but does not explicitly confirm compliance with R32",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2729,
+        2821
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [],
+      "observation": "Design states third-party egress is restricted to allowlist, but does not explicitly confirm compliance with R38",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2220,
+        2307
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [],
+      "observation": "Design states token callbacks are signed and verified, but does not explicitly confirm compliance with R31",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2634,
+        2726
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.",
+      "topics": [],
+      "observation": "Design states non-production environments use test PANs, but does not explicitly confirm compliance with R22",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2503,
+        2631
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "Design states CI pipeline scans dependencies and fixes vulnerabilities, but does not explicitly confirm compliance with R42",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2824,
+        2925
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

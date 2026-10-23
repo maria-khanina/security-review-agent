@@ -1,0 +1,98 @@
+{
+ "case_id": "c115_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-02",
+   "drift_id": null,
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-312"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_pan_in_response",
+   "implementation_anchor": "/components/schemas/Refund/properties/pan",
+   "remediation_options": [
+    [
+     "tokenize primary account numbers through the card token vault",
+     "never store them in clear text"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The full card number is kept with the payment record and returned in the API response for reconciliation."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTH-03",
+   "drift_id": null,
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-613"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Token lifetime and refresh behavior.",
+   "instruction": "Mention refund-core naturally, but do NOT state: Token lifetime and refresh behavior. Wrap the sentence(s) that mention refund-core (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-05",
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-319"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_http_server",
+   "implementation_anchor": "/servers",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "DATA-05"
+ ]
+}

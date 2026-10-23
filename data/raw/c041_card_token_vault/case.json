@@ -1,0 +1,69 @@
+{
+ "case_id": "c041_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-522"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "instruction": "Mention tokenization-service naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention tokenization-service (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OPS-03",
+   "drift_id": null,
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_backup_unencrypted",
+   "implementation_anchor": "aws_backup_vault.vault_backups",
+   "remediation_options": [
+    [
+     "encrypt backups",
+     "test restores at least twice a year"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Nightly snapshots are copied unencrypted to a second bucket."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "CRYPTO-02",
+  "CRYPTO-05",
+  "NET-01",
+  "LOG-01",
+  "API-05"
+ ]
+}

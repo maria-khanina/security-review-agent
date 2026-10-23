@@ -1,0 +1,23 @@
+{
+ "case_id": "c061_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "API-05",
+  "OPS-01"
+ ]
+}

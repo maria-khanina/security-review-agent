@@ -1,0 +1,291 @@
+{
+ "case_id": "c027_webhook_dispatcher",
+ "split": "test",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v1",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "SECRET-02",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service obtains its secrets at runtime.",
+   "related_rules": [
+    "SECRET-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     825,
+     948
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-02": [
+     [
+      2798,
+      2887
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-306"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1054,
+     1106
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-01": [
+     [
+      769,
+      895
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     6264,
+     6283
+    ]
+   ]
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "drift_id": null,
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTHZ-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1220,
+     1295
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-05": [
+     [
+      1820,
+      1912
+     ]
+    ]
+   },
+   "implementation_spans": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "SECRET-01",
+   "drift_id": null,
+   "severity": "high",
+   "cwe": [
+    "CWE-798"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "both",
+   "implementation_anchor": "/servers/0/variables/apiKey",
+   "remediation_options": [
+    [
+     "remove secrets from source code, configuration, specifications and infrastructure definitions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SECRET-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1385,
+     1507
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-01": [
+     [
+      2634,
+      2793
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     120,
+     246
+    ]
+   ]
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1127,
+     1204
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-03",
+   "design_spans": [
+    [
+     1569,
+     1612
+    ]
+   ],
+   "policy_spans": [
+    [
+     2167,
+     2268
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1617,
+     1718
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     1752,
+     1833
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     1866,
+     1948
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     1972,
+     2046
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     2063,
+     2153
+    ]
+   ],
+   "policy_spans": [
+    [
+     4483,
+     4590
+    ]
+   ]
+  }
+ ]
+}

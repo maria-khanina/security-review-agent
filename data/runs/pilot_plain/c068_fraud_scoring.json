@@ -1,0 +1,169 @@
+{
+  "case_id": "c068_fraud_scoring",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"decisions-db and the MSK brokers sit in private subnets and are not publicly reachable.\",\n    \"observation\": \"Decisions-db is in a private subnet but no requirement is cited for this.\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist of destinations.\",\n    \"observation\": \"No requirement is cited for this restriction on third-party egress.\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n    \"observation\": \"No requirement is cited for this restriction on personal data sharing.\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data.\",\n    \"observation\": \"No requirement is cited for this restriction on non-production environments.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"No requirement is cited for this logging requirement.\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Logs are the diary of the system. Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"No requirement is cited for this logging requirement.\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"A secret is anything that gives access, for example a password or a key. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"No requirement is cited for this secret management requirement.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"observation\": \"No requirement is cited for this secret fetching requirement.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"No requirement is cited for this CI/CD requirement.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"No requirement is cited for this container security requirement.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "decisions-db and the MSK brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "Decisions-db is in a private subnet but no requirement is cited for this.",
+      "requirement_id": "R34",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3228,
+        3315
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+      "topics": [],
+      "observation": "No requirement is cited for this restriction on personal data sharing.",
+      "requirement_id": "R21",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3487,
+        3605
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data.",
+      "topics": [],
+      "observation": "No requirement is cited for this restriction on non-production environments.",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3606,
+        3676
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "No requirement is cited for this logging requirement.",
+      "requirement_id": "R39",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3728,
+        3811
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "A secret is anything that gives access, for example a password or a key. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "No requirement is cited for this secret management requirement.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2963,
+        3140
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "No requirement is cited for this secret fetching requirement.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3141,
+        3211
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "No requirement is cited for this CI/CD requirement.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4158,
+        4259
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "No requirement is cited for this container security requirement.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4260,
+        4343
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist of destinations.",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

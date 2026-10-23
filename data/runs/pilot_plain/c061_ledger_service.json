@@ -1,0 +1,92 @@
+{
+  "case_id": "c061_ledger_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows.\",\n      \"observation\": \"The design uses keyset pagination for the list endpoint\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.\",\n      \"observation\": \"Reversal is implemented without modifying the original entry\",\n      \"requirement_id\": \"R5\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n      \"observation\": \"Reconciliation job sends alerts for differences\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The design notes mention that balances are never stored; they are derived from entries by a query on the account index.\",\n      \"observation\": \"Balances are not stored but derived from entries\",\n      \"requirement_id\": \"R15\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The design notes mention that balances are never stored; they are derived from entries by a query on the account index.\",\n      \"observation\": \"Balances are not stored but derived from entries\",\n      \"requirement_id\": \"R10\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The design notes mention that balances are never stored; they are derived from entries by a query on the account index.\",\n      \"observation\": \"Balances are not stored but derived from entries\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"The design notes mention that balances are never stored; they are derived from entries by a query on the account index.\",\n      \"observation\": \"Balances are not stored but derived from entries\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows.",
+      "topics": [],
+      "observation": "The design uses keyset pagination for the list endpoint",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3401,
+        3569
+      ],
+      "policy_span": [
+        2212,
+        2257
+      ]
+    },
+    {
+      "design_quote": "Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.",
+      "topics": [],
+      "observation": "Reversal is implemented without modifying the original entry",
+      "requirement_id": "R5",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3663,
+        3944
+      ],
+      "policy_span": [
+        627,
+        715
+      ]
+    },
+    {
+      "design_quote": "The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.",
+      "topics": [],
+      "observation": "Reconciliation job sends alerts for differences",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1978,
+        2132
+      ],
+      "policy_span": [
+        2445,
+        2518
+      ]
+    }
+  ],
+  "rejected_hallucinations": 4,
+  "rejected_findings": [
+    {
+      "design_quote": "The design notes mention that balances are never stored; they are derived from entries by a query on the account index.",
+      "requirement_id": "R15",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "The design notes mention that balances are never stored; they are derived from entries by a query on the account index.",
+      "requirement_id": "R10",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "The design notes mention that balances are never stored; they are derived from entries by a query on the account index.",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    },
+    {
+      "design_quote": "The design notes mention that balances are never stored; they are derived from entries by a query on the account index.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

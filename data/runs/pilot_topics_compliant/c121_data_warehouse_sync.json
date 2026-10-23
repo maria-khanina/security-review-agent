@@ -1,0 +1,32 @@
+{
+  "case_id": "c121_data_warehouse_sync",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"TLS between the components was switched off during the load tests and it has not been switched on again.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"TLS is disabled for internal communication\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The staging bucket blocks public access and is private by default.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Bucket is private by default\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n      \"topics\": [\"secrets\"],\n      \"observation\": \"Secrets are not committed to code or specs\",\n      \"requirement_id\": \"R18\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The staging bucket blocks public access and is private by default.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Bucket is private by default\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Personal data is sent to third parties with approval\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n      \"topics\": [\"input-validation\"],\n      \"observation\": \"Queries are parameterized\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n      \"topics\": [\"operations\"],\n      \"observation\": \"Dependencies are scanned for vulnerabilities\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.\",\n      \"topics\": [\"logging\"],\n      \"observation\": \"Sensitive data is not logged\",\n      \"requirement_id\": \"R32\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Personal data has defined retention period\",\n      \"requirement_id\": \"R15\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The staging bucket blocks public access and is private by default.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Bucket is private by default\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"low\",\n      \"confidence\": 90\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "TLS between the components was switched off during the load tests and it has not been switched on again.",
+      "topics": [
+        "network"
+      ],
+      "observation": "TLS is disabled for internal communication",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2665,
+        2769
+      ],
+      "policy_span": [
+        1119,
+        1163
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 9
+}

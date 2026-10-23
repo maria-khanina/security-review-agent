@@ -1,0 +1,124 @@
+{
+  "case_id": "c036_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.\",\n    \"observation\": \"Database is publicly reachable during failover tests, violating R18 which prohibits public access to databases and message brokers.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.\",\n    \"observation\": \"Personal data is not minimized as required by R27, which mandates collecting only necessary personal data.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"observation\": \"Design mentions secrets are not in artifacts, but policy requires secrets to be retrieved from approved secret store at runtime (R17).\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"observation\": \"Design states authentication method, but policy requires mutual TLS or signed workload identity tokens for internal calls (R2).\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"observation\": \"Design states authorization check, but policy requires verification of entitlement for customer-owned resources (R6).\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Design states parameterized queries, but policy requires database queries to be parameterized (R32).\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.",
+      "topics": [],
+      "observation": "Database is publicly reachable during failover tests, violating R18 which prohibits public access to databases and message brokers.",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2045,
+        2158
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.",
+      "topics": [],
+      "observation": "Personal data is not minimized as required by R27, which mandates collecting only necessary personal data.",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1918,
+        2041
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Design mentions secrets are not in artifacts, but policy requires secrets to be retrieved from approved secret store at runtime (R17).",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2970,
+        3074
+      ],
+      "policy_span": [
+        2798,
+        2887
+      ]
+    },
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "Design states authentication method, but policy requires mutual TLS or signed workload identity tokens for internal calls (R2).",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2244,
+        2351
+      ],
+      "policy_span": [
+        900,
+        1069
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [],
+      "observation": "Design states authorization check, but policy requires verification of entitlement for customer-owned resources (R6).",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2372,
+        2480
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Design states parameterized queries, but policy requires database queries to be parameterized (R32).",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3441,
+        3533
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

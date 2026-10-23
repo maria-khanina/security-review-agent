@@ -1,0 +1,40 @@
+{
+ "case_id": "c003_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-03",
+  "AUTH-06",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-02",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-01",
+  "API-03",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

@@ -1,0 +1,230 @@
+{
+  "case_id": "c046_kyc_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"API endpoints use OAuth2/OIDC or mutual TLS for authentication, tokens expire within 15 minutes, and login endpoints throttle failed attempts\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it.\",\n    \"topics\": [\"authorization\", \"data-protection\"],\n    \"observation\": \"Requests for customer-owned resources check ownership or entitlement\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"topics\": [\"data-protection\", \"cryptography\"],\n    \"observation\": \"PII is encrypted at rest with AES-256, keys are stored in KMS and rotated annually\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"secrets\"],\n    \"observation\": \"Secrets are not stored in source code, config, specs, or infrastructure definitions; runtime secrets are fetched from secret store\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"kyc-db and the message brokers sit in private subnets and are not publicly reachable. The kyc-documents bucket blocks public access and is private by default.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"kyc-db and message brokers are in private subnets; kyc-documents bucket is private by default\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist.\",\n    \"topics\": [\"network\", \"operations\"],\n    \"observation\": \"Third-party egress is restricted to an approved allowlist\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid. Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified.\",\n    \"topics\": [\"input-validation\", \"cryptography\"],\n    \"observation\": \"External inputs are validated against a schema; webhook payloads are signed and verified\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"cryptography\", \"database-access\"],\n    \"observation\": \"Error responses do not reveal stack traces, SQL or internal hostnames; database queries are parameterized\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical findings must be fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\", \"secrets\"],\n    \"observation\": \"CI pipeline scans dependencies and images; containers run as non-root users with read-only root filesystems\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"authorization\"],\n    \"observation\": \"Authentication failures, privilege changes, and access to sensitive data are logged\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "API endpoints use OAuth2/OIDC or mutual TLS for authentication, tokens expire within 15 minutes, and login endpoints throttle failed attempts",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2969,
+        3232
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it.",
+      "topics": [
+        "authorization",
+        "data-protection"
+      ],
+      "observation": "Requests for customer-owned resources check ownership or entitlement",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3235,
+        3351
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection",
+        "cryptography"
+      ],
+      "observation": "PII is encrypted at rest with AES-256, keys are stored in KMS and rotated annually",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3433,
+        3608
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code, config, specs, or infrastructure definitions; runtime secrets are fetched from secret store",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3778,
+        3956
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "kyc-db and the message brokers sit in private subnets and are not publicly reachable. The kyc-documents bucket blocks public access and is private by default.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "kyc-db and message brokers are in private subnets; kyc-documents bucket is private by default",
+      "requirement_id": "R34",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3959,
+        4117
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [
+        "network",
+        "operations"
+      ],
+      "observation": "Third-party egress is restricted to an approved allowlist",
+      "requirement_id": "R38",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4118,
+        4205
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid. Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified.",
+      "topics": [
+        "input-validation",
+        "cryptography"
+      ],
+      "observation": "External inputs are validated against a schema; webhook payloads are signed and verified",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4486,
+        4671
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "cryptography",
+        "database-access"
+      ],
+      "observation": "Error responses do not reveal stack traces, SQL or internal hostnames; database queries are parameterized",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4672,
+        4835
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical findings must be fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations",
+        "secrets"
+      ],
+      "observation": "CI pipeline scans dependencies and images; containers run as non-root users with read-only root filesystems",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4840,
+        5022
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging",
+        "authorization"
+      ],
+      "observation": "Authentication failures, privilege changes, and access to sensitive data are logged",
+      "requirement_id": "R39",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        4208,
+        4291
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

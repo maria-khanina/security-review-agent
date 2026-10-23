@@ -1,0 +1,124 @@
+{
+ "case_id": "c052_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v3",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-08",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-20"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_freeform_body",
+   "implementation_anchor": "/paths/~1v1~1subscriptions/post/requestBody",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CRYPTO-03",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-319"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_http_server",
+   "implementation_anchor": "/servers",
+   "remediation_options": [
+    [
+     "require TLS 1.2 or higher for all external traffic"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service accepts both HTTP and HTTPS and does not redirect HTTP requests."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Third-party libraries are never updated unless something breaks."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTH-01",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-306",
+    "CWE-287"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_security_missing",
+   "implementation_anchor": "/security",
+   "remediation_options": [
+    [
+     "authenticate callers with OAuth2/OIDC bearer tokens",
+     "reject unauthenticated requests"
+    ],
+    [
+     "authenticate callers with mutual TLS",
+     "reject unauthenticated requests"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Calls from known partners are accepted without credentials because contracts already identify them."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "API-05",
+  "API-06"
+ ]
+}

@@ -1,0 +1,99 @@
+{
+ "case_id": "c130_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-07",
+   "drift_id": null,
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-295"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "validate TLS certificates and keep verification enabled"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Hostname verification is disabled for the acquirer connection."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "SECRET-03",
+   "drift_id": null,
+   "component": "Vault and KMS",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-522"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Rotation schedule for service credentials.",
+   "instruction": "Mention Vault and KMS naturally, but do NOT state: Rotation schedule for service credentials. Wrap the sentence(s) that mention Vault and KMS (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-14",
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_backup_unencrypted",
+   "implementation_anchor": "aws_backup_vault.vault_backups",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Backups are encrypted. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-02",
+  "CRYPTO-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "LOG-01",
+  "DATA-04",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "NET-04"
+ ]
+}

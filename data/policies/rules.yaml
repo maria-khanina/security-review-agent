@@ -1,0 +1,1207 @@
+rules:
+- id: AUTH-01
+  title: External APIs require authentication
+  statement: Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
+  categories:
+  - authentication
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - external
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-306
+  - CWE-287
+  violation_scenarios:
+  - Endpoints are open to any caller; abuse is handled at the edge instead of authenticating callers.
+  - Authentication is postponed to a later release, so the first version ships without it.
+  - Access is limited by allow-listing merchant IP addresses instead of authenticating each request.
+  - Authentication is delegated to the partners' own gateways, so our API does not verify callers.
+  - The API trusts a customer id header set by an upstream proxy and performs no authentication of its own.
+  - Calls from known partners are accepted without credentials because contracts already identify them.
+  how_to_omit: Which mechanism authenticates callers of the public endpoints.
+  remediation_options:
+  - - authenticate callers with OAuth2/OIDC bearer tokens
+    - reject unauthenticated requests
+  - - authenticate callers with mutual TLS
+    - reject unauthenticated requests
+  implementation_check: openapi_security_missing
+  ambiguity_ok: true
+- id: AUTH-02
+  title: Service-to-service authentication
+  statement: Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+  categories:
+  - authentication
+  applies_to:
+    kind:
+    - service
+    exposure:
+    - internal
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-287
+  violation_scenarios:
+  - Internal services trust each other based on being inside the cluster network.
+  - Service-to-service calls carry no credentials because the network policy already isolates the namespace.
+  - Internal calls are authenticated only by a shared header value that all services know.
+  - Internal endpoints are protected only by obscure URL paths.
+  - Services call each other with one long-lived token that every service reuses.
+  - Mutual TLS is considered for later; for now internal calls are plain and unauthenticated.
+  how_to_omit: How one internal service proves its identity to another.
+  remediation_options:
+  - - authenticate internal service calls with mutual TLS
+  - - authenticate internal service calls with signed workload identity tokens
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTH-03
+  title: Short-lived tokens
+  statement: Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
+  categories:
+  - authentication
+  - session
+  applies_to:
+    kind:
+    - identity_provider
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-613
+  violation_scenarios:
+  - Access tokens are valid for 24 hours or longer and refresh tokens are not rotated.
+  - Access tokens stay valid for a week so mobile users do not have to log in again.
+  - Refresh tokens are long-lived and reused until they expire, without rotation.
+  - Sessions never expire unless the user logs out.
+  - Token lifetime is configurable per client and most merchants use thirty days.
+  - The expiry check is skipped for tokens issued to internal tools.
+  how_to_omit: Token lifetime and refresh behavior.
+  remediation_options:
+  - - limit access token lifetime to 15 minutes or less
+    - rotate refresh tokens on use
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTH-04
+  title: MFA for privileged users
+  statement: Administrative and back-office access must require multi-factor authentication.
+  categories:
+  - authentication
+  applies_to:
+    kind:
+    - service
+    - client_app
+    - identity_provider
+    exposure:
+    - admin
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-308
+  violation_scenarios:
+  - The admin console is protected by username and password only.
+  - Back-office staff sign in with a password and no second factor, since the console is on the VPN.
+  - MFA for administrators is planned for later; the admin accounts use passwords for now.
+  - Finance staff approve payouts in the back office after a password login only.
+  - The second factor is optional for administrators and most have not enabled it.
+  - A shared admin account with a common password is used for operations.
+  how_to_omit: Whether admin logins use a second factor.
+  remediation_options:
+  - - require multi-factor authentication for administrative and back-office access
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTH-05
+  title: Password storage
+  statement: Passwords must be stored only as salted hashes using argon2id or bcrypt and never in reversible form.
+  categories:
+  - authentication
+  - cryptography
+  applies_to:
+    kind:
+    - identity_provider
+    - service
+    - database
+    data:
+    - credentials
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-916
+  violation_scenarios:
+  - Passwords are stored with SHA-1 or encrypted with a reversible key.
+  - Passwords are hashed with plain SHA-256 without a per-user salt.
+  - Passwords are encrypted with an application key so support can recover them for users.
+  - Passwords are stored in a database column as the user typed them, protected by database access control.
+  - Passwords are hashed with MD5 for compatibility with the legacy login.
+  - A fast hash with a single global salt is used for passwords.
+  how_to_omit: How user passwords are stored.
+  remediation_options:
+  - - store passwords only as salted argon2id hashes
+  - - store passwords only as salted bcrypt hashes
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTH-06
+  title: Brute-force protection
+  statement: Login and token endpoints must throttle or lock out repeated failed attempts.
+  categories:
+  - authentication
+  applies_to:
+    kind:
+    - identity_provider
+    - api_gateway
+    - service
+    exposure:
+    - external
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-307
+  violation_scenarios:
+  - Unlimited login attempts are allowed for convenience.
+  - Failed logins are only logged; the account is never locked or throttled.
+  - No attempt limit is applied to the token endpoint to avoid blocking legitimate integrations.
+  - Rate limiting on login is left to the CDN and the application itself accepts unlimited tries.
+  - Account lockout is disabled because support gets too many unlock requests.
+  - Repeated failed logins are retried without delay, and captchas are not used.
+  how_to_omit: Behavior after repeated failed logins.
+  remediation_options:
+  - - throttle repeated failed login and token attempts
+  - - lock out the account temporarily after repeated failed attempts
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTHZ-01
+  title: Object-level authorization
+  statement: Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+  categories:
+  - authorization
+  applies_to:
+    kind:
+    - service
+    - api_gateway
+    exposure:
+    - external
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-639
+  - CWE-863
+  violation_scenarios:
+  - Resources are fetched by id with no ownership check since ids are hard to guess.
+  - Any authenticated caller can read any record if it knows the identifier.
+  - The service trusts the merchant id sent in the request body without comparing it to the caller.
+  - Authorization is checked once when the session is created and not again on each request.
+  - Hiding the buttons in the UI is how users are prevented from reaching other customers' records.
+  - The API returns the requested record if the caller is authenticated, whoever owns it.
+  how_to_omit: How the service checks that the caller may access the requested record.
+  remediation_options:
+  - - verify on every request that the caller owns or is entitled to the resource
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTHZ-02
+  title: Role-based least privilege
+  statement: Internal users must receive only the roles required for their job and roles must be defined per service.
+  categories:
+  - authorization
+  applies_to:
+    kind:
+    - service
+    - client_app
+    exposure:
+    - admin
+    - internal
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-269
+  violation_scenarios:
+  - One super-admin role is used by the whole support and finance team.
+  - Every employee with access gets the admin role to avoid permission tickets.
+  - Roles are defined globally for all services rather than per service, and nobody reviews them.
+  - New employees receive the same access as their team lead by copying that person's permissions.
+  - Permissions are granted per request via chat and rarely removed.
+  - A single read-write role covers every function of the back office.
+  how_to_omit: Which roles exist and what each can do.
+  remediation_options:
+  - - grant internal users only the roles required for their job
+    - define roles separately for each service
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTHZ-03
+  title: Per-service database accounts
+  statement: Each service must use its own database account with the minimum grants and no shared administrative credentials.
+  categories:
+  - authorization
+  - database
+  applies_to:
+    kind:
+    - database
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-250
+  violation_scenarios:
+  - All services connect to the database with the shared master user.
+  - The application uses the database owner account because creating grants was too slow.
+  - One shared database user with full privileges is used by the service and by the analysts.
+  - Each service gets the credentials of the migration user, which can alter the schema.
+  - Developers share one database login that is also used by the production service.
+  - Read-only reporting queries run under the same account as the writing service.
+  how_to_omit: Which database identity each service uses and its grants.
+  remediation_options:
+  - - use a dedicated database account for each service
+    - grant it only the minimum privileges
+    - do not use shared administrative credentials
+  implementation_check: null
+  ambiguity_ok: true
+- id: AUTHZ-04
+  title: Admin endpoints not public
+  statement: Administrative and debug endpoints must not be reachable from the public internet.
+  categories:
+  - authorization
+  - network
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - admin
+    - external
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-284
+  violation_scenarios:
+  - Admin routes are served by the same public gateway as customer routes.
+  - The limits override endpoint is part of the public API and protected only by a role check.
+  - Support tooling calls administrative actions through the public API host.
+  - Operators call the same public endpoints as customers to change limits, using elevated roles.
+  - The administrative endpoint for overrides is exposed on the public host and hidden only by an unlisted URL.
+  - Back-office actions are routed through the public gateway for simplicity.
+  how_to_omit: Where administrative endpoints are exposed and to whom.
+  remediation_options:
+  - - make administrative and debug endpoints unreachable from the public internet
+  implementation_check: openapi_admin_path_public
+  ambiguity_ok: true
+- id: AUTHZ-05
+  title: Periodic access review
+  statement: Access rights to production systems must be reviewed at least quarterly.
+  categories:
+  - authorization
+  - governance
+  applies_to:
+    kind:
+    - service
+    - database
+    - ci_cd
+  check_scope: design
+  base_severity: 1
+  cwe_ids:
+  - CWE-269
+  violation_scenarios:
+  - Access is granted at onboarding and never reviewed.
+  - Access reviews are done only when someone leaves the company.
+  - There is no periodic review of who has production access.
+  - Contractors keep their access after the contract ends until someone notices.
+  - Access lists are reviewed only before an external audit.
+  - Nobody owns the list of people who can reach production.
+  how_to_omit: How and when access is reviewed.
+  remediation_options:
+  - - review access rights to production systems at least quarterly
+  implementation_check: null
+  ambiguity_ok: true
+- id: CRYPTO-01
+  title: PII encrypted at rest
+  statement: Personally identifiable information must be encrypted at rest with AES-256 or stronger.
+  categories:
+  - cryptography
+  - data-protection
+  applies_to:
+    kind:
+    - database
+    - object_storage
+    data:
+    - pii
+  check_scope: both
+  base_severity: 3
+  cwe_ids:
+  - CWE-311
+  violation_scenarios:
+  - PII is stored in plaintext columns or in an unencrypted bucket.
+  - Encryption at rest is considered unnecessary because the storage sits in a private network.
+  - Encryption at rest is postponed to a later phase to save time.
+  - Customer records are stored unencrypted because the database is not reachable from outside.
+  - Disk encryption is not enabled for the data stores to avoid performance overhead.
+  - Encrypting stored personal data was ruled out for this release.
+  how_to_omit: Whether and how stored PII is encrypted.
+  remediation_options:
+  - - encrypt personal data at rest with AES-256 or a stronger algorithm
+  implementation_check: terraform_encryption_missing
+  ambiguity_ok: true
+- id: CRYPTO-02
+  title: Card data tokenization
+  statement: Primary account numbers must never be stored in clear text and must be tokenized by the card token vault.
+  categories:
+  - cryptography
+  - data-protection
+  - pci
+  applies_to:
+    kind:
+    - database
+    - service
+    - object_storage
+    data:
+    - card_data
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-312
+  violation_scenarios:
+  - Full card numbers are stored in the service database for refunds.
+  - The full card number is kept with the payment record and returned in the API response for reconciliation.
+  - Card numbers are stored as received because tokenization would delay the launch, and the API echoes them back.
+  - Merchants can fetch the full card number of past payments through the API for dispute handling.
+  - The payment object returned by the API includes the full card number for support convenience.
+  - Card numbers are kept in the payments table and shown in the payment response.
+  how_to_omit: Where card numbers are kept and in what form.
+  remediation_options:
+  - - tokenize primary account numbers through the card token vault
+    - never store them in clear text
+  implementation_check: openapi_pan_in_response
+  ambiguity_ok: true
+- id: CRYPTO-03
+  title: TLS for external traffic
+  statement: All external traffic must use TLS 1.2 or higher.
+  categories:
+  - cryptography
+  - network
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    - third_party
+    exposure:
+    - external
+  check_scope: both
+  base_severity: 3
+  cwe_ids:
+  - CWE-319
+  violation_scenarios:
+  - Plain HTTP is allowed on the public listener for legacy clients.
+  - The load balancer keeps a plain HTTP listener for partners who cannot use TLS yet.
+  - TLS is required only for login calls; other calls may use plain HTTP.
+  - Some merchant integrations are served on a plain HTTP port until they migrate.
+  - The service accepts both HTTP and HTTPS and does not redirect HTTP requests.
+  - TLS is terminated only for the main domain; the legacy domain keeps plain HTTP.
+  how_to_omit: Which protocol versions protect external traffic.
+  remediation_options:
+  - - require TLS 1.2 or higher for all external traffic
+  implementation_check: openapi_http_server
+  ambiguity_ok: true
+- id: CRYPTO-04
+  title: Encryption of internal traffic
+  statement: Traffic between services and to data stores must be encrypted in transit.
+  categories:
+  - cryptography
+  - network
+  applies_to:
+    kind:
+    - service
+    - database
+    - message_queue
+    exposure:
+    - internal
+  check_scope: both
+  base_severity: 2
+  cwe_ids:
+  - CWE-319
+  violation_scenarios:
+  - Services talk to the database and broker over unencrypted connections inside the VPC.
+  - Connections to the database skip TLS inside the VPC to avoid latency.
+  - Broker traffic stays unencrypted because the network is considered trusted.
+  - Connections between the service and its data store are not encrypted inside the private network.
+  - In-cluster traffic is sent in clear text; encryption is left to the network team.
+  - TLS between components was disabled during load tests and never turned back on.
+  how_to_omit: Whether internal connections are encrypted.
+  remediation_options:
+  - - encrypt traffic between services and to data stores in transit
+  implementation_check: terraform_internal_tls_missing
+  ambiguity_ok: true
+- id: CRYPTO-05
+  title: Approved algorithms only
+  statement: Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+  categories:
+  - cryptography
+  applies_to:
+    kind:
+    - service
+    - database
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-327
+  violation_scenarios:
+  - Request signatures are computed with MD5 or data is encrypted with DES.
+  - Webhook signatures use SHA-1 for compatibility with an old partner.
+  - Sensitive fields are encrypted with AES in ECB mode for simplicity.
+  - Tokens are signed with an HMAC based on MD5 because the library defaults to it.
+  - A home-grown obfuscation routine protects sensitive fields instead of a standard cipher.
+  - Data is encrypted with 3DES to stay compatible with the old batch system.
+  how_to_omit: Which algorithms protect integrity and confidentiality.
+  remediation_options:
+  - - use only approved cryptographic algorithms
+    - stop using MD5, SHA-1, DES, 3DES and ECB mode
+  implementation_check: null
+  ambiguity_ok: true
+- id: CRYPTO-06
+  title: Key management
+  statement: Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
+  categories:
+  - cryptography
+  - secrets
+  applies_to:
+    kind:
+    - secret_store
+    - database
+    - object_storage
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-320
+  violation_scenarios:
+  - Keys are kept in application config next to the encrypted data.
+  - Encryption keys are never rotated because rotating them would require re-encrypting the data.
+  - The data encryption key is stored in the same database table as the data it protects.
+  - Encryption keys are generated by developers and shared through the team chat.
+  - One key is used for all environments and all customers.
+  - Key ownership is unclear, and no one is responsible for rotating or retiring keys.
+  how_to_omit: Who owns encryption keys and how they are rotated.
+  remediation_options:
+  - - hold encryption keys in KMS
+    - do not store keys with the data they protect
+    - rotate keys at least annually
+  implementation_check: null
+  ambiguity_ok: true
+- id: CRYPTO-07
+  title: Certificate validation
+  statement: Services must validate TLS certificates and must not disable verification.
+  categories:
+  - cryptography
+  applies_to:
+    kind:
+    - service
+    - third_party
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-295
+  violation_scenarios:
+  - Certificate verification is turned off to work around vendor test certificates.
+  - The HTTP client accepts any certificate when calling the partner to avoid trust store updates.
+  - Hostname verification is disabled for the acquirer connection.
+  - Self-signed certificates are trusted in production to simplify partner onboarding.
+  - The client library is configured to ignore certificate errors after a failed deployment.
+  - Certificate validation is skipped for the payment processor connection.
+  how_to_omit: Whether outbound TLS connections verify certificates.
+  remediation_options:
+  - - validate TLS certificates and keep verification enabled
+  implementation_check: null
+  ambiguity_ok: true
+- id: SECRET-01
+  title: No hard-coded secrets
+  statement: Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
+  categories:
+  - secrets
+  applies_to:
+    kind:
+    - service
+    - ci_cd
+    - api_gateway
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-798
+  violation_scenarios:
+  - API keys and passwords are committed in the repository for local convenience.
+  - Sandbox credentials and the database password are committed with the service configuration so developers can start quickly.
+  - A live-looking API key is kept as a default value in the specification and infrastructure files.
+  - The default credentials used by the service are written in its configuration and infrastructure files.
+  - A shared test key is baked into the specification so examples work out of the box.
+  - The database password sits in the infrastructure code until the secret store is ready.
+  how_to_omit: Where service credentials come from.
+  remediation_options:
+  - - remove secrets from source code, configuration, specifications and infrastructure definitions
+  implementation_check: spec_hardcoded_secret
+  ambiguity_ok: false
+- id: SECRET-02
+  title: Central secret store
+  statement: Runtime secrets must be fetched from the approved secret store at startup.
+  categories:
+  - secrets
+  applies_to:
+    kind:
+    - service
+    - ci_cd
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-522
+  violation_scenarios:
+  - Secrets are passed as plain environment variables in the deployment manifest.
+  - Secrets are mounted from a config map that engineers can read.
+  - Secrets are read from a shared file on the host at startup.
+  - Secrets are read from a file on a shared network drive at startup.
+  - Credentials are passed on the command line when the service starts.
+  - Operators paste secrets into the deployment pipeline variables as plain text.
+  how_to_omit: How the service obtains its secrets at runtime.
+  remediation_options:
+  - - fetch runtime secrets from the approved secret store at startup
+  implementation_check: null
+  ambiguity_ok: true
+- id: SECRET-03
+  title: Secret rotation
+  statement: Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
+  categories:
+  - secrets
+  applies_to:
+    kind:
+    - service
+    - secret_store
+  check_scope: design
+  base_severity: 1
+  cwe_ids:
+  - CWE-522
+  violation_scenarios:
+  - Credentials are unchanged since launch with no rotation plan.
+  - Service credentials are rotated only after an incident.
+  - Rotation is manual and nobody owns it.
+  - Keys given to partners never expire.
+  - Credentials are rotated when someone remembers, roughly once a year.
+  - Rotation of database passwords is avoided because it needs a service restart.
+  how_to_omit: Rotation schedule for service credentials.
+  remediation_options:
+  - - rotate service credentials at least every 90 days
+    - rotate them immediately after suspected exposure
+  implementation_check: null
+  ambiguity_ok: true
+- id: NET-01
+  title: Private data stores
+  statement: Databases and message brokers must not be publicly reachable and must live in private subnets.
+  categories:
+  - network
+  applies_to:
+    kind:
+    - database
+    - message_queue
+    - network
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-668
+  violation_scenarios:
+  - The database is exposed with a public endpoint to ease analyst access.
+  - Analysts connect to the database directly from their laptops through its public address.
+  - The database has a public endpoint so the partner's reporting tool can read from it.
+  - The database listens on a public address and is protected only by its login.
+  - A public database endpoint is kept for the external BI vendor.
+  - To simplify failover tests the database is reachable from outside the VPC.
+  how_to_omit: Network placement of the database or broker.
+  remediation_options:
+  - - place databases and message brokers in private subnets
+    - remove their public reachability
+  implementation_check: terraform_db_public
+  ambiguity_ok: true
+- id: NET-02
+  title: Buckets not public
+  statement: Object storage buckets must block public access and be private by default.
+  categories:
+  - network
+  - data-protection
+  applies_to:
+    kind:
+    - object_storage
+  check_scope: both
+  base_severity: 4
+  cwe_ids:
+  - CWE-668
+  violation_scenarios:
+  - The bucket is made public so partners can download exports.
+  - Reports are served from a publicly readable bucket to avoid generating download links.
+  - The bucket allows public reads because the files are considered non-sensitive.
+  - Exported files are shared with partners by making the whole bucket publicly readable.
+  - The bucket policy allows anonymous reads so downloads work without signed URLs.
+  - Public access settings on the bucket were switched off to fix a broken integration.
+  how_to_omit: Who can read objects in the bucket.
+  remediation_options:
+  - - block public access on object storage buckets
+    - keep buckets private by default
+  implementation_check: terraform_bucket_public
+  ambiguity_ok: true
+- id: NET-03
+  title: Admin ports closed to the internet
+  statement: SSH, RDP and database ports must not be open to 0.0.0.0/0.
+  categories:
+  - network
+  applies_to:
+    kind:
+    - network
+    - service
+    - database
+  check_scope: impl
+  base_severity: 3
+  cwe_ids:
+  - CWE-284
+  violation_scenarios: []
+  how_to_omit: Which sources may reach management ports.
+  remediation_options:
+  - - close SSH, RDP and database ports to 0.0.0.0/0
+  implementation_check: terraform_open_ingress
+  ambiguity_ok: true
+- id: NET-04
+  title: Egress allowlist
+  statement: Services calling third parties must have egress restricted to an approved allowlist.
+  categories:
+  - network
+  applies_to:
+    kind:
+    - service
+    - third_party
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-918
+  violation_scenarios:
+  - Services may call arbitrary URLs supplied by users.
+  - Outbound traffic is unrestricted so that new partner integrations need no network changes.
+  - The webhook sender follows redirects and calls any host without an allow-list.
+  - The service can reach any address on the internet; no egress rules exist.
+  - Integration code downloads files from URLs supplied in requests.
+  - Outbound firewall rules are managed by each team and rarely reviewed.
+  how_to_omit: Which external destinations the service may contact.
+  remediation_options:
+  - - restrict egress of services that call third parties to an approved allowlist
+  implementation_check: null
+  ambiguity_ok: true
+- id: NET-05
+  title: Edge protection
+  statement: External APIs must sit behind a WAF with rate limiting.
+  categories:
+  - network
+  - availability
+  applies_to:
+    kind:
+    - api_gateway
+    exposure:
+    - external
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-770
+  violation_scenarios:
+  - The public gateway is exposed directly with no WAF.
+  - The public API is served straight from the load balancer; a WAF is considered later.
+  - Edge protection is limited to the cloud provider's default DDoS shield.
+  - Traffic filtering is left to the application code.
+  - The gateway is reachable directly from the internet with only its default settings.
+  - Bot and abuse protection is postponed until there is a measured problem.
+  how_to_omit: What protects the public edge from abusive traffic.
+  remediation_options:
+  - - put external APIs behind a WAF with rate limiting
+  implementation_check: null
+  ambiguity_ok: false
+- id: LOG-01
+  title: Security event logging
+  statement: Authentication failures, privilege changes and access to sensitive data must be logged.
+  categories:
+  - logging
+  applies_to:
+    kind:
+    - service
+    - identity_provider
+    - api_gateway
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - Only application errors are logged, nothing about logins or access.
+  - Authentication failures are not logged to keep the logs small.
+  - Access to customer records is not recorded anywhere.
+  - Privilege changes are applied by administrators directly in the database and leave no trace.
+  - Only HTTP access logs from the load balancer are kept.
+  - Security-relevant events are not separated from normal logs and are not monitored.
+  how_to_omit: Which security events are logged.
+  remediation_options:
+  - - log authentication failures
+    - log privilege changes
+    - log access to sensitive data
+  implementation_check: null
+  ambiguity_ok: true
+- id: LOG-02
+  title: No sensitive data in logs
+  statement: Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+  categories:
+  - logging
+  - data-protection
+  applies_to:
+    kind:
+    - service
+    - log_pipeline
+    data:
+    - logs
+    - pii
+    - card_data
+    - credentials
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-532
+  violation_scenarios:
+  - Full request bodies are logged for debugging, including emails and card numbers.
+  - Debug logging prints complete payloads, including personal data, in production.
+  - Error logs include the authorization header and request payload to help support.
+  - Logs contain the card holder name, email and the full request for easier support.
+  - Tokens and API keys appear in debug logs of the gateway.
+  - Stack traces with customer data are written to the shared log index.
+  how_to_omit: What is included in request logs.
+  remediation_options:
+  - - keep secrets, card numbers and personal data out of logs except opaque identifiers
+  implementation_check: null
+  ambiguity_ok: true
+- id: LOG-03
+  title: Immutable audit trail
+  statement: Audit logs must be tamper-evident and retained for at least one year.
+  categories:
+  - logging
+  - governance
+  applies_to:
+    kind:
+    - log_pipeline
+    - service
+    - object_storage
+  check_scope: both
+  base_severity: 2
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - Audit logs are kept for a month to save storage cost.
+  - Audit logs follow the default log retention of about a month and are not write-protected.
+  - Audit logs are stored for 30 days on the same system that writes them.
+  - Log retention is set to one month by default and nobody changed it.
+  - Audit entries share the application log group and expire after thirty days.
+  - Storage cost led us to keep audit logs for only a month.
+  how_to_omit: Retention and tamper protection of audit logs.
+  remediation_options:
+  - - make audit logs tamper-evident
+    - retain audit logs for at least one year
+  implementation_check: terraform_log_retention_short
+  ambiguity_ok: true
+- id: LOG-04
+  title: Restricted log access
+  statement: Access to centralized logs must be limited to authorized staff.
+  categories:
+  - logging
+  - authorization
+  applies_to:
+    kind:
+    - log_pipeline
+  check_scope: design
+  base_severity: 1
+  cwe_ids:
+  - CWE-200
+  violation_scenarios:
+  - Every engineer has read access to production logs.
+  - Production logs are exposed on a shared dashboard without access control.
+  - Log access is granted to whole teams and never removed.
+  - The log index is open to the whole company to help debugging.
+  - Logs can be queried by any service account in the cluster.
+  - A shared read-only login for the log platform is posted in the team wiki.
+  how_to_omit: Who can read the logs.
+  remediation_options:
+  - - limit access to centralized logs to authorized staff
+  implementation_check: null
+  ambiguity_ok: true
+- id: DATA-01
+  title: Data minimization
+  statement: Services must collect and store only the personal data needed for their purpose.
+  categories:
+  - data-protection
+  - privacy
+  applies_to:
+    kind:
+    - service
+    - database
+    data:
+    - pii
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Full identity document images and unused profile fields are stored.
+  - The service stores the whole customer profile although only a few fields are used.
+  - Every field received from the client is saved, in case analytics needs it later.
+  - Documents are stored in full even when only a few fields are needed for the check.
+  - Free-text fields from forms are saved verbatim, often containing extra personal data.
+  - The profile table keeps every attribute the mobile app can send.
+  how_to_omit: Which personal data fields are stored and why.
+  remediation_options:
+  - - collect and store only the personal data needed for the purpose
+  implementation_check: null
+  ambiguity_ok: true
+- id: DATA-02
+  title: Retention and deletion
+  statement: Personal data must have a defined retention period and be deleted when it expires or on verified request.
+  categories:
+  - data-protection
+  - privacy
+  applies_to:
+    kind:
+    - database
+    - object_storage
+    data:
+    - pii
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Data is kept forever because storage is cheap.
+  - Deletion requests are handled manually and often forgotten.
+  - No retention period is defined; old records stay in the database.
+  - Closed accounts stay in the database indefinitely.
+  - Retention follows whatever the backups keep, with no explicit period.
+  - Personal data of rejected applicants is never removed.
+  how_to_omit: How long personal data is kept and how it is deleted.
+  remediation_options:
+  - - define a retention period for personal data
+    - delete data when the period expires or on verified request
+  implementation_check: null
+  ambiguity_ok: true
+- id: DATA-03
+  title: Third-party data sharing
+  statement: Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+  categories:
+  - data-protection
+  - privacy
+  applies_to:
+    kind:
+    - third_party
+    - service
+    data:
+    - pii
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-201
+  violation_scenarios:
+  - The entire customer record is forwarded to a vendor for convenience.
+  - The vendor receives the complete profile, including fields it does not need, without a signed data processing agreement.
+  - Customer data is shared with a new provider while the contract is still being negotiated.
+  - Raw event payloads including personal data are sent to the analytics provider.
+  - Contact details of all customers are shared with the marketing vendor.
+  - Data is sent to a third party under a verbal agreement.
+  how_to_omit: What data is shared with the vendor and under what agreement.
+  remediation_options:
+  - - share personal data with third parties only under an approved data processing agreement
+    - send only the fields required
+  implementation_check: null
+  ambiguity_ok: true
+- id: DATA-04
+  title: No production data in test
+  statement: Non-production environments must not contain real personal or card data.
+  categories:
+  - data-protection
+  applies_to:
+    kind:
+    - database
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Staging is refreshed nightly from a production snapshot.
+  - Developers copy production data to their laptops to reproduce bugs.
+  - The test environment is seeded with a real customer export.
+  - The sandbox environment uses a nightly copy of production for realistic testing.
+  - Support analysts reproduce issues in staging with real customer records.
+  - Load tests run against a restored production backup.
+  how_to_omit: Source of data in test environments.
+  remediation_options:
+  - - keep real personal and card data out of non-production environments
+  implementation_check: null
+  ambiguity_ok: true
+- id: DATA-05
+  title: Protected exports
+  statement: Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+  categories:
+  - data-protection
+  - authorization
+  applies_to:
+    kind:
+    - service
+    - object_storage
+    data:
+    - pii
+  check_scope: both
+  base_severity: 3
+  cwe_ids:
+  - CWE-200
+  violation_scenarios:
+  - Export files are left in a shared location with a permanent link.
+  - Exported reports stay in the bucket forever and are shared through a link that never expires.
+  - Reports are kept indefinitely so finance can download them any time, without expiry.
+  - Report files remain in the storage bucket and are never deleted.
+  - Exports are available through links that do not expire.
+  - Finance can fetch reports of any past period at any time, as the files are kept for good.
+  how_to_omit: Who can download exports and how long they remain available.
+  remediation_options:
+  - - require authorization to access exports that contain personal data
+    - encrypt exports in storage
+    - expire exports
+  implementation_check: terraform_export_no_lifecycle
+  ambiguity_ok: true
+- id: API-01
+  title: Input validation
+  statement: All external inputs must be validated against a schema and rejected if invalid.
+  categories:
+  - input-validation
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - external
+  check_scope: both
+  base_severity: 2
+  cwe_ids:
+  - CWE-20
+  violation_scenarios:
+  - Request bodies are accepted as free-form JSON and handled as-is.
+  - Validation happens in the client SDK only; the server trusts the payload.
+  - The API accepts any JSON object and the service picks the fields it needs.
+  - Only the presence of required fields is checked; types and sizes are not enforced.
+  - The request model is a generic map and each handler reads what it wants.
+  - Unknown fields are accepted and passed through to downstream services.
+  how_to_omit: How incoming request data is validated.
+  remediation_options:
+  - - validate external inputs against a schema
+    - reject invalid input
+  implementation_check: openapi_freeform_body
+  ambiguity_ok: true
+- id: API-02
+  title: Rate limiting
+  statement: External APIs must enforce per-client rate limits.
+  categories:
+  - availability
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - external
+  check_scope: both
+  base_severity: 2
+  cwe_ids:
+  - CWE-770
+  violation_scenarios:
+  - Clients may call endpoints without any limit.
+  - Rate limiting is left for a later release; there are no per-client limits at launch.
+  - No quotas are applied so that large merchants are never throttled.
+  - Throttling is handled by merchants themselves; the API does not limit them.
+  - We expect partners to behave and therefore have no limits on request volume.
+  - Limits would complicate the contract, so none are defined for now.
+  how_to_omit: Limits on request volume per client.
+  remediation_options:
+  - - enforce per-client rate limits on external APIs
+  implementation_check: openapi_rate_limit_absent
+  ambiguity_ok: true
+- id: API-03
+  title: Signed webhooks
+  statement: Outbound and inbound webhook payloads must be signed and signatures verified.
+  categories:
+  - integrity
+  applies_to:
+    kind:
+    - service
+    - third_party
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-345
+  violation_scenarios:
+  - Callbacks are accepted from any sender based on the source IP.
+  - Webhook payloads are unsigned; receivers trust the URL they registered.
+  - Signature verification is skipped for callbacks from the partner sandbox.
+  - Webhook receivers cannot verify our payloads; we only send a static token in the URL.
+  - Incoming callbacks are trusted when the request comes from the partner network range.
+  - Signing keys for webhooks were not set up in the first release.
+  how_to_omit: How the authenticity of callbacks is verified.
+  remediation_options:
+  - - sign webhook payloads
+    - verify signatures on receipt
+  implementation_check: null
+  ambiguity_ok: true
+- id: API-04
+  title: Safe error messages
+  statement: Error responses must not reveal stack traces, SQL or internal hostnames.
+  categories:
+  - information-disclosure
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - external
+  check_scope: design
+  base_severity: 1
+  cwe_ids:
+  - CWE-209
+  violation_scenarios:
+  - Exceptions are returned verbatim to help client developers.
+  - Error responses include stack traces and SQL text in all environments.
+  - Internal host names and class names appear in error messages for easier debugging.
+  - Validation failures return the full internal exception text.
+  - The error body contains the SQL statement that failed.
+  - Server errors expose the internal service name and version.
+  how_to_omit: What clients see when an error occurs.
+  remediation_options:
+  - - keep stack traces, SQL and internal host names out of error responses
+  implementation_check: null
+  ambiguity_ok: true
+- id: API-05
+  title: Parameterized queries
+  statement: Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+  categories:
+  - input-validation
+  - database
+  applies_to:
+    kind:
+    - service
+    - database
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-89
+  violation_scenarios:
+  - Search filters are built by concatenating strings into SQL.
+  - Dynamic queries are assembled with string formatting because the ORM is too slow.
+  - Sort and filter parameters are inserted directly into the SQL text.
+  - Filters are built by joining user-provided strings because the ORM could not express them.
+  - A raw SQL fragment from the query string is appended to the report query.
+  - Dynamic ordering uses the sort parameter directly in the SQL statement.
+  how_to_omit: How queries are constructed from request parameters.
+  remediation_options:
+  - - use parameterized queries
+    - never concatenate user input into queries
+  implementation_check: null
+  ambiguity_ok: true
+- id: API-06
+  title: Restricted CORS
+  statement: Browser-facing APIs must allow only approved origins in CORS.
+  categories:
+  - input-validation
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    - client_app
+    exposure:
+    - external
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-942
+  violation_scenarios:
+  - CORS is set to allow all origins to unblock the frontend team.
+  - The API returns a wildcard CORS origin so any web app can call it.
+  - Allowed origins are not configured; the gateway reflects the request origin.
+  - CORS is wide open in production to avoid support tickets from partners.
+  - Any origin is allowed together with credentials.
+  - The allow-list of origins is empty, which the gateway treats as allow everything.
+  how_to_omit: Which origins may call the API from a browser.
+  remediation_options:
+  - - allow only approved origins in CORS
+  implementation_check: null
+  ambiguity_ok: true
+- id: OPS-01
+  title: Dependency scanning
+  statement: CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+  categories:
+  - supply-chain
+  applies_to:
+    kind:
+    - ci_cd
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1104
+  violation_scenarios:
+  - There is no dependency scanning and versions were pinned years ago.
+  - Dependencies are updated by hand when someone has time, with no vulnerability scanning.
+  - Container images are never rescanned after the first build.
+  - Third-party libraries are never updated unless something breaks.
+  - Vulnerability alerts are ignored because the pipeline has no gate.
+  - Base images are pinned to old versions and are not rebuilt.
+  how_to_omit: Whether dependencies are scanned for vulnerabilities.
+  remediation_options:
+  - - scan dependencies and images in CI
+    - fix critical vulnerabilities within 14 days
+  implementation_check: null
+  ambiguity_ok: true
+- id: OPS-02
+  title: Non-root containers
+  statement: Containers must run as a non-root user with a read-only root filesystem where possible.
+  categories:
+  - hardening
+  applies_to:
+    kind:
+    - service
+    - ci_cd
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-250
+  violation_scenarios:
+  - Containers run as root for simpler file permissions.
+  - The service image keeps the default root user because changing it broke file access.
+  - Containers run privileged to allow debugging tools.
+  - The container user is not set, so processes run as root.
+  - Containers write to the host file system as root to keep logs.
+  - Privileged mode is enabled because of a past permissions problem.
+  how_to_omit: Which user the service runs as.
+  remediation_options:
+  - - run containers as a non-root user
+  implementation_check: null
+  ambiguity_ok: true
+- id: OPS-03
+  title: Protected backups
+  statement: Backups must be encrypted and restoration must be tested at least twice a year.
+  categories:
+  - resilience
+  - cryptography
+  applies_to:
+    kind:
+    - database
+    - object_storage
+  check_scope: both
+  base_severity: 2
+  cwe_ids:
+  - CWE-311
+  violation_scenarios:
+  - Nightly snapshots are copied unencrypted to a second bucket.
+  - Backups are stored without encryption to keep restores simple.
+  - Backup copies are not encrypted, and restores are tried only after an incident.
+  - Backups are copied to a separate account without encryption.
+  - Encryption for backup storage was left out to simplify disaster recovery.
+  - Snapshots are plain copies; restore tests have not been scheduled.
+  how_to_omit: How backups are protected and verified.
+  remediation_options:
+  - - encrypt backups
+    - test restores at least twice a year
+  implementation_check: terraform_backup_unencrypted
+  ambiguity_ok: true

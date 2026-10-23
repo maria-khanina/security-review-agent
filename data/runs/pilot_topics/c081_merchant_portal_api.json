@@ -1,0 +1,178 @@
+{
+  "case_id": "c081_merchant_portal_api",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n      \"topics\": [\"authentication\"],\n      \"observation\": \"Endpoints are authenticated with OAuth2/OIDC or mutual TLS as required.\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n      \"topics\": [\"authorization\"],\n      \"observation\": \"Resource access is verified as required, but no specific requirement is cited.\",\n      \"requirement_id\": \"R6\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n      \"topics\": [\"secrets\"],\n      \"observation\": \"Secrets are not stored in source code or config files as required.\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 90\n    },\n    {\n      \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n      \"topics\": [\"input-validation\"],\n      \"observation\": \"External inputs are validated against a schema as required.\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Only one job per type and range runs at a time per merchant.\",\n      \"topics\": [\"operations\"],\n      \"observation\": \"Job concurrency is controlled, but no specific requirement is cited.\",\n      \"requirement_id\": \"R34\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The invite call creates the user in a pending state and sends an activation email through the notification platform.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"User creation process does not mention data minimization or retention policies.\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 60\n    },\n    {\n      \"design_quote\": \"The settlements list is read from a table filled nightly by the finance pipeline, and the portal never writes to it.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Data is not being written to, but no specific requirement is cited.\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 65\n    },\n    {\n      \"design_quote\": \"Reports that contain personal data require authorization to download, are encrypted in storage and expire.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Report exports follow data protection rules as required.\",\n      \"requirement_id\": \"R30\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [
+        "authentication"
+      ],
+      "observation": "Endpoints are authenticated with OAuth2/OIDC or mutual TLS as required.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1128,
+        1235
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [
+        "authorization"
+      ],
+      "observation": "Resource access is verified as required, but no specific requirement is cited.",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1236,
+        1344
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code or config files as required.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1587,
+        1691
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "External inputs are validated against a schema as required.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2895,
+        2970
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Only one job per type and range runs at a time per merchant.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Job concurrency is controlled, but no specific requirement is cited.",
+      "requirement_id": "R34",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2113,
+        2173
+      ],
+      "policy_span": [
+        4794,
+        4912
+      ]
+    },
+    {
+      "design_quote": "The invite call creates the user in a pending state and sends an activation email through the notification platform.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "User creation process does not mention data minimization or retention policies.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2987,
+        3103
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "The settlements list is read from a table filled nightly by the finance pipeline, and the portal never writes to it.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Data is not being written to, but no specific requirement is cited.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3158,
+        3274
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Reports that contain personal data require authorization to download, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Report exports follow data protection rules as required.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2765,
+        2871
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

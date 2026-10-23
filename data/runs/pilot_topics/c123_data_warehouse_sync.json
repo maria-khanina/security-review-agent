@@ -1,0 +1,353 @@
+{
+  "case_id": "c123_data_warehouse_sync",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"4.0 Personally identifiable information is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Data is encrypted at rest with AES-256, which meets R11.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.1 Traffic between services and to data stores is encrypted in transit.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Traffic is encrypted in transit, which meets R14.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.2 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Approved algorithms are used and prohibited algorithms are excluded, which meets R15.\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Encryption keys are managed in KMS and rotated annually, which meets R16.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.4 The Service validates TLS certificates on every TLS connection it makes and never disables verification.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"TLS certificate verification is enabled, which meets R17.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data is sent to third parties under approved agreements, which meets R21.\",\n    \"requirement_id\": \"R21\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"4.6 Non-production environments do not contain real personal or card data.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Non-production environments do not contain real personal or card data, which meets R22.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"5.1 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in source code, configuration files, etc., which meets R26.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"5.2 Runtime secrets are fetched from the approved secret store when the Service starts.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Runtime secrets are fetched from the approved secret store, which meets R27.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"6.1 The database and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Database and message brokers are in private subnets and not publicly reachable, which meets R34.\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"6.2 The staging bucket blocks public access and is private by default.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Staging bucket is private by default, which meets R35.\",\n    \"requirement_id\": \"R35\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"6.3 Outbound traffic from services that call third parties is restricted to an approved allowlist.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Outbound traffic is restricted to an approved allowlist, which meets R38.\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"7.1 Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures, privilege changes, and access to sensitive data are logged, which meets R39.\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Callback payloads are signed and verified, which meets R30.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"8.2 Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized, which meets R32.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"9.1 The continuous integration pipeline scans dependencies and container images, and critical findings must be fixed within 14 days.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"CI pipeline scans dependencies and container images, which meets R42.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"9.2 Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Containers run as non-root users with read-only root filesystems, which meets R43.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "4.0 Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Data is encrypted at rest with AES-256, which meets R11.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2055,
+        2129
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "4.1 Traffic between services and to data stores is encrypted in transit.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Traffic is encrypted in transit, which meets R14.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2131,
+        2203
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.2 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Approved algorithms are used and prohibited algorithms are excluded, which meets R15.",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2205,
+        2308
+      ],
+      "policy_span": [
+        2265,
+        2357
+      ]
+    },
+    {
+      "design_quote": "4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Encryption keys are managed in KMS and rotated annually, which meets R16.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2310,
+        2431
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "4.4 The Service validates TLS certificates on every TLS connection it makes and never disables verification.",
+      "topics": [
+        "network"
+      ],
+      "observation": "TLS certificate verification is enabled, which meets R17.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2433,
+        2541
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is sent to third parties under approved agreements, which meets R21.",
+      "requirement_id": "R21",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2543,
+        2690
+      ],
+      "policy_span": [
+        3039,
+        3204
+      ]
+    },
+    {
+      "design_quote": "4.6 Non-production environments do not contain real personal or card data.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Non-production environments do not contain real personal or card data, which meets R22.",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2692,
+        2766
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "5.1 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code, configuration files, etc., which meets R26.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2794,
+        2902
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "5.2 Runtime secrets are fetched from the approved secret store when the Service starts.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Runtime secrets are fetched from the approved secret store, which meets R27.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2904,
+        2991
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "6.1 The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database and message brokers are in private subnets and not publicly reachable, which meets R34.",
+      "requirement_id": "R34",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3008,
+        3103
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "6.2 The staging bucket blocks public access and is private by default.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Staging bucket is private by default, which meets R35.",
+      "requirement_id": "R35",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3105,
+        3175
+      ],
+      "policy_span": [
+        4717,
+        4772
+      ]
+    },
+    {
+      "design_quote": "6.3 Outbound traffic from services that call third parties is restricted to an approved allowlist.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Outbound traffic is restricted to an approved allowlist, which meets R38.",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3177,
+        3275
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "7.1 Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures, privilege changes, and access to sensitive data are logged, which meets R39.",
+      "requirement_id": "R39",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3307,
+        3394
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Callback payloads are signed and verified, which meets R30.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3424,
+        3518
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "8.2 Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Database queries are parameterized, which meets R32.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3520,
+        3616
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "9.2 Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Containers run as non-root users with read-only root filesystems, which meets R43.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3773,
+        3860
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 1,
+  "rejected_findings": [
+    {
+      "design_quote": "9.1 The continuous integration pipeline scans dependencies and container images, and critical findings must be fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "reason": "design quote not found in the design document"
+    }
+  ]
+}

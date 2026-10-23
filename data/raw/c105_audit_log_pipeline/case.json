@@ -1,0 +1,102 @@
+{
+ "case_id": "c105_audit_log_pipeline",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "split": "test",
+ "policy_version": "v2",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LOG-02",
+   "drift_id": null,
+   "component": "audit-collector",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep secrets, card numbers and personal data out of logs except opaque identifiers"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Tokens and API keys appear in debug logs of the gateway."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "CRYPTO-04",
+   "drift_id": null,
+   "component": "audit-collector",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-319"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether internal connections are encrypted.",
+   "instruction": "Mention audit-collector naturally, but do NOT state: Whether internal connections are encrypted. Wrap the sentence(s) that mention audit-collector (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-03",
+   "drift_id": null,
+   "component": "audit archive (S3)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_backup_unencrypted",
+   "implementation_anchor": "aws_backup_vault.audit_backups",
+   "remediation_options": [
+    [
+     "encrypt backups",
+     "test restores at least twice a year"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Backup copies are not encrypted, and restores are tried only after an incident."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-02",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-03",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07",
+  "NET-04"
+ ]
+}

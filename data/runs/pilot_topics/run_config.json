@@ -1,0 +1,107 @@
+{
+  "variant": {
+    "use_topics": true,
+    "ask_for_silence": false,
+    "policy_analysis": "llm_analysis_v1"
+  },
+  "system_prompt": "You are a senior application security engineer. Review a software design document against the company security policy. The policy is given as numbered reference material: every requirement sentence carries a tag such as [R12]. The policy is a reference to check the design against, not a list you have to walk through.\n\nRead the design. Wherever it describes how something works, check that against the policy. Report every problem you find; there is no limit on their number.\n\nFinding kinds:\n- violation: the design states a decision that breaks a policy requirement.\n- ambiguity: the design describes a component but is vague or silent about something a policy requirement needs in order to be judged. Do not guess; the author has to clarify.\n\nSeverity scale, judged for this service:\n- critical: secrets, card numbers, personal data or control of the service can be reached directly by outsiders, with no other weakness, on an internet-exposed service or store.\n- high: sensitive data or privileged functions are seriously exposed, but exploitation needs another condition (an insider, a stolen credential, a second weakness).\n- medium: a defence-in-depth control is weak or missing, the data is not sensitive, or the component is internal only.\n- low: hygiene, a documentation gap or a minor deviation with little direct impact.\nRate an ambiguity one level below the violation it could hide.\n\nConfidence scale, 1 to 100, how likely a careful human reviewer would confirm the finding: 90-100 no reasonable alternative reading; 70-89 very likely, one alternative reading; 50-69 plausible, an assumption must be checked; 30-49 weak signal; 1-29 speculation, better omitted. Use the whole scale; findings of different strength get different values.\n\nRules:\n1. design_quote is copied character for character from the design, one or two consecutive sentences. For an ambiguity, quote the sentence that names the component.\n2. requirement_id is the tag of the policy requirement the finding concerns, for example R12. Cite only tags that appear in the policy.\n3. observation is at most 25 words: what the design says, or what it leaves out.\n4. Report only what the two texts show. Do not invent requirements or report requirements the design clearly satisfies.\n5. If there is nothing to report, return an empty findings list.\n\ntopics: before you reason about a finding, name the security topics of the quoted sentence, one to three, chosen only from: authentication, authorization, cryptography, secrets, network, logging, data-protection, input-validation, database-access, operations, resilience, governance. Then choose the requirement among those that share a topic.\n\nAnswer with one JSON object only, {\"findings\": [ ... ]}, where every finding has these fields in this order: {\"design_quote\": \"...\", \"topics\": [\"...\"], \"observation\": \"...\", \"requirement_id\": \"R12\", \"finding_type\": \"violation|ambiguity\", \"severity\": \"low|medium|high|critical\", \"confidence\": <integer 1-100>}.",
+  "response_schema": {
+    "$defs": {
+      "TopicFinding": {
+        "properties": {
+          "design_quote": {
+            "title": "Design Quote",
+            "type": "string"
+          },
+          "topics": {
+            "items": {
+              "enum": [
+                "authentication",
+                "authorization",
+                "cryptography",
+                "secrets",
+                "network",
+                "logging",
+                "data-protection",
+                "input-validation",
+                "database-access",
+                "operations",
+                "resilience",
+                "governance"
+              ],
+              "type": "string"
+            },
+            "title": "Topics",
+            "type": "array"
+          },
+          "observation": {
+            "title": "Observation",
+            "type": "string"
+          },
+          "requirement_id": {
+            "title": "Requirement Id",
+            "type": "string"
+          },
+          "finding_type": {
+            "enum": [
+              "violation",
+              "ambiguity"
+            ],
+            "title": "Finding Type",
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "confidence": {
+            "maximum": 100,
+            "minimum": 1,
+            "title": "Confidence",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "design_quote",
+          "topics",
+          "observation",
+          "requirement_id",
+          "finding_type",
+          "severity",
+          "confidence"
+        ],
+        "title": "TopicFinding",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "findings": {
+        "items": {
+          "$ref": "#/$defs/TopicFinding"
+        },
+        "title": "Findings",
+        "type": "array"
+      }
+    },
+    "required": [
+      "findings"
+    ],
+    "title": "TopicFindingsReply",
+    "type": "object"
+  },
+  "policy_analysis_digest": "77e97eea48790581ed69ab8c4697cf8a3e1e0490b0c2f0a3ad15e476d3084c25",
+  "model": "Qwen/Qwen3-4B-AWQ",
+  "temperature": 0.0,
+  "max_tokens": 4000,
+  "enable_thinking": false,
+  "min_similarity": 90.0,
+  "min_quote_characters": 12,
+  "duplicate_overlap": 0.3,
+  "iou_threshold": 0.3
+}

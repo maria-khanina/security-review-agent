@@ -1,0 +1,109 @@
+{
+ "case_id": "c013_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v3",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "OPS-01",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether dependencies are scanned for vulnerabilities.",
+   "instruction": "Mention dispatcher naturally, but do NOT state: Whether dependencies are scanned for vulnerabilities. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_security_missing",
+   "implementation_anchor": "/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-07",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_pii_in_query",
+   "implementation_anchor": "/paths/~1v1~1deliveries/get/parameters",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Personal data is never placed in URLs. Wrap the sentence(s) in the F3 marker."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "ambiguity",
+   "rule_id": "CRYPTO-05",
+   "drift_id": null,
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-327"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which algorithms protect integrity and confidentiality.",
+   "instruction": "Mention dispatcher naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F4 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "API-01",
+  "API-05",
+  "API-06"
+ ]
+}

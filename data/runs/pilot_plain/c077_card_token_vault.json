@@ -1,0 +1,143 @@
+{
+  "case_id": "c077_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Payment services authenticate to the tokenization-service with mTLS or signed workload identity tokens.\",\n    \"observation\": \"Authentication method for payment services to tokenization-service is not compliant with R1.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Internal users get only the roles their job requires; roles are defined per service.\",\n    \"observation\": \"Roles are defined per service, but R7 requires roles to be defined separately for each service.\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"Production access rights are reviewed at least quarterly.\",\n    \"observation\": \"Access rights to production systems are reviewed quarterly, but R9 requires review at least quarterly by the system owner.\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"No secrets in code, config, specs or infra definitions.\",\n    \"observation\": \"Secrets are not stored in code, config, specs or infra definitions, but R16 requires secrets to not appear in source code, configuration files, API specifications or infrastructure definitions.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"DB and brokers in private subnets, not publicly reachable.\",\n    \"observation\": \"Databases and message brokers are in private subnets and not publicly reachable, but R18 requires databases and message brokers to not be publicly reachable and to be deployed in private subnets.\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Auth failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"Authentication failures, privilege changes and access to sensitive data are logged, but R22 requires authentication failures, privilege changes and access to sensitive data to be logged.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Parameterized queries only.\",\n    \"observation\": \"Database queries are parameterized, but R32 requires database queries to be parameterized and constructing queries by concatenating user input is prohibited.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Payment services authenticate to the tokenization-service with mTLS or signed workload identity tokens.",
+      "topics": [],
+      "observation": "Authentication method for payment services to tokenization-service is not compliant with R1.",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        533,
+        636
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Internal users get only the roles their job requires; roles are defined per service.",
+      "topics": [],
+      "observation": "Roles are defined per service, but R7 requires roles to be defined separately for each service.",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        639,
+        723
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "Production access rights are reviewed at least quarterly.",
+      "topics": [],
+      "observation": "Access rights to production systems are reviewed quarterly, but R9 requires review at least quarterly by the system owner.",
+      "requirement_id": "R9",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        726,
+        783
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "No secrets in code, config, specs or infra definitions.",
+      "topics": [],
+      "observation": "Secrets are not stored in code, config, specs or infra definitions, but R16 requires secrets to not appear in source code, configuration files, API specifications or infrastructure definitions.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        965,
+        1020
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "DB and brokers in private subnets, not publicly reachable.",
+      "topics": [],
+      "observation": "Databases and message brokers are in private subnets and not publicly reachable, but R18 requires databases and message brokers to not be publicly reachable and to be deployed in private subnets.",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1023,
+        1081
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Auth failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Authentication failures, privilege changes and access to sensitive data are logged, but R22 requires authentication failures, privilege changes and access to sensitive data to be logged.",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1094,
+        1167
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    },
+    {
+      "design_quote": "Parameterized queries only.",
+      "topics": [],
+      "observation": "Database queries are parameterized, but R32 requires database queries to be parameterized and constructing queries by concatenating user input is prohibited.",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1185,
+        1212
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

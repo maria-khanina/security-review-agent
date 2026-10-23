@@ -1,0 +1,100 @@
+{
+ "case_id": "c084_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v2",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-03",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-284"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_undocumented_endpoint",
+   "implementation_anchor": "/paths/~1internal~1debug~1state",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The service exposes only the endpoints listed in the API section. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-04",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-306"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_operation_without_auth",
+   "implementation_anchor": "/paths/~1v1~1kyc~1cases/post/security",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "NET-04",
+   "drift_id": null,
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which external destinations the service may contact.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: Which external destinations the service may contact. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-02",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "API-01",
+  "API-03",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "CRYPTO-07"
+ ]
+}

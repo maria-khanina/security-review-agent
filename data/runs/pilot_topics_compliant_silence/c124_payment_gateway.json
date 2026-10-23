@@ -1,0 +1,55 @@
+{
+  "case_id": "c124_payment_gateway",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.\",\n    \"topics\": [\"network\", \"cryptography\"],\n    \"observation\": \"Accepts any certificate, which may allow man-in-the-middle attacks\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The service can reach any address on the internet, and no egress rules exist.\",\n    \"topics\": [\"network\", \"operations\"],\n    \"observation\": \"No egress rules mean potential exposure of internal services to the internet\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"secrets\"],\n    \"observation\": \"Secrets are not stored in source code or configuration files\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"External inputs are validated against a schema\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"Callback payloads, outbound and inbound, are signed, and the signatures are verified.\",\n    \"topics\": [\"cryptography\", \"input-validation\"],\n    \"observation\": \"Callback payloads are signed and verified\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"Error responses do not reveal stack traces, SQL or internal hostnames.\",\n    \"topics\": [\"logging\", \"secrets\"],\n    \"observation\": \"Error responses do not reveal stack traces, SQL or internal hostnames\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\", \"cryptography\"],\n    \"observation\": \"Database queries are parameterized and user input is not concatenated\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical findings must be fixed within 14 days.\",\n    \"topics\": [\"operations\", \"resilience\"],\n    \"observation\": \"CI pipeline scans dependencies and images with 14-day fix window\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"secrets\", \"operations\"],\n    \"observation\": \"Containers run as non-root users with read-only root filesystem\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 100\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.",
+      "topics": [
+        "network",
+        "cryptography"
+      ],
+      "observation": "Accepts any certificate, which may allow man-in-the-middle attacks",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2691,
+        2874
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "The service can reach any address on the internet, and no egress rules exist.",
+      "topics": [
+        "network",
+        "operations"
+      ],
+      "observation": "No egress rules mean potential exposure of internal services to the internet",
+      "requirement_id": "R37",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2875,
+        2952
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 7
+}

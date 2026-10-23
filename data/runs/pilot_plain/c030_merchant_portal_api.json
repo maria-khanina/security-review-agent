@@ -1,0 +1,219 @@
+{
+  "case_id": "c030_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"observation\": \"This aligns with ACS-1.1 [R1] requirement for external API endpoints.\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Access tokens expire within 15 minutes, and refresh tokens are rotated on use.\",\n    \"observation\": \"This aligns with ACS-1.3 [R3] requirement for token expiration and rotation.\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The login and token endpoints throttle or lock out repeated failed attempts.\",\n    \"observation\": \"This aligns with ACS-1.6 [R6] requirement for throttling repeated failed attempts.\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"observation\": \"This aligns with ACS-2.1 [R7] requirement for verifying ownership or entitlement for customer-owned resources.\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Personal identifiable information is encrypted at rest with AES-256.\",\n    \"observation\": \"This aligns with DPS-1.1 [R11] requirement for encrypting personal data at rest with AES-256.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"observation\": \"This aligns with DPS-1.6 [R16] requirement for storing encryption keys in KMS and rotating them annually.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"observation\": \"This aligns with DPS-1.7 [R17] requirement for verifying TLS certificates and not disabling verification.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"observation\": \"This aligns with SES-1.5 [R30] requirement for signing webhook payloads and verifying signatures.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"This aligns with SES-1.7 [R32] requirement for parameterizing database queries and prohibiting input concatenation.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"This aligns with SES-4.1 [R42] requirement for scanning dependencies and container images with critical fixes within 14 days.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"This aligns with SES-4.2 [R43] requirement for containers to run as non-root users with read-only root filesystems.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "This aligns with ACS-1.1 [R1] requirement for external API endpoints.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2086,
+        2193
+      ],
+      "policy_span": [
+        309,
+        487
+      ]
+    },
+    {
+      "design_quote": "Access tokens expire within 15 minutes, and refresh tokens are rotated on use.",
+      "topics": [],
+      "observation": "This aligns with ACS-1.3 [R3] requirement for token expiration and rotation.",
+      "requirement_id": "R3",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2215,
+        2293
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "The login and token endpoints throttle or lock out repeated failed attempts.",
+      "topics": [],
+      "observation": "This aligns with ACS-1.6 [R6] requirement for throttling repeated failed attempts.",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2320,
+        2396
+      ],
+      "policy_span": [
+        940,
+        1066
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [],
+      "observation": "This aligns with ACS-2.1 [R7] requirement for verifying ownership or entitlement for customer-owned resources.",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2425,
+        2533
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "Personal identifiable information is encrypted at rest with AES-256.",
+      "topics": [],
+      "observation": "This aligns with DPS-1.1 [R11] requirement for encrypting personal data at rest with AES-256.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2674,
+        2742
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [],
+      "observation": "This aligns with DPS-1.6 [R16] requirement for storing encryption keys in KMS and rotating them annually.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2764,
+        2868
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [],
+      "observation": "This aligns with DPS-1.7 [R17] requirement for verifying TLS certificates and not disabling verification.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2897,
+        2963
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [],
+      "observation": "This aligns with SES-1.5 [R30] requirement for signing webhook payloads and verifying signatures.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4096,
+        4179
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "This aligns with SES-1.7 [R32] requirement for parameterizing database queries and prohibiting input concatenation.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4296,
+        4388
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "This aligns with SES-4.1 [R42] requirement for scanning dependencies and container images with critical fixes within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4413,
+        4514
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "This aligns with SES-4.2 [R43] requirement for containers to run as non-root users with read-only root filesystems.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4541,
+        4624
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

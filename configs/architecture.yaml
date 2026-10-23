@@ -1,0 +1,145 @@
+payment_gateway:
+  components:
+  - {kind: api_gateway, name: Payments Edge Gateway}
+  - {kind: service, name: payments-core}
+  - {kind: database, name: payments-db (PostgreSQL)}
+  - {kind: third_party, name: Acquirer connector}
+  - {kind: message_queue, name: payment-events (Kafka)}
+  flows:
+  - {source: Merchant backend, target: Payments Edge Gateway, data: payment request with card token}
+  - {source: Payments Edge Gateway, target: payments-core, data: validated payment request}
+  - {source: payments-core, target: payments-db (PostgreSQL), data: payment records}
+  - {source: payments-core, target: Acquirer connector, data: authorization request}
+  - {source: payments-core, target: payment-events (Kafka), data: payment status events}
+wallet_service:
+  components:
+  - {kind: api_gateway, name: Mobile API Gateway}
+  - {kind: service, name: wallet-core}
+  - {kind: database, name: wallet-db (PostgreSQL)}
+  - {kind: identity_provider, name: Keycloak}
+  flows:
+  - {source: Mobile app, target: Mobile API Gateway, data: wallet and transfer requests}
+  - {source: Mobile API Gateway, target: Keycloak, data: token validation}
+  - {source: Mobile API Gateway, target: wallet-core, data: authenticated requests}
+  - {source: wallet-core, target: wallet-db (PostgreSQL), data: balances and transactions}
+kyc_service:
+  components:
+  - {kind: service, name: kyc-orchestrator}
+  - {kind: object_storage, name: kyc-documents (S3)}
+  - {kind: database, name: kyc-db (PostgreSQL)}
+  - {kind: third_party, name: Identity verification vendor}
+  flows:
+  - {source: Customer app, target: kyc-orchestrator, data: identity details and document images}
+  - {source: kyc-orchestrator, target: kyc-documents (S3), data: document images}
+  - {source: kyc-orchestrator, target: kyc-db (PostgreSQL), data: case records}
+  - {source: kyc-orchestrator, target: Identity verification vendor, data: verification request}
+notification_service:
+  components:
+  - {kind: service, name: notifier}
+  - {kind: message_queue, name: domain-events (Kafka)}
+  - {kind: third_party, name: Email and SMS provider}
+  flows:
+  - {source: domain-events (Kafka), target: notifier, data: events that trigger messages}
+  - {source: notifier, target: Email and SMS provider, data: recipient contact details and message body}
+card_token_vault:
+  components:
+  - {kind: service, name: tokenization-service}
+  - {kind: database, name: vault-db (PostgreSQL)}
+  - {kind: secret_store, name: Vault and KMS}
+  - {kind: network, name: vault private subnet}
+  flows:
+  - {source: Payment services, target: tokenization-service, data: primary account numbers to tokenize and tokens to detokenize}
+  - {source: tokenization-service, target: vault-db (PostgreSQL), data: encrypted card data}
+  - {source: tokenization-service, target: Vault and KMS, data: data encryption key requests}
+ledger_service:
+  components:
+  - {kind: service, name: ledger-core}
+  - {kind: database, name: ledger-db (PostgreSQL)}
+  - {kind: message_queue, name: ledger-events (Kafka)}
+  flows:
+  - {source: Wallet and payment services, target: ledger-core, data: journal entries}
+  - {source: ledger-core, target: ledger-db (PostgreSQL), data: entries and balances}
+  - {source: ledger-core, target: ledger-events (Kafka), data: posted entry events}
+merchant_portal_api:
+  components:
+  - {kind: api_gateway, name: Portal Gateway}
+  - {kind: service, name: portal-backend}
+  - {kind: database, name: portal-db (PostgreSQL)}
+  - {kind: identity_provider, name: Keycloak}
+  - {kind: client_app, name: Merchant web app}
+  flows:
+  - {source: Merchant web app, target: Portal Gateway, data: settlement queries and user management}
+  - {source: Portal Gateway, target: Keycloak, data: token validation}
+  - {source: Portal Gateway, target: portal-backend, data: authenticated requests}
+  - {source: portal-backend, target: portal-db (PostgreSQL), data: settlements and merchant users}
+fraud_scoring:
+  components:
+  - {kind: service, name: scoring-engine}
+  - {kind: message_queue, name: payment-events (MSK)}
+  - {kind: database, name: decisions-db (PostgreSQL)}
+  - {kind: log_pipeline, name: scoring audit log group}
+  flows:
+  - {source: payment-events (MSK), target: scoring-engine, data: payment events with customer attributes}
+  - {source: scoring-engine, target: decisions-db (PostgreSQL), data: risk decisions}
+  - {source: scoring-engine, target: scoring audit log group, data: audit records}
+reporting_export:
+  components:
+  - {kind: service, name: export-job}
+  - {kind: object_storage, name: exports bucket (S3)}
+  - {kind: database, name: reporting read replica (PostgreSQL)}
+  - {kind: network, name: reporting private subnet}
+  flows:
+  - {source: export-job, target: reporting read replica (PostgreSQL), data: settlement and transaction queries}
+  - {source: export-job, target: exports bucket (S3), data: generated report files}
+  - {source: Finance analysts, target: exports bucket (S3), data: report downloads}
+webhook_dispatcher:
+  components:
+  - {kind: service, name: dispatcher}
+  - {kind: message_queue, name: delivery-queue}
+  - {kind: third_party, name: Merchant callback endpoints}
+  flows:
+  - {source: Platform services, target: dispatcher, data: events to deliver}
+  - {source: dispatcher, target: delivery-queue, data: pending deliveries}
+  - {source: dispatcher, target: Merchant callback endpoints, data: signed event payloads}
+refund_service:
+  components:
+  - {kind: api_gateway, name: Refunds Gateway}
+  - {kind: service, name: refund-core}
+  - {kind: database, name: refund-db (PostgreSQL)}
+  - {kind: message_queue, name: refund-events (Kafka)}
+  flows:
+  - {source: Merchant backend and support agents, target: Refunds Gateway, data: refund requests and approvals}
+  - {source: Refunds Gateway, target: refund-core, data: authenticated refund requests}
+  - {source: refund-core, target: refund-db (PostgreSQL), data: refund records with payment references}
+  - {source: refund-core, target: refund-events (Kafka), data: refund status events}
+data_warehouse_sync:
+  components:
+  - {kind: service, name: sync-job}
+  - {kind: database, name: analytics read replica (PostgreSQL)}
+  - {kind: object_storage, name: staging bucket (S3)}
+  - {kind: third_party, name: Analytics vendor}
+  flows:
+  - {source: sync-job, target: analytics read replica (PostgreSQL), data: table extracts}
+  - {source: sync-job, target: staging bucket (S3), data: extract files}
+  - {source: Analytics vendor, target: staging bucket (S3), data: extract downloads}
+support_console_api:
+  components:
+  - {kind: service, name: console-backend}
+  - {kind: database, name: console-db (PostgreSQL)}
+  - {kind: identity_provider, name: Keycloak}
+  - {kind: client_app, name: Support web console}
+  flows:
+  - {source: Support web console, target: console-backend, data: customer lookups and account actions}
+  - {source: console-backend, target: Keycloak, data: agent token validation}
+  - {source: console-backend, target: console-db (PostgreSQL), data: customer profiles and agent action records}
+audit_log_pipeline:
+  components:
+  - {kind: service, name: audit-collector}
+  - {kind: message_queue, name: audit-stream (MSK)}
+  - {kind: log_pipeline, name: pipeline log group}
+  - {kind: object_storage, name: audit archive (S3)}
+  flows:
+  - {source: Platform services, target: audit-collector, data: audit events}
+  - {source: audit-collector, target: audit-stream (MSK), data: normalized audit events}
+  - {source: audit-stream (MSK), target: audit archive (S3), data: archived audit batches}
+  - {source: audit-collector, target: pipeline log group, data: collector operational logs}

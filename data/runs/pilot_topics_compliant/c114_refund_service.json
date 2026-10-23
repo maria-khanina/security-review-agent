@@ -1,0 +1,33 @@
+{
+  "case_id": "c114_refund_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Card numbers are the most dangerous thing we have. Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n      \"topics\": [\"data-protection\", \"secrets\"],\n      \"observation\": \"Primary account numbers are tokenized by the card token vault\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n      \"topics\": [\"secrets\", \"secrets\"],\n      \"observation\": \"Runtime secrets are fetched from the approved secret store at startup\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"All external network traffic must use TLS 1.2 or higher, and plain HTTP listeners are not permitted.\",\n      \"topics\": [\"network\", \"cryptography\"],\n      \"observation\": \"All external network traffic must use TLS 1.2 or higher\",\n      \"requirement_id\": \"R13\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n      \"topics\": [\"network\", \"cryptography\"],\n      \"observation\": \"Services validate TLS certificates and never disable verification\",\n      \"requirement_id\": \"R17\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Every external input must be validated against a schema, and invalid requests must be rejected before processing.\",\n      \"topics\": [\"input-validation\", \"cryptography\"],\n      \"observation\": \"Every external input must be validated against a schema\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.\",\n      \"topics\": [\"logging\", \"cryptography\"],\n      \"observation\": \"Error responses include stack traces and SQL text\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"Database queries must be parameterized.\",\n      \"topics\": [\"database-access\", \"cryptography\"],\n      \"observation\": \"Database queries must be parameterized\",\n      \"requirement_id\": \"R37\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.\",\n      \"topics\": [\"operations\", \"cryptography\"],\n      \"observation\": \"Outbound traffic to third parties is restricted to an approved allowlist\",\n      \"requirement_id\": \"R38\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Non-production environments do not contain real personal or card data. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n      \"topics\": [\"data-protection\", \"secrets\"],\n      \"observation\": \"Non-production environments do not contain real personal or card data\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The CI pipeline scans dependencies and images, and critical findings must be fixed within 14 days.\",\n      \"topics\": [\"resilience\", \"cryptography\"],\n      \"observation\": \"CI pipeline scans dependencies and images\",\n      \"requirement_id\": \"R42\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"Containers must run as a non-root user.\",\n      \"topics\": [\"secrets\", \"cryptography\"],\n      \"observation\": \"Containers run as non-root users\",\n      \"requirement_id\": \"R43\",\n      \"finding_type\": \"compliant\",\n      \"severity\": \"medium\",\n      \"confidence\": 95\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.",
+      "topics": [
+        "logging",
+        "cryptography"
+      ],
+      "observation": "Error responses include stack traces and SQL text",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5000,
+        5126
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 10
+}

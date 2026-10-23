@@ -1,0 +1,180 @@
+{
+  "case_id": "c123_data_warehouse_sync",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"The Service copies a defined set of production tables every night into a staging bucket from which the analytics vendor downloads them.\",\n      \"topics\": [\"data-protection\", \"network\"],\n      \"observation\": \"Data is copied to a staging bucket without explicit mention of encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"4.0 Personally identifiable information is encrypted at rest with AES-256.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Encryption at rest is mentioned, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"4.1 Traffic between services and to data stores is encrypted in transit.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Traffic between services is encrypted in transit, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.2 The staging bucket blocks public access and is private by default.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"The staging bucket is private by default, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Encryption keys are managed in KMS and rotated annually, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.1 The database and the message brokers sit in private subnets and are not publicly reachable.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Database and message brokers are in private subnets, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.\",\n      \"topics\": [\"data-protection\"],\n      \"observation\": \"Personal data is sent to third parties under an approved data processing agreement, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"6.3 Outbound traffic from services that call third parties is restricted to an approved allowlist.\",\n      \"topics\": [\"network\"],\n      \"observation\": \"Outbound traffic from services that call third parties is restricted to an approved allowlist, but there is no explicit requirement for encryption in transit for the data being copied.\",\n      \"requirement_id\": \"R14\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The Service copies a defined set of production tables every night into a staging bucket from which the analytics vendor downloads them.",
+      "topics": [
+        "data-protection",
+        "network"
+      ],
+      "observation": "Data is copied to a staging bucket without explicit mention of encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        455,
+        590
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.0 Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Encryption at rest is mentioned, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2055,
+        2129
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.1 Traffic between services and to data stores is encrypted in transit.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Traffic between services is encrypted in transit, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2131,
+        2203
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "6.2 The staging bucket blocks public access and is private by default.",
+      "topics": [
+        "network"
+      ],
+      "observation": "The staging bucket is private by default, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3105,
+        3175
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Encryption keys are managed in KMS and rotated annually, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2310,
+        2431
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "6.1 The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database and message brokers are in private subnets, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3008,
+        3103
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data is sent to third parties under an approved data processing agreement, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2543,
+        2690
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "6.3 Outbound traffic from services that call third parties is restricted to an approved allowlist.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Outbound traffic from services that call third parties is restricted to an approved allowlist, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3177,
+        3275
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

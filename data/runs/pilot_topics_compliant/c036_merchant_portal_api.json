@@ -1,0 +1,53 @@
+{
+  "case_id": "c036_merchant_portal_api",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Database is publicly reachable during failover tests\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Personal data of rejected applicants is not deleted\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not present in artifacts\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n    \"topics\": [\"authentication\"],\n    \"observation\": \"API endpoints use OAuth2/OIDC bearer tokens\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Requests verify ownership or entitlement\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Administrative and debug endpoints are not reachable from the public internet.\",\n    \"topics\": [\"authorization\"],\n    \"observation\": \"Admin/debug endpoints are not public\",\n    \"requirement_id\": \"R8\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Access rights to production systems are reviewed at least quarterly.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Access rights are reviewed quarterly\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"PII is encrypted at rest\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"All external traffic uses TLS 1.2 or higher.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"External traffic uses TLS 1.2 or higher\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"compliant\",\n    \"severity\": \"low\",\n    \"confidence\": 90\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "For failover tests, the database is reachable from outside the VPC, so that the test runner can connect directly.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database is publicly reachable during failover tests",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2045,
+        2158
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "Personal data of rejected applicants is never removed. The product owner wants to keep the history of declined invitations.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Personal data of rejected applicants is not deleted",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1918,
+        2041
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 8
+}

@@ -1,0 +1,31 @@
+{
+ "case_id": "c113_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "test",
+ "policy_version": "v1",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "AUTH-04",
+  "AUTHZ-02",
+  "AUTHZ-04",
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-01",
+  "NET-02",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "API-05",
+  "DATA-05"
+ ]
+}

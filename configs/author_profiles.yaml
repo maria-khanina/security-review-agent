@@ -1,0 +1,212 @@
+dimensions:
+  structure: [clean_headings, bullets_only, wall_of_text, ticket_style, meeting_notes, diagram_narration, tables_only, chat_paste, delta_only, merged_voices]
+  english: [native_fluent, native_sloppy, esl_calques, junior_tutorial, jargon_dense]
+  hedging: [none, low, high]
+  terminology: [consistent, aliases_drift, wrong_terms]
+  staleness: [none, some_outdated, heavy_copy_paste]
+  length_words: [400, 2600]
+
+author_profiles:
+  - id: methodical_architect
+    summary: Thorough and tidy, but works at a high level of abstraction and skips operational details.
+    structure: clean_headings
+    english: native_fluent
+    hedging: low
+    terminology: consistent
+    staleness: none
+    length_words: [1800, 2600]
+    typical_gaps: [secret rotation, key ownership, who can query the database directly, logging of sensitive fields]
+    affinity: {ambiguity: 1.6, violation: 0.6, drift: 0.8}
+
+  - id: sprint_rusher
+    summary: Terse bullet fragments, many TBD markers, sections left as headings with one line.
+    structure: bullets_only
+    english: native_sloppy
+    hedging: low
+    terminology: aliases_drift
+    staleness: none
+    length_words: [400, 900]
+    typical_gaps: [auth between internal services, encryption at rest, data retention, error handling]
+    affinity: {ambiguity: 1.8, violation: 1.0, drift: 0.7}
+
+  - id: stream_of_consciousness
+    summary: Long unbroken paragraphs written as thinking aloud, flows described in the order they came to mind.
+    structure: wall_of_text
+    english: native_sloppy
+    hedging: high
+    terminology: aliases_drift
+    staleness: none
+    length_words: [900, 1800]
+    typical_gaps: [explicit statement of authentication method, which component stores what]
+    affinity: {ambiguity: 1.4, violation: 1.0, drift: 1.0}
+
+  - id: copy_paste_veteran
+    summary: Built from an older design with find-and-replace; stale service names and sentences that contradict the new section.
+    structure: clean_headings
+    english: native_fluent
+    hedging: none
+    terminology: aliases_drift
+    staleness: heavy_copy_paste
+    length_words: [1400, 2400]
+    typical_gaps: [which version of the auth scheme is current]
+    affinity: {ambiguity: 0.8, violation: 0.9, drift: 1.8}
+
+  - id: esl_engineer
+    summary: Competent engineer writing in a second language; missing articles, literal translations of idioms, odd word order.
+    structure: clean_headings
+    english: esl_calques
+    hedging: low
+    terminology: consistent
+    staleness: none
+    length_words: [1000, 1800]
+    typical_gaps: [negations and obligations phrased ambiguously, e.g. "should not be only encrypted"]
+    affinity: {ambiguity: 1.3, violation: 1.0, drift: 1.0}
+
+  - id: buzzword_pm
+    summary: Business framing, security stated as adjectives ("enterprise-grade", "secure by design") with no mechanisms.
+    structure: clean_headings
+    english: native_fluent
+    hedging: none
+    terminology: wrong_terms
+    staleness: none
+    length_words: [900, 1600]
+    typical_gaps: [every concrete control, algorithms, token lifetimes, network boundaries]
+    affinity: {ambiguity: 2.0, violation: 0.8, drift: 0.8}
+
+  - id: security_champion
+    summary: Long dedicated security section with many named controls, but some are aspirational and terms are used loosely.
+    structure: clean_headings
+    english: native_fluent
+    hedging: none
+    terminology: wrong_terms
+    staleness: some_outdated
+    length_words: [1800, 2600]
+    typical_gaps: [implementation status of the controls it lists]
+    affinity: {ambiguity: 0.7, violation: 0.7, drift: 1.9}
+
+  - id: ticket_writer
+    summary: Jira style with user stories, numbered requirements and acceptance criteria; non-functional requirements are afterthoughts.
+    structure: ticket_style
+    english: native_fluent
+    hedging: low
+    terminology: consistent
+    staleness: none
+    length_words: [900, 1700]
+    typical_gaps: [security as acceptance criteria, data classification]
+    affinity: {ambiguity: 1.5, violation: 1.0, drift: 0.8}
+
+  - id: meeting_notes
+    summary: Written as decisions and open questions after a design meeting; some decisions are reversed later in the same doc.
+    structure: meeting_notes
+    english: native_sloppy
+    hedging: high
+    terminology: aliases_drift
+    staleness: none
+    length_words: [700, 1400]
+    typical_gaps: [final outcome of open questions]
+    affinity: {ambiguity: 1.7, violation: 0.9, drift: 1.2}
+
+  - id: diagram_narrator
+    summary: Mostly an ASCII or mermaid diagram plus short captions; flows exist only as arrows between boxes.
+    structure: diagram_narration
+    english: jargon_dense
+    hedging: none
+    terminology: consistent
+    staleness: none
+    length_words: [500, 1100]
+    typical_gaps: [trust boundaries, credentials on arrows, protocols on arrows]
+    affinity: {ambiguity: 1.6, violation: 0.8, drift: 1.0}
+
+  - id: tribal_knowledge_staff
+    summary: Overcommitted senior engineer; dense jargon and abbreviations, assumes the reader knows the platform.
+    structure: bullets_only
+    english: jargon_dense
+    hedging: none
+    terminology: consistent
+    staleness: none
+    length_words: [500, 1000]
+    typical_gaps: [anything covered by "the usual platform setup"]
+    affinity: {ambiguity: 1.9, violation: 0.7, drift: 0.9}
+
+  - id: junior_tutorial
+    summary: Explains basics at length and mixes up concepts such as hashing, encryption and encoding, or JWT and sessions.
+    structure: clean_headings
+    english: junior_tutorial
+    hedging: low
+    terminology: wrong_terms
+    staleness: none
+    length_words: [1500, 2600]
+    typical_gaps: [correct choice of primitives]
+    affinity: {ambiguity: 0.8, violation: 1.8, drift: 0.9}
+
+  - id: compliance_voice
+    summary: Legalistic language citing standards and "in accordance with company policy" without saying what is actually done.
+    structure: clean_headings
+    english: native_fluent
+    hedging: none
+    terminology: consistent
+    staleness: none
+    length_words: [1200, 2200]
+    typical_gaps: [concrete mechanism behind every claimed compliance]
+    affinity: {ambiguity: 1.9, violation: 0.7, drift: 1.1}
+
+  - id: optimistic_roadmapper
+    summary: Describes planned features in present tense; future and current state are blurred.
+    structure: clean_headings
+    english: native_fluent
+    hedging: low
+    terminology: consistent
+    staleness: none
+    length_words: [1200, 2200]
+    typical_gaps: [which controls exist today]
+    affinity: {ambiguity: 0.9, violation: 0.8, drift: 2.0}
+
+  - id: merged_two_authors
+    summary: Two people wrote different halves; heading levels, terminology and level of detail change midway and sections disagree.
+    structure: merged_voices
+    english: native_sloppy
+    hedging: low
+    terminology: aliases_drift
+    staleness: some_outdated
+    length_words: [1500, 2600]
+    typical_gaps: [consistency between the halves]
+    affinity: {ambiguity: 1.0, violation: 1.0, drift: 1.5}
+
+  - id: slack_paste
+    summary: Chat excerpts pasted into the doc with names, informal tone and half-sentences; decisions are implicit.
+    structure: chat_paste
+    english: native_sloppy
+    hedging: high
+    terminology: aliases_drift
+    staleness: none
+    length_words: [600, 1300]
+    typical_gaps: [anything said in a thread that was not pasted]
+    affinity: {ambiguity: 1.8, violation: 1.1, drift: 0.9}
+
+  - id: table_lover
+    summary: Everything in tables (components, endpoints, data stores); prose is minimal and some tables are malformed.
+    structure: tables_only
+    english: jargon_dense
+    hedging: none
+    terminology: consistent
+    staleness: none
+    length_words: [600, 1300]
+    typical_gaps: [reasons and conditions that do not fit a table cell]
+    affinity: {ambiguity: 1.3, violation: 0.9, drift: 1.0}
+
+  - id: migration_delta_writer
+    summary: Describes only what changes relative to the existing system and assumes the old behavior carries over.
+    structure: delta_only
+    english: native_fluent
+    hedging: low
+    terminology: consistent
+    staleness: some_outdated
+    length_words: [700, 1500]
+    typical_gaps: [security properties inherited from the old system]
+    affinity: {ambiguity: 1.7, violation: 0.8, drift: 1.4}
+
+noise_knobs:
+  typo_rate: [0.0, 0.01, 0.03]
+  markdown_breakage: [none, light, heavy]
+  dangling_references: [0, 1, 3]
+  tbd_markers: [0, 2, 5]

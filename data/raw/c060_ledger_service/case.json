@@ -1,0 +1,90 @@
+{
+ "case_id": "c060_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTH-02",
+   "drift_id": null,
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-287"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How one internal service proves its identity to another.",
+   "instruction": "Mention ledger-core naturally, but do NOT state: How one internal service proves its identity to another. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-08",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-20"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_freeform_body",
+   "implementation_anchor": "/paths/~1v1~1entries/post/requestBody",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "CRYPTO-05",
+   "drift_id": null,
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-327"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use only approved cryptographic algorithms",
+     "stop using MD5, SHA-1, DES, 3DES and ECB mode"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Tokens are signed with an HMAC based on MD5 because the library defaults to it."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "SECRET-01",
+  "NET-01",
+  "LOG-01",
+  "API-05"
+ ]
+}

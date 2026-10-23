@@ -1,0 +1,124 @@
+{
+  "case_id": "c007_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"observation\": \"Design explicitly prohibits prohibited algorithms\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"observation\": \"Design mentions logging of sensitive data access\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"observation\": \"Design mentions dependency scanning but not specific to secrets\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"All traffic to ledger-core is served over HTTPS only.\",\n    \"observation\": \"Design mentions HTTPS but not TLS 1.2 or higher\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"The service exposes only the endpoints listed in this API section.\",\n    \"observation\": \"Design does not mention protection against excessive use\",\n    \"requirement_id\": \"R28\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 70\n  },\n  {\n    \"design_quote\": \"Entry posting is idempotent on the reference field.\",\n    \"observation\": \"Design does not mention validation of external input against a schema\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [],
+      "observation": "Design explicitly prohibits prohibited algorithms",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3174,
+        3273
+      ],
+      "policy_span": [
+        1286,
+        1332
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [],
+      "observation": "Design mentions logging of sensitive data access",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3276,
+        3359
+      ],
+      "policy_span": [
+        2445,
+        2518
+      ]
+    },
+    {
+      "design_quote": "CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "Design mentions dependency scanning but not specific to secrets",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3362,
+        3450
+      ],
+      "policy_span": [
+        2112,
+        2171
+      ]
+    },
+    {
+      "design_quote": "All traffic to ledger-core is served over HTTPS only.",
+      "topics": [],
+      "observation": "Design mentions HTTPS but not TLS 1.2 or higher",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3464,
+        3517
+      ],
+      "policy_span": [
+        1119,
+        1163
+      ]
+    },
+    {
+      "design_quote": "The service exposes only the endpoints listed in this API section.",
+      "topics": [],
+      "observation": "Design does not mention protection against excessive use",
+      "requirement_id": "R28",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1929,
+        1995
+      ],
+      "policy_span": [
+        2260,
+        2312
+      ]
+    },
+    {
+      "design_quote": "Entry posting is idempotent on the reference field.",
+      "topics": [],
+      "observation": "Design does not mention validation of external input against a schema",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2367,
+        2418
+      ],
+      "policy_span": [
+        2212,
+        2257
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

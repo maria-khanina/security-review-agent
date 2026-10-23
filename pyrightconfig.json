@@ -1,0 +1,7 @@
+{
+  "typeCheckingMode": "strict",
+  "pythonVersion": "3.13",
+  "include": ["src", "scripts", "tests"],
+  "extraPaths": ["src"],
+  "stubPath": "typings"
+}

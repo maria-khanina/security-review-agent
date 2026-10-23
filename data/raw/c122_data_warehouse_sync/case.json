@@ -1,0 +1,93 @@
+{
+ "case_id": "c122_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "dev",
+ "policy_version": "v1",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DATA-01",
+   "drift_id": null,
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "collect and store only the personal data needed for the purpose"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The profile table keeps every attribute the mobile app can send."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "LOG-01",
+   "drift_id": null,
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which security events are logged.",
+   "instruction": "Mention sync-job naturally, but do NOT state: Which security events are logged. Wrap the sentence(s) that mention sync-job (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-12",
+   "component": "analytics read replica (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_db_public",
+   "implementation_anchor": "aws_db_instance.analytics_replica",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The database sits in private subnets with no public endpoint. Wrap the sentence(s) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTHZ-02",
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "NET-02",
+  "DATA-03",
+  "API-05",
+  "DATA-05"
+ ]
+}

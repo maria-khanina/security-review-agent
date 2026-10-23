@@ -1,0 +1,121 @@
+{
+  "case_id": "c061_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows. The page size is fixed at the service level so that clients cannot request unbounded pages.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"Pagination is implemented with keyset pagination, but no schema validation is mentioned\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.\",\n    \"topics\": [\"authorization\", \"data-protection\"],\n    \"observation\": \"Reversal entries are not checked for proper authorization\",\n    \"requirement_id\": \"R5\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n    \"topics\": [\"resilience\", \"operations\"],\n    \"observation\": \"No requirement for handling errors or retries in reconciliation process\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.\",\n    \"topics\": [\"database-access\", \"operations\"],\n    \"observation\": \"No requirement for handling transaction failures or retries\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The reconciliation job and its alert exist and have been exercised once with an injected difference.\",\n    \"topics\": [\"resilience\", \"operations\"],\n    \"observation\": \"No requirement for regular testing of reconciliation process\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows. The page size is fixed at the service level so that clients cannot request unbounded pages.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"No requirement for handling large data sets or pagination limits\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.\",\n    \"topics\": [\"database-access\", \"operations\"],\n    \"observation\": \"No requirement for handling transaction failures or retries\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.\",\n    \"topics\": [\"resilience\", \"operations\"],\n    \"observation\": \"No requirement for handling errors or retries in reconciliation process\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The list endpoint uses keyset pagination on the posting time and the entry id, because offset pagination becomes slow once the table holds hundreds of millions of rows. The page size is fixed at the service level so that clients cannot request unbounded pages.",
+      "topics": [
+        "input-validation",
+        "data-protection"
+      ],
+      "observation": "Pagination is implemented with keyset pagination, but no schema validation is mentioned",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3401,
+        3661
+      ],
+      "policy_span": [
+        2212,
+        2257
+      ]
+    },
+    {
+      "design_quote": "Reversal is implemented as a normal posting with the debit and credit accounts swapped and a link to the original entry. Because the original is never modified, the audit trail of a correction is complete: the reader sees the mistake, the reversal and the corrected entry in order.",
+      "topics": [
+        "authorization",
+        "data-protection"
+      ],
+      "observation": "Reversal entries are not checked for proper authorization",
+      "requirement_id": "R5",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3663,
+        3944
+      ],
+      "policy_span": [
+        627,
+        715
+      ]
+    },
+    {
+      "design_quote": "The reconciliation job runs after midnight UTC and writes its result to the finance channel. Any difference raises a page to the on-call finance engineer.",
+      "topics": [
+        "resilience",
+        "operations"
+      ],
+      "observation": "No requirement for handling errors or retries in reconciliation process",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1978,
+        2132
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    },
+    {
+      "design_quote": "The entry and an outbox row are written in one database transaction, and a relay publishes the event afterwards, which guarantees that an event is never published for an entry that was not committed.",
+      "topics": [
+        "database-access",
+        "operations"
+      ],
+      "observation": "No requirement for handling transaction failures or retries",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3012,
+        3211
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    },
+    {
+      "design_quote": "The reconciliation job and its alert exist and have been exercised once with an injected difference.",
+      "topics": [
+        "resilience",
+        "operations"
+      ],
+      "observation": "No requirement for regular testing of reconciliation process",
+      "requirement_id": "R15",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4334,
+        4432
+      ],
+      "policy_span": [
+        1335,
+        1401
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

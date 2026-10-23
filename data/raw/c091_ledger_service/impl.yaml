@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: Ledger API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/entries:
+    post:
+      operationId: postEntry
+      summary: Post a balanced journal entry
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entry'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntryRequest'
+      security: []
+    get:
+      operationId: listEntries
+      summary: List entries
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Entry'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: account_id
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/entries/{entryId}:
+    get:
+      operationId: getEntry
+      summary: Retrieve an entry
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entry'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/accounts/{accountId}/balance:
+    get:
+      operationId: getBalance
+      summary: Get account balance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: accountId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/entries/{entryId}/reversal:
+    post:
+      operationId: reverseEntry
+      summary: Reverse an entry
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entry'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: entryId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReversalRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    EntryRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - debit_account
+      - credit_account
+      - amount
+      - currency
+      - reference
+      properties:
+        debit_account:
+          type: string
+          maxLength: 256
+        credit_account:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        reference:
+          type: string
+          maxLength: 256
+    ReversalRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          maxLength: 256
+    Entry:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - debit_account
+      - credit_account
+      - amount
+      - posted_at
+      - pan
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        debit_account:
+          type: string
+          maxLength: 256
+        credit_account:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        posted_at:
+          type: string
+          maxLength: 256
+        pan:
+          type: string
+          maxLength: 19
+    Balance:
+      type: object
+      additionalProperties: false
+      required:
+      - account_id
+      - balance
+      - currency
+      properties:
+        account_id:
+          type: string
+          maxLength: 256
+        balance:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

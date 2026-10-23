@@ -1,0 +1,252 @@
+{
+  "case_id": "c043_ledger_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"Internal service calls must carry mutual TLS or signed workload identity tokens\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Traffic between services, and between services and data stores or brokers, is encrypted in transit.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Traffic between services must be encrypted in transit\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"input-validation\", \"cryptography\"],\n    \"observation\": \"Only approved algorithms are used\",\n    \"requirement_id\": \"R15\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"topics\": [\"data-protection\", \"secrets\"],\n    \"observation\": \"Encryption keys are stored in KMS and rotated annually\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Services validate TLS certificates and never disable verification\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"Secrets are not stored in artifacts\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"Runtime secrets are fetched from the secret store at startup\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"input-validation\", \"database-access\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R33\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"topics\": [\"input-validation\", \"cryptography\"],\n    \"observation\": \"Webhook payloads are signed and verified\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"resilience\", \"operations\"],\n    \"observation\": \"CI pipeline scans dependencies and images\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\", \"secrets\"],\n    \"observation\": \"Containers run as non-root users\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "Internal service calls must carry mutual TLS or signed workload identity tokens",
+      "requirement_id": "R2",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2003,
+        2110
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "Traffic between services, and between services and data stores or brokers, is encrypted in transit.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Traffic between services must be encrypted in transit",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2244,
+        2343
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "input-validation",
+        "cryptography"
+      ],
+      "observation": "Only approved algorithms are used",
+      "requirement_id": "R15",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2369,
+        2468
+      ],
+      "policy_span": [
+        2265,
+        2357
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "data-protection",
+        "secrets"
+      ],
+      "observation": "Encryption keys are stored in KMS and rotated annually",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2488,
+        2592
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Services validate TLS certificates and never disable verification",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2620,
+        2686
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets",
+        "governance"
+      ],
+      "observation": "Secrets are not stored in artifacts",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2722,
+        2826
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "governance"
+      ],
+      "observation": "Runtime secrets are fetched from the secret store at startup",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2861,
+        2931
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "input-validation",
+        "database-access"
+      ],
+      "observation": "Database queries are parameterized",
+      "requirement_id": "R33",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3496,
+        3588
+      ],
+      "policy_span": [
+        4527,
+        4605
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [
+        "input-validation",
+        "cryptography"
+      ],
+      "observation": "Webhook payloads are signed and verified",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3389,
+        3472
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "resilience",
+        "operations"
+      ],
+      "observation": "CI pipeline scans dependencies and images",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3613,
+        3714
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations",
+        "secrets"
+      ],
+      "observation": "Containers run as non-root users",
+      "requirement_id": "R43",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3741,
+        3824
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

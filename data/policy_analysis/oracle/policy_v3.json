@@ -1,0 +1,415 @@
+{
+  "policy_version": "v3",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Public endpoints MUST require OAuth2/OIDC bearer tokens or mutual TLS.",
+      "span": [
+        329,
+        399
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Services SHOULD authenticate each other with mutual TLS or workload identity tokens.",
+      "span": [
+        402,
+        486
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Access tokens MUST expire within 15 minutes.",
+      "span": [
+        489,
+        533
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "Passwords MUST be hashed with argon2id or bcrypt.",
+      "span": [
+        575,
+        624
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication",
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "A service MUST check that the caller is allowed to access the specific record requested.",
+      "span": [
+        627,
+        715
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Each service SHOULD use its own database account with the least privilege required.",
+      "span": [
+        718,
+        801
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "authorization",
+        "database-access"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "Admin and debug endpoints MUST NOT be exposed to the public internet.",
+      "span": [
+        804,
+        873
+      ],
+      "wording": "clear",
+      "topics": [
+        "authorization",
+        "network"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "For long-lived sessions, an access token lifetime of up to 30 minutes is acceptable.",
+      "span": [
+        876,
+        960
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "authentication"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Personal data at rest MUST be encrypted with AES-256.",
+      "span": [
+        990,
+        1043
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Card numbers MUST NOT be stored. Use tokens from the card token vault.",
+      "span": [
+        1046,
+        1116
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "External traffic MUST use TLS 1.2 or higher.",
+      "span": [
+        1119,
+        1163
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "cryptography",
+        "network"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "Legacy partner endpoints may use TLS 1.0 until they have migrated.",
+      "span": [
+        1166,
+        1232
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "cryptography",
+        "network"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Internal traffic SHOULD be encrypted in transit.",
+      "span": [
+        1235,
+        1283
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "cryptography",
+        "network"
+      ]
+    },
+    {
+      "id": "R14",
+      "quote": "MD5, SHA-1, DES and ECB mode MUST NOT be used.",
+      "span": [
+        1286,
+        1332
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R15",
+      "quote": "Personal data MUST have a retention period and a deletion process.",
+      "span": [
+        1335,
+        1401
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R16",
+      "quote": "Sending personal data to a vendor MUST be covered by a data processing agreement, and you MUST send only the fields the vendor needs.",
+      "span": [
+        1404,
+        1537
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R17",
+      "quote": "Backups should be encrypted and restore procedures tested regularly.",
+      "span": [
+        1540,
+        1608
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "resilience",
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R18",
+      "quote": "Secrets MUST NOT be committed to code, configuration or specs.",
+      "span": [
+        1643,
+        1705
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R19",
+      "quote": "Services MUST fetch secrets from the secret store at runtime.",
+      "span": [
+        1708,
+        1769
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R20",
+      "quote": "Databases and brokers MUST be in private subnets.",
+      "span": [
+        1772,
+        1821
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R21",
+      "quote": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+      "span": [
+        1824,
+        1933
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R22",
+      "quote": "Buckets MUST block public access.",
+      "span": [
+        1936,
+        1969
+      ],
+      "wording": "clear",
+      "topics": [
+        "network",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R23",
+      "quote": "SSH, RDP and database ports MUST NOT be open to the world.",
+      "span": [
+        1972,
+        2030
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R24",
+      "quote": "Public services SHOULD be behind a WAF.",
+      "span": [
+        2033,
+        2072
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "network",
+        "resilience"
+      ]
+    },
+    {
+      "id": "R25",
+      "quote": "Containers SHOULD run as non-root.",
+      "span": [
+        2075,
+        2109
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R26",
+      "quote": "Pipelines MUST scan dependencies for known vulnerabilities.",
+      "span": [
+        2112,
+        2171
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R27",
+      "quote": "Validate all external input against a schema.",
+      "span": [
+        2212,
+        2257
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R28",
+      "quote": "Public APIs MUST be protected against excessive use.",
+      "span": [
+        2260,
+        2312
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R29",
+      "quote": "Use parameterized queries only.",
+      "span": [
+        2315,
+        2346
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation",
+        "database-access"
+      ]
+    },
+    {
+      "id": "R30",
+      "quote": "Browsers MUST be allowed to call our APIs only from approved origins through restricted CORS.",
+      "span": [
+        2349,
+        2442
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R31",
+      "quote": "Log authentication failures, privilege changes and sensitive data access.",
+      "span": [
+        2445,
+        2518
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging"
+      ]
+    },
+    {
+      "id": "R32",
+      "quote": "Never log secrets, card numbers or personal data other than opaque ids.",
+      "span": [
+        2521,
+        2592
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R33",
+      "quote": "Audit logs MUST be kept long enough to meet regulatory obligations.",
+      "span": [
+        2595,
+        2662
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "logging",
+        "governance"
+      ]
+    }
+  ]
+}

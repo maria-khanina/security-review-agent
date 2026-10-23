@@ -1,0 +1,76 @@
+{
+  "case_id": "c124_payment_gateway",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.\",\n    \"topics\": [\"network\", \"cryptography\"],\n    \"observation\": \"Accepts any certificate, which may allow man-in-the-middle attacks\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The service can reach any address on the internet, and no egress rules exist.\",\n    \"topics\": [\"network\", \"operations\"],\n    \"observation\": \"No egress rules mean potential exposure of internal services to the internet\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"secrets\"],\n    \"observation\": \"Secrets are not stored in source code or configuration files\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.\",\n    \"topics\": [\"network\", \"cryptography\"],\n    \"observation\": \"Accepts any certificate, which may allow man-in-the-middle attacks\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The service can reach any address on the internet, and no egress rules exist.\",\n    \"topics\": [\"network\", \"operations\"],\n    \"observation\": \"No egress rules mean potential exposure of internal services to the internet\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"secrets\"],\n    \"observation\": \"Secrets are not stored in source code or configuration files\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.",
+      "topics": [
+        "network",
+        "cryptography"
+      ],
+      "observation": "Accepts any certificate, which may allow man-in-the-middle attacks",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2691,
+        2874
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "The service can reach any address on the internet, and no egress rules exist.",
+      "topics": [
+        "network",
+        "operations"
+      ],
+      "observation": "No egress rules mean potential exposure of internal services to the internet",
+      "requirement_id": "R37",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 85,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2875,
+        2952
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code or configuration files",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2954,
+        3129
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

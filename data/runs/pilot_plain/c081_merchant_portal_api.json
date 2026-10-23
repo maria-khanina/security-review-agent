@@ -1,0 +1,162 @@
+{
+  "case_id": "c081_merchant_portal_api",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.\",\n      \"observation\": \"Design states authentication method but does not specify if it meets R1 requirement for OAuth2 or mutual TLS.\",\n      \"requirement_id\": \"R1\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.\",\n      \"observation\": \"Design states verification but does not specify if it meets R6 requirement for verifying entitlement to customer-owned resources.\",\n      \"requirement_id\": \"R6\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n      \"observation\": \"Design states secret management but does not specify if it meets R16 requirement for secrets not appearing in source code, etc.\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n      \"observation\": \"Design states input validation but does not specify if it meets R31 requirement for all external inputs to be validated against a defined schema.\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Only one job per type and range runs at a time per merchant.\",\n      \"observation\": \"Design states job management but does not specify if it meets R29 requirement for personal data to be disclosed only under approved data processing agreements.\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The invite call creates the user in a pending state and sends an activation email through the notification platform.\",\n      \"observation\": \"Design states user creation but does not specify if it meets R5 requirement for user passwords to be stored only as salted hashes produced with argon2id or bcrypt.\",\n      \"requirement_id\": \"R5\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"The settlements list is read from a table filled nightly by the finance pipeline, and the portal never writes to it.\",\n      \"observation\": \"Design states data handling but does not specify if it meets R27 requirement for services to collect and store only the personal data necessary for their stated purpose.\",\n      \"requirement_id\": \"R27\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    },\n    {\n      \"design_quote\": \"Reports that contain personal data require authorization to download, are encrypted in storage and expire.\",\n      \"observation\": \"Design states report handling but does not specify if it meets R30 requirement for reports and exports containing personal data to be accessible only to authorized users, encrypted in storage and to expire after a defined period.\",\n      \"requirement_id\": \"R30\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+      "topics": [],
+      "observation": "Design states authentication method but does not specify if it meets R1 requirement for OAuth2 or mutual TLS.",
+      "requirement_id": "R1",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1128,
+        1235
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+      "topics": [],
+      "observation": "Design states verification but does not specify if it meets R6 requirement for verifying entitlement to customer-owned resources.",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1236,
+        1344
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [],
+      "observation": "Design states secret management but does not specify if it meets R16 requirement for secrets not appearing in source code, etc.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1587,
+        1691
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [],
+      "observation": "Design states input validation but does not specify if it meets R31 requirement for all external inputs to be validated against a defined schema.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2895,
+        2970
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Only one job per type and range runs at a time per merchant.",
+      "topics": [],
+      "observation": "Design states job management but does not specify if it meets R29 requirement for personal data to be disclosed only under approved data processing agreements.",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2113,
+        2173
+      ],
+      "policy_span": [
+        4025,
+        4182
+      ]
+    },
+    {
+      "design_quote": "The invite call creates the user in a pending state and sends an activation email through the notification platform.",
+      "topics": [],
+      "observation": "Design states user creation but does not specify if it meets R5 requirement for user passwords to be stored only as salted hashes produced with argon2id or bcrypt.",
+      "requirement_id": "R5",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2987,
+        3103
+      ],
+      "policy_span": [
+        1340,
+        1476
+      ]
+    },
+    {
+      "design_quote": "The settlements list is read from a table filled nightly by the finance pipeline, and the portal never writes to it.",
+      "topics": [],
+      "observation": "Design states data handling but does not specify if it meets R27 requirement for services to collect and store only the personal data necessary for their stated purpose.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3158,
+        3274
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Reports that contain personal data require authorization to download, are encrypted in storage and expire.",
+      "topics": [],
+      "observation": "Design states report handling but does not specify if it meets R30 requirement for reports and exports containing personal data to be accessible only to authorized users, encrypted in storage and to expire after a defined period.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2765,
+        2871
+      ],
+      "policy_span": [
+        4187,
+        4345
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

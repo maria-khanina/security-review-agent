@@ -1,0 +1,10 @@
+exposure_multiplier: {external: 1.0, admin: 0.8, internal: 0.7}
+data_multiplier: {card_data: 1.0, credentials: 1.0, pii: 0.85, internal: 0.5, logs: 0.4, public: 0.2}
+compensating_control_multiplier: 0.6
+ambiguity_step_down: 1
+bins:
+  - {upper_bound: 1.0, label: low}
+  - {upper_bound: 2.0, label: medium}
+  - {upper_bound: 3.0, label: high}
+  - {upper_bound: 99, label: critical}
+weights_for_risk_score: {low: 1, medium: 2, high: 4, critical: 8}

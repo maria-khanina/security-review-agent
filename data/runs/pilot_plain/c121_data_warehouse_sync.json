@@ -1,0 +1,124 @@
+{
+  "case_id": "c121_data_warehouse_sync",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"TLS between the components was switched off during the load tests and it has not been switched on again.\",\n      \"observation\": \"Transport layer encryption is not enabled for components\",\n      \"requirement_id\": \"R11\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The staging bucket blocks public access and is private by default.\",\n      \"observation\": \"Bucket access is restricted but not explicitly confirmed to meet R12\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n      \"observation\": \"Secrets are not committed to code or specs, but not explicitly confirmed to meet R18\",\n      \"requirement_id\": \"R18\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 85\n    },\n    {\n      \"design_quote\": \"The staging bucket blocks public access and is private by default.\",\n      \"observation\": \"Bucket is private but not explicitly confirmed to meet R22\",\n      \"requirement_id\": \"R22\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 80\n    },\n    {\n      \"design_quote\": \"Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.\",\n      \"observation\": \"Data processing agreements are not explicitly confirmed to meet R16\",\n      \"requirement_id\": \"R16\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n      \"observation\": \"Dependency scanning is not explicitly confirmed to meet R26\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 70\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "TLS between the components was switched off during the load tests and it has not been switched on again.",
+      "topics": [],
+      "observation": "Transport layer encryption is not enabled for components",
+      "requirement_id": "R11",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2665,
+        2769
+      ],
+      "policy_span": [
+        1119,
+        1163
+      ]
+    },
+    {
+      "design_quote": "The staging bucket blocks public access and is private by default.",
+      "topics": [],
+      "observation": "Bucket access is restricted but not explicitly confirmed to meet R12",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "review_policy",
+      "wording": "vague_or_advisory",
+      "design_span": [
+        2973,
+        3039
+      ],
+      "policy_span": [
+        1166,
+        1232
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "Secrets are not committed to code or specs, but not explicitly confirmed to meet R18",
+      "requirement_id": "R18",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2784,
+        2959
+      ],
+      "policy_span": [
+        1643,
+        1705
+      ]
+    },
+    {
+      "design_quote": "The staging bucket blocks public access and is private by default.",
+      "topics": [],
+      "observation": "Bucket is private but not explicitly confirmed to meet R22",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2973,
+        3039
+      ],
+      "policy_span": [
+        1936,
+        1969
+      ]
+    },
+    {
+      "design_quote": "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+      "topics": [],
+      "observation": "Data processing agreements are not explicitly confirmed to meet R16",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3355,
+        3473
+      ],
+      "policy_span": [
+        1404,
+        1537
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "Dependency scanning is not explicitly confirmed to meet R26",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 70,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3591,
+        3692
+      ],
+      "policy_span": [
+        2112,
+        2171
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

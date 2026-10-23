@@ -1,0 +1,124 @@
+{
+  "case_id": "c114_refund_service",
+  "raw_reply": "{\n  \"findings\": [\n    {\n      \"design_quote\": \"Card numbers are the most dangerous thing we have. Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n      \"observation\": \"Primary account numbers are not stored in clear text, but the design does not explicitly state that they are replaced by tokens issued by the card token vault.\",\n      \"requirement_id\": \"R12\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n      \"observation\": \"The design states that secrets are not stored in source code, configuration files, specifications, or infrastructure definitions, but does not explicitly mention that secrets must not be stored in source code, configuration files, API specifications or infrastructure definitions as per R26.\",\n      \"requirement_id\": \"R26\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n      \"observation\": \"The design states that external inputs are validated against a schema, but does not explicitly mention that every external input must be validated against a schema as per R29.\",\n      \"requirement_id\": \"R29\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.\",\n      \"observation\": \"The design states that error responses include stack traces and SQL text, which violates R31 that requires error responses must not contain stack traces, SQL text or internal host names.\",\n      \"requirement_id\": \"R31\",\n      \"finding_type\": \"violation\",\n      \"severity\": \"high\",\n      \"confidence\": 95\n    },\n    {\n      \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n      \"observation\": \"The design states that the CI pipeline scans dependencies and images, but does not explicitly mention that continuous integration must scan dependencies and container images as per R42.\",\n      \"requirement_id\": \"R42\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    },\n    {\n      \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n      \"observation\": \"The design states that containers run as a non-root user, but does not explicitly mention that containers must run as a non-root user as per R43.\",\n      \"requirement_id\": \"R43\",\n      \"finding_type\": \"ambiguity\",\n      \"severity\": \"medium\",\n      \"confidence\": 75\n    }\n  ]\n}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Card numbers are the most dangerous thing we have. Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [],
+      "observation": "Primary account numbers are not stored in clear text, but the design does not explicitly state that they are replaced by tokens issued by the card token vault.",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3702,
+        3850
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "The design states that secrets are not stored in source code, configuration files, specifications, or infrastructure definitions, but does not explicitly mention that secrets must not be stored in source code, configuration files, API specifications or infrastructure definitions as per R26.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4241,
+        4416
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [],
+      "observation": "The design states that external inputs are validated against a schema, but does not explicitly mention that every external input must be validated against a schema as per R29.",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4745,
+        4820
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.",
+      "topics": [],
+      "observation": "The design states that error responses include stack traces and SQL text, which violates R31 that requires error responses must not contain stack traces, SQL text or internal host names.",
+      "requirement_id": "R31",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        5000,
+        5126
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [],
+      "observation": "The design states that the CI pipeline scans dependencies and images, but does not explicitly mention that continuous integration must scan dependencies and container images as per R42.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        5127,
+        5228
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "The design states that containers run as a non-root user, but does not explicitly mention that containers must run as a non-root user as per R43.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        5229,
+        5312
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

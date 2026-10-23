@@ -1,0 +1,7 @@
+examples:
+  - {base: 4, exposure: external, data_class: card_data, compensating: false, ambiguity: false, expected: critical}
+  - {base: 3, exposure: external, data_class: pii, compensating: false, ambiguity: false, expected: high}
+  - {base: 2, exposure: internal, data_class: internal, compensating: false, ambiguity: false, expected: low}
+  - {base: 2, exposure: external, data_class: pii, compensating: false, ambiguity: false, expected: medium}
+  - {base: 4, exposure: external, data_class: card_data, compensating: false, ambiguity: true, expected: high}
+  - {base: 4, exposure: external, data_class: card_data, compensating: true, ambiguity: false, expected: high}

@@ -1,0 +1,74 @@
+{
+ "case_id": "c006_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "test",
+ "policy_version": "v3",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "drift",
+   "rule_id": null,
+   "drift_id": "D-11",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-668"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "terraform_open_ingress",
+   "implementation_anchor": "aws_security_group.reporting_sg",
+   "remediation_options": [
+    [
+     "restore the documented behavior in the implementation"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SECRET-01",
+   "drift_id": null,
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-798"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "spec_hardcoded_secret",
+   "implementation_anchor": "aws_db_instance.reporting_ro_db",
+   "remediation_options": [
+    [
+     "remove secrets from source code, configuration, specifications and infrastructure definitions"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The default credentials used by the service are written in its configuration and infrastructure files."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "NET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "DATA-03",
+  "API-05",
+  "OPS-01"
+ ]
+}

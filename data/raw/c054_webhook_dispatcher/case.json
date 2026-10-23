@@ -1,0 +1,28 @@
+{
+ "case_id": "c054_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "test",
+ "policy_version": "v3",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "API-01",
+  "API-05",
+  "API-06",
+  "OPS-01"
+ ]
+}

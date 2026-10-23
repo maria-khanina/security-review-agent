@@ -1,0 +1,205 @@
+{
+  "case_id": "c045_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Database is publicly exposed with a public endpoint\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"critical\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-4: Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"data-protection\", \"cryptography\"],\n    \"observation\": \"PANs are tokenized as required\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 80\n  },\n  {\n    \"design_quote\": \"V-5: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Prohibited algorithms are prohibited\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not in source code, etc.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-12: Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\", \"input-validation\"],\n    \"observation\": \"Database queries are parameterized\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-3: Access rights to production systems are reviewed at least quarterly.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Access rights are reviewed quarterly\",\n    \"requirement_id\": \"R9\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"V-2: Internal users receive only the roles required for their job, and roles are defined per service.\",\n    \"topics\": [\"authorization\", \"governance\"],\n    \"observation\": \"Roles are defined per service\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  },\n  {\n    \"design_quote\": \"V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.\",\n    \"topics\": [\"authentication\", \"network\"],\n    \"observation\": \"Calls are authenticated with mutual TLS or signed tokens\",\n    \"requirement_id\": \"R1\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"V-9: Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"authentication\"],\n    \"observation\": \"Authentication failures are logged\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 90\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "V-8: The database is exposed with a public endpoint to ease analyst access. Analysts connect with their own read-only accounts from the office network.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Database is publicly exposed with a public endpoint",
+      "requirement_id": "R18",
+      "finding_type": "violation",
+      "severity": "critical",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3164,
+        3315
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "V-4: Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [
+        "data-protection",
+        "cryptography"
+      ],
+      "observation": "PANs are tokenized as required",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 80,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2804,
+        2906
+      ],
+      "policy_span": [
+        2052,
+        2162
+      ]
+    },
+    {
+      "design_quote": "V-5: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Prohibited algorithms are prohibited",
+      "requirement_id": "R14",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2909,
+        3013
+      ],
+      "policy_span": [
+        2361,
+        2489
+      ]
+    },
+    {
+      "design_quote": "V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not in source code, etc.",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3034,
+        3143
+      ],
+      "policy_span": [
+        2634,
+        2793
+      ]
+    },
+    {
+      "design_quote": "V-12: Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access",
+        "input-validation"
+      ],
+      "observation": "Database queries are parameterized",
+      "requirement_id": "R32",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3557,
+        3655
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    },
+    {
+      "design_quote": "V-3: Access rights to production systems are reviewed at least quarterly.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Access rights are reviewed quarterly",
+      "requirement_id": "R9",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2702,
+        2775
+      ],
+      "policy_span": [
+        1820,
+        1912
+      ]
+    },
+    {
+      "design_quote": "V-2: Internal users receive only the roles required for their job, and roles are defined per service.",
+      "topics": [
+        "authorization",
+        "governance"
+      ],
+      "observation": "Roles are defined per service",
+      "requirement_id": "R7",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2598,
+        2699
+      ],
+      "policy_span": [
+        1606,
+        1727
+      ]
+    },
+    {
+      "design_quote": "V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.",
+      "topics": [
+        "authentication",
+        "network"
+      ],
+      "observation": "Calls are authenticated with mutual TLS or signed tokens",
+      "requirement_id": "R1",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2465,
+        2595
+      ],
+      "policy_span": [
+        769,
+        895
+      ]
+    },
+    {
+      "design_quote": "V-9: Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging",
+        "authentication"
+      ],
+      "observation": "Authentication failures are logged",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 90,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        3435,
+        3523
+      ],
+      "policy_span": [
+        3347,
+        3434
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

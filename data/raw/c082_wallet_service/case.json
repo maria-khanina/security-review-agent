@@ -1,0 +1,70 @@
+{
+ "case_id": "c082_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTH-01",
+   "drift_id": null,
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-306",
+    "CWE-287"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which mechanism authenticates callers of the public endpoints.",
+   "instruction": "Mention Mobile API Gateway naturally, but do NOT state: Which mechanism authenticates callers of the public endpoints. Wrap the sentence(s) that mention Mobile API Gateway (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-04",
+   "drift_id": null,
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-284"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Where administrative endpoints are exposed and to whom.",
+   "instruction": "Mention Mobile API Gateway naturally, but do NOT state: Where administrative endpoints are exposed and to whom. Wrap the sentence(s) that mention Mobile API Gateway (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "AUTH-05",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "API-06",
+  "OPS-01"
+ ]
+}

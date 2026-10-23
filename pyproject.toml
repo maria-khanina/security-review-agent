@@ -1,0 +1,28 @@
+[project]
+name = "secreview"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+  "pyyaml",
+  "openapi-spec-validator",
+  "jsonschema",
+  "python-hcl2",
+  "pydantic>=2",
+  "qdrant-client",
+  "rapidfuzz",
+  "rank-bm25",
+  "sentence-transformers",
+  "httpx",
+  "numpy",
+  "pandas",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pycodestyle", "pyright", "types-PyYAML"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

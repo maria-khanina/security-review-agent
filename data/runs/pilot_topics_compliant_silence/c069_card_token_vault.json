@@ -1,0 +1,143 @@
+{
+  "case_id": "c069_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"data-protection\", \"secrets\"],\n    \"observation\": \"Design states that PANs are tokenized by the card token vault, but does not explicitly reference R12.\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"Design states that secrets are not stored in source code, etc., but does not explicitly reference R26.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\", \"governance\"],\n    \"observation\": \"Design states that runtime secrets are fetched from the approved secret store, but does not explicitly reference R27.\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist.\",\n    \"topics\": [\"network\", \"governance\"],\n    \"observation\": \"Design states that third-party egress is restricted to an allowlist, but does not explicitly reference R38.\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\", \"governance\"],\n    \"observation\": \"Design states that authentication failures and sensitive data access are logged, but does not explicitly reference R39.\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.\",\n    \"topics\": [\"data-protection\", \"governance\"],\n    \"observation\": \"Design states that non-production environments use synthetic data, but does not explicitly reference R22.\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [
+        "data-protection",
+        "secrets"
+      ],
+      "observation": "Design states that PANs are tokenized by the card token vault, but does not explicitly reference R12.",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1288,
+        1385
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets",
+        "governance"
+      ],
+      "observation": "Design states that secrets are not stored in source code, etc., but does not explicitly reference R26.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1891,
+        1995
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets",
+        "governance"
+      ],
+      "observation": "Design states that runtime secrets are fetched from the approved secret store, but does not explicitly reference R27.",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1998,
+        2068
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [
+        "network",
+        "governance"
+      ],
+      "observation": "Design states that third-party egress is restricted to an allowlist, but does not explicitly reference R38.",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2220,
+        2307
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging",
+        "governance"
+      ],
+      "observation": "Design states that authentication failures and sensitive data access are logged, but does not explicitly reference R39.",
+      "requirement_id": "R39",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2395,
+        2478
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.",
+      "topics": [
+        "data-protection",
+        "governance"
+      ],
+      "observation": "Design states that non-production environments use synthetic data, but does not explicitly reference R22.",
+      "requirement_id": "R22",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2503,
+        2631
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

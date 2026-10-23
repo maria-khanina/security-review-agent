@@ -1,0 +1,200 @@
+{
+  "case_id": "c046_kyc_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.\",\n    \"observation\": \"Design states that access tokens expire within 15 minutes, which aligns with R3.\",\n    \"requirement_id\": \"R3\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it.\",\n    \"observation\": \"Design states that requests for customer-owned resources must verify ownership or entitlement, which aligns with R7.\",\n    \"requirement_id\": \"R7\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"observation\": \"Design states that personal data is encrypted at rest with AES-256, which aligns with R11.\",\n    \"requirement_id\": \"R11\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.\",\n    \"observation\": \"Design states that secrets are not stored in source code, which aligns with R26.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"kyc-db and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"observation\": \"Design states that databases and message brokers run in private subnets, which aligns with R34.\",\n    \"requirement_id\": \"R34\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if invalid.\",\n    \"observation\": \"Design states that external inputs are validated against a schema, which aligns with R29.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified.\",\n    \"observation\": \"Design states that webhook payloads carry HMAC signatures, which aligns with R30.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Error responses do not reveal stack traces, SQL or internal hostnames.\",\n    \"observation\": \"Design states that error responses do not contain stack traces, SQL text or internal host names, which aligns with R31.\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"observation\": \"Design states that database queries are parameterized, which aligns with R32.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"observation\": \"Design states that CI scans dependencies and images, and containers run as non-root users, which aligns with R42 and R43.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.",
+      "topics": [],
+      "observation": "Design states that access tokens expire within 15 minutes, which aligns with R3.",
+      "requirement_id": "R3",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2969,
+        3232
+      ],
+      "policy_span": [
+        658,
+        763
+      ]
+    },
+    {
+      "design_quote": "Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it.",
+      "topics": [],
+      "observation": "Design states that requests for customer-owned resources must verify ownership or entitlement, which aligns with R7.",
+      "requirement_id": "R7",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3235,
+        3351
+      ],
+      "policy_span": [
+        1076,
+        1234
+      ]
+    },
+    {
+      "design_quote": "Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [],
+      "observation": "Design states that personal data is encrypted at rest with AES-256, which aligns with R11.",
+      "requirement_id": "R11",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3433,
+        3608
+      ],
+      "policy_span": [
+        1731,
+        1893
+      ]
+    },
+    {
+      "design_quote": "Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [],
+      "observation": "Design states that secrets are not stored in source code, which aligns with R26.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3778,
+        3956
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "kyc-db and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [],
+      "observation": "Design states that databases and message brokers run in private subnets, which aligns with R34.",
+      "requirement_id": "R34",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3959,
+        4044
+      ],
+      "policy_span": [
+        4615,
+        4708
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if invalid.",
+      "topics": [],
+      "observation": "Design states that external inputs are validated against a schema, which aligns with R29.",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4486,
+        4561
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified.",
+      "topics": [],
+      "observation": "Design states that webhook payloads carry HMAC signatures, which aligns with R30.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4562,
+        4671
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "Error responses do not reveal stack traces, SQL or internal hostnames.",
+      "topics": [],
+      "observation": "Design states that error responses do not contain stack traces, SQL text or internal host names, which aligns with R31.",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4672,
+        4742
+      ],
+      "policy_span": [
+        4391,
+        4470
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Design states that database queries are parameterized, which aligns with R32.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4743,
+        4835
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "Design states that CI scans dependencies and images, and containers run as non-root users, which aligns with R42 and R43.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        4838,
+        5023
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

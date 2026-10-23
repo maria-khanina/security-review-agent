@@ -1,0 +1,241 @@
+{
+  "case_id": "c069_card_token_vault",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Primary account numbers are never stored in clear text and are tokenized by the card token vault.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"PANs are tokenized by the card token vault as required\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 85\n  },\n  {\n    \"design_quote\": \"Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.\",\n    \"topics\": [\"cryptography\"],\n    \"observation\": \"Encryption keys are stored in KMS and rotated annually\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services validate TLS certificates and never disable verification.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Services validate TLS certificates and never disable verification\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Secrets are not stored in source code, config files, specs or infrastructure definitions\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Runtime secrets are fetched from the approved secret store at startup.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Runtime secrets are fetched from the approved secret store at startup\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Database queries are parameterized and user input is not concatenated\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Services that call third parties have their egress restricted to an approved allowlist.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Third-party egress is restricted to an approved allowlist\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Non-production environments use synthetic data\",\n    \"requirement_id\": \"R22\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.\",\n    \"topics\": [\"input-validation\"],\n    \"observation\": \"Token callbacks are signed and verified\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"resilience\"],\n    \"observation\": \"CI pipeline scans dependencies and fixes critical vulnerabilities\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"secrets\"],\n    \"observation\": \"Containers run as non-root users with read-only root filesystems\",\n    \"requirement_id\": \"R33\",\n    \"finding_type\": \"violation\",\n    \"severity\": \"high\",\n    \"confidence\": 95\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Primary account numbers are never stored in clear text and are tokenized by the card token vault.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "PANs are tokenized by the card token vault as required",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 85,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1288,
+        1385
+      ],
+      "policy_span": [
+        1902,
+        2030
+      ]
+    },
+    {
+      "design_quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+      "topics": [
+        "cryptography"
+      ],
+      "observation": "Encryption keys are stored in KMS and rotated annually",
+      "requirement_id": "R16",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1759,
+        1863
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Services validate TLS certificates and never disable verification.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Services validate TLS certificates and never disable verification",
+      "requirement_id": "R17",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1565,
+        1631
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Secrets are not stored in source code, config files, specs or infrastructure definitions",
+      "requirement_id": "R26",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1891,
+        1995
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "Runtime secrets are fetched from the approved secret store at startup.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Runtime secrets are fetched from the approved secret store at startup",
+      "requirement_id": "R27",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        1998,
+        2068
+      ],
+      "policy_span": [
+        3844,
+        4015
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Database queries are parameterized and user input is not concatenated",
+      "requirement_id": "R29",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2729,
+        2821
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "Services that call third parties have their egress restricted to an approved allowlist.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Third-party egress is restricted to an approved allowlist",
+      "requirement_id": "R38",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2220,
+        2307
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "Non-production environments do not contain real personal or card data. Staging uses test PANs from the card network test ranges.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Non-production environments use synthetic data",
+      "requirement_id": "R22",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2503,
+        2631
+      ],
+      "policy_span": [
+        3213,
+        3341
+      ]
+    },
+    {
+      "design_quote": "Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [
+        "input-validation"
+      ],
+      "observation": "Token callbacks are signed and verified",
+      "requirement_id": "R30",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2634,
+        2726
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "resilience"
+      ],
+      "observation": "CI pipeline scans dependencies and fixes critical vulnerabilities",
+      "requirement_id": "R42",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2824,
+        2925
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "secrets"
+      ],
+      "observation": "Containers run as non-root users with read-only root filesystems",
+      "requirement_id": "R33",
+      "finding_type": "violation",
+      "severity": "high",
+      "confidence": 95,
+      "action": "fix",
+      "wording": "clear",
+      "design_span": [
+        2928,
+        3011
+      ],
+      "policy_span": [
+        4527,
+        4605
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

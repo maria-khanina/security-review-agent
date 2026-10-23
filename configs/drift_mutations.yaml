@@ -1,0 +1,164 @@
+drift_mutations:
+- id: D-01
+  implementation_format: openapi
+  kind: auth_scheme_missing
+  design_claim: The API authenticates callers with JWT bearer tokens.
+  implementation_edit: Remove the global security requirement and the securitySchemes entry.
+  anchor: /security
+  related_rules:
+  - AUTH-01
+  signal: strong
+  mutation: openapi_security_missing
+- id: D-02
+  implementation_format: openapi
+  kind: auth_scheme_mismatch
+  design_claim: Callers authenticate with OAuth2 bearer tokens.
+  implementation_edit: Replace the bearer scheme with an apiKey header scheme.
+  anchor: /components/securitySchemes
+  related_rules:
+  - AUTH-01
+  signal: strong
+  mutation: openapi_auth_mismatch
+- id: D-03
+  implementation_format: openapi
+  kind: undocumented_endpoint
+  design_claim: The service exposes only the endpoints listed in the API section.
+  implementation_edit: Add an administrative or debug path absent from the design.
+  anchor: /paths/{extra}
+  related_rules:
+  - AUTHZ-04
+  signal: strong
+  mutation: openapi_undocumented_endpoint
+- id: D-04
+  implementation_format: openapi
+  kind: operation_without_auth
+  design_claim: All state-changing operations require an authenticated caller.
+  implementation_edit: Set an empty security list on one mutating operation.
+  anchor: /paths/{op}/security
+  related_rules:
+  - AUTH-01
+  signal: strong
+  mutation: openapi_operation_without_auth
+- id: D-05
+  implementation_format: openapi
+  kind: plaintext_server
+  design_claim: All traffic is served over HTTPS only.
+  implementation_edit: Add a server entry that uses http scheme.
+  anchor: /servers
+  related_rules:
+  - CRYPTO-03
+  signal: strong
+  mutation: openapi_http_server
+- id: D-06
+  implementation_format: openapi
+  kind: sensitive_field_in_response
+  design_claim: Card numbers are never returned by the API.
+  implementation_edit: Add a full pan property to a response schema.
+  anchor: /components/schemas/{schema}/properties/pan
+  related_rules:
+  - CRYPTO-02
+  signal: strong
+  mutation: openapi_pan_in_response
+- id: D-07
+  implementation_format: openapi
+  kind: pii_in_query
+  design_claim: Personal data is never placed in URLs.
+  implementation_edit: Move an email or national id field into a query parameter.
+  anchor: /paths/{op}/parameters
+  related_rules:
+  - LOG-02
+  - DATA-01
+  signal: strong
+  mutation: openapi_pii_in_query
+- id: D-08
+  implementation_format: openapi
+  kind: freeform_request_body
+  design_claim: Requests are validated against strict schemas.
+  implementation_edit: Replace a request schema with an unconstrained object.
+  anchor: /paths/{op}/requestBody
+  related_rules:
+  - API-01
+  signal: strong
+  mutation: openapi_freeform_body
+- id: D-09
+  implementation_format: terraform
+  kind: encryption_disabled
+  design_claim: Data at rest is encrypted with KMS-managed keys.
+  implementation_edit: Remove encryption configuration or set storage_encrypted to false.
+  anchor: '{resource}'
+  related_rules:
+  - CRYPTO-01
+  signal: strong
+  mutation: terraform_encryption_missing
+- id: D-10
+  implementation_format: terraform
+  kind: public_bucket
+  design_claim: The bucket is private and accessed through pre-signed URLs.
+  implementation_edit: Set a public ACL or disable block public access.
+  anchor: '{resource}'
+  related_rules:
+  - NET-02
+  signal: strong
+  mutation: terraform_bucket_public
+- id: D-11
+  implementation_format: terraform
+  kind: open_ingress
+  design_claim: The database accepts connections only from the application subnet.
+  implementation_edit: Open the database or SSH port to 0.0.0.0/0.
+  anchor: '{resource}'
+  related_rules:
+  - NET-01
+  - NET-03
+  signal: strong
+  mutation: terraform_open_ingress
+- id: D-12
+  implementation_format: terraform
+  kind: db_publicly_accessible
+  design_claim: The database sits in private subnets with no public endpoint.
+  implementation_edit: Set publicly_accessible to true.
+  anchor: '{resource}'
+  related_rules:
+  - NET-01
+  signal: strong
+  mutation: terraform_db_public
+- id: D-13
+  implementation_format: terraform
+  kind: retention_mismatch
+  design_claim: Audit logs are retained for 365 days.
+  implementation_edit: Set retention to 30 days.
+  anchor: '{resource}'
+  related_rules:
+  - LOG-03
+  signal: strong
+  mutation: terraform_log_retention_short
+- id: D-14
+  implementation_format: terraform
+  kind: backup_unencrypted
+  design_claim: Backups are encrypted.
+  implementation_edit: Remove backup encryption.
+  anchor: '{resource}'
+  related_rules:
+  - OPS-03
+  signal: strong
+  mutation: terraform_backup_unencrypted
+- id: D-15
+  implementation_format: terraform
+  kind: overbroad_iam
+  design_claim: The service role can only read its own table.
+  implementation_edit: Grant wildcard actions or resources in the IAM policy.
+  anchor: '{resource}'
+  related_rules:
+  - AUTHZ-03
+  - AUTHZ-02
+  signal: strong
+  mutation: terraform_overbroad_iam
+- id: D-16
+  implementation_format: openapi
+  kind: rate_limit_absent
+  design_claim: The API enforces per-client rate limits.
+  implementation_edit: Remove 429 responses and rate limit headers from the specification.
+  anchor: /paths
+  related_rules:
+  - API-02
+  signal: weak
+  mutation: openapi_rate_limit_absent

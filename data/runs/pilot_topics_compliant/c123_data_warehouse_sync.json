@@ -1,0 +1,243 @@
+{
+  "case_id": "c123_data_warehouse_sync",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"The Service copies a defined set of production tables every night into a staging bucket from which the analytics vendor downloads them.\",\n    \"topics\": [\"data-protection\", \"network\"],\n    \"observation\": \"Data is copied to a staging bucket without explicit mention of encryption in transit for the data being copied.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"4.0 Personally identifiable information is encrypted at rest with AES-256.\",\n    \"topics\": [\"data-protection\"],\n    \"observation\": \"Encryption at rest is mentioned, but there is no explicit requirement for encryption in transit for the data being copied.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"4.1 Traffic between services and to data stores is encrypted in transit.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Traffic between services and to data stores is encrypted in transit, but there is no explicit requirement for encryption in transit for the data being copied.\",\n    \"requirement_id\": \"R14\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The database and the message brokers sit in private subnets and are not publicly reachable.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Database and message brokers are in private subnets, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to private networks.\",\n    \"requirement_id\": \"R37\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Outbound traffic from services that call third parties is restricted to an approved allowlist.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Outbound traffic from services that call third parties is restricted to an approved allowlist, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to an approved allowlist.\",\n    \"requirement_id\": \"R38\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The Service validates TLS certificates on every TLS connection it makes and never disables verification.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"TLS certificate verification is enabled, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to private networks.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Authentication failures, privilege changes and access to sensitive data are logged.\",\n    \"topics\": [\"logging\"],\n    \"observation\": \"Authentication failures, privilege changes and access to sensitive data are logged, but there is no explicit requirement for the logging to be stored in tamper-resistant storage or for the logs to be retained for an appropriate period.\",\n    \"requirement_id\": \"R39\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Callback payloads, both inbound and outbound, are signed, and the signatures are verified.\",\n    \"topics\": [\"network\"],\n    \"observation\": \"Callback payloads are signed and verified, but there is no explicit requirement for the payloads to carry an HMAC signature that the receiver verifies together with a timestamp.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Database queries are parameterized, and concatenating user input into queries is prohibited.\",\n    \"topics\": [\"database-access\"],\n    \"observation\": \"Database queries are parameterized, but there is no explicit requirement for the queries to be parameterized or for the input to be validated against a schema.\",\n    \"requirement_id\": \"R29\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"The continuous integration pipeline scans dependencies and container images, but there is no explicit requirement for the pipeline to scan dependencies and container images or for critical vulnerabilities to be fixed within 14 days.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"Containers run as a non-root user, with a read-only root filesystem where possible.\",\n    \"topics\": [\"operations\"],\n    \"observation\": \"Containers run as a non-root user, but there is no explicit requirement for the containers to run as a non-root user or for the root filesystem to be read-only where possible.\",\n    \"requirement_id\": \"R43\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "The Service copies a defined set of production tables every night into a staging bucket from which the analytics vendor downloads them.",
+      "topics": [
+        "data-protection",
+        "network"
+      ],
+      "observation": "Data is copied to a staging bucket without explicit mention of encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        455,
+        590
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.0 Personally identifiable information is encrypted at rest with AES-256.",
+      "topics": [
+        "data-protection"
+      ],
+      "observation": "Encryption at rest is mentioned, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2055,
+        2129
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "4.1 Traffic between services and to data stores is encrypted in transit.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Traffic between services and to data stores is encrypted in transit, but there is no explicit requirement for encryption in transit for the data being copied.",
+      "requirement_id": "R14",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2131,
+        2203
+      ],
+      "policy_span": [
+        2148,
+        2256
+      ]
+    },
+    {
+      "design_quote": "The database and the message brokers sit in private subnets and are not publicly reachable.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Database and message brokers are in private subnets, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to private networks.",
+      "requirement_id": "R37",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3012,
+        3103
+      ],
+      "policy_span": [
+        4848,
+        4945
+      ]
+    },
+    {
+      "design_quote": "Outbound traffic from services that call third parties is restricted to an approved allowlist.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Outbound traffic from services that call third parties is restricted to an approved allowlist, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to an approved allowlist.",
+      "requirement_id": "R38",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3181,
+        3275
+      ],
+      "policy_span": [
+        4954,
+        5059
+      ]
+    },
+    {
+      "design_quote": "The Service validates TLS certificates on every TLS connection it makes and never disables verification.",
+      "topics": [
+        "network"
+      ],
+      "observation": "TLS certificate verification is enabled, but there is no explicit requirement for the staging bucket or the analytics vendor's access to be restricted to private networks.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2437,
+        2541
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "Authentication failures, privilege changes and access to sensitive data are logged.",
+      "topics": [
+        "logging"
+      ],
+      "observation": "Authentication failures, privilege changes and access to sensitive data are logged, but there is no explicit requirement for the logging to be stored in tamper-resistant storage or for the logs to be retained for an appropriate period.",
+      "requirement_id": "R39",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3311,
+        3394
+      ],
+      "policy_span": [
+        5069,
+        5156
+      ]
+    },
+    {
+      "design_quote": "Callback payloads, both inbound and outbound, are signed, and the signatures are verified.",
+      "topics": [
+        "network"
+      ],
+      "observation": "Callback payloads are signed and verified, but there is no explicit requirement for the payloads to carry an HMAC signature that the receiver verifies together with a timestamp.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3428,
+        3518
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "Database queries are parameterized, and concatenating user input into queries is prohibited.",
+      "topics": [
+        "database-access"
+      ],
+      "observation": "Database queries are parameterized, but there is no explicit requirement for the queries to be parameterized or for the input to be validated against a schema.",
+      "requirement_id": "R29",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3524,
+        3616
+      ],
+      "policy_span": [
+        4146,
+        4251
+      ]
+    },
+    {
+      "design_quote": "The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "The continuous integration pipeline scans dependencies and container images, but there is no explicit requirement for the pipeline to scan dependencies and container images or for critical vulnerabilities to be fixed within 14 days.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3640,
+        3771
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    },
+    {
+      "design_quote": "Containers run as a non-root user, with a read-only root filesystem where possible.",
+      "topics": [
+        "operations"
+      ],
+      "observation": "Containers run as a non-root user, but there is no explicit requirement for the containers to run as a non-root user or for the root filesystem to be read-only where possible.",
+      "requirement_id": "R43",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3777,
+        3860
+      ],
+      "policy_span": [
+        5478,
+        5517
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

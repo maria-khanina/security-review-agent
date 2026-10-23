@@ -1,0 +1,162 @@
+{
+  "case_id": "c011_wallet_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS.\",\n    \"observation\": \"Endpoints authenticate with OAuth2 or mutual TLS, but no mention of checking for mutual TLS client certificates for internal service calls.\",\n    \"requirement_id\": \"R2\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.\",\n    \"observation\": \"Refresh tokens are rotated on every use, but no mention of rotating them at least once a year as required by R16.\",\n    \"requirement_id\": \"R16\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service starts.\",\n    \"observation\": \"Secrets are not stored in source code, but no mention of ensuring that secrets are not stored in configuration files, specifications or infrastructure definitions.\",\n    \"requirement_id\": \"R26\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"All external inputs are validated against a schema and rejected if they are invalid.\",\n    \"observation\": \"External inputs are validated against a schema, but no mention of validating against a schema for internal service calls as required by R28.\",\n    \"requirement_id\": \"R28\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Webhook payloads, outbound and inbound, are signed and the signatures are verified.\",\n    \"observation\": \"Webhook payloads are signed and verified, but no mention of using an HMAC signature as required by R30.\",\n    \"requirement_id\": \"R30\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"The database queries are parameterized and the concatenation of user input into queries is prohibited.\",\n    \"observation\": \"Database queries are parameterized, but no mention of ensuring that parameterized queries are used for all database interactions as required by R32.\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"The services validate TLS certificates and never disable the verification.\",\n    \"observation\": \"TLS certificates are validated, but no mention of ensuring that certificate verification is not disabled as required by R17.\",\n    \"requirement_id\": \"R17\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"The CI scan the dependencies and images, and the critical vulnerabilities must be fixed within 14 days. Containers are running as non-root user, with read-only root filesystem where possible.\",\n    \"observation\": \"CI scans dependencies and images, but no mention of ensuring that critical findings are fixed within 14 days as required by R42.\",\n    \"requirement_id\": \"R42\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS.",
+      "topics": [],
+      "observation": "Endpoints authenticate with OAuth2 or mutual TLS, but no mention of checking for mutual TLS client certificates for internal service calls.",
+      "requirement_id": "R2",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1713,
+        1827
+      ],
+      "policy_span": [
+        496,
+        649
+      ]
+    },
+    {
+      "design_quote": "The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.",
+      "topics": [],
+      "observation": "Refresh tokens are rotated on every use, but no mention of rotating them at least once a year as required by R16.",
+      "requirement_id": "R16",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1828,
+        1923
+      ],
+      "policy_span": [
+        2366,
+        2521
+      ]
+    },
+    {
+      "design_quote": "Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service starts.",
+      "topics": [],
+      "observation": "Secrets are not stored in source code, but no mention of ensuring that secrets are not stored in configuration files, specifications or infrastructure definitions.",
+      "requirement_id": "R26",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3214,
+        3408
+      ],
+      "policy_span": [
+        3722,
+        3835
+      ]
+    },
+    {
+      "design_quote": "All external inputs are validated against a schema and rejected if they are invalid.",
+      "topics": [],
+      "observation": "External inputs are validated against a schema, but no mention of validating against a schema for internal service calls as required by R28.",
+      "requirement_id": "R28",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3539,
+        3623
+      ],
+      "policy_span": [
+        4024,
+        4137
+      ]
+    },
+    {
+      "design_quote": "Webhook payloads, outbound and inbound, are signed and the signatures are verified.",
+      "topics": [],
+      "observation": "Webhook payloads are signed and verified, but no mention of using an HMAC signature as required by R30.",
+      "requirement_id": "R30",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3624,
+        3707
+      ],
+      "policy_span": [
+        4260,
+        4382
+      ]
+    },
+    {
+      "design_quote": "The database queries are parameterized and the concatenation of user input into queries is prohibited.",
+      "topics": [],
+      "observation": "Database queries are parameterized, but no mention of ensuring that parameterized queries are used for all database interactions as required by R32.",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3779,
+        3881
+      ],
+      "policy_span": [
+        4479,
+        4518
+      ]
+    },
+    {
+      "design_quote": "The services validate TLS certificates and never disable the verification.",
+      "topics": [],
+      "observation": "TLS certificates are validated, but no mention of ensuring that certificate verification is not disabled as required by R17.",
+      "requirement_id": "R17",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        2776,
+        2850
+      ],
+      "policy_span": [
+        2530,
+        2634
+      ]
+    },
+    {
+      "design_quote": "The CI scan the dependencies and images, and the critical vulnerabilities must be fixed within 14 days. Containers are running as non-root user, with read-only root filesystem where possible.",
+      "topics": [],
+      "observation": "CI scans dependencies and images, but no mention of ensuring that critical findings are fixed within 14 days as required by R42.",
+      "requirement_id": "R42",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        3902,
+        4093
+      ],
+      "policy_span": [
+        5350,
+        5469
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": []
+}

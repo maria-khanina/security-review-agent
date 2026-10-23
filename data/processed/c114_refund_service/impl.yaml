@@ -1,0 +1,329 @@
+openapi: 3.0.3
+info:
+  title: Refund Service API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/refunds:
+    post:
+      operationId: createRefund
+      summary: Request a refund
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+    get:
+      operationId: listRefunds
+      summary: List refunds
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+      - name: payment_id
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/refunds/{refundId}:
+    get:
+      operationId: getRefund
+      summary: Retrieve a refund
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: refundId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/refunds/{refundId}/approval:
+    post:
+      operationId: approveRefund
+      summary: Approve or reject a refund
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: refundId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalRequest'
+  /v1/refunds/{refundId}/cancellation:
+    post:
+      operationId: cancelRefund
+      summary: Cancel a pending refund
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: refundId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RefundRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - payment_id
+      - amount
+      - currency
+      - reason
+      - requested_by
+      properties:
+        payment_id:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        reason:
+          type: string
+          maxLength: 256
+        requested_by:
+          type: string
+          maxLength: 256
+    ApprovalRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - decision
+      - comment
+      properties:
+        decision:
+          type: string
+          maxLength: 256
+        comment:
+          type: string
+          maxLength: 256
+    CancelRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          maxLength: 256
+    Refund:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - payment_id
+      - status
+      - amount
+      - currency
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        payment_id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

@@ -1,0 +1,209 @@
+{
+  "case_id": "c055_kyc_service",
+  "raw_reply": "{\"findings\": [\n  {\n    \"design_quote\": \"All state-changing operations require an authenticated caller.\",\n    \"topics\": [\"authentication\", \"authorization\"],\n    \"observation\": \"State-changing operations require authentication but not explicit authorization checks\",\n    \"requirement_id\": \"R6\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 75\n  },\n  {\n    \"design_quote\": \"kyc-orchestrator signs and protects the messages it exchanges with the vendor.\",\n    \"topics\": [\"cryptography\", \"network\"],\n    \"observation\": \"Message protection is described but no specific cryptographic method is mentioned\",\n    \"requirement_id\": \"R13\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 65\n  },\n  {\n    \"design_quote\": \"External traffic TLS 1.2 or higher.\",\n    \"topics\": [\"network\", \"cryptography\"],\n    \"observation\": \"TLS version is specified but no certificate management is described\",\n    \"requirement_id\": \"R12\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"kyc-db and brokers in private subnets, not publicly reachable.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Private subnets are described but no specific network security controls are mentioned\",\n    \"requirement_id\": \"R18\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"kyc-documents bucket blocks public access, private by default.\",\n    \"topics\": [\"network\", \"data-protection\"],\n    \"observation\": \"Bucket access is described but no specific encryption at rest is mentioned\",\n    \"requirement_id\": \"R10\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Personal data to the vendor only under an approved DPA, only required fields.\",\n    \"topics\": [\"data-protection\", \"governance\"],\n    \"observation\": \"Data sharing is described but no specific data minimization is mentioned\",\n    \"requirement_id\": \"R27\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Exports with personal data need authorization, are encrypted in storage and expire.\",\n    \"topics\": [\"data-protection\", \"governance\"],\n    \"observation\": \"Export controls are described but no specific retention period is mentioned\",\n    \"requirement_id\": \"R28\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Input validated against schema, invalid rejected.\",\n    \"topics\": [\"input-validation\", \"data-protection\"],\n    \"observation\": \"Input validation is described but no specific schema definition is mentioned\",\n    \"requirement_id\": \"R31\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  },\n  {\n    \"design_quote\": \"Parameterized queries only.\",\n    \"topics\": [\"database-access\", \"data-protection\"],\n    \"observation\": \"Parameterized queries are described but no specific query validation is mentioned\",\n    \"requirement_id\": \"R32\",\n    \"finding_type\": \"ambiguity\",\n    \"severity\": \"medium\",\n    \"confidence\": 60\n  }\n]}",
+  "parse_error": null,
+  "recovered": false,
+  "findings": [
+    {
+      "design_quote": "All state-changing operations require an authenticated caller.",
+      "topics": [
+        "authentication",
+        "authorization"
+      ],
+      "observation": "State-changing operations require authentication but not explicit authorization checks",
+      "requirement_id": "R6",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 75,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        676,
+        738
+      ],
+      "policy_span": [
+        1482,
+        1601
+      ]
+    },
+    {
+      "design_quote": "kyc-orchestrator signs and protects the messages it exchanges with the vendor.",
+      "topics": [
+        "cryptography",
+        "network"
+      ],
+      "observation": "Message protection is described but no specific cryptographic method is mentioned",
+      "requirement_id": "R13",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 65,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        844,
+        922
+      ],
+      "policy_span": [
+        2273,
+        2356
+      ]
+    },
+    {
+      "design_quote": "External traffic TLS 1.2 or higher.",
+      "topics": [
+        "network",
+        "cryptography"
+      ],
+      "observation": "TLS version is specified but no certificate management is described",
+      "requirement_id": "R12",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        925,
+        960
+      ],
+      "policy_span": [
+        2167,
+        2268
+      ]
+    },
+    {
+      "design_quote": "kyc-db and brokers in private subnets, not publicly reachable.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Private subnets are described but no specific network security controls are mentioned",
+      "requirement_id": "R18",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1030,
+        1092
+      ],
+      "policy_span": [
+        2917,
+        3018
+      ]
+    },
+    {
+      "design_quote": "kyc-documents bucket blocks public access, private by default.",
+      "topics": [
+        "network",
+        "data-protection"
+      ],
+      "observation": "Bucket access is described but no specific encryption at rest is mentioned",
+      "requirement_id": "R10",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1095,
+        1157
+      ],
+      "policy_span": [
+        1938,
+        2047
+      ]
+    },
+    {
+      "design_quote": "Personal data to the vendor only under an approved DPA, only required fields.",
+      "topics": [
+        "data-protection",
+        "governance"
+      ],
+      "observation": "Data sharing is described but no specific data minimization is mentioned",
+      "requirement_id": "R27",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1244,
+        1321
+      ],
+      "policy_span": [
+        3774,
+        3872
+      ]
+    },
+    {
+      "design_quote": "Exports with personal data need authorization, are encrypted in storage and expire.",
+      "topics": [
+        "data-protection",
+        "governance"
+      ],
+      "observation": "Export controls are described but no specific retention period is mentioned",
+      "requirement_id": "R28",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1324,
+        1407
+      ],
+      "policy_span": [
+        3877,
+        4020
+      ]
+    },
+    {
+      "design_quote": "Input validated against schema, invalid rejected.",
+      "topics": [
+        "input-validation",
+        "data-protection"
+      ],
+      "observation": "Input validation is described but no specific schema definition is mentioned",
+      "requirement_id": "R31",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1505,
+        1554
+      ],
+      "policy_span": [
+        4379,
+        4478
+      ]
+    },
+    {
+      "design_quote": "Parameterized queries only.",
+      "topics": [
+        "database-access",
+        "data-protection"
+      ],
+      "observation": "Parameterized queries are described but no specific query validation is mentioned",
+      "requirement_id": "R32",
+      "finding_type": "ambiguity",
+      "severity": "medium",
+      "confidence": 60,
+      "action": "clarify",
+      "wording": "clear",
+      "design_span": [
+        1557,
+        1584
+      ],
+      "policy_span": [
+        4483,
+        4590
+      ]
+    }
+  ],
+  "rejected_hallucinations": 0,
+  "rejected_findings": [],
+  "compliant_findings": 0
+}

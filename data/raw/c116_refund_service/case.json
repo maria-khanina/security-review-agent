@@ -1,0 +1,99 @@
+{
+ "case_id": "c116_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "dev",
+ "policy_version": "v3",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-01",
+   "drift_id": null,
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-20"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_freeform_body",
+   "implementation_anchor": "/paths/~1v1~1refunds/post/requestBody",
+   "remediation_options": [
+    [
+     "validate external inputs against a schema",
+     "reject invalid input"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The API accepts any JSON object and the service picks the fields it needs."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-03",
+   "drift_id": null,
+   "component": "refund-db (PostgreSQL)",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which database identity each service uses and its grants.",
+   "instruction": "Mention refund-db (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention refund-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-02",
+   "drift_id": null,
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_rate_limit_absent",
+   "implementation_anchor": "/paths",
+   "remediation_options": [
+    [
+     "enforce per-client rate limits on external APIs"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Rate limiting is left for a later release; there are no per-client limits at launch."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-02",
+  "CRYPTO-05",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-01",
+  "LOG-02",
+  "DATA-02",
+  "DATA-03",
+  "API-05",
+  "API-06",
+  "OPS-01"
+ ]
+}
