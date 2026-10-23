@@ -9,3 +9,5 @@ class RequirementVerdict(BaseModel):
     requirement_id: str
     verdict: Verdict
     design_span: tuple[int, int] | None
+    severity: str = "none"
+    confidence: float | None = None

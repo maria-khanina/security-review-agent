@@ -68,9 +68,25 @@ class RetrievalSettings(BaseModel):
     sentence_boundary_pattern: str
     heading_marker: str
     results_directory: str
+    ranking_depth: int
+    rankings_file_prefix: str
     bm25_name: str
     dense_name: str
     hybrid_name: str
+
+
+class VerdictSettings(BaseModel):
+    runs_directory: str
+    analysis_set: str
+    ranker: str
+    window: int
+    candidates: int
+    top_logprobs: int
+    max_tokens: int
+    schema_name: str
+    run_config_file: str
+    metrics_file_prefix: str
+    no_severity: str
 
 
 class ReviewSettings(BaseModel):
@@ -80,6 +96,7 @@ class ReviewSettings(BaseModel):
     policy_analysis: PolicyAnalysisSettings
     pilot: PilotSettings
     retrieval: RetrievalSettings
+    verdict: VerdictSettings
     confidence_minimum: int
     confidence_maximum: int
     runs_directory: str

@@ -37,6 +37,7 @@ class Classification(BaseModel):
     verdict: str
     subtype: str
     design_spans: list[Span]
+    severity: str = ""
 
 
 class PairTruth(BaseModel):
@@ -46,6 +47,7 @@ class PairTruth(BaseModel):
     verdict: str
     subtype: str
     design_spans: list[Span]
+    severity: str = ""
 
 
 def to_spans(raw_spans: list[list[int]]) -> list[Span]:
@@ -116,6 +118,7 @@ def classify_planted(labels: CaseLabels, rule_id: str) -> Classification | None:
             verdict=VIOLATED,
             subtype=PLANTED_VIOLATION,
             design_spans=spans,
+            severity=violation.severity,
         )
     if find_flaw(labels, rule_id, "ambiguity") is not None:
         return Classification(
@@ -171,6 +174,7 @@ def build_case_truth(materials: CaseMaterials) -> list[PairTruth]:
                     verdict=found.verdict,
                     subtype=found.subtype,
                     design_spans=found.design_spans,
+                    severity=found.severity,
                 )
             )
     return truths

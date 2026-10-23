@@ -7,6 +7,7 @@ from secreview.review_settings_models import (
     PolicyAnalysisSettings,
     RetrievalSettings,
     ReviewSettings,
+    VerdictSettings,
 )
 
 REVIEW_SETTINGS = ReviewSettings(
@@ -103,9 +104,24 @@ REVIEW_SETTINGS = ReviewSettings(
         sentence_boundary_pattern=r"(?<=[.!?])\s+(?=[A-Z0-9\"(\[*`])",
         heading_marker="#",
         results_directory="data/retrieval",
+        ranking_depth=20,
+        rankings_file_prefix="requirement_rankings_",
         bm25_name="bm25",
         dense_name="dense",
         hybrid_name="hybrid",
+    ),
+    verdict=VerdictSettings(
+        runs_directory="data/runs_verdict",
+        analysis_set="llm_analysis_v2",
+        ranker="dense",
+        window=0,
+        candidates=10,
+        top_logprobs=20,
+        max_tokens=600,
+        schema_name="verdict_reply",
+        run_config_file="run_config.json",
+        metrics_file_prefix="verdict_metrics_",
+        no_severity="none",
     ),
     confidence_minimum=1,
     confidence_maximum=100,

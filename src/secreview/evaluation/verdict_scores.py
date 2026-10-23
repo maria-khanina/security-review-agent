@@ -8,6 +8,9 @@ from secreview.agents.verdicts import RequirementVerdict
 from secreview.evaluation.class_report import (
     ClassReport,
     ClassScores,
+    OrdinalReport,
+    build_class_report,
+    build_ordinal_report,
     count_confusion,
     divide,
     score_class,
@@ -18,6 +21,7 @@ from secreview.evaluation.verdict_truth import (
     PairTruth,
     build_case_truth,
 )
+from secreview.parsing.findings import SEVERITIES
 from secreview.parsing.spans import collect_token_indices, compute_overlap
 from secreview.parsing.vocabulary import (
     EVIDENCE_VERDICTS,
@@ -29,6 +33,7 @@ from secreview.review_settings import REVIEW_SETTINGS
 MISSING = "missing"
 CLASSES: tuple[str, ...] = VERDICTS + (MISSING,)
 TRUTH_PREFIX = "T"
+TIE_VALUE = 1 / 2
 
 
 class PairOutcome(BaseModel):
@@ -38,6 +43,9 @@ class PairOutcome(BaseModel):
     subtype: str
     predicted_verdict: str
     evidence_ok: bool
+    gold_severity: str
+    predicted_severity: str
+    confidence: float | None
 
 
 class CaseVerdictOutcome(BaseModel):
@@ -56,6 +64,9 @@ class VerdictScores(BaseModel):
     recall_by_subtype: dict[str, float]
     defect_recall: float
     violated_precision_with_evidence: float
+    severity_report: ClassReport | None
+    severity_ordinal: OrdinalReport | None
+    confidence_auroc: float | None
 
 
 def build_gold_requirements(truths: list[PairTruth]) -> list[PolicyRequirement]:
@@ -118,6 +129,9 @@ def build_pair_outcome(
         subtype=truth.subtype,
         predicted_verdict=verdict.verdict if verdict else MISSING,
         evidence_ok=is_quote_correct(materials, truth, verdict),
+        gold_severity=truth.severity,
+        predicted_severity=verdict.severity if verdict else "",
+        confidence=verdict.confidence if verdict else None,
     )
 
 
@@ -223,6 +237,18 @@ def compute_violated_precision(pairs: list[PairOutcome]) -> float:
     return divide(count_correct(given), len(given))
 
 
+def build_severity_report(pairs: list[PairOutcome]) -> ClassReport | None:
+    """Score the severity of the violated verdicts that are right."""
+    labels = collect_severity_pairs(pairs)
+    return build_class_report(labels, SEVERITIES) if labels else None
+
+
+def build_severity_ordinal(pairs: list[PairOutcome]) -> OrdinalReport | None:
+    """Measure how far the predicted severity is from the gold severity."""
+    labels = collect_severity_pairs(pairs)
+    return build_ordinal_report(labels, SEVERITIES) if labels else None
+
+
 def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
     """Combine the pair outcomes of several designs into the verdict scores."""
     pairs: list[PairOutcome] = []
@@ -240,4 +266,47 @@ def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
         recall_by_subtype=compute_recall_by_subtype(pairs),
         defect_recall=compute_defect_recall(pairs),
         violated_precision_with_evidence=compute_violated_precision(pairs),
+        severity_report=build_severity_report(pairs),
+        severity_ordinal=build_severity_ordinal(pairs),
+        confidence_auroc=compute_auroc(collect_confidence(pairs)),
     )
+
+
+def clamp_severity(severity: str) -> str:
+    """Treat a predicted severity outside the scale as the lowest level."""
+    return severity if severity in SEVERITIES else SEVERITIES[0]
+
+
+def collect_severity_pairs(pairs: list[PairOutcome]) -> list[tuple[str, str]]:
+    """Pair gold and predicted severity of the right violated verdicts."""
+    labels: list[tuple[str, str]] = []
+    for pair in pairs:
+        if pair.gold_verdict == VIOLATED and is_correct(pair):
+            labels.append((pair.gold_severity, clamp_severity(pair.predicted_severity)))
+    return labels
+
+
+def win_value(first: float, second: float) -> float:
+    """Score one comparison of a right and a wrong verdict: win, tie or loss."""
+    if first == second:
+        return TIE_VALUE
+    return 1.0 if first > second else 0.0
+
+
+def compute_auroc(observations: list[tuple[float, bool]]) -> float | None:
+    """Probability that a right verdict has a higher confidence than a wrong one."""
+    right: list[float] = [score for score, correct in observations if correct]
+    wrong: list[float] = [score for score, correct in observations if not correct]
+    if not right or not wrong:
+        return None
+    wins = sum(win_value(first, second) for first in right for second in wrong)
+    return wins / (len(right) * len(wrong))
+
+
+def collect_confidence(pairs: list[PairOutcome]) -> list[tuple[float, bool]]:
+    """List confidence and correctness of every pair that has both."""
+    observations: list[tuple[float, bool]] = []
+    for pair in pairs:
+        if pair.confidence is not None:
+            observations.append((pair.confidence, is_correct(pair)))
+    return observations
