@@ -1,4 +1,4 @@
-"""Replaces the confidence of a stored verdict run by the verifier probability."""
+"""Runs a follow-up call on a stored verdict run."""
 
 import argparse
 import json
@@ -8,6 +8,7 @@ import httpx
 
 from secreview.agents.case_materials import load_case_materials
 from secreview.agents.policy_requirements import load_policy_analysis
+from secreview.agents.verdict_followups import followup_case
 from secreview.agents.verdict_store import (
     has_verdict_record,
     load_verdict_record,
@@ -25,6 +26,8 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("source_run")
     parser.add_argument("target_run")
+    modes: list[str] = ["verify", "severity", "verbal"]
+    parser.add_argument("--mode", choices=modes, default="verify")
     return parser.parse_args()
 
 
@@ -36,7 +39,7 @@ def copy_config(arguments: argparse.Namespace) -> None:
     source = verdict_run_directory(arguments.source_run) / config_name
     shutil.copy(source, target / config_name)
     config = json.loads((target / config_name).read_text(encoding="utf-8"))
-    config["confidence"] = f"verifier yes probability on {arguments.source_run}"
+    config["followup"] = f"{arguments.mode} on {arguments.source_run}"
     (target / config_name).write_text(json.dumps(config, indent=1), encoding="utf-8")
 
 
@@ -51,9 +54,11 @@ def verify_one(
     version = materials.labels.policy_version
     analysis = load_policy_analysis(analysis_name, version)
     record = load_verdict_record(arguments.source_run, case_id)
-    save_verdict_record(
-        arguments.target_run, verify_case(client, materials, analysis, record)
-    )
+    if arguments.mode == "verify":
+        checked = verify_case(client, materials, analysis, record)
+    else:
+        checked = followup_case(client, materials, analysis, record, arguments.mode)
+    save_verdict_record(arguments.target_run, checked)
     print(f"done {case_id}", flush=True)
 
 

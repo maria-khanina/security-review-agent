@@ -6,8 +6,10 @@ from secreview.evaluation.verdict_stacking import (
     Labels,
     Matrix,
     class_weights,
+    content_words,
     cross_validate,
     fit_weights,
+    overlap_share,
     predict_classes,
     softmax,
     split_folds,
@@ -57,3 +59,12 @@ def test_folds_partition_the_documents_and_predictions_are_held_out() -> None:
     assert sum(len(fold) for fold in folds) == len(set(cases))
     predicted = cross_validate(features, labels, cases)
     assert (predicted == labels).mean() > 1 / 2
+
+
+def test_word_overlap_counts_only_content_words_of_the_requirement() -> None:
+    requirement = "Passwords must be hashed with argon2id or bcrypt"
+    assert overlap_share(requirement, "We hash passwords with argon2id") > 0.0
+    assert overlap_share(requirement, "Nothing relevant here") == 0.0
+    assert overlap_share("", "anything") == 0.0
+    assert "bcrypt" in content_words(requirement)
+    assert "be" not in content_words(requirement)

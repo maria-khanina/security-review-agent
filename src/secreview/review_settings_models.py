@@ -92,6 +92,7 @@ class VerdictSettings(BaseModel):
     stacking_rate: float
     stacking_l2: float
     stacking_class_power: float
+    stacking_word_length: int
     probability_floor: float
 
 

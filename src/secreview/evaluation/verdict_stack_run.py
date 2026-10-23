@@ -12,6 +12,7 @@ from secreview.agents.policy_requirements import (
     PolicyRequirement,
     load_policy_analysis,
 )
+from secreview.agents.verdict_contexts import list_fragments
 from secreview.agents.verdict_review import RequirementRecord, VerdictCaseRecord
 from secreview.agents.verdict_store import (
     load_verdict_record,
@@ -29,6 +30,7 @@ from secreview.evaluation.verdict_stacking import (
 )
 from secreview.evaluation.verdict_truth import PairTruth, build_case_truth
 from secreview.parsing.vocabulary import VERDICTS
+from secreview.retrieval.units import DesignUnit, split_units
 from secreview.review_settings import REVIEW_SETTINGS
 
 Key = tuple[str, str]
@@ -36,6 +38,7 @@ Key = tuple[str, str]
 
 class Row(BaseModel):
     case_id: str
+    group: str
     requirement_id: str
     features: list[float]
     gold: int
@@ -61,17 +64,34 @@ def index_requirements(
 
 def make_row(
     case_id: str,
+    group: str,
     record: RequirementRecord,
     requirement: PolicyRequirement,
+    fragments: list[str],
     truth: PairTruth,
 ) -> Row:
     """Describe one judged requirement and its gold verdict."""
     return Row(
         case_id=case_id,
+        group=group,
         requirement_id=record.requirement_id,
-        features=build_features(record, requirement),
+        features=build_features(record, requirement, fragments),
         gold=VERDICTS.index(truth.verdict),
     )
+
+
+def row_for(
+    materials: CaseMaterials,
+    units: list[DesignUnit],
+    record: RequirementRecord,
+    requirements: dict[str, PolicyRequirement],
+    truth: PairTruth,
+) -> Row:
+    """Describe a judged requirement with the fragments the model saw."""
+    fragments = list_fragments(units, record.context_units)
+    requirement = requirements[record.requirement_id]
+    service = materials.labels.documented_service
+    return make_row(materials.case_id, service, record, requirement, fragments, truth)
 
 
 def build_rows(
@@ -81,13 +101,13 @@ def build_rows(
 ) -> list[Row]:
     """Describe every judged requirement of a case that has a gold verdict."""
     truths = build_case_truth(materials)
+    units = split_units(materials.design_text)
     requirements = index_requirements(analysis.requirements)
     rows: list[Row] = []
     for index, requirement_id in match_truths(materials, analysis, truths).items():
         record = records[requirement_id]
         if record.verdict is not None:
-            requirement = requirements[requirement_id]
-            rows.append(make_row(materials.case_id, record, requirement, truths[index]))
+            rows.append(row_for(materials, units, record, requirements, truths[index]))
     return rows
 
 
@@ -110,7 +130,7 @@ def predict_rows(rows: list[Row]) -> dict[Key, str]:
     """Predict the verdict of every row with cross-validation over documents."""
     features: Matrix = np.array([row.features for row in rows], dtype=np.float64)
     labels: Labels = np.array([row.gold for row in rows], dtype=np.int64)
-    predicted = cross_validate(features, labels, [row.case_id for row in rows])
+    predicted = cross_validate(features, labels, [row.group for row in rows])
     verdicts: dict[Key, str] = {}
     for row, index in zip(rows, predicted, strict=True):
         verdicts[(row.case_id, row.requirement_id)] = VERDICTS[int(index)]

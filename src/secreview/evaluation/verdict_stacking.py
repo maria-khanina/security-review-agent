@@ -4,7 +4,7 @@ The model gives a verdict with token probabilities; a verifier gives the
 probability of yes. A multinomial logistic regression learns from gold
 verdicts how to combine these signals with the wording of the requirement
 into the final verdict. It is scored with cross-validation over documents, so
-no document is judged by a model that saw it.
+no document of the same service is judged by a model that saw it.
 """
 
 import math
@@ -14,7 +14,13 @@ from numpy.typing import NDArray
 
 from secreview.agents.policy_requirements import PolicyRequirement
 from secreview.agents.verdict_review import RequirementRecord
-from secreview.parsing.vocabulary import EVIDENCE_VERDICTS, VERDICTS, WORDINGS
+from secreview.parsing.vocabulary import (
+    EVIDENCE_VERDICTS,
+    TOPICS,
+    VERDICTS,
+    WORDINGS,
+)
+from secreview.retrieval.rankers import tokenize
 from secreview.review_settings import REVIEW_SETTINGS
 
 Matrix = NDArray[np.float64]
@@ -28,15 +34,33 @@ def log_probability(record: RequirementRecord, verdict: str) -> float:
     return math.log(max(record.probabilities.get(verdict, 0.0), floor))
 
 
+def content_words(text: str) -> set[str]:
+    """Collect the distinct words of a text that are long enough to carry meaning."""
+    floor = REVIEW_SETTINGS.verdict.stacking_word_length
+    return {word for word in tokenize(text) if len(word) > floor}
+
+
+def overlap_share(requirement: str, other: str) -> float:
+    """Share of the content words of the requirement that the other text contains."""
+    words = content_words(requirement)
+    return len(words & content_words(other)) / len(words) if words else 0.0
+
+
 def build_features(
     record: RequirementRecord,
     requirement: PolicyRequirement,
+    fragments: list[str],
 ) -> list[float]:
-    """Describe a verdict by its probabilities, the verifier and the wording."""
+    """Describe a verdict by its signals, the wording and the word overlap."""
     features: list[float] = [log_probability(record, verdict) for verdict in VERDICTS]
     features.append(NEUTRAL if record.confidence is None else record.confidence)
     features.append(float(record.design_span is not None))
     features.extend(float(requirement.wording == wording) for wording in WORDINGS)
+    shares: list[float] = [overlap_share(requirement.quote, text) for text in fragments]
+    features.append(max(shares, default=0.0))
+    features.append(overlap_share(requirement.quote, record.quote))
+    features.append(math.log1p(len(content_words(requirement.quote))))
+    features.extend(float(topic in requirement.topics) for topic in TOPICS)
     return features
 
 
@@ -87,25 +111,25 @@ def predict_classes(weights: Matrix, features: Matrix) -> Labels:
     return np.argmax(add_bias(features) @ weights, axis=1).astype(np.int64)
 
 
-def split_folds(case_ids: list[str]) -> list[set[str]]:
-    """Deal the documents into folds, the same way on every run."""
-    ordered = sorted(set(case_ids))
+def split_folds(groups: list[str]) -> list[set[str]]:
+    """Deal the groups of documents into folds, the same way on every run."""
+    ordered = sorted(set(groups))
     count = REVIEW_SETTINGS.verdict.stacking_folds
     folds: list[set[str]] = [set() for _ in range(count)]
-    for number, case_id in enumerate(ordered):
-        folds[number % len(folds)].add(case_id)
+    for number, group in enumerate(ordered):
+        folds[number % len(folds)].add(group)
     return folds
 
 
 def cross_validate(
     features: Matrix,
     labels: Labels,
-    case_ids: list[str],
+    groups: list[str],
 ) -> Labels:
     """Predict every row with a model trained on the other folds."""
     predictions = np.zeros(len(labels), dtype=np.int64)
-    for fold in split_folds(case_ids):
-        held_out = np.array([case in fold for case in case_ids])
+    for fold in split_folds(groups):
+        held_out = np.array([group in fold for group in groups])
         train, test = standardize(features[~held_out], features[held_out])
         weights = fit_weights(train, labels[~held_out])
         predictions[held_out] = predict_classes(weights, test)

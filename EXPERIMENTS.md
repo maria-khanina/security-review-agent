@@ -206,6 +206,23 @@ An open consequence for the user-facing report: about 8 vague-wording `unclear` 
 
 **Verifier threshold (first signal).** A second call per `compliant` or `violated` verdict asks a yes/no question suited to the verdict ("does the quoted sentence itself state what the requirement demands?"); the probability of yes is read from the token log-probabilities. Downgrading verdicts to `unclear` when this probability is below a threshold raises accuracy on the pilot from 0.528 to 0.573 (threshold 0.98), precision of `compliant` from 0.55 to 0.65, recall of `unclear` from 0.27 to 0.46 and precision of `violated` from 0.42 to 0.58, at the cost of recall of `violated` (0.84 to 0.74). The threshold was chosen on the same pilot documents, so this is an upper estimate.
 
+### 10.1 Confidence, severity and a decision layer (pilot, overview run)
+
+Starting point: the run with the service overview (first 800 characters of the design added), 1151 pairs, accuracy 0.526, verdict probabilities stored.
+
+- **Three confidences compared by AUROC** (right versus wrong verdicts): probability of the chosen verdict from the log-probabilities 0.78; probability of yes of the yes/no verifier 0.79; the model stating a number from 1 to 100 in a separate call 0.72. Neither extra call beats the free log-probability confidence.
+- **Severity in a separate call** for the 14 right `violated` verdicts: mean absolute error 0.64 levels against 0.57 for the severity given in the verdict call (exact 6 of 14 against 7 of 14). No gain.
+- **Decision layer.** A class-weighted multinomial logistic regression (`verdict_stacking.py`) combines the log-probabilities of the four verdicts, the verifier probability, whether a quote was found, the wording class of the requirement, the largest word overlap between the requirement and the shown fragments, the overlap with the quote, the length of the requirement and its topics. It is scored with cross-validation over groups of documents (five folds, all documents of one service in the same fold, so no service is seen in training). Results on the pilot:
+
+| Run | Accuracy | compliant R / P | violated R / P | unclear R / P | not_applicable R / P | Defect recall | Macro F1 |
+|---|---|---|---|---|---|---|---|
+| model verdicts (overview run) | 0.526 | 0.99 / 0.52 | 0.74 / 0.50 | 0.17 / 0.42 | 0.24 / 0.65 | 0.51 | 0.467 |
+| + decision layer without topics | 0.702 | 0.95 / 0.88 | 0.68 / 0.50 | 0.34 / 0.50 | 0.69 / 0.60 | 0.43 | 0.635 |
+| + decision layer with topics | 0.783 | 0.92 / 0.92 | 0.68 / 0.48 | 0.66 / 0.66 | 0.72 / 0.73 | 0.57 | 0.718 |
+
+- Most of the gain comes from `not_applicable` (recall 0.24 to 0.70) and from the precision of `compliant` (0.52 to 0.88): the layer learns that a verdict `compliant` from a model that is not sure, a requirement of vague wording or a fragment with little word overlap are better answered `unclear` or `not_applicable`. Giving the layer a class weight of one instead of the square root raises recall of `unclear` and `violated` further, at lower precision of `violated` (0.39).
+- **Caveat.** The layer is trained on gold verdicts of dev documents, and the topic features carry per-requirement priors of this policy (for example which requirements are mostly vague or inapplicable). With a new policy it has to be retrained on labelled reviews. Cross-validation over services estimates how it transfers to unseen services, which is the situation of the test split.
+
 ## 11. Open questions and next steps
 
 - Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.
