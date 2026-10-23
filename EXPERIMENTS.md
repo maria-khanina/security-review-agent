@@ -147,15 +147,52 @@ Mean tokens (Qwen tokenizer) of the merged first k chunks, over the 148 violatio
 
 A whole design has 883 tokens on average (maximum 1571); the reviewer system prompt is 699 tokens; the policy is 530 to 1161 tokens. The context window of the vLLM server is 12288 tokens. A call with 20 candidates fits easily (about 2000 to 2500 tokens), but the documents are so short that 20 candidates are already about half of a document, so retrieval saves little here.
 
-## 9. Open questions and next steps
+## 9. Verdict per requirement: definitions and gold
 
-- Evaluate ambiguities by (document, requirement, type) and make the design quote optional for them; drop ambiguities from the retrieval recall.
-- Applicability first: a service profile (exposure, data classes, components) decides which requirements apply, then one verdict per applicable requirement: compliant, violated or unclear. Evaluate applicability against the generator's applicability conditions.
+The next reviewer design asks for one verdict per numbered policy requirement instead of free-form findings. Four verdicts:
+
+- `compliant`: the design states what the requirement demands, and the requirement is worded clearly enough for that statement to count as fulfilment. A quote of the design is required.
+- `violated`: the design states a decision that contradicts the requirement. A quote of the design is required.
+- `unclear`: the requirement applies to the design but cannot be settled, for one of two reasons. Either the design is silent or too general about it, or the requirement itself is worded vaguely or only as advice, or conflicts with another policy sentence, so that even a clear statement in the design could not be called fulfilment or violation. No quote.
+- `not_applicable`: the requirement does not concern the service, or cannot be judged from a design document at all (it concerns only settings of the implementation). No quote.
+
+The gold verdict of every (document, policy requirement sentence) pair is computed from the generator's knowledge (`src/secreview/evaluation/verdict_truth.py`), first matching rule wins:
+
+1. the rule does not apply to any component of the service: `not_applicable` (not in service);
+2. the rule is checked only in the implementation (`NET-03`, the only such rule): `not_applicable` (implementation only);
+3. a violation is planted on the rule: `violated`, gold quote = its design span;
+4. an ambiguity is planted on the rule: `unclear` (planted ambiguity);
+5. the design has a statement that satisfies the rule: `compliant`, gold quote = that statement;
+6. the policy wording of the rule is vague, advisory or conflicting: `unclear` (vague policy);
+7. a drift flaw (design versus implementation, out of scope) carries a design claim about the rule: `compliant`, gold quote = the claim (drift claim);
+8. otherwise `unclear` (silence by construction: a planted flaw on a coupled rule made the generator leave the statement out, for example no statement about secrets in code when how secrets are obtained was left vague).
+
+Gold on dev, 3583 pairs (policy requirement sentences, 3441 rules, because some rules have two sentences):
+
+| Verdict | Pairs | Subtypes |
+|---|---|---|
+| `not_applicable` | 1186 | not in service 1090, implementation only 96 |
+| `compliant` | 1353 | stated 1322, drift claim 31 |
+| `unclear` | 970 | vague policy 857, planted ambiguity 71, silence by construction 42 |
+| `violated` | 74 | planted violation 74 |
+
+`unclear` is more than a quarter of all pairs, mostly vague policy wording, so scores are reported per subtype, and a separate score covers the planted violations and ambiguities ("defect recall"). The four violations without any location in the design are all `NET-03` and have become `not_applicable`.
+
+The scorer (`src/secreview/evaluation/verdict_scores.py`) matches the requirements of a policy analysis to the gold requirement sentences (one to one, token IoU of at least 0.3), compares verdicts and, for `compliant` and `violated`, requires the quoted design span to overlap the gold span (IoU of at least 0.3). It reports a 4 x 5 confusion table (the fifth predicted class is "missing", a gold requirement the analysis did not find), accuracy with and without the quote, recall per subtype, how often a right verdict also has the right quote, defect recall, and the precision of `violated`. Checks without any model: a perfect answer scores 1.0 everywhere; shifting the quotes keeps the verdict accuracy and loses the evidence; dropping half of the requirements shows up as missing pairs; answering `unclear` everywhere is right exactly on the `unclear` share (27%).
+
+An open consequence for the user-facing report: about 8 vague-wording `unclear` verdicts per document (857 pairs in 96 documents) are remarks about the policy, identical for all documents of a policy version; they should be shown once per policy version (action `review_policy`), not in every design review.
+
+## 10. Open questions and next steps
+
+- Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.
+- Choose the retrieval method and the number of candidates by recall on the pairs whose gold verdict is `violated` or `unclear`, with the size of the context as the trade-off.
+- Full pipeline: requirements from the best policy analysis (not the gold list), retrieval of design fragments per requirement, one verdict per requirement on the real retrieved context, derived labels (action) in code, then all scores.
+- Applicability filter before the verdicts is optional, because `not_applicable` is itself a verdict; measure whether it helps.
 - Measure recall@k against document length by padding dev designs with distractor sentences.
-- Verdict-per-requirement pipeline, then self-consistency, a verifier and a cascade; a plot of quality against number of LLM calls.
-- Confirm the best single-call variant on the full dev split, then open the test split once.
+- Self-consistency, a verifier and a cascade; a plot of quality against number of LLM calls.
+- Confirm the best variant on the full dev split, then open the test split once.
 
-## 10. Reproduction
+## 11. Reproduction
 
 - Retrieval: `python scripts/run_retrieval.py dev`, then `python scripts/report_retrieval.py dev flaws --reference dense:qwen/w0/plain` (groups: `all`, `flaws`, `violation`, `ambiguity`, `not_clear`, `satisfied`). It needs a CUDA build of torch for reasonable speed; the Windows environment has none, so it was run in WSL with the vLLM environment plus extra packages in `/root/retrieval_extra`, with the vLLM server stopped to free the GPU.
 - Wording variation: `python scripts/rephrase_satisfied.py`, then `python scripts/build_case.py <case ids>`.

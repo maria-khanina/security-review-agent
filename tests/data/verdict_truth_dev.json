@@ -1,0 +1,19 @@
+{
+  "total": 3583,
+  "by_verdict": {
+    "not_applicable": 1186,
+    "compliant": 1353,
+    "unclear": 970,
+    "violated": 74
+  },
+  "by_subtype": {
+    "implementation_only": 96,
+    "not_in_service": 1090,
+    "stated": 1322,
+    "drift_claim": 31,
+    "planted_ambiguity": 71,
+    "vague_policy": 857,
+    "coupled_silence": 42,
+    "planted_violation": 74
+  }
+}
