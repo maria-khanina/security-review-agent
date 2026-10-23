@@ -24,10 +24,10 @@ The Webhook Dispatcher delivers platform events to the callback endpoints that m
 
 ### 4. Security (platform controls)
 
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+- ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+- ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
+- ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|Message brokers and databases sit in private subnets and are not publicly reachable.⟧
 
 ### 5. Deployment
@@ -46,7 +46,7 @@ The dispatcher runs as two replicas in our setup (the platform half says three, 
 
 #### logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 
 #### input and build
 

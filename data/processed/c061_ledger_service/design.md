@@ -53,12 +53,12 @@ These apply to all stories above.
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-2 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
-| NFR-3 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
-| NFR-4 | Secrets at runtime | Runtime secrets are fetched from the approved secret store at startup. |
-| NFR-6 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
+| NFR-2 | Algorithms | Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. |
+| NFR-3 | Secrets in artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |
+| NFR-4 | Secrets at runtime | At startup the service fetches its secrets from the approved secret store. |
+| NFR-6 | Security logging | We log failed logins, changes of privileges and reads of sensitive data. |
 | NFR-7 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
-| NFR-8 | Pipeline | The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
+| NFR-8 | Pipeline | CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
 
 ## Design notes
 

@@ -21,23 +21,23 @@ Based on: Audit pipeline v1 (the "audit-hub", 2023). Everything not listed here 
 
 The security properties of the pipeline are the ones the old hub had, restated here because the old document is out of date (it still talks about the search cluster and the VPN gateway of 2022).
 
-- Internal service calls are authenticated with mutual TLS or signed workload identity tokens.
+- Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Access tokens expire within 15 minutes; refresh tokens are rotated on use.
-- Personally identifiable information is encrypted at rest with AES-256.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- The databases and object stores that hold PII use AES-256 encryption at rest.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
-- Services validate TLS certificates and never disable verification.
+- Clients check the certificate chain and host name on every TLS connection and have no insecure mode.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
+- At startup the service fetches its secrets from the approved secret store.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The audit archive blocks public access and is private by default.
-- Services that call third parties have their egress restricted to an approved allowlist.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Non-production environments do not contain real personal or card data.
+- Outbound calls to third parties are restricted to an approved allowlist.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+- Real customer and card data is kept out of dev, test and staging.
 - Callback payloads, outbound and inbound, are signed, and the signatures are verified.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- All queries use bound parameters instead of string concatenation.
+- CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - Containers run as a non-root user, with a read-only root filesystem where possible.
 
 ## Known deviations carried over from v1

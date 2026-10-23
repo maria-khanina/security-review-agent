@@ -36,24 +36,24 @@ Hi, I'm doing the infra half. In my part the exporter is "the job" and the repli
 
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
-* Access tokens expire within 15 minutes; refresh tokens are rotated on use.
-* Administrative and back-office access requires multi-factor authentication.
-* Administrative and debug endpoints are not reachable from the public internet.
-* Personally identifiable information is encrypted at rest with AES-256.
-* Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-* Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
-* Services validate TLS certificates and never disable verification.
-* Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-* Runtime secrets are fetched from the approved secret store at startup.
+* Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
+* Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced.
+* Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+* The databases and object stores that hold PII use AES-256 encryption at rest.
+* The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+* Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
+* TLS certificate verification is enabled in all clients, with no option to disable it.
+* Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
+* Runtime secrets are read from the secret store when the service starts.
 * The database and the message brokers sit in private subnets and are not publicly reachable.
-* Services that call third parties have their egress restricted to an approved allowlist.
-* Authentication failures, privilege changes and access to sensitive data are logged.
-* Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-* Non-production environments do not contain real personal or card data.
+* Third-party calls leave through an egress allowlist, not through open outbound access.
+* The audit trail includes authentication failures, privilege changes and sensitive-data access.
+* Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+* Non-production environments contain no real personal or card data.
 * Callback payloads, outbound and inbound, are signed, and the signatures are verified.
-* Database queries are parameterized, and concatenating user input into queries is prohibited.
-* The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
-* Containers run as a non-root user, with a read-only root filesystem where possible.
+* We use parameterized queries only, with no SQL built from user input by string concatenation.
+* Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+* No container runs as root, and the root filesystem is read-only wherever possible.
 
 **Database password.** Rotation of the database passwords is avoided because every rotation needs a restart of the job. The restart is the reason; nobody likes it but nobody wants to touch the month end run.
 

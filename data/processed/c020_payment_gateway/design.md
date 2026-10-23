@@ -29,9 +29,9 @@ The difference between authorize and capture confused me at first. Authorize mea
 
 ## 4. Authentication
 
-In a gateway, authentication answers "who is calling?". Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.
+In a gateway, authentication answers "who is calling?". Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one. Repeated failed logins are throttled, and the account is locked out after too many failures.
 
-Authorization answers "what may this caller do?". For every request touching a merchant-owned payment, the service verifies that the caller owns the payment or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
+Authorization answers "what may this caller do?". For every request touching a merchant-owned payment, the service verifies that the caller owns the payment or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
 ## 5. Protecting card data
 
@@ -39,31 +39,31 @@ Card numbers are called PANs. Primary account numbers are never stored in clear 
 
 About the rest of the data. Encryption at rest is considered unnecessary for payments-db because the storage sits in a private network. The idea is that nobody from outside can reach the disk anyway.
 
- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Services validate TLS certificates and never disable verification.
+ Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Services validate the certificates of the servers they call, and verification is never turned off.
 
 ## 6. Personal data
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+ No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Non-production environments contain no real personal or card data.
 
 ## 7. Secrets
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+No secrets are kept in source code, config files, API specs or infrastructure definitions. Runtime secrets are read from the secret store when the service starts.
 
 ## 8. Network and edge
 
-payments-db and the Kafka brokers are in private subnets and are not publicly reachable. External APIs sit behind a WAF with rate limiting. The egress of services that call third parties is restricted to an approved allowlist.
+payments-db and the Kafka brokers are in private subnets and are not publicly reachable. Requests from the internet reach the API only through the WAF, where rate limits are enforced. The egress of services that call third parties is restricted to an approved allowlist.
 
 ## 9. Input and output
 
-All external inputs are validated against a schema and rejected if invalid. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+Schema validation runs on every external input, and invalid data never reaches the business logic. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
 
 ## 10. Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged.
+The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 ## 11. Build and operations
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 12. How a payment moves through the states
 

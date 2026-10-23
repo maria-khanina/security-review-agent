@@ -32,7 +32,7 @@
 
 ## Logging
 
-- Auth failures, privilege changes and access to sensitive data are logged.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
 ## Open
 

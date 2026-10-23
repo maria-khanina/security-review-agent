@@ -11,15 +11,15 @@ fraud scoring - quick notes
 security stuff:
 - The service image keeps the default root user, because changing it broke file access.
 - Internal calls are authenticated only by a shared header value that all services know.
-- Personally identifiable information is encrypted at rest with AES-256.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+- All personally identifiable information is encrypted before it lands on disk, using AES-256.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
+- At startup the service fetches its secrets from the approved secret store.
+- We log failed logins, changes of privileges and reads of sensitive data.
+- We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 - Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+- Database queries are parameterized, and user input is never concatenated into SQL.
+- Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 todo: replay tool for old events (TBD), alert on score drift (TBD)

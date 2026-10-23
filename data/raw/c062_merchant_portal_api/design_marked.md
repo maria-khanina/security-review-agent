@@ -51,17 +51,17 @@ Acceptance criteria:
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-2 | Access review | ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ |
-| NFR-3 | Encryption at rest | ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ |
-| NFR-4 | Transport | ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧ |
+| NFR-2 | Access review | ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧ |
+| NFR-3 | Encryption at rest | ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ |
+| NFR-4 | Transport | ⟦S:CRYPTO-03|Only TLS 1.2 and TLS 1.3 are accepted for connections from outside.⟧ |
 | NFR-5 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
 | NFR-7 | Network | ⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ |
-| NFR-8 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
+| NFR-8 | Security logging | ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧ |
 | NFR-11 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
-| NFR-13 | Third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
+| NFR-13 | Third parties | ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ |
 | NFR-14 | Exports | ⟦S:DATA-05|Reports that contain personal data require authorization to download, are encrypted in storage and expire.⟧ |
-| NFR-15 | Validation | ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ |
-| NFR-16 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+| NFR-15 | Validation | ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ |
+| NFR-16 | Queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
 
 ## Design notes
 

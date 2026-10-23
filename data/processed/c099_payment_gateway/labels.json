@@ -50,7 +50,7 @@
    "design_spans": [
     [
      1548,
-     1626
+     1612
     ]
    ],
    "policy_spans": [
@@ -64,8 +64,8 @@
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     1629,
-     1697
+     1615,
+     1667
     ]
    ],
    "policy_spans": [
@@ -79,8 +79,8 @@
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     1700,
-     1770
+     1670,
+     1740
     ]
    ],
    "policy_spans": [
@@ -94,8 +94,8 @@
    "rule_id": "CRYPTO-02",
    "design_spans": [
     [
-     1773,
-     1870
+     1743,
+     1840
     ]
    ],
    "policy_spans": [
@@ -109,8 +109,8 @@
    "rule_id": "CRYPTO-03",
    "design_spans": [
     [
-     1873,
-     1917
+     1843,
+     1948
     ]
    ],
    "policy_spans": [
@@ -124,8 +124,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     1920,
-     2019
+     1951,
+     2062
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2022,
-     2126
+     2065,
+     2169
     ]
    ],
    "policy_spans": [
@@ -154,8 +154,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     2129,
-     2217
+     2172,
+     2260
     ]
    ],
    "policy_spans": [
@@ -169,8 +169,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2962,
-     3045
+     3005,
+     3112
     ]
    ],
    "policy_spans": [
@@ -184,8 +184,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     3110,
-     3195
+     3177,
+     3262
     ]
    ],
    "policy_spans": [
@@ -199,8 +199,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3216,
-     3334
+     3283,
+     3400
     ]
    ],
    "policy_spans": [
@@ -214,8 +214,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     3504,
-     3579
+     3555,
+     3653
     ]
    ],
    "policy_spans": [
@@ -229,8 +229,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3580,
-     3672
+     3654,
+     3747
     ]
    ],
    "policy_spans": [
@@ -244,8 +244,8 @@
    "rule_id": "DATA-05",
    "design_spans": [
     [
-     3349,
-     3465
+     3415,
+     3516
     ]
    ],
    "policy_spans": [

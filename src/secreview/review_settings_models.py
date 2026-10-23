@@ -45,12 +45,41 @@ class PilotSettings(BaseModel):
     sample_seed: int
 
 
+class DenseModelSettings(BaseModel):
+    name: str
+    model_id: str
+    query_prefix: str
+
+
+class RetrievalSettings(BaseModel):
+    dense_models: list[DenseModelSettings]
+    device: str
+    encode_batch_size: int
+    reranker_model_id: str
+    rerank_depth: int
+    rerank_name: str
+    rerank_joiner: str
+    windows: list[int]
+    heading_options: list[bool]
+    cutoffs: list[int]
+    context_budgets: list[int]
+    rrf_constant: int
+    list_marker_pattern: str
+    sentence_boundary_pattern: str
+    heading_marker: str
+    results_directory: str
+    bm25_name: str
+    dense_name: str
+    hybrid_name: str
+
+
 class ReviewSettings(BaseModel):
     llm: LlmSettings
     grounding: GroundingSettings
     evaluation: EvaluationSettings
     policy_analysis: PolicyAnalysisSettings
     pilot: PilotSettings
+    retrieval: RetrievalSettings
     confidence_minimum: int
     confidence_maximum: int
     runs_directory: str

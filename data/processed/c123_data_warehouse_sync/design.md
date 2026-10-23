@@ -22,23 +22,23 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 3. Identity and Access Control
 
-3.1 Internal service calls are authenticated with mutual TLS or signed workload identity tokens.
+3.1 Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
-3.2 Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+3.2 Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 ## 4. Data Protection
 
-4.0 Personally identifiable information is encrypted at rest with AES-256.
+4.0 All personally identifiable information is encrypted before it lands on disk, using AES-256.
 
-4.1 Traffic between services and to data stores is encrypted in transit.
+4.1 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
-4.2 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+4.2 Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.
 
 4.4 The Service validates TLS certificates on every TLS connection it makes and never disables verification.
 
-4.5 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.
+4.5 Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
 4.6 Non-production environments do not contain real personal or card data.
 
@@ -58,19 +58,19 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 7. Logging and Monitoring
 
-7.1 Authentication failures, privilege changes and access to sensitive data are logged.
+7.1 We log failed logins, changes of privileges and reads of sensitive data.
 
 ## 8. Application Security
 
 8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.
 
-8.2 Database queries are parameterized, and concatenating user input into queries is prohibited.
+8.2 User input reaches the database only as query parameters, never as part of the query text.
 
 ## 9. Operations
 
 9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
 
-9.2 Containers run as a non-root user, with a read-only root filesystem where possible.
+9.2 No container runs as root, and the root filesystem is read-only wherever possible.
 
 ## 10. Operational Characteristics
 

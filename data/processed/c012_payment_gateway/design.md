@@ -19,9 +19,9 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 
 - All external endpoints authenticate via OAuth2/OIDC bearer or mTLS.
 - Access tokens max 15 min; refresh tokens rotated on use.
-- Login and token endpoints throttle or lock out repeated failures.
+- The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
 - Per-request ownership/entitlement check on every customer-owned resource.
-- Admin and debug endpoints are not reachable from the public internet.
+- Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 ## Data
 
@@ -45,7 +45,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 ## Secrets
 
 - No secrets in code, config, specs or infra definitions.
-- Runtime secrets fetched from approved secret store at startup.
+- On boot, the service pulls its credentials from the approved secret store.
 
 ## Logging
 
@@ -55,7 +55,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 
 - External input validated against schema, invalid rejected.
 - Webhook payloads signed, signatures verified (in + out).
-- Error responses: no stack traces, SQL, internal hostnames.
+- Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - Parameterized queries only.
 - CI scans deps and images; criticals fixed within 14 days.
 - Containers non-root, RO rootfs where possible.

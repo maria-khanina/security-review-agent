@@ -43,22 +43,22 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-1 | Service authentication | Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens. |
-| NFR-2 | Tokens | Access tokens expire within 15 minutes, and refresh tokens are rotated on use. |
+| NFR-1 | Service authentication | Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token. |
+| NFR-2 | Tokens | A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. |
 | NFR-4 | Internal transport | Traffic between services, and between services and data stores or brokers, is encrypted in transit. |
-| NFR-5 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
-| NFR-6 | Keys | Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. |
-| NFR-7 | Certificates | Services validate TLS certificates and never disable verification. |
+| NFR-5 | Algorithms | Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. |
+| NFR-6 | Keys | KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. |
+| NFR-7 | Certificates | TLS certificate verification is enabled in all clients, with no option to disable it. |
 | NFR-8 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | NFR-9 | Secrets at runtime | Runtime secrets are fetched from the approved secret store at startup. |
 | NFR-11 | Network | Databases and message brokers sit in private subnets and are not publicly reachable. |
 | NFR-12 | Egress | Services that call third parties have their egress restricted to an approved allowlist. |
-| NFR-13 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| NFR-17 | Third parties | Personal data is sent to the Email and SMS provider only under an approved data processing agreement, and only the fields required. |
-| NFR-18 | Test data | Non-production environments do not contain real personal or card data. |
+| NFR-13 | Security logging | We log failed logins, changes of privileges and reads of sensitive data. |
+| NFR-17 | Third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
+| NFR-18 | Test data | Test and staging environments use synthetic data, never real personal data or card data. |
 | NFR-19 | Callbacks | Provider delivery callbacks, and any outbound webhooks, are signed and the signatures are verified. |
-| NFR-20 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
-| NFR-21 | Pipeline | The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
+| NFR-20 | Queries | Database queries are parameterized, and user input is never concatenated into SQL. |
+| NFR-21 | Pipeline | CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
 | NFR-22 | Containers | Containers run as a non-root user, with a read-only root filesystem where possible. |
 
 ## Design notes

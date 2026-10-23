@@ -30,17 +30,17 @@ The calling services authenticate with the scheme described in the "PAN Safe" no
 
 ## 6. Control statements
 
-6.1 Identity. Internal service calls are authenticated with mutual TLS or signed workload identity tokens. Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+6.1 Identity. Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected. Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
 
-6.2 Card data and cryptography. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Traffic between services and to data stores is encrypted in transit. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
+6.2 Card data and cryptography. We do not keep primary account numbers: the card token vault tokenizes them and we store the token. Traffic between services, and from services to data stores, is encrypted in transit. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 
 6.3 Certificates. Hostname verification is disabled on the connection from tokenization-service to vault-db, because the certificate of the database still carries the name of the old host.
 
-6.4 Secrets and network. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup. The database and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
+6.4 Secrets and network. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. On boot, the service pulls its credentials from the approved secret store. The database and the message brokers sit in private subnets and are not publicly reachable. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
 
-6.5 Logging and data. Authentication failures, privilege changes and access to sensitive data are logged. Non-production environments do not contain real personal or card data.
+6.5 Logging and data. The audit trail includes authentication failures, privilege changes and sensitive-data access. Non-production environments do not contain real personal or card data.
 
-6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified. User input reaches the database only as query parameters, never as part of the query text. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. No container runs as root, and the root filesystem is read-only wherever possible.
 
 6.7 Backups. Backups of the vault database are encrypted.
 

@@ -25,19 +25,19 @@ KYC service collects identity details and document images from applicants, sends
 
 **Database.** ⟦S:NET-01|kyc-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-**Storage and crypto.** ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
+**Storage and crypto.** ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
 
-**Vendor.** ⟦F3|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|Personal data is sent to the vendor only under an approved data processing agreement, and only the fields required.⟧ ⟦S:API-03|Callback payloads from the vendor are signed and the signatures are verified.⟧ Open: retry window for vendor timeouts (TBD).
+**Vendor.** ⟦F3|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:API-03|Callback payloads from the vendor are signed and the signatures are verified.⟧ Open: retry window for vendor timeouts (TBD).
 
-**Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+**Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
-**Secrets.** ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+**Secrets.** ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
-**Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+**Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
-**API hygiene.** ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+**API hygiene.** ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
-**Pipeline and runtime.** ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+**Pipeline and runtime.** ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## case states
 

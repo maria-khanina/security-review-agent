@@ -20,7 +20,7 @@
    "design_spans": [
     [
      1428,
-     1503
+     1529
     ]
    ],
    "policy_spans": [
@@ -34,8 +34,8 @@
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     1504,
-     1600
+     1530,
+     1626
     ]
    ],
    "policy_spans": [
@@ -49,8 +49,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     1601,
-     1679
+     1627,
+     1705
     ]
    ],
    "policy_spans": [
@@ -64,8 +64,8 @@
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     1680,
-     1748
+     1706,
+     1815
     ]
    ],
    "policy_spans": [
@@ -79,8 +79,8 @@
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     1770,
-     1840
+     1837,
+     1929
     ]
    ],
    "policy_spans": [
@@ -94,8 +94,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     1850,
-     1949
+     1939,
+     2050
     ]
    ],
    "policy_spans": [
@@ -109,8 +109,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     1955,
-     2059
+     2056,
+     2150
     ]
    ],
    "policy_spans": [
@@ -124,8 +124,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     2079,
-     2170
+     2170,
+     2261
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "NET-02",
    "design_spans": [
     [
-     2171,
-     2237
+     2262,
+     2328
     ]
    ],
    "policy_spans": [
@@ -154,8 +154,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2252,
-     2335
+     2343,
+     2415
     ]
    ],
    "policy_spans": [
@@ -169,8 +169,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     2358,
-     2428
+     2438,
+     2508
     ]
    ],
    "policy_spans": [
@@ -184,8 +184,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     2429,
-     2547
+     2509,
+     2627
     ]
    ],
    "policy_spans": [
@@ -199,8 +199,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2669,
-     2761
+     2749,
+     2814
     ]
    ],
    "policy_spans": [
@@ -214,8 +214,8 @@
    "rule_id": "DATA-05",
    "design_spans": [
     [
-     2577,
-     2660
+     2657,
+     2740
     ]
    ],
    "policy_spans": [

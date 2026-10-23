@@ -36,7 +36,7 @@ When I started I mixed up a session and a token. A session is something the serv
 
 ## 5. What callers may do
 
-Knowing who you are is not enough. A merchant must never see the settlements of another merchant. Administrative and debug endpoints are not reachable from the public internet.
+Knowing who you are is not enough. A merchant must never see the settlements of another merchant. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
 ## 6. Traffic limits
 
@@ -44,23 +44,23 @@ If one client sends too many requests, everybody else suffers. The API enforces 
 
 ## 7. Data and encryption
 
-Encryption makes data unreadable without a key. Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Encryption makes data unreadable without a key. The databases and object stores that hold PII use AES-256 encryption at rest. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. TLS certificate verification is enabled in all clients, with no option to disable it. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
-About personal data. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+About personal data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Non-production environments contain no real personal or card data.
 
 About how long to keep data, we have not decided anything yet. No retention period is defined; old records stay in the database. This is the simplest rule and nobody has complained.
 
 ## 8. Secrets
 
-A secret is anything that proves identity to a machine. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+A secret is anything that proves identity to a machine. Source, config, specs and infrastructure definitions contain no secrets. Runtime secrets are read from the secret store when the service starts.
 
 ## 9. Network
 
-portal-db and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
+portal-db and the message brokers sit in private subnets and are not publicly reachable. Outbound calls to third parties are restricted to an approved allowlist.
 
 ## 10. Input, errors and callbacks
 
-All external inputs are validated against a schema and rejected if invalid. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+All external input is validated against a schema, and invalid requests are rejected. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and user input is never concatenated into SQL. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
 
 ## 11. Logs
 
@@ -68,7 +68,7 @@ Authentication failures, privilege changes and access to sensitive data are logg
 
 ## 12. Build and run
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. Containers run as a non-root user, with a read-only root filesystem where possible.
 
 ## 13. Report lifecycle
 

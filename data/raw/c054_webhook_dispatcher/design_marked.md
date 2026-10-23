@@ -40,13 +40,13 @@ AC-6. ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers
 AC-7. ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
 AC-8. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 AC-10. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-AC-11. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-AC-12. ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
-AC-14. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-AC-15. ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+AC-11. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+AC-12. ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+AC-14. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+AC-15. ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 AC-17. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 AC-18. ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
-AC-19. ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+AC-19. ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 
 DEFINITION OF DONE
 

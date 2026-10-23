@@ -26,13 +26,13 @@ The vault tokenizes primary account numbers (PANs) for the payment services. It 
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
-- ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧
+- ⟦S:CRYPTO-02|We do not keep primary account numbers: the card token vault tokenizes them and we store the token.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
-- ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+- ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧
 
 ### 5. Deployment (platform view)
 
@@ -56,19 +56,19 @@ The tokenizer (tokenization-service, I say tokenizer) takes a PAN, encrypts it w
 
 #### secrets
 
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 #### logs
 
 | what | rule |
 |---|---|
-| security events | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
+| security events | ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ |
 | audit |
 
 #### test data, queries, build, backups
 
-⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
 #### sizing
 

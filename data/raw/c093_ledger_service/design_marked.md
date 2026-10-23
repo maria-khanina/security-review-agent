@@ -40,37 +40,37 @@
 
 | Topic | Statement |
 |---|---|
-| Internal calls | ⟦S:AUTH-02|Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| Tokens | ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ |
-| Keys | ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ |
+| Internal calls | ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧ |
+| Tokens | ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ |
+| Keys | ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ |
 
 ## Transport and crypto
 
 | Topic | Statement |
 |---|---|
 | Internal traffic | ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ |
-| Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
-| Certificates | ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ |
+| Algorithms | ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ |
+| Certificates | ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧ |
 
 ## Secrets and network
 
 | Topic | Statement |
 |---|---|
-| In artifacts | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
-| At runtime | ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ |
+| In artifacts | ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ |
+| At runtime | ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧ |
 | Placement | ⟦S:NET-01|ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧ |
-| Egress | ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ |
+| Egress | ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧ |
 
 ## Logging, data, code, ops
 
 | Topic | Statement |
 |---|---|
-| Security events | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
+| Security events | ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ |
 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
 | Callbacks | ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ |
-| Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
-| Pipeline | ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
-| Containers | ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ |
+| Queries | ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ |
+| Pipeline | ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ |
+| Containers | ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧ |
 
 ## Reconciliation
 

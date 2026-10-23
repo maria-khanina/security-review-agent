@@ -125,7 +125,7 @@
    "design_spans": [
     [
      1094,
-     1167
+     1201
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     1185,
-     1212
+     1219,
+     1246
     ]
    ],
    "policy_spans": [

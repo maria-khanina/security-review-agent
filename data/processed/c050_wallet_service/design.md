@@ -29,11 +29,11 @@ The mobile app sends wallet and transfer requests to the gateway. The gateway as
 
 The API authenticates callers with JWT bearer tokens. All traffic is served over HTTPS only.
 
- Administrative and debug endpoints are not reachable from the public internet.
+ The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
-Personally identifiable information is encrypted at rest with AES-256. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Personally identifiable information is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. On boot, the service pulls its credentials from the approved secret store.
 
 ### 6. Deployment
 
@@ -49,7 +49,7 @@ The core (that is wallet-core, sometimes I say the wallet service) does the mone
 
 #### Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+The audit trail includes authentication failures, privilege changes and sensitive-data access. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 
 #### Passwords and login
 
@@ -65,13 +65,13 @@ The web wallet calls the gateway from the browser. Allowed origins are not confi
 |---|---|
 | retention | Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. |
 | third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
-| input | All external inputs are validated against a schema and rejected if invalid.
+| input | Schema validation runs on every external input, and invalid data never reaches the business logic.
 
 **Rate limits**
 
 #### Pipeline
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 
 #### Behavior notes
 

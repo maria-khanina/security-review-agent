@@ -23,17 +23,17 @@ Delivery is at least once. A subscription is active, paused or disabled, and the
 
 These are the controls the Dispatcher runs with right now, listed so that the roadmap below is read against a clear starting point.
 
-- Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+- Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 - Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
-- Administrative and debug endpoints are not reachable from the public internet.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- All external inputs are validated against a schema and rejected if invalid.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
-- Browser-facing APIs allow only approved origins in CORS.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Debug and administrative routes are not exposed to the internet.
+- Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+- Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+- At startup the service fetches its secrets from the approved secret store.
+- We log failed logins, changes of privileges and reads of sensitive data.
+- Schema validation runs on every external input, and invalid data never reaches the business logic.
+- User input reaches the database only as query parameters, never as part of the query text.
+- Cross-origin access is restricted to approved origins, and there is no wildcard.
+- Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## 4. Roadmap
 

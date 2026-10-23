@@ -35,13 +35,13 @@ The bucket is private and accessed through pre-signed URLs. A pre-signed URL is 
 
 ## 5. Who may do what?
 
-Authentication means proving who you are. Administrative and back-office access requires multi-factor authentication. MFA means you need two proofs: something you know, like a password, and something you have, like your phone.
+Authentication means proving who you are. Anyone with administrative or back-office access is required to use multi-factor authentication. MFA means you need two proofs: something you know, like a password, and something you have, like your phone.
 
-Authorization means what you may do after you are in. Internal users receive only the roles required for their job, and roles are defined per service. Administrative and debug endpoints are not reachable from the public internet. Access rights to production systems are reviewed at least quarterly.
+Authorization means what you may do after you are in. There are no global super-roles: each service has its own roles and people get only the ones their work needs. Admin and debug endpoints are reachable only from the internal network, not from the public internet. Access rights to production systems are reviewed at least quarterly.
 
 ## 6. Protecting the data
 
-Encryption turns readable data into unreadable data. Personally identifiable information is encrypted at rest with AES-256. "At rest" means stored on a disk. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Encryption turns readable data into unreadable data. The databases and object stores that hold PII use AES-256 encryption at rest. "At rest" means stored on a disk. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
 About personal data: The export collects and stores only the personal data needed for the reports. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 
@@ -55,7 +55,7 @@ Logs are the diary of the system. Authentication failures, privilege changes and
 
 ## 9. Code and operations
 
-Database queries are parameterized, and concatenating user input into queries is prohibited.
+User input reaches the database only as query parameters, never as part of the query text.
 
 ## 10. What the job does in detail
 

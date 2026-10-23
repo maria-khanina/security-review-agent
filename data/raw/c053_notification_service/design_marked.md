@@ -43,22 +43,22 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-1 | Service authentication | ⟦S:AUTH-02|Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| NFR-2 | Tokens | ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ |
+| NFR-1 | Service authentication | ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧ |
+| NFR-2 | Tokens | ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ |
 | NFR-4 | Internal transport | ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ |
-| NFR-5 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
-| NFR-6 | Keys | ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ |
-| NFR-7 | Certificates | ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ |
+| NFR-5 | Algorithms | ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧ |
+| NFR-6 | Keys | ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ |
+| NFR-7 | Certificates | ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧ |
 | NFR-8 | Secrets in artifacts | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
 | NFR-9 | Secrets at runtime | ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ |
 | NFR-11 | Network | ⟦S:NET-01|Databases and message brokers sit in private subnets and are not publicly reachable.⟧ |
 | NFR-12 | Egress | ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ |
-| NFR-13 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
-| NFR-17 | Third parties | ⟦S:DATA-03|Personal data is sent to the Email and SMS provider only under an approved data processing agreement, and only the fields required.⟧ |
-| NFR-18 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
+| NFR-13 | Security logging | ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ |
+| NFR-17 | Third parties | ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ |
+| NFR-18 | Test data | ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧ |
 | NFR-19 | Callbacks | ⟦S:API-03|Provider delivery callbacks, and any outbound webhooks, are signed and the signatures are verified.⟧ |
-| NFR-20 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
-| NFR-21 | Pipeline | ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
+| NFR-20 | Queries | ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ |
+| NFR-21 | Pipeline | ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
 | NFR-22 | Containers | ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ |
 
 ## Design notes

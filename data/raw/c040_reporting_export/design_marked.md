@@ -21,29 +21,29 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 ## 3. Identity and Access Control
 
-3.1 ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
+3.1 ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 
-3.2 ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
+3.2 ⟦S:AUTH-04|Admins and back-office staff must pass multi-factor authentication to sign in.⟧
 
 3.3 ⟦F3|Permissions are granted per request via chat and rarely removed.⟧
 
-3.5 ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+3.5 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 ## 4. Data Protection
 
-4.1 ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
+4.1 ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
 
-4.2 ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.⟧
+4.2 ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 
 4.3 ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
 4.4 ⟦S:CRYPTO-07|The Service validates TLS certificates on every TLS connection it makes and never disables verification.⟧
 
-4.7 ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.⟧
+4.7 ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 
 ## 5. Secrets Management
 
-5.1 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+5.1 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
 5.2 ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store when the Service starts.⟧
 
@@ -57,7 +57,7 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 ## 7. Logging and Monitoring
 
-7.1 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+7.1 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
 7.2 ⟦F4|Audit logs are retained for 365 days.⟧
 

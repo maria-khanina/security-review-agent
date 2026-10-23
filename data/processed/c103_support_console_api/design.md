@@ -33,7 +33,7 @@
 | area | statement |
 |---|---|
 | tokens | Access tokens expire within 15 minutes, and refresh tokens are rotated on use. |
-| admin sign-in | Administrative and back-office access requires multi-factor authentication. |
+| admin sign-in | Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced. |
 | passwords | User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage is prohibited. |
 | exposure | Administrative and debug endpoints are not reachable from the public internet. |
 
@@ -44,22 +44,22 @@
 | PII at rest | Personally identifiable information is encrypted at rest with AES-256. |
 | algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
 | keys | Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. |
-| TLS | Services validate TLS certificates and never disable verification. |
-| repo and config | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
-| runtime | Runtime secrets are fetched from the approved secret store at startup. |
+| TLS | Clients check the certificate chain and host name on every TLS connection and have no insecure mode. |
+| repo and config | Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. |
+| runtime | Runtime secrets are read from the secret store when the service starts. |
 
 ## controls: network, logging, data, delivery
 
 | area | statement |
 |---|---|
 | subnets | The database and the message brokers sit in private subnets and are not publicly reachable. |
-| egress | Services that call third parties have their egress restricted to an approved allowlist. |
-| logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| sharing | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
+| egress | Egress is limited to the approved list of third-party destinations. |
+| logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
+| sharing | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
 | non-prod | Non-production environments do not contain real personal or card data. |
 | callbacks | Callback payloads, outbound and inbound, are signed, and the signatures are verified. |
-| queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
-| CI | The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
+| queries | Database queries are parameterized, and user input is never concatenated into SQL. |
+| CI | Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. |
 | containers | Containers run as a non-root user, with a read-only root filesystem where possible. |
 
 ## limits

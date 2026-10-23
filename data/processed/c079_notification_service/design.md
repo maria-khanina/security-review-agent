@@ -31,13 +31,13 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - N-1: Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.
 - N-2: Internal users receive only the roles required for their job, and roles are defined per service.
-- N-3: Access rights to production systems are reviewed at least quarterly.
+- N-3: Access to production is recertified at least once per quarter.
 
 ### 5.2 Data protection
 
 - N-4: Personal data is never placed in URLs.
 - N-5: Sensitive fields are encrypted with AES in ECB mode for simplicity.
-- N-6: Personal data is sent to the provider only under an approved data processing agreement, and only the fields required.
+- N-6: No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
 - N-7: Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.
 
 ### 5.3 Secrets and network
@@ -47,11 +47,11 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.4 Logging
 
-- N-11: Authentication failures, privilege changes and access to sensitive data are logged.
+- N-11: We log failed logins, changes of privileges and reads of sensitive data.
 
 ### 5.5 Application security and operations
 
-- N-13: Database queries are parameterized, and concatenating user input into queries is prohibited.
+- N-13: User input reaches the database only as query parameters, never as part of the query text.
 
 ## 6. Template safety
 

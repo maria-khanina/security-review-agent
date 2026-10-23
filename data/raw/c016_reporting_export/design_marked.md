@@ -35,13 +35,13 @@ The infrastructure is written in Terraform, which means it is described in text 
 
 ## 5. Who may do what?
 
-Authentication means proving who you are. ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧ MFA means you need two proofs: something you know, like a password, and something you have, like your phone.
+Authentication means proving who you are. ⟦S:AUTH-04|Anyone with administrative or back-office access is required to use multi-factor authentication.⟧ MFA means you need two proofs: something you know, like a password, and something you have, like your phone.
 
-Authorization means what you may do after you are in. ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+Authorization means what you may do after you are in. ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧ ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 
 ## 6. Protecting the data
 
-Encryption turns readable data into unreadable data. ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ "At rest" means stored on a disk. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+Encryption turns readable data into unreadable data. ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ "At rest" means stored on a disk. ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
 About personal data: ⟦S:DATA-01|The export collects and stores only the personal data needed for the reports.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
 
@@ -55,7 +55,7 @@ Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege
 
 ## 9. Code and operations
 
-⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
 ## 10. What the job does in detail
 

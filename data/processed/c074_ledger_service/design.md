@@ -47,10 +47,10 @@ ledger-core write the records about its work, and the operations team can read t
 
 The controls which are important for this service are listed here.
 
-- Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.
+- Source, config, specs and infrastructure definitions contain no secrets.
 - The runtime secrets are fetched from the approved secret store when the service start.
-- Database queries are parameterized, and the concatenation of user input into queries is prohibited.
-- The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days.
+- All queries use bound parameters instead of string concatenation.
+- Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 
 ## 7. Balance and reconciliation
 

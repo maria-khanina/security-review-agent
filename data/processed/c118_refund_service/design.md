@@ -45,17 +45,17 @@ refund-db has three tables. refund holds the refund records. approval holds one 
 
 ## 7. Security design
 
-7.1 Identity and access. Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet. Access rights to production systems are reviewed at least quarterly.
+7.1 Identity and access. Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Admin and debug endpoints are reachable only from the internal network, not from the public internet. Access to production is recertified at least once per quarter.
 
-7.2 Card data and cryptography. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Personally identifiable information is encrypted at rest with AES-256. All external traffic uses TLS 1.2 or higher. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).
+7.2 Card data and cryptography. We do not keep primary account numbers: the card token vault tokenizes them and we store the token. All personally identifiable information is encrypted before it lands on disk, using AES-256. All external traffic uses TLS 1.2 or higher. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).
 
-7.3 Secrets. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+7.3 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 
 7.4 Network and logging. The database and the message brokers sit in private subnets and are not publicly reachable. Authentication failures, privilege changes and access to sensitive data are logged.
 
-7.5 Data protection. Only the personal data needed for the purpose is collected and stored. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Data exports require authorization, are encrypted, and expire after a limited time.
+7.5 Data protection. Only the personal data needed for the purpose is collected and stored. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Data exports require authorization, are encrypted, and expire after a limited time.
 
-7.6 Application. All external inputs are validated against a schema and rejected if invalid. Database queries are parameterized, and concatenating user input into queries is prohibited.
+7.6 Application. Schema validation runs on every external input, and invalid data never reaches the business logic. All queries use bound parameters instead of string concatenation.
 
 ## 8. Failure handling
 

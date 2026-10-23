@@ -28,27 +28,27 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ## 5. Authentication and authorization
 
-⟦S:AUTH-01|Every externally reachable endpoint authenticate the caller with OAuth2 or OIDC bearer tokens, or with mutual TLS.⟧ ⟦S:AUTH-03|The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.⟧
+⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧ ⟦S:AUTH-03|The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.⟧
 
-⟦S:AUTH-05|Customer passwords are stored only as salted hashes with argon2id or bcrypt, never in reversible form.⟧ ⟦S:AUTH-06|The login and token endpoints do throttle or lock out the repeated failed attempts.⟧
+⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ ⟦S:AUTH-06|The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.⟧
 
 ⟦S:AUTHZ-01|On every request for resource of a customer, the service verify that the caller is the owner or is entitled to the resource.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 
 ## 6. Data protection
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|The encryption keys are hold in KMS, never stored with the data which they protect, and rotated at least annually.⟧
+⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 
- ⟦S:DATA-03|Personal data may be sent to the third parties only under approved data processing agreement, and only the fields which are required.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+ ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
 ## 7. Transport, cryptography and edge
 
- ⟦S:CRYPTO-07|The services validate TLS certificates and never disable the verification.⟧ ⟦S:CRYPTO-05|Only the approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+ ⟦S:CRYPTO-07|The services validate TLS certificates and never disable the verification.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
-⟦S:NET-01|The database and message brokers are not publicly reachable and live in the private subnets.⟧ ⟦S:NET-05|External APIs are placed behind a WAF with rate limiting.⟧ ⟦S:NET-04|For the services which call third parties, the egress is restricted to approved allowlist.⟧
+⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧ ⟦S:NET-04|For the services which call third parties, the egress is restricted to approved allowlist.⟧
 
 ## 8. Secrets
 
-⟦S:SECRET-01|Secrets must not appear in the source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when service starts.⟧
+⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when service starts.⟧
 
 ## 9. Logging
 
@@ -56,11 +56,11 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ## 10. Application security
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if they are invalid.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-04|The error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized and the concatenation of user input into queries is prohibited.⟧
+⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧ ⟦S:API-05|Database queries are parameterized and the concatenation of user input into queries is prohibited.⟧
 
 ## 11. Operations
 
-⟦S:OPS-01|The CI scan the dependencies and images, and the critical vulnerabilities must be fixed within 14 days.⟧ ⟦S:OPS-02|Containers are running as non-root user, with read-only root filesystem where possible.⟧
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers are running as non-root user, with read-only root filesystem where possible.⟧
 
 ## 12. Behavior in details
 

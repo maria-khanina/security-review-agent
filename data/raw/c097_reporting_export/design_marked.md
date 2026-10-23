@@ -34,23 +34,23 @@ This section lists the controls. I tried to write them in the same order as in t
 
 ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
 
-⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
 ### 4.2 Cryptography
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
+⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
 
 ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
-⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
+⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧
 
-⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 
 ### 4.3 Secrets
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
-⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 ### 4.4 Network
 
@@ -58,11 +58,11 @@ This section lists the controls. I tried to write them in the same order as in t
 
 ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
 
-⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
 
 ### 4.5 Logging
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
  The log group `export_audit` keeps the audit stream. See the section "Audit trail" of the old page for more details (link not valid anymore).
 
@@ -72,17 +72,17 @@ This section lists the controls. I tried to write them in the same order as in t
 
 ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
 
-⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 
 ### 4.7 Application and operations
 
 ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
 
-⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 
-⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## 5. Operation
 

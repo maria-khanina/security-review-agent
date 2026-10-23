@@ -122,8 +122,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2820,
-     2858
+     2806,
+     2844
     ]
    ],
    "policy_spans": {
@@ -184,7 +184,7 @@
    "design_spans": [
     [
      2708,
-     2786
+     2772
     ]
    ],
    "policy_spans": [
@@ -198,8 +198,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2896,
-     3000
+     2882,
+     2976
     ]
    ],
    "policy_spans": [
@@ -213,8 +213,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3008,
-     3078
+     2984,
+     3071
     ]
    ],
    "policy_spans": [
@@ -228,8 +228,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3104,
-     3187
+     3097,
+     3204
     ]
    ],
    "policy_spans": [
@@ -243,8 +243,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     3227,
-     3302
+     3244,
+     3333
     ]
    ],
    "policy_spans": [
@@ -258,8 +258,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3311,
-     3403
+     3342,
+     3432
     ]
    ],
    "policy_spans": [
@@ -273,8 +273,8 @@
    "rule_id": "API-06",
    "design_spans": [
     [
-     3412,
-     3468
+     3441,
+     3529
     ]
    ],
    "policy_spans": [

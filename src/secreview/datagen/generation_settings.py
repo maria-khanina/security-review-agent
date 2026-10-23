@@ -9,6 +9,7 @@ from secreview.datagen.settings_models import (
     NoiseSettings,
     OpenApiSettings,
     PathSettings,
+    PhrasingSettings,
     QualityGates,
     TerraformSettings,
 )
@@ -61,6 +62,11 @@ GENERATION_SETTINGS = GenerationSettings(
         min_rule_sentence_words=4,
         min_drift_claim_words=3,
     ),
+    phrasing=PhrasingSettings(
+        minimum_similarity=85.0,
+        seed=20261024,
+        keep_original_choice=0,
+    ),
     paths=PathSettings(
         raw_directory="data/raw",
         processed_directory="data/processed",
@@ -69,6 +75,7 @@ GENERATION_SETTINGS = GenerationSettings(
         rules_file="data/policies/rules.yaml",
         policy_maps_file="data/policies/policy_maps.yaml",
         rule_couplings_file="data/policies/rule_couplings.yaml",
+        phrasings_file="data/policies/compliant_phrasings.yaml",
     ),
     noise=NoiseSettings(
         low_typo_english=["native_fluent", "jargon_dense"],

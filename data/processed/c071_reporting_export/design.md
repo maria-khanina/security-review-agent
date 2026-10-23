@@ -30,17 +30,17 @@ We believe security is an enabler, not a blocker, and we have built it into the 
 
 Data at rest is encrypted with KMS-managed keys.
 
-Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. On boot, the service pulls its credentials from the approved secret store.
 
-Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+Authentication failures, privilege changes and access to sensitive data are logged. Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
 Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 
-Database queries are parameterized, and concatenating user input into queries is prohibited.
+All queries use bound parameters instead of string concatenation.
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
 ## Roadmap
 

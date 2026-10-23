@@ -37,31 +37,31 @@
 
 - Access tokens expire within 15 minutes; refresh tokens are rotated on use.
 - Administrative and back-office access requires multi-factor authentication.
-- Administrative and debug endpoints are not reachable from the public internet.
+- The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
 ## Notes: data and crypto
 
-- Personally identifiable information is encrypted at rest with AES-256.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Services validate TLS certificates and never disable verification.
+- Stored PII is protected with AES-256 encryption or stronger.
+- Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
+- Clients check the certificate chain and host name on every TLS connection and have no insecure mode.
 - Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Non-production environments do not contain real personal or card data.
+- Test and staging environments use synthetic data, never real personal data or card data.
 
 ## Notes: secrets and network
 
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - Runtime secrets are fetched from the approved secret store at startup.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The exports bucket blocks public access and is private by default.
-- Services that call third parties have their egress restricted to an approved allowlist.
+- Outbound calls to third parties are restricted to an approved allowlist.
 
 ## Notes: logs, code, ops
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 - Webhook payloads, outbound and inbound, are signed and the signatures are verified.
-- Database queries are parameterized; concatenating user input into queries is prohibited.
+- Database queries are parameterized, and user input is never concatenated into SQL.
 - CI scans dependencies and images; critical vulnerabilities are fixed within 14 days.
-- Containers run as a non-root user, with a read-only root filesystem where possible.
+- No container runs as root, and the root filesystem is read-only wherever possible.
 
 ## Behavior
 

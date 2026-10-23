@@ -41,18 +41,18 @@
 
 | Topic | Rule |
 |---|---|
-| Authentication | Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. |
+| Authentication | External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider. |
 | Ownership | Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it. |
-| Admin endpoints | Administrative and debug endpoints are not reachable from the public internet. |
+| Admin endpoints | Nothing administrative or meant for debugging can be called from outside our network. |
 
 ## Data and crypto
 
 | Topic | Rule |
 |---|---|
-| At rest | Personally identifiable information is encrypted at rest with AES-256. |
-| Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
+| At rest | The databases and object stores that hold PII use AES-256 encryption at rest. |
+| Algorithms | Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. |
 | Retention | Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. |
-| Vendor | Personal data is sent to the vendor only under an approved data processing agreement, and only the fields required. |
+| Vendor | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
 | Transport | All traffic is served over HTTPS only. |
 
 ## Storage and network
@@ -67,11 +67,11 @@
 | Topic | Rule |
 |---|---|
 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
-| Secrets at runtime | Runtime secrets are fetched from the approved secret store at startup. |
+| Secrets at runtime | On boot, the service pulls its credentials from the approved secret store. |
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| Log content | Logs contain no secrets, card numbers or personal data beyond opaque identifiers. |
-| Validation | All external inputs are validated against a schema and rejected if invalid. |
-| Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+| Log content | Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids. |
+| Validation | External inputs are accepted only if they validate against the schema. |
+| Queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
 | CORS | Browser-facing APIs allow only approved origins in CORS. |
 | Pipeline | The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
 

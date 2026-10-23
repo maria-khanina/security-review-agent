@@ -1,0 +1,221 @@
+phrasings:
+  AUTH-01:
+  - "Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate."
+  - "External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider."
+  - "Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate."
+  - "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate."
+  AUTH-02:
+  - "Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token."
+  - "Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected."
+  - "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it."
+  - "We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens."
+  AUTH-03:
+  - "Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used."
+  - "Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one."
+  - "Access token lifetime is capped at 15 minutes, and using a refresh token rotates it."
+  - "A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use."
+  AUTH-04:
+  - "Admins and back-office staff must pass multi-factor authentication to sign in."
+  - "The admin console and the other back-office tools require a second factor (MFA) at login."
+  - "Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced."
+  - "Anyone with administrative or back-office access is required to use multi-factor authentication."
+  AUTH-05:
+  - "Passwords are stored only as salted argon2id hashes."
+  - "We keep no reversible form of a password: only salted bcrypt hashes are stored."
+  - "Password storage uses salted bcrypt or argon2id hashes, and plaintext or encrypted passwords are never stored."
+  - "User passwords are hashed with argon2id and a per-user salt before they are written to the database."
+  AUTH-06:
+  - "Repeated failed logins are throttled, and the account is locked out after too many failures."
+  - "The login and token endpoints rate-limit failed attempts and lock the account after repeated failures."
+  - "Brute-force protection is in place: failed attempts on the login and token endpoints are throttled."
+  - "After several failed sign-ins the login endpoint slows down or locks the account."
+  AUTHZ-01:
+  - "Each request for a customer's resource checks that the caller owns it or is entitled to it."
+  - "Ownership is verified on every access to customer-owned data, not only at login."
+  - "The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists."
+  - "A caller can only read or change resources that belong to them or that they have been explicitly granted."
+  AUTHZ-02:
+  - "Staff roles are limited to what each job needs, and every service defines its own roles."
+  - "Internal users are given the minimum set of roles for their job, and roles are defined service by service."
+  - "We keep roles small and per service, so an internal user only receives what their job requires."
+  - "There are no global super-roles: each service has its own roles and people get only the ones their work needs."
+  AUTHZ-03:
+  - "The service connects to its database with its own account, which has only the grants it needs."
+  - "Database credentials are per service with least-privilege grants, and no shared admin account is used by the application."
+  - "Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared."
+  - "The application never uses a shared administrative database login; it has a dedicated, minimally privileged account."
+  AUTHZ-04:
+  - "Admin and debug endpoints are reachable only from the internal network, not from the public internet."
+  - "Debug and administrative routes are not exposed to the internet."
+  - "The admin interface and the debug endpoints sit behind the internal network boundary and have no public route."
+  - "Nothing administrative or meant for debugging can be called from outside our network."
+  AUTHZ-05:
+  - "Production access rights are reviewed every quarter."
+  - "Every three months the system owners review who has access to production and remove what is no longer needed."
+  - "A quarterly access review covers all production systems."
+  - "Access to production is recertified at least once per quarter."
+  CRYPTO-01:
+  - "Personal data is encrypted at rest with AES-256."
+  - "Stored PII is protected with AES-256 encryption or stronger."
+  - "All personally identifiable information is encrypted before it lands on disk, using AES-256."
+  - "The databases and object stores that hold PII use AES-256 encryption at rest."
+  CRYPTO-02:
+  - "Card numbers are never stored in clear text; they are replaced by tokens from the card token vault."
+  - "The PAN is tokenized by the card token vault and only the token is kept."
+  - "We do not keep primary account numbers: the card token vault tokenizes them and we store the token."
+  - "Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first."
+  CRYPTO-03:
+  - "External traffic is served over TLS 1.2 or newer."
+  - "Only TLS 1.2 and TLS 1.3 are accepted for connections from outside."
+  - "Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused."
+  - "All public-facing endpoints terminate TLS 1.2 or higher."
+  CRYPTO-04:
+  - "Traffic between services, and from services to data stores, is encrypted in transit."
+  - "Connections to the database and between internal services use TLS."
+  - "Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted."
+  - "In-transit encryption covers calls between services as well as connections to databases and queues."
+  CRYPTO-05:
+  - "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not."
+  - "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned."
+  - "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode."
+  - "The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service."
+  CRYPTO-06:
+  - "Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year."
+  - "Keys are managed in KMS, never stored next to the encrypted data, and rotated annually."
+  - "KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly."
+  - "Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner."
+  CRYPTO-07:
+  - "Services validate the certificates of the servers they call, and verification is never turned off."
+  - "TLS certificate verification is enabled in all clients, with no option to disable it."
+  - "Outbound TLS connections always verify the peer certificate."
+  - "Clients check the certificate chain and host name on every TLS connection and have no insecure mode."
+  SECRET-01:
+  - "No secrets are kept in source code, config files, API specs or infrastructure definitions."
+  - "Secrets stay out of the repository: not in code, configuration, specs or infrastructure files."
+  - "Credentials are never committed to code, configuration, specifications or infrastructure-as-code files."
+  - "Source, config, specs and infrastructure definitions contain no secrets."
+  SECRET-02:
+  - "At startup the service fetches its secrets from the approved secret store."
+  - "Runtime secrets are read from the secret store when the service starts."
+  - "The approved secret manager is the only source of runtime secrets, fetched at start-up."
+  - "On boot, the service pulls its credentials from the approved secret store."
+  SECRET-03:
+  - "Service credentials are rotated at least every 90 days and immediately if they may have been exposed."
+  - "Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak."
+  - "Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure."
+  - "We rotate service credentials at least every 90 days and straight away after any suspected exposure."
+  NET-01:
+  - "The database and the message broker are in private subnets with no public address."
+  - "Databases and brokers are not reachable from the internet; they run in private subnets."
+  - "Data stores and brokers sit in private subnets only."
+  - "Neither the database nor the broker has a public endpoint, and both live in private subnets."
+  NET-02:
+  - "Object storage buckets are private by default and block public access."
+  - "Block public access is enabled on every bucket, which is private by default."
+  - "Buckets are private, and the public-access block is on."
+  - "We enable block-public-access on the buckets so that nothing is public by default."
+  NET-03:
+  - "SSH, RDP and database ports are not open to the whole internet."
+  - "Security groups never allow 0.0.0.0/0 on SSH, RDP or database ports."
+  - "Management and database ports (SSH, RDP, SQL) are closed to 0.0.0.0/0."
+  - "No security group exposes SSH, RDP or database ports to any address on the internet."
+  NET-04:
+  - "Outbound calls to third parties are restricted to an approved allowlist."
+  - "Egress is limited to the approved list of third-party destinations."
+  - "The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked."
+  - "Third-party calls leave through an egress allowlist, not through open outbound access."
+  NET-05:
+  - "The external API sits behind a WAF that also applies rate limiting."
+  - "Public API traffic passes through a web application firewall with rate limits."
+  - "A WAF with rate limiting protects the externally exposed API."
+  - "Requests from the internet reach the API only through the WAF, where rate limits are enforced."
+  LOG-01:
+  - "Authentication failures, privilege changes and access to sensitive data are written to the logs."
+  - "We log failed logins, changes of privileges and reads of sensitive data."
+  - "The audit trail includes authentication failures, privilege changes and sensitive-data access."
+  - "Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged."
+  LOG-02:
+  - "Logs carry opaque identifiers only and never include secrets, card numbers or personal data."
+  - "Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque."
+  - "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids."
+  - "We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers."
+  LOG-03:
+  - "Audit logs are tamper-evident and kept for at least a year."
+  - "Audit log entries are protected against silent modification and retained for a minimum of one year."
+  - "Audit logs are written to tamper-evident storage with at least one year of retention."
+  - "The audit trail is tamper-evident, and we keep it for no less than twelve months."
+  LOG-04:
+  - "Only authorized staff can access the central logs."
+  - "Access to the centralized logging system is restricted to authorized people."
+  - "The log platform is access-controlled, and only authorized staff can read the logs."
+  - "Reading centralized logs requires authorization, and only approved staff have it."
+  DATA-01:
+  - "The service collects and stores only the personal data it needs for its purpose."
+  - "Data minimization applies: we keep only the personal fields that the purpose requires."
+  - "Personal data fields are limited to what the service needs, and nothing extra is collected."
+  - "We do not store personal data that this service has no purpose for."
+  DATA-02:
+  - "Personal data has a defined retention period and is deleted when it expires or when a verified request asks for it."
+  - "Retention periods are defined for personal data, and expired data is deleted, as is data covered by a verified deletion request."
+  - "Personal data is kept only for its defined retention period and deleted at expiry or on a verified request."
+  - "A retention period is set for the personal data, and deletion happens at its end or on a verified request."
+  DATA-03:
+  - "Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent."
+  - "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed."
+  - "Third parties receive only the fields they need, and only if an approved data processing agreement covers them."
+  - "No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields."
+  DATA-04:
+  - "Non-production environments contain no real personal or card data."
+  - "Test and staging environments use synthetic data, never real personal data or card data."
+  - "Real customer and card data is kept out of dev, test and staging."
+  - "Only synthetic data is present outside production."
+  DATA-05:
+  - "Reports and exports that contain personal data require authorization to access, are encrypted in storage and expire."
+  - "Exports with personal data are access-controlled, stored encrypted and removed after a set time."
+  - "An export containing personal data needs authorization to download, is encrypted at rest and expires."
+  - "Generated reports with personal data are encrypted when stored, available only to authorized users, and time-limited."
+  API-01:
+  - "All external input is validated against a schema, and invalid requests are rejected."
+  - "Requests from outside are checked against the schema and rejected if they do not conform."
+  - "Schema validation runs on every external input, and invalid data never reaches the business logic."
+  - "External inputs are accepted only if they validate against the schema."
+  API-02:
+  - "The external API enforces rate limits per client."
+  - "Each API client has its own rate limit."
+  - "Per-client throttling is applied to all external endpoints."
+  - "Callers are rate-limited individually, so one client cannot exhaust the API for the others."
+  API-03:
+  - "Webhook payloads, inbound and outbound, are signed and the signatures are verified."
+  - "Webhooks are signed, and the receiving side verifies the signature before processing."
+  - "Every webhook we send is signed, and every one we receive has its signature verified."
+  - "Unsigned or incorrectly signed webhook payloads are rejected, and our own are signed."
+  API-04:
+  - "Error responses do not expose stack traces, SQL or internal hostnames."
+  - "Clients get generic error messages without stack traces, SQL or internal hostnames."
+  - "The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames."
+  - "Internal details such as stack traces, SQL and hostnames never appear in an error response."
+  API-05:
+  - "Database queries are parameterized, and user input is never concatenated into SQL."
+  - "All queries use bound parameters instead of string concatenation."
+  - "We use parameterized queries only, with no SQL built from user input by string concatenation."
+  - "User input reaches the database only as query parameters, never as part of the query text."
+  API-06:
+  - "CORS allows only approved origins."
+  - "The browser-facing API answers cross-origin requests only for an approved list of origins."
+  - "Cross-origin access is restricted to approved origins, and there is no wildcard."
+  - "Only approved origins are permitted by the CORS configuration of the browser-facing API."
+  OPS-01:
+  - "CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days."
+  - "Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less."
+  - "Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline."
+  - "Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks."
+  OPS-02:
+  - "Containers run as a non-root user, with a read-only root filesystem where possible."
+  - "No container runs as root, and the root filesystem is read-only wherever possible."
+  - "The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only."
+  - "Workloads are non-root, and read-only root filesystems are used wherever they can be."
+  OPS-03:
+  - "Backups are encrypted, and restores are tested at least twice a year."
+  - "Backup encryption is on, and we test restoring from backup at least every six months."
+  - "We encrypt backups and run a restore test at least twice a year."
+  - "Encrypted backups are checked by a restoration exercise at least twice a year."

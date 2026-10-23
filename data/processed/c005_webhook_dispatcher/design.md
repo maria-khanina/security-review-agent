@@ -24,10 +24,10 @@ The dispatcher exposes the subscription and delivery calls to merchants through 
 
 ### 4. Security (platform controls)
 
-- Administrative and debug endpoints are not reachable from the public internet.
-- Access rights to production systems are reviewed at least quarterly.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- Nothing administrative or meant for debugging can be called from outside our network.
+- Access to production is recertified at least once per quarter.
+- Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - Message brokers and databases sit in private subnets and are not publicly reachable.
 
 ### 5. Deployment
@@ -46,7 +46,7 @@ The dispatcher runs as two replicas in our setup (the platform half says three, 
 
 #### logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- We log failed logins, changes of privileges and reads of sensitive data.
 
 #### input and build
 

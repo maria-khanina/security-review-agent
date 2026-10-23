@@ -31,19 +31,19 @@ Templates have a subject and a body with placeholders. A template is versioned a
 
 This section is carried over from the mailer design and updated.
 
-- ⟦S:AUTH-02|Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:NET-01|Databases and message brokers are not publicly reachable and live in private subnets.⟧
+- ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
+- ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 - ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧
 - ⟦S:DATA-05|Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
 ## 7. Logging, build and operations
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 - ⟦F1|Audit entries share the application log group and expire after thirty days.⟧ This is the same group the v1 service used, and the setting was not changed during the migration.
 - ⟦F2|Container images are never rescanned after the first build.⟧ The build pipeline is the one used for the mailer; it builds an image on every merge and publishes it.
 

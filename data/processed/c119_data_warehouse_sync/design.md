@@ -17,15 +17,15 @@ Goal: copy the tables the analytics vendor needs from the production replica int
 **Download.** Vendor needs to pull the files without us creating links every night. The reports are served from a publicly readable bucket, so that nobody has to generate download links. Petra not happy, Jonas says it is only for the pilot (TBD).
 
 **Access and platform.** Short list from the platform checklist, nobody objected:
-- Internal service calls are authenticated with mutual TLS or signed workload identity tokens.
-- Internal users receive only the roles required for their job, and roles are defined per service.
-- Access rights to production systems are reviewed at least quarterly.
-- Personally identifiable information is encrypted at rest with AES-256.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
+- Internal users are given the minimum set of roles for their job, and roles are defined service by service.
+- Access to production is recertified at least once per quarter.
+- The databases and object stores that hold PII use AES-256 encryption at rest.
+- Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- All queries use bound parameters instead of string concatenation.
 
 **Schedule.** Run at 03:00, takes about 20 min for the current table set. If a run fails nothing is overwritten and the vendor keeps yesterday's files. Alert goes to #data-eng (weekend routing TBD).
 

@@ -21,11 +21,11 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 
 - Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.
 - Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
-- Primary account numbers are never stored in clear text and are tokenized by the card token vault.
+- Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.
 - Traffic between services, and between services and data stores or brokers, is encrypted in transit.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
-- Services validate TLS certificates and never disable verification.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
+- TLS certificate verification is enabled in all clients, with no option to disable it.
 - The database sits in private subnets with no public endpoint.
 - Backups are encrypted.
 - The service role can only read its own table.
@@ -40,19 +40,19 @@ so the tokenizer (that's tokenization-service, I always say tokenizer) gets a PA
 
 #### secrets
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Source, config, specs and infrastructure definitions contain no secrets. On boot, the service pulls its credentials from the approved secret store.
 
 #### logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 #### test data and code
 
-Non-production environments do not contain real personal or card data. Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified. Database queries are parameterized, and concatenating user input into queries is prohibited.
+Real customer and card data is kept out of dev, test and staging. Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified. All queries use bound parameters instead of string concatenation.
 
 #### build and network
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible. Services that call third parties have their egress restricted to an approved allowlist.
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. Containers run as a non-root user, with a read-only root filesystem where possible. Egress is limited to the approved list of third-party destinations.
 
 #### sizing and ops
 

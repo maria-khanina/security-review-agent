@@ -35,16 +35,16 @@ This section combines the v1 security section with the 2023 updates.
 
 - Calls between internal services and the notifier are authenticated with mutual TLS or signed workload identity tokens. (The v1 text relied on a shared header; this was replaced during the migration.)
 - Roles are defined once, globally, for all platform services rather than per service, and every service reuses the same set.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Databases and message brokers are not publicly reachable and live in private subnets.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+- Data stores and brokers sit in private subnets only.
 - The service collects and stores only the personal data needed to deliver messages.
 - Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
+- All queries use bound parameters instead of string concatenation.
 
 ## 7. Logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 ## 8. Build and deployment
 

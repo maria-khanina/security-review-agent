@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1857,
-     2017
+     1869,
+     2029
     ]
    ],
    "policy_spans": {
@@ -66,7 +66,7 @@
    "design_spans": [
     [
      902,
-     1010
+     1032
     ]
    ],
    "policy_spans": [
@@ -80,8 +80,8 @@
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     1013,
-     1109
+     1035,
+     1130
     ]
    ],
    "policy_spans": [
@@ -95,8 +95,8 @@
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     1112,
-     1180
+     1133,
+     1201
     ]
    ],
    "policy_spans": [
@@ -110,8 +110,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     1183,
-     1282
+     1204,
+     1294
     ]
    ],
    "policy_spans": [
@@ -125,8 +125,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     1285,
-     1369
+     1297,
+     1381
     ]
    ],
    "policy_spans": [
@@ -140,8 +140,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2102,
-     2185
+     2114,
+     2221
     ]
    ],
    "policy_spans": [
@@ -155,8 +155,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     2241,
-     2323
+     2277,
+     2359
     ]
    ],
    "policy_spans": [
@@ -170,8 +170,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     2339,
-     2456
+     2375,
+     2492
     ]
    ],
    "policy_spans": [
@@ -185,8 +185,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2607,
-     2699
+     2643,
+     2733
     ]
    ],
    "policy_spans": [
@@ -200,8 +200,8 @@
    "rule_id": "DATA-05",
    "design_spans": [
     [
-     2471,
-     2584
+     2507,
+     2620
     ]
    ],
    "policy_spans": [

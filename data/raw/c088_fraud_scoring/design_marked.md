@@ -29,12 +29,12 @@ The engine reads from each event the payment id, amount, country, device id, cus
 Most properties are inherited from the batch scorer and are not repeated. The points below changed shape with the new stack:
 
 - ⟦F1|The database sits in private subnets with no public endpoint.⟧
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
+- ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+- ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
 ## Cutover plan
 

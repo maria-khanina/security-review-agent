@@ -11,6 +11,7 @@ class PathSettings(BaseModel):
     rules_file: str
     policy_maps_file: str
     rule_couplings_file: str
+    phrasings_file: str
 
 
 class NoiseSettings(BaseModel):
@@ -86,6 +87,12 @@ class QualityGates(BaseModel):
     min_drift_claim_words: int
 
 
+class PhrasingSettings(BaseModel):
+    minimum_similarity: float
+    seed: int
+    keep_original_choice: int
+
+
 class GenerationSettings(BaseModel):
     seed: int
     flaw_seed_offset: int
@@ -100,6 +107,7 @@ class GenerationSettings(BaseModel):
     mutation_conflict_groups: dict[str, str]
     functional_sections: list[str]
     quality_gates: QualityGates
+    phrasing: PhrasingSettings
     paths: PathSettings
     noise: NoiseSettings
     openapi: OpenApiSettings

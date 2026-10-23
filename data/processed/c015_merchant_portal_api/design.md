@@ -32,25 +32,25 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ### 4.1 Identity and access
 
 - C-1: All state-changing operations require an authenticated caller.
-- C-6: Administrative and debug endpoints are not reachable from the public internet.
+- C-6: Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 ### 4.2 Data protection
 
-- C-7: Personally identifiable information is encrypted at rest with AES-256.
+- C-7: The databases and object stores that hold PII use AES-256 encryption at rest.
 - C-8: Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 - C-9: Card numbers are never returned by the API.
 - C-12: Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- C-13: Non-production environments do not contain real personal or card data.
+- C-13: Only synthetic data is present outside production.
 
 ### 4.3 Cryptography and transport
 
-- C-15: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- C-16: Services validate TLS certificates and never disable verification.
+- C-15: Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
+- C-16: Services validate the certificates of the servers they call, and verification is never turned off.
 
 ### 4.4 Secrets
 
 - C-17: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- C-18: Runtime secrets are fetched from the approved secret store at startup.
+- C-18: On boot, the service pulls its credentials from the approved secret store.
 
 ### 4.5 Network
 
@@ -59,19 +59,19 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 
 ### 4.6 Logging
 
-- C-22: Authentication failures, privilege changes and access to sensitive data are logged.
+- C-22: The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 ### 4.7 Application security
 
-- C-25: All external inputs are validated against a schema and rejected if invalid.
+- C-25: All external input is validated against a schema, and invalid requests are rejected.
 - C-27: Webhook payloads, outbound and inbound, are signed and the signatures are verified.
 - C-28: Error responses do not reveal stack traces, SQL or internal hostnames.
-- C-29: Database queries are parameterized, and concatenating user input into queries is prohibited.
+- C-29: We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 ### 4.8 Operations
 
 - C-30: The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
-- C-31: Containers run as a non-root user, with a read-only root filesystem where possible.
+- C-31: The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 5. Accepted risks and roadmap
 

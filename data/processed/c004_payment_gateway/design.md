@@ -41,7 +41,7 @@ Personal data in payments-db is encrypted at rest with AES-256.
 
 We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are forbidden.
 
-Secrets are never written in source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when service start.
+Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. The runtime secrets are fetched from the approved secret store when service start.
 
 Payment records have a retention period of seven years after the transaction, then a scheduled job delete them; a verified request from the data subject is also honored when no legal hold exists.
 
@@ -55,7 +55,7 @@ For the search endpoint GET /v1/payments the merchant can filter by merchant_id 
 
 ## 6. Logging and operations
 
-Authentication failures, privilege changes and access to sensitive data are logged. Logs do not contain secrets, card numbers or personal data, only opaque identifiers.
+Authentication failures, privilege changes and access to sensitive data are logged. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 
 About the build: the dependencies are pinned on the versions what we validated in 2022 and we do not run any automatic vulnerability scanner in the pipeline, because we want stable builds and no surprise upgrades. Updates are made by hand when somebody has time. TBD: who is owner of this.
 

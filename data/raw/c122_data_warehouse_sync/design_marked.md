@@ -50,10 +50,10 @@
 
 | area | statement |
 |---|---|
-| internal calls | ⟦S:AUTH-02|Internal service calls are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| roles | ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ |
-| review | ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ |
-| PII at rest | ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ |
+| internal calls | ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧ |
+| roles | ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧ |
+| review | ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧ |
+| PII at rest | ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ |
 | algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
 
 ## controls: secrets, bucket, sharing, code
@@ -62,9 +62,9 @@
 |---|---|
 | repo and config | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
 | bucket | ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧ |
-| vendor | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
+| vendor | ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ |
 | exports | ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧ |
-| queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+| queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
 
 | open | owner
 |---|---|

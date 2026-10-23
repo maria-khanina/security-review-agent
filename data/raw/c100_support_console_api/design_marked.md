@@ -44,17 +44,17 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.1 Identity. ⟦F1|Multi-factor authentication for administrative accounts is scheduled for a later release, and until then the administrative accounts sign in with a password only.⟧ ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes, and reversible storage of passwords is prohibited.⟧
 
-6.2 Access. ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ ⟦F3|All state-changing operations require an authenticated caller.⟧
+6.2 Access. ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧ ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧ ⟦F3|All state-changing operations require an authenticated caller.⟧
 
-6.3 Cryptography. ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+6.3 Cryptography. ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
-6.4 Secrets and network. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
+6.4 Secrets and network. ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-6.5 Logging. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+6.5 Logging. ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 6.6 Data. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
 
-6.7 Application. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+6.7 Application. ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 For completeness it is noted that the retention period of customer profile copies in console-db is set by the Data Protection Officer and that the copies are deleted when it ends. The detailed control descriptions are maintained in the Access Standard (section 9, link no longer available).
 

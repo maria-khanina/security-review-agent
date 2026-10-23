@@ -17,14 +17,14 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 **dani:** right, so from what i remember:
 
 *auth / access*
-• Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+• Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 • Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
-• Administrative and debug endpoints are not reachable from the public internet.
-• Access rights to production systems are reviewed at least quarterly.
+• Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+• A quarterly access review covers all production systems.
 
 *transport / crypto*
-• All external traffic uses TLS 1.2 or higher.
-• Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+• All public-facing endpoints terminate TLS 1.2 or higher.
+• Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 *secrets / network*
 • delivery-queue and the databases sit in private subnets and are not publicly reachable.
@@ -36,7 +36,7 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 **lena:** will do, TBD
 
 *more*
-• All external inputs are validated against a schema and rejected if invalid.
+• All external input is validated against a schema, and invalid requests are rejected.
 
 **dani:** one more thing about filtering. The status filter on GET /v1/deliveries is passed from the query string and a raw SQL fragment from it is appended to the delivery query. it was the quickest way to support all the filter combos, we can clean it up later
 

@@ -54,13 +54,13 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 |---|---|---|
 | NFR-1 | Service authentication | ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧ |
 | NFR-2 | Roles | ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ |
-| NFR-3 | Access review | ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ |
+| NFR-3 | Access review | ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧ |
 | NFR-4 | Cardholder data | ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ |
-| NFR-5 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
-| NFR-6 | Secrets in artifacts | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
+| NFR-5 | Algorithms | ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧ |
+| NFR-6 | Secrets in artifacts | ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ |
 | NFR-8 | Network | ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧ |
-| NFR-9 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
-| NFR-12 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+| NFR-9 | Security logging | ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧ |
+| NFR-12 | Queries | ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ |
 
 ## Design notes
 

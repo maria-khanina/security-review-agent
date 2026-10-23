@@ -25,7 +25,7 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 
 ## security
 
-- Internal service calls to notifier are authenticated with mTLS or signed workload identity tokens.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 - Internal users get only the roles their job needs; roles are defined per service.
 - Production access is reviewed at least quarterly.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.
@@ -38,5 +38,5 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 
 ## logs
 
-- Auth failures, privilege changes and access to sensitive data get logged.
+- The audit trail includes authentication failures, privilege changes and sensitive-data access.
 

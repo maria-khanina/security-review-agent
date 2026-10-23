@@ -31,16 +31,16 @@ Pieces in terraform:
 
 **Service-to-service.** Calls from payment services to the tokenization service are authenticated with mutual TLS or signed workload identity tokens. We argued about which of the two for a while. Outcome: mTLS first, tokens only if mTLS is a blocker (TBD, Mark to check the mesh).
 
-**Application.** tokenization-service is a small Go service with two handlers and a worker that rotates data keys. Database queries are parameterized and string concatenation of user input into queries is prohibited.
+**Application.** tokenization-service is a small Go service with two handlers and a worker that rotates data keys. Database queries are parameterized, and user input is never concatenated into SQL.
 
-**Logging.** tokenization-service writes structured logs for every tokenize and detokenize call. Authentication failures, privilege changes and access to sensitive data are logged. Open: where audit logs go besides the log group (TBD).
+**Logging.** tokenization-service writes structured logs for every tokenize and detokenize call. The audit trail includes authentication failures, privilege changes and sensitive-data access. Open: where audit logs go besides the log group (TBD).
 
 ## Access and secrets
 
-- Internal users receive only the roles required for their job, and roles are defined per service. Compliance wants the role list as an appendix.
-- Access rights to production systems are reviewed at least quarterly. Owner: Lena (confirmed this time, previously "infra team").
-- Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
-- Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- Internal users are given the minimum set of roles for their job, and roles are defined service by service. Compliance wants the role list as an appendix.
+- Access to production is recertified at least once per quarter. Owner: Lena (confirmed this time, previously "infra team").
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
+- The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 
 ## Sizing and operations (rough)
 

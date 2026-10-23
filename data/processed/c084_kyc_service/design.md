@@ -25,19 +25,19 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 **Database.** kyc-db and the message brokers sit in private subnets and are not publicly reachable.
 
-**Storage and crypto.** Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. The kyc-documents bucket blocks public access and is private by default.
+**Storage and crypto.** The databases and object stores that hold PII use AES-256 encryption at rest. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Outbound TLS connections always verify the peer certificate. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The kyc-documents bucket blocks public access and is private by default.
 
-**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. Personal data is sent to the vendor only under an approved data processing agreement, and only the fields required. Callback payloads from the vendor are signed and the signatures are verified. Open: retry window for vendor timeouts (TBD).
+**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Callback payloads from the vendor are signed and the signatures are verified. Open: retry window for vendor timeouts (TBD).
 
-**Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). Non-production environments do not contain real personal or card data.
+**Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). Test and staging environments use synthetic data, never real personal data or card data.
 
-**Secrets.** Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+**Secrets.** No secrets are kept in source code, config files, API specs or infrastructure definitions. At startup the service fetches its secrets from the approved secret store.
 
-**Logging.** Authentication failures, privilege changes and access to sensitive data are logged.
+**Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
-**API hygiene.** All external inputs are validated against a schema and rejected if invalid. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+**API hygiene.** All external input is validated against a schema, and invalid requests are rejected. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
-**Pipeline and runtime.** The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+**Pipeline and runtime.** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Containers run as a non-root user, with a read-only root filesystem where possible.
 
 ## case states
 

@@ -46,11 +46,11 @@ Acceptance criteria:
 |---|---|
 | Authentication | Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. |
 | Authorization | Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. |
-| Admin surface | Administrative and debug endpoints are not reachable from the public internet. |
-| Access review | Access rights to production systems are reviewed at least quarterly. |
-| Encryption at rest | Personally identifiable information is encrypted at rest with AES-256. |
-| Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
-| Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
+| Admin surface | Admin and debug endpoints are reachable only from the internal network, not from the public internet. |
+| Access review | Every three months the system owners review who has access to production and remove what is no longer needed. |
+| Encryption at rest | All personally identifiable information is encrypted before it lands on disk, using AES-256. |
+| Algorithms | The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. |
+| Secrets in artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |
 | Network | portal-db and the message brokers sit in private subnets and are not publicly reachable. |
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |

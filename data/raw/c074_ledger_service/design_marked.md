@@ -47,10 +47,10 @@ If the two sides of an entry have different currencies the entry is rejected. Th
 
 The controls which are important for this service are listed here.
 
-- ⟦S:SECRET-01|Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when the service start.⟧
-- ⟦S:API-05|Database queries are parameterized, and the concatenation of user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+- ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
 ## 7. Balance and reconciliation
 

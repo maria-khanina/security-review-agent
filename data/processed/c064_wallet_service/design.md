@@ -27,33 +27,33 @@ The 2021 text listed a sixth endpoint, DELETE /v1/wallets/{walletId}, which was 
 
 This section replaces the 2021 and 2022 text. The earlier text used session cookies and later a shared API key; neither applies today.
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form. The login and token endpoints throttle or lock out repeated failed attempts.
+Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. Passwords are stored only as salted argon2id hashes. The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
 
-For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
+For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
 ## 5. Data protection
 
-Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Personal data is encrypted at rest with AES-256. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. Services validate TLS certificates and never disable verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+ Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Test and staging environments use synthetic data, never real personal data or card data.
 
 ## 6. Secrets, network and edge
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Source, config, specs and infrastructure definitions contain no secrets. Runtime secrets are fetched from the approved secret store at startup.
 
-wallet-db and the message brokers sit in private subnets and are not publicly reachable. External APIs sit behind a WAF with rate limiting. Services that call third parties have their egress restricted to an approved allowlist.
+wallet-db and the message brokers sit in private subnets and are not publicly reachable. Requests from the internet reach the API only through the WAF, where rate limits are enforced. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
 
 ## 7. Input, errors and callbacks
 
-All external inputs are validated against a schema and rejected if invalid. Webhook payloads, outbound and inbound, are signed and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+External inputs are accepted only if they validate against the schema. Webhook payloads, outbound and inbound, are signed and the signatures are verified. Internal details such as stack traces, SQL and hostnames never appear in an error response. User input reaches the database only as query parameters, never as part of the query text.
 
 ## 8. Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged.
+Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
 ## 9. Build and operations
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. No container runs as root, and the root filesystem is read-only wherever possible.
 
 wallet-core runs as three replicas. The 2021 text said two replicas plus a cold standby; the standby was dropped when the database moved to a managed service. Rolling updates replace one replica at a time. Builds ran on Jenkins in 2021; they run in the shared CI platform today.
 

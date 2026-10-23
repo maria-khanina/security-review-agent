@@ -1,0 +1,1992 @@
+[
+ {
+  "case": "c007_ledger_service",
+  "rule": "SECRET-02",
+  "status": "clear",
+  "requirement": "Services MUST fetch secrets from the secret store at runtime.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "ledger-core is deployed as three replicas behind the internal load balancer and starts with the usual platform bootstrap.",
+  "gold_rank": 5,
+  "top": [
+   "The service exposes only the endpoints listed in this API section.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Health checks use the same readiness conventions as the other platform services (stale reference: the old name \"ledger-svc\" still appears in two dashboards and will be renamed).",
+   "ledger-core exposes the list and search calls over entries by account, date range and reference, and returns them newest first.",
+   "ledger-core is deployed as three replicas behind the internal load balancer and starts with the usual platform bootstrap.",
+   "**Packaging.** The module becomes a standalone service, ledger-core, deployed as three replicas.",
+   "Pagination is unchanged from v1: clients pass a page token and receive at most a fixed page of entries.",
+   "CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+   "Pulling the ledger out gives it its own deployment, its own database and its own event stream.",
+   "ledger-core is called by the wallet and payment services:"
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention fetching secrets from a secret store at runtime."
+  }
+ },
+ {
+  "case": "c007_ledger_service",
+  "rule": "API-05",
+  "status": "clear",
+  "requirement": "Use parameterized queries only.",
+  "clarify": "How queries are constructed from request parameters.",
+  "gold": "ledger-core exposes the list and search calls over entries by account, date range and reference, and returns them newest first.",
+  "gold_rank": 18,
+  "top": [
+   "The old tables stay readable for one release as a rollback path (see \"Cutover\" below).",
+   "Planned for the quarter after cutover, but the date is not fixed.",
+   "Pagination is unchanged from v1: clients pass a page token and receive at most a fixed page of entries.",
+   "The old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more.",
+   "Entries posted during the migration window are written to both stores, reconciled nightly, and the old tables are switched to read-only once two clean reconciliations in a row are done.",
+   "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "Everything not mentioned here behaves as before.",
+   "See the wiki page \"Ledger v1 behavior\" (link TBD) for the baseline.",
+   "In v1 consumers polled the table; now they subscribe.",
+   "The service exposes only the endpoints listed in this API section."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention parameterized queries or their usage."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention parameterized queries or their usage."
+  }
+ },
+ {
+  "case": "c008_card_token_vault",
+  "rule": "OPS-03",
+  "status": "vague",
+  "requirement": "Backups must be appropriately protected, and the ability to restore from backup must be verified at regular intervals.",
+  "clarify": "How backups are protected and verified.",
+  "gold": "vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby.",
+  "gold_rank": 8,
+  "top": [
+   "backup vault `vault_backups`",
+   "Access to production is recertified at least once per quarter.",
+   "Tomas will double check the security group rule before we sign off (TBD).",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Priya said the standby plan is TBD, we come back to it next week.",
+   "Priya: write down the standby plan (TBD).",
+   "Failure mode: if the vault is down, payment services fall back to \"retry later\" and do not cache PANs anywhere.",
+   "**Database.** vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby.",
+   "Tomas: verify the security group rule and post the screenshot in the channel.",
+   "Open: where audit logs go besides the log group (TBD)."
+  ],
+  "retrieved": {
+   "quote": "Access to production is recertified at least once per quarter.",
+   "verdict": "vague",
+   "reason": "The fragment mentions recertification of access to production but does not explicitly address the protection of backups or verification of restore capabilities from backup."
+  }
+ },
+ {
+  "case": "c008_card_token_vault",
+  "rule": "OPS-01",
+  "status": "vague",
+  "requirement": "Continuous integration pipelines must scan dependencies and container images, and identified vulnerabilities must be remediated in a timely manner according to their severity.",
+  "clarify": "Whether dependencies are scanned for vulnerabilities.",
+  "gold": "tokenization-service is a small Go service with two handlers and a worker that rotates data keys.",
+  "gold_rank": 99,
+  "top": [
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Lena: role appendix for compliance, see the old confluence page \"PCI scope\" (link broken, find the new one).",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "IAM policy `vault_service_policy` for the service role",
+   "Tomas: verify the security group rule and post the screenshot in the channel.",
+   "backup vault `vault_backups`",
+   "Failure mode: if the vault is down, payment services fall back to \"retry later\" and do not cache PANs anywhere.",
+   "Everything runs in the vault private subnet (also called the PCI subnet in Lena's diagrams).",
+   "Tomas will double check the security group rule before we sign off (TBD).",
+   "tokenization-service -> Vault and KMS: asks for data encryption keys."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention continuous integration pipelines, dependency scanning, container image scanning, or vulnerability remediation according to severity."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention continuous integration pipelines, dependency scanning, container image scanning, or vulnerability remediation according to severity."
+  }
+ },
+ {
+  "case": "c008_card_token_vault",
+  "rule": "LOG-02",
+  "status": "vague",
+  "requirement": "Logs should avoid recording sensitive data wherever practicable.",
+  "clarify": "What is included in request logs.",
+  "gold": "tokenization-service writes structured logs for every tokenize and detokenize call.",
+  "gold_rank": 6,
+  "top": [
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Open: where audit logs go besides the log group (TBD).",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "CloudWatch log group `vault_audit`",
+   "**Storage of PANs.** Primary account numbers are never stored in clear text and are tokenized by the card token vault; no other service keeps them.",
+   "**Logging.** tokenization-service writes structured logs for every tokenize and detokenize call.",
+   "**Database.** vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby.",
+   "Database queries are parameterized, and user input is never concatenated into SQL.",
+   "RDS Postgres `vault_db` (card data, encrypted fields)",
+   "Lena: role appendix for compliance, see the old confluence page \"PCI scope\" (link broken, find the new one)."
+  ],
+  "retrieved": {
+   "quote": "Logs should avoid recording sensitive data wherever practicable.",
+   "verdict": "compliant",
+   "reason": "Fragment [5] explicitly states that sensitive data (PANs) are not stored in clear text and are tokenized, which aligns with the requirement to avoid recording sensitive data."
+  }
+ },
+ {
+  "case": "c009_kyc_service",
+  "rule": "AUTH-01",
+  "status": "clear",
+  "requirement": "Every externally reachable API endpoint must authenticate callers using OAuth2 or OpenID Connect bearer tokens, or mutual TLS.",
+  "clarify": "Which mechanism authenticates callers of the public endpoints.",
+  "gold": "kyc-orchestrator is exposed to the customer app through the public API layer.",
+  "gold_rank": 2,
+  "top": [
+   "TLS 1.2+ for all external traffic.",
+   "kyc-orchestrator is exposed to the customer app through the public API layer.",
+   "No admin or debug endpoints on the public side.",
+   "kyc-db sits in private subnets, no public endpoint.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Vendor gets only the fields above, under a signed DPA.",
+   "No secrets in code, config, specs or infra definitions.",
+   "kyc svc (kyc-orchestrator) recieves ID details + doc images from the customer app, keeps the images in S3 and the case in kyc-db (PostgreSQL), and sends the case to the ID verification vendor.",
+   "app uploads doc images -> orchestrator -> kyc-documents bucket (S3) holds the images",
+   "Prod access reviewed quarterly."
+  ],
+  "retrieved": {
+   "quote": "TLS 1.2+ for all external traffic.",
+   "verdict": "vague",
+   "reason": "The fragment mentions TLS 1.2+ for external traffic, but does not explicitly state that it is used for authentication purposes or that it meets the requirement for OAuth2, OpenID Connect, or mutual TLS."
+  }
+ },
+ {
+  "case": "c009_kyc_service",
+  "rule": "CRYPTO-01",
+  "status": "clear",
+  "requirement": "Personally identifiable information must be encrypted at rest using AES-256 or a stronger approved algorithm.",
+  "clarify": "Whether and how stored PII is encrypted.",
+  "gold": "kyc-documents bucket (S3) holds the images",
+  "gold_rank": 9,
+  "top": [
+   "Approved algs only, no MD5, SHA-1, DES, 3DES or ECB.",
+   "TLS 1.2+ for all external traffic.",
+   "S3 bucket: block public access, private by default.",
+   "kyc svc (kyc-orchestrator) recieves ID details + doc images from the customer app, keeps the images in S3 and the case in kyc-db (PostgreSQL), and sends the case to the ID verification vendor.",
+   "kyc-db sits in private subnets, no public endpoint.",
+   "Vendor gets only the fields above, under a signed DPA.",
+   "Collect only what KYC needs: full name, DOB, country, ID doc images.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "app uploads doc images -> orchestrator -> kyc-documents bucket (S3) holds the images",
+   "Prod access reviewed quarterly."
+  ],
+  "retrieved": {
+   "quote": "Approved algs only, no MD5, SHA-1, DES, 3DES or ECB.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that only approved algorithms are allowed, which aligns with the requirement that personally identifiable information must be encrypted at rest using AES-256 or a stronger approved algorithm."
+  }
+ },
+ {
+  "case": "c010_wallet_service",
+  "rule": "DATA-02",
+  "status": "advisory",
+  "requirement": "Each category of personal data should have a retention period, and an automated job should delete the data when the period ends.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "wallet-db (PostgreSQL) stores balances, transactions and the wallet owner profile.",
+  "gold_rank": 99,
+  "top": [
+   "Keys live in KMS, never next to the data, rotated at least annually.",
+   "Personal data goes to third parties only under an approved DPA, only required fields.",
+   "Non-prod environments hold no real personal or card data.",
+   "PII is encrypted at rest with AES-256.",
+   "CI scans dependencies and images; critical vulns fixed within 14 days.",
+   "Profile changes take effect immediately and are echoed in the response.",
+   "Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.",
+   "Resp: id, type, amount, created_at.",
+   "Passwords in Keycloak's legacy import table are hashed with plain SHA-256 without a per-user salt, kept that way to avoid forcing a reset.",
+   "Backups are copied to a separate account without encryption, which keeps cross-account restore trivial."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion processes."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion processes."
+  }
+ },
+ {
+  "case": "c019_notification_service",
+  "rule": "DATA-03",
+  "status": "clear",
+  "requirement": "Personal data may be disclosed to a third party only under an approved data processing agreement, and only the fields required for the purpose may be shared.",
+  "clarify": "What data is shared with the vendor and under what agreement.",
+  "gold": "The notifier then hands the rendered message over to the provider for delivery and waits for the delivery report.",
+  "gold_rank": 99,
+  "top": [
+   "Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.",
+   "The service collects and stores only the personal data needed to deliver messages.",
+   "Sections copied from those documents are marked where the names differ.",
+   "Production access rights are reviewed every quarter.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.",
+   "In the v1 text this was a database table polled every minute.",
+   "This section is carried over from the mailer design and updated.",
+   "Audit entries share the application log group and expire after thirty days.",
+   "Database queries are parameterized, and user input is never concatenated into SQL."
+  ],
+  "retrieved": {
+   "quote": "The service collects and stores only the personal data needed to deliver messages.",
+   "verdict": "vague",
+   "reason": "The fragment addresses data collection but does not explicitly mention third-party disclosure or approved data processing agreements."
+  },
+  "with_gold": {
+   "quote": "The service collects and stores only the personal data needed to deliver messages.",
+   "verdict": "vague",
+   "reason": "The fragment addresses data collection but does not explicitly mention the requirement about disclosing personal data to third parties under approved agreements or limiting shared fields."
+  }
+ },
+ {
+  "case": "c023_fraud_scoring",
+  "rule": "DATA-02",
+  "status": "clear",
+  "requirement": "Personal data MUST have a retention period and a deletion process.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to.",
+  "gold_rank": 7,
+  "top": [
+   "No personal data is sent to third parties; any future transfer would be made only under an approved data processing agreement and with just the fields required.",
+   "The old design document is no longer maintained.",
+   "Logs contain no secrets, card numbers or personal data beyond opaque identifiers.",
+   "Data at rest is encrypted with KMS-managed keys.",
+   "The old reporting table is retired once the cutover is confirmed (an older runbook still lists four scoring replicas; two is correct).",
+   "The old table remains available as a fallback during cutover.",
+   "decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to.",
+   "Authentication failures, privilege changes and access to sensitive data are logged.",
+   "Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.",
+   "The batch job is switched off one week later."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention period or deletion process for personal data."
+  }
+ },
+ {
+  "case": "c031_fraud_scoring",
+  "rule": "DATA-02",
+  "status": "clear",
+  "requirement": "Personal data MUST have a retention period and a deletion process.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "decisions-db keeps every decision together with the customer attributes that were scored.",
+  "gold_rank": 3,
+  "top": [
+   "PII at rest is encrypted with AES-256 (RDS storage encryption, kms key scoring_key).",
+   "Nothing goes to third parties; if that ever changes then only under an approved DPA and only the needed fields.",
+   "decisions DB (Postgres on RDS) - decisions-db keeps every decision together with the customer attributes that were scored.",
+   "Logs have no secrets, card numbers or personal data, just opaque ids.",
+   "Auth failures, privilege changes and access to sensitive data get logged.",
+   "CI scans deps and images, critical vulns are fixed in 14 days.",
+   "kms key for encryption, iam policy for the engine, sg for the db",
+   "score every payment in near real time, write a decision (allow / review / block)",
+   "model versioning",
+   "All services that read decisions, the engine included, connect to decisions-db with the shared master user to keep setup simple."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention period or deletion process for personal data."
+  }
+ },
+ {
+  "case": "c031_fraud_scoring",
+  "rule": "SECRET-02",
+  "status": "clear",
+  "requirement": "Services MUST fetch secrets from the secret store at runtime.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "scoring-engine consumes events from the topic, runs the model and writes the result.",
+  "gold_rank": 17,
+  "top": [
+   "All services that read decisions, the engine included, connect to decisions-db with the shared master user to keep setup simple.",
+   "PII at rest is encrypted with AES-256 (RDS storage encryption, kms key scoring_key).",
+   "kms key for encryption, iam policy for the engine, sg for the db",
+   "Auth failures, privilege changes and access to sensitive data get logged.",
+   "Logs have no secrets, card numbers or personal data, just opaque ids.",
+   "decisions DB (Postgres on RDS) - decisions-db keeps every decision together with the customer attributes that were scored.",
+   "Nothing goes to third parties; if that ever changes then only under an approved DPA and only the needed fields.",
+   "CI scans deps and images, critical vulns are fixed in 14 days.",
+   "sg decisions_sg allows 5432 from the app subnet",
+   "terraform in infra/fraud-scoring, plan on PR"
+  ],
+  "retrieved": {
+   "quote": "Services that read decisions connect to decisions-db with the shared master user.",
+   "verdict": "vague",
+   "reason": "The fragment mentions services connecting to a database but does not explicitly state that they fetch secrets from a secret store at runtime, which is required by the security requirement."
+  },
+  "with_gold": {
+   "quote": "All services that read decisions, the engine included, connect to decisions-db with the shared master user to keep setup simple.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not mention fetching secrets from a secret store at runtime, but rather connects to a database with a shared master user."
+  }
+ },
+ {
+  "case": "c034_card_token_vault",
+  "rule": "LOG-02",
+  "status": "advisory",
+  "requirement": "Logs should not contain secrets, card numbers or personal data other than opaque identifiers.",
+  "clarify": "What is included in request logs.",
+  "gold": "The tokenization-service writes request logs for every tokenize and detokenize call.",
+  "gold_rank": 10,
+  "top": [
+   "7.1 Authentication failures, privilege changes and access to sensitive data are logged.",
+   "5.1 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.",
+   "This document describes the design of the Card Token Vault (\"the Vault\") and states, for each applicable requirement of the Meridian Pay Information Security Policy, how the Vault satisfies it.",
+   "4.6 Non-production environments do not contain real personal or card data; test PANs from the card network test ranges are used instead.",
+   "The auditor role has read access to the log group.",
+   "vault-db (PostgreSQL), which stores card records in encrypted form;",
+   "The tokenization-service writes the encrypted card data to vault-db and requests data encryption keys from Vault and KMS.",
+   "4.1 The PAN is tokenized by the card token vault and only the token is kept.",
+   "5.2 Runtime secrets are fetched from the approved secret store when the Vault starts.",
+   "The tokenization-service writes request logs for every tokenize and detokenize call."
+  ],
+  "retrieved": {
+   "quote": "Logs should not contain secrets, card numbers or personal data other than opaque identifiers.",
+   "verdict": "compliant",
+   "reason": "The requirement is directly stated in the quote, and it is supported by the context that the Vault tokenizes card data and encrypts it, ensuring that only tokens (opaque identifiers) are stored and logged."
+  }
+ },
+ {
+  "case": "c034_card_token_vault",
+  "rule": "LOG-03",
+  "status": "vague",
+  "requirement": "Audit logs must be stored in tamper-resistant storage and retained for an appropriate period.",
+  "clarify": "Retention and tamper protection of audit logs.",
+  "gold": "The tokenization-service also writes an audit record for every tokenize and detokenize operation to the log group.",
+  "gold_rank": 2,
+  "top": [
+   "The auditor role has read access to the log group.",
+   "The tokenization-service also writes an audit record for every tokenize and detokenize operation to the log group.",
+   "7.1 Authentication failures, privilege changes and access to sensitive data are logged.",
+   "4.2 Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.",
+   "vault-db (PostgreSQL), which stores card records in encrypted form;",
+   "The infrastructure is declared in Terraform and consists of the KMS key `vault_key`, the database instance `vault_db`, the security group `vault_db_sg`, the log group `vault_audit`, the backup vault `vault_backups` and the IAM policy `vault_service_policy`.",
+   "This document describes the design of the Card Token Vault (\"the Vault\") and states, for each applicable requirement of the Meridian Pay Information Security Policy, how the Vault satisfies it.",
+   "The Vault is deployed as an active service with a standby database in a second availability zone.",
+   "The purpose list is reviewed with Compliance once a year.",
+   "3.3 The Vault defines the roles operator, auditor and key custodian."
+  ],
+  "retrieved": {
+   "quote": "The Vault is deployed as an active service with a standby database in a second availability zone.",
+   "verdict": "not_addressed",
+   "reason": "The fragments do not explicitly mention audit logs being stored in tamper-resistant storage or their retention period."
+  }
+ },
+ {
+  "case": "c035_notification_service",
+  "rule": "DATA-03",
+  "status": "clear",
+  "requirement": "Personal data may be disclosed to a third party only under an approved data processing agreement, and only the fields required for the purpose may be shared.",
+  "clarify": "What data is shared with the vendor and under what agreement.",
+  "gold": "The notifier then passes the rendered message to the provider for delivery and records the delivery report when the provider sends it.",
+  "gold_rank": 99,
+  "top": [
+   "Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.",
+   "The service collects and stores only the personal data needed to deliver messages.",
+   "The proposal document suggested a template approval step; it was never built.",
+   "Decide whether to restore the template approval step from the proposal.",
+   "(The v1 text relied on a shared header; this was replaced during the migration.)",
+   "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.",
+   "This revision updates the 2023 notes with the current Kafka-based design; where the v1 text described polling a database table, that description no longer applies.",
+   "(v1: Sendgrid; the contract was replaced in 2022.)",
+   "Data stores and brokers sit in private subnets only."
+  ],
+  "retrieved": {
+   "quote": "The service collects and stores only the personal data needed to deliver messages.",
+   "verdict": "vague",
+   "reason": "The fragment addresses data collection but does not explicitly confirm that personal data is shared only under approved agreements or that only required fields are shared."
+  },
+  "with_gold": {
+   "quote": "The service collects and stores only the personal data needed to deliver messages.",
+   "verdict": "vague",
+   "reason": "The fragment addresses data collection but does not explicitly mention the requirement about disclosing personal data to third parties under approved agreements or sharing only required fields."
+  }
+ },
+ {
+  "case": "c038_kyc_service",
+  "rule": "AUTH-06",
+  "status": "clear",
+  "requirement": "Login and token endpoints must throttle repeated failed attempts and apply a temporary lockout after ten consecutive failures.",
+  "clarify": "Behavior after repeated failed logins.",
+  "gold": "kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.",
+  "gold_rank": 7,
+  "top": [
+   "K-2: A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.",
+   "K-1: No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "K-21: The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "The vendor callback retry window is unconfirmed.",
+   "K-19: The kyc-documents bucket blocks public access and is private by default.",
+   "Reference to the previous KYC design (v1) is in the archived wiki space and may not open.",
+   "Customers sign in through the corporate identity provider, and the customer application presents the resulting token to the service. kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.",
+   "Session handling in the mobile and web clients is described in the client design and is out of scope here.",
+   "K-4: Administrative and debug endpoints are not reachable from the public internet.",
+   "K-8: Card numbers are never returned by the API."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention throttling repeated failed login or token attempts or temporary lockouts after ten consecutive failures."
+  }
+ },
+ {
+  "case": "c038_kyc_service",
+  "rule": "AUTHZ-01",
+  "status": "clear",
+  "requirement": "For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it.",
+  "clarify": "How the service checks that the caller may access the requested record.",
+  "gold": "kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.",
+  "gold_rank": 9,
+  "top": [
+   "K-1: No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "The service never renders documents for the customer after upload; only the operations team can view them during manual review.",
+   "The customer application calls kyc-orchestrator. kyc-orchestrator stores document images in the kyc-documents bucket (S3) and case records in kyc-db (PostgreSQL), and sends verification requests to the Identity verification vendor.",
+   "It is one of the most sensitive services in the platform because it holds government identity documents, so its controls are catalogued here in detail.",
+   "Customers sign in through the corporate identity provider, and the customer application presents the resulting token to the service. kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.",
+   "The KYC Verification Service collects identity details and identity document images from customers, submits them to an external identity verification vendor, and keeps the outcome of each verification case.",
+   "K-14: Services validate the certificates of the servers they call, and verification is never turned off.",
+   "K-19: The kyc-documents bucket blocks public access and is private by default.",
+   "kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.",
+   "Manual review is handled by the operations team, who may ask the customer for more documents."
+  ],
+  "retrieved": {
+   "quote": "The service never renders documents for the customer after upload; only the operations team can view them during manual review.",
+   "verdict": "vague",
+   "reason": "The fragment does not directly address the requirement about verifying ownership or entitlement for requests touching customer-owned resources."
+  }
+ },
+ {
+  "case": "c039_ledger_service",
+  "rule": "SECRET-02",
+  "status": "clear",
+  "requirement": "Services MUST fetch secrets from the secret store at runtime.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "ledger-core starts with the standard platform bootstrap and is ready to accept entries a few seconds later.",
+  "gold_rank": 9,
+  "top": [
+   "Security is a first-class feature of the Ledger Service.",
+   "The Ledger Service is the single source of financial truth for Meridian Pay: an enterprise-grade, secure-by-design record of who owes what to whom, written once and never edited.",
+   "Should the balance endpoint cache for a second under heavy read load?",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Access to the database is handled with the same care.",
+   "Risk and compliance get a complete, ordered history of every movement.",
+   "Customers see balances that are always consistent across the app, the statements and support conversations.",
+   "Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.",
+   "ledger-core starts with the standard platform bootstrap and is ready to accept entries a few seconds later. ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance. ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.",
+   "**See a balance.** GET /v1/accounts/{accountId}/balance returns the account, its balance and the currency."
+  ],
+  "retrieved": {
+   "quote": "ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance. ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.",
+   "verdict": "vague",
+   "reason": "The fragment mentions protection of entries and confidentiality but does not explicitly state that secrets are fetched from a secret store at runtime."
+  }
+ },
+ {
+  "case": "c039_ledger_service",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Databases and brokers MUST be in private subnets.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance.",
+  "gold_rank": 3,
+  "top": [
+   "The application uses the database owner account because creating separate grants was too slow for the first release.",
+   "Access to the database is handled with the same care.",
+   "ledger-core starts with the standard platform bootstrap and is ready to accept entries a few seconds later. ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance. ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Wallet and payment services send journal entries to ledger-core. ledger-core checks that the entry balances, writes it to ledger-db (PostgreSQL) and announces it on ledger-events (Kafka) so that other teams, for example notifications and analytics, can react in real time.",
+   "All queries use bound parameters instead of string concatenation.",
+   "A switch allows any wave to fall back to the old tables during the shadow and authoritative phases.",
+   "Security is a first-class feature of the Ledger Service.",
+   "**Browse entries.** GET /v1/entries lists entries, newest first, so that finance and support can follow the flow of money.",
+   "The Ledger Service is the single source of financial truth for Meridian Pay: an enterprise-grade, secure-by-design record of who owes what to whom, written once and never edited."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments explicitly mention databases or brokers being in private subnets."
+  }
+ },
+ {
+  "case": "c039_ledger_service",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance.",
+  "gold_rank": 99,
+  "top": [
+   "Should the balance endpoint cache for a second under heavy read load?",
+   "Risk and compliance get a complete, ordered history of every movement.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Wallet and payment services send journal entries to ledger-core. ledger-core checks that the entry balances, writes it to ledger-db (PostgreSQL) and announces it on ledger-events (Kafka) so that other teams, for example notifications and analytics, can react in real time.",
+   "The Ledger Service is the single source of financial truth for Meridian Pay: an enterprise-grade, secure-by-design record of who owes what to whom, written once and never edited.",
+   "Customers see balances that are always consistent across the app, the statements and support conversations.",
+   "If the event stream is unavailable, entries are still accepted and the announcements catch up when the stream returns.",
+   "The only input is a reason, which is stored with the reversal for the audit trail.",
+   "The first release delivers three outcomes: wallet and payment teams stop keeping their own balance tables, finance can reconcile any account from one place, and every movement of money is explainable in one sentence.",
+   "Reconciliation jobs compare the sum of all entries to the sum of all balances every night and alert on any difference."
+  ],
+  "retrieved": {
+   "quote": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention reporting replicas or public endpoints in the context of external vendors."
+  },
+  "with_gold": {
+   "quote": "The Ledger Service is the single source of financial truth for Meridian Pay: an enterprise-grade, secure-by-design record of who owes what to whom, written once and never edited.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not mention anything about reporting replicas or public endpoints related to the requirement."
+  }
+ },
+ {
+  "case": "c039_ledger_service",
+  "rule": "CRYPTO-05",
+  "status": "clear",
+  "requirement": "MD5, SHA-1, DES and ECB mode MUST NOT be used.",
+  "clarify": "Which algorithms protect integrity and confidentiality.",
+  "gold": "ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.",
+  "gold_rank": 6,
+  "top": [
+   "Security is a first-class feature of the Ledger Service.",
+   "The ledger is designed for correctness before speed.",
+   "Risk and compliance get a complete, ordered history of every movement.",
+   "There are no other tables of substance.",
+   "Status: Approved for build",
+   "ledger-core starts with the standard platform bootstrap and is ready to accept entries a few seconds later. ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance. ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.",
+   "The Ledger Service is the single source of financial truth for Meridian Pay: an enterprise-grade, secure-by-design record of who owes what to whom, written once and never edited.",
+   "The ledger is built on a small number of principles that every feature must respect.",
+   "Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.",
+   "All queries use bound parameters instead of string concatenation."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments explicitly mention or address the prohibition against using MD5, SHA-1, DES, and ECB mode."
+  }
+ },
+ {
+  "case": "c041_card_token_vault",
+  "rule": "SECRET-02",
+  "status": "advisory",
+  "requirement": "Runtime secrets should be retrieved from the approved secret store when a service starts.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "the tokenization-service is a small Go service with two handlers and a worker that rotates data keys, and it is deployed like every other service on the platform.",
+  "gold_rank": 5,
+  "top": [
+   "About where things live: the database and the message brokers sit in private subnets and are not publicly reachable and about secrets,, which I mention because the first prototype did not follow it and we cleaned it up.",
+   "Now the part where I try to be precise about who is allowed to do what, because last time somebody asked and I could not answer: calls from the payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens, and for people internal users receive only the roles required for their job and roles are defined per service, which in practice means operator, auditor and key custodian, and access rights to production systems are reviewed at least quarterly, with Lena as owner I think, or the infra lead if Lena is away.",
+   "On the data side the rule that matters most is primary account numbers are never stored in clear text and are tokenized by the card token vault, and the rest of the crypto follows the standard list, namely only approved cryptographic algorithms are used and MD5, SHA-1, DES, 3DES and ECB mode are prohibited, and I would add that tokens are random so nobody can compute a card number from a token, probably worth a sentence in the compliance document too.",
+   "It talks to vault-db, which is the Postgres that holds the card records and the token mapping, and to Vault and KMS when it needs a data encryption key, and that is the whole picture, three arrows, nothing else is connected, I will say so once more for the people who skim: the payment services call the tokenizer, the tokenizer calls the database and the key service, that is it, and the terraform for all this is six resources, the kms key, the rds instance, the security group for the database, the audit log group, the backup vault and the iam policy for the service role.",
+   "Right, so the vault: payment services send us a card number and get a token back, and later they send the token and get the number back, the service that does it is the tokenization-service, which on the slides is the tokenizer and in Priya's old doc is vault-svc, and it lives in the vault private subnet which some people call the PCI subnet, and the tokenization-service is a small Go service with two handlers and a worker that rotates data keys, and it is deployed like every other service on the platform.",
+   "In the service code database queries are parameterized and concatenating user input into queries is prohibited, and in the pipeline, which has only caught one real issue so far but that is one more than none.",
+   "The restore itself has been tried once in staging and took about forty minutes, with a lot of waiting on the copy, and the recovery goal is four hours for a regional failure, which feels comfortable, and the last open point is whether the key rotation worker should run weekly or monthly in production (TBD), together with the question of whether detokenize needs a purpose code in the first release or only later (TBD), since compliance wants it and the payment teams do not, and the likely compromise is that the code is accepted from day one but not enforced until the second quarter, which I think is fine as long as everyone writes the decision down this time.",
+   "Backups I keep for the end because they are the messy bit: nightly snapshots of vault-db are copied unencrypted to a second bucket so that a restore in the standby region does not depend on a key that might be unavailable at the worst moment.",
+   "Logging is the part everybody asks about: authentication failures, privilege changes and access to sensitive data are logged and and, and the audit log group is where the auditors look, with a read-only role, and I think the dashboards are built on the same group."
+  ],
+  "retrieved": {
+   "quote": "the payment services send us a card number and get a token back, and later they send the token and get the number back",
+   "verdict": "vague",
+   "reason": "The fragment mentions tokenization but does not explicitly state that secrets are retrieved from an approved secret store when a service starts."
+  }
+ },
+ {
+  "case": "c048_fraud_scoring",
+  "rule": "DATA-02",
+  "status": "advisory",
+  "requirement": "Each category of personal data should have a retention period, and an automated job should delete the data when the period ends.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "decisions-db (PostgreSQL) holds the risk decisions together with the customer attributes that were scored.",
+  "gold_rank": 12,
+  "top": [
+   "Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.",
+   "Nothing leaves the account.",
+   "Non-production environments hold no real personal or card data.",
+   "Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.",
+   "All personally identifiable information is encrypted before it lands on disk, using AES-256.",
+   "Access tokens expire within 15 minutes; refresh tokens are rotated on use.",
+   "| scoring audit log group  |",
+   "| iam | scoring_policy | engine role permissions |",
+   "We log failed logins, changes of privileges and reads of sensitive data.",
+   "TBD: alert thresholds for consumer lag."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion processes."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion processes."
+  }
+ },
+ {
+  "case": "c050_wallet_service",
+  "rule": "API-05",
+  "status": "clear",
+  "requirement": "Use parameterized queries only.",
+  "clarify": "How queries are constructed from request parameters.",
+  "gold": "wallet-core takes the list and search parameters of the transaction calls and turns them into the lookups it needs.",
+  "gold_rank": 99,
+  "top": [
+   "There is no other path to the database.",
+   "Logs carry opaque identifiers only and never include secrets, card numbers or personal data.",
+   "| input | Schema validation runs on every external input, and invalid data never reaches the business logic.",
+   "About password storage in the legacy import: a fast hash with a single global salt is used for passwords.",
+   "Part A calls the database \"wallet-db\", Part B sometimes says \"the ledger db\" (it is the same database, there is no separate ledger).",
+   "---",
+   "Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.",
+   "We kept that from the old system so migrated customers can still log in without a reset.",
+   "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "wallet-db (PostgreSQL): balances, transactions and owner profile."
+  ],
+  "retrieved": {
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "verdict": "violated",
+   "reason": "The fragment contradicts the requirement by explicitly disallowing certain algorithms, which is consistent with using parameterized queries only."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the use of parameterized queries only."
+  }
+ },
+ {
+  "case": "c051_fraud_scoring",
+  "rule": "OPS-03",
+  "status": "vague",
+  "requirement": "Backups must be protected appropriately, and restoration from backup must be tested regularly.",
+  "clarify": "How backups are protected and verified.",
+  "gold": "The decisions-db (PostgreSQL) is the only datastore which the engine writes to, and it runs as a primary with a standby in the second availability zone.",
+  "gold_rank": 2,
+  "top": [
+   "The engine is tested in the test environment with the usual functional tests.",
+   "The decisions-db (PostgreSQL) is the only datastore which the engine writes to, and it runs as a primary with a standby in the second availability zone.",
+   "The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.",
+   "The scoring-engine is exercised in the test environment by the functional test suite.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "It replace the nightly batch job.",
+   "When the decision is block, the service call back the payments team and also receive the callbacks from the partner sandbox during the integration tests.",
+   "Personally identifiable information is encrypted at rest with AES-256.",
+   "The services validate the TLS certificates and never disable the verification.",
+   "**scoring audit log group** - the place in CloudWatch where audit records are written."
+  ],
+  "retrieved": {
+   "quote": "The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.",
+   "verdict": "compliant",
+   "reason": "This fragment addresses the protection of backups by ensuring encryption keys are secure and rotated, which supports the requirement that backups must be protected appropriately."
+  }
+ },
+ {
+  "case": "c051_fraud_scoring",
+  "rule": "DATA-04",
+  "status": "clear",
+  "requirement": "Non-production environments must not contain real personal data or card data, and synthetic or masked data must be used instead.",
+  "clarify": "Source of data in test environments.",
+  "gold": "The scoring-engine is exercised in the test environment by the functional test suite.",
+  "gold_rank": 99,
+  "top": [
+   "The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.",
+   "There is no other data flow.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "The database and the message brokers are in the private subnets and are not publicly reachable.",
+   "Personally identifiable information is encrypted at rest with AES-256.",
+   "The signature verification is skipped for the callbacks from the partner sandbox.",
+   "The decisions-db (PostgreSQL) is the only datastore which the engine writes to, and it runs as a primary with a standby in the second availability zone.",
+   "The reason is that the sandbox of the partner is not able to sign the messages yet.",
+   "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access."
+  ],
+  "retrieved": {
+   "quote": "The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.",
+   "verdict": "vague",
+   "reason": "The fragment addresses data handling but does not explicitly confirm that non-production environments avoid real personal data or use synthetic/masked data."
+  },
+  "with_gold": {
+   "quote": "The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.",
+   "verdict": "vague",
+   "reason": "The fragment addresses personal data handling but does not explicitly state that non-production environments must not contain real personal data or card data."
+  }
+ },
+ {
+  "case": "c055_kyc_service",
+  "rule": "CRYPTO-05",
+  "status": "clear",
+  "requirement": "Only cryptographic algorithms on the approved list may be used, and the use of MD5, SHA-1, DES, 3DES and ECB mode is prohibited.",
+  "clarify": "Which algorithms protect integrity and confidentiality.",
+  "gold": "kyc-orchestrator signs and protects the messages it exchanges with the vendor.",
+  "gold_rank": 3,
+  "top": [
+   "External traffic TLS 1.2 or higher.",
+   "Exports with personal data need authorization, are encrypted in storage and expire.",
+   "kyc-orchestrator signs and protects the messages it exchanges with the vendor.",
+   "kyc-documents bucket blocks public access, private by default.",
+   "opened > documents_received > submitted > verified / rejected / manual_review",
+   "kyc-db and brokers in private subnets, not publicly reachable.",
+   "customer app -> kyc-orchestrator: details + doc images",
+   "Production access reviewed at least quarterly.",
+   "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)",
+   "Personal data to the vendor only under an approved DPA, only required fields."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention cryptographic algorithms or their approval status."
+  }
+ },
+ {
+  "case": "c055_kyc_service",
+  "rule": "SECRET-02",
+  "status": "advisory",
+  "requirement": "Runtime secrets should be retrieved from the approved secret store when a service starts.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "kyc-orchestrator reads its runtime configuration when it starts.",
+  "gold_rank": 1,
+  "top": [
+   "kyc-orchestrator reads its runtime configuration when it starts.",
+   "Exports with personal data need authorization, are encrypted in storage and expire.",
+   "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)",
+   "Auth failures, privilege changes and sensitive data access are logged.",
+   "Production access reviewed at least quarterly.",
+   "kyc-documents bucket blocks public access, private by default.",
+   "Only the personal data needed for verification is collected and stored.",
+   "kyc-db and brokers in private subnets, not publicly reachable.",
+   "customer app -> kyc-orchestrator: details + doc images",
+   "kyc-orchestrator signs and protects the messages it exchanges with the vendor."
+  ],
+  "retrieved": {
+   "quote": "kyc-orchestrator reads its runtime configuration when it starts.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not mention anything about retrieving runtime secrets from a secret store."
+  }
+ },
+ {
+  "case": "c060_ledger_service",
+  "rule": "AUTH-02",
+  "status": "clear",
+  "requirement": "Calls between internal services must be authenticated with mutual TLS or signed workload identity tokens, and network location alone is not sufficient proof of identity.",
+  "clarify": "How one internal service proves its identity to another.",
+  "gold": "ledger-core accepts entries only from the wallet and payment services of the platform.",
+  "gold_rank": 10,
+  "top": [
+   "The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.",
+   "Security is a first-class feature of the ledger.",
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "The Ledger Service gives Meridian Pay one authoritative, enterprise-grade, secure-by-design record of every movement of money.",
+   "Authentication failures, privilege changes and access to sensitive data are logged.",
+   "Staff roles are limited to what each job needs, and every service defines its own roles.",
+   "After each wave finance signs off on a full day of reconciliation before the next wave starts (the sign-off template is TBD).",
+   "Wave two makes the ledger authoritative for wallet balances.",
+   "Requests are validated against strict schemas.",
+   "ledger-core accepts entries only from the wallet and payment services of the platform."
+  ],
+  "retrieved": {
+   "quote": "The Ledger Service gives Meridian Pay one authoritative, enterprise-grade, secure-by-design record of every movement of money.",
+   "verdict": "not_addressed",
+   "reason": "The fragment discusses the security of the ledger but does not specifically address authentication requirements for internal service calls."
+  }
+ },
+ {
+  "case": "c063_wallet_service",
+  "rule": "CRYPTO-01",
+  "status": "clear",
+  "requirement": "Personally identifiable information must be encrypted at rest using AES-256 or a stronger approved algorithm.",
+  "clarify": "Whether and how stored PII is encrypted.",
+  "gold": "wallet-db (PostgreSQL) is the system of record for every balance, transaction and owner profile, and it runs as a primary with a standby in a second availability zone.",
+  "gold_rank": 12,
+  "top": [
+   "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+   "Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.",
+   "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+   "External traffic is served over TLS 1.2 or newer.",
+   "The service collects and stores only the personal data needed to operate wallets.",
+   "**Keycloak**, the identity provider for customers.",
+   "Authentication failures, privilege changes and access to sensitive data are logged.",
+   "Author: Elena R., Principal Architect, Wallet Platform",
+   "Status: Approved by Architecture Board",
+   "We use parameterized queries only, with no SQL built from user input by string concatenation."
+  ],
+  "retrieved": {
+   "quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+   "verdict": "vague",
+   "reason": "The fragment mentions approved algorithms but does not explicitly state that personally identifiable information must be encrypted at rest using AES-256 or a stronger algorithm."
+  },
+  "with_gold": {
+   "quote": "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+   "verdict": "vague",
+   "reason": "The fragment mentions approved algorithms but does not explicitly state that AES-256 or stronger algorithms are used for encrypting personally identifiable information at rest."
+  }
+ },
+ {
+  "case": "c065_card_token_vault",
+  "rule": "CRYPTO-05",
+  "status": "clear",
+  "requirement": "Only approved algorithms may be used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+  "clarify": "Which algorithms protect integrity and confidentiality.",
+  "gold": "vault-db (PostgreSQL) holds the encrypted card records and the token mapping.",
+  "gold_rank": 7,
+  "top": [
+   "see also wiki \"vault v1\" (page moved, link dead)",
+   "| Certificates | The client library is configured to ignore certificate errors after a failed deployment. |",
+   "| tokenization-service | Vault and KMS | data encryption key requests |",
+   "| Vault and KMS | secret store | data keys, runtime secrets |",
+   "| Callbacks | Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified. |",
+   "| Keys | Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. |",
+   "| Content | vault-db (PostgreSQL) holds the encrypted card records and the token mapping. |",
+   "| Payment services | tokenization-service | PANs to tokenize, tokens to detokenize |",
+   "| In artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |",
+   "| vault-db (PostgreSQL) | database | encrypted card records + token mapping |"
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention the prohibition of specific algorithms like MD5, SHA-1, DES, 3DES, or ECB mode."
+  }
+ },
+ {
+  "case": "c070_card_token_vault",
+  "rule": "CRYPTO-02",
+  "status": "clear",
+  "requirement": "Primary account numbers must never be stored in clear text and must be tokenized through the card token vault.",
+  "clarify": "Where card numbers are kept and in what form.",
+  "gold": "vault-db (PostgreSQL) is the main datastore of the vault and runs as a primary with a standby in a second availability zone.",
+  "gold_rank": 8,
+  "top": [
+   "The Card Token Vault is the platform capability that makes this possible.",
+   "It has four parts: the tokenization-service, which exposes tokenize and detokenize; vault-db (PostgreSQL); Vault and KMS, which supply data keys and runtime secrets; and the network around them.",
+   "Payment services hand it a card number and receive a token; when they need to charge, they hand the token back.",
+   "**Tokenize.** A payment service sends a card number and receives a token.",
+   "**Detokenize.** A payment service sends a token with a purpose code and receives the card number for the acquirer call.",
+   "The same card yields the same token for the same merchant, so duplicates are easy to detect downstream.",
+   "Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.",
+   "vault-db (PostgreSQL) is the main datastore of the vault and runs as a primary with a standby in a second availability zone.",
+   "The vault is designed to be the foundation for the next two years of payments work: wallet top-ups from cards, recurring payments, one-click checkout and card-on-file for merchants.",
+   "Every payment product we ship needs to handle cards, and every one of them should be able to do so without ever holding a card number."
+  ],
+  "retrieved": {
+   "quote": "Every payment product we ship needs to handle cards, and every one of them should be able to do so without ever holding a card number.",
+   "verdict": "compliant",
+   "reason": "The fragment directly supports the requirement that primary account numbers must never be stored in clear text and must be tokenized through the card token vault."
+  }
+ },
+ {
+  "case": "c072_fraud_scoring",
+  "rule": "CRYPTO-01",
+  "status": "clear",
+  "requirement": "Personal data at rest MUST be encrypted with AES-256.",
+  "clarify": "Whether and how stored PII is encrypted.",
+  "gold": "decisions-db (PostgreSQL) holds every decision together with the customer attributes that were scored.",
+  "gold_rank": 13,
+  "top": [
+   "**Crypto and secrets.** We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "**Data.** Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.",
+   "Pawel: write down the retention decision once compliance and risk agree.",
+   "Terraform: kms scoring_key, msk payment_events, rds decisions_db, security group decisions_sg, log group scoring_audit, iam scoring_policy.",
+   "Sanjana asked about sizing, we think about 200 GB for the first year (TBD, depends on the retention discussion in the data section).",
+   "We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "Open: what the retention period is for review decisions, compliance says 13 months, risk says 24 (TBD).",
+   "**Access to the database.** Agreed without discussion this time.",
+   "The approved secret manager is the only source of runtime secrets, fetched at start-up."
+  ],
+  "retrieved": {
+   "quote": "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that only approved cryptographic algorithms are used, which includes AES-256 as a valid option for encrypting personal data at rest."
+  },
+  "with_gold": {
+   "quote": "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that only approved cryptographic algorithms are used, which includes AES-256 as a valid algorithm for encrypting personal data at rest."
+  }
+ },
+ {
+  "case": "c073_payment_gateway",
+  "rule": "CRYPTO-02",
+  "status": "clear",
+  "requirement": "Primary account numbers must never be stored in clear text and must be tokenized through the card token vault.",
+  "clarify": "Where card numbers are kept and in what form.",
+  "gold": "payments-core is the central service of the gateway: it owns the payment state machine and coordinates the database, the acquirer connector and the event stream.",
+  "gold_rank": 9,
+  "top": [
+   "Events carry identifiers and amounts and no card data.",
+   "P-14: The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "P-1: Callers authenticate with OAuth2 bearer tokens.",
+   "Merchant backends call the Payments Edge Gateway with a payment request that carries a card token.",
+   "P-7: The gateway collects and stores only the personal data needed for payment processing.",
+   "The gateway handles several hundred authorization requests per second at peak. payments-core is stateless and runs as four replicas behind the internal load balancer (revision 6 said three; four is correct); the database primary is the single writer with a standby in a second availability zone.",
+   "Because it sits on the path of every payment, its controls are catalogued here in detail.",
+   "POST /v1/payments creates a payment (amount, currency, card_token, merchant_id, reference) and returns id, status, amount, currency, last4 and merchant_id.",
+   "payments-core is the central service of the gateway: it owns the payment state machine and coordinates the database, the acquirer connector and the event stream. payments-core signs and protects the messages it exchanges with the acquirer and with the event stream.",
+   "P-10: Report files remain in the storage bucket and are never deleted."
+  ],
+  "retrieved": {
+   "quote": "Merchant backends call the Payments Edge Gateway with a payment request that carries a card token.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that card tokens are used instead of storing primary account numbers in clear text."
+  }
+ },
+ {
+  "case": "c073_payment_gateway",
+  "rule": "CRYPTO-05",
+  "status": "clear",
+  "requirement": "Only cryptographic algorithms on the approved list may be used, and the use of MD5, SHA-1, DES, 3DES and ECB mode is prohibited.",
+  "clarify": "Which algorithms protect integrity and confidentiality.",
+  "gold": "payments-core signs and protects the messages it exchanges with the acquirer and with the event stream.",
+  "gold_rank": 99,
+  "top": [
+   "Review: Security Architecture",
+   "P-6: All external traffic uses TLS 1.2 or higher.",
+   "P-18: Database queries are parameterized, and user input is never concatenated into SQL.",
+   "Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; the spreadsheet under the previous team name is stale).",
+   "P-17: Requests are validated against strict schemas.",
+   "P-14: The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Status column of the catalogue: the controls are listed without an implementation status; the spreadsheet carries it (link TBD).",
+   "Reviewers should read the control catalogue (section 5) first and the architecture afterwards.",
+   "Author: Rina M., Security Champion, Payments Platform",
+   "P-11: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention cryptographic algorithms or the approved list of algorithms, including prohibitions against MD5, SHA-1, DES, 3DES, and ECB mode."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention cryptographic algorithms or the approved list, nor do they address the prohibition of specific algorithms like MD5, SHA-1, DES, 3DES, and ECB mode."
+  }
+ },
+ {
+  "case": "c074_ledger_service",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Databases and brokers MUST be in private subnets.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "ledger-db (PostgreSQL) is the system of record for all the entries and the balances, and it run as a primary with one standby.",
+  "gold_rank": 1,
+  "top": [
+   "ledger-db (PostgreSQL) is the system of record for all the entries and the balances, and it run as a primary with one standby.",
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "**ledger-db (PostgreSQL)** is the database with entries and balances.",
+   "The runtime secrets are fetched from the approved secret store when the service start.",
+   "TBD: name of the new Kafka topic (see the old proposal, the link is dead).",
+   "The posting is one database transaction.",
+   "The API enforces per-client rate limits.",
+   "ledger-core write the records about its work, and the operations team can read them when they need to understand a problem.",
+   "The entry and a row for the outbox are written together, and a relay publish the event after it.",
+   "If the two sides of an entry have different currencies the entry is rejected."
+  ],
+  "retrieved": {
+   "quote": "ledger-db (PostgreSQL) is the database with entries and balances.",
+   "verdict": "not_addressed",
+   "reason": "The fragment identifies the database but does not mention subnets or privacy requirements."
+  }
+ },
+ {
+  "case": "c074_ledger_service",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "ledger-db (PostgreSQL) is the system of record for all the entries and the balances, and it run as a primary with one standby.",
+  "gold_rank": 99,
+  "top": [
+   "The limits are different for the wallet, the payments and the reporting clients.",
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "The API enforces per-client rate limits.",
+   "**ledger-events (Kafka)** is the stream where we publish one event for each posted entry, so the other teams can react without ask us.",
+   "The entry and a row for the outbox are written together, and a relay publish the event after it.",
+   "The service is new, before this the ledger was a module inside the big monolith what everybody afraid to touch.",
+   "The runtime secrets are fetched from the approved secret store when the service start.",
+   "In the second wave the ledger become the authority for the wallet balances.",
+   "The goal of this document is to explain the design and the behaviour for the people from wallet, payments and finance teams.",
+   "TBD: name of the new Kafka topic (see the old proposal, the link is dead)."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the requirement about reporting replicas being exposed through an allowlisted public endpoint when an external vendor requires it."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the requirement about reporting replicas being exposed through an allowlisted public endpoint when an external vendor requires it."
+  }
+ },
+ {
+  "case": "c074_ledger_service",
+  "rule": "CRYPTO-05",
+  "status": "clear",
+  "requirement": "MD5, SHA-1, DES and ECB mode MUST NOT be used.",
+  "clarify": "Which algorithms protect integrity and confidentiality.",
+  "gold": "ledger-core accept the entries, check that they balance, and keep them safe, so the other services can trust the numbers.",
+  "gold_rank": 18,
+  "top": [
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "If the two sides of an entry have different currencies the entry is rejected.",
+   "It is not saved in a field that somebody can edit.",
+   "In the first wave the entries from the old wallet tables are copied to the ledger in shadow mode, and finance compare the numbers.",
+   "The runtime secrets are fetched from the approved secret store when the service start.",
+   "All queries use bound parameters instead of string concatenation.",
+   "Status: Draft, please read and comment",
+   "Any wave can fall back to the old tables during the shadow and the authority phases.",
+   "Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.",
+   "GET /v1/entries return the list of entries, the newest first."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention MD5, SHA-1, DES, or ECB mode."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention MD5, SHA-1, DES, or ECB mode."
+  }
+ },
+ {
+  "case": "c074_ledger_service",
+  "rule": "LOG-01",
+  "status": "clear",
+  "requirement": "Log authentication failures, privilege changes and sensitive data access.",
+  "clarify": "Which security events are logged.",
+  "gold": "ledger-core write the records about its work, and the operations team can read them when they need to understand a problem.",
+  "gold_rank": 1,
+  "top": [
+   "ledger-core write the records about its work, and the operations team can read them when they need to understand a problem.",
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "The goal of this document is to explain the design and the behaviour for the people from wallet, payments and finance teams.",
+   "Ledger-core write the entries and the balances to ledger-db and publish the events to ledger-events.",
+   "The runtime secrets are fetched from the approved secret store when the service start.",
+   "In this way an event is never published for an entry that was not saved.",
+   "In the second wave the ledger become the authority for the wallet balances.",
+   "In the first wave the entries from the old wallet tables are copied to the ledger in shadow mode, and finance compare the numbers.",
+   "The service is new, before this the ledger was a module inside the big monolith what everybody afraid to touch.",
+   "The original entry stay as it was, so the history is complete: first the mistake, then the reversal, then the correct entry."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention logging authentication failures, privilege changes, or sensitive data access."
+  }
+ },
+ {
+  "case": "c075_kyc_service",
+  "rule": "API-02",
+  "status": "vague",
+  "requirement": "Public APIs MUST be protected against excessive use.",
+  "clarify": "Limits on request volume per client.",
+  "gold": "kyc-orchestrator is the only component that applicants and operations tooling talk to, and it hides the vendor and the storage behind one consistent interface.",
+  "gold_rank": 18,
+  "top": [
+   "Cross-origin access is restricted to approved origins, and there is no wildcard.",
+   "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "Nothing administrative or meant for debugging can be called from outside our network.",
+   "The kyc-documents bucket blocks public access and is private by default.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "Uploaded images are limited in size and type-checked before they are accepted.",
+   "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "The service never shows a document back to the applicant after upload; only the operations team can view documents during manual review.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids."
+  ],
+  "retrieved": {
+   "quote": "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "verdict": "vague",
+   "reason": "The fragment addresses authentication but does not explicitly mention protection against excessive use of public APIs."
+  },
+  "with_gold": {
+   "quote": "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "verdict": "vague",
+   "reason": "The fragment addresses authentication but does not explicitly mention protection against excessive use of public APIs."
+  }
+ },
+ {
+  "case": "c075_kyc_service",
+  "rule": "DATA-02",
+  "status": "clear",
+  "requirement": "Personal data MUST have a retention period and a deletion process.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "kyc-documents (S3) is the bucket that holds the uploaded document images, one object per document, under a random object key.",
+  "gold_rank": 11,
+  "top": [
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "The goals, in order of priority, are: protect the identity documents, keep every decision traceable to its evidence, keep the applicant journey short, and keep the integration with the vendor replaceable.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "It holds some of the most sensitive data in the estate, which makes it a natural target and a natural audit subject.",
+   "Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.",
+   "Ownership of key rotation for the document bucket is being clarified (TBD).",
+   "The service never shows a document back to the applicant after upload; only the operations team can view documents during manual review.",
+   "Deployments are rolling with a small canary for fifteen minutes.",
+   "It collects identity details and identity document images from applicants, submits them to an external identity verification vendor, and keeps the outcome of each case.",
+   "We log failed logins, changes of privileges and reads of sensitive data."
+  ],
+  "retrieved": {
+   "quote": "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "verdict": "violated",
+   "reason": "The fragment explicitly prohibits logging personal data, contradicting the requirement that personal data must have a deletion process."
+  },
+  "with_gold": {
+   "quote": "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "verdict": "violated",
+   "reason": "The fragment explicitly states that personal data beyond opaque ids is not logged, which contradicts the requirement that personal data must have a retention period and a deletion process."
+  }
+ },
+ {
+  "case": "c075_kyc_service",
+  "rule": "AUTHZ-01",
+  "status": "clear",
+  "requirement": "A service MUST check that the caller is allowed to access the specific record requested.",
+  "clarify": "How the service checks that the caller may access the requested record.",
+  "gold": "kyc-orchestrator serves case and document requests for the signed-in applicant and returns the case or document the request refers to.",
+  "gold_rank": 6,
+  "top": [
+   "Cross-origin access is restricted to approved origins, and there is no wildcard.",
+   "The service never shows a document back to the applicant after upload; only the operations team can view documents during manual review.",
+   "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "The callback endpoint accepts only requests that carry the vendor's signature.",
+   "The KYC Verification Service turns a stranger into a verified customer.",
+   "kyc-orchestrator serves case and document requests for the signed-in applicant and returns the case or document the request refers to.",
+   "Nothing administrative or meant for debugging can be called from outside our network.",
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "The kyc-documents bucket blocks public access and is private by default.",
+   "Operations staff use a separate set of calls with their own roles."
+  ],
+  "retrieved": {
+   "quote": "The callback endpoint accepts only requests that carry the vendor's signature.",
+   "verdict": "vague",
+   "reason": "The fragment does not explicitly state that the service checks if the caller is allowed to access a specific record, only that it accepts requests with a vendor's signature."
+  }
+ },
+ {
+  "case": "c082_wallet_service",
+  "rule": "AUTH-01",
+  "status": "clear",
+  "requirement": "Public endpoints MUST require OAuth2/OIDC bearer tokens or mutual TLS.",
+  "clarify": "Which mechanism authenticates callers of the public endpoints.",
+  "gold": "The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+  "gold_rank": 7,
+  "top": [
+   "Only approved origins are permitted by the CORS configuration of the browser-facing API.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "Third parties receive only the fields they need, and only if an approved data processing agreement covers them.",
+   "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.",
+   "\"the gateway\", \"mobile edge\" on Priya's slides, let's settle on Mobile API Gateway).",
+   "Mei: update the diagram (still shows the old login service).",
+   "**Gateway.** The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+   "The Mobile API Gateway runs as three replicas behind the cloud load balancer, and rolling updates replace one replica at a time.",
+   "Arjun: confirm the replica count of the gateway (TBD).",
+   "**Crypto.** Personally identifiable information is encrypted at rest with AES-256."
+  ],
+  "retrieved": {
+   "quote": "The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+   "verdict": "not_addressed",
+   "reason": "The fragment discusses the role of the Mobile API Gateway but does not mention anything about requiring OAuth2/OIDC bearer tokens or mutual TLS for public endpoints."
+  }
+ },
+ {
+  "case": "c082_wallet_service",
+  "rule": "AUTHZ-04",
+  "status": "clear",
+  "requirement": "Admin and debug endpoints MUST NOT be exposed to the public internet.",
+  "clarify": "Where administrative endpoints are exposed and to whom.",
+  "gold": "The Mobile API Gateway runs as three replicas behind the cloud load balancer, and rolling updates replace one replica at a time.",
+  "gold_rank": 11,
+  "top": [
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "\"the gateway\", \"mobile edge\" on Priya's slides, let's settle on Mobile API Gateway).",
+   "Only approved origins are permitted by the CORS configuration of the browser-facing API.",
+   "Mei: update the diagram (still shows the old login service).",
+   "**Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Arjun: confirm the replica count of the gateway (TBD).",
+   "**Gateway.** The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+   "The approved secret manager is the only source of runtime secrets, fetched at start-up.",
+   "**Secrets.** Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.",
+   "Third parties receive only the fields they need, and only if an approved data processing agreement covers them."
+  ],
+  "retrieved": {
+   "quote": "The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not explicitly mention the exposure of admin or debug endpoints to the public internet."
+  },
+  "with_gold": {
+   "quote": "The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not explicitly mention the exposure of admin or debug endpoints to the public internet."
+  }
+ },
+ {
+  "case": "c083_card_token_vault",
+  "rule": "API-03",
+  "status": "clear",
+  "requirement": "Webhook payloads, inbound and outbound, must carry an HMAC signature that the receiver verifies together with a timestamp.",
+  "clarify": "How the authenticity of callbacks is verified.",
+  "gold": "The tokenizer sends token lifecycle events (created, rotated, revoked) to the payment services as callbacks.",
+  "gold_rank": 2,
+  "top": [
+   "Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.",
+   "The tokenizer sends token lifecycle events (created, rotated, revoked) to the payment services as callbacks.",
+   "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "The tokenizer (tokenization-service, I say tokenizer) takes a PAN, encrypts it with a data key from Vault and KMS, writes it and gives a token back.",
+   "Clients check the certificate chain and host name on every TLS connection and have no insecure mode.",
+   "vault-db (PostgreSQL): encrypted card records and the token mapping.",
+   "vault-db and the message brokers sit in private subnets and are not publicly reachable.",
+   "The vault tokenizes primary account numbers (PANs) for the payment services.",
+   "| security events | The audit trail includes authentication failures, privilege changes and sensitive-data access. |",
+   "Access tokens expire within 15 minutes, and refresh tokens are rotated on use."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention HMAC signatures or timestamps in the context of webhook payloads."
+  }
+ },
+ {
+  "case": "c084_kyc_service",
+  "rule": "NET-04",
+  "status": "clear",
+  "requirement": "Services that call third parties must restrict outbound traffic to an approved allowlist of destinations.",
+  "clarify": "Which external destinations the service may contact.",
+  "gold": "kyc-orchestrator talks to the verification vendor and receives its callbacks.",
+  "gold_rank": 18,
+  "top": [
+   "No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.",
+   "The service exposes only the endpoints listed in the API section.",
+   "Outbound TLS connections always verify the peer certificate.",
+   "The kyc-documents bucket blocks public access and is private by default.",
+   "KYC service collects identity details and document images from applicants, sends them to the external verification vendor, keeps the outcome.",
+   "**API hygiene.** All external input is validated against a schema, and invalid requests are rejected.",
+   "**Who may call.** All state-changing operations require an authenticated caller.",
+   "**Database.** kyc-db and the message brokers sit in private subnets and are not publicly reachable.",
+   "Sanjana: point to the platform doc for the auth flow (TBD).",
+   "opened > documents_received > submitted > verified / rejected / manual_review."
+  ],
+  "retrieved": {
+   "quote": "No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly addresses the restriction of outbound traffic to approved destinations by ensuring personal data is not sent to third parties without an approved DPA and that payloads are limited to required fields."
+  },
+  "with_gold": {
+   "quote": "No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that personal data leaving for a third party is restricted to approved DPAs and limited to required fields, which aligns with the requirement to restrict outbound traffic to an approved allowlist."
+  }
+ },
+ {
+  "case": "c085_card_token_vault",
+  "rule": "LOG-02",
+  "status": "advisory",
+  "requirement": "Logs should not contain secrets, card numbers or personal data other than opaque identifiers.",
+  "clarify": "What is included in request logs.",
+  "gold": "The tokenization-service writes a log line for every tokenize and detokenize call.",
+  "gold_rank": 10,
+  "top": [
+   "Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.",
+   "Real customer and card data is kept out of dev, test and staging.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Source, config, specs and infrastructure definitions contain no secrets.",
+   "vault-db (PostgreSQL): encrypted card records and the token mapping.",
+   "The card token vault tokenizes primary account numbers (PANs) for the payment services and is the only component that stores them.",
+   "Vault and KMS: data encryption keys and runtime secrets.",
+   "On boot, the service pulls its credentials from the approved secret store.",
+   "Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.",
+   "The tokenization-service writes a log line for every tokenize and detokenize call."
+  ],
+  "retrieved": {
+   "quote": "Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that card numbers are replaced by tokens, which aligns with the requirement that logs should not contain card numbers."
+  }
+ },
+ {
+  "case": "c088_fraud_scoring",
+  "rule": "DATA-03",
+  "status": "clear",
+  "requirement": "Sending personal data to a vendor MUST be covered by a data processing agreement, and you MUST send only the fields the vendor needs.",
+  "clarify": "What data is shared with the vendor and under what agreement.",
+  "gold": "The scoring-engine calls the vendor once per event and uses the answer as one of the model features.",
+  "gold_rank": 4,
+  "top": [
+   "Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "Personal data is encrypted at rest with AES-256.",
+   "The scoring-engine calls the vendor once per event and uses the answer as one of the model features.",
+   "Whether the analyst CSV export needs a row limit.",
+   "Week two compares shadow decisions with the batch decisions for the previous day and reports the disagreement rate.",
+   "Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.",
+   "Alert thresholds for consumer lag on payment-events.",
+   "Anything not mentioned here behaves as before.",
+   "The engine reads from each event the payment id, amount, country, device id, customer email and phone, and the history counters."
+  ],
+  "retrieved": {
+   "quote": "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "verdict": "violated",
+   "reason": "The fragment contradicts the requirement by stating that personal data beyond opaque ids is not allowed, while the requirement mandates sending only the fields the vendor needs."
+  }
+ },
+ {
+  "case": "c088_fraud_scoring",
+  "rule": "SECRET-02",
+  "status": "clear",
+  "requirement": "Services MUST fetch secrets from the secret store at runtime.",
+  "clarify": "How the service obtains its secrets at runtime.",
+  "gold": "The scoring-engine runs as two replicas that share one Kafka consumer group, and it starts with the usual platform bootstrap.",
+  "gold_rank": 99,
+  "top": [
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "Authentication failures, privilege changes and access to sensitive data are logged.",
+   "Personal data is encrypted at rest with AES-256.",
+   "The new stack is declared in Terraform: a KMS key (`scoring_key`), the MSK cluster (`payment_events`), the RDS instance (`decisions_db`), a security group (`decisions_sg`), a log group (`scoring_audit`) and an IAM policy (`scoring_policy`).",
+   "**Storage.** Decisions move from a table in the shared reporting database to a dedicated PostgreSQL database, decisions-db.",
+   "Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.",
+   "The database sits in private subnets with no public endpoint.",
+   "An older runbook lists four replicas; two is correct.",
+   "It writes a decision, a score and reasons. decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.",
+   "Week two compares shadow decisions with the batch decisions for the previous day and reports the disagreement rate."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments explicitly mention fetching secrets from a secret store at runtime."
+  },
+  "with_gold": {
+   "quote": "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "verdict": "vague",
+   "reason": "The fragment mentions not logging sensitive data but does not explicitly state that secrets are fetched from a secret store at runtime, making it too general to determine compliance."
+  }
+ },
+ {
+  "case": "c088_fraud_scoring",
+  "rule": "AUTHZ-03",
+  "status": "advisory",
+  "requirement": "Each service SHOULD use its own database account with the least privilege required.",
+  "clarify": "Which database identity each service uses and its grants.",
+  "gold": "decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.",
+  "gold_rank": 4,
+  "top": [
+   "The database sits in private subnets with no public endpoint.",
+   "**Storage.** Decisions move from a table in the shared reporting database to a dedicated PostgreSQL database, decisions-db.",
+   "Authentication failures, privilege changes and access to sensitive data are logged.",
+   "It writes a decision, a score and reasons. decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.",
+   "Personal data is encrypted at rest with AES-256.",
+   "An older runbook lists four replicas; two is correct.",
+   "The new stack is declared in Terraform: a KMS key (`scoring_key`), the MSK cluster (`payment_events`), the RDS instance (`decisions_db`), a security group (`decisions_sg`), a log group (`scoring_audit`) and an IAM policy (`scoring_policy`).",
+   "The old table stays available as a fallback during cutover.",
+   "All queries use bound parameters instead of string concatenation."
+  ],
+  "retrieved": {
+   "quote": "decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.",
+   "verdict": "vague",
+   "reason": "The fragment describes where data is stored and accessed but does not explicitly state that each service uses its own database account with the least privilege required."
+  }
+ },
+ {
+  "case": "c093_ledger_service",
+  "rule": "AUTHZ-02",
+  "status": "vague",
+  "requirement": "Internal users should be assigned roles appropriate to their job, and services should define role sets as needed.",
+  "clarify": "Which roles exist and what each can do.",
+  "gold": "ledger-core applies the roles of its callers and of the finance users to every call.",
+  "gold_rank": 1,
+  "top": [
+   "| Roles | ledger-core applies the roles of its callers and of the finance users to every call. |",
+   "| Internal calls | Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token. |",
+   "| Component | Kind | Role |",
+   "| Internal traffic | Traffic between services, and between services and data stores or brokers, is encrypted in transit. |",
+   "| At runtime | The approved secret manager is the only source of runtime secrets, fetched at start-up. |",
+   "| Containers | The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only. |",
+   "| Job | nightly, after midnight UTC |",
+   "| Egress | The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked. |",
+   "| Placement | ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable. |",
+   "| Tokens | A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. |"
+  ],
+  "retrieved": {
+   "quote": "Roles | ledger-core applies the roles of its callers and of the finance users to every call.",
+   "verdict": "vague",
+   "reason": "The fragment mentions roles being applied to calls but does not explicitly state that internal users are assigned roles appropriate to their job or that role sets are defined as needed."
+  }
+ },
+ {
+  "case": "c094_wallet_service",
+  "rule": "DATA-03",
+  "status": "clear",
+  "requirement": "Personal data may leave Meridian Pay only to a processor covered by an approved data processing agreement, and only the fields necessary for the purpose may be sent.",
+  "clarify": "What data is shared with the vendor and under what agreement.",
+  "gold": "wallet-core calls the funding vendor to confirm every top-up.",
+  "gold_rank": 2,
+  "top": [
+   "**[14:14] mei:** crypto: personally identifiable information is encrypted at rest with AES-256 , , only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited , encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually , services validate TLS certificates and never disable verification",
+   "**[14:23] arjun:** data: , , non-production environments do not contain real personal or card data . also wallet-core calls the funding vendor to confirm every top-up.",
+   "**[14:26] mei:** input/output: all external inputs are validated against a schema and rejected if invalid , webhook payloads, outbound and inbound, are signed and the signatures are verified , error responses do not reveal stack traces, SQL or internal hostnames . for the transaction list dynamic ordering uses the sort parameter directly in the SQL statement because the ORM could not express it",
+   "**[14:09] arjun:** auth, from the meeting: every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS , access tokens expire within 15 minutes and refresh tokens are rotated on use , customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form , the login and token endpoints throttle or lock out repeated failed attempts",
+   "**[14:03] mei:** flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db. wallet-core is \"the core\" in my messages, the doc should say wallet-core",
+   "**[14:31] arjun:** behavior section: transfers reserve on source then credit target then confirm, recovery job finishes or cancels after a crash, same reference twice returns the first transaction, topups are pending until the funding source confirms.",
+   "**[14:18] priya:** network + edge: wallet-db and the message brokers sit in private subnets and are not publicly reachable , , services that call third parties have their egress restricted to an approved allowlist and yes the API enforces per-client rate limits",
+   "**[14:32] mei:** TBD on whether profile changes need a confirmation code",
+   "TBD on the daily transfer cap",
+   "**[14:21] mei:** logs: authentication failures, privilege changes and access to sensitive data are logged , . wallet-core writes an audit entry for every balance-changing operation."
+  ],
+  "retrieved": {
+   "quote": "non-production environments do not contain real personal or card data . also wallet-core calls the funding vendor to confirm every top-up.",
+   "verdict": "not_addressed",
+   "reason": "The fragment mentions non-production environments not containing real personal data but does not address the specific requirement about personal data leaving Meridian Pay to a processor covered by an approved data processing agreement or only sending necessary fields."
+  }
+ },
+ {
+  "case": "c094_wallet_service",
+  "rule": "LOG-03",
+  "status": "vague",
+  "requirement": "Audit logs must be stored in tamper-resistant storage and retained for an appropriate period.",
+  "clarify": "Retention and tamper protection of audit logs.",
+  "gold": "wallet-core writes an audit entry for every balance-changing operation.",
+  "gold_rank": 1,
+  "top": [
+   "**[14:21] mei:** logs: authentication failures, privilege changes and access to sensitive data are logged , . wallet-core writes an audit entry for every balance-changing operation.",
+   "**[14:09] arjun:** auth, from the meeting: every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS , access tokens expire within 15 minutes and refresh tokens are rotated on use , customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form , the login and token endpoints throttle or lock out repeated failed attempts",
+   "**[14:14] mei:** crypto: personally identifiable information is encrypted at rest with AES-256 , , only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited , encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually , services validate TLS certificates and never disable verification",
+   "**[14:29] priya:** ops: the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days , containers run as a non-root user with a read-only root filesystem where possible ,",
+   "**[14:02] arjun:** for the wallet review doc, here's the thread, sorry for the mess",
+   "**[14:16] arjun:** secrets: secrets do not appear in source code, configuration files, specifications or infrastructure definitions , runtime secrets are fetched from the approved secret store at startup ,",
+   "**[14:26] mei:** input/output: all external inputs are validated against a schema and rejected if invalid , webhook payloads, outbound and inbound, are signed and the signatures are verified , error responses do not reveal stack traces, SQL or internal hostnames . for the transaction list dynamic ordering uses the sort parameter directly in the SQL statement because the ORM could not express it",
+   "**[14:11] priya:** and access: for every request touching a customer-owned resource the service verifies that the caller owns it or is entitled to it , , administrative and debug endpoints are not reachable from the public internet",
+   "**[14:32] mei:** TBD on whether profile changes need a confirmation code",
+   "TBD on the daily transfer cap"
+  ],
+  "retrieved": {
+   "quote": "logs: authentication failures, privilege changes and access to sensitive data are logged",
+   "verdict": "vague",
+   "reason": "The fragment mentions logging of specific events but does not explicitly state that audit logs are stored in tamper-resistant storage or that they are retained for an appropriate period."
+  }
+ },
+ {
+  "case": "c096_fraud_scoring",
+  "rule": "LOG-02",
+  "status": "vague",
+  "requirement": "Logs should avoid recording sensitive data wherever practicable.",
+  "clarify": "What is included in request logs.",
+  "gold": "scoring-engine writes a log line for every event it processes.",
+  "gold_rank": 6,
+  "top": [
+   "Auth failures, privilege changes and access to sensitive data are logged.",
+   "Log access limited to authorized staff.",
+   "No secrets in code, config, specs or infra definitions.",
+   "PII at rest is AES-256.",
+   "Only personal data needed for scoring is stored.",
+   "scoring-engine writes a log line for every event it processes.",
+   "Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.",
+   "events from payment-events (MSK) -> scoring-engine -> decision to decisions-db, audit record to log group",
+   "loggroup scoring_audit",
+   "Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited."
+  ],
+  "retrieved": {
+   "quote": "Logs should avoid recording sensitive data wherever practicable.",
+   "verdict": "compliant",
+   "reason": "Fragment 1 explicitly states that sensitive data access is logged, which aligns with the requirement to avoid recording sensitive data wherever practicable."
+  }
+ },
+ {
+  "case": "c114_refund_service",
+  "rule": "AUTHZ-01",
+  "status": "clear",
+  "requirement": "For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it.",
+  "clarify": "How the service checks that the caller may access the requested record.",
+  "gold": "Every request comes through Refunds Gateway, which passes it to refund-core together with the identity of the caller.",
+  "gold_rank": 4,
+  "top": [
+   "**Who is the caller?** No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "Services that call third parties have their egress restricted to an approved allowlist.",
+   "Bigger refunds wait until a second person writes the approval; the person who asked cannot approve his own request.",
+   "Every request comes through Refunds Gateway, which passes it to refund-core together with the identity of the caller.",
+   "There are five calls, all start with /v1.",
+   "The Refund Service is the part of the platform that receives such a request, checks it, remembers it and tells the other services what happened to it.",
+   "**Logs and test data.** Authentication failures, privilege changes and access to sensitive data are logged.",
+   "My reviewer asked me to explain the security part in simple words, so I wrote what I found in the standards.",
+   "I call it the \"memory\" of the service.",
+   "All requests from the merchants and from the support console come to this door first and it hands them to the core."
+  ],
+  "retrieved": {
+   "quote": "For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it.",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the requirement about verifying ownership or entitlement for customer-owned resources."
+  }
+ },
+ {
+  "case": "c115_refund_service",
+  "rule": "AUTH-03",
+  "status": "vague",
+  "requirement": "Access tokens must have a limited lifetime appropriate to the sensitivity of the operation and must be renewable only through a controlled refresh process.",
+  "clarify": "Token lifetime and refresh behavior.",
+  "gold": "refund-core receives each request from Refunds Gateway together with the identity of the calling client or agent.",
+  "gold_rank": 13,
+  "top": [
+   "R-1: Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.",
+   "R-5: Production access rights are reviewed every quarter.",
+   "R-11: Data exports require authorization, are encrypted, and expire after a limited time.",
+   "refund-core is stateless and runs as three replicas behind the internal load balancer (revision 2 said two).",
+   "R-15: Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "The retention period for completed refund records is not decided.",
+   "An alert fires when a refund is pending longer than the threshold in the runbook.",
+   "A refund is pending until it is approved; refunds below the automatic limit are approved on creation.",
+   "R-13: Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.",
+   "R-3: Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it."
+  ],
+  "retrieved": {
+   "quote": "Data exports require authorization, are encrypted, and expire after a limited time.",
+   "verdict": "vague",
+   "reason": "The fragment mentions expiration after a limited time, which is related to the requirement about limited lifetime of access tokens, but does not specifically address tokens or their renewal process."
+  },
+  "with_gold": {
+   "quote": "Data exports require authorization, are encrypted, and expire after a limited time.",
+   "verdict": "vague",
+   "reason": "The fragment mentions expiration after a limited time, which is related to the requirement about limited lifetime of access tokens, but does not explicitly address the renewal process through a controlled refresh process."
+  }
+ },
+ {
+  "case": "c116_refund_service",
+  "rule": "AUTHZ-03",
+  "status": "advisory",
+  "requirement": "Each service SHOULD use its own database account with the least privilege required.",
+  "clarify": "Which database identity each service uses and its grants.",
+  "gold": "refund-core reads and writes the refund records in refund-db (PostgreSQL) for every request.",
+  "gold_rank": 12,
+  "top": [
+   "• Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.",
+   "• At startup the service fetches its secrets from the approved secret store.",
+   "**mira:** what about the db side and input handling?",
+   "• The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.",
+   "*auth / access*",
+   "• Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.",
+   "• Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.",
+   "• Admin and debug endpoints are reachable only from the internal network, not from the public internet.",
+   "• Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.",
+   "• Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it."
+  ],
+  "retrieved": {
+   "quote": "• At startup the service fetches its secrets from the approved secret store.",
+   "verdict": "not_addressed",
+   "reason": "The fragment mentions fetching secrets from an approved secret store but does not explicitly address the requirement that each service uses its own database account with the least privilege required."
+  },
+  "with_gold": {
+   "quote": "• At startup the service fetches its secrets from the approved secret store.",
+   "verdict": "not_addressed",
+   "reason": "The fragment mentions fetching secrets from an approved secret store but does not explicitly address the requirement that each service uses its own database account with the least privilege required."
+  }
+ },
+ {
+  "case": "c117_refund_service",
+  "rule": "AUTHZ-01",
+  "status": "clear",
+  "requirement": "For every request touching a customer-owned resource, the service must verify that the authenticated caller owns the resource or is explicitly entitled to it.",
+  "clarify": "How the service checks that the caller may access the requested record.",
+  "gold": "Refunds Gateway is the single entry point to the service and routes each request to refund-core.",
+  "gold_rank": 99,
+  "top": [
+   "Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.",
+   "Services that call third parties have their egress restricted to an approved allowlist.",
+   "Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.",
+   "Brute-force protection is in place: failed attempts on the login and token endpoints are throttled.",
+   "Nothing administrative or meant for debugging can be called from outside our network.",
+   "The API enforces per-client rate limits.",
+   "Schema validation runs on every external input, and invalid data never reaches the business logic.",
+   "Third parties receive only the fields they need, and only if an approved data processing agreement covers them.",
+   "At startup the service fetches its secrets from the approved secret store.",
+   "Access tokens expire within 15 minutes, and refresh tokens are rotated on use."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the requirement about verifying ownership or explicit entitlement for requests touching customer-owned resources."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the requirement about verifying ownership or explicit entitlement for requests touching customer-owned resources."
+  }
+ },
+ {
+  "case": "c119_data_warehouse_sync",
+  "rule": "DATA-01",
+  "status": "clear",
+  "requirement": "Services must collect and store only the personal data that is necessary for their stated purpose.",
+  "clarify": "Which personal data fields are stored and why.",
+  "gold": "The sync-job copies the selected tables from the analytics read replica into one extract file per table.",
+  "gold_rank": 7,
+  "top": [
+   "Which columns exactly - Petra says the vendor \"will tell us what they need\", Jonas thinks we start with everything and trim later (TBD, nobody decided).",
+   "The reports are served from a publicly readable bucket, so that nobody has to generate download links.",
+   "The databases and object stores that hold PII use AES-256 encryption at rest.",
+   "**Access and platform.** Short list from the platform checklist, nobody objected:",
+   "It reads from the analytics read replica (PostgreSQL), writes extract files to the staging bucket (S3), the vendor picks up the files from there.",
+   "**Vendor.** The extract files are sent to the analytics vendor under a verbal agreement, and the written contract will follow once the pilot is over.",
+   "**What goes into the extracts.** The sync-job copies the selected tables from the analytics read replica into one extract file per table.",
+   "Internal users are given the minimum set of roles for their job, and roles are defined service by service.",
+   "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "Jonas: list of columns with Petra (TBD)"
+  ],
+  "retrieved": {
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "verdict": "vague",
+   "reason": "The fragment refers to approved algorithms but does not directly address the requirement about collecting and storing only necessary personal data."
+  }
+ },
+ {
+  "case": "c120_data_warehouse_sync",
+  "rule": "DATA-02",
+  "status": "advisory",
+  "requirement": "Each category of personal data should have a retention period, and an automated job should delete the data when the period ends.",
+  "clarify": "How long personal data is kept and how it is deleted.",
+  "gold": "The analytics read replica (PostgreSQL) is a read-only copy of the production database that the sync-job queries for the extracts.",
+  "gold_rank": 18,
+  "top": [
+   "The job runs every night at 03:00 and finishes within 30 minutes for the current set of tables.",
+   "Rotation of the database passwords is avoided, because every rotation needs a restart of the job.",
+   "Data at rest is encrypted with KMS-managed keys.",
+   "Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.",
+   "Dashboard with run duration, number of rows per table and the age of the newest file in the bucket.",
+   "Components: sync-job, analytics read replica (PostgreSQL), staging bucket (S3), Analytics vendor.",
+   "Component: Data Engineering",
+   "Assignee: data platform team",
+   "DWH-87: Data Warehouse Sync, nightly extracts for the analytics vendor",
+   "Flow: sync-job reads the selected tables from the analytics read replica, writes one extract file per table to the staging bucket, and the Analytics vendor downloads the files from the bucket."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion processes."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention retention periods for personal data or automated deletion jobs."
+  }
+ },
+ {
+  "case": "c121_data_warehouse_sync",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Databases and brokers MUST be in private subnets.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "The analytics read replica (PostgreSQL) is a read-only copy of the production database, and it is the single source of the sync-job.",
+  "gold_rank": 12,
+  "top": [
+   "The staging bucket blocks public access and is private by default.",
+   "The databases and object stores that hold PII use AES-256 encryption at rest.",
+   "Runtime secrets are fetched from the approved secret store at startup.",
+   "The second goal is that the copy never disturb the production database, because the copy is made from a separate replica.",
+   "Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.",
+   "The files should not be only encrypted, they are also protected by the rules of the bucket from the point 5.4.",
+   "The infrastructure is described in Terraform: the key `warehouse_key`, the bucket `staging_bucket`, the replica `analytics_replica`, the security group `analytics_sg`, the log group `sync_audit` and the policy `sync_job_policy`.",
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "**analytics read replica (PostgreSQL).** The copy of the production database for reading.",
+   "Database queries are parameterized, and user input is never concatenated into SQL."
+  ],
+  "retrieved": {
+   "quote": "The databases and object stores that hold PII use AES-256 encryption at rest.",
+   "verdict": "vague",
+   "reason": "The fragment mentions encryption but does not explicitly state that databases and brokers are in private subnets, which is required by the security requirement."
+  },
+  "with_gold": {
+   "quote": "The databases and object stores that hold PII use AES-256 encryption at rest.",
+   "verdict": "vague",
+   "reason": "The fragment mentions encryption but does not explicitly state that databases and brokers are in private subnets, which is required by the security requirement."
+  }
+ },
+ {
+  "case": "c121_data_warehouse_sync",
+  "rule": "NET-01",
+  "status": "conflicting",
+  "requirement": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+  "clarify": "Network placement of the database or broker.",
+  "gold": "The analytics read replica (PostgreSQL) is a read-only copy of the production database, and it is the single source of the sync-job.",
+  "gold_rank": 1,
+  "top": [
+   "The analytics read replica (PostgreSQL) is a read-only copy of the production database, and it is the single source of the sync-job.",
+   "The staging bucket blocks public access and is private by default.",
+   "**analytics read replica (PostgreSQL).** The copy of the production database for reading.",
+   "If the replica is not available, the job try again three times with a pause of five minutes and then stop with the error.",
+   "The infrastructure is described in Terraform: the key `warehouse_key`, the bucket `staging_bucket`, the replica `analytics_replica`, the security group `analytics_sg`, the log group `sync_audit` and the policy `sync_job_policy`.",
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "**Analytics vendor.** The external company which loads our files to its own warehouse.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "The job open a connection to the replica and read the tables from the list of the configuration.",
+   "Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids."
+  ],
+  "retrieved": {
+   "quote": "Reporting replicas may be exposed through an allowlisted public endpoint when an external vendor requires it.",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the specific requirement about exposing replicas through an allowlisted public endpoint when an external vendor requires it."
+  }
+ },
+ {
+  "case": "c122_data_warehouse_sync",
+  "rule": "LOG-01",
+  "status": "clear",
+  "requirement": "Authentication failures, privilege changes and access to sensitive data must be logged.",
+  "clarify": "Which security events are logged.",
+  "gold": "The sync-job writes its operational events to the sync_audit log group.",
+  "gold_rank": 1,
+  "top": [
+   "| logging | The sync-job writes its operational events to the sync_audit log group. |",
+   "| loggroup | sync_audit |",
+   "| failure | nothing written, alert |",
+   "| exports | Data exports require authorization, are encrypted, and expire after a limited time. |",
+   "| repo and config | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |",
+   "| vendor | Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. |",
+   "| queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |",
+   "| review | A quarterly access review covers all production systems. |",
+   "| profile | The profile table keeps every attribute that the mobile app can send. |",
+   "| internal calls | Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token. |"
+  ],
+  "retrieved": {
+   "quote": "logging | The sync-job writes its operational events to the sync_audit log group.",
+   "verdict": "not_addressed",
+   "reason": "The fragment mentions logging but does not specifically address authentication failures, privilege changes, or access to sensitive data being logged."
+  }
+ },
+ {
+  "case": "c124_payment_gateway",
+  "rule": "AUTH-06",
+  "status": "clear",
+  "requirement": "Login and token endpoints must throttle repeated failed attempts and apply a temporary lockout after ten consecutive failures.",
+  "clarify": "Behavior after repeated failed logins.",
+  "gold": "Merchants reach the platform through Payments Edge Gateway, which accepts their sign-in requests and passes authenticated calls on to payments-core.",
+  "gold_rank": 99,
+  "top": [
+   "Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "A WAF with rate limiting protects the externally exposed API.",
+   "Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.",
+   "External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider.",
+   "**Reliability.** Payments are idempotent: sending the same request twice never charges a card twice.",
+   "Success is measured by the authorization rate, the median response time and the number of integrations completed in under a week.",
+   "Administrative and debug endpoints are not reachable from the public internet.",
+   "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+   "The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service."
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention throttling repeated failed login or token attempts or temporary lockout after ten consecutive failures."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention throttling repeated failed login or token attempts or temporary lockout after ten consecutive failures."
+  }
+ },
+ {
+  "case": "c125_wallet_service",
+  "rule": "AUTHZ-03",
+  "status": "advisory",
+  "requirement": "Each service SHOULD use its own database account with the least privilege required.",
+  "clarify": "Which database identity each service uses and its grants.",
+  "gold": "wallet-core reads and writes balances and transactions in wallet-db (PostgreSQL) for every request that it serves.",
+  "gold_rank": 2,
+  "top": [
+   "User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited.",
+   "wallet-core reads and writes balances and transactions in wallet-db (PostgreSQL) for every request that it serves.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "Requests from the app arrive at the Mobile API Gateway, which checks the sign-in against Keycloak and forwards authenticated calls to wallet-core. wallet-core keeps balances and transactions in wallet-db (PostgreSQL).",
+   "Runtime secrets are fetched from the approved secret store at startup.",
+   "Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.",
+   "These are the controls the Wallet Service runs with right now, listed so that the roadmap below is read against a clear starting point.",
+   "The service will keep a schedule per wallet and execute the transfers through the same endpoint that is used today.",
+   "This roadmap describes where the Wallet Service is today and where we want it to be by the end of the year.",
+   "Admin and debug endpoints are reachable only from the internal network, not from the public internet."
+  ],
+  "retrieved": {
+   "quote": "wallet-core reads and writes balances and transactions in wallet-db (PostgreSQL) for every request that it serves.",
+   "verdict": "not_addressed",
+   "reason": "The fragment does not mention the use of a separate database account with the least privilege required for each service."
+  }
+ },
+ {
+  "case": "c126_merchant_portal_api",
+  "rule": "AUTHZ-05",
+  "status": "clear",
+  "requirement": "Access rights to production systems must be reviewed at least quarterly by the system owner.",
+  "clarify": "How and when access is reviewed.",
+  "gold": "portal-backend is deployed as three replicas and is reachable by the engineers of the portal team through the usual bastion.",
+  "gold_rank": 11,
+  "top": [
+   "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+   "Access to the logs is granted to whole teams and is never removed.",
+   "Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.",
+   "settlements are read-only, come from the settlement batch at 04:00",
+   "Data exports require authorization, are encrypted, and expire after a limited time.",
+   "POST /reports (report_type, from_date, to_date) -> id, status, expires_at",
+   "role change takes up to 5 min to show in the gateway cache",
+   "The second factor is optional for administrators, and most of them have not enabled it.",
+   "reports are built async by a worker, status goes pending -> ready",
+   "access (usual platform setup applies, rest in the platform handbook)"
+  ],
+  "retrieved": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention access rights to production systems being reviewed quarterly by the system owner."
+  },
+  "with_gold": {
+   "quote": "",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments mention access rights to production systems being reviewed quarterly by the system owner."
+  }
+ },
+ {
+  "case": "c127_kyc_service",
+  "rule": "API-04",
+  "status": "clear",
+  "requirement": "Error responses must not contain stack traces, SQL text or internal host names.",
+  "clarify": "What clients see when an error occurs.",
+  "gold": "When something goes wrong, the kyc-orchestrator answers the app with an HTTP status code and the app shows its own generic message.",
+  "gold_rank": 1,
+  "top": [
+   "When something goes wrong, the kyc-orchestrator answers the app with an HTTP status code and the app shows its own generic message. i dont remember if there is a body, check with the app team (TBD).",
+   "Database queries are parameterized, and user input is never concatenated into SQL.",
+   "Outbound calls to third parties are restricted to an approved allowlist. then We log failed logins, changes of privileges and reads of sensitive data.",
+   "Only synthetic data is present outside production. and last the code ones All external input is validated against a schema, and invalid requests are rejected.",
+   "(for kyc it is customer-owned of course, the check is the same idea) Administrative and debug endpoints are not reachable from the public internet. then crypto, Personally identifiable information is encrypted at rest with AES-256.",
+   "what gets stored, honestly i have to say Every field received from the client is saved, in case analytics needs it later. nobody asked for this, it just happened in the first version and then we left it, and The developers share one database login, which is also used by the production service. it was easier for the first release and we keep saying we will change it (TBD, no owner).",
+   "Runtime secrets are read from the secret store when the service starts. and network The database and the message brokers sit in private subnets and are not publicly reachable.",
+   "Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.",
+   "No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.",
+   "Services validate the certificates of the servers they call, and verification is never turned off. then secrets Secrets do not appear in source code, configuration files, specifications or infrastructure definitions."
+  ],
+  "retrieved": {
+   "quote": "When something goes wrong, the kyc-orchestrator answers the app with an HTTP status code and the app shows its own generic message.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that error responses use HTTP status codes and generic messages, which aligns with the requirement that error responses must not contain stack traces, SQL text, or internal host names."
+  }
+ },
+ {
+  "case": "c128_fraud_scoring",
+  "rule": "CRYPTO-04",
+  "status": "advisory",
+  "requirement": "Internal traffic SHOULD be encrypted in transit.",
+  "clarify": "Whether internal connections are encrypted.",
+  "gold": "scoring-engine runs as several copies, and every copy reads its own partitions of payment-events (MSK) and writes decisions to decisions-db (PostgreSQL).",
+  "gold_rank": 16,
+  "top": [
+   "All personally identifiable information is encrypted before it lands on disk, using AES-256.",
+   "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "Internal calls are authenticated only by a shared header value that all services know.",
+   "security stuff:",
+   "We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.",
+   "Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "peak ~800 events/s, decision within 100ms median",
+   "Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.",
+   "We log failed logins, changes of privileges and reads of sensitive data."
+  ],
+  "retrieved": {
+   "quote": "Internal calls are authenticated only by a shared header value that all services know.",
+   "verdict": "vague",
+   "reason": "The fragment mentions authentication but does not explicitly address encryption of internal traffic in transit."
+  },
+  "with_gold": {
+   "quote": "We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.",
+   "verdict": "vague",
+   "reason": "The fragment addresses cryptographic algorithms but does not specifically mention encryption of internal traffic in transit."
+  }
+ },
+ {
+  "case": "c129_ledger_service",
+  "rule": "CRYPTO-04",
+  "status": "vague",
+  "requirement": "Sensitive communications between internal components shall be protected in transit.",
+  "clarify": "Whether internal connections are encrypted.",
+  "gold": "ledger-core processes each journal entry in one database transaction and writes the posted-entry event to ledger-events (Kafka) after the commit.",
+  "gold_rank": 12,
+  "top": [
+   "The database and the message brokers sit in private subnets and are not publicly reachable.",
+   "Cryptography and secrets:",
+   "The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.",
+   "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "Access rights to production systems are reviewed at least quarterly.",
+   "Edges:",
+   "Network, logging and code:",
+   "Identity and access:"
+  ],
+  "retrieved": {
+   "quote": "Cryptography and secrets: The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.",
+   "verdict": "vague",
+   "reason": "The fragment addresses cryptography and prohibited algorithms but does not explicitly confirm that sensitive communications between internal components are protected in transit."
+  },
+  "with_gold": {
+   "quote": "Cryptography and secrets: The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.",
+   "verdict": "vague",
+   "reason": "The fragment mentions prohibited algorithms but does not explicitly address the protection of sensitive communications in transit."
+  }
+ },
+ {
+  "case": "c130_card_token_vault",
+  "rule": "SECRET-03",
+  "status": "vague",
+  "requirement": "Service credentials must be rotated periodically and after suspected exposure.",
+  "clarify": "Rotation schedule for service credentials.",
+  "gold": "tokenization-service asks Vault and KMS for a data encryption key when it starts and again when a key must be replaced.",
+  "gold_rank": 8,
+  "top": [
+   "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+   "On boot, the service pulls its credentials from the approved secret store.",
+   "Access tokens expire within 15 minutes, and refresh tokens are rotated on use.",
+   "The audit trail includes authentication failures, privilege changes and sensitive-data access.",
+   "When the wallet service and the refund flow needed tokens too, copies of the library appeared in three services and the card numbers were stored in three databases.",
+   "The vault design of version 0.5 moved to signed workload identity tokens.",
+   "The calling services authenticate with the scheme described in the \"PAN Safe\" notes, which uses a shared key per calling service.",
+   "**Vault and KMS** provide the data encryption keys. tokenization-service asks Vault and KMS for a data encryption key when it starts and again when a key must be replaced.",
+   "The list of services that may detokenize is kept in a configuration file and should move to a managed list (TBD, owner: platform team).",
+   "A store is considered done when no card numbers are left in it and its service calls the vault for every operation."
+  ],
+  "retrieved": {
+   "quote": "Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.",
+   "verdict": "compliant",
+   "reason": "The fragment explicitly states that encryption keys are rotated at least annually, which supports the requirement that service credentials must be rotated periodically and after suspected exposure."
+  }
+ },
+ {
+  "case": "c131_notification_service",
+  "rule": "LOG-02",
+  "status": "advisory",
+  "requirement": "Logs should not contain secrets, card numbers or personal data other than opaque identifiers.",
+  "clarify": "What is included in request logs.",
+  "gold": "The notifier writes request logs for every call it receives and for every call it makes to the provider.",
+  "gold_rank": 10,
+  "top": [
+   "Non-production environments contain no real personal or card data.",
+   "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.",
+   "Third parties receive only the fields they need, and only if an approved data processing agreement covers them.",
+   "On boot, the service pulls its credentials from the approved secret store.",
+   "Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.",
+   "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.",
+   "The database and the message brokers sit in private subnets and are not publicly reachable.",
+   "We use parameterized queries only, with no SQL built from user input by string concatenation.",
+   "The notifier writes request logs for every call it receives and for every call it makes to the provider."
+  ],
+  "retrieved": {
+   "quote": "Logs should not contain secrets, card numbers or personal data other than opaque identifiers.",
+   "verdict": "not_addressed",
+   "reason": "None of the fragments directly address the specific requirement about what should not be in logs."
+  }
+ }
+]

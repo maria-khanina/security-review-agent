@@ -29,11 +29,11 @@ The mobile app sends wallet and transfer requests to the gateway. The gateway as
 
 ⟦F2|The API authenticates callers with JWT bearer tokens.⟧ ⟦F4|All traffic is served over HTTPS only.⟧
 
- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+ ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
 ### 6. Deployment
 
@@ -49,7 +49,7 @@ The core (that is wallet-core, sometimes I say the wallet service) does the mone
 
 #### Logging
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
 
 #### Passwords and login
 
@@ -65,13 +65,13 @@ The web wallet calls the gateway from the browser. ⟦F5|Allowed origins are not
 |---|---|
 | retention | ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ |
 | third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
-| input | ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+| input | ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 
 **Rate limits**
 
 #### Pipeline
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 #### Behavior notes
 

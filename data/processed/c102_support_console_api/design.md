@@ -39,25 +39,25 @@ Security
 
 AC-6. A single read-write role covers every function of the back office.
 AC-7. Logs can be queried by any service account in the cluster.
-AC-8. Access tokens expire within 15 minutes; refresh tokens are rotated on use.
+AC-8. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 AC-9. Administrative and back-office access requires multi-factor authentication.
 AC-10. User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage is prohibited.
 AC-11. Administrative and debug endpoints are not reachable from the public internet.
 AC-12. Personally identifiable information is encrypted at rest with AES-256.
-AC-13. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-AC-14. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
+AC-13. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
+AC-14. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
 AC-15. Services validate TLS certificates and never disable verification.
-AC-16. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+AC-16. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 AC-17. Runtime secrets are fetched from the approved secret store at startup.
 AC-18. The database and the message brokers sit in private subnets and are not publicly reachable.
-AC-19. Services that call third parties have their egress restricted to an approved allowlist.
-AC-20. Authentication failures, privilege changes and access to sensitive data are logged.
-AC-21. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-AC-22. Non-production environments do not contain real personal or card data.
+AC-19. Egress is limited to the approved list of third-party destinations.
+AC-20. Authentication failures, privilege changes and access to sensitive data are written to the logs.
+AC-21. Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+AC-22. Non-production environments contain no real personal or card data.
 AC-23. Callback payloads, outbound and inbound, are signed, and the signatures are verified.
-AC-24. Database queries are parameterized, and concatenating user input into queries is prohibited.
+AC-24. We use parameterized queries only, with no SQL built from user input by string concatenation.
 AC-25. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
-AC-26. Containers run as a non-root user, with a read-only root filesystem where possible.
+AC-26. No container runs as root, and the root filesystem is read-only wherever possible.
 
 DEFINITION OF DONE
 

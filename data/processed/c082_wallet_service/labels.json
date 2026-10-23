@@ -124,7 +124,7 @@
    "design_spans": [
     [
      1363,
-     1462
+     1479
     ]
    ],
    "policy_spans": [
@@ -138,8 +138,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     1477,
-     1581
+     1494,
+     1598
     ]
    ],
    "policy_spans": [
@@ -153,8 +153,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     1582,
-     1652
+     1599,
+     1686
     ]
    ],
    "policy_spans": [
@@ -168,8 +168,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1681,
-     1764
+     1715,
+     1811
     ]
    ],
    "policy_spans": [
@@ -183,8 +183,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     1765,
-     1846
+     1812,
+     1909
     ]
    ],
    "policy_spans": [
@@ -198,8 +198,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     1858,
-     1981
+     1921,
+     2044
     ]
    ],
    "policy_spans": [
@@ -213,8 +213,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     2074,
-     2192
+     2137,
+     2248
     ]
    ],
    "policy_spans": [
@@ -228,8 +228,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     2214,
-     2289
+     2270,
+     2345
     ]
    ],
    "policy_spans": [
@@ -243,8 +243,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2347,
-     2439
+     2435,
+     2528
     ]
    ],
    "policy_spans": [
@@ -258,8 +258,8 @@
    "rule_id": "API-06",
    "design_spans": [
     [
-     2290,
-     2346
+     2346,
+     2434
     ]
    ],
    "policy_spans": [
@@ -273,8 +273,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     2455,
-     2556
+     2544,
+     2653
     ]
    ],
    "policy_spans": [

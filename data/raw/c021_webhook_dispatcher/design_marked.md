@@ -32,13 +32,13 @@ Most properties are inherited from the old sender and are not repeated here. The
 - ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+- ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
+- ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
 - ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
+- ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
 - ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 ## Cutover

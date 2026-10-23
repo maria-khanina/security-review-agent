@@ -26,9 +26,9 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 
 ## access
 
-- ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
+- ⟦S:AUTH-04|Admins and back-office staff must pass multi-factor authentication to sign in.⟧
 - ⟦S:AUTHZ-02|Internal users get only the roles their job requires; roles are defined per service.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+- ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - ⟦S:AUTHZ-05|Production access is reviewed at least quarterly.⟧
 
 ## data
@@ -47,7 +47,7 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 
 ## logs
 
-- ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 
 ## code / ops
 

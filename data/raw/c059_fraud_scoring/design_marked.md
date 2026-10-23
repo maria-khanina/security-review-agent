@@ -32,21 +32,21 @@ Decisions of type review are collected into a queue that is delivered to the fra
 
 3.2 ⟦S:CRYPTO-01|Personally identifiable information held in decisions-db is encrypted at rest with AES-256.⟧
 
-3.3 ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+3.3 ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
-3.4 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+3.4 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 
 3.5 ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store when the Service starts.⟧
 
-3.7 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+3.7 ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
-3.8 ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+3.8 ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
 3.9 ⟦S:DATA-02|Each category of personal data has a defined retention period, and a scheduled job deletes the data when the period ends or upon a verified request from the data subject.⟧
 
-3.10 ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required for the purpose are sent.⟧
+3.10 ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
-3.11 ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+3.11 ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 3.12 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
 

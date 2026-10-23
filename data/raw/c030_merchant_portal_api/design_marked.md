@@ -49,29 +49,29 @@ These apply to all stories above. They are listed once to avoid repeating them i
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-1 | Authentication | ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧ |
-| NFR-2 | Tokens | ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ |
-| NFR-3 | Brute force | ⟦S:AUTH-06|The login and token endpoints throttle or lock out repeated failed attempts.⟧ |
+| NFR-1 | Authentication | ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧ |
+| NFR-2 | Tokens | ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ |
+| NFR-3 | Brute force | ⟦S:AUTH-06|After several failed sign-ins the login endpoint slows down or locks the account.⟧ |
 | NFR-4 | Authorization | ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧ |
-| NFR-6 | Admin surface | ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧ |
-| NFR-7 | Encryption at rest | ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ |
-| NFR-8 | Keys | ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ |
-| NFR-10 | Certificates | ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ |
-| NFR-11 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
-| NFR-12 | Secrets | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
-| NFR-13 | Secret store | ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ |
+| NFR-6 | Admin surface | ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧ |
+| NFR-7 | Encryption at rest | ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ |
+| NFR-8 | Keys | ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ |
+| NFR-10 | Certificates | ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧ |
+| NFR-11 | Algorithms | ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧ |
+| NFR-12 | Secrets | ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ |
+| NFR-13 | Secret store | ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧ |
 | NFR-15 | Network | ⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ |
-| NFR-16 | Edge | ⟦S:NET-05|External APIs sit behind a WAF with rate limiting.⟧ |
-| NFR-17 | Egress | ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ |
-| NFR-18 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
-| NFR-23 | Third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
-| NFR-24 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
-| NFR-25 | Validation | ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ |
+| NFR-16 | Edge | ⟦S:NET-05|Public API traffic passes through a web application firewall with rate limits.⟧ |
+| NFR-17 | Egress | ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧ |
+| NFR-18 | Security logging | ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ |
+| NFR-23 | Third parties | ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ |
+| NFR-24 | Test data | ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧ |
+| NFR-25 | Validation | ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ |
 | NFR-27 | Webhooks | ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ |
-| NFR-28 | Errors | ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ |
-| NFR-29 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+| NFR-28 | Errors | ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧ |
+| NFR-29 | Queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
 | NFR-30 | Pipeline | ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
-| NFR-31 | Containers | ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ |
+| NFR-31 | Containers | ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧ |
 
 ## Definition of done
 

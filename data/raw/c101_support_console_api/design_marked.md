@@ -50,17 +50,17 @@ Export flow: an export is requested together with the reason, usually a data req
 
 7.1 Sessions and tokens. ⟦F1|The lifetime of an access token is configurable per client application, and for the support console it is set to thirty days so that agents are not interrupted by a new sign-in during a shift change.⟧
 
-7.2 Passwords and cryptography. ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited.⟧ ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+7.2 Passwords and cryptography. ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited.⟧ ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
-7.3 Administrative surface. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+7.3 Administrative surface. ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
-7.4 Secrets. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ Rotation of those secrets is still to be decided (TBD with the platform team).
+7.4 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧ Rotation of those secrets is still to be decided (TBD with the platform team).
 
-7.5 Logging. ⟦F3|Authentication failures are not written to the log, in order to keep the volume of the log small.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+7.5 Logging. ⟦F3|Authentication failures are not written to the log, in order to keep the volume of the log small.⟧ ⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
 
-7.6 Data protection. ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+7.6 Data protection. ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 
-7.7 Application and delivery. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+7.7 Application and delivery. ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 ## 8. Failure handling
 

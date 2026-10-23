@@ -36,50 +36,50 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 ### 5.1 Identity and access
 
-- K-1: Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
-- K-2: Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+- K-1: No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
+- K-2: A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 - K-4: Administrative and debug endpoints are not reachable from the public internet.
 
 ### 5.2 Data protection
 
 - K-5: Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.
-- K-6: Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
+- K-6: Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - K-7: Personal data is never placed in URLs.
 - K-8: Card numbers are never returned by the API.
-- K-9: Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required.
-- K-10: Non-production environments do not contain real personal or card data.
+- K-9: Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+- K-10: Non-production environments contain no real personal or card data.
 - K-11: Customer deletion requests: deletion requests are handled manually and often forgotten. A tracking dashboard is on the roadmap.
 
 ### 5.3 Cryptography and transport
 
-- K-13: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- K-14: Services validate TLS certificates and never disable verification.
+- K-13: Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+- K-14: Services validate the certificates of the servers they call, and verification is never turned off.
 
 ### 5.4 Secrets
 
-- K-15: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- K-15: Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 - K-16: Runtime secrets are fetched from the approved secret store at startup.
 
 ### 5.5 Network
 
 - K-18: kyc-db and the message brokers sit in private subnets and are not publicly reachable.
 - K-19: The kyc-documents bucket blocks public access and is private by default.
-- K-20: Services that call third parties have their egress restricted to an approved allowlist.
+- K-20: Third-party calls leave through an egress allowlist, not through open outbound access.
 
 ### 5.6 Logging
 
-- K-21: Authentication failures, privilege changes and access to sensitive data are logged.
+- K-21: The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 ### 5.7 Application security
 
 - K-23: All external inputs are validated against a schema and rejected if invalid.
 - K-25: Webhook payloads, including the signed vendor callbacks, are signed and the signatures are verified by the receiver.
-- K-26: Error responses do not reveal stack traces, SQL or internal hostnames.
-- K-27: Database queries are parameterized, and concatenating user input into queries is prohibited.
+- K-26: Internal details such as stack traces, SQL and hostnames never appear in an error response.
+- K-27: User input reaches the database only as query parameters, never as part of the query text.
 
 ### 5.8 Operations
 
-- K-28: The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- K-28: CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - K-29: Containers run as a non-root user, with a read-only root filesystem where possible.
 
 ## 6. Document handling details

@@ -36,24 +36,24 @@ Hi, I'm doing the infra half. In my part the exporter is "the job" and the repli
 
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
-* ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
-* ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
-* ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-* ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-* ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-* ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-* ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
-* ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-* ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+* ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+* ⟦S:AUTH-04|Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced.⟧
+* ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+* ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+* ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+* ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
+* ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+* ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
+* ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 * ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
-* ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
-* ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-* ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-* ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+* ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧
+* ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
+* ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+* ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 * ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
-* ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-* ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-* ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+* ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+* ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+* ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
 **Database password.** ⟦F1|Rotation of the database passwords is avoided because every rotation needs a restart of the job.⟧ The restart is the reason; nobody likes it but nobody wants to touch the month end run.
 

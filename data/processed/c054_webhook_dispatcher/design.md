@@ -40,13 +40,13 @@ AC-6. Every externally reachable API endpoint authenticates callers with OAuth2/
 AC-7. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
 AC-8. Administrative and debug endpoints are not reachable from the public internet.
 AC-10. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-AC-11. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-AC-12. Runtime secrets are fetched from the approved secret store at startup.
-AC-14. Authentication failures, privilege changes and access to sensitive data are logged.
-AC-15. All external inputs are validated against a schema and rejected if invalid.
+AC-11. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+AC-12. Runtime secrets are read from the secret store when the service starts.
+AC-14. Authentication failures, privilege changes and access to sensitive data are written to the logs.
+AC-15. Requests from outside are checked against the schema and rejected if they do not conform.
 AC-17. Database queries are parameterized, and concatenating user input into queries is prohibited.
 AC-18. Browser-facing APIs allow only approved origins in CORS.
-AC-19. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+AC-19. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
 DEFINITION OF DONE
 

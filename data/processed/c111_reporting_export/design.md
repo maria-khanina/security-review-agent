@@ -18,18 +18,18 @@ replica
 
 platform stuff (the usual setup applies, see platform handbook for the rest)
 - The container user is not set in the job image, so the export-job process runs as root.
-- Administrative and debug endpoints are not reachable from the public internet.
-- Personally identifiable information is encrypted at rest with AES-256.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
+- Debug and administrative routes are not exposed to the internet.
+- All personally identifiable information is encrypted before it lands on disk, using AES-256.
+- Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+- Source, config, specs and infrastructure definitions contain no secrets.
+- On boot, the service pulls its credentials from the approved secret store.
 - The exports bucket blocks public access and is private by default.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+- The audit trail includes authentication failures, privilege changes and sensitive-data access.
+- Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 - Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+- All queries use bound parameters instead of string concatenation.
+- CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 
 known annoyances
 - month end run takes ~40 min, analysts complain at 9:00, run starts 02:00 so should be fine

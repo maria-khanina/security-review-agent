@@ -31,7 +31,7 @@ Everything is created with Terraform, which means that infrastructure is describ
 
 ## 5. Who is calling whom?
 
-Authentication means checking who the caller is. ⟦S:AUTH-02|Internal service calls to the scoring-engine are authenticated with mutual TLS or signed workload identity tokens.⟧ When tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
+Authentication means checking who the caller is. ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧ When tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
 
 Authorization means checking what the caller may do.
 
@@ -41,33 +41,33 @@ Encryption turns readable data into unreadable data, and only someone with the k
 
 ⟦F1|Data at rest is encrypted with KMS-managed keys.⟧
 
-⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
 
 ## 7. Secrets
 
-A secret is anything that gives access, such as a password or a key. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+A secret is anything that gives access, such as a password or a key. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 ## 8. Personal data
 
-The decisions contain personal data such as email and phone number. ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+The decisions contain personal data such as email and phone number. ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧ ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 
 ## 9. Network
 
-⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧
 
 We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, ⟦F2|the database is reachable from outside the VPC, so the test runner can connect from a laptop.⟧ The test runner is only used by the Risk Engineering team.
 
 ## 10. Logging
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 ## 12. Building and running
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
 ## 13. How the decision is made
 

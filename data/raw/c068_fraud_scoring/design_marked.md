@@ -24,7 +24,7 @@ Everything is created with Terraform, which means the infrastructure is describe
 
 ## 5. Who may call whom?
 
-Authentication means checking who is calling. ⟦S:AUTH-02|Internal service calls to the scoring-engine are authenticated with mutual TLS or signed workload identity tokens.⟧ A token is a small signed piece of text. ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ Rotation means a new refresh token is given every time the old one is used.
+Authentication means checking who is calling. ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧ A token is a small signed piece of text. ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ Rotation means a new refresh token is given every time the old one is used.
 
 Authorization means checking what the caller may do.
 
@@ -32,11 +32,11 @@ Authorization means checking what the caller may do.
 
 Encryption makes data unreadable for anyone without the key. We use it in two situations, "at rest" (data stored on a disk) and "in transit" (data moving on the network).
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
 ## 7. Secrets
 
-A secret is anything that gives access, for example a password or a key. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+A secret is anything that gives access, for example a password or a key. ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
 ## 8. Network
 
@@ -44,19 +44,19 @@ A secret is anything that gives access, for example a password or a key. ⟦S:SE
 
 ## 9. Personal data
 
-The decisions contain personal data such as email and phone. ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+The decisions contain personal data such as email and phone. ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
 
 ## 10. Logging
 
-Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+Logs are the diary of the system. ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads, outbound and inbound, are signed, and the signatures are verified.⟧ A signature is like a wax seal on a letter. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads, outbound and inbound, are signed, and the signatures are verified.⟧ A signature is like a wax seal on a letter. ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
 ## 12. Build and run
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## 13. How the decision is made
 

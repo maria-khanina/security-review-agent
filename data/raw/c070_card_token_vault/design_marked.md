@@ -28,11 +28,11 @@ The infrastructure is declared in Terraform: the KMS key `vault_key`, the databa
 ## 4. Security controls
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
+- ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 - ⟦F2|Data at rest is encrypted with KMS-managed keys.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 
 ## 5. Logging and audit

@@ -34,15 +34,15 @@ A case moves through opened, documents received, submitted, and then verified, r
 
 Security is a first-class feature of this service, not an afterthought, because customers trust us with their identity. The commitments below are the ones we make to customers and to the compliance team.
 
-- Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.
-- Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
-- Personally identifiable information is encrypted at rest with AES-256. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+- Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used. The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
+- Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+- All personally identifiable information is encrypted before it lands on disk, using AES-256. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. TLS certificate verification is enabled in all clients, with no option to disable it. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. At startup the service fetches its secrets from the approved secret store.
 - kyc-db and the message brokers sit in private subnets and are not publicly reachable. The kyc-documents bucket blocks public access and is private by default. Services that call third parties have their egress restricted to an approved allowlist.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
-- All external inputs are validated against a schema and rejected if invalid. Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Non-production environments contain no real personal or card data.
+- All external input is validated against a schema, and invalid requests are rejected. Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified. Clients get generic error messages without stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+- Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 7. Rollout
 

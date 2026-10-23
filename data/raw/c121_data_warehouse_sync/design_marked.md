@@ -30,19 +30,19 @@ The list of the tables is small now (eleven tables) and the size of all files to
 
 ## 5. Control statements
 
-5.1 Encryption. ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ The files should not be only encrypted, they are also protected by the rules of the bucket from the point 5.4. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+5.1 Encryption. ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ The files should not be only encrypted, they are also protected by the rules of the bucket from the point 5.4. ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
 5.2 Transport. ⟦F1|TLS between the components was switched off during the load tests and it has not been switched on again.⟧
 
-5.3 Secrets. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+5.3 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 
 5.4 Bucket. ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧
 
-5.5 Logging. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+5.5 Logging. ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 
-5.6 Data. ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+5.6 Data. ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
-5.7 Code and delivery. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+5.7 Code and delivery. ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
 ## 6. Failures
 

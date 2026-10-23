@@ -34,18 +34,18 @@ The reporting read replica (PostgreSQL) is read by the export-job and by the ana
 
 - Administrative and debug endpoints are not reachable from the public internet.
 - Data at rest is encrypted with KMS-managed keys.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+- On boot, the service pulls its credentials from the approved secret store.
 - The exports bucket blocks public access and is private by default.
 
 ## 5. Logging and data
 
-Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+Authentication failures, privilege changes and access to sensitive data are written to the logs. Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 
 ## 6. Build and operations
 
-Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+Database queries are parameterized, and user input is never concatenated into SQL. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 
 The job is stateless. Scheduling is handled by the platform scheduler, and a missed run is detected by a heartbeat that finance engineering watches. Deployments replace the job image between runs, never during one.
 

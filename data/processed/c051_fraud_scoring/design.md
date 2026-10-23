@@ -28,17 +28,17 @@ Calls to the scoring-engine from the other internal services are authenticated w
 
 Personally identifiable information is encrypted at rest with AES-256. The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.
 
-The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. Only the approved cryptographic algorithms are used, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
  The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.
 
 ## 6. Secrets
 
-Secrets do not appear in the source code, configuration files, specifications or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.
+No secrets are kept in source code, config files, API specs or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.
 
 ## 7. Network
 
-The database and the message brokers are in the private subnets and are not publicly reachable. The services which call the third parties have the egress restricted to an approved allowlist.
+The database and the message brokers are in the private subnets and are not publicly reachable. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
 
 ## 8. Callbacks
 
@@ -46,11 +46,11 @@ When the decision is block, the service call back the payments team and also rec
 
 ## 9. Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged.
+The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 ## 10. Application and operations
 
-Database queries are parameterized and the concatenation of user input into queries is prohibited. The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days. Containers are running as non-root user, with read-only root filesystem where possible.
+User input reaches the database only as query parameters, never as part of the query text. The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days. No container runs as root, and the root filesystem is read-only wherever possible.
 
 ## 11. Storage and testing
 

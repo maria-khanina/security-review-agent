@@ -32,7 +32,7 @@
 
 ## Logging
 
-- ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
 ## Open
 

@@ -33,28 +33,28 @@ Identifiers (R-1 and so on) match the compliance tracker. The "return handler" p
 - R-1: ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 - R-2: ⟦F2|refund-core receives each request from Refunds Gateway together with the identity of the calling client or agent.⟧
 - R-3: ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
-- R-4: ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- R-5: ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- R-4: ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+- R-5: ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
 
 ### 4.2 Data and cryptography
 
 - R-6: ⟦F1|The full card number is kept with the payment record and returned in the API response, so that merchants can reconcile refunds against their own books.⟧
-- R-7: ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
+- R-7: ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧
 - R-8: ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - R-9: ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧
-- R-10: ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+- R-10: ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 - R-11: ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
 
 ### 4.3 Transport, secrets and network
 
 - R-12: ⟦F3|All traffic is served over HTTPS only.⟧
-- R-13: ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+- R-13: ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - R-14: ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
 ### 4.4 Logging and application security
 
-- R-15: ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- R-16: ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+- R-15: ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+- R-16: ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 - R-17: ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 
 ## 5. Deployment and capacity

@@ -21,23 +21,23 @@ Based on: Audit pipeline v1 (the "audit-hub", 2023). Everything not listed here 
 
 The security properties of the pipeline are the ones the old hub had, restated here because the old document is out of date (it still talks about the search cluster and the VPN gateway of 2022).
 
-- ⟦S:AUTH-02|Internal service calls are authenticated with mutual TLS or signed workload identity tokens.⟧
+- ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 - ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The audit archive blocks public access and is private by default.⟧
-- ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+- ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
+- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+- ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 - ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+- ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 - ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## Known deviations carried over from v1

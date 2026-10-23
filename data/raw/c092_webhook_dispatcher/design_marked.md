@@ -17,14 +17,14 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 **dani:** right, so from what i remember:
 
 *auth / access*
-• ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+• ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 • ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
-• ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-• ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+• ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+• ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
 
 *transport / crypto*
-• ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧
-• ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+• ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+• ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
 *secrets / network*
 • ⟦S:NET-01|delivery-queue and the databases sit in private subnets and are not publicly reachable.⟧
@@ -36,7 +36,7 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 **lena:** will do, TBD
 
 *more*
-• ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+• ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧
 
 **dani:** one more thing about filtering. ⟦F4|The status filter on GET /v1/deliveries is passed from the query string and a raw SQL fragment from it is appended to the delivery query.⟧ it was the quickest way to support all the filter combos, we can clean it up later
 

@@ -48,12 +48,12 @@ The platform is designed for at-least-once delivery, with de-duplication on the 
 
 Security is a first-class feature of this platform, not an afterthought. The principles below are the commitments we make to our customers and to the compliance team.
 
-- We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets are never stored in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
-- Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
-- Personal data goes to third parties only under an approved data processing agreement, and only the fields required for the purpose are shared.
-- All database queries are parameterized; concatenating user input into queries is prohibited.
-- CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- Source, config, specs and infrastructure definitions contain no secrets. At startup the service fetches its secrets from the approved secret store.
+- The audit trail includes authentication failures, privilege changes and sensitive-data access. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+- Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+- We use parameterized queries only, with no SQL built from user input by string concatenation.
+- Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## 9. Analytics and reporting
 

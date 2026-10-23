@@ -54,13 +54,13 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 |---|---|---|
 | NFR-1 | Service authentication | Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens. |
 | NFR-2 | Roles | Internal users receive only the roles required for their job, and roles are defined per service. |
-| NFR-3 | Access review | Access rights to production systems are reviewed at least quarterly. |
+| NFR-3 | Access review | Every three months the system owners review who has access to production and remove what is no longer needed. |
 | NFR-4 | Cardholder data | Primary account numbers are never stored in clear text and are tokenized by the card token vault. |
-| NFR-5 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
-| NFR-6 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
+| NFR-5 | Algorithms | The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. |
+| NFR-6 | Secrets in artifacts | Source, config, specs and infrastructure definitions contain no secrets. |
 | NFR-8 | Network | vault-db and the message brokers sit in private subnets and are not publicly reachable. |
-| NFR-9 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| NFR-12 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+| NFR-9 | Security logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
+| NFR-12 | Queries | All queries use bound parameters instead of string concatenation. |
 
 ## Design notes
 

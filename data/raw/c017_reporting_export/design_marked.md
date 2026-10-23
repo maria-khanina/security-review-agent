@@ -38,7 +38,7 @@
 ## Notes: access
 
 - ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job; roles are defined per service.⟧
+- ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 
 ## Notes: data
@@ -46,14 +46,14 @@
 - ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - ⟦S:DATA-01|Only the personal data needed for the reports is collected and stored.⟧
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:DATA-05|Reports and exports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
+- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+- ⟦S:DATA-05|Exports with personal data are access-controlled, stored encrypted and removed after a set time.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
 
 ## Notes: platform
 
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 ## Behavior
 

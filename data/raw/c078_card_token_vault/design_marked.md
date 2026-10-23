@@ -25,14 +25,14 @@ The infrastructure is declared in Terraform in the repository. It contains six r
 
 This section replaces the 2020 and 2021 security sections. The 2020 text relied on host firewalls and a shared service password; neither applies today.
 
-- ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+- ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
+- ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 
 ## 6. Deployment
 

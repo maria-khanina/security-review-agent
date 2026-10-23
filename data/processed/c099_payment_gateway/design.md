@@ -30,14 +30,14 @@ Payment replies carry id, status, amount, currency, last4 and merchant_id.
 
 ### 5. Security (platform controls)
 
-- Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+- No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.
-- Administrative and debug endpoints are not reachable from the public internet.
-- Access rights to production systems are reviewed at least quarterly.
+- Debug and administrative routes are not exposed to the internet.
+- Production access rights are reviewed every quarter.
 - Personally identifiable information is encrypted at rest with AES-256.
 - Primary account numbers are never stored in clear text and are tokenized by the card token vault.
-- All external traffic uses TLS 1.2 or higher.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
+- The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - payments-db and the Kafka brokers sit in private subnets and are not publicly reachable.
 
@@ -55,19 +55,19 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 
 #### logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 #### personal data
 
 | area | rule |
 |---|---|
 | minimization | The gateway collects and stores only the personal data needed for payment processing. |
-| third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
-| exports | Reports and exports that contain personal data require authorization to access, are encrypted in storage and expire.
+| third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
+| exports | An export containing personal data needs authorization to download, is encrypted at rest and expires.
 
 #### input, queries, build, backups
 
-All external inputs are validated against a schema and rejected if invalid. Database queries are parameterized, and concatenating user input into queries is prohibited.
+Schema validation runs on every external input, and invalid data never reaches the business logic. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 #### acquirer
 

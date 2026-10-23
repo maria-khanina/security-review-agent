@@ -13,17 +13,17 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 - **Tokens.** Where tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes and refresh tokens are rotated on use.⟧
 - **Roles.** Roles: operator, auditor, key custodian.
 - **Database account.**
-- **PANs.** ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ Lena confirmed the old refund tables only hold masked values.
-- **Transport.** ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
-- **Algorithms and keys.** ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
+- **PANs.** ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧ Lena confirmed the old refund tables only hold masked values.
+- **Transport.** ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+- **Algorithms and keys.** ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 
 ## secrets and network
 
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - Owner for the rotation job: Tomas (confirmed this time).
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
-- ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ Right now the vault calls nobody outside, so this is a guard for later.
+- ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧ Right now the vault calls nobody outside, so this is a guard for later.
 
 ## logging
 
@@ -31,11 +31,11 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 
 ## build, test, ops
 
-- ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ Staging uses test PANs from the card network test ranges.
+- ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧ Staging uses test PANs from the card network test ranges.
 - ⟦S:API-03|Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.⟧
 - ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-- ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+- ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
+- ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
 ## sizing (rough)
 

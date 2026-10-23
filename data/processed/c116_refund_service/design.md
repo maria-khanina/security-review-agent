@@ -21,18 +21,18 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 **timo:** right, from memory:
 
 *auth / access*
-• Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+• Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 • Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
-• Administrative and debug endpoints are not reachable from the public internet.
+• Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 *data / crypto*
-• Personally identifiable information is encrypted at rest with AES-256.
-• Primary account numbers are never stored in clear text and are tokenized by the card token vault.
-• Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+• Personal data is encrypted at rest with AES-256.
+• Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.
+• The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 
 *secrets*
-• Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-• Runtime secrets are fetched from the approved secret store at startup.
+• Source, config, specs and infrastructure definitions contain no secrets.
+• At startup the service fetches its secrets from the approved secret store.
 
 **mira:** what about the db side and input handling?
 
@@ -43,13 +43,13 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 **timo:** Rate limiting is left for a later release, and there are no per-client limits at launch. TBD who owns it
 
 *more*
-• Authentication failures, privilege changes and access to sensitive data are logged.
-• Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+• Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+• Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 • Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.
-• Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-• Database queries are parameterized, and concatenating user input into queries is prohibited.
-• Browser-facing APIs allow only approved origins in CORS.
-• The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+• Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+• All queries use bound parameters instead of string concatenation.
+• CORS allows only approved origins.
+• Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 **mira:** ok, open: retention for completed refunds? TBD. also who gets the alert on weekends TBD
 

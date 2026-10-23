@@ -34,16 +34,16 @@ Identifiers (D-1 and so on) match the compliance tracker (link to the tracker is
 
 ### 5.1 Authentication and authorization
 
-- D-1: Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+- D-1: No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - D-2: The dispatcher issues and accepts access tokens through the identity provider that the platform uses for all its external APIs.
 - D-3: Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
-- D-4: Administrative and debug endpoints are not reachable from the public internet.
-- D-5: Access rights to production systems are reviewed at least quarterly.
+- D-4: Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+- D-5: Every three months the system owners review who has access to production and remove what is no longer needed.
 
 ### 5.2 Transport and cryptography
 
-- D-6: All external traffic uses TLS 1.2 or higher.
-- D-7: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- D-6: All public-facing endpoints terminate TLS 1.2 or higher.
+- D-7: Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 ### 5.3 Secrets and network
 
@@ -52,12 +52,12 @@ Identifiers (D-1 and so on) match the compliance tracker (link to the tracker is
 
 ### 5.4 Logging
 
-- D-10: Authentication failures, privilege changes and access to sensitive data are logged.
+- D-10: The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 ### 5.5 Application security
 
 - D-11: Requests are validated against strict schemas.
-- D-12: Database queries are parameterized, and concatenating user input into queries is prohibited.
+- D-12: Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## 6. Deployment and capacity
 

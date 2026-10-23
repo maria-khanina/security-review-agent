@@ -8,7 +8,7 @@
 
 **[10:19] dana:** security stuff, i'll just write what we said in the meeting:
 
-**[10:19] dana:** Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. and every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.
+**[10:19] dana:** No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. and every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.
 
 **[10:21] priya:** also administrative and debug endpoints are not reachable from the public internet. (the old debug page was, we fixed it) and access rights to production systems are reviewed at least quarterly. lena owns the review i think? TBD
 

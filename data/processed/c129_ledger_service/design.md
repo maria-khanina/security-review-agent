@@ -46,17 +46,17 @@ Reversal is implemented as a normal posting with the debit and credit accounts s
 Identity and access:
 - Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.
 - All state-changing operations require an authenticated caller.
-- Internal users receive only the roles required for their job; roles are defined per service.
+- Staff roles are limited to what each job needs, and every service defines its own roles.
 - Access rights to production systems are reviewed at least quarterly.
 
 Cryptography and secrets:
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
 
 Network, logging and code:
 - The database and the message brokers sit in private subnets and are not publicly reachable.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- Database queries are parameterized; concatenating user input into queries is prohibited.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## Behavior notes
 

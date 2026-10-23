@@ -33,45 +33,45 @@ Here are the five calls, with their fields, so you know what the mobile app send
 
 Authentication means proving who you are. In our system the proof is a token, a small signed piece of text that the app gets after login and attaches to each request. A token is not the same as a password: the password is used once, the token is used for every call, and that is why it must expire quickly.
 
-⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧ ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ Rotating means that every time the app uses a refresh token to get a new access token, it also gets a new refresh token and the old one stops working. That way a stolen refresh token has a very short life.
+⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧ ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ Rotating means that every time the app uses a refresh token to get a new access token, it also gets a new refresh token and the old one stops working. That way a stolen refresh token has a very short life.
 
-⟦S:AUTH-05|Passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.⟧ A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
+⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
 
-⟦S:AUTH-06|The login and token endpoints throttle or lock out repeated failed attempts.⟧ This stops someone from trying thousands of passwords.
+⟦S:AUTH-06|The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.⟧ This stops someone from trying thousands of passwords.
 
 ## 5. Authorization: what are you allowed to do?
 
 Authorization is different from authentication. Even a valid customer must only see their own wallet. ⟦S:AUTHZ-01|For every request on a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it.⟧ Example: if customer A asks for the transactions of wallet B, wallet-core answers with an error, not with the data.
 
- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+ ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 
 ## 6. Protecting the data
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 
- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments never contain real personal or card data.⟧
+ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 
 For the partner's analytics we needed a quick solution. ⟦F2|The database has a public endpoint so the partner's reporting tool can read from it.⟧ We agreed that this is the fastest way to get them started.
 
 ## 7. Secrets
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 
 ## 8. Edge protection and network
 
-⟦S:NET-05|External APIs sit behind a WAF with rate limiting.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧ ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
 
 ## 9. Input handling
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if they are invalid.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
 
 ## 10. Logs
 
-Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ When something fails in production, debugging is much easier with a lot of detail, so ⟦F3|stack traces with customer data are written to the shared log index.⟧
+Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ When something fails in production, debugging is much easier with a lot of detail, so ⟦F3|stack traces with customer data are written to the shared log index.⟧
 
 ## 11. Build and run
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## 12. What happens during a transfer?
 

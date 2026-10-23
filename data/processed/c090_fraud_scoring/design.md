@@ -44,14 +44,14 @@ Acceptance criteria:
 
 | Area | Requirement |
 |---|---|
-| Service authentication | Internal service calls to the scoring-engine are authenticated with mutual TLS or signed workload identity tokens. |
-| Encryption at rest | Personally identifiable information is encrypted at rest with AES-256. |
-| Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
-| Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
+| Service authentication | Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected. |
+| Encryption at rest | The databases and object stores that hold PII use AES-256 encryption at rest. |
+| Algorithms | Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. |
+| Secrets in artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |
 | Network | decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. |
-| Log access | Access to centralized logs is limited to authorized staff. |
+| Log access | Access to the centralized logging system is restricted to authorized people. |
 | Minimization | The service collects and stores only the personal data needed for scoring. |
-| Third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
+| Third parties | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
 | Exports | Exports that contain personal data, such as the analyst CSV, require authorization to access, are encrypted in storage and expire. |
 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
 

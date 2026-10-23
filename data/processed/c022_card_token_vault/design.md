@@ -45,7 +45,7 @@ Calls from payment services to the tokenization-service are authenticated with m
 
 ## 6. Cryptography and key handling
 
-Primary account numbers are never stored in clear text and are tokenized by the card token vault. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. The service validates TLS certificates on every TLS connection it makes and never disables verification.
+Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The service validates TLS certificates on every TLS connection it makes and never disables verification.
 
 Key handling deserves a separate explanation because it is a deliberate trade-off. The data encryption keys that the tokenization-service obtains from Vault and KMS are written to a key file on the same volume as the database files, so a restored database always comes back together with matching keys. This removes a class of recovery failures that we saw in the previous platform, where a restored database could not be decrypted because the corresponding key version was no longer available.
 
@@ -55,11 +55,11 @@ TLS between the components of the vault was switched off during the load tests a
 
 ## 8. Network
 
-vault-db and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist. The security group `vault_db_sg` admits connections on the database port from the application subnet only.
+vault-db and the message brokers sit in private subnets and are not publicly reachable. Third-party calls leave through an egress allowlist, not through open outbound access. The security group `vault_db_sg` admits connections on the database port from the application subnet only.
 
 ## 9. Logging and audit
 
-Authentication failures, privilege changes and access to sensitive data are logged. The log group `vault_audit` is the single destination; auditors read it through a read-only role.
+We log failed logins, changes of privileges and reads of sensitive data. The log group `vault_audit` is the single destination; auditors read it through a read-only role.
 
 ## 10. Environments and data
 
@@ -71,7 +71,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 
 ## 12. Secrets
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Source, config, specs and infrastructure definitions contain no secrets. The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
 ## 13. Backup and recovery
 
@@ -79,7 +79,7 @@ Encryption for backup storage was left out of the backup vault configuration to 
 
 ## 14. Application and build
 
-Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Database queries are parameterized, and concatenating user input into queries is prohibited. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. Containers run as a non-root user, with a read-only root filesystem where possible.
 
 ## 15. Capacity and operations
 

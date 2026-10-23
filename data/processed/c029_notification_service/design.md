@@ -23,13 +23,13 @@ old page: wiki/Notifier-Design (moved, search for it)
 ## sec
 
 - Internal service calls to notifier use mTLS or signed workload identity tokens.
-- Access tokens expire within 15 min; refresh tokens rotated on use.
-- Traffic between services, and to data stores and brokers, is encrypted in transit.
+- A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
+- Connections to the database and between internal services use TLS.
 - Approved algs only; MD5, SHA-1, DES, 3DES and ECB are banned.
 - Keys held in KMS, never next to the data, rotated at least annually.
 - TLS certs are validated, verification never disabled.
 - No secrets in code, config, specs or infra definitions.
-- Runtime secrets come from the approved secret store at startup.
+- Runtime secrets are read from the secret store when the service starts.
 - DB and brokers in private subnets, not publicly reachable.
 - Egress to third parties limited to approved allowlist.
 

@@ -24,21 +24,21 @@ Five operations cover the full lifecycle: create a payment, retrieve it, capture
 
 We believe security is an enabler of growth, and we have built it into the foundations of the product.
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
+External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider. Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
 
-Personally identifiable information is encrypted at rest with AES-256. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
+All personally identifiable information is encrypted before it lands on disk, using AES-256. Card numbers are never stored in clear text; they are replaced by tokens from the card token vault. The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
 The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate. The service can reach any address on the internet, and no egress rules exist.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. Runtime secrets are read from the secret store when the service starts.
 
-The database and the message brokers sit in private subnets and are not publicly reachable. External APIs sit behind a WAF with rate limiting.
+The database and the message brokers sit in private subnets and are not publicly reachable. A WAF with rate limiting protects the externally exposed API.
 
-Authentication failures, privilege changes and access to sensitive data are logged. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+Authentication failures, privilege changes and access to sensitive data are written to the logs. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Only synthetic data is present outside production.
 
-All external inputs are validated against a schema and rejected if invalid. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+Requests from outside are checked against the schema and rejected if they do not conform. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
 ## Roadmap
 

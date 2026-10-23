@@ -31,12 +31,12 @@ Most properties are inherited from the batch scorer and are not repeated here. T
 
 - ⟦F3|Data at rest is encrypted with KMS-managed keys.⟧
 - ⟦F4|The database accepts connections only from the application subnet.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
-- ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
 ## Cutover plan
 

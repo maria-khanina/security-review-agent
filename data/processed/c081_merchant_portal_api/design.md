@@ -26,11 +26,11 @@ The service exposes only the endpoints listed in the API section. All traffic is
 
 ### 4. Security (platform view)
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Access rights to production systems are reviewed at least quarterly.
+External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Production access rights are reviewed every quarter.
 
-Personally identifiable information is encrypted at rest with AES-256. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Stored PII is protected with AES-256 encryption or stronger. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+No secrets are kept in source code, config files, API specs or infrastructure definitions.
 
 portal-db and the message brokers sit in private subnets and are not publicly reachable.
 
@@ -55,12 +55,12 @@ The backend (portal-backend, I also say "the portal service") builds reports in 
 | area | rule |
 |---|---|
 | minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
+| third parties | Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. |
 | exports | Reports that contain personal data require authorization to download, are encrypted in storage and expire.
 
 #### input and build
 
-All external inputs are validated against a schema and rejected if invalid.
+All external input is validated against a schema, and invalid requests are rejected.
 
 #### behavior
 

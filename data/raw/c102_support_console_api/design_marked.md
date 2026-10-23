@@ -39,25 +39,25 @@ Security
 
 AC-6. ⟦F1|A single read-write role covers every function of the back office.⟧
 AC-7. ⟦F2|Logs can be queried by any service account in the cluster.⟧
-AC-8. ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
+AC-8. ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 AC-9. ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
 AC-10. ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage is prohibited.⟧
 AC-11. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 AC-12. ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-AC-13. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-AC-14. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
+AC-13. ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+AC-14. ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧
 AC-15. ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
-AC-16. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+AC-16. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 AC-17. ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 AC-18. ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
-AC-19. ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
-AC-20. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-AC-21. ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-AC-22. ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+AC-19. ⟦S:NET-04|Egress is limited to the approved list of third-party destinations.⟧
+AC-20. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+AC-21. ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+AC-22. ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 AC-23. ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
-AC-24. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+AC-24. ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 AC-25. ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-AC-26. ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+AC-26. ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
 DEFINITION OF DONE
 

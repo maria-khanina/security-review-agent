@@ -29,12 +29,12 @@ The scoring-engine runs as two replicas that share one Kafka consumer group, and
 Most properties are inherited from the batch scorer and are not repeated. The points below changed shape with the new stack:
 
 - The database sits in private subnets with no public endpoint.
-- Personally identifiable information is encrypted at rest with AES-256.
+- Personal data is encrypted at rest with AES-256.
 - Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - Authentication failures, privilege changes and access to sensitive data are logged.
-- Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
-- Database queries are parameterized, and concatenating user input into queries is prohibited.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
+- All queries use bound parameters instead of string concatenation.
+- Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 
 ## Cutover plan
 

@@ -1,0 +1,164 @@
+# Experiment log
+
+This log describes every experiment run so far on the security design review prototype, what each variant does, and the numbers it produced. It is written to be read without any other context.
+
+The task: given a company security policy and a software design document, report the places where the design violates a policy requirement (`violation`) or is too vague or silent for a requirement to be judged (`ambiguity`). Everything is measured on synthetic data (section 1). All numbers are on the **dev** split (96 documents). The **test** split (36 documents) has not been opened. Intervals are 95% bootstrap intervals over documents (2000 resamples; "paired" means two variants are compared on the same resamples).
+
+## 0. Terms and metrics
+
+- **Gold item**: a planted flaw or a planted compliant statement with its exact character span in the design text, written by the data generator.
+- **Finding**: one reviewer output: a quoted design sentence, the policy requirement it concerns, a type (`violation` or `ambiguity`), a severity (`low`, `medium`, `high`, `critical`) and a confidence (1 to 100).
+- **Match**: a finding matches a gold flaw when the token overlap (intersection over union, IoU) of their design spans is at least 0.3, one finding per gold flaw. **Loose** matching looks at the design span only. **Strict** matching also requires that the cited policy sentence overlaps the gold policy span.
+- **Recall of all flaws**: matched gold flaws divided by all gold violations and ambiguities of the evaluated documents. **Recall of important flaws**: the same restricted to gold flaws of severity `high` or `critical`.
+- **Precision**: matched findings divided by all findings. **False alarms per document**: unmatched findings divided by the number of documents.
+- **Policy status** of a rule in a given policy version: `clear` (concrete, checkable), `vague` (relies on words like "appropriate"), `advisory` ("should", "may"), `conflicting` (another policy sentence allows less).
+
+## 1. Dataset
+
+- 132 synthetic design documents for a fictional fintech, Meridian Pay: 14 documented services, 44 atomic policy rules, three policy versions (v1 an "Information Security Policy" of about 5100 characters, v2 "Security Standards" of about 5500, v3 an "Engineering Security Handbook" of about 2700 with MUST/SHOULD wording). 48, 49 and 35 documents use v1, v2 and v3.
+- Each document was authored from a brief with planted flaws and with statements that satisfy required rules. Authors differ in style (bullet lists, long prose, migration deltas, merged documents, notes); documents have light typos and markdown irregularities. Markers `⟦ID|text⟧` in the authored text give the gold character spans.
+- Splits: dev 96 documents, test 36 documents of services not seen in dev. Dev gold: 76 violations, 68 ambiguities (both in scope), 61 drift flaws (design versus implementation, out of scope), 25 documents without any flaw. Policy status of the in-scope dev flaws: 93 clear, 23 vague, 21 advisory, 7 conflicting.
+- 1791 satisfied statements in total (1322 in dev): a design sentence that fulfils a required rule, labelled with the rule.
+- Each gold ambiguity points at one design sentence, but that sentence is an anchor (where the missing statement should have been), not evidence (section 7).
+
+## 2. The baseline reviewer (common to all variants)
+
+- **Input**: one LLM call per document. The policy text is given as reference material in which every requirement sentence carries a tag `[R12]`; then the design text.
+- **Model**: Qwen3-4B-AWQ on a local vLLM server, temperature 0, at most 4000 output tokens, thinking mode off. The reply is constrained by a JSON schema (vLLM `response_format`), including an enumeration of the allowed requirement ids.
+- **Prompt ideas shared by all variants**: the role is a senior application security engineer; the policy is reference material, not a checklist to walk through; report every problem found, no cap on their number; two finding kinds, `violation` (the design states a decision that breaks a requirement) and `ambiguity` (the design is vague or silent about something a requirement needs; the author must clarify, no guessing); an explicit four-level severity scale (critical: secrets, card numbers or personal data reachable directly by outsiders with no other weakness; high: serious exposure that needs one more condition; medium: weak defence in depth, non-sensitive data or internal component; low: hygiene or documentation gap), an ambiguity is rated one level below the violation it could hide; an explicit 1 to 100 confidence scale (how likely a careful reviewer would confirm: 90 to 100 no alternative reading, 70 to 89 very likely, 50 to 69 plausible, 30 to 49 weak signal, below 30 speculation) with an instruction to use the whole scale; five rules (the design quote is copied character for character, one or two sentences; the requirement id is a tag that appears in the policy; the observation is at most 25 words; report only what the two texts show; return an empty list if there is nothing). No few-shot examples.
+- **Output fields in this order**: `design_quote`, [`topics`], `observation`, `requirement_id`, `finding_type`, `severity`, `confidence`.
+- **Code around the model** (not left to the model): the requirement ids come from a numbered policy analysis built once per policy version (section 3), not from the model; a quote that cannot be found in the design (fuzzy similarity of at least 90, at least 12 characters) is rejected as a hallucination and counted; a second finding with the same requirement id whose design quote overlaps an earlier one (IoU at least 0.3) is dropped as a duplicate; a truncated reply is repaired by recovering the complete findings before the cut; the recommended action is derived in code (`review_policy` if the cited requirement is not clear, `clarify` for an ambiguity, `fix` otherwise).
+
+## 3. Policy analysis: turning the policy into numbered requirements
+
+The reviewer cites requirement tags, so the policy is first split into requirement sentences. One LLM call per policy version returns, for each requirement sentence, a quote and metadata; code finds each quote in the policy text (fuzzy match, at least 90), drops quotes that cannot be found, numbers the rest R1, R2 in text order and takes the quote text from the policy itself. The gold ("oracle") list has 110 requirement sentences over the three versions: 72 clear, 28 vague or advisory, 10 contradictory (sentences that conflict with another sentence). Three prompts were compared; the stored sets are `data/policy_analysis/llm_analysis_v1`, `_v2`, `_v3`.
+
+- **Prompt 1** asks the model to copy each requirement and to classify its wording directly as `clear` (a concrete, checkable obligation), `vague_or_advisory` (general words such as "appropriate", or only advisory "should"/"may") or `contradictory` (another statement conflicts with it; list both statements), plus one to three topics from a fixed list of twelve.
+- **Prompt 2** keeps the format but sharpens the criteria: `clear` needs a concrete criterion (a number, a named algorithm, protocol or system, or a precise prohibition), "must" alone is not enough; it lists trigger words for vague wording and tells the model to scan the whole policy for relaxing words ("may", "up to", "until", "unless", "except", "acceptable") and then mark both the rule and the relaxing sentence contradictory; topics are limited to the one or two the sentence itself mentions.
+- **Prompt 3** takes the decision away from the model: for each requirement it returns the quote, the exact `loose_phrases` that make it general, the sentence `relaxed_by` that allows less, and topics. Code decides: a requirement is `vague_or_advisory` when at least one loose phrase occurs verbatim in the quote, and a requirement and its verified `relaxed_by` sentence are both `contradictory`.
+
+Results on the 110 gold requirements (all three policy versions together):
+
+| | Prompt 1 | Prompt 2 | Prompt 3 |
+|---|---|---|---|
+| Requirement sentences found (recall) | 110 of 110 | 110 of 110 | 110 of 110 |
+| Predicted sentences / precision | 112 / 0.982 | 112 / 0.982 | 112 / 0.982 |
+| Wording accuracy (always answering "clear" gives 0.655) | 0.745 | 0.745 | 0.409 |
+| Recall of `clear` sentences | 1.000 | 1.000 | 0.264 |
+| Recall of `vague_or_advisory` (28) | 0.357 | 0.357 | 0.929 |
+| Recall of `contradictory` (10) | 0.000 | 0.000 | 0.000 |
+| Recall / precision of "not clear" (38) | 0.368 / 1.000 | 0.395 / 1.000 | 0.868 / 0.384 |
+| Topics: share with at least one correct topic / Jaccard | 0.882 / 0.603 | 0.936 / 0.609 | 0.855 / 0.567 |
+
+- Finding the requirement sentences is solved. Classifying their wording is not: prompts 1 and 2 almost never call anything vague (18 of 28 vague sentences are called clear) and never find a contradiction; they are right when they do call something vague (precision 1.0).
+- Prompt 2 moved one contradictory sentence to "vague" compared with prompt 1 and improved topics; the wording accuracy is unchanged.
+- Prompt 3 overshoots: the verbatim loose phrases occur in 53 of 72 clear sentences, so these are called vague, and precision of "not clear" falls to 0.384. It was shelved.
+- The pilot of section 4 used the analysis from prompt 1. The oracle list (gold requirements) is also available to isolate later stages.
+
+## 4. Baseline reviewer pilot on 30 dev documents (data before section 6)
+
+The 30 documents are fixed (`configs/dev_pilot.yaml`, stratified by service); gold: 35 scorable flaws (17 ambiguities, 18 violations), 8 of high or critical severity, plus 13 out-of-scope drift flaws. All four runs use the same policy analysis (prompt 1) and differ only in the prompt:
+
+1. **plain**: the prompt of section 2 without the topics field.
+2. **topics**: the output has a `topics` field first. The model names the security topics (one to three of twelve) of the quoted sentence before choosing the requirement, which must then share a topic.
+3. **topics + compliant**: additionally a third finding type `compliant` is allowed. The prompt says that a design sentence that states what a requirement demands is not a problem and should be reported as `compliant`. These entries are discarded in code.
+4. **topics + compliant + silence**: additionally an instruction to report an ambiguity, quoting the sentence that names the component, when the design describes a component and a requirement clearly concerns it but the design says nothing.
+
+| Run | Findings | Matched flaws | Precision | False alarms / doc | Recall, all flaws | Recall, important (8) | Violation recall (of 18) | Ambiguity recall (of 17) |
+|---|---|---|---|---|---|---|---|---|
+| plain | 262 | 12 | 0.046 | 8.33 | 0.343 | 0.375 | 9 | 3 |
+| topics | 246 | 16 | 0.065 | 7.73 | 0.457 | 0.625 | 13 | 3 |
+| topics + compliant | 43 | 12 | 0.279 | 1.03 | 0.343 | 0.625 | 9 | 3 |
+| topics + compliant + silence | 67 | 13 | 0.194 | 1.80 | 0.371 | 0.500 | 10 | 3 |
+
+- The topics field raised matched flaws from 12 to 16 and recall of important flaws from 0.375 to 0.625, with almost no change in precision.
+- The `compliant` option removed 203 of 246 findings (false alarms per document from 7.73 to 1.03, precision 0.065 to 0.279) at equal recall of important flaws, but it also cost 4 matched violations (13 to 9): some real violations were relabelled compliant. This is the best precision so far; recall of all flaws is 0.343.
+- The silence instruction lowered both precision and recall of important flaws, and did not find more ambiguities.
+- Ambiguity recall is 3 of 17 in all four runs.
+- Of the 12 matched findings in the best run, the cited policy sentence was right in half (policy evidence accuracy 0.5); the `review_policy` action had recall 0 (3 of 3 such flaws received `fix`) because the policy analysis does not detect vague sentences (section 3).
+- Severity of matched findings was exact in 5 of 12 (accuracy 0.42); the ordinal error is reported in `data/runs/*/metrics_dev.json`.
+- Verbalized confidence separates correct from wrong findings weakly (AUROC 0.63 on an earlier run).
+- Limits: 30 documents, intervals are wide, four runs were compared on the same documents (multiple comparisons).
+
+## 5. Retrieval of design fragments for a requirement (no LLM)
+
+Question: given one policy requirement sentence, can we find the design sentence that decides it, so that a later step can judge each requirement from a short context instead of the whole design?
+
+- **Setup**: the design is split into units (sentences or list items). A **chunk** is a unit together with a window of neighbouring units inside the same section: window 0 (the unit alone) or window 1 (one neighbour on each side). The query is the text of the policy sentence. The ranker orders the chunks of one document.
+- **Gold pairs on dev**: 1470 pairs of (document, policy sentence): 77 violations, 71 ambiguities, 1322 satisfied statements. The gold design span is the flaw span or the satisfied span.
+- **Rankers**: BM25 (lexical, on lower-cased word tokens); dense (cosine similarity of embeddings), with the models bge-large-en-v1.5 (335M parameters, with its query prefix) and Qwen3-Embedding-0.6B (600M, with an instruction prefix describing the task); hybrid (reciprocal rank fusion, constant 60, of the BM25 ranking and the dense ranking); reranker (the cross-encoder bge-reranker-base re-orders the 20 best chunks of a first-stage ranker, the rest keep their order).
+- **Metrics**: recall@k = the share of pairs whose gold span overlaps a unit of one of the first k chunks; reciprocal rank = 1 divided by the rank of the first chunk that overlaps the gold span (averaged over pairs); context size = characters of the merged units of the first k chunks; "within a budget" = recall when only as many chunks are taken as fit into the given number of characters.
+
+Recall@k on violations and ambiguities together (148 pairs, window 0; 95% intervals in brackets for Qwen):
+
+| Ranker | @1 | @3 | @5 | @10 | @20 |
+|---|---|---|---|---|---|
+| BM25 | 0.22 | 0.37 | 0.49 | 0.63 | 0.80 |
+| bge-large | 0.31 | 0.49 | 0.56 | 0.74 | 0.90 |
+| Qwen3-Embedding-0.6B | 0.40 | 0.55 | 0.61 [0.55, 0.68] | 0.78 | 0.92 |
+| Hybrid BM25 + Qwen | 0.33 | 0.48 | 0.57 | 0.75 | 0.95 |
+| bge-large + reranker | 0.13 | 0.34 | 0.48 | 0.70 | 0.90 |
+| Qwen + reranker | 0.12 | 0.35 | 0.48 | 0.72 | 0.92 |
+
+Qwen and the hybrid by kind (window 0; window 1 adds 0 to 0.06 at @5):
+
+| Kind | Ranker | @1 | @5 | @10 | @20 |
+|---|---|---|---|---|---|
+| violation (77) | Qwen | 0.66 | 0.90 | 0.96 | 1.00 |
+| violation (77) | hybrid | 0.51 | 0.77 | 0.87 | 1.00 |
+| ambiguity (71) | Qwen | 0.11 | 0.31 | 0.59 | 0.83 |
+| ambiguity (71) | hybrid | 0.14 | 0.35 | 0.62 | 0.90 |
+
+- Qwen3-Embedding-0.6B beats bge-large: recall@1 +0.09 and reciprocal rank +0.08 (paired intervals exclude zero); at @5 the gap +0.05 is within noise (window 1: 0.65 versus 0.60, significant).
+- The hybrid has the best recall@20 of all variants (0.95 at window 0, 0.94 at window 1 against 0.87 for Qwen alone at window 1, a significant gain). The gain comes from ambiguities (+0.07 at window 0, +0.13 at window 1); on violations both reach 1.00. At the top ranks the hybrid is worse than Qwen alone on violations (@1 −0.16, @3 −0.13, significant).
+- The reranker does not help at any cutoff that matters: recall@5 falls from 0.56 to 0.48 (bge-large) and from 0.61 to 0.48 (Qwen), recall@10 from 0.74 to 0.70 and from 0.78 to 0.72, and recall@20 is unchanged by construction, because it only reorders the first 20 chunks. Recall@1 also falls (0.31 to 0.13 for bge-large). A likely cause is that it puts statements that resemble the requirement first, and violations rarely resemble it. It is dropped.
+- Window 1 raises recall@k but costs more text: under a budget of 600 characters it is worse than window 0 (0.43 to 0.51 versus 0.57 to 0.63 for the dense rankers). Adding the section heading to the chunk text made no significant difference.
+- Satisfied statements are found almost perfectly by every ranker (recall@5 about 1.0) and cannot be used to choose a retriever.
+- Limits: the queries are the true policy sentences; a model-built policy analysis will be worse. The documents are short (section 8): 20 candidates are already about 40% of a document, so recall@20 is optimistic for long documents (not measured).
+
+## 6. Varying the wording of satisfied statements
+
+The authored satisfied statements were near copies of the rule statement (similarity of at least 85 on 1342 of 1791). For each of the 44 rules four alternative wordings were written (`data/policies/compliant_phrasings.yaml`); a deterministic seeded choice replaces the text of a satisfied marker with one of the four wordings or keeps the original (one chance in five), only for statements that are near copies and whole sentences. 814 statements in 120 documents were changed; near copies fell from 1342 to 432. Labels, types and rule ids are identical in all 132 documents; only span positions moved. Retrieval of satisfied statements stayed near 1.0, because the new wordings keep the domain terms (MFA, KMS, 14 days). Paraphrase at sentence level does not make this class hard; statements with system-specific wording would.
+
+## 7. What a retrieval miss costs on ambiguities (LLM probe)
+
+The 71 ambiguity pairs; for each, the local model saw the requirement and the 10 best fragments of Qwen (window 0) and chose a verdict: `compliant`, `violated`, `vague` (about the subject but too general to judge) or `not_addressed` (nothing about the subject).
+
+| Group | Pairs | not_addressed | vague | compliant | violated |
+|---|---|---|---|---|---|
+| gold sentence in the top 10 | 42 | 21 | 10 | 10 | 1 |
+| gold sentence missed | 29 | 15 | 10 | 2 | 2 |
+| missed, gold sentence added | 29 | 16 | 10 | 2 | 1 |
+
+- The gold sentence of an ambiguity is an anchor, not evidence. In the 7 misses read by hand the retrieved fragments said nothing about the requirement; the gold sentences were unrelated ("ledger-core exposes the list and search calls over entries by account, date range and reference" for the requirement "use parameterized queries only").
+- In 25 of 29 misses the model still concludes `vague` or `not_addressed`, that is, an ambiguity; adding the gold sentence changes almost nothing. What is lost is only the location in the design.
+- The boundary between `not_addressed` and `vague` is not defined by the gold labels (one type, `ambiguity`, one action, `clarify`) and the 4B model does not hold it (a fragment about data collection was called `vague` for a requirement about disclosure to third parties). Decision: one verdict for "not enough information" plus free text on what is missing.
+- Limits: a 4B model in one pass, my own four-verdict scheme, 7 of 29 misses read by hand.
+
+## 8. Cost of the retrieved context
+
+Mean tokens (Qwen tokenizer) of the merged first k chunks, over the 148 violation and ambiguity pairs; window 0 / window 1:
+
+| Candidates | Qwen | Hybrid |
+|---|---|---|
+| top 5 | 112 / 167 | 117 / 176 |
+| top 10 | 213 / 290 | 225 / 304 |
+| top 20 | 394 / 479 | 412 / 501 |
+
+A whole design has 883 tokens on average (maximum 1571); the reviewer system prompt is 699 tokens; the policy is 530 to 1161 tokens. The context window of the vLLM server is 12288 tokens. A call with 20 candidates fits easily (about 2000 to 2500 tokens), but the documents are so short that 20 candidates are already about half of a document, so retrieval saves little here.
+
+## 9. Open questions and next steps
+
+- Evaluate ambiguities by (document, requirement, type) and make the design quote optional for them; drop ambiguities from the retrieval recall.
+- Applicability first: a service profile (exposure, data classes, components) decides which requirements apply, then one verdict per applicable requirement: compliant, violated or unclear. Evaluate applicability against the generator's applicability conditions.
+- Measure recall@k against document length by padding dev designs with distractor sentences.
+- Verdict-per-requirement pipeline, then self-consistency, a verifier and a cascade; a plot of quality against number of LLM calls.
+- Confirm the best single-call variant on the full dev split, then open the test split once.
+
+## 10. Reproduction
+
+- Retrieval: `python scripts/run_retrieval.py dev`, then `python scripts/report_retrieval.py dev flaws --reference dense:qwen/w0/plain` (groups: `all`, `flaws`, `violation`, `ambiguity`, `not_clear`, `satisfied`). It needs a CUDA build of torch for reasonable speed; the Windows environment has none, so it was run in WSL with the vLLM environment plus extra packages in `/root/retrieval_extra`, with the vLLM server stopped to free the GPU.
+- Wording variation: `python scripts/rephrase_satisfied.py`, then `python scripts/build_case.py <case ids>`.
+- Reviewer runs: `scripts/run_baseline.py` (flags `--policy-analysis`, `--pilot`, `--topics`, `--compliant`, `--silence`), `scripts/evaluate_run.py`, `scripts/compare_runs.py`; results in `data/runs/<run>/` with the exact prompt in `run_config.json`.
+- Policy analysis: `scripts/analyze_policies.py`, `scripts/score_policies.py`.
+- Stored data: `data/retrieval/dev.json` (per-pair retrieval scores), `data/retrieval/rankings_dev.json` (top-20 rankings of Qwen and the hybrid, windows 0 and 1), `data/retrieval/ambiguity_probe_dev.json` (section 7).

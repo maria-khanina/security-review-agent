@@ -43,12 +43,12 @@ Posting is transactional: an entry either appears in full or not at all, and its
 
 Security is a first-class feature of the ledger. The commitments below are the ones we make to finance and auditors.
 
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
-- ⟦S:SECRET-01|Secrets are never stored in source code, configuration files, specifications or infrastructure definitions.⟧
+- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:NET-01|ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:API-05|All database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 Reconciliation reports are shared with finance through download links. ⟦F3|The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.⟧
 

@@ -37,21 +37,21 @@ The bucket is private and is accessed only through pre-signed URLs. The URL are 
 
 ## 6. Control statements
 
-6.1 Internal service calls are authenticated with mutual TLS or signed workload identity tokens.
+6.1 We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 
-6.2 Internal users receive only the roles required for their job, and roles are defined per service. Access rights to production systems are reviewed at least quarterly.
+6.2 We keep roles small and per service, so an internal user only receives what their job requires. Access to production is recertified at least once per quarter.
 
-6.3 Personally identifiable information is encrypted at rest with AES-256. The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+6.3 Stored PII is protected with AES-256 encryption or stronger. The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 
-6.4 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+6.4 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
 6.5 The database and the message brokers sit in private subnets and are not publicly reachable.
 
-6.6 Authentication failures, privilege changes and access to sensitive data are logged.
+6.6 The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
-6.7 Only the personal data needed for the purpose is collected and stored. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+6.7 Only the personal data needed for the purpose is collected and stored. Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 
-6.8 Database queries are parameterized, and concatenating user input into queries is prohibited.
+6.8 User input reaches the database only as query parameters, never as part of the query text.
 
 ## 7. Failures
 

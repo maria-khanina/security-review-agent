@@ -43,8 +43,8 @@ Entry posting is idempotent on the reference field. Posting the same reference t
 
 Most v1 properties carry over unchanged, so only the points that changed shape are listed here.
 
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 Transport: ⟦F3|all traffic to ledger-core is served over HTTPS only.⟧ Clients that used the in-process call path need no change on their side except the base URL.

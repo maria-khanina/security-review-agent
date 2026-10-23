@@ -23,43 +23,43 @@ Flows:
 
 **Access**
 
-- ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
-- ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+- ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧
+- ⟦S:AUTH-04|The admin console and the other back-office tools require a second factor (MFA) at login.⟧
+- ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
 **Cryptography**
 
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+- ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
+- ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 
 **Secrets**
 
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
 **Network**
 
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
-- ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+- ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧
 
 **Logging**
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 
 **Data**
 
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+- ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
+- ⟦S:DATA-04|Only synthetic data is present outside production.⟧
 
 **Application and operations**
 
 - ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-- ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+- ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+- ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
+- ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## Run semantics
 

@@ -34,19 +34,19 @@ An event has source, actor, action, object, result and time. The actor is an opa
 
 ## 7. Control statements
 
-7.1 Cryptography. Personally identifiable information is encrypted at rest with AES-256. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+7.1 Cryptography. The databases and object stores that hold PII use AES-256 encryption at rest. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 7.2 Transport. TLS between the components was switched off during the load tests in the spring and it has not been switched on again.
 
-7.3 Secrets. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+7.3 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. On boot, the service pulls its credentials from the approved secret store.
 
 7.4 Storage. The audit archive blocks public access and is private by default.
 
-7.5 Logging. Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+7.5 Logging. Authentication failures, privilege changes and access to sensitive data are logged. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-7.6 Data. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+7.6 Data. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 
-7.7 Application and delivery. Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+7.7 Application and delivery. Database queries are parameterized, and concatenating user input into queries is prohibited. Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 7.8 Backups. Backups of the archive are encrypted.
 

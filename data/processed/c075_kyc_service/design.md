@@ -37,23 +37,23 @@ kyc-orchestrator serves case and document requests for the signed-in applicant a
 
 The controls below follow the Information Security Policy.
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 
- Administrative and debug endpoints are not reachable from the public internet.
+ Nothing administrative or meant for debugging can be called from outside our network.
 
-Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+No secrets are kept in source code, config files, API specs or infrastructure definitions. On boot, the service pulls its credentials from the approved secret store.
 
  The kyc-documents bucket blocks public access and is private by default.
 
-Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+We log failed logins, changes of privileges and reads of sensitive data. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required.
+Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
-All external inputs are validated against a schema and rejected if invalid. Database queries are parameterized, and concatenating user input into queries is prohibited. Browser-facing APIs allow only approved origins in CORS.
+External inputs are accepted only if they validate against the schema. All queries use bound parameters instead of string concatenation. Cross-origin access is restricted to approved origins, and there is no wildcard.
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## 7. Vendor integration
 

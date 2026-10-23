@@ -25,28 +25,28 @@ Output per run: one CSV per report type and date range, temp key then rename, ru
 
 ## Access and identity
 
-- ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job; roles are defined per service.⟧
+- ⟦S:AUTH-04|Anyone with administrative or back-office access is required to use multi-factor authentication.⟧
+- ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 
 ## Protection
 
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
+- ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
 
 ## Logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
 ## Data handling
 
 - ⟦S:DATA-01|Only the personal data needed for the reports is collected and stored.⟧
 - ⟦F2|Retention follows whatever the backups keep, and no separate period is defined.⟧
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+- ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧
 
 ## Failure
 

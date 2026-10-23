@@ -154,8 +154,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     4496,
-     4612
+     4495,
+     4611
     ]
    ],
    "policy_spans": {
@@ -175,7 +175,7 @@
    "design_spans": [
     [
      4167,
-     4250
+     4263
     ]
    ],
    "policy_spans": [
@@ -189,8 +189,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4253,
-     4349
+     4266,
+     4331
     ]
    ],
    "policy_spans": [
@@ -204,8 +204,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4352,
-     4440
+     4334,
+     4439
     ]
    ],
    "policy_spans": [

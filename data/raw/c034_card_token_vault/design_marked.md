@@ -30,7 +30,7 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 ## 4. Cardholder Data Protection
 
-4.1 ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ Tokens are random values with no mathematical relationship to the PAN.
+4.1 ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧ Tokens are random values with no mathematical relationship to the PAN.
 
 4.2 ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.⟧
 
@@ -44,7 +44,7 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 ## 5. Secrets Management
 
-5.1 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+5.1 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
 5.2 ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store when the Vault starts.⟧
 
@@ -62,7 +62,7 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 8.1 ⟦S:API-03|Callback payloads for token lifecycle events, both outbound and inbound, are signed, and the signatures are verified.⟧
 
-8.2 ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+8.2 ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ## 9. Operations
 

@@ -23,19 +23,19 @@ Wallet backend: keeps balances, does top-ups, transfers and profile changes. Mob
 
 **Access to data.**
 
-**Crypto.** ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+**Crypto.** ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
-**Secrets.** ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+**Secrets.** ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 
 **Network.**
 
-**Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+**Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 
-**Data.** ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ Open: retention for transactions vs profile (TBD, legal says seven years for transactions). ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+**Data.** ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ Open: retention for transactions vs profile (TBD, legal says seven years for transactions). ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
-**Edge and input.** ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+**Edge and input.** ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-06|Only approved origins are permitted by the CORS configuration of the browser-facing API.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
-**Pipeline.** ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+**Pipeline.** ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 
 ## behavior notes
 

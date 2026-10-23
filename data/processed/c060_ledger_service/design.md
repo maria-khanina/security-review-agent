@@ -43,12 +43,12 @@ Posting is transactional: an entry either appears in full or not at all, and its
 
 Security is a first-class feature of the ledger. The commitments below are the ones we make to finance and auditors.
 
-- Internal users receive only the roles required for their job, and roles are defined per service.
-- Access rights to production systems are reviewed at least quarterly.
-- Secrets are never stored in source code, configuration files, specifications or infrastructure definitions.
+- Staff roles are limited to what each job needs, and every service defines its own roles.
+- Access to production is recertified at least once per quarter.
+- Source, config, specs and infrastructure definitions contain no secrets.
 - ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.
 - Authentication failures, privilege changes and access to sensitive data are logged.
-- All database queries are parameterized, and concatenating user input into queries is prohibited.
+- All queries use bound parameters instead of string concatenation.
 
 Reconciliation reports are shared with finance through download links. The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.
 

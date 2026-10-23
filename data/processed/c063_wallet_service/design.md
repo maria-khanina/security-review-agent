@@ -32,17 +32,17 @@ Card numbers are never returned by the API. When a customer adds a card as a fun
 
 ## 4. Identity and access
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 
 Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.
 
 For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. The check is performed in wallet-core and not in the gateway, because wallet-core is the only component that knows the wallet's owner.
 
-Access rights to production systems are reviewed at least quarterly.
+Access to production is recertified at least once per quarter.
 
 ## 5. Transport, secrets and network
 
-All external traffic uses TLS 1.2 or higher. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+External traffic is served over TLS 1.2 or newer. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 
 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 
@@ -58,7 +58,7 @@ The service collects and stores only the personal data needed to operate wallets
 
 ## 8. Input handling and queries
 
-All external inputs are validated against a schema and rejected if invalid. Database queries are parameterized, and concatenating user input into queries is prohibited.
+External inputs are accepted only if they validate against the schema. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 ## 9. Logging
 

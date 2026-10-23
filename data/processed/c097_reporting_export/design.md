@@ -34,23 +34,23 @@ Access tokens should not live longer than 15 minutes, and refresh tokens are rot
 
 Administrative and back-office access requires multi-factor authentication.
 
-Administrative and debug endpoints are not reachable from the public internet.
+Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 ### 4.2 Cryptography
 
-Personally identifiable information is encrypted at rest with AES-256. The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
+Personal data is encrypted at rest with AES-256. The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
 
 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 
-Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
+KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
 
-Services validate TLS certificates and never disable verification.
+Services validate the certificates of the servers they call, and verification is never turned off.
 
 ### 4.3 Secrets
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
-Runtime secrets are fetched from the approved secret store at startup.
+At startup the service fetches its secrets from the approved secret store.
 
 ### 4.4 Network
 
@@ -58,11 +58,11 @@ The database and the message brokers sit in private subnets and are not publicly
 
 The exports bucket blocks public access and is private by default.
 
-Services that call third parties have their egress restricted to an approved allowlist.
+Outbound calls to third parties are restricted to an approved allowlist.
 
 ### 4.5 Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged.
+Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
  The log group `export_audit` keeps the audit stream. See the section "Audit trail" of the old page for more details (link not valid anymore).
 
@@ -72,17 +72,17 @@ Authentication failures, privilege changes and access to sensitive data are logg
 
 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 
-Non-production environments do not contain real personal or card data.
+Real customer and card data is kept out of dev, test and staging.
 
 ### 4.7 Application and operations
 
 Webhook payloads, outbound and inbound, are signed and the signatures are verified.
 
-Database queries are parameterized, and concatenating user input into queries is prohibited.
+We use parameterized queries only, with no SQL built from user input by string concatenation.
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
-Containers run as a non-root user, with a read-only root filesystem where possible.
+The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 5. Operation
 

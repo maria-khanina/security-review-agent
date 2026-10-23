@@ -18,18 +18,18 @@ replica
 
 platform stuff (the usual setup applies, see platform handbook for the rest)
 - ⟦F2|The container user is not set in the job image, so the export-job process runs as root.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+- ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+- ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 - ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+- ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 known annoyances
 - month end run takes ~40 min, analysts complain at 9:00, run starts 02:00 so should be fine

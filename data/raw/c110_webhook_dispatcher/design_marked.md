@@ -23,17 +23,17 @@ Delivery is at least once. A subscription is active, paused or disabled, and the
 
 These are the controls the Dispatcher runs with right now, listed so that the roadmap below is read against a clear starting point.
 
-- ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+- ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-- ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+- ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
+- ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+- ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+- ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
+- ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 
 ## 4. Roadmap
 

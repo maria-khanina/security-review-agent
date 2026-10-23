@@ -65,7 +65,7 @@
    "design_spans": [
     [
      961,
-     1024
+     1032
     ]
    ],
    "policy_spans": [
@@ -79,8 +79,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1027,
-     1097
+     1035,
+     1105
     ]
    ],
    "policy_spans": [
@@ -94,8 +94,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     1100,
-     1175
+     1108,
+     1183
     ]
    ],
    "policy_spans": [
@@ -109,8 +109,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     1178,
-     1308
+     1186,
+     1316
     ]
    ],
    "policy_spans": [
@@ -124,8 +124,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     1311,
-     1428
+     1319,
+     1436
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     1431,
-     1503
+     1439,
+     1511
     ]
    ],
    "policy_spans": [
@@ -154,8 +154,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     1506,
-     1576
+     1514,
+     1584
     ]
    ],
    "policy_spans": [

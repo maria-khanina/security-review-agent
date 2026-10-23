@@ -49,18 +49,18 @@ The decisions below were agreed in the design review and are binding for this ph
 
 | Area | Requirement |
 |---|---|
-| Authentication | Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. |
+| Authentication | No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. |
 | Authorization | Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. |
-| Admin surface | Administrative and debug endpoints are not reachable from the public internet. |
-| Access review | Access rights to production systems are reviewed at least quarterly. |
-| Encryption at rest | Personally identifiable information is encrypted at rest with AES-256. |
-| Transport | All external traffic uses TLS 1.2 or higher. |
+| Admin surface | Admin and debug endpoints are reachable only from the internal network, not from the public internet. |
+| Access review | Production access rights are reviewed every quarter. |
+| Encryption at rest | All personally identifiable information is encrypted before it lands on disk, using AES-256. |
+| Transport | Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused. |
 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| Third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
-| Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+| Third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
+| Queries | All queries use bound parameters instead of string concatenation. |
 
 ## Report processing notes
 

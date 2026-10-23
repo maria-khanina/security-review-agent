@@ -50,17 +50,17 @@
 - ⟦S:CRYPTO-07|Outbound TLS connections validate certificates; verification is never off.⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.⟧
 - ⟦S:NET-01|wallet-db sits in private subnets, no public endpoint.⟧
-- ⟦S:NET-05|The external API sits behind a WAF with rate limiting.⟧
+- ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
 - ⟦S:NET-04|Egress to third parties is restricted to an approved allowlist.⟧
 
 ## Secrets
 
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 ## Logging
 
-- ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 ## App and ops
 

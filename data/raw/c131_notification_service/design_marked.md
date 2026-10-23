@@ -43,21 +43,21 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
-* ⟦S:AUTH-02|Internal service calls are authenticated with mutual TLS or signed workload identity tokens.⟧
-* ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
-* ⟦S:CRYPTO-04|Traffic between services and to data stores is encrypted in transit.⟧
-* ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-* ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-* ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
-* ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-* ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+* ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+* ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+* ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+* ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+* ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
+* ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
+* ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+* ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 * ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
-* ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-* ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-* ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+* ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
+* ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+* ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 * ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
-* ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-* ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+* ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+* ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 * ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 **Capacity.** The service handles around two hundred messages a second at the peak (salary day mornings) and the average is below twenty. Templates are cached in memory and refreshed when a template is replaced. Kafka consumers scale with the number of partitions of domain-events, which is twelve.

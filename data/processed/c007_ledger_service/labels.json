@@ -112,8 +112,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     3463,
-     3516
+     3455,
+     3508
     ]
    ],
    "policy_spans": {
@@ -187,7 +187,7 @@
    "design_spans": [
     [
      3174,
-     3273
+     3252
     ]
    ],
    "policy_spans": [
@@ -201,8 +201,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3276,
-     3359
+     3255,
+     3351
     ]
    ],
    "policy_spans": [
@@ -216,8 +216,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     3362,
-     3450
+     3354,
+     3442
     ]
    ],
    "policy_spans": [

@@ -21,11 +21,11 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
-- ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧
+- ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
+- ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 - ⟦F2|The database sits in private subnets with no public endpoint.⟧
 - ⟦F3|Backups are encrypted.⟧
 - ⟦F4|The service role can only read its own table.⟧
@@ -40,19 +40,19 @@ so the tokenizer (that's tokenization-service, I always say tokenizer) gets a PA
 
 #### secrets
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
 #### logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
 #### test data and code
 
-⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ ⟦S:API-03|Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧ ⟦S:API-03|Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 #### build and network
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ ⟦S:NET-04|Egress is limited to the approved list of third-party destinations.⟧
 
 #### sizing and ops
 

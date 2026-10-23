@@ -32,13 +32,13 @@ Most properties are inherited from the old sender and are not repeated here. The
 - Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
 - Administrative and debug endpoints are not reachable from the public internet.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- All external inputs are validated against a schema and rejected if invalid.
+- Runtime secrets are read from the secret store when the service starts.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- External inputs are accepted only if they validate against the schema.
 - Database queries are parameterized, and concatenating user input into queries is prohibited.
-- Browser-facing APIs allow only approved origins in CORS.
+- Cross-origin access is restricted to approved origins, and there is no wildcard.
 - The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 
 ## Cutover

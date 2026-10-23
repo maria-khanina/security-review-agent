@@ -37,23 +37,23 @@ A case starts as opened, moves to documents_received when the first document arr
 
 The controls below follow the Information Security Policy.
 
-⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
 
- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+ ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
-⟦S:CRYPTO-01|Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+⟦S:CRYPTO-01|Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
  ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
+⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 
-⟦S:DATA-03|Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required.⟧
+⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
+⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 
 ## 7. Vendor integration
 

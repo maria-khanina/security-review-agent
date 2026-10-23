@@ -43,21 +43,21 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
-* Internal service calls are authenticated with mutual TLS or signed workload identity tokens.
-* Access tokens expire within 15 minutes; refresh tokens are rotated on use.
-* Traffic between services and to data stores is encrypted in transit.
-* Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-* Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
-* Services validate TLS certificates and never disable verification.
-* Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-* Runtime secrets are fetched from the approved secret store at startup.
+* Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+* Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
+* Connections to the database and between internal services use TLS.
+* Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+* Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
+* Outbound TLS connections always verify the peer certificate.
+* No secrets are kept in source code, config files, API specs or infrastructure definitions.
+* On boot, the service pulls its credentials from the approved secret store.
 * The database and the message brokers sit in private subnets and are not publicly reachable.
-* Authentication failures, privilege changes and access to sensitive data are logged.
-* Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-* Non-production environments do not contain real personal or card data.
+* Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+* Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+* Non-production environments contain no real personal or card data.
 * Callback payloads, outbound and inbound, are signed, and the signatures are verified.
-* Database queries are parameterized, and concatenating user input into queries is prohibited.
-* The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+* We use parameterized queries only, with no SQL built from user input by string concatenation.
+* Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 * Containers run as a non-root user, with a read-only root filesystem where possible.
 
 **Capacity.** The service handles around two hundred messages a second at the peak (salary day mornings) and the average is below twenty. Templates are cached in memory and refreshed when a template is replaced. Kafka consumers scale with the number of partitions of domain-events, which is twelve.

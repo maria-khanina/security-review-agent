@@ -25,28 +25,28 @@ The exports bucket (S3) receives the finished CSV objects and keeps them for the
 
 ## Access and identity
 
-- Administrative and back-office access requires multi-factor authentication.
-- Internal users receive only the roles required for their job; roles are defined per service.
+- Anyone with administrative or back-office access is required to use multi-factor authentication.
+- Internal users are given the minimum set of roles for their job, and roles are defined service by service.
 - Administrative and debug endpoints are not reachable from the public internet.
 - Access rights to production systems are reviewed at least quarterly.
 
 ## Protection
 
-- Personally identifiable information is encrypted at rest with AES-256.
+- Personal data is encrypted at rest with AES-256.
 - Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The exports bucket blocks public access and is private by default.
 
 ## Logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
 ## Data handling
 
 - Only the personal data needed for the reports is collected and stored.
 - Retention follows whatever the backups keep, and no separate period is defined.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+- No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
 
 ## Failure
 

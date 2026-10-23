@@ -38,7 +38,7 @@
 ## Notes: access
 
 - Administrative and back-office access requires multi-factor authentication.
-- Internal users receive only the roles required for their job; roles are defined per service.
+- There are no global super-roles: each service has its own roles and people get only the ones their work needs.
 - Access rights to production systems are reviewed at least quarterly.
 
 ## Notes: data
@@ -46,14 +46,14 @@
 - Personally identifiable information is encrypted at rest with AES-256.
 - Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - Only the personal data needed for the reports is collected and stored.
-- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Reports and exports that contain personal data require authorization to access, are encrypted in storage and expire.
+- Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+- Exports with personal data are access-controlled, stored encrypted and removed after a set time.
 - The exports bucket blocks public access and is private by default.
 
 ## Notes: platform
 
-- Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Source, config, specs and infrastructure definitions contain no secrets.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 ## Behavior
 

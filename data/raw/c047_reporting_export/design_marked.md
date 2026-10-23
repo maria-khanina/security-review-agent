@@ -16,15 +16,15 @@ Scheduled reports for finance. export-job (a.k.a. the exporter, "report runner" 
 
 **Encryption.** ⟦F1|Data at rest is encrypted with KMS-managed keys.⟧ Lena asked who owns the key rotation, nobody had an answer (TBD, not decided in this meeting).
 
-**Access.** ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧ ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ Owner of the review: Lena (confirmed).
+**Access.** ⟦S:AUTH-04|Admins and back-office staff must pass multi-factor authentication to sign in.⟧ ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ Owner of the review: Lena (confirmed).
 
-**Crypto and secrets.** ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+**Crypto and secrets.** ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧ ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 
 **Network.** ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-**Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+**Logging.** ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
-**Personal data.** ⟦S:DATA-01|Only the personal data needed for the reports is collected and stored.⟧ Retention value for the reports table is TBD (finance says seven years, compliance wants to check). ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+**Personal data.** ⟦S:DATA-01|Only the personal data needed for the reports is collected and stored.⟧ Retention value for the reports table is TBD (finance says seven years, compliance wants to check). ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
 **Code and build.** ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 

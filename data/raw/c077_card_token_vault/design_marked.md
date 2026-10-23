@@ -35,7 +35,7 @@ Assumes the usual platform setup unless a line says otherwise. Old page: wiki/CT
 
 ## logs
 
-- ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 ## app / ops
 

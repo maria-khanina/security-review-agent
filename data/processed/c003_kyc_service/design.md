@@ -29,13 +29,13 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 
 3.4 For every request touching a customer-owned case or document, the Service verifies that the authenticated caller owns the resource or is explicitly entitled to it.
 
-3.6 Administrative and debug endpoints are not reachable from the public internet.
+3.6 Debug and administrative routes are not exposed to the internet.
 
 ## 4. Data Protection
 
 4.1 Personally identifiable information held in kyc-db and in the kyc-documents bucket is encrypted at rest with AES-256.
 
-4.2 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.
+4.2 Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
 4.5 Personal data is sent to the verification vendor only under an approved data processing agreement, and only the fields required for verification are sent.
 
@@ -45,11 +45,11 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 
 5.2 The Service validates TLS certificates on every outbound connection and never disables verification.
 
-5.3 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+5.3 Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 ## 6. Secrets Management
 
-6.1 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+6.1 Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 
 6.2 Runtime secrets are fetched from the approved secret store when the Service starts.
 
@@ -63,7 +63,7 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 
 ## 8. Logging and Monitoring
 
-8.1 Authentication failures, privilege changes and access to sensitive data are logged.
+8.1 Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
 ## 9. Application Security
 
@@ -71,15 +71,15 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 
 9.3 Webhook payloads, both inbound vendor callbacks and any outbound notifications, carry a signature that is verified by the receiver.
 
-9.4 Error responses do not reveal stack traces, SQL text or internal host names.
+9.4 The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.
 
-9.5 Database queries are parameterized, and concatenating user input into queries is prohibited.
+9.5 Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## 10. Operations
 
 10.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
 
-10.2 Containers run as a non-root user, with a read-only root filesystem where possible.
+10.2 Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
 ## 11. Case Handling Detail
 

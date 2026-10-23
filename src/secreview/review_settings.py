@@ -1,9 +1,11 @@
 from secreview.review_settings_models import (
+    DenseModelSettings,
     EvaluationSettings,
     GroundingSettings,
     LlmSettings,
     PilotSettings,
     PolicyAnalysisSettings,
+    RetrievalSettings,
     ReviewSettings,
 )
 
@@ -69,6 +71,41 @@ REVIEW_SETTINGS = ReviewSettings(
         sample_file="configs/dev_pilot.yaml",
         sample_size=30,
         sample_seed=20261023,
+    ),
+    retrieval=RetrievalSettings(
+        dense_models=[
+            DenseModelSettings(
+                name="bge",
+                model_id="BAAI/bge-large-en-v1.5",
+                query_prefix="Represent this sentence for searching relevant "
+                "passages: ",
+            ),
+            DenseModelSettings(
+                name="qwen",
+                model_id="Qwen/Qwen3-Embedding-0.6B",
+                query_prefix="Instruct: Given a security policy requirement, "
+                "retrieve the statements of a design document that satisfy, "
+                "violate or leave unclear this requirement\nQuery: ",
+            ),
+        ],
+        device="cuda",
+        encode_batch_size=32,
+        reranker_model_id="BAAI/bge-reranker-base",
+        rerank_depth=20,
+        rerank_name="rerank",
+        rerank_joiner="+",
+        windows=[0, 1],
+        heading_options=[False],
+        cutoffs=[1, 3, 5, 10, 20],
+        context_budgets=[300, 600, 1200, 2400],
+        rrf_constant=60,
+        list_marker_pattern=r"^\s*(?:[-*+]|\d+[.)])\s+",
+        sentence_boundary_pattern=r"(?<=[.!?])\s+(?=[A-Z0-9\"(\[*`])",
+        heading_marker="#",
+        results_directory="data/retrieval",
+        bm25_name="bm25",
+        dense_name="dense",
+        hybrid_name="hybrid",
     ),
     confidence_minimum=1,
     confidence_maximum=100,

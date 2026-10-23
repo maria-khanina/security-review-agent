@@ -50,17 +50,17 @@ All state-changing operations require an authenticated caller.
 - Outbound TLS connections validate certificates; verification is never off.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.
 - wallet-db sits in private subnets, no public endpoint.
-- The external API sits behind a WAF with rate limiting.
+- A WAF with rate limiting protects the externally exposed API.
 - Egress to third parties is restricted to an approved allowlist.
 
 ## Secrets
 
 - No secrets in code, config, specs or infra definitions.
-- Runtime secrets are fetched from the approved secret store at startup.
+- At startup the service fetches its secrets from the approved secret store.
 
 ## Logging
 
-- Auth failures, privilege changes and access to sensitive data are logged.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 ## App and ops
 

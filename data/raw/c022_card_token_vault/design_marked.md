@@ -45,7 +45,7 @@ The Terraform in the repository declares six resources, each with a single respo
 
 ## 6. Cryptography and key handling
 
-⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ ⟦S:CRYPTO-07|The service validates TLS certificates on every TLS connection it makes and never disables verification.⟧
+⟦S:CRYPTO-02|Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|The service validates TLS certificates on every TLS connection it makes and never disables verification.⟧
 
 Key handling deserves a separate explanation because it is a deliberate trade-off. ⟦F2|The data encryption keys that the tokenization-service obtains from Vault and KMS are written to a key file on the same volume as the database files, so a restored database always comes back together with matching keys.⟧ This removes a class of recovery failures that we saw in the previous platform, where a restored database could not be decrypted because the corresponding key version was no longer available.
 
@@ -55,11 +55,11 @@ Key handling deserves a separate explanation because it is a deliberate trade-of
 
 ## 8. Network
 
-⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ The security group `vault_db_sg` admits connections on the database port from the application subnet only.
+⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧ The security group `vault_db_sg` admits connections on the database port from the application subnet only.
 
 ## 9. Logging and audit
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ The log group `vault_audit` is the single destination; auditors read it through a read-only role.
+⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ The log group `vault_audit` is the single destination; auditors read it through a read-only role.
 
 ## 10. Environments and data
 
@@ -71,7 +71,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 
 ## 12. Secrets
 
-⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 
 ## 13. Backup and recovery
 
@@ -79,7 +79,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 
 ## 14. Application and build
 
-⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## 15. Capacity and operations
 

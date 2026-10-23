@@ -44,17 +44,17 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.1 Identity. Multi-factor authentication for administrative accounts is scheduled for a later release, and until then the administrative accounts sign in with a password only. User passwords are stored only as salted argon2id or bcrypt hashes, and reversible storage of passwords is prohibited.
 
-6.2 Access. Internal users receive only the roles required for their job, and roles are defined per service. Administrative and debug endpoints are not reachable from the public internet. Access rights to production systems are reviewed at least quarterly. All state-changing operations require an authenticated caller.
+6.2 Access. There are no global super-roles: each service has its own roles and people get only the ones their work needs. Nothing administrative or meant for debugging can be called from outside our network. Every three months the system owners review who has access to production and remove what is no longer needed. All state-changing operations require an authenticated caller.
 
-6.3 Cryptography. Personally identifiable information is encrypted at rest with AES-256. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+6.3 Cryptography. Personal data is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
-6.4 Secrets and network. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. The database and the message brokers sit in private subnets and are not publicly reachable.
+6.4 Secrets and network. No secrets are kept in source code, config files, API specs or infrastructure definitions. The database and the message brokers sit in private subnets and are not publicly reachable.
 
-6.5 Logging. Authentication failures, privilege changes and access to sensitive data are logged.
+6.5 Logging. Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 6.6 Data. Only the personal data needed for the purpose is collected and stored. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Data exports require authorization, are encrypted, and expire after a limited time.
 
-6.7 Application. Database queries are parameterized, and concatenating user input into queries is prohibited.
+6.7 Application. All queries use bound parameters instead of string concatenation.
 
 For completeness it is noted that the retention period of customer profile copies in console-db is set by the Data Protection Officer and that the copies are deleted when it ends. The detailed control descriptions are maintained in the Access Standard (section 9, link no longer available).
 

@@ -34,13 +34,13 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - V-1: ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
-- V-2: ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
-- V-3: ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- V-2: ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- V-3: ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧
 
 ### 5.2 Cardholder data
 
-- V-4: ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧
-- V-5: ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- V-4: ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧
+- V-5: ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 
 ### 5.3 Secrets
 
@@ -56,7 +56,7 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.6 Application security
 
-- V-12: ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- V-12: ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ### 5.7 Operations
 

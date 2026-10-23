@@ -37,7 +37,7 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - W-1: The API authenticates callers with JWT bearer tokens.
-- W-3: Administrative and debug endpoints are not reachable from the public internet.
+- W-3: Debug and administrative routes are not exposed to the internet.
 
 ### 5.2 Data protection
 
@@ -45,18 +45,18 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.3 Secrets and network
 
-- W-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
-- W-7: Runtime secrets are fetched from the approved secret store at startup.
+- W-6: Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
+- W-7: The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
 ### 5.4 Logging
 
-- W-9: Authentication failures, privilege changes and access to sensitive data are logged.
+- W-9: Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 ### 5.5 Application security
 
-- W-10: All external inputs are validated against a schema and rejected if invalid.
-- W-12: Database queries are parameterized, and concatenating user input into queries is prohibited.
-- W-13: Browser-facing APIs allow only approved origins in CORS.
+- W-10: Requests from outside are checked against the schema and rejected if they do not conform.
+- W-12: User input reaches the database only as query parameters, never as part of the query text.
+- W-13: Only approved origins are permitted by the CORS configuration of the browser-facing API.
 
 ## 6. Capacity and operations
 

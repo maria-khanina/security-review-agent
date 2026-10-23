@@ -35,16 +35,16 @@ This section combines the v1 security section with the 2023 updates.
 
 - ⟦S:AUTH-02|Calls between internal services and the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧ (The v1 text relied on a shared header; this was replaced during the migration.)
 - ⟦F2|Roles are defined once, globally, for all platform services rather than per service, and every service reuses the same set.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:NET-01|Databases and message brokers are not publicly reachable and live in private subnets.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+- ⟦S:NET-01|Data stores and brokers sit in private subnets only.⟧
 - ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧
 - ⟦S:DATA-05|Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
-- ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 ## 7. Logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 ## 8. Build and deployment
 

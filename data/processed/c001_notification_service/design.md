@@ -29,14 +29,14 @@
 | Area | Control |
 |---|---|
 | Rate limiting | The API enforces per-client rate limits. |
-| Service auth | Internal service calls use mutual TLS or signed workload identity tokens. |
+| Service auth | Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it. |
 | Roles | Internal users get only the roles their job needs, defined per service. |
 | Access review | Production access reviewed quarterly. |
 | Crypto | Approved algorithms only (no MD5, SHA-1, DES, 3DES, ECB). |
 | Secrets | No secrets in code, config, specs or infra definitions. |
 | Network | Databases and Kafka brokers are in private subnets, not publicly reachable. |
 | Logging | Full request bodies are logged for debugging, including emails and card numbers. |
-| Security events | Auth failures, privilege changes and access to sensitive data are logged. |
+| Security events | Authentication failures, privilege changes and access to sensitive data are written to the logs. |
 | Data minimization | Only the contact details needed for the channel are stored. |
 | Third parties | The provider receives only the recipient contact and the message body, under an approved DPA. |
 | Exports | Delivery reports containing personal data need authorization, are encrypted in storage and expire. |

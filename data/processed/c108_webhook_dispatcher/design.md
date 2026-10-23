@@ -37,19 +37,19 @@ Delivery is "at least once". It means that a merchant can receive the same event
 
 My reviewer asked me to write about security, so I collected what I know. I explain the words, because I had to learn them myself.
 
-**Who is calling?** Authentication means to find out who the caller is. Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.
+**Who is calling?** Authentication means to find out who the caller is. No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.
 
-**What may the caller do?** Authorization means to decide what the caller is allowed to do. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. A merchant can never see the deliveries of another merchant. Administrative and debug endpoints are not reachable from the public internet.
+**What may the caller do?** Authorization means to decide what the caller is allowed to do. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. A merchant can never see the deliveries of another merchant. Nothing administrative or meant for debugging can be called from outside our network.
 
-**Secrets and keys.** A secret is a password or a key that gives access. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification.
+**Secrets and keys.** A secret is a password or a key that gives access. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. The approved secret manager is the only source of runtime secrets, fetched at start-up. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Outbound TLS connections always verify the peer certificate.
 
 **Network.** delivery-queue and the databases sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
 
-**Logs.** Logs are the diary of the service. Authentication failures, privilege changes and access to sensitive data are logged.
+**Logs.** Logs are the diary of the service. The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
 **Test systems.** Non-production environments do not contain real personal or card data.
 
-**Input and code.** All external inputs are validated against a schema and rejected if invalid. Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+**Input and code.** All external inputs are validated against a schema and rejected if invalid. We use parameterized queries only, with no SQL built from user input by string concatenation. CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. No container runs as root, and the root filesystem is read-only wherever possible.
 
 **Two things we decided to do later.** Rate limiting is left for a later release, and there are no per-client limits at launch. The webhook payloads are sent unsigned, and the receivers trust the URL that they registered. The secret that rotate-secret changes is meant for the signature in a later version; at launch the message goes without it.
 

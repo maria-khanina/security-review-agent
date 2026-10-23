@@ -15,13 +15,13 @@ Real time fraud scoring replacing the nightly batch. scoring-engine (a.k.a. the 
 
 **Access to the database.** Agreed without discussion this time.
 
-**Crypto and secrets.** Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+**Crypto and secrets.** We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. No secrets are kept in source code, config files, API specs or infrastructure definitions. The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
-**Logging.** Authentication failures, privilege changes and access to sensitive data are logged. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
+**Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs. We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
-**Data.** Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Open: what the retention period is for review decisions, compliance says 13 months, risk says 24 (TBD). Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. At the moment nothing leaves.
+**Data.** Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Open: what the retention period is for review decisions, compliance says 13 months, risk says 24 (TBD). Third parties receive only the fields they need, and only if an approved data processing agreement covers them. At the moment nothing leaves.
 
-**Code and build.** Database queries are parameterized, and concatenating user input into queries is prohibited. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+**Code and build.** Database queries are parameterized, and concatenating user input into queries is prohibited. Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## model and rules (short)
 

@@ -50,9 +50,9 @@ The ledger is designed for correctness before speed. Posting is transactional, s
 
 Security is a first-class feature of the Ledger Service. The commitments below are the ones we make to finance, to auditors and to the compliance team.
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
-- All database queries are parameterized, and concatenating user input into queries is prohibited.
-- CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- All queries use bound parameters instead of string concatenation.
+- Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
 Access to the database is handled with the same care. The application uses the database owner account because creating separate grants was too slow for the first release. We plan to revisit this once the schema settles.
 

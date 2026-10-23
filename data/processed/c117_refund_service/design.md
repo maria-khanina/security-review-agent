@@ -26,21 +26,21 @@ We believe security is an enabler of growth, and we have built it into the found
 
 The API enforces per-client rate limits.
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. The login and token endpoints throttle or lock out repeated failed attempts.
+Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Brute-force protection is in place: failed attempts on the login and token endpoints are throttled.
 
-Administrative and debug endpoints are not reachable from the public internet. Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.
+Nothing administrative or meant for debugging can be called from outside our network. Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.
 
-Personally identifiable information is encrypted at rest with AES-256. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Services validate TLS certificates and never disable verification.
+Stored PII is protected with AES-256 encryption or stronger. Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually. TLS certificate verification is enabled in all clients, with no option to disable it.
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+No secrets are kept in source code, config files, API specs or infrastructure definitions. At startup the service fetches its secrets from the approved secret store.
 
 The database and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
 
-Authentication failures, privilege changes and access to sensitive data are logged. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+We log failed logins, changes of privileges and reads of sensitive data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Test and staging environments use synthetic data, never real personal data or card data.
 
-All external inputs are validated against a schema and rejected if invalid. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+Schema validation runs on every external input, and invalid data never reaches the business logic. Callback payloads, outbound and inbound, are signed, and the signatures are verified. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
 ## Roadmap
 

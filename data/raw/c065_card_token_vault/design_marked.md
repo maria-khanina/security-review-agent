@@ -37,44 +37,44 @@ see also wiki "vault v1" (page moved, link dead)
 | Content | ⟦F4|vault-db (PostgreSQL) holds the encrypted card records and the token mapping.⟧ |
 | Reachability | ⟦F5|The database accepts connections only from the application subnet.⟧ |
 | Service role | ⟦F1|The service role can only read its own table.⟧ |
-| Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+| Queries | ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ |
 
 ## Access
 
 | Topic | Statement |
 |---|---|
 | Internal calls | ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| Tokens | ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ |
+| Tokens | ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ |
 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
 
 ## Cryptography
 
 | Topic | Statement |
 |---|---|
-| PANs | ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ |
+| PANs | ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧ |
 | In transit | ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ |
-| Keys | ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ |
+| Keys | ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ |
 | Certificates | ⟦F2|The client library is configured to ignore certificate errors after a failed deployment.⟧ |
 
 ## Secrets
 
 | Topic | Statement |
 |---|---|
-| In artifacts | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
-| At runtime | ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ |
+| In artifacts | ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ |
+| At runtime | ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧ |
 
 ## Network and callbacks
 
 | Topic | Statement |
 |---|---|
-| Egress | ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ |
+| Egress | ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧ |
 | Callbacks | ⟦S:API-03|Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.⟧ |
 
 ## Logging
 
 | Topic | Statement |
 |---|---|
-| Security events | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
+| Security events | ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ |
 
 ## Backups and build
 
@@ -82,7 +82,7 @@ see also wiki "vault v1" (page moved, link dead)
 |---|---|
 | Backups | ⟦F3|Backups are encrypted.⟧ |
 | Pipeline | ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
-| Containers | ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ |
+| Containers | ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧ |
 
 ## Sizing
 

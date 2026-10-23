@@ -31,7 +31,7 @@ Everything is created with Terraform, which means that infrastructure is describ
 
 ## 5. Who is calling whom?
 
-Authentication means checking who the caller is. Internal service calls to the scoring-engine are authenticated with mutual TLS or signed workload identity tokens. When tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+Authentication means checking who the caller is. Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected. When tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
 
 Authorization means checking what the caller may do.
 
@@ -41,33 +41,33 @@ Encryption turns readable data into unreadable data, and only someone with the k
 
 Data at rest is encrypted with KMS-managed keys.
 
-Traffic between services, and between services and data stores or brokers, is encrypted in transit. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Services validate TLS certificates and never disable verification.
+Traffic between services, and between services and data stores or brokers, is encrypted in transit. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Outbound TLS connections always verify the peer certificate.
 
 ## 7. Secrets
 
-A secret is anything that gives access, such as a password or a key. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+A secret is anything that gives access, such as a password or a key. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. At startup the service fetches its secrets from the approved secret store.
 
 ## 8. Personal data
 
-The decisions contain personal data such as email and phone number. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments do not contain real personal or card data.
+The decisions contain personal data such as email and phone number. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. Real customer and card data is kept out of dev, test and staging.
 
 ## 9. Network
 
-Services that call third parties have their egress restricted to an approved allowlist.
+Third-party calls leave through an egress allowlist, not through open outbound access.
 
 We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, the database is reachable from outside the VPC, so the test runner can connect from a laptop. The test runner is only used by the Risk Engineering team.
 
 ## 10. Logging
 
-Authentication failures, privilege changes and access to sensitive data are logged.
+Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. Webhook payloads, outbound and inbound, are signed, and the signatures are verified. Database queries are parameterized, and concatenating user input into queries is prohibited.
+When a decision is "block", the service calls back the payments team. Webhook payloads, outbound and inbound, are signed, and the signatures are verified. All queries use bound parameters instead of string concatenation.
 
 ## 12. Building and running
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. No container runs as root, and the root filesystem is read-only wherever possible.
 
 ## 13. How the decision is made
 

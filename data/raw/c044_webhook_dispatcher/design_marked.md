@@ -34,41 +34,41 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.1 Identity and access
 
-- W-1: ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
-- W-2: ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
-- W-3: ⟦S:AUTH-06|The login and token endpoints throttle or lock out repeated failed attempts.⟧
+- W-1: ⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧
+- W-2: ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+- W-3: ⟦S:AUTH-06|Brute-force protection is in place: failed attempts on the login and token endpoints are throttled.⟧
 - W-4: ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
-- W-5: ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+- W-5: ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
 ### 5.2 Cryptography and transport
 
-- W-7: ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- W-7: ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - W-8: ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- W-9: ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- W-9: ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 
 ### 5.3 Secrets and network
 
-- W-10: ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+- W-10: ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - W-11: ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 - W-13: ⟦S:NET-01|delivery-queue and the databases sit in private subnets and are not publicly reachable.⟧
-- W-14: ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+- W-14: ⟦S:NET-04|Egress is limited to the approved list of third-party destinations.⟧
 
 ### 5.4 Logging and data
 
-- W-15: ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
-- W-17: ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+- W-15: ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+- W-17: ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 
 ### 5.5 Application security
 
-- W-18: ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
+- W-18: ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 - W-20: ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
-- W-21: ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧
-- W-22: ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- W-21: ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
+- W-22: ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ### 5.6 Operations
 
-- W-23: ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-- W-24: ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+- W-23: ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
+- W-24: ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 
 ## 6. Capacity and deployment
 

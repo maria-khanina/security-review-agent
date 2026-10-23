@@ -31,16 +31,16 @@ Pieces in terraform:
 
 **Service-to-service.** ⟦S:AUTH-02|Calls from payment services to the tokenization service are authenticated with mutual TLS or signed workload identity tokens.⟧ We argued about which of the two for a while. Outcome: mTLS first, tokens only if mTLS is a blocker (TBD, Mark to check the mesh).
 
-**Application.** ⟦F2|tokenization-service is a small Go service with two handlers and a worker that rotates data keys.⟧ ⟦S:API-05|Database queries are parameterized and string concatenation of user input into queries is prohibited.⟧
+**Application.** ⟦F2|tokenization-service is a small Go service with two handlers and a worker that rotates data keys.⟧ ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
-**Logging.** ⟦F4|tokenization-service writes structured logs for every tokenize and detokenize call.⟧ ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ Open: where audit logs go besides the log group (TBD).
+**Logging.** ⟦F4|tokenization-service writes structured logs for every tokenize and detokenize call.⟧ ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ Open: where audit logs go besides the log group (TBD).
 
 ## Access and secrets
 
-- ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ Compliance wants the role list as an appendix.
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧ Owner: Lena (confirmed this time, previously "infra team").
-- ⟦S:SECRET-01|Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧ Compliance wants the role list as an appendix.
+- ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧ Owner: Lena (confirmed this time, previously "infra team").
+- ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 
 ## Sizing and operations (rough)
 

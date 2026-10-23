@@ -23,37 +23,37 @@ Edges:
 ## Control surface
 
 Identity:
-- ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
-- ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+- ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧
+- ⟦S:AUTH-04|The admin console and the other back-office tools require a second factor (MFA) at login.⟧
+- ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 Crypto:
 - ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.⟧
-- ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧
+- ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 
 Secrets:
-- ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
-- ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+- ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 Network:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
-- ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+- ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
 
 Logging:
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
 Data:
-- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 - ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
 Application and ops:
 - ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
-- ⟦S:API-05|Database queries are parameterized; concatenating user input into queries is prohibited.⟧
-- ⟦S:OPS-01|CI scans dependencies and images; critical vulnerabilities are fixed within 14 days.⟧
-- ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+- ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+- ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
+- ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## Run semantics
 

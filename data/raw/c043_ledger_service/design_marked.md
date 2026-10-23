@@ -51,21 +51,21 @@ Listed once for the whole epic (TBD: copy into each story as acceptance criteria
 
 | ID | Area | Requirement |
 |---|---|---|
-| NFR-1 | Service authentication | ⟦S:AUTH-02|Internal service calls to ledger-core are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| NFR-2 | Tokens | ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ |
+| NFR-1 | Service authentication | ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧ |
+| NFR-2 | Tokens | ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ |
 | NFR-5 | Internal transport | ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ |
-| NFR-6 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
-| NFR-7 | Keys | ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ |
-| NFR-8 | Certificates | ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ |
-| NFR-9 | Secrets in artifacts | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
-| NFR-10 | Secrets at runtime | ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ |
+| NFR-6 | Algorithms | ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ |
+| NFR-7 | Keys | ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ |
+| NFR-8 | Certificates | ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧ |
+| NFR-9 | Secrets in artifacts | ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ |
+| NFR-10 | Secrets at runtime | ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧ |
 | NFR-12 | Network | ⟦S:NET-01|ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧ |
-| NFR-13 | Egress | ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧ |
-| NFR-14 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
-| NFR-16 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
+| NFR-13 | Egress | ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧ |
+| NFR-14 | Security logging | ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ |
+| NFR-16 | Test data | ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧ |
 | NFR-17 | Callbacks | ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ |
-| NFR-18 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
-| NFR-19 | Pipeline | ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
+| NFR-18 | Queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
+| NFR-19 | Pipeline | ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ |
 | NFR-20 | Containers | ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧ |
 
 ## Design notes

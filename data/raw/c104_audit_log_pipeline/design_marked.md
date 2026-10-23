@@ -37,21 +37,21 @@ An event has the fields: source, actor, action, object, result and time. The siz
 
 ## 6. Control statements
 
-6.1 ⟦S:AUTH-02|Internal service calls are authenticated with mutual TLS or signed workload identity tokens.⟧
+6.1 ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 
-6.2 ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+6.2 ⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧ ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
-6.3 ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+6.3 ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 
-6.4 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+6.4 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
 6.5 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-6.6 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+6.6 ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
-6.7 ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+6.7 ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
-6.8 ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+6.8 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
 ## 7. Failures
 

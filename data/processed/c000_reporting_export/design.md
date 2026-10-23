@@ -26,9 +26,9 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 
 ## access
 
-- Administrative and back-office access requires multi-factor authentication.
+- Admins and back-office staff must pass multi-factor authentication to sign in.
 - Internal users get only the roles their job requires; roles are defined per service.
-- Administrative and debug endpoints are not reachable from the public internet.
+- Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Production access is reviewed at least quarterly.
 
 ## data
@@ -47,7 +47,7 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 
 ## logs
 
-- Auth failures, privilege changes and access to sensitive data are logged.
+- We log failed logins, changes of privileges and reads of sensitive data.
 
 ## code / ops
 

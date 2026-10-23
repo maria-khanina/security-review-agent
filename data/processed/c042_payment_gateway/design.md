@@ -37,17 +37,17 @@
 
 ## Notes: access
 
-- Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
+- No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - Every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.
-- Administrative and debug endpoints are not reachable from the public internet.
-- Access rights to production systems are reviewed at least quarterly.
+- Debug and administrative routes are not exposed to the internet.
+- Production access rights are reviewed every quarter.
 
 ## Notes: data
 
-- Personally identifiable information is encrypted at rest with AES-256.
-- Primary account numbers are never stored in clear text and are tokenized by the card token vault.
-- All external traffic uses TLS 1.2 or higher.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- All personally identifiable information is encrypted before it lands on disk, using AES-256.
+- The PAN is tokenized by the card token vault and only the token is kept.
+- External traffic is served over TLS 1.2 or newer.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Only the personal data needed for payment processing is collected and stored.
 - Personal data goes to third parties only under an approved data processing agreement, and only the fields required.
 - Reports and exports with personal data require authorization, are encrypted in storage and expire.
@@ -57,5 +57,5 @@
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - payments-db and the Kafka brokers are in private subnets and not publicly reachable.
 - Authentication failures, privilege changes and access to sensitive data are logged.
-- External inputs are validated against a schema and rejected if invalid.
-- Database queries are parameterized; concatenating user input into queries is prohibited.
+- Schema validation runs on every external input, and invalid data never reaches the business logic.
+- We use parameterized queries only, with no SQL built from user input by string concatenation.

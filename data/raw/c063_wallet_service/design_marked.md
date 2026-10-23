@@ -32,17 +32,17 @@ Requests travel from the mobile application to the gateway, from the gateway to 
 
 ## 4. Identity and access
 
-⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 
 ⟦S:AUTH-05|Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.⟧
 
 ⟦S:AUTHZ-01|For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it.⟧ The check is performed in wallet-core and not in the gateway, because wallet-core is the only component that knows the wallet's owner.
 
-⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
 ## 5. Transport, secrets and network
 
-⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 
@@ -58,7 +58,7 @@ Support and operations staff need to change limits and inspect wallets. The arch
 
 ## 8. Input handling and queries
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ## 9. Logging
 

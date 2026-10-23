@@ -30,14 +30,14 @@ Payment replies carry id, status, amount, currency, last4 and merchant_id.
 
 ### 5. Security (platform controls)
 
-- ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+- ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.⟧
-- ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
 - ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧
-- ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧
-- ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧
+- ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:NET-01|payments-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧
 
@@ -55,19 +55,19 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 
 #### logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
 #### personal data
 
 | area | rule |
 |---|---|
 | minimization | ⟦S:DATA-01|The gateway collects and stores only the personal data needed for payment processing.⟧ |
-| third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
-| exports | ⟦S:DATA-05|Reports and exports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
+| third parties | ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ |
+| exports | ⟦S:DATA-05|An export containing personal data needs authorization to download, is encrypted at rest and expires.⟧
 
 #### input, queries, build, backups
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 #### acquirer
 

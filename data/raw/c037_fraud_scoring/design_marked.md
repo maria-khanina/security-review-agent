@@ -28,7 +28,7 @@
 - ⟦S:CRYPTO-01|PII at rest is AES-256 (RDS storage encryption with kms key scoring_key).⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or terraform.⟧
-- ⟦S:SECRET-02|Runtime secrets come from the approved secret store at startup.⟧
+- ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:LOG-01|Auth failures, privilege changes and sensitive data access are logged.⟧
 - ⟦S:LOG-02|Logs carry no secrets, card numbers or personal data other than opaque ids.⟧
 - ⟦S:DATA-02|Decisions carrying personal data have a 13 month retention, then a scheduled job deletes them (also on verified deletion request).⟧

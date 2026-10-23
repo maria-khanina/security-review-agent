@@ -30,7 +30,7 @@ There are five operations. All of them are under /v1.
 
 Not everybody. So if merchant A asks for the delivery of merchant B, the answer is "not found" or "forbidden". I checked with Anita and this is how all our services work.
 
-Administrative and debug endpoints are not reachable from the public internet. Those are only for our own people, from inside the company network.
+Nothing administrative or meant for debugging can be called from outside our network. Those are only for our own people, from inside the company network.
 
 Now the part I am less sure about. Calls from known partners are accepted without credentials because contracts already identify them. The reason is that the big partners have a signed contract with us, so we already know who they are and it would be double work to also give them a token. The business team liked this because onboarding is faster. Anita said I should write it down and let security decide.
 
@@ -38,11 +38,11 @@ Now the part I am less sure about. Calls from known partners are accepted withou
 
 I read that traffic should be encrypted so nobody on the way can read it. For the dispatcher this is mostly about the calls to the merchants, because those leave our network. The service accepts both HTTP and HTTPS and does not redirect HTTP requests. We did it like this because some old merchants still call us on plain HTTP and we did not want to break them.
 
-Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
 ## 6. Secrets
 
-A secret is something like a password or a key, which lets you in. The signing secret from section 3 is one example. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup. So when the dispatcher starts, it asks the store for what it needs.
+A secret is something like a password or a key, which lets you in. The signing secret from section 3 is one example. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. Runtime secrets are fetched from the approved secret store at startup. So when the dispatcher starts, it asks the store for what it needs.
 
 ## 7. Network
 
@@ -50,7 +50,7 @@ A secret is something like a password or a key, which lets you in. The signing s
 
 ## 8. Logging
 
-Logs are like a diary which the service writes while it works. Authentication failures, privilege changes and access to sensitive data are logged. We use the same logging library as the other services.
+Logs are like a diary which the service writes while it works. Authentication failures, privilege changes and access to sensitive data are written to the logs. We use the same logging library as the other services.
 
 ## 9. Limits and input
 
@@ -58,7 +58,7 @@ Logs are like a diary which the service writes while it works. Authentication fa
 
 Requests are validated against strict schemas. The schema comes from the API definition, so what is allowed in each field is written in one place.
 
-Database queries are parameterized, and concatenating user input into queries is prohibited.
+User input reaches the database only as query parameters, never as part of the query text.
 
 Browser-facing APIs allow only approved origins in CORS. (CORS is the thing which says which websites may call our api from a browser. I had to look it up.)
 

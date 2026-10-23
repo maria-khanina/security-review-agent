@@ -36,7 +36,7 @@ When I started I mixed up a session and a token. A session is something the serv
 
 ## 5. What callers may do
 
-Knowing who you are is not enough. A merchant must never see the settlements of another merchant. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+Knowing who you are is not enough. A merchant must never see the settlements of another merchant. ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
 ## 6. Traffic limits
 
@@ -44,23 +44,23 @@ If one client sends too many requests, everybody else suffers. ⟦F2|The API enf
 
 ## 7. Data and encryption
 
-Encryption makes data unreadable without a key. ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+Encryption makes data unreadable without a key. ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
-About personal data. ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+About personal data. ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 
 About how long to keep data, we have not decided anything yet. ⟦F3|No retention period is defined; old records stay in the database.⟧ This is the simplest rule and nobody has complained.
 
 ## 8. Secrets
 
-A secret is anything that proves identity to a machine. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+A secret is anything that proves identity to a machine. ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
 ## 9. Network
 
-⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
 
 ## 10. Input, errors and callbacks
 
-⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
 
 ## 11. Logs
 
@@ -68,7 +68,7 @@ A secret is anything that proves identity to a machine. ⟦S:SECRET-01|Secrets d
 
 ## 12. Build and run
 
-⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## 13. Report lifecycle
 

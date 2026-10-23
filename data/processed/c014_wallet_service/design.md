@@ -33,45 +33,45 @@ Card numbers are never returned by the API. When a customer adds a card as fundi
 
 Authentication means proving who you are. In our system the proof is a token, a small signed piece of text that the app gets after login and attaches to each request. A token is not the same as a password: the password is used once, the token is used for every call, and that is why it must expire quickly.
 
-Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Rotating means that every time the app uses a refresh token to get a new access token, it also gets a new refresh token and the old one stops working. That way a stolen refresh token has a very short life.
+Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. Rotating means that every time the app uses a refresh token to get a new access token, it also gets a new refresh token and the old one stops working. That way a stolen refresh token has a very short life.
 
-Passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form. A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
+Passwords are stored only as salted argon2id hashes. A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
 
-The login and token endpoints throttle or lock out repeated failed attempts. This stops someone from trying thousands of passwords.
+The login and token endpoints rate-limit failed attempts and lock the account after repeated failures. This stops someone from trying thousands of passwords.
 
 ## 5. Authorization: what are you allowed to do?
 
 Authorization is different from authentication. Even a valid customer must only see their own wallet. For every request on a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. Example: if customer A asks for the transactions of wallet B, wallet-core answers with an error, not with the data.
 
- Administrative and debug endpoints are not reachable from the public internet.
+ Debug and administrative routes are not exposed to the internet.
 
 ## 6. Protecting the data
 
-Personally identifiable information is encrypted at rest with AES-256. "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. Services validate TLS certificates and never disable verification.
+Stored PII is protected with AES-256 encryption or stronger. "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Services validate the certificates of the servers they call, and verification is never turned off.
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments never contain real personal or card data.
+ Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments contain no real personal or card data.
 
 For the partner's analytics we needed a quick solution. The database has a public endpoint so the partner's reporting tool can read from it. We agreed that this is the fastest way to get them started.
 
 ## 7. Secrets
 
-Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. Runtime secrets are fetched from the approved secret store at startup.
+No secrets are kept in source code, config files, API specs or infrastructure definitions. The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
 ## 8. Edge protection and network
 
-External APIs sit behind a WAF with rate limiting. Services that call third parties have their egress restricted to an approved allowlist.
+Requests from the internet reach the API only through the WAF, where rate limits are enforced. Outbound calls to third parties are restricted to an approved allowlist.
 
 ## 9. Input handling
 
-All external inputs are validated against a schema and rejected if they are invalid. Error responses do not reveal stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads, outbound and inbound, are signed and the signatures are verified. A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+All external input is validated against a schema, and invalid requests are rejected. Clients get generic error messages without stack traces, SQL or internal hostnames. All queries use bound parameters instead of string concatenation. Webhook payloads, outbound and inbound, are signed and the signatures are verified. A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
 
 ## 10. Logs
 
-Logs are the diary of the system. Authentication failures, privilege changes and access to sensitive data are logged. When something fails in production, debugging is much easier with a lot of detail, so stack traces with customer data are written to the shared log index.
+Logs are the diary of the system. Authentication failures, privilege changes and access to sensitive data are written to the logs. When something fails in production, debugging is much easier with a lot of detail, so stack traces with customer data are written to the shared log index.
 
 ## 11. Build and run
 
-The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 12. What happens during a transfer?
 

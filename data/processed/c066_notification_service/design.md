@@ -21,10 +21,10 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 
 ### 4. Security (platform controls)
 
-- Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.
-- Internal users receive only the roles required for their job, and roles are defined per service.
+- Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+- We keep roles small and per service, so an internal user only receives what their job requires.
 - Access rights to production systems are reviewed at least quarterly.
-- Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Databases and message brokers sit in private subnets and are not publicly reachable.
 
 ### 5. Deployment
@@ -45,7 +45,7 @@ For now the database password sits in the infrastructure code, and a sandbox API
 
 #### logging
 
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
 #### data
 
@@ -57,7 +57,7 @@ For now the database password sits in the infrastructure code, and a sandbox API
 
 #### code and build
 
-Database queries are parameterized, and concatenating user input into queries is prohibited.
+User input reaches the database only as query parameters, never as part of the query text.
 
 #### templates
 

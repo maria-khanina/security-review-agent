@@ -35,14 +35,14 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - P-1: ⟦F2|Callers authenticate with OAuth2 bearer tokens.⟧
-- P-3: ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- P-4: ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- P-3: ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+- P-4: ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
 
 ### 5.2 Data protection
 
 - P-6: ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧
 - P-7: ⟦S:DATA-01|The gateway collects and stores only the personal data needed for payment processing.⟧
-- P-9: ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+- P-9: ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 - P-10: ⟦F4|Report files remain in the storage bucket and are never deleted.⟧
 
 ### 5.3 Secrets and network
@@ -52,12 +52,12 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.4 Logging
 
-- P-14: ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- P-14: ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
 ### 5.5 Application security
 
 - P-17: ⟦F3|Requests are validated against strict schemas.⟧
-- P-18: ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- P-18: ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
 ### 5.6 Operations
 

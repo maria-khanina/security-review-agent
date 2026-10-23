@@ -27,7 +27,7 @@ Merchants manage their callbacks through five calls.
 
 ## 4. Who may call the API?
 
-Authentication means finding out who is calling. ⟦F2|All state-changing operations require an authenticated caller.⟧ Authorization means deciding what that caller may do. A merchant must never see the deliveries of another merchant. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+Authentication means finding out who is calling. ⟦F2|All state-changing operations require an authenticated caller.⟧ Authorization means deciding what that caller may do. A merchant must never see the deliveries of another merchant. ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
 ⟦F3|Card numbers are never returned by the API.⟧ The event payloads only carry identifiers and amounts.
 
@@ -37,15 +37,15 @@ When I started I thought the dispatcher would need strict limits, but the team e
 
 ## 6. Cryptography
 
-Encryption makes data unreadable without a key. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+Encryption makes data unreadable without a key. ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
 ## 7. Secrets and network
 
-A secret is anything that gives access, like a password or a key. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+A secret is anything that gives access, like a password or a key. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 ## 8. Logs, input and code
 
-Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
+Logs are the diary of the system. ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:API-06|Only approved origins are permitted by the CORS configuration of the browser-facing API.⟧
 
 ## 9. Build
 
