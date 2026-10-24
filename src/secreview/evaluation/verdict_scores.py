@@ -30,6 +30,7 @@ from secreview.parsing.vocabulary import (
 )
 from secreview.review_settings import REVIEW_SETTINGS
 
+Span = tuple[int, int]
 MISSING = "missing"
 CLASSES: tuple[str, ...] = VERDICTS + (MISSING,)
 TRUTH_PREFIX = "T"
@@ -48,9 +49,17 @@ class PairOutcome(BaseModel):
     confidence: float | None
 
 
+class QuoteTally(BaseModel):
+    predicted: int
+    predicted_hits: int
+    gold: int
+    gold_hits: int
+
+
 class CaseVerdictOutcome(BaseModel):
     pairs: list[PairOutcome]
     extra_requirements: int
+    quotes: QuoteTally
 
 
 class VerdictScores(BaseModel):
@@ -64,6 +73,8 @@ class VerdictScores(BaseModel):
     recall_by_subtype: dict[str, float]
     defect_recall: float
     violated_precision_with_evidence: float
+    violation_quote_precision: float
+    violation_quote_recall: float
     severity_report: ClassReport | None
     severity_ordinal: OrdinalReport | None
     confidence_auroc: float | None
@@ -135,6 +146,46 @@ def build_pair_outcome(
     )
 
 
+def span_overlap(materials: CaseMaterials, first: Span, second: list[Span]) -> float:
+    """Token overlap of a span with the union of other spans of the design."""
+    text = materials.design_text
+    one = collect_token_indices(text, [first])
+    return compute_overlap(one, collect_token_indices(text, second))
+
+
+def count_hits(
+    materials: CaseMaterials,
+    spans: list[Span],
+    others: list[Span],
+) -> int:
+    """Count the spans that overlap the other spans enough."""
+    threshold = REVIEW_SETTINGS.evaluation.iou_threshold
+    overlaps: list[float] = [span_overlap(materials, span, others) for span in spans]
+    return sum(1 for overlap in overlaps if overlap >= threshold)
+
+
+def tally_quotes(
+    materials: CaseMaterials,
+    truths: list[PairTruth],
+    verdicts: list[RequirementVerdict],
+) -> QuoteTally:
+    """Count violated quotes that hit a planted violation, whatever the requirement."""
+    gold: list[Span] = []
+    for truth in truths:
+        if truth.verdict == VIOLATED:
+            gold.append(truth.design_spans[0])
+    predicted: list[Span] = []
+    for verdict in verdicts:
+        if verdict.verdict == VIOLATED and verdict.design_span is not None:
+            predicted.append(verdict.design_span)
+    return QuoteTally(
+        predicted=len(predicted),
+        predicted_hits=count_hits(materials, predicted, gold),
+        gold=len(gold),
+        gold_hits=count_hits(materials, gold, predicted),
+    )
+
+
 def index_verdicts(verdicts: list[RequirementVerdict]) -> dict[str, RequirementVerdict]:
     """Index the verdicts of a design by the id of their requirement."""
     by_id: dict[str, RequirementVerdict] = {}
@@ -157,7 +208,8 @@ def score_case_verdicts(
         verdict = by_id.get(matched.get(index, ""))
         pairs.append(build_pair_outcome(materials, truth, verdict))
     extra = len(analysis.requirements) - len(matched)
-    return CaseVerdictOutcome(pairs=pairs, extra_requirements=extra)
+    quotes = tally_quotes(materials, truths, verdicts)
+    return CaseVerdictOutcome(pairs=pairs, extra_requirements=extra, quotes=quotes)
 
 
 def is_right_verdict(pair: PairOutcome) -> bool:
@@ -249,6 +301,18 @@ def build_severity_ordinal(pairs: list[PairOutcome]) -> OrdinalReport | None:
     return build_ordinal_report(labels, SEVERITIES) if labels else None
 
 
+def quote_precision(outcomes: list[CaseVerdictOutcome]) -> float:
+    """Share of violated quotes that hit a planted violation, any requirement."""
+    hits = sum(case.quotes.predicted_hits for case in outcomes)
+    return divide(hits, sum(case.quotes.predicted for case in outcomes))
+
+
+def quote_recall(outcomes: list[CaseVerdictOutcome]) -> float:
+    """Share of planted violations hit by some violated quote."""
+    found = sum(case.quotes.gold_hits for case in outcomes)
+    return divide(found, sum(case.quotes.gold for case in outcomes))
+
+
 def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
     """Combine the pair outcomes of several designs into the verdict scores."""
     pairs: list[PairOutcome] = []
@@ -266,6 +330,8 @@ def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
         recall_by_subtype=compute_recall_by_subtype(pairs),
         defect_recall=compute_defect_recall(pairs),
         violated_precision_with_evidence=compute_violated_precision(pairs),
+        violation_quote_precision=quote_precision(outcomes),
+        violation_quote_recall=quote_recall(outcomes),
         severity_report=build_severity_report(pairs),
         severity_ordinal=build_severity_ordinal(pairs),
         confidence_auroc=compute_auroc(collect_confidence(pairs)),

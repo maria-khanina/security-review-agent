@@ -10,13 +10,14 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("source_run")
     parser.add_argument("target_run")
+    parser.add_argument("--extra", nargs="*", default=[])
     return parser.parse_args()
 
 
 def main() -> None:
     """Stack the signals of the source run and store the result as a new run."""
     arguments = parse_arguments()
-    stack_run(arguments.source_run, arguments.target_run)
+    stack_run(arguments.source_run, arguments.target_run, arguments.extra)
     print(f"stacked {arguments.source_run} into {arguments.target_run}")
 
 

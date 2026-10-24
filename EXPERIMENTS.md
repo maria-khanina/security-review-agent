@@ -248,6 +248,27 @@ The findings of the free-form reviewer of section 4 can be read as verdicts on r
 
 At the same precision of `violated` the per-requirement review finds about two to three times as many planted violations and five to fourteen times as many planted ambiguities (0.28 and 0.83 against 0.06 to 0.11). The free-form reviewer judges only the places it happens to notice; the per-requirement reviewer is forced to look at every requirement.
 
+## 10b. Full dev split (96 documents, 3583 pairs)
+
+The overview configuration (section 10; reasoning short) was run on all 96 dev documents, then the verifier, then the decision layer with cross-validation over groups of documents of the same service (`dev_overview800`, `dev_overview800_verified`, `dev_overview800_stacked`). Intervals are bootstrap over documents.
+
+| | Model verdicts | With decision layer | Paired difference |
+|---|---|---|---|
+| Accuracy | 0.510 [0.491, 0.528] | 0.764 [0.750, 0.777] | +0.254 [+0.238, +0.270] |
+| Macro F1 | 0.442 | 0.692 | +0.251 |
+| `compliant` recall / precision | 0.99 / 0.50 | 0.92 / 0.91 | precision +0.41 |
+| `violated` recall / precision | 0.61 / 0.44 | 0.58 / 0.44 | no change |
+| `unclear` recall / precision | 0.19 / 0.46 | 0.66 / 0.65 | recall +0.47, precision +0.19 |
+| `not_applicable` recall / precision | 0.21 / 0.64 | 0.68 / 0.72 | recall +0.47 |
+| Defect recall (planted violations with the right quote and planted ambiguities) | 0.43 [0.35, 0.52] | 0.48 [0.40, 0.57] | +0.05 (interval includes 0) |
+| Planted violations / planted ambiguities found | 0.58 / 0.28 | 0.54 / 0.42 | |
+| Violated quotes that hit a planted violation of the document, any requirement | precision 0.64, recall 0.68 | precision 0.66, recall 0.65 | |
+
+- The decision layer fixes the leniency of the model (accuracy +25 points, `not_applicable` and `unclear` recall tripled) but does not help the planted defects: defect recall changes by +0.05 and is not significant. The defects are what the model itself finds, and 40% of the planted violations are missed by it.
+- **The precision of `violated` per requirement (0.44) understates the review.** About two thirds of the `violated` quotes hit a planted violation of the document (0.64), but often under a neighbouring requirement: a sentence about access to logs granted to whole teams is attached to `LOG-04` while the planted flaw belongs to another access rule; internal services reading events without credentials are attached to `AUTH-01` (external APIs) while the planted flaw is `AUTH-02`. Another source of apparent false alarms is the model: it reads "access to sensitive data is logged" as a violation of "logs must not contain sensitive data".
+- **Severity** of the 43 right `violated` verdicts: exact in 40%, within one level in 95%, mean absolute error 0.65 levels (interval 0.48 to 0.83). The model rates nearly everything `high` (gold `critical`: 9 of 10 rated `high`, gold `medium`: 13 of 21 rated `high`) and almost never `low` or `critical`.
+- **Confidence.** AUROC of the log-probability confidence 0.77 [0.75, 0.79]; after the layer the stored confidence is the verifier probability and has AUROC 0.65, which is not a statement about the layer.
+
 ## 11. Open questions and next steps
 
 - Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.

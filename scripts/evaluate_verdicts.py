@@ -34,6 +34,13 @@ def print_classes(scores: VerdictScores) -> None:
         print(f"{line} F1 {item.f1:.3f} n {item.support}")
 
 
+def print_quotes(scores: VerdictScores) -> None:
+    """Print how often violated quotes hit a planted violation, any requirement."""
+    precision = scores.violation_quote_precision
+    recall = scores.violation_quote_recall
+    print(f"violation quotes: precision {precision:.3f} recall {recall:.3f}")
+
+
 def print_summary(scores: VerdictScores) -> None:
     """Print the verdict table, the defect scores and the quote scores."""
     print(f"pairs {scores.pairs}, missing {scores.missing_pairs}")
@@ -90,6 +97,7 @@ def main() -> None:
     )
     scores = summarize_verdicts(outcomes)
     print_summary(scores)
+    print_quotes(scores)
     save_metrics(arguments, scores)
 
 

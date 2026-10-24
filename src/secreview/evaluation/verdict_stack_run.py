@@ -161,14 +161,41 @@ def relabel_case(
     return VerdictCaseRecord(case_id=case_id, records=records)
 
 
-def stack_run(source_run: str, target_run: str) -> None:
-    """Write a copy of a run whose verdicts come from the decision layer."""
-    analysis_name = read_analysis_name(source_run)
-    case_ids = list_run_case_ids(source_run)
+def run_rows(run_name: str) -> list[Row]:
+    """Collect the labelled rows of every stored case of a run."""
+    analysis_name = read_analysis_name(run_name)
     rows: list[Row] = []
-    for case_id in case_ids:
-        rows.extend(collect_case_rows(source_run, analysis_name, case_id))
-    verdicts = predict_rows(rows)
+    for case_id in list_run_case_ids(run_name):
+        rows.extend(collect_case_rows(run_name, analysis_name, case_id))
+    return rows
+
+
+def join_features(rows: list[Row], extra: list[Row]) -> list[Row]:
+    """Append the features of the extra rows to the rows with the same key."""
+    lookup: dict[Key, Row] = {}
+    for row in extra:
+        lookup[(row.case_id, row.requirement_id)] = row
+    joined: list[Row] = []
+    for row in rows:
+        other = lookup.get((row.case_id, row.requirement_id))
+        if other is not None:
+            features = row.features + other.features
+            joined.append(row.model_copy(update={"features": features}))
+    return joined
+
+
+def merge_rows(primary: list[Row], extra_runs: list[str]) -> list[Row]:
+    """Append the features of other runs to the rows of the primary run."""
+    rows: list[Row] = primary
+    for run_name in extra_runs:
+        rows = join_features(rows, run_rows(run_name))
+    return rows
+
+
+def stack_run(source_run: str, target_run: str, extra_runs: list[str]) -> None:
+    """Write a copy of a run whose verdicts come from the decision layer."""
+    case_ids = list_run_case_ids(source_run)
+    verdicts = predict_rows(merge_rows(run_rows(source_run), extra_runs))
     copy_config(source_run, target_run)
     for case_id in case_ids:
         source = load_verdict_record(source_run, case_id)
