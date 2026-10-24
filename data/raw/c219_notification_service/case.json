@@ -1,0 +1,41 @@
+{
+ "case_id": "c219_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IR-02",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "write an incident procedure with a named contact"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The procedure was written for the old monolith and was never updated."
+  }
+ ],
+ "required_rules": [
+  "TPC-01"
+ ]
+}

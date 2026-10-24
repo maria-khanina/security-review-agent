@@ -1,0 +1,200 @@
+{
+ "case_id": "c201_payment_gateway",
+ "split": "v4",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-285"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a second approver for refunds and reversals above 1,000 EUR",
+     "block self-approval in the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PAY-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1076,
+     1199
+    ]
+   ],
+   "policy_spans": {
+    "PAY-02": [
+     [
+      585,
+      734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "TEN-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-653"
+   ],
+   "component": "payments-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the data of different tenants is kept apart in shared storage.",
+   "related_rules": [
+    "TEN-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     321,
+     389
+    ]
+   ],
+   "policy_spans": {
+    "TEN-02": [
+     [
+      1043,
+      1153
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "IR-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "page the on-call engineer for the three event types within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1396,
+     1536
+    ]
+   ],
+   "policy_spans": {
+    "IR-01": [
+     [
+      1780,
+      1909
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PAY-01",
+   "design_spans": [
+    [
+     783,
+     952
+    ]
+   ],
+   "policy_spans": [
+    [
+     389,
+     576
+    ]
+   ]
+  },
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     1255,
+     1354
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     1561,
+     1657
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     1660,
+     1717
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

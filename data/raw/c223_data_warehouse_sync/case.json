@@ -1,0 +1,18 @@
+{
+ "case_id": "c223_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "DR-01"
+ ]
+}

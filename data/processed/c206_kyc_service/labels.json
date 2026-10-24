@@ -1,0 +1,149 @@
+{
+ "case_id": "c206_kyc_service",
+ "split": "v4",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "UPL-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit uploads to 10 MB on the server",
+     "check the type on the content against an allowed list"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "UPL-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1697,
+     1914
+    ]
+   ],
+   "policy_spans": {
+    "UPL-01": [
+     [
+      1196,
+      1333
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "UPL-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan every upload before it is released",
+     "quarantine files that fail the scan"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "UPL-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1915,
+     2079
+    ]
+   ],
+   "policy_spans": {
+    "UPL-02": [
+     [
+      1342,
+      1432
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "MOB-01",
+   "design_spans": [
+    [
+     2543,
+     2660
+    ]
+   ],
+   "policy_spans": [
+    [
+     1472,
+     1599
+    ]
+   ]
+  },
+  {
+   "rule_id": "MOB-02",
+   "design_spans": [
+    [
+     2661,
+     2779
+    ]
+   ],
+   "policy_spans": [
+    [
+     1608,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     2942,
+     3107
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  }
+ ]
+}

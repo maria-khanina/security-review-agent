@@ -1,0 +1,58 @@
+{
+ "case_id": "c218_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TPC-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "approve each component before first use",
+     "review the approved list every six months"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Components that arrive as dependencies of approved libraries are not checked."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DR-02",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "The recovery time objective of the service and when failover was last exercised.",
+   "instruction": "Mention notifier naturally, but do NOT state: The recovery time objective of the service and when failover was last exercised. Wrap the sentence(s) that mention notifier (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": []
+}

@@ -1,0 +1,143 @@
+{
+ "case_id": "c208_kyc_service",
+ "split": "v4",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "IR-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which security events raise an alert and how fast it reaches the on-call engineer.",
+   "related_rules": [
+    "IR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     280,
+     391
+    ]
+   ],
+   "policy_spans": {
+    "IR-01": [
+     [
+      1780,
+      1909
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "MOB-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-312"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store tokens and keys in the Keychain or the Keystore"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MOB-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1127,
+     1240
+    ]
+   ],
+   "policy_spans": {
+    "MOB-02": [
+     [
+      1608,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     1326,
+     1412
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     1679,
+     1800
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     1853,
+     1925
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

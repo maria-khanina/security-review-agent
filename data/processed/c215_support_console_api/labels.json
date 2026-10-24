@@ -1,0 +1,219 @@
+{
+ "case_id": "c215_support_console_api",
+ "split": "v4",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-639"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TEN-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     964,
+     1100
+    ]
+   ],
+   "policy_spans": {
+    "TEN-01": [
+     [
+      893,
+      1034
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "IR-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What procedure the service follows when a security incident happens.",
+   "related_rules": [
+    "IR-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2241,
+     2348
+    ]
+   ],
+   "policy_spans": {
+    "IR-02": [
+     [
+      1918,
+      2001
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TEN-02",
+   "design_spans": [
+    [
+     1169,
+     1230
+    ]
+   ],
+   "policy_spans": [
+    [
+     1043,
+     1153
+    ]
+   ]
+  },
+  {
+   "rule_id": "PAY-02",
+   "design_spans": [
+    [
+     1256,
+     1375
+    ]
+   ],
+   "policy_spans": [
+    [
+     585,
+     734
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-01",
+   "design_spans": [
+    [
+     1450,
+     1564
+    ]
+   ],
+   "policy_spans": [
+    [
+     1196,
+     1333
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     1565,
+     1653
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-02",
+   "design_spans": [
+    [
+     1684,
+     1767
+    ]
+   ],
+   "policy_spans": [
+    [
+     2203,
+     2294
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     1817,
+     1948
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     1980,
+     2104
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2105,
+     2172
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

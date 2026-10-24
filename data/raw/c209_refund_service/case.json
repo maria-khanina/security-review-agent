@@ -1,0 +1,63 @@
+{
+ "case_id": "c209_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-285"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a second approver for refunds and reversals above 1,000 EUR",
+     "block self-approval in the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Refunds of any amount are executed by the person who requested them."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "UPL-01",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "The size limit and the way the type of an uploaded file is checked.",
+   "instruction": "Mention refund-core naturally, but do NOT state: The size limit and the way the type of an uploaded file is checked. Wrap the sentence(s) that mention refund-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "UPL-02",
+  "TEN-01",
+  "IR-01",
+  "DR-01"
+ ]
+}

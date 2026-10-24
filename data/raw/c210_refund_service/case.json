@@ -1,0 +1,64 @@
+{
+ "case_id": "c210_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-639"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Reports are generated for any merchant identifier that is passed to the export call."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-03",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-345"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the amount and the currency of a payment are protected from change on the way.",
+   "instruction": "Mention refund-core naturally, but do NOT state: How the amount and the currency of a payment are protected from change on the way. Wrap the sentence(s) that mention refund-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "PAY-02",
+  "PAY-01",
+  "UPL-01",
+  "UPL-02",
+  "TEN-02"
+ ]
+}

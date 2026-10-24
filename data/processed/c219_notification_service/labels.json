@@ -1,0 +1,76 @@
+{
+ "case_id": "c219_notification_service",
+ "split": "v4",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IR-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "write an incident procedure with a named contact"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IR-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1027,
+     1159
+    ]
+   ],
+   "policy_spans": {
+    "IR-02": [
+     [
+      1918,
+      2001
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     827,
+     962
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  }
+ ]
+}

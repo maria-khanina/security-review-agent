@@ -1,0 +1,143 @@
+{
+ "case_id": "c213_merchant_portal_api",
+ "split": "v4",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DR-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "portal-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "enable point-in-time recovery with seven days of retention"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "DR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2343,
+     2484
+    ]
+   ],
+   "policy_spans": {
+    "DR-01": [
+     [
+      2331,
+      2420
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "TPC-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-829"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which third-party scripts run on the pages that handle card data or credentials.",
+   "related_rules": [
+    "TPC-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     551,
+     764
+    ]
+   ],
+   "policy_spans": {
+    "TPC-02": [
+     [
+      2203,
+      2294
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     1708,
+     1843
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "TEN-02",
+   "design_spans": [
+    [
+     1844,
+     1974
+    ]
+   ],
+   "policy_spans": [
+    [
+     1043,
+     1153
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     2080,
+     2168
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  }
+ ]
+}

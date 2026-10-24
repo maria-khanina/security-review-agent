@@ -1,0 +1,118 @@
+{
+ "case_id": "c222_webhook_dispatcher",
+ "split": "v4",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-639"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TEN-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1572,
+     1729
+    ]
+   ],
+   "policy_spans": {
+    "TEN-01": [
+     [
+      893,
+      1034
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DR-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "The recovery time objective of the service and when failover was last exercised.",
+   "related_rules": [
+    "DR-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2329,
+     2454
+    ]
+   ],
+   "policy_spans": {
+    "DR-02": [
+     [
+      2429,
+      2570
+     ],
+     [
+      2579,
+      2656
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     2535,
+     2659
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  }
+ ]
+}

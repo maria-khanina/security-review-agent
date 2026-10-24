@@ -1,0 +1,122 @@
+{
+ "case_id": "c217_ledger_service",
+ "split": "v4",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IR-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "page the on-call engineer for the three event types within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1900,
+     2034
+    ]
+   ],
+   "policy_spans": {
+    "IR-01": [
+     [
+      1780,
+      1909
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "DR-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "set a recovery time objective of 4 hours",
+     "run a failover exercise every year"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "DR-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2111,
+     2209
+    ]
+   ],
+   "policy_spans": {
+    "DR-02": [
+     [
+      2429,
+      2570
+     ],
+     [
+      2579,
+      2656
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2035,
+     2110
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

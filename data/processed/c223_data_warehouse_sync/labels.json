@@ -1,0 +1,34 @@
+{
+ "case_id": "c223_data_warehouse_sync",
+ "split": "v4",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v4",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2211,
+     2342
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

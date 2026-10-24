@@ -1,0 +1,174 @@
+{
+ "case_id": "c210_refund_service",
+ "split": "v4",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-639"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TEN-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2203,
+     2287
+    ]
+   ],
+   "policy_spans": {
+    "TEN-01": [
+     [
+      893,
+      1034
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-03",
+   "severity": "high",
+   "cwe": [
+    "CWE-345"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the amount and the currency of a payment are protected from change on the way.",
+   "related_rules": [
+    "PAY-03"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1586,
+     1690
+    ]
+   ],
+   "policy_spans": {
+    "PAY-03": [
+     [
+      743,
+      848
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PAY-02",
+   "design_spans": [
+    [
+     1167,
+     1292
+    ]
+   ],
+   "policy_spans": [
+    [
+     585,
+     734
+    ]
+   ]
+  },
+  {
+   "rule_id": "PAY-01",
+   "design_spans": [
+    [
+     1293,
+     1421
+    ]
+   ],
+   "policy_spans": [
+    [
+     389,
+     576
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-01",
+   "design_spans": [
+    [
+     1859,
+     1979
+    ]
+   ],
+   "policy_spans": [
+    [
+     1196,
+     1333
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     1980,
+     2053
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  },
+  {
+   "rule_id": "TEN-02",
+   "design_spans": [
+    [
+     2288,
+     2350
+    ]
+   ],
+   "policy_spans": [
+    [
+     1043,
+     1153
+    ]
+   ]
+  }
+ ]
+}

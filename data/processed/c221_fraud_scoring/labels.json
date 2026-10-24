@@ -1,0 +1,97 @@
+{
+ "case_id": "c221_fraud_scoring",
+ "split": "v4",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v4",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IR-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "page the on-call engineer for the three event types within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2024,
+     2186
+    ]
+   ],
+   "policy_spans": {
+    "IR-01": [
+     [
+      1780,
+      1909
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DR-01",
+   "severity": "low",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether point-in-time recovery is enabled for the databases and for how long.",
+   "related_rules": [
+    "DR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1300,
+     1462
+    ]
+   ],
+   "policy_spans": {
+    "DR-01": [
+     [
+      2331,
+      2420
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": []
+}

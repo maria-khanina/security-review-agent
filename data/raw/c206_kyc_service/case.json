@@ -1,0 +1,67 @@
+{
+ "case_id": "c206_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "UPL-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit uploads to 10 MB on the server",
+     "check the type on the content against an allowed list"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Archives are accepted and unpacked without any limit on their size."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "UPL-02",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan every upload before it is released",
+     "quarantine files that fail the scan"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Scan failures are logged and the file is released anyway."
+  }
+ ],
+ "required_rules": [
+  "MOB-01",
+  "MOB-02",
+  "TPC-01"
+ ]
+}

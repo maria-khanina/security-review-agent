@@ -1,0 +1,114 @@
+{
+ "case_id": "c216_ledger_service",
+ "split": "v4",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-841"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every payment operation",
+     "return the stored result for a repeated key"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PAY-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1579,
+     1643
+    ]
+   ],
+   "policy_spans": {
+    "PAY-01": [
+     [
+      389,
+      576
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-285"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Who approves a large refund or reversal and whether the requester can approve their own.",
+   "related_rules": [
+    "PAY-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1823,
+     1906
+    ]
+   ],
+   "policy_spans": {
+    "PAY-02": [
+     [
+      585,
+      734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     1989,
+     2063
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

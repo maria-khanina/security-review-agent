@@ -1,0 +1,179 @@
+{
+ "case_id": "c214_support_console_api",
+ "split": "v4",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "UPL-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan every upload before it is released",
+     "quarantine files that fail the scan"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "UPL-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2338,
+     2467
+    ]
+   ],
+   "policy_spans": {
+    "UPL-02": [
+     [
+      1342,
+      1432
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PAY-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-285"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a second approver for refunds and reversals above 1,000 EUR",
+     "block self-approval in the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PAY-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1415,
+     1584
+    ]
+   ],
+   "policy_spans": {
+    "PAY-02": [
+     [
+      585,
+      734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     2014,
+     2148
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-02",
+   "design_spans": [
+    [
+     2484,
+     2571
+    ]
+   ],
+   "policy_spans": [
+    [
+     2203,
+     2294
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     2668,
+     2792
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2793,
+     2868
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     2885,
+     3017
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "case_id": "c202_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-03",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-345"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "compare the amount and the currency with the stored order on the server"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The amount and the currency are taken from the client request without comparing them with the stored order."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-01",
+   "component": "Payments Edge Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-841"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether payment operations carry an idempotency key and what happens when a request is repeated.",
+   "instruction": "Mention Payments Edge Gateway naturally, but do NOT state: Whether payment operations carry an idempotency key and what happens when a request is repeated. Wrap the sentence(s) that mention Payments Edge Gateway (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "PAY-02",
+  "TEN-02",
+  "DR-01",
+  "TPC-01"
+ ]
+}

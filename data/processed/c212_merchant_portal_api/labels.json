@@ -1,0 +1,202 @@
+{
+ "case_id": "c212_merchant_portal_api",
+ "split": "v4",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-653"
+   ],
+   "component": "portal-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "enable row-level security on tenant tables"
+    ],
+    [
+     "use a separate encryption key for each tenant"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TEN-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     658,
+     817
+    ]
+   ],
+   "policy_spans": {
+    "TEN-02": [
+     [
+      1043,
+      1153
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "IR-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "page the on-call engineer for the three event types within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1305,
+     1439
+    ]
+   ],
+   "policy_spans": {
+    "IR-01": [
+     [
+      1780,
+      1909
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "UPL-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether and when uploaded files are scanned for malware.",
+   "related_rules": [
+    "UPL-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1036,
+     1159
+    ]
+   ],
+   "policy_spans": {
+    "UPL-02": [
+     [
+      1342,
+      1432
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     556,
+     655
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-01",
+   "design_spans": [
+    [
+     919,
+     1033
+    ]
+   ],
+   "policy_spans": [
+    [
+     1196,
+     1333
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-02",
+   "design_spans": [
+    [
+     1172,
+     1245
+    ]
+   ],
+   "policy_spans": [
+    [
+     2203,
+     2294
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     1442,
+     1469
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

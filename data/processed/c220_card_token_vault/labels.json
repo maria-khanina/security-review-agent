@@ -1,0 +1,113 @@
+{
+ "case_id": "c220_card_token_vault",
+ "split": "v4",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v4",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DR-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "enable point-in-time recovery with seven days of retention"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "DR-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2247,
+     2443
+    ]
+   ],
+   "policy_spans": {
+    "DR-01": [
+     [
+      2331,
+      2420
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "IR-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What procedure the service follows when a security incident happens.",
+   "related_rules": [
+    "IR-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1435,
+     1566
+    ]
+   ],
+   "policy_spans": {
+    "IR-02": [
+     [
+      1918,
+      2001
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     1989,
+     2113
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  }
+ ]
+}

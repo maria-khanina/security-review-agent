@@ -1,0 +1,61 @@
+{
+ "case_id": "c208_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "IR-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which security events raise an alert and how fast it reaches the on-call engineer.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: Which security events raise an alert and how fast it reaches the on-call engineer. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "MOB-02",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-312"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store tokens and keys in the Keychain or the Keystore"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Session tokens are cached in a file in the app directory so that the app starts faster."
+  }
+ ],
+ "required_rules": [
+  "UPL-02",
+  "TPC-01",
+  "DR-01"
+ ]
+}

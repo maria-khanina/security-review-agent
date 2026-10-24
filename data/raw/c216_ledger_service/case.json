@@ -1,0 +1,60 @@
+{
+ "case_id": "c216_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-841"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every payment operation",
+     "return the stored result for a repeated key"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A repeated key with a different amount is processed as a new payment."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-02",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-285"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Who approves a large refund or reversal and whether the requester can approve their own.",
+   "instruction": "Mention ledger-core naturally, but do NOT state: Who approves a large refund or reversal and whether the requester can approve their own. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "DR-01"
+ ]
+}

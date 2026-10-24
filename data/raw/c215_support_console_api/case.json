@@ -1,0 +1,67 @@
+{
+ "case_id": "c215_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-639"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Queries add the tenant filter in some handlers and rely on the caller in others."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "IR-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What procedure the service follows when a security incident happens.",
+   "instruction": "Mention console-backend naturally, but do NOT state: What procedure the service follows when a security incident happens. Wrap the sentence(s) that mention console-backend (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "TEN-02",
+  "PAY-02",
+  "UPL-01",
+  "UPL-02",
+  "TPC-02",
+  "TPC-01",
+  "IR-01",
+  "DR-01"
+ ]
+}

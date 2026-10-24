@@ -1,0 +1,69 @@
+{
+ "case_id": "c214_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "UPL-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan every upload before it is released",
+     "quarantine files that fail the scan"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Files are checked by the antivirus on the laptop of the person who downloads them."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PAY-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-285"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a second approver for refunds and reversals above 1,000 EUR",
+     "block self-approval in the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Approval is recorded in a spreadsheet and is not enforced by the service."
+  }
+ ],
+ "required_rules": [
+  "TEN-01",
+  "TPC-02",
+  "IR-01",
+  "DR-01",
+  "TPC-01"
+ ]
+}

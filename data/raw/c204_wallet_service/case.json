@@ -1,0 +1,67 @@
+{
+ "case_id": "c204_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-01",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-841"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every payment operation",
+     "return the stored result for a repeated key"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The key is optional and most merchant integrations never send it."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "DR-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "set a recovery time objective of 4 hours",
+     "run a failover exercise every year"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Failover has never been exercised."
+  }
+ ],
+ "required_rules": [
+  "MOB-02",
+  "IR-01",
+  "TPC-01"
+ ]
+}

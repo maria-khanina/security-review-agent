@@ -1,0 +1,61 @@
+{
+ "case_id": "c213_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DR-01",
+   "component": "portal-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "enable point-in-time recovery with seven days of retention"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Point-in-time recovery is not enabled, and only a nightly snapshot exists."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "TPC-02",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-829"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which third-party scripts run on the pages that handle card data or credentials.",
+   "instruction": "Mention Portal Gateway naturally, but do NOT state: Which third-party scripts run on the pages that handle card data or credentials. Wrap the sentence(s) that mention Portal Gateway (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "TEN-01",
+  "TEN-02",
+  "UPL-02"
+ ]
+}

@@ -1,0 +1,170 @@
+{
+ "case_id": "c203_wallet_service",
+ "split": "v4",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MOB-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-295"
+   ],
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "pin the public key of the API in the app",
+     "refuse connections that fail the pinning check"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MOB-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1839,
+     2078
+    ]
+   ],
+   "policy_spans": {
+    "MOB-01": [
+     [
+      1472,
+      1599
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PAY-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-841"
+   ],
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether payment operations carry an idempotency key and what happens when a request is repeated.",
+   "related_rules": [
+    "PAY-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     432,
+     608
+    ]
+   ],
+   "policy_spans": {
+    "PAY-01": [
+     [
+      389,
+      576
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "MOB-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-312"
+   ],
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store tokens and keys in the Keychain or the Keystore"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MOB-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2203,
+     2359
+    ]
+   ],
+   "policy_spans": {
+    "MOB-02": [
+     [
+      1608,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     2592,
+     2716
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2905,
+     2980
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

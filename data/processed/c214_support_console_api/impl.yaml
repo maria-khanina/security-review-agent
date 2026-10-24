@@ -1,0 +1,447 @@
+openapi: 3.0.3
+info:
+  title: Support Console API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/customers:
+    get:
+      operationId: searchCustomers
+      summary: Search customers
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/customers/{customerId}:
+    get:
+      operationId: getCustomer
+      summary: Retrieve a customer profile
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/customers/{customerId}/second-factor-reset:
+    post:
+      operationId: resetSecondFactor
+      summary: Reset the second factor of a customer
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetReceipt'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetRequest'
+  /v1/customers/{customerId}/credits:
+    post:
+      operationId: issueCredit
+      summary: Issue a goodwill credit
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditRequest'
+  /v1/agent-actions:
+    get:
+      operationId: listAgentActions
+      summary: List actions taken by support agents
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AgentAction'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/customers/{customerId}/data-export:
+    post:
+      operationId: exportCustomerData
+      summary: Export the data held about a customer
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportJob'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Customer:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - full_name
+      - email
+      - phone_number
+      - status
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        full_name:
+          type: string
+          maxLength: 256
+        email:
+          type: string
+          maxLength: 256
+        phone_number:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+    ResetRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - reason
+      - ticket_id
+      properties:
+        reason:
+          type: string
+          maxLength: 256
+        ticket_id:
+          type: string
+          maxLength: 256
+    ResetReceipt:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+    CreditRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - amount
+      - currency
+      - reason
+      - ticket_id
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        reason:
+          type: string
+          maxLength: 256
+        ticket_id:
+          type: string
+          maxLength: 256
+    Credit:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - amount
+      - currency
+      - status
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+    AgentAction:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - agent_id
+      - action
+      - created_at
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        agent_id:
+          type: string
+          maxLength: 256
+        action:
+          type: string
+          maxLength: 256
+        created_at:
+          type: string
+          maxLength: 256
+    ExportRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - format
+      - reason
+      properties:
+        format:
+          type: string
+          maxLength: 256
+        reason:
+          type: string
+          maxLength: 256
+    ExportJob:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - expires_at
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        expires_at:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

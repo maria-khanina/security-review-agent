@@ -1,0 +1,60 @@
+{
+ "case_id": "c222_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-639"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "derive the tenant identifier from the authenticated token",
+     "add the tenant filter in one shared data-access layer"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Queries add the tenant filter in some handlers and rely on the caller in others."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "DR-02",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "The recovery time objective of the service and when failover was last exercised.",
+   "instruction": "Mention dispatcher naturally, but do NOT state: The recovery time objective of the service and when failover was last exercised. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "IR-01"
+ ]
+}

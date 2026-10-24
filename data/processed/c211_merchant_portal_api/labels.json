@@ -1,0 +1,193 @@
+{
+ "case_id": "c211_merchant_portal_api",
+ "split": "v4",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TPC-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-829"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove third-party scripts from pages with card data or credentials"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TPC-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3092,
+     3280
+    ]
+   ],
+   "policy_spans": {
+    "TPC-02": [
+     [
+      2203,
+      2294
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "UPL-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit uploads to 10 MB on the server",
+     "check the type on the content against an allowed list"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "UPL-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2773,
+     2913
+    ]
+   ],
+   "policy_spans": {
+    "UPL-01": [
+     [
+      1196,
+      1333
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     2389,
+     2525
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "TEN-02",
+   "design_spans": [
+    [
+     2526,
+     2644
+    ]
+   ],
+   "policy_spans": [
+    [
+     1043,
+     1153
+    ]
+   ]
+  },
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     2914,
+     3000
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     3312,
+     3436
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "TPC-01",
+   "design_spans": [
+    [
+     3437,
+     3569
+    ]
+   ],
+   "policy_spans": [
+    [
+     2052,
+     2194
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     3570,
+     3650
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

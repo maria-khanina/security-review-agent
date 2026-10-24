@@ -1,0 +1,144 @@
+{
+ "case_id": "c205_wallet_service",
+ "split": "v4",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TPC-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "approve each component before first use",
+     "review the approved list every six months"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TPC-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2832,
+     2971
+    ]
+   ],
+   "policy_spans": {
+    "TPC-01": [
+     [
+      2052,
+      2194
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "MOB-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-312"
+   ],
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Where the mobile app stores tokens and keys on the device.",
+   "related_rules": [
+    "MOB-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2140,
+     2387
+    ]
+   ],
+   "policy_spans": {
+    "MOB-02": [
+     [
+      1608,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PAY-01",
+   "design_spans": [
+    [
+     1432,
+     1571
+    ]
+   ],
+   "policy_spans": [
+    [
+     389,
+     576
+    ]
+   ]
+  },
+  {
+   "rule_id": "MOB-01",
+   "design_spans": [
+    [
+     2481,
+     2598
+    ]
+   ],
+   "policy_spans": [
+    [
+     1472,
+     1599
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     2646,
+     2770
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,159 @@
+{
+ "case_id": "c209_refund_service",
+ "split": "v4",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v4",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PAY-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-285"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a second approver for refunds and reversals above 1,000 EUR",
+     "block self-approval in the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PAY-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1302,
+     1465
+    ]
+   ],
+   "policy_spans": {
+    "PAY-02": [
+     [
+      585,
+      734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "UPL-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-434"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "The size limit and the way the type of an uploaded file is checked.",
+   "related_rules": [
+    "UPL-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1781,
+     1931
+    ]
+   ],
+   "policy_spans": {
+    "UPL-01": [
+     [
+      1196,
+      1333
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "UPL-02",
+   "design_spans": [
+    [
+     1932,
+     2022
+    ]
+   ],
+   "policy_spans": [
+    [
+     1342,
+     1432
+    ]
+   ]
+  },
+  {
+   "rule_id": "TEN-01",
+   "design_spans": [
+    [
+     2108,
+     2241
+    ]
+   ],
+   "policy_spans": [
+    [
+     893,
+     1034
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-01",
+   "design_spans": [
+    [
+     2344,
+     2468
+    ]
+   ],
+   "policy_spans": [
+    [
+     1780,
+     1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-01",
+   "design_spans": [
+    [
+     2469,
+     2551
+    ]
+   ],
+   "policy_spans": [
+    [
+     2331,
+     2420
+    ]
+   ]
+  }
+ ]
+}

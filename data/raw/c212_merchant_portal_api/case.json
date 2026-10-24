@@ -1,0 +1,87 @@
+{
+ "case_id": "c212_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "v4",
+ "policy_version": "v4",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TEN-02",
+   "component": "portal-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-653"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "enable row-level security on tenant tables"
+    ],
+    [
+     "use a separate encryption key for each tenant"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Tenant separation is described in the data model, but nothing in the database enforces it."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "IR-01",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "page the on-call engineer for the three event types within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The alert rule runs once a day."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "UPL-02",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-434"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether and when uploaded files are scanned for malware.",
+   "instruction": "Mention portal-backend naturally, but do NOT state: Whether and when uploaded files are scanned for malware. Wrap the sentence(s) that mention portal-backend (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "TEN-01",
+  "UPL-01",
+  "TPC-02",
+  "DR-01"
+ ]
+}
