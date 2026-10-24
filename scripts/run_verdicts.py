@@ -25,6 +25,7 @@ def add_context_arguments(parser: argparse.ArgumentParser) -> None:
     settings = REVIEW_SETTINGS.verdict
     parser.add_argument("--oracle", action="store_true")
     parser.add_argument("--strict", action="store_true")
+    parser.add_argument("--reasoned", action="store_true")
     parser.add_argument("--overview", type=int, default=0)
     parser.add_argument("--method", type=str, default=settings.ranker)
     parser.add_argument("--window", type=int, default=settings.window)
@@ -52,6 +53,7 @@ def build_choice(arguments: argparse.Namespace) -> ContextChoice:
         oracle=arguments.oracle,
         strict=arguments.strict,
         overview_chars=arguments.overview,
+        reasoned=arguments.reasoned,
     )
 
 
@@ -74,7 +76,7 @@ def write_run_config(arguments: argparse.Namespace, choice: ContextChoice) -> No
         "split": arguments.split,
         "pilot": arguments.pilot,
         "system_prompt": build_verdict_system_prompt(
-            arguments.strict, arguments.overview > 0
+            arguments.strict, arguments.overview > 0, arguments.reasoned
         ),
         "model": REVIEW_SETTINGS.llm.model,
         "temperature": REVIEW_SETTINGS.llm.temperature,

@@ -55,6 +55,7 @@ class ContextChoice(BaseModel):
     oracle: bool
     strict: bool
     overview_chars: int
+    reasoned: bool
 
 
 class RequirementRecord(BaseModel):
@@ -84,7 +85,9 @@ def build_verdict_call(
 ) -> LogprobCompletion:
     """Ask the model for the verdict on one requirement and the given fragments."""
     return client.complete_with_logprobs(
-        build_verdict_system_prompt(choice.strict, bool(overview)),
+        build_verdict_system_prompt(
+            choice.strict, bool(overview), choice.reasoned
+        ),
         build_verdict_user_prompt(requirement, fragments, overview),
         build_verdict_schema(),
         REVIEW_SETTINGS.verdict.top_logprobs,

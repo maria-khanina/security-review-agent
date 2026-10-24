@@ -53,17 +53,32 @@ empty string for unclear and not_applicable.
 3. severity is judged for violated only; use none for every other verdict.
 4. Use only the fragments and the requirement. Do not invent facts."""
 
+REASONED_RULES = """Rules:
+1. quote is copied character for character from one fragment, one or two \
+consecutive sentences: the sentence that decides compliant or violated. Use an \
+empty string for unclear and not_applicable.
+2. reason is at most 60 words and comes before the verdict: list what the \
+requirement demands (values, mechanism, scope), say for each element whether a \
+fragment states it, and name what is missing.
+3. severity is judged for violated only; use none for every other verdict.
+4. Use only the fragments and the requirement. Do not invent facts."""
+
 SHAPE = """Answer with one JSON object only, with these fields in this order: \
 {"quote": "...", "reason": "...", "verdict": \
 "compliant|violated|unclear|not_applicable", "severity": \
 "none|low|medium|high|critical"}."""
 
 
-def build_verdict_system_prompt(strict: bool, with_overview: bool) -> str:
+def build_verdict_system_prompt(
+    strict: bool,
+    with_overview: bool,
+    reasoned: bool,
+) -> str:
     """Return the system prompt of the per-requirement verdict call."""
     introduction = INTRODUCTION + (OVERVIEW_SENTENCE if with_overview else "")
     verdicts = STRICT_VERDICTS_TEXT if strict else VERDICTS_TEXT
-    return "\n\n".join([introduction, verdicts, SEVERITY_SCALE, RULES, SHAPE])
+    rules = REASONED_RULES if reasoned else RULES
+    return "\n\n".join([introduction, verdicts, SEVERITY_SCALE, rules, SHAPE])
 
 
 def build_overview_block(overview: str) -> str:

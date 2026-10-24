@@ -77,7 +77,7 @@ class FakeClient:
 
 
 def test_the_prompts_define_all_verdicts_and_number_the_fragments() -> None:
-    system = build_verdict_system_prompt(False, False)
+    system = build_verdict_system_prompt(False, False, False)
     for verdict in VERDICTS:
         assert verdict in system
     user = build_verdict_user_prompt("Use MFA.", ["First.", "Second."], "")
@@ -144,6 +144,7 @@ def review(
         oracle=oracle,
         strict=False,
         overview_chars=0,
+        reasoned=False,
     )
     record = review_case_verdicts(
         FakeClient("unclear"), materials, analysis, rankings, choice

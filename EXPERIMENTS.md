@@ -223,6 +223,31 @@ Starting point: the run with the service overview (first 800 characters of the d
 - Most of the gain comes from `not_applicable` (recall 0.24 to 0.70) and from the precision of `compliant` (0.52 to 0.88): the layer learns that a verdict `compliant` from a model that is not sure, a requirement of vague wording or a fragment with little word overlap are better answered `unclear` or `not_applicable`. Giving the layer a class weight of one instead of the square root raises recall of `unclear` and `violated` further, at lower precision of `violated` (0.39).
 - **Caveat.** The layer is trained on gold verdicts of dev documents, and the topic features carry per-requirement priors of this policy (for example which requirements are mostly vague or inapplicable). With a new policy it has to be retrained on labelled reviews. Cross-validation over services estimates how it transfers to unseen services, which is the situation of the test split.
 
+### 10.2 Reasoning before the verdict (pilot)
+
+The `reason` field is asked to be up to 60 words that come before the verdict: list what the requirement demands (values, mechanism, scope), say for each element whether a fragment states it, and name what is missing (instead of 25 words about what the fragments say). Same overview, same contexts.
+
+| Run | Accuracy | compliant R / P | violated R / P | unclear R / P | not_applicable R / P | Defect recall | Macro F1 |
+|---|---|---|---|---|---|---|---|
+| overview, short reason | 0.526 | 0.99 / 0.52 | 0.74 / 0.50 | 0.17 / 0.42 | 0.24 / 0.65 | 0.51 | 0.467 |
+| overview, reasoning before the verdict | 0.593 | 0.97 / 0.68 | 0.68 / 0.46 | 0.49 / 0.43 | 0.22 / 0.64 | 0.73 | 0.533 |
+| ... then decision layer (with verifier) | 0.779 | 0.94 / 0.91 | 0.68 / 0.48 | 0.65 / 0.65 | 0.69 / 0.74 | 0.54 | 0.714 |
+
+The paired differences of the raw verdicts are significant: accuracy +0.067, recall of `unclear` +0.33, defect recall +0.22 (interval 0.05 to 0.39). After the decision layer the two prompts end at the same accuracy (0.78), so the reasoning mainly matters when the verdicts are used without the layer.
+
+### 10.3 Against the free-form reviewer (pilot, defect scores only)
+
+The findings of the free-form reviewer of section 4 can be read as verdicts on requirements: a violation as `violated` with its quote, an ambiguity as `unclear`, the most confident finding per requirement (`scripts/compare_baseline.py`). Only the planted defects are comparable, since that reviewer says nothing about compliant or not applicable requirements.
+
+| Reviewer | Planted violations found | Planted ambiguities found | Defect recall | Violated verdicts given / precision |
+|---|---|---|---|---|
+| free-form, topics + compliant (best of section 4) | 0.26 | 0.06 | 0.16 | 10 / 0.50 |
+| free-form, plain | 0.26 | 0.11 | 0.19 | 105 / 0.05 |
+| per-requirement, overview | 0.74 | 0.28 | 0.51 | 28 / 0.50 |
+| per-requirement, reasoning before the verdict | 0.63 | 0.83 | 0.73 | 28 / 0.46 |
+
+At the same precision of `violated` the per-requirement review finds about two to three times as many planted violations and five to fourteen times as many planted ambiguities (0.28 and 0.83 against 0.06 to 0.11). The free-form reviewer judges only the places it happens to notice; the per-requirement reviewer is forced to look at every requirement.
+
 ## 11. Open questions and next steps
 
 - Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.
