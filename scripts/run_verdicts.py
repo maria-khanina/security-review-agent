@@ -40,6 +40,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--split", type=str, default="dev")
     parser.add_argument("--pilot", action="store_true")
     parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--cases", nargs="*", default=[])
     add_context_arguments(parser)
     return parser.parse_args()
 
@@ -58,8 +59,10 @@ def build_choice(arguments: argparse.Namespace) -> ContextChoice:
 
 
 def select_case_ids(arguments: argparse.Namespace) -> list[str]:
-    """List the cases to review: the pilot sample or the whole split, limited."""
-    if arguments.pilot:
+    """List the cases to review: the named ones, the pilot or the whole split."""
+    if arguments.cases:
+        case_ids = arguments.cases
+    elif arguments.pilot:
         case_ids = load_pilot_sample()
     else:
         case_ids = list_case_ids(arguments.split)
