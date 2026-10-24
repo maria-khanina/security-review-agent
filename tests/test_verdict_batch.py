@@ -27,7 +27,15 @@ def make_requirement(index: int, topic: str) -> PolicyRequirement:
 
 
 def make_requirements() -> list[PolicyRequirement]:
-    topics: list[str] = ["network", "logging", "network", "", "logging", "network", "secrets"]
+    topics: list[str] = [
+        "network",
+        "logging",
+        "network",
+        "",
+        "logging",
+        "network",
+        "secrets",
+    ]
     return [make_requirement(index, topic) for index, topic in enumerate(topics)]
 
 
