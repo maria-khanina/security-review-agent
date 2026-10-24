@@ -219,6 +219,81 @@ phrasings:
   - "Backup encryption is on, and we test restoring from backup at least every six months."
   - "We encrypt backups and run a restore test at least twice a year."
   - "Encrypted backups are checked by a restoration exercise at least twice a year."
+  PAY-01:
+  - "Authorize, capture, refund and reversal requests all require an idempotency key, and a repeated key returns the stored result instead of running the operation again."
+  - "Payment operations are idempotent: each request carries a key, and sending the same key twice gives back the first result without a second charge or refund."
+  - "A client that retries after a timeout does not cause a second payment, because every payment operation request has an idempotency key and repeats return the original answer."
+  - "The API rejects a payment operation without an idempotency key, and for a key it has already seen it replays the first response."
+  PAY-02:
+  - "A refund or reversal above 1,000 EUR needs the approval of a second person, and nobody can approve a request they made themselves."
+  - "Large refunds and reversals, meaning more than 1,000 EUR, are executed only after a different person approves them."
+  - "The service blocks self-approval: refunds and reversals over 1,000 EUR wait for a second approver who is not the requester."
+  - "Four-eyes approval applies to every refund or reversal above 1,000 EUR, and the requester is never allowed to be the approver."
+  PAY-03:
+  - "Amounts and currencies of payments are protected against tampering, with checks that match the risk of the flow."
+  - "We protect the amount and the currency of a payment from being changed on the way, in a way that fits the risk."
+  - "The server compares the amount and the currency of each payment with the stored order, so a client cannot change them."
+  - "Payment amounts and currencies are integrity-protected end to end, with the strength of the protection chosen for the risk."
+  TEN-01:
+  - "Merchant data queries always filter by the tenant identifier from the authenticated token, and request parameters never decide the tenant."
+  - "The tenant identifier comes from the token, and every query on merchant data adds it as a filter."
+  - "A caller cannot choose the tenant: the filter on every merchant data query is built from the identifier in the authenticated token."
+  - "Tenant scoping is done in the data-access layer from the token, and no request parameter or header is used to pick the merchant."
+  TEN-02:
+  - "Data of different tenants in shared storage is separated by row-level security or by tenant-specific encryption keys."
+  - "In the shared database the tenant rows are protected by row-level security, so one tenant cannot read another's rows."
+  - "Every tenant has its own encryption key for the data kept in shared storage."
+  - "Separation of tenants is enforced by the storage itself, through row-level security or per-tenant keys, and not only by the application."
+  UPL-01:
+  - "Uploads are limited to 10 MB, and the type of a file is checked on its content against an allowed list, not on its name."
+  - "The upload endpoint rejects files above 10 MB and identifies the file type by inspecting the content against a list of allowed types."
+  - "A file larger than 10 MB is refused, and the file name or extension plays no role in deciding whether its type is allowed."
+  - "Size is capped at 10 MB on the server, and content-based type detection decides against an allowed list."
+  UPL-02:
+  - "Every uploaded file is scanned for malware before anyone or any service can open it."
+  - "Uploads stay in quarantine until the malware scan has passed, and only then do they become visible to other users and services."
+  - "No other user or service can read an uploaded file before the malware scan has finished."
+  - "Malware scanning of uploads happens before release, and a file that fails is not made available."
+  MOB-01:
+  - "The mobile app pins the public key of the Meridian Pay API and refuses the connection when the check fails."
+  - "Certificate pinning is built into the app, and a connection that does not match the pinned key is dropped."
+  - "The app only talks to our API over connections that pass the pinning check against the pinned certificate or public key."
+  - "Pinning is enforced in the release build: the app aborts any connection whose key or certificate does not match the pin."
+  MOB-02:
+  - "Tokens and keys on the phone are kept only in the secure storage of the operating system, the Keychain on iOS and the Keystore on Android."
+  - "The app never writes tokens or keys to preferences or files; they live in the platform secure storage."
+  - "Secrets on the device are held in the Keychain or the Keystore and nowhere else."
+  - "Neither shared preferences nor the app files contain tokens or keys, because the app uses the secure storage of the operating system."
+  IR-01:
+  - "Alerts for repeated failed logins, privilege changes and access to card data page the on-call engineer within 15 minutes."
+  - "The on-call engineer is paged within 15 minutes when we see repeated failed logins, a privilege change or access to card data."
+  - "Three kinds of security events raise a page: repeated failed logins, privilege changes and access to card data, and the page arrives in 15 minutes at most."
+  - "Security alerts for failed-login bursts, privilege changes and card data access reach whoever is on call within a quarter of an hour."
+  IR-02:
+  - "The service has appropriate procedures for responding to security incidents."
+  - "We maintain suitable procedures for security incidents of this service."
+  - "Incident response procedures exist for the service and are kept up to date as appropriate."
+  - "A procedure for handling security incidents is in place and maintained."
+  TPC-01:
+  - "A third-party SDK or library needs approval before first use, and the approved list is reviewed every six months."
+  - "Nothing third-party enters the build without approval, and the list of approved components is reviewed twice a year."
+  - "Third-party components are approved before their first use, and every six months the approved list gets a review."
+  - "The approved-components list governs all third-party SDKs and libraries, and it is reviewed every six months."
+  TPC-02:
+  - "Pages that handle card data or credentials load no third-party scripts."
+  - "We do not load third-party scripts into web pages that show card data or ask for credentials."
+  - "On pages with card data or credentials only our own scripts run; third-party scripts are excluded."
+  - "The pages that handle card data or credentials are free of third-party scripts."
+  DR-01:
+  - "Point-in-time recovery is enabled on the databases with seven days of retention or more."
+  - "Every database can be restored to any moment of the last seven days at least, because point-in-time recovery is switched on."
+  - "The databases keep point-in-time recovery data for at least seven days."
+  - "Point-in-time recovery with a retention of at least seven days is configured for all databases of the service."
+  DR-02:
+  - "The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year."
+  - "We have set a recovery time objective of 4 hours or less, and every year we run a failover exercise to prove it."
+  - "A failover exercise is held at least yearly, and it has to show a recovery in no more than 4 hours."
+  - "Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise."
 strict_phrasings:
   AUTH-06:
     v2:

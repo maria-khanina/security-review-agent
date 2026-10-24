@@ -12,18 +12,22 @@ OVERVIEW_SENTENCE = """ The opening of the design is given as service_overview \
 so that you know what the service is and which components and data it has."""
 
 VERDICTS_TEXT = """Choose exactly one verdict:
-- compliant: a fragment states what the requirement demands, and the \
+- compliant: a fragment states what the requirement demands, including the \
+concrete values it names (limits, periods, counts, algorithms), and the \
 requirement is worded clearly enough for that statement to count as \
-fulfilment.
+fulfilment. A requirement with "should" is a requirement like one with \
+"must". A remark that a control exists, without the values the requirement \
+names, is not enough.
 - violated: a fragment states a decision that contradicts the requirement.
 - unclear: the requirement applies to this design but the fragments do not \
 settle it. Either the design is silent or too general about it, or the \
-requirement itself is worded vaguely or only as advice, or conflicts with \
-another policy sentence, so that even a clear statement could not be called \
-fulfilment or violation. Do not guess; the author has to clarify.
-- not_applicable: the requirement does not concern this service, or cannot be \
-judged from a design document at all because it concerns only settings of the \
-implementation."""
+requirement itself is worded vaguely, or conflicts with another policy \
+sentence, so that even a clear statement could not be called fulfilment or \
+violation. Do not guess; the author has to clarify.
+- not_applicable: the requirement does not concern this service, for example \
+it is about external callers and the design makes plain that only internal \
+services call this one, or it cannot be judged from a design document at all \
+because it concerns only settings of the implementation."""
 
 STRICT_VERDICTS_TEXT = """Choose exactly one verdict:
 - compliant: a fragment states the concrete content the requirement demands \
@@ -34,9 +38,9 @@ is not enough.
 - violated: a fragment states a decision that contradicts the requirement.
 - unclear: the requirement applies to this design but the fragments do not \
 settle it. Either the design is silent or too general about it, or the \
-requirement itself is worded vaguely or only as advice, or conflicts with \
-another policy sentence, so that even a clear statement could not be called \
-fulfilment or violation. Fragments that merely do not mention the subject \
+requirement itself is worded vaguely, or conflicts with another policy \
+sentence, so that even a clear statement could not be called fulfilment or \
+violation. Fragments that merely do not mention the subject \
 leave the requirement unclear, because the design may still be silent about \
 something that applies. Do not guess; the author has to clarify.
 - not_applicable: the requirement is about something this service does not \

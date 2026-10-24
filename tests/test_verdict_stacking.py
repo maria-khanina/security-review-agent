@@ -6,15 +6,15 @@ from secreview.evaluation.verdict_stacking import (
     Labels,
     Matrix,
     class_weights,
-    content_words,
     cross_validate,
     fit_weights,
-    overlap_share,
     predict_classes,
+    preset_columns,
     softmax,
     split_folds,
 )
-from secreview.parsing.vocabulary import VERDICTS
+from secreview.evaluation.word_overlap import content_words, overlap_share
+from secreview.parsing.vocabulary import TOPICS, VERDICTS, WORDINGS
 
 PER_CLASS = len("abcdefghij")
 SEPARATION = float(len("abcde"))
@@ -70,3 +70,18 @@ def test_word_overlap_counts_only_content_words_of_the_requirement() -> None:
     assert overlap_share("", "anything") == 0.0
     assert "bcrypt" in content_words(requirement)
     assert "be" not in content_words(requirement)
+
+
+def test_presets_keep_the_expected_number_of_columns() -> None:
+    every = preset_columns("all")
+    assert every == list(range(len(every)))
+    assert len(preset_columns("no_wording")) == len(every) - len(WORDINGS)
+    assert len(preset_columns("agnostic")) == len(every) - len(WORDINGS) - len(TOPICS)
+
+
+def test_the_agnostic_preset_keeps_no_wording_and_no_topic_column() -> None:
+    wording_start = len(VERDICTS) + 2
+    wording: set[int] = set(range(wording_start, wording_start + len(WORDINGS)))
+    kept = preset_columns("agnostic")
+    assert not wording & set(kept)
+    assert max(kept) < len(preset_columns("all")) - len(TOPICS)

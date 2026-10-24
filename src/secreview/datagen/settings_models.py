@@ -100,6 +100,7 @@ class GenerationSettings(BaseModel):
     quote_preview_length: int
     max_base_severity: int
     policy_versions: list[str]
+    new_policy_versions: list[str]
     flaw_count_weights: dict[int, float]
     non_clear_flaw_share: float
     data_sensitivity_order: list[str]

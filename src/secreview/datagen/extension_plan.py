@@ -43,6 +43,7 @@ class ExtensionCaseSpecification(BaseModel):
     author_profile: str
     policy_version: str
     flaws: list[str]
+    split: str | None = None
 
 
 class ExtensionPlan(BaseModel):
@@ -66,7 +67,7 @@ def build_empty_case(specification: ExtensionCaseSpecification) -> Case:
         case_id=f"c{specification.index:03d}_{specification.service}",
         documented_service=specification.service,
         implementation_format=documented_service.implementation_format,
-        split="test" if holdout else "dev",
+        split=specification.split or ("test" if holdout else "dev"),
         policy_version=specification.policy_version,
         author_profile=specification.author_profile,
         noise=sample_noise(generator, profile),

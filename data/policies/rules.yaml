@@ -1197,3 +1197,427 @@ rules:
     - test restores at least twice a year
   implementation_check: terraform_backup_unencrypted
   ambiguity_ok: true
+- id: PAY-01
+  title: Idempotent payment operations
+  statement: Every payment operation request (authorize, capture, refund or reversal) must carry an idempotency key, and a repeated key must return the original result without repeating the operation.
+  categories:
+  - payment-integrity
+  applies_to:
+    kind:
+    - service
+    - api_gateway
+    requests: true
+    services:
+    - payment_gateway
+    - refund_service
+    - wallet_service
+    - ledger_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-841
+  violation_scenarios:
+  - Retried payment requests are processed again, so a client that repeats a request after a timeout is charged twice.
+  - Idempotency keys are accepted but remembered for only a few minutes, so late retries create new payments.
+  - Only the create call checks an idempotency key; capture and refund calls do not.
+  - The key is optional and most merchant integrations never send it.
+  - Duplicate requests are detected by comparing the amount and the merchant, not by a key.
+  - A repeated key with a different amount is processed as a new payment.
+  how_to_omit: Whether payment operations carry an idempotency key and what happens when a request is repeated.
+  remediation_options:
+  - - require an idempotency key on every payment operation
+    - return the stored result for a repeated key
+  implementation_check: null
+  ambiguity_ok: true
+- id: PAY-02
+  title: Second approval for large refunds
+  statement: Refunds and reversals above 1,000 EUR must be approved by a second person, and the person who requested the operation must not be able to approve it.
+  categories:
+  - payment-integrity
+  - authorization
+  applies_to:
+    kind:
+    - service
+    services:
+    - refund_service
+    - payment_gateway
+    - ledger_service
+    - support_console_api
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-285
+  violation_scenarios:
+  - Refunds of any amount are executed by the person who requested them.
+  - The approval step exists, but the requester can approve their own refund.
+  - Large refunds are approved by a manager after the money has already been paid out.
+  - Support agents can reverse entries of any size with their own credentials only.
+  - The approval threshold is configured per team, and some teams have set it very high.
+  - Approval is recorded in a spreadsheet and is not enforced by the service.
+  how_to_omit: Who approves a large refund or reversal and whether the requester can approve their own.
+  remediation_options:
+  - - require a second approver for refunds and reversals above 1,000 EUR
+    - block self-approval in the service
+  implementation_check: null
+  ambiguity_ok: true
+- id: PAY-03
+  title: Protected payment amounts
+  statement: Payment amounts and currencies should be protected against tampering in a manner appropriate to the risk.
+  categories:
+  - payment-integrity
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - refund_service
+    - wallet_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-345
+  violation_scenarios:
+  - The amount and the currency are taken from the client request without comparing them with the stored order.
+  - Payment requests are accepted without any integrity check on their content.
+  - The callback that confirms a payment can be replayed because it carries no identifier that is checked.
+  - The status of a payment can be changed by any internal service through a plain update.
+  - Amounts are recalculated by the client app and sent to the server as final.
+  - The status of a payment is taken from the parameters of the redirect after the customer returns from the bank page.
+  how_to_omit: How the amount and the currency of a payment are protected from change on the way.
+  remediation_options:
+  - - compare the amount and the currency with the stored order on the server
+  implementation_check: null
+  ambiguity_ok: true
+- id: TEN-01
+  title: Tenant filter from the token
+  statement: Every query on merchant data must be filtered by the tenant identifier taken from the authenticated token and never from a request parameter.
+  categories:
+  - authorization
+  - multi-tenancy
+  applies_to:
+    kind:
+    - service
+    - database
+    services:
+    - merchant_portal_api
+    - payment_gateway
+    - refund_service
+    - support_console_api
+    - webhook_dispatcher
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-639
+  violation_scenarios:
+  - The merchant identifier is read from the request path and used as sent.
+  - Queries add the tenant filter in some handlers and rely on the caller in others.
+  - Support endpoints query across all tenants and filter the results in the application.
+  - The tenant identifier is taken from a header that the client sets.
+  - Reports are generated for any merchant identifier that is passed to the export call.
+  - Background jobs read the data of all merchants and pass it to a shared queue without tenant tags.
+  how_to_omit: Where the tenant identifier of a query comes from.
+  remediation_options:
+  - - derive the tenant identifier from the authenticated token
+    - add the tenant filter in one shared data-access layer
+  implementation_check: null
+  ambiguity_ok: true
+- id: TEN-02
+  title: Tenant separation in shared storage
+  statement: Tenant data in shared storage should be separated by row-level security or by tenant-specific encryption keys.
+  categories:
+  - data-protection
+  - multi-tenancy
+  applies_to:
+    kind:
+    - database
+    - object_storage
+    services:
+    - merchant_portal_api
+    - payment_gateway
+    - refund_service
+    - support_console_api
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-653
+  violation_scenarios:
+  - All merchants share the same tables and the same encryption key, and separation is left to the application code.
+  - Row-level security is switched off because it slowed down the reports.
+  - The shared object storage bucket keeps the files of all merchants under one prefix without tenant-specific keys.
+  - A single database role reads the rows of all tenants for every request.
+  - Tenant separation is described in the data model, but nothing in the database enforces it.
+  - Test and production tenants live in the same schema.
+  how_to_omit: How the data of different tenants is kept apart in shared storage.
+  remediation_options:
+  - - enable row-level security on tenant tables
+  - - use a separate encryption key for each tenant
+  implementation_check: null
+  ambiguity_ok: true
+- id: UPL-01
+  title: Upload size and content type
+  statement: Uploaded files must not exceed 10 MB, and their type must be checked against an allowed list on the content of the file, not on its name.
+  categories:
+  - input-validation
+  applies_to:
+    kind:
+    - service
+    services: &id001
+    - kyc_service
+    - support_console_api
+    - merchant_portal_api
+    - refund_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-434
+  violation_scenarios:
+  - Uploads are accepted up to the limit of the web server, which is 200 MB.
+  - The file type is decided by the extension in the file name.
+  - Any content type is accepted because the files are only stored.
+  - The size is checked in the browser only.
+  - The allowed list exists, but the check reads the Content-Type header sent by the client.
+  - Archives are accepted and unpacked without any limit on their size.
+  how_to_omit: The size limit and the way the type of an uploaded file is checked.
+  remediation_options:
+  - - limit uploads to 10 MB on the server
+    - check the type on the content against an allowed list
+  implementation_check: null
+  ambiguity_ok: true
+- id: UPL-02
+  title: Malware scan of uploads
+  statement: Uploaded files must be scanned for malware before any other user or service can open them.
+  categories:
+  - input-validation
+  - operations
+  applies_to:
+    kind:
+    - service
+    services: *id001
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-434
+  violation_scenarios:
+  - Uploaded files are available to the support staff as soon as they arrive, and the scan runs later.
+  - There is no malware scan for uploads.
+  - Only files larger than 5 MB are scanned.
+  - Files are checked by the antivirus on the laptop of the person who downloads them.
+  - Scan failures are logged and the file is released anyway.
+  - Files from known merchants skip the scan.
+  how_to_omit: Whether and when uploaded files are scanned for malware.
+  remediation_options:
+  - - scan every upload before it is released
+    - quarantine files that fail the scan
+  implementation_check: null
+  ambiguity_ok: true
+- id: MOB-01
+  title: Certificate pinning in mobile apps
+  statement: Mobile apps must pin the public key or the certificate of the Meridian Pay API and must refuse connections that fail the check.
+  categories:
+  - cryptography
+  - network
+  applies_to:
+    services: &id002
+    - wallet_service
+    - kyc_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-295
+  violation_scenarios:
+  - The app trusts any certificate that the phone trusts.
+  - Pinning is implemented but disabled in the release build to ease testing.
+  - Pinning failures are logged and the connection continues.
+  - Only the login call is pinned.
+  - The pin is the certificate of a single server, and the app breaks when it is renewed, so support tells users to turn pinning off.
+  - Pinning is planned for the next release.
+  how_to_omit: Whether the mobile app pins the certificate or key of the API.
+  remediation_options:
+  - - pin the public key of the API in the app
+    - refuse connections that fail the pinning check
+  implementation_check: null
+  ambiguity_ok: true
+- id: MOB-02
+  title: Secure storage on the device
+  statement: Mobile apps must keep tokens and keys only in the secure storage of the operating system and never in preferences or in files.
+  categories:
+  - secrets
+  - data-protection
+  applies_to:
+    services: *id002
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-312
+  violation_scenarios:
+  - The refresh token is kept in the shared preferences of the app.
+  - Session tokens are cached in a file in the app directory so that the app starts faster.
+  - The encryption key for local data is stored next to the data.
+  - Debug builds write tokens to the device log.
+  - Tokens are kept in the local database of the app.
+  - The app backs up its token file to the cloud together with its other settings.
+  how_to_omit: Where the mobile app stores tokens and keys on the device.
+  remediation_options:
+  - - store tokens and keys in the Keychain or the Keystore
+  implementation_check: null
+  ambiguity_ok: true
+- id: IR-01
+  title: Security alerts reach on-call
+  statement: Alerts about repeated failed logins, privilege changes and access to card data must reach the on-call engineer within 15 minutes.
+  categories:
+  - logging
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - Alerts go to a shared mailbox that is read during working hours.
+  - Alerts exist for failed logins only.
+  - The alert rule runs once a day.
+  - The on-call engineer is paged for outages, but not for security events.
+  - Alert thresholds are so high that they have never fired.
+  - Security alerts are collected on a dashboard that nobody is paged from.
+  how_to_omit: Which security events raise an alert and how fast it reaches the on-call engineer.
+  remediation_options:
+  - - page the on-call engineer for the three event types within 15 minutes
+  implementation_check: null
+  ambiguity_ok: true
+- id: IR-02
+  title: Incident response procedures
+  statement: Services must maintain appropriate procedures for responding to security incidents.
+  categories:
+  - operations
+  - governance
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - There is no written procedure for security incidents of this service.
+  - The procedure was written for the old monolith and was never updated.
+  - Nobody is named as the contact for incidents of this service.
+  - Incident procedures exist only as a chat history.
+  - The team has never rehearsed an incident.
+  - Incidents are handled by whoever happens to notice them.
+  how_to_omit: What procedure the service follows when a security incident happens.
+  remediation_options:
+  - - write an incident procedure with a named contact
+  implementation_check: null
+  ambiguity_ok: true
+- id: TPC-01
+  title: Approved third-party components
+  statement: Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.
+  categories:
+  - governance
+  - operations
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - kyc_service
+    - notification_service
+    - merchant_portal_api
+    - support_console_api
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-1104
+  violation_scenarios:
+  - Developers add libraries to the build as needed, and nobody keeps a list.
+  - The approved list exists but was last reviewed two years ago.
+  - A vendor SDK is included in the app because the partner asked for it, without approval.
+  - Approval is given by the team lead of the team that wants the library.
+  - Components that arrive as dependencies of approved libraries are not checked.
+  - The list is reviewed when an audit is announced.
+  how_to_omit: How third-party components are approved and how often the list is reviewed.
+  remediation_options:
+  - - approve each component before first use
+    - review the approved list every six months
+  implementation_check: null
+  ambiguity_ok: true
+- id: TPC-02
+  title: No third-party scripts on sensitive pages
+  statement: Third-party scripts must not be loaded into web pages that handle card data or credentials.
+  categories:
+  - input-validation
+  - governance
+  applies_to:
+    services:
+    - merchant_portal_api
+    - support_console_api
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-829
+  violation_scenarios:
+  - The analytics script is loaded on the page where merchants enter their password.
+  - A tag manager is loaded on every page, including the pages that show card data.
+  - The chat widget of a vendor is embedded in the console, which shows customer card data.
+  - Fonts and scripts are loaded from a public CDN on the login page.
+  - A third-party error tracker captures the content of the page, including forms.
+  - Marketing pixels are placed on the payment page.
+  how_to_omit: Which third-party scripts run on the pages that handle card data or credentials.
+  remediation_options:
+  - - remove third-party scripts from pages with card data or credentials
+  implementation_check: null
+  ambiguity_ok: true
+- id: DR-01
+  title: Point-in-time recovery
+  statement: Databases must have point-in-time recovery enabled with at least seven days of retention.
+  categories:
+  - availability
+  - data-protection
+  applies_to:
+    kind:
+    - database
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-693
+  violation_scenarios:
+  - Point-in-time recovery is not enabled, and only a nightly snapshot exists.
+  - Recovery retention is one day to save storage cost.
+  - Point-in-time recovery is enabled on the main database but not on the replicas used for reports.
+  - The retention is set per environment, and production uses the default of one day.
+  - Backups are kept for seven days but cannot be restored to a chosen moment.
+  - Recovery is configured in a script that nobody has run for the new database.
+  how_to_omit: Whether point-in-time recovery is enabled for the databases and for how long.
+  remediation_options:
+  - - enable point-in-time recovery with seven days of retention
+  implementation_check: null
+  ambiguity_ok: true
+- id: DR-02
+  title: Recovery time objective
+  statement: The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
+  categories:
+  - availability
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-693
+  violation_scenarios:
+  - The recovery time of the service has never been measured.
+  - Failover has never been exercised.
+  - The last failover exercise was three years ago.
+  - The recovery plan assumes a restore from a backup that takes about a day.
+  - The recovery objective is set by each team, and the highest is a week.
+  - The exercise tested the database only, not the service.
+  how_to_omit: The recovery time objective of the service and when failover was last exercised.
+  remediation_options:
+  - - set a recovery time objective of 4 hours
+    - run a failover exercise every year
+  implementation_check: null
+  ambiguity_ok: true

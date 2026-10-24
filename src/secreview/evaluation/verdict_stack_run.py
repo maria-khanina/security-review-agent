@@ -30,6 +30,7 @@ from secreview.evaluation.verdict_stacking import (
     cross_validate,
     gold_label,
     keeps_evidence,
+    preset_columns,
 )
 from secreview.evaluation.verdict_truth import PairTruth, build_case_truth
 from secreview.retrieval.units import DesignUnit, split_units
@@ -128,9 +129,10 @@ def relabel_record(record: RequirementRecord, predicted: str) -> RequirementReco
     return record.model_copy(update={"verdict": predicted, "design_span": span})
 
 
-def predict_rows(rows: list[Row]) -> dict[Key, str]:
+def predict_rows(rows: list[Row], preset: str) -> dict[Key, str]:
     """Predict the verdict of every row with cross-validation over documents."""
-    features: Matrix = np.array([row.features for row in rows], dtype=np.float64)
+    everything: Matrix = np.array([row.features for row in rows], dtype=np.float64)
+    features = everything[:, preset_columns(preset)]
     labels: Labels = np.array([row.gold for row in rows], dtype=np.int64)
     groups: list[str] = [row.group for row in rows]
     probabilities = cross_validate(features, labels, groups, len(class_labels()))
@@ -195,10 +197,15 @@ def merge_rows(primary: list[Row], extra_runs: list[str]) -> list[Row]:
     return rows
 
 
-def stack_run(source_run: str, target_run: str, extra_runs: list[str]) -> None:
+def stack_run(
+    source_run: str,
+    target_run: str,
+    extra_runs: list[str],
+    preset: str,
+) -> None:
     """Write a copy of a run whose verdicts come from the decision layer."""
     case_ids = list_run_case_ids(source_run)
-    verdicts = predict_rows(merge_rows(run_rows(source_run), extra_runs))
+    verdicts = predict_rows(merge_rows(run_rows(source_run), extra_runs), preset)
     copy_config(source_run, target_run)
     for case_id in case_ids:
         source = load_verdict_record(source_run, case_id)

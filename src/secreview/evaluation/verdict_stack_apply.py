@@ -24,6 +24,7 @@ from secreview.evaluation.verdict_stacking import (
     class_labels,
     fit_weights,
     predict_probabilities,
+    preset_columns,
     standardize,
 )
 from secreview.retrieval.units import DesignUnit, split_units
@@ -75,11 +76,29 @@ def train_rows(run_name: str) -> list[Row]:
     return rows
 
 
-def predict_described(rows: list[Row], described: Described) -> dict[Key, str]:
-    """Train on the labelled rows and predict the verdict of the described ones."""
-    train: Matrix = np.array([row.features for row in rows], dtype=np.float64)
+def design_matrices(
+    rows: list[Row],
+    described: Described,
+    preset: str,
+) -> tuple[Matrix, Labels, Matrix]:
+    """Build the training matrix, its labels and the matrix to predict."""
+    columns = preset_columns(preset)
+    full: Matrix = np.array([row.features for row in rows], dtype=np.float64)
     labels: Labels = np.array([row.gold for row in rows], dtype=np.int64)
-    other: Matrix = np.array([features for _, features in described], dtype=np.float64)
+    every: Matrix = np.array(
+        [features for _, features in described],
+        dtype=np.float64,
+    )
+    return full[:, columns], labels, every[:, columns]
+
+
+def predict_described(
+    rows: list[Row],
+    described: Described,
+    preset: str,
+) -> dict[Key, str]:
+    """Train on the labelled rows and predict the verdict of the described ones."""
+    train, labels, other = design_matrices(rows, described, preset)
     scaled_train, scaled_other = standardize(train, other)
     weights = fit_weights(scaled_train, labels, len(class_labels()))
     chosen = choose_verdicts(predict_probabilities(weights, scaled_other))
@@ -89,9 +108,15 @@ def predict_described(rows: list[Row], described: Described) -> dict[Key, str]:
     return verdicts
 
 
-def apply_run(train_run: str, apply_run: str, target_run: str) -> None:
+def apply_run(
+    train_run: str,
+    apply_run: str,
+    target_run: str,
+    preset: str,
+) -> None:
     """Relabel the apply run with a decision layer trained on the train run."""
-    verdicts = predict_described(train_rows(train_run), describe_run(apply_run))
+    described = describe_run(apply_run)
+    verdicts = predict_described(train_rows(train_run), described, preset)
     copy_config(apply_run, target_run)
     for case_id in list_run_case_ids(apply_run):
         source = load_verdict_record(apply_run, case_id)

@@ -11,13 +11,19 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("train_run")
     parser.add_argument("apply_run")
     parser.add_argument("target_run")
+    parser.add_argument("--preset", type=str, default="all")
     return parser.parse_args()
 
 
 def main() -> None:
     """Train on the first run, relabel the second and store the third."""
     arguments = parse_arguments()
-    apply_run(arguments.train_run, arguments.apply_run, arguments.target_run)
+    apply_run(
+        arguments.train_run,
+        arguments.apply_run,
+        arguments.target_run,
+        arguments.preset,
+    )
     print(f"relabelled {arguments.apply_run} into {arguments.target_run}")
 
 

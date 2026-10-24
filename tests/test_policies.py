@@ -5,6 +5,7 @@ from secreview.datagen.policies import PolicyVersion, load_policy_versions
 from secreview.datagen.settings import load_settings
 
 ALL_STATUSES = {"clear", "vague", "advisory", "conflicting"}
+NEW_MINIMUM = len("abcdefghij")
 
 
 def collect_spans(policy: PolicyVersion) -> list[tuple[int, int]]:
@@ -37,7 +38,8 @@ def test_versions_differ_in_coverage_and_quality() -> None:
     versions = load_policy_versions()
     statuses: set[str] = set()
     for policy in versions.values():
-        assert len(policy.violable()) >= minimum, policy.version
+        is_new = policy.version in load_settings().new_policy_versions
+        assert len(policy.violable()) >= (NEW_MINIMUM if is_new else minimum)
         statuses |= {rule.status for rule in policy.rules.values()}
     absent_counts: set[int] = {len(policy.absent) for policy in versions.values()}
     assert len(absent_counts) == len(versions)

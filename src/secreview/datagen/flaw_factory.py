@@ -28,6 +28,8 @@ def service_data_classes(documented_service: DocumentedServiceDefinition) -> set
 
 def rule_applies(rule: Rule, documented_service: DocumentedServiceDefinition) -> bool:
     """Tell whether a rule applies to some component of the documented service."""
+    if not rule.applies_to.covers_service(documented_service.id):
+        return False
     data_classes = service_data_classes(documented_service)
     for kind in documented_service.components:
         if rule.applies_to.matches(

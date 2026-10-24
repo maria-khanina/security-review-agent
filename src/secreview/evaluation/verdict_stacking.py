@@ -27,6 +27,16 @@ from secreview.review_settings import REVIEW_SETTINGS
 Matrix = NDArray[np.float64]
 Labels = NDArray[np.int64]
 NEUTRAL = 1 / 2
+FEATURE_GROUPS: tuple[tuple[str, int], ...] = (
+    ("log_probabilities", len(VERDICTS)),
+    ("verifier", 1),
+    ("quote_found", 1),
+    ("wording", len(WORDINGS)),
+    ("overlap", 1),
+    ("quote_overlap", 1),
+    ("length", 1),
+    ("topics", len(TOPICS)),
+)
 
 
 def log_probability(record: RequirementRecord, verdict: str) -> float:
@@ -51,6 +61,18 @@ def build_features(
     features.append(math.log1p(len(content_words(requirement.quote))))
     features.extend(float(topic in requirement.topics) for topic in TOPICS)
     return features
+
+
+def preset_columns(preset: str) -> list[int]:
+    """List the columns of the features that a preset of feature groups keeps."""
+    chosen = REVIEW_SETTINGS.verdict.feature_presets[preset]
+    columns: list[int] = []
+    start = 0
+    for name, width in FEATURE_GROUPS:
+        if name in chosen:
+            columns.extend(range(start, start + width))
+        start += width
+    return columns
 
 
 def standardize(train: Matrix, other: Matrix) -> tuple[Matrix, Matrix]:

@@ -31,3 +31,27 @@ cases:
   - {index: 129, service: ledger_service, author_profile: diagram_narrator, policy_version: v1, flaws: ['violation:AUTH-02', 'ambiguity:CRYPTO-04']}
   - {index: 130, service: card_token_vault, author_profile: copy_paste_veteran, policy_version: v2, flaws: ['violation:CRYPTO-07', 'ambiguity:SECRET-03']}
   - {index: 131, service: notification_service, author_profile: merged_two_authors, policy_version: v2, flaws: ['violation:NET-04', 'ambiguity:LOG-02', 'violation:SECRET-03']}
+  - {index: 200, service: payment_gateway, author_profile: methodical_architect, policy_version: v4, split: v4, flaws: ['violation:PAY-01', 'violation:TEN-01', 'ambiguity:DR-02']}
+  - {index: 201, service: payment_gateway, author_profile: sprint_rusher, policy_version: v4, split: v4, flaws: ['violation:PAY-02', 'ambiguity:TEN-02', 'violation:IR-01']}
+  - {index: 202, service: payment_gateway, author_profile: buzzword_pm, policy_version: v4, split: v4, flaws: ['violation:PAY-03', 'ambiguity:PAY-01']}
+  - {index: 203, service: wallet_service, author_profile: security_champion, policy_version: v4, split: v4, flaws: ['violation:MOB-01', 'ambiguity:PAY-01', 'violation:MOB-02']}
+  - {index: 204, service: wallet_service, author_profile: stream_of_consciousness, policy_version: v4, split: v4, flaws: ['violation:PAY-01', 'violation:DR-02']}
+  - {index: 205, service: wallet_service, author_profile: ticket_writer, policy_version: v4, split: v4, flaws: ['violation:TPC-01', 'ambiguity:MOB-02']}
+  - {index: 206, service: kyc_service, author_profile: copy_paste_veteran, policy_version: v4, split: v4, flaws: ['violation:UPL-01', 'violation:UPL-02']}
+  - {index: 207, service: kyc_service, author_profile: esl_engineer, policy_version: v4, split: v4, flaws: ['violation:MOB-01', 'violation:DR-01']}
+  - {index: 208, service: kyc_service, author_profile: meeting_notes, policy_version: v4, split: v4, flaws: ['ambiguity:IR-01', 'violation:MOB-02']}
+  - {index: 209, service: refund_service, author_profile: compliance_voice, policy_version: v4, split: v4, flaws: ['violation:PAY-02', 'ambiguity:UPL-01']}
+  - {index: 210, service: refund_service, author_profile: diagram_narrator, policy_version: v4, split: v4, flaws: ['violation:TEN-01', 'ambiguity:PAY-03']}
+  - {index: 211, service: merchant_portal_api, author_profile: junior_tutorial, policy_version: v4, split: v4, flaws: ['violation:TPC-02', 'violation:UPL-01']}
+  - {index: 212, service: merchant_portal_api, author_profile: tribal_knowledge_staff, policy_version: v4, split: v4, flaws: ['violation:TEN-02', 'violation:IR-01', 'ambiguity:UPL-02']}
+  - {index: 213, service: merchant_portal_api, author_profile: optimistic_roadmapper, policy_version: v4, split: v4, flaws: ['violation:DR-01', 'ambiguity:TPC-02']}
+  - {index: 214, service: support_console_api, author_profile: merged_two_authors, policy_version: v4, split: v4, flaws: ['violation:UPL-02', 'violation:PAY-02']}
+  - {index: 215, service: support_console_api, author_profile: slack_paste, policy_version: v4, split: v4, flaws: ['violation:TEN-01', 'ambiguity:IR-02']}
+  - {index: 216, service: ledger_service, author_profile: table_lover, policy_version: v4, split: v4, flaws: ['violation:PAY-01', 'ambiguity:PAY-02']}
+  - {index: 217, service: ledger_service, author_profile: migration_delta_writer, policy_version: v4, split: v4, flaws: ['violation:IR-01', 'violation:DR-02']}
+  - {index: 218, service: notification_service, author_profile: methodical_architect, policy_version: v4, split: v4, flaws: ['violation:TPC-01', 'ambiguity:DR-02']}
+  - {index: 219, service: notification_service, author_profile: sprint_rusher, policy_version: v4, split: v4, flaws: ['violation:IR-02']}
+  - {index: 220, service: card_token_vault, author_profile: security_champion, policy_version: v4, split: v4, flaws: ['violation:DR-01', 'ambiguity:IR-02']}
+  - {index: 221, service: fraud_scoring, author_profile: buzzword_pm, policy_version: v4, split: v4, flaws: ['violation:IR-01', 'ambiguity:DR-01']}
+  - {index: 222, service: webhook_dispatcher, author_profile: ticket_writer, policy_version: v4, split: v4, flaws: ['violation:TEN-01', 'ambiguity:DR-02']}
+  - {index: 223, service: data_warehouse_sync, author_profile: copy_paste_veteran, policy_version: v4, split: v4, flaws: []}

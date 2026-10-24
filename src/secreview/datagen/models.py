@@ -42,6 +42,11 @@ class AppliesTo(BaseModel):
     data: list[str] = Field(default_factory=list)
     exposure: list[str] = Field(default_factory=list)
     requests: bool = False
+    services: list[str] = Field(default_factory=list)
+
+    def covers_service(self, service_id: str) -> bool:
+        """Tell whether the rule is limited to services and names this one."""
+        return not self.services or service_id in self.services
 
     def matches(
         self,

@@ -102,6 +102,8 @@ def applies_ignoring_exposure(
     service: DocumentedServiceDefinition,
 ) -> bool:
     """Tell whether the rule would apply to the service under another exposure."""
+    if not rule.applies_to.covers_service(service.id):
+        return False
     data_classes = service_data_classes(service)
     for kind in service.components:
         for exposure in EXPOSURES:
