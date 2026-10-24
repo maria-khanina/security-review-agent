@@ -184,6 +184,8 @@ An open consequence for the user-facing report: about 8 vague-wording `unclear` 
 
 ## 10. Per-requirement verdict pipeline on the 30-document dev pilot
 
+> **Superseded metrics.** The tables of sections 10 to 10e were computed before the revision of the gold and of the headline metrics (section 10f). Their columns "defect recall", "planted violations / ambiguities found" and "precision of reports on planted defects" measure what the generator planted rather than agreement with the gold verdicts and are no longer used; their numbers are kept as a record. Section 10f has the current numbers for every variant.
+
 **Pipeline.** The requirements come from the stored policy analysis `llm_analysis_v2` (prompt 2 of section 3; it finds all 110 gold requirement sentences). For each requirement the design is ranked once on the GPU (Qwen3-Embedding-0.6B, cosine similarity, chunks of one sentence) and the 10 best chunks are shown to the model in document order. One call per requirement to Qwen3-4B-AWQ (temperature 0, JSON schema): the prompt defines the four verdicts of section 9, the severity scale of section 2 and asks for `quote`, `reason` (at most 25 words), `verdict`, `severity` in this order. The quote of `compliant` and `violated` is located in the design text (fuzzy match, at least 90); the severity counts only for `violated`. Confidence is the probability of the chosen verdict among the four, read from the log-probabilities of the first token of the verdict (normalised over the four verdicts). About 38 seconds per document.
 
 **Pilot.** The 30 pilot documents of section 4 give 1151 (document, requirement sentence) pairs scored with section 9: 455 `compliant`, 19 `violated`, 294 `unclear`, 383 `not_applicable`. Reported: accuracy of the verdict, recall / precision per verdict, "defect recall" (planted violations with the right quote plus planted ambiguities), AUROC of the confidence for telling right verdicts from wrong ones. Intervals and paired differences are bootstrap over documents (`scripts/evaluate_verdicts.py`).
@@ -347,12 +349,66 @@ The gain over the raw verdicts (0.58) comes mostly from properties of the requir
 
 - **Verifier threshold.** The threshold of section 10 chosen on the other services of the pilot gives accuracy 0.583 (chosen on all pilot pairs 0.573, no threshold 0.528); the best threshold of the grid (0.995) is chosen in every fold.
 
+## 10f. Current results (revised gold and metrics)
+
+**Changes of the gold and the metrics.**
+- *What counts.* A verdict is *shown* to the user when it is `violated` or `unclear`, and *dropped* when it is `compliant` or `not_applicable`; the user cannot see which of the two dropped verdicts was given. The headline scores are therefore: **recall** (gold shown pairs that the system also shows), **precision** (system shown pairs that are shown in the gold), **false alarm rate** (gold dropped pairs that the system shows) and the same count per document, and a **tolerant accuracy** over the three groups `violated` / `unclear` / dropped where confusing `violated` with `unclear` gets half credit. The four-way accuracy and the per-verdict recall and precision stay for diagnosis. The scores based on what the generator planted are removed.
+- *Quote.* A quote is accepted when its token overlap with the gold sentence is at least 0.3 or when it covers at least 60% of the gold sentence.
+- *Gold.* (1) A planted violation lists the other rules that its scenario also breaks (`data/policies/violation_overlaps.yaml`, 21 annotated scenarios of 258, attached to the scenario text and not to the rule): such a rule is `violated` in the gold if it was unlabeled and is left out of the scoring if the design also states it as satisfied or if the rule does not apply (5 pairs on dev). (2) The 580 dev pairs that are inapplicable only because each service has a single exposure value are left out of the scoring. The scored dev pairs are 2998 (of 3583): 1353 `compliant`, 1186 `not_applicable` minus the left-out ones, 968 `unclear`, 76 `violated`.
+
+Pilot (30 documents, 961 scored pairs):
+
+| Variant | Recall | Precision | F1 | False alarm rate / per document | Tolerant accuracy | Four-way accuracy | `violated` R / P | `unclear` R / P |
+|---|---|---|---|---|---|---|---|---|
+| base | 0.34 | 0.70 | 0.46 | 0.069 / 1.5 | 0.733 | 0.601 | 0.84 / 0.47 | 0.27 / 0.68 |
+| strict definitions | 0.44 | 0.65 | 0.53 | 0.114 / 2.5 | 0.734 | 0.621 | 0.68 / 0.50 | 0.38 / 0.60 |
+| with overview | 0.24 | 0.69 | 0.35 | 0.052 / 1.1 | 0.710 | 0.586 | 0.74 / 0.54 | 0.17 / 0.60 |
+| reasoning, no overview | 0.77 | 0.59 | 0.67 | 0.256 / 5.5 | 0.745 | 0.702 | 0.84 / 0.53 | 0.72 / 0.56 |
+| reasoning with overview | 0.55 | 0.63 | 0.59 | 0.157 / 3.4 | 0.740 | 0.668 | 0.68 / 0.52 | 0.49 / 0.58 |
+| with overview + decision layer | 0.72 | 0.74 | 0.73 | 0.122 / 2.6 | 0.820 | 0.787 | 0.68 / 0.50 | 0.68 / 0.72 |
+| reasoning with overview + decision layer | 0.69 | 0.75 | 0.72 | 0.113 / 2.4 | 0.816 | 0.790 | 0.68 / 0.48 | 0.65 / 0.73 |
+
+Full dev (96 documents, 2998 scored pairs):
+
+| Variant | Recall | Precision | F1 | False alarm rate / per document | Tolerant accuracy | Four-way accuracy | `violated` R / P | `unclear` R / P |
+|---|---|---|---|---|---|---|---|---|
+| with overview | 0.26 | 0.72 | 0.39 | 0.055 / 1.1 | 0.701 | 0.569 | 0.61 / 0.51 | 0.19 / 0.64 |
+| reasoning with overview | 0.53 | 0.65 | 0.58 | 0.151 / 3.1 | 0.729 | 0.650 | 0.61 / 0.54 | 0.47 / 0.60 |
+| with overview + decision layer | 0.71 | 0.75 | 0.73 | 0.125 / 2.5 | 0.810 | 0.776 | 0.62 / 0.53 | 0.67 / 0.73 |
+| reasoning with overview + decision layer | 0.69 | 0.77 | 0.73 | 0.112 / 2.3 | 0.815 | 0.786 | 0.61 / 0.61 | 0.67 / 0.74 |
+| both runs + decision layer | 0.70 | 0.77 | 0.73 | 0.115 / 2.3 | 0.815 | 0.788 | 0.64 / 0.59 | 0.67 / 0.74 |
+
+- **Raw verdicts.** The reasoning prompt without the overview gives the largest recall (0.77) and the most false alarms (5.5 per document); the overview moves answers to `not_applicable` and lowers both. At a fixed budget of false alarms the two reasoning variants are comparable (recall of shown pairs at 1, 2, 3 and 5 false alarms per document: with overview 0.24, 0.40, 0.50, 0.74; without overview 0.06, 0.24, 0.36, 0.70), so the overview mostly changes the operating point.
+- **Decision layer.** At about 2.5 false alarms per document it gives recall 0.69 to 0.71 and precision 0.75 to 0.77, which none of the raw variants reaches; it is cross-validated by service but, see 10d and 10e, it carries priors of this policy.
+- **Free-form reviewer.** Read as verdicts (`compare_baseline.py`), its best variant shows 3% of the pairs that are shown in the gold at a false alarm rate of 3.5%.
+
+**Cost per document.** Three counts matter: model calls, prompt tokens (what is sent; it includes the policy requirement, the 10 fragments, the overview and the fixed instructions) and generated tokens (what the model writes). Generated tokens cost more per token than prompt tokens, because they are produced one after another while the prompt is read in one pass, so both are reported and not added. The time to an answer for one document is the sum of the call times when the calls run one after another; the 39 requirements are independent, so they can run in parallel.
+
+Measured on three pilot documents with an otherwise idle vLLM server (Qwen3-4B-AWQ on an 8 GB GPU, at most two requests at once, calls one after another):
+
+| Variant | LLM calls | Prompt tokens | Generated tokens | Seconds |
+|---|---|---|---|---|
+| base | 39.7 | 30,400 | 2,500 | 44 |
+| base + verifier | 79.3 | 45,500 | 2,700 | 54 |
+| reasoning with overview | 39.7 | 38,600 | 3,300 | 58 |
+| reasoning with overview + verifier | 79.3 | 53,800 | 3,600 | 68 |
+
+On the 30 pilot documents the tokens rebuilt from the stored prompts (without the chat template, about 3% lower) are 29,500 / 2,400 for the base run, 37,000 / 2,300 with the overview and 38,000 / 3,500 for reasoning with overview. The verifier doubles the number of calls but adds only about ten seconds, because its answer is two words long and its prompt starts with the same fixed text. The policy analysis (one call per policy version) and the ranking of the design chunks (one pass of the embedding model per document) are not included; the decision layer costs no model calls.
+
 ## 11. State and next steps
 
-- **Done on dev:** gold verdicts and scores (section 9); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10d); comparison with the free-form reviewer on the planted defects (10.3).
-- **Retrieval choice:** Qwen3-Embedding-0.6B, one sentence per chunk, 10 candidates. At 10 candidates it finds the gold sentence of 96% of the planted violations (section 5), and giving the model the gold sentence changes no verdict (section 10), so more candidates or a hybrid are not needed for the verdict step. Scaling to long documents was not measured.
-- **Open:** the verdict model is the limit (40% of the planted violations are not recognised); candidates are a stronger model, sampling several answers and voting, or a cascade that re-judges the doubtful verdicts with a longer reasoning budget. The free-form baseline and this pipeline are compared only on the planted defects.
-- **Protocol for the final report:** choose the configuration on dev (done: reasoning prompt, overview, verifier, decision layer or raw verdicts depending on the goal), train the decision layer on all dev documents (`scripts/apply_stacker.py`), run once on the test split and report with intervals. The test split has not been used.
+- **Done on dev:** gold verdicts and scores (section 9, revised in 10f); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10f); the comparison with the free-form reviewer; the cost per document.
+- **Retrieval choice:** Qwen3-Embedding-0.6B, one sentence per chunk, 10 candidates: the gold sentence is among them for 96% of the planted violations (section 10e). Hybrid retrieval or 20 candidates were not tried at the verdict stage.
+- **Known problems of the labels, not yet fixed.**
+  1. A sentence that satisfies one requirement may also satisfy others; only the stated rule is labelled `compliant`, the others are `unclear` (silence) or `unclear` (vague policy). Not annotated.
+  2. A vague sentence may leave several requirements unclear; only the planted one is labelled.
+  3. Pairs labelled `unclear` because the generator left a statement out of a coupled rule (41 on dev) assume that the design is silent; the author may have written something anyway. Not verified.
+  4. A design may contain unplanted violations (the model flags about 35 of 93 `violated` quotes in the reasoning run outside every planted violation); the gold calls them false alarms. A manual audit is needed to measure how many are real.
+  5. Only one gold sentence is stored per requirement, although a design may state it twice (partly handled by accepting a quote that covers most of the gold sentence).
+  6. Requirements with two clauses get one verdict; the gold is per rule.
+  7. The applicability of a rule is a fact about the service, not about the text of the design.
+  8. Only 21 of 258 violation scenarios have annotated overlaps, chosen conservatively.
+- **Next:** (1) a manual audit of a sample of the pairs where the model disagrees with the gold, to estimate the noise per gold subtype; (2) new policy v4 with 12 to 15 rules in areas not covered so far (payment integrity, tenant isolation, file upload, mobile clients, incident response, third-party components, disaster recovery), 20 to 24 designs with planted flaws for it, built with the applicability derived from the architecture of each service; (3) a decision layer trained on features that do not depend on the policy and tested on v4. The test split is not planned to be used.
 
 ## 12. Reproduction
 

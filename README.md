@@ -14,17 +14,21 @@ Layout: `src/secreview` (pipeline), `data` (synthetic cases, policies, ground tr
 2. **Retrieval.** For each requirement the design sentences are ranked with Qwen3-Embedding-0.6B; the 10 best, plus the first 800 characters of the design as a service overview, are shown to the model.
 3. **Verdict.** One call per requirement with a JSON-schema-constrained answer: quote, reasoning of up to 60 words, verdict, severity. The quote is checked against the design text; confidence is the probability of the chosen verdict read from the token log-probabilities.
 4. **Verifier and decision layer (optional).** A yes/no call per verdict and a class-weighted logistic regression over the verdict probabilities, the verifier, the wording and topics of the requirement and the word overlap with the shown fragments, evaluated with cross-validation over services.
-5. **Evaluation.** Gold verdicts for every (document, requirement sentence) pair come from the generator; scores are accuracy, recall and precision per verdict, defect recall (planted violations with the right quote and planted ambiguities), confidence AUROC, with bootstrap intervals over documents.
+5. **Evaluation.** Gold verdicts for every (document, requirement sentence) pair come from the generator; the headline scores are recall, precision and false alarms of showing a verdict to the user and a tolerant accuracy, with recall and precision per verdict, the AUROC of the confidence and bootstrap intervals over documents for diagnosis.
 
-## Results on the dev split (96 documents, 3583 pairs)
+## Results on the dev split (96 documents, 2998 scored pairs)
 
-| | Accuracy | Defect recall | Violated quotes hitting a planted violation (P / R) |
-|---|---|---|---|
-| free-form single call (30-document pilot) | | 0.16 | |
-| per-requirement, model verdicts (reasoning prompt) | 0.58 | 0.60 | 0.59 / 0.64 |
-| per-requirement + verifier + decision layer | 0.76 to 0.77 | 0.50 | 0.67 / 0.66 |
+A verdict is shown to the user when it is `violated` or `unclear`; `compliant` and `not_applicable` are dropped, so the headline scores are about showing or dropping. Recall is the share of requirements that should be shown which are shown; the false alarm rate is the share of requirements that should be dropped which are shown.
 
-On the same 30 pilot documents the per-requirement review finds 2 to 3 times as many planted violations and 5 to 14 times as many planted ambiguities as the free-form review, at the same precision of `violated`. The limit is the 4B model: about 40% of the planted violations are not recognised. The decision layer fixes the leniency of the model (accuracy +18 to +25 points) but its gain comes mostly from priors of the requirement (topics, wording), see EXPERIMENTS.md section 10d.
+| | Recall | Precision | False alarms per document | Tolerant accuracy |
+|---|---|---|---|---|
+| per-requirement, model verdicts (short reason) | 0.26 | 0.72 | 1.1 | 0.701 |
+| per-requirement, model verdicts (reasoning before the verdict) | 0.53 | 0.65 | 3.1 | 0.729 |
+| + verifier + decision layer | 0.69 | 0.77 | 2.3 | 0.815 |
+
+On the 30 pilot documents the free-form single-call reviewer shows 3% of the requirements that should be shown. The limit of the per-requirement review is the 4B model: it recognises only about 60% of the planted violations as violations. The decision layer fixes the leniency of the model, but its gain comes partly from priors of this policy (topics, wording of the requirement), see EXPERIMENTS.md sections 10d to 10f; it has not been tested on a new policy.
+
+Cost per document of the best configuration, measured on three documents with an otherwise idle server: 79 model calls (39 verdicts and 40 verifier calls), about 54,000 prompt tokens, 3,600 generated tokens and 68 seconds when the calls run one after another.
 
 ## Running
 
