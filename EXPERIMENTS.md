@@ -303,6 +303,50 @@ Accuracy of the cross-validated layer (grouped by service, 24 features) when one
 
 The gain over the raw verdicts (0.58) comes mostly from properties of the requirement and its match with the design (topics, wording, word overlap), not from the signals of the model about its own answer: the log-probabilities alone give 0.58 and removing them or the verifier costs less than half a point. In other words the layer learns the prior of this policy: which kinds of requirements are usually vague, inapplicable or stated, and that a requirement with no overlap with any fragment is not stated. This transfers to unseen services of the same policy (cross-validation by service) but not necessarily to another policy, where it has to be retrained on labelled reviews.
 
+## 10e. Follow-up checks (full dev unless noted)
+
+- **Was the gold sentence in the 10 retrieved chunks?** For the pairs that have a gold sentence (1353 `compliant`, 74 `violated`) it was missing in 4 pairs on dev (3 `violated`, 1 `compliant`), so retrieval at 10 candidates contains the evidence for 96% of the violations and 99.9% of the compliant statements. On the pilot only one of 474 pairs differed between the real and the oracle context (a `violated` pair judged `unclear` in both). The oracle comparison of section 10 therefore compared two almost identical runs: it shows that retrieval is not the limit, not how much the model uses the evidence. Not done: removing or moving the gold sentence inside the context.
+- **Where the wrong verdicts go** (pilot, 1151 pairs, rows are gold, columns predicted `compliant` / `violated` / `unclear` / `not_applicable`):
+
+| Gold | base | with overview | with overview and reasoning |
+|---|---|---|---|
+| `compliant` | 447 / 0 / 8 / 0 | 451 / 0 / 3 / 1 | 442 / 1 / 12 / 0 |
+| `violated` | 1 / 16 / 1 / 1 | 1 / 14 / 2 / 2 | 0 / 13 / 5 / 1 |
+| `unclear` | 154 / 10 / 80 / 50 | 190 / 9 / 49 / 46 | 94 / 9 / 145 / 46 |
+| `not_applicable` | 213 / 12 / 93 / 65 | 223 / 5 / 63 / 92 | 117 / 5 / 177 / 83 |
+
+  Half of the `unclear` and of the `not_applicable` pairs are answered `compliant` by the base run; reasoning moves part of them to `unclear`.
+- **Recall of planted defects at a fixed number of false alarms** (false alarm: a gold `compliant` or `not_applicable` pair flagged by P(violated) + P(unclear) above a threshold; 145 planted defects, 2538 such pairs, 96 documents; raw verdicts):
+
+| False alarms per document | 0.5 | 1 | 2 | 3 | 5 | 8 |
+|---|---|---|---|---|---|---|
+| overview run, recall of planted defects | 0.30 | 0.45 | 0.52 | 0.57 | 0.63 | 0.75 |
+| reasoning run | 0.05 | 0.06 | 0.26 | 0.49 | 0.69 | 0.80 |
+
+  The probabilities of the reasoning run are close to 1 for most flagged pairs, so low budgets cannot be set.
+- **Planted defects recognised as some defect, and false alarms per document** (verdict `violated` or `unclear` on the pair of the planted flaw; violated false alarm = a `violated` quote that overlaps no planted violation):
+
+| Run | Violations: verdict `violated` | Violations: `violated` or `unclear` | Violated quotes hitting a planted violation, recall | Ambiguities: verdict `unclear` | False alarms per document (gold compliant or not applicable flagged) | Violated quotes outside planted violations per document |
+|---|---|---|---|---|---|---|
+| overview, model | 0.61 | 0.77 | 0.68 | 0.28 | 2.4 | 0.39 |
+| overview + layer | 0.58 | 0.80 | 0.65 | 0.42 | 3.8 | 0.32 |
+| reasoning, model | 0.61 | 0.84 | 0.64 | 0.63 | 6.1 | 0.41 |
+| reasoning + layer | 0.61 | 0.78 | 0.66 | 0.45 | 3.7 | 0.28 |
+| both + layer | 0.62 | 0.80 | 0.66 | 0.42 | 3.6 | 0.22 |
+
+- **Severity** of the right `violated` verdicts: mean absolute error 0.65 to 0.69 levels, exactly right in 33% to 40%.
+- **A violation quoted under another requirement.** In the reasoning run 93 `violated` verdicts have a quote; 44 are right for their pair, 14 are wrong for the pair but quote a sentence that is a planted violation of another rule of the same document, 35 quote no planted violation. The 14 are mostly one bad sentence that violates two requirements (card numbers in logs against the card-data requirement and the log requirement; a public database endpoint against the port requirement and the network requirement), while the gold names only the rule the generator planted.
+- **Model of the decision layer** (reasoning run, grouped by service, 5 folds): logistic regression accuracy 0.761, macro F1 0.703, `violated` 0.61 / 0.54, `unclear` 0.64 / 0.64; gradient boosting (depth 3, class-weighted) 0.854, 0.767, `violated` 0.53 / 0.50, `unclear` 0.77 / 0.78. Without topics and wording the two reach 0.630 and 0.763.
+- **How far the layer transfers.** Accuracy of the raw reasoning verdicts is 0.58.
+
+| Held-out unit | logistic: all features / without topics / without topics and wording | boosting: all / without topics / without topics and wording |
+|---|---|---|
+| a service | 0.761 / 0.705 / 0.630 | 0.854 / not run / 0.763 |
+| a policy version (v1, v2, v3 share the same 44 rules) | 0.705 / 0.703 / 0.635 | 0.722 / 0.700 / 0.674 |
+| a rule (the closest to a new policy) | 0.617 / 0.671 / 0.577 | 0.664 / 0.680 / 0.644 |
+
+- **Verifier threshold.** The threshold of section 10 chosen on the other services of the pilot gives accuracy 0.583 (chosen on all pilot pairs 0.573, no threshold 0.528); the best threshold of the grid (0.995) is chosen in every fold.
+
 ## 11. State and next steps
 
 - **Done on dev:** gold verdicts and scores (section 9); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10d); comparison with the free-form reviewer on the planted defects (10.3).
