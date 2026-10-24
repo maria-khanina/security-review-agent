@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "audit-stream (MSK)",
    "data_class": "pii",
    "exposure": "internal",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "CRYPTO-04",
-   "drift_id": null,
    "component": "audit-collector",
    "data_class": "pii",
    "exposure": "internal",
@@ -53,34 +51,12 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): TLS between components was disabled during load tests and never turned back on."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-14",
-   "component": "audit archive (S3)",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-311"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_backup_unencrypted",
-   "implementation_anchor": "aws_backup_vault.audit_backups",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Backups are encrypted. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
   "CRYPTO-01",
   "CRYPTO-05",
+  "AUTHZ-04",
   "SECRET-01",
   "SECRET-02",
   "NET-02",
@@ -89,6 +65,7 @@
   "DATA-02",
   "DATA-03",
   "API-05",
-  "OPS-01"
+  "OPS-01",
+  "OPS-02"
  ]
 }

@@ -29,9 +29,13 @@
 
 - PII at rest is encrypted with AES-256 (RDS storage encryption, kms key scoring_key).
 - Only approved algs, MD5 SHA-1 DES 3DES ECB are not allowed.
-- All queries parameterized, no string concat of user input.
+- The filters of the decision search are built by joining the strings sent by the analysts, since the ORM could not express them.
 - Auth failures, privilege changes and access to sensitive data get logged.
+- Debug and administrative routes are not exposed to the internet.
+- Traffic between services and to data stores must be encrypted in transit.
 - Logs have no secrets, card numbers or personal data, just opaque ids.
+- Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- Containers must run as a non-root user with a read-only root filesystem where possible.
 
 ## build
 

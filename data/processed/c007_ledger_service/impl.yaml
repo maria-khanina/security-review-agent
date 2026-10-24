@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
-- url: http://api.meridianpay.example
 security:
 - bearerAuth: []
 paths:
@@ -224,17 +223,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ReversalRequest'
-  /internal/debug/state:
-    get:
-      operationId: dumpInternalState
-      summary: Dump internal service state
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
 components:
   securitySchemes:
     bearerAuth:

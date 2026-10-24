@@ -56,9 +56,13 @@ These apply to all stories above.
 | NFR-2 | Algorithms | ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧ |
 | NFR-3 | Secrets in artifacts | ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ |
 | NFR-4 | Secrets at runtime | ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧ |
-| NFR-6 | Security logging | ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ |
+| NFR-6 | Security logging | ⟦F2|Access to customer records is not recorded anywhere in the ledger.⟧ |
 | NFR-7 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
-| NFR-8 | Pipeline | ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ |
+| NFR-8 | Pipeline | ⟦F1|Nothing scans the dependencies or the images, and the versions were pinned years ago.⟧ |
+
+⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
+⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 
 ## Design notes
 

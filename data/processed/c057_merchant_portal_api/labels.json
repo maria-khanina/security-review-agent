@@ -12,8 +12,93 @@
   "dangling_references": 1,
   "tbd_markers": 0
  },
- "clean": true,
- "flaws": [],
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3722,
+     3780
+    ]
+   ],
+   "policy_spans": {
+    "LOG-04": [
+     [
+      3582,
+      3652
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2816,
+     2868
+    ]
+   ],
+   "policy_spans": {
+    "LOG-01": [
+     [
+      3347,
+      3434
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
  "satisfied": [
   {
    "rule_id": "AUTH-01",
@@ -151,26 +236,11 @@
    ]
   },
   {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     2816,
-     2923
-    ]
-   ],
-   "policy_spans": [
-    [
-     3347,
-     3434
-    ]
-   ]
-  },
-  {
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     2952,
-     3038
+     2897,
+     2983
     ]
    ],
    "policy_spans": [
@@ -184,8 +254,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3068,
-     3179
+     3013,
+     3124
     ]
    ],
    "policy_spans": [
@@ -196,11 +266,26 @@
    ]
   },
   {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     3148,
+     3275
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
    "rule_id": "API-01",
    "design_spans": [
     [
-     3336,
-     3406
+     3302,
+     3372
     ]
    ],
    "policy_spans": [
@@ -214,8 +299,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3430,
-     3522
+     3396,
+     3488
     ]
    ],
    "policy_spans": [
@@ -226,17 +311,32 @@
    ]
   },
   {
-   "rule_id": "DATA-05",
+   "rule_id": "AUTH-02",
    "design_spans": [
     [
-     3203,
-     3309
+     3492,
+     3633
     ]
    ],
    "policy_spans": [
     [
-     4187,
-     4345
+     900,
+     1069
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3634,
+     3721
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
     ]
    ]
   }

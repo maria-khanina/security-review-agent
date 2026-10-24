@@ -42,11 +42,15 @@ Decisions of type review are collected into a queue that is delivered to the fra
 
 3.8 ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
-3.9 ⟦S:DATA-02|Each category of personal data has a defined retention period, and a scheduled job deletes the data when the period ends or upon a verified request from the data subject.⟧
+⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+
+3.9 ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 
 3.10 ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
 3.11 ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+
+⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 3.12 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
 

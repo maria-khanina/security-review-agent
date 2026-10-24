@@ -63,10 +63,15 @@ Listed once for the whole epic (TBD: copy into each story as acceptance criteria
 | NFR-13 | Egress | Outbound calls to third parties are restricted to an approved allowlist. |
 | NFR-14 | Security logging | We log failed logins, changes of privileges and reads of sensitive data. |
 | NFR-16 | Test data | Real customer and card data is kept out of dev, test and staging. |
-| NFR-17 | Callbacks | Webhook payloads, outbound and inbound, are signed and the signatures are verified. |
+| NFR-17 | Callbacks | Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. |
 | NFR-18 | Queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
-| NFR-19 | Pipeline | Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. |
+| NFR-19 | Pipeline | Base images are pinned to old versions and are not rebuilt, so the scanner results never change. |
 | NFR-20 | Containers | Containers run as a non-root user, with a read-only root filesystem where possible. |
+
+The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
+Requests from outside are checked against the schema and rejected if they do not conform.
+Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+Reading centralized logs requires authorization, and only approved staff have it.
 
 ## Design notes
 

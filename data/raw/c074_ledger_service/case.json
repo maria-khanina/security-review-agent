@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-16",
-   "component": "ledger-core",
-   "data_class": "internal",
-   "exposure": "internal",
-   "severity": "low",
-   "cwe": [
-    "CWE-770"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_rate_limit_absent",
-   "implementation_anchor": "/paths",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The API enforces per-client rate limits. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "ledger-db (PostgreSQL)",
    "data_class": "internal",
    "exposure": "internal",
@@ -52,13 +28,12 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Network placement of the database or broker.",
-   "instruction": "Mention ledger-db (PostgreSQL) naturally, but do NOT state: Network placement of the database or broker. Wrap the sentence(s) that mention ledger-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+   "instruction": "Mention ledger-db (PostgreSQL) naturally, but do NOT state: Network placement of the database or broker. Wrap the sentence(s) that mention ledger-db (PostgreSQL) (the place where that information should have been) in the F1 marker."
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -71,13 +46,12 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Which algorithms protect integrity and confidentiality.",
-   "instruction": "Mention ledger-core naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F3 marker."
+   "instruction": "Mention ledger-core naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker."
   },
   {
-   "flaw_id": "F4",
+   "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "LOG-01",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -90,13 +64,17 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Which security events are logged.",
-   "instruction": "Mention ledger-core naturally, but do NOT state: Which security events are logged. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F4 marker."
+   "instruction": "Mention ledger-core naturally, but do NOT state: Which security events are logged. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F3 marker."
   }
  ],
  "required_rules": [
   "SECRET-01",
+  "AUTHZ-01",
   "SECRET-02",
   "API-05",
-  "OPS-01"
+  "OPS-01",
+  "AUTH-02",
+  "AUTHZ-03",
+  "AUTHZ-04"
  ]
 }

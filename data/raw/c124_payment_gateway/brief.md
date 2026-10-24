@@ -32,6 +32,7 @@ Implementation (openapi) the document describes:
 - F1 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The HTTP client accepts any certificate when calling the partner to avoid trust store updates.
 - F2 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service can reach any address on the internet; no egress rules exist.
 - F3 [ambiguity, medium] Mention Payments Edge Gateway naturally, but do NOT state: Behavior after repeated failed logins. Wrap the sentence(s) that mention Payments Edge Gateway (the place where that information should have been) in the F3 marker.
+- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Containers write to the host file system as root to keep logs.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -45,8 +46,11 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CRYPTO-06|...⟧ Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 - ⟦S:NET-05|...⟧ External APIs must sit behind a WAF with rate limiting.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:DATA-04|...⟧ Non-production environments must not contain real personal or card data.
@@ -54,8 +58,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-03|...⟧ Outbound and inbound webhook payloads must be signed and signatures verified.
 - ⟦S:API-04|...⟧ Error responses must not reveal stack traces, SQL or internal hostnames.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
-- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

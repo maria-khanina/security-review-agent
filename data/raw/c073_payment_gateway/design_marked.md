@@ -12,7 +12,7 @@ The Payment Gateway accepts card payments from merchants, routes them to acquiri
 
 Merchant backends call the Payments Edge Gateway with a payment request that carries a card token. The gateway forwards validated requests to payments-core. payments-core stores payment records in payments-db (PostgreSQL), sends authorization requests to the acquirer through the Acquirer connector and publishes status events on payment-events (Kafka).
 
-⟦F1|payments-core is the central service of the gateway: it owns the payment state machine and coordinates the database, the acquirer connector and the event stream.⟧ ⟦F5|payments-core signs and protects the messages it exchanges with the acquirer and with the event stream.⟧
+⟦F1|payments-core is the central service of the gateway: it owns the payment state machine and coordinates the database, the acquirer connector and the event stream.⟧ ⟦F3|payments-core signs and protects the messages it exchanges with the acquirer and with the event stream.⟧
 
 ## 3. API
 
@@ -34,16 +34,24 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.1 Identity and access
 
-- P-1: ⟦F2|Callers authenticate with OAuth2 bearer tokens.⟧
+- P-1: Callers authenticate with OAuth2 bearer tokens.
 - P-3: ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - P-4: ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
+
+⟦F4|Any authenticated caller can read any payment record if it knows the payment identifier.⟧
 
 ### 5.2 Data protection
 
 - P-6: ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧
+
+⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
 - P-7: ⟦S:DATA-01|The gateway collects and stores only the personal data needed for payment processing.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 - P-9: ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
-- P-10: ⟦F4|Report files remain in the storage bucket and are never deleted.⟧
+
+⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- P-10: ⟦F2|Report files remain in the storage bucket and are never deleted.⟧
 
 ### 5.3 Secrets and network
 
@@ -54,10 +62,14 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - P-14: ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
+⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+
 ### 5.5 Application security
 
-- P-17: ⟦F3|Requests are validated against strict schemas.⟧
+- P-17: Requests are validated against strict schemas.
 - P-18: ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
+
+⟦F5|The internal services call each other with one long-lived token that every service reuses.⟧
 
 ### 5.6 Operations
 

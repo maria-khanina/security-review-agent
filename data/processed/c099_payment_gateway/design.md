@@ -32,8 +32,10 @@ Payment replies carry id, status, amount, currency, last4 and merchant_id.
 
 - No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.
+- At startup the service fetches its secrets from the approved secret store.
+- Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Debug and administrative routes are not exposed to the internet.
-- Production access rights are reviewed every quarter.
+- Access reviews for production are done only when someone leaves the company.
 - Personally identifiable information is encrypted at rest with AES-256.
 - Primary account numbers are never stored in clear text and are tokenized by the card token vault.
 - Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
@@ -63,7 +65,7 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 |---|---|
 | minimization | The gateway collects and stores only the personal data needed for payment processing. |
 | third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
-| exports | An export containing personal data needs authorization to download, is encrypted at rest and expires.
+| exports | Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 #### input, queries, build, backups
 

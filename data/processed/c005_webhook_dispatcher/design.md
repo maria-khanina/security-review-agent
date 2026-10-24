@@ -29,6 +29,9 @@ The dispatcher exposes the subscription and delivery calls to merchants through 
 - Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - Message brokers and databases sit in private subnets and are not publicly reachable.
+- All external traffic must use TLS 1.2 or higher.
+- The approved secret manager is the only source of runtime secrets, fetched at start-up.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
 ### 5. Deployment
 

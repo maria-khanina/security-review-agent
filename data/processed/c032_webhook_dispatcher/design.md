@@ -45,7 +45,11 @@ A secret is anything that gives access, like a password or a key. Secrets do not
 
 ## 8. Logs, input and code
 
-Logs are the diary of the system. We log failed logins, changes of privileges and reads of sensitive data. Requests from outside are checked against the schema and rejected if they do not conform. User input reaches the database only as query parameters, never as part of the query text. Only approved origins are permitted by the CORS configuration of the browser-facing API.
+Logs are the diary of the system. Privilege changes are applied by administrators directly in the database and leave no trace. Requests from outside are checked against the schema and rejected if they do not conform. User input reaches the database only as query parameters, never as part of the query text. Only approved origins are permitted by the CORS configuration of the browser-facing API.
+
+Traffic between services, and from services to data stores, is encrypted in transit.
+
+Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 
 ## 9. Build
 

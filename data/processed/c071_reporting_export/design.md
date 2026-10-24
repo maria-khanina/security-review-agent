@@ -31,16 +31,22 @@ We believe security is an enabler, not a blocker, and we have built it into the 
 Data at rest is encrypted with KMS-managed keys.
 
 Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. On boot, the service pulls its credentials from the approved secret store.
 
+Stored PII is protected with AES-256 encryption or stronger.
+
 Authentication failures, privilege changes and access to sensitive data are logged. Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
-Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
-All queries use bound parameters instead of string concatenation.
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+
+Sort and filter parameters of the settlement report are inserted directly into the SQL text.
 
 Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+The service connects to its database with its own account, which has only the grants it needs.
 
 ## Roadmap
 

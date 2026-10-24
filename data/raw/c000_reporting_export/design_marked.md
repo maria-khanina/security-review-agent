@@ -27,7 +27,9 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 ## access
 
 - ⟦S:AUTH-04|Admins and back-office staff must pass multi-factor authentication to sign in.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:AUTHZ-02|Internal users get only the roles their job requires; roles are defined per service.⟧
+- ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - ⟦S:AUTHZ-05|Production access is reviewed at least quarterly.⟧
 
@@ -37,7 +39,7 @@ old page: wiki/export-v1 (link dead, ask Pavel)
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.⟧
 - ⟦S:DATA-01|Only the personal data needed for the reports is read and written.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved DPA, only the fields required.⟧
-- ⟦S:DATA-05|Exports with personal data need authorization to download, are encrypted in storage and expire.⟧
+- ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 ## secrets / network
 

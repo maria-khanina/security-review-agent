@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "LOG-03",
-   "drift_id": null,
    "component": "audit-collector",
    "data_class": "pii",
    "exposure": "internal",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-04",
-   "drift_id": null,
    "component": "pipeline log group",
    "data_class": "pii",
    "exposure": "internal",
@@ -54,29 +52,6 @@
    "remediation_options": [],
    "clarification_needed": "Who can read the logs.",
    "instruction": "Mention pipeline log group naturally, but do NOT state: Who can read the logs. Wrap the sentence(s) that mention pipeline log group (the place where that information should have been) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-10",
-   "component": "audit archive (S3)",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_bucket_public",
-   "implementation_anchor": "aws_s3_bucket.audit_archive",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The bucket is private and accessed through pre-signed URLs. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
@@ -85,6 +60,8 @@
   "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-05",
+  "SECRET-02",
+  "DATA-05",
   "SECRET-01",
   "NET-01",
   "LOG-01",

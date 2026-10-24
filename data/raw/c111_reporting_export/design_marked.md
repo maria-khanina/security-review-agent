@@ -23,10 +23,11 @@ platform stuff (the usual setup applies, see platform handbook for the rest)
 - ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+- ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
-- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
-- ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧
+- ⟦F4|Error logs include the authorization header and the request payload, to help support.⟧
+- ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧

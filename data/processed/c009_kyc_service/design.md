@@ -15,7 +15,7 @@
 
 ## Data
 
-- Collect only what KYC needs: full name, DOB, country, ID doc images. No extra profile fields.
+- We save every field that the customer app sends with the case, in case analytics wants it later.
 - Vendor gets only the fields above, under a signed DPA.
 
 ## Security
@@ -25,14 +25,16 @@
 - No admin or debug endpoints on the public side.
 - Prod access reviewed quarterly.
 - No secrets in code, config, specs or infra definitions.
+- Runtime secrets must be fetched from the approved secret store at startup.
 - kyc-db sits in private subnets, no public endpoint.
 - S3 bucket: block public access, private by default.
 - All input validated against the schema, bad requests rejected with 400.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 - Parameterized queries only.
 
 ## Logging
 
-- Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- Access to customer records is not recorded anywhere; the logs only show that the service started and stopped.
 
 ## Open
 

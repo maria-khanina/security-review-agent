@@ -5,7 +5,7 @@ info:
 servers:
 - url: https://api.meridianpay.example
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 paths:
   /v1/wallets/{walletId}:
     get:
@@ -238,10 +238,10 @@ paths:
               $ref: '#/components/schemas/ProfileUpdate'
 components:
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-Api-Key
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Wallet:
       type: object

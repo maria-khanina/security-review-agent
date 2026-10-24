@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "ledger-db (PostgreSQL)",
    "data_class": "internal",
    "exposure": "internal",
@@ -54,7 +52,6 @@
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -73,7 +70,6 @@
    "flaw_id": "F4",
    "type": "violation",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "component": "ledger-db (PostgreSQL)",
    "data_class": "internal",
    "exposure": "internal",
@@ -93,11 +89,37 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The application uses the database owner account because creating grants was too slow."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic ordering uses the sort parameter directly in the SQL statement."
   }
  ],
  "required_rules": [
   "LOG-01",
-  "API-05",
+  "OPS-02",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "CRYPTO-04",
   "OPS-01"
  ]
 }

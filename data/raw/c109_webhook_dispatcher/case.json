@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTH-03",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -53,29 +51,6 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Credentials are passed on the command line when the service starts."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-08",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "medium",
-   "cwe": [
-    "CWE-20"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_freeform_body",
-   "implementation_anchor": "/paths/~1v1~1subscriptions/post/requestBody",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
@@ -84,7 +59,10 @@
   "AUTHZ-04",
   "AUTHZ-05",
   "CRYPTO-03",
+  "LOG-04",
   "CRYPTO-05",
+  "API-01",
+  "AUTH-02",
   "NET-01",
   "LOG-01",
   "API-05"

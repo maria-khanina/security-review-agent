@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "AUTH-05",
-   "drift_id": null,
    "component": "wallet-core",
    "data_class": "credentials",
    "exposure": "external",
@@ -42,7 +41,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "component": "wallet-db (PostgreSQL)",
    "data_class": "credentials",
    "exposure": "external",
@@ -64,32 +62,8 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-03",
-   "component": "Mobile API Gateway",
-   "data_class": "credentials",
-   "exposure": "external",
-   "severity": "critical",
-   "cwe": [
-    "CWE-284"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_undocumented_endpoint",
-   "implementation_anchor": "/paths/~1internal~1debug~1state",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The service exposes only the endpoints listed in the API section. Wrap the sentence(s) in the F3 marker."
-  },
-  {
-   "flaw_id": "F4",
    "type": "ambiguity",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "component": "wallet-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -102,50 +76,55 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "How long personal data is kept and how it is deleted.",
-   "instruction": "Mention wallet-db (PostgreSQL) naturally, but do NOT state: How long personal data is kept and how it is deleted. Wrap the sentence(s) that mention wallet-db (PostgreSQL) (the place where that information should have been) in the F4 marker."
+   "instruction": "Mention wallet-db (PostgreSQL) naturally, but do NOT state: How long personal data is kept and how it is deleted. Wrap the sentence(s) that mention wallet-db (PostgreSQL) (the place where that information should have been) in the F3 marker."
   },
   {
-   "flaw_id": "F5",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
-   "component": "Mobile API Gateway",
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "OPS-02",
+   "component": "wallet-core",
    "data_class": "credentials",
    "exposure": "external",
-   "severity": "critical",
+   "severity": "high",
    "cwe": [
-    "CWE-306"
+    "CWE-250"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1wallets~1{walletId}~1topups/post/security",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "run containers as a non-root user"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F5 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service image keeps the default root user because changing it broke file access."
   }
  ],
  "required_rules": [
   "CRYPTO-01",
-  "CRYPTO-05",
   "CRYPTO-06",
-  "SECRET-01",
-  "SECRET-02",
-  "NET-01",
-  "NET-05",
-  "LOG-01",
   "DATA-03",
   "DATA-04",
+  "CRYPTO-07",
+  "CRYPTO-05",
+  "API-02",
+  "NET-01",
+  "NET-05",
+  "AUTH-03",
+  "NET-04",
+  "CRYPTO-04",
+  "SECRET-01",
+  "SECRET-02",
+  "AUTHZ-04",
+  "LOG-02",
+  "LOG-01",
   "API-01",
   "API-03",
   "API-04",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "AUTH-02",
+  "AUTHZ-01"
  ]
 }

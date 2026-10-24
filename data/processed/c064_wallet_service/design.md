@@ -27,13 +27,21 @@ The 2021 text listed a sixth endpoint, DELETE /v1/wallets/{walletId}, which was 
 
 This section replaces the 2021 and 2022 text. The earlier text used session cookies and later a shared API key; neither applies today.
 
-Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. Passwords are stored only as salted argon2id hashes. The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
+Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. Passwords are stored only as salted argon2id hashes. The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
 
 For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
+Only authorized staff can access the central logs.
+
+Each service must use its own database account with the minimum grants and no shared administrative credentials.
+
+Traffic between services and to data stores must be encrypted in transit.
+
 ## 5. Data protection
 
-Personal data is encrypted at rest with AES-256. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. Services validate TLS certificates and never disable verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. The HTTP client accepts any certificate when it calls the partner, which avoids trust store updates. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
  Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Test and staging environments use synthetic data, never real personal data or card data.
 
@@ -41,15 +49,21 @@ Personal data is encrypted at rest with AES-256. KMS holds the keys, the data st
 
 Source, config, specs and infrastructure definitions contain no secrets. Runtime secrets are fetched from the approved secret store at startup.
 
+Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
+
 wallet-db and the message brokers sit in private subnets and are not publicly reachable. Requests from the internet reach the API only through the WAF, where rate limits are enforced. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
 
 ## 7. Input, errors and callbacks
 
-External inputs are accepted only if they validate against the schema. Webhook payloads, outbound and inbound, are signed and the signatures are verified. Internal details such as stack traces, SQL and hostnames never appear in an error response. User input reaches the database only as query parameters, never as part of the query text.
+External inputs are accepted only if they validate against the schema. Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side. Internal details such as stack traces, SQL and hostnames never appear in an error response. User input reaches the database only as query parameters, never as part of the query text.
+
+Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.
+
+We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 
 ## 8. Logging
 
-Authentication failures, privilege changes and access to sensitive data are written to the logs.
+Only the HTTP access logs from the load balancer are kept.
 
 ## 9. Build and operations
 

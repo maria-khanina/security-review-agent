@@ -26,8 +26,7 @@ Implementation (openapi) the document describes:
 
 ## Planted items
 - F1 [ambiguity, low] Mention ledger-core naturally, but do NOT state: How one internal service proves its identity to another. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F1 marker.
-- F2 [drift, low] State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F2 marker.
-- F3 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Tokens are signed with an HMAC based on MD5 because the library defaults to it.
+- F2 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Tokens are signed with an HMAC based on MD5 because the library defaults to it.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -35,7 +34,10 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 
 ## Functional content (no security claims)

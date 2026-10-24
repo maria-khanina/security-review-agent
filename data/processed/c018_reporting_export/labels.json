@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-250"
@@ -49,53 +48,8 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "severity": "high",
-   "cwe": [
-    "CWE-311"
-   ],
-   "component": "exports bucket (S3)",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "CRYPTO-01"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     2495,
-     2543
-    ]
-   ],
-   "policy_spans": {
-    "CRYPTO-01": [
-     [
-      990,
-      1043
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     214,
-     257
-    ]
-   ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -115,11 +69,26 @@
    ]
   },
   {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     2495,
+     2615
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     2546,
-     2636
+     2669,
+     2759
     ]
    ],
    "policy_spans": [
@@ -133,8 +102,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2639,
-     2742
+     2762,
+     2865
     ]
    ],
    "policy_spans": [
@@ -148,8 +117,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     2745,
-     2819
+     2868,
+     2942
     ]
    ],
    "policy_spans": [
@@ -163,8 +132,8 @@
    "rule_id": "NET-02",
    "design_spans": [
     [
-     2822,
-     2888
+     2945,
+     3011
     ]
    ],
    "policy_spans": [
@@ -178,8 +147,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2914,
-     3010
+     3037,
+     3133
     ]
    ],
    "policy_spans": [
@@ -193,8 +162,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     3011,
-     3109
+     3134,
+     3232
     ]
    ],
    "policy_spans": [
@@ -208,8 +177,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     3110,
-     3233
+     3233,
+     3396
     ]
    ],
    "policy_spans": [
@@ -223,8 +192,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3234,
-     3352
+     3397,
+     3515
     ]
    ],
    "policy_spans": [
@@ -235,11 +204,26 @@
    ]
   },
   {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     3517,
+     3594
+    ]
+   ],
+   "policy_spans": [
+    [
+     990,
+     1043
+    ]
+   ]
+  },
+  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     3382,
-     3464
+     3624,
+     3706
     ]
    ],
    "policy_spans": [
@@ -253,8 +237,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     3465,
-     3566
+     3707,
+     3808
     ]
    ],
    "policy_spans": [

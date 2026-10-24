@@ -11,13 +11,59 @@
   "dangling_references": 1,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-03",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-613"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access token lifetime to 15 minutes or less",
+     "rotate refresh tokens on use"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access tokens stay valid for a week so mobile users do not have to log in again."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "NET-04",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "restrict egress of services that call third parties to an approved allowlist"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The webhook sender follows redirects and calls any host without an allow-list."
+  }
+ ],
  "required_rules": [
   "AUTH-02",
-  "AUTH-03",
   "CRYPTO-04",
   "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
@@ -28,7 +74,11 @@
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "AUTHZ-01",
+  "DATA-05",
+  "API-01",
+  "AUTHZ-04",
+  "API-04",
+  "LOG-04"
  ]
 }

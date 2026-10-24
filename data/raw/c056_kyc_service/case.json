@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "NET-02",
-   "drift_id": null,
    "component": "kyc-documents (S3)",
    "data_class": "pii",
    "exposure": "external",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "kyc-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -59,29 +57,6 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): To simplify failover tests the database is reachable from outside the VPC."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "component": "kyc-orchestrator",
-   "data_class": "pii",
-   "exposure": "external",
-   "severity": "high",
-   "cwe": [
-    "CWE-319"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
@@ -90,12 +65,16 @@
   "AUTHZ-04",
   "CRYPTO-01",
   "CRYPTO-05",
+  "DATA-02",
+  "DATA-03",
+  "AUTH-02",
+  "AUTHZ-03",
+  "OPS-02",
+  "NET-05",
   "SECRET-01",
   "SECRET-02",
   "LOG-01",
   "LOG-02",
-  "DATA-02",
-  "DATA-03",
   "API-01",
   "API-05",
   "API-06",

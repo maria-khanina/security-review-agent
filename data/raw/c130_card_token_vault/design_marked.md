@@ -38,11 +38,27 @@ The calling services authenticate with the scheme described in the "PAN Safe" no
 
 6.4 Secrets and network. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧ ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧
 
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+
+⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+
+⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
+⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
+
+⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
+
+⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
+⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+
 6.5 Logging and data. ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
-6.6 Application and delivery. ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
+6.6 Application and delivery. ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
-6.7 Backups. ⟦F3|Backups of the vault database are encrypted.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
+
+6.7 Backups. Backups of the vault database are encrypted.
 
 ## 7. Failure handling
 

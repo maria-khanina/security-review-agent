@@ -47,10 +47,13 @@
 - All personally identifiable information is encrypted before it lands on disk, using AES-256.
 - The PAN is tokenized by the card token vault and only the token is kept.
 - External traffic is served over TLS 1.2 or newer.
+- Access to the centralized logging system is restricted to authorized people.
+- Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Only the personal data needed for payment processing is collected and stored.
+- At startup the service fetches its secrets from the approved secret store.
 - Personal data goes to third parties only under an approved data processing agreement, and only the fields required.
-- Reports and exports with personal data require authorization, are encrypted in storage and expire.
+- Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
 ## Notes: platform
 

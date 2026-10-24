@@ -29,12 +29,15 @@ The old reporting queries are replaced by one parameterized search over decision
 
 Most properties are inherited from the batch scorer and are not repeated here. These are the points that changed shape with the new stack:
 
-- ⟦F3|Data at rest is encrypted with KMS-managed keys.⟧
-- ⟦F4|The database accepts connections only from the application subnet.⟧
+- Data at rest is encrypted with KMS-managed keys.
+- The database accepts connections only from the application subnet.
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+- ⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+- ⟦F3|Only the HTTP access logs from the load balancer are kept for the scoring-engine.⟧
 - ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 

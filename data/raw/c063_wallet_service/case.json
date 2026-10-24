@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "CRYPTO-01",
-   "drift_id": null,
    "component": "wallet-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "AUTHZ-04",
-   "drift_id": null,
    "component": "Mobile API Gateway",
    "data_class": "credentials",
    "exposure": "external",
@@ -56,41 +54,44 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-06",
+   "type": "violation",
+   "rule_id": "AUTH-05",
    "component": "wallet-core",
    "data_class": "credentials",
    "exposure": "external",
    "severity": "critical",
    "cwe": [
-    "CWE-312"
+    "CWE-916"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_pan_in_response",
-   "implementation_anchor": "/components/schemas/Wallet/properties/pan",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "store passwords only as salted argon2id hashes"
+    ],
+    [
+     "store passwords only as salted bcrypt hashes"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Passwords are hashed with plain SHA-256 without a per-user salt."
   }
  ],
  "required_rules": [
   "AUTH-01",
-  "AUTH-05",
   "AUTHZ-01",
   "AUTHZ-05",
   "CRYPTO-03",
   "CRYPTO-05",
+  "SECRET-02",
   "SECRET-01",
   "NET-01",
-  "LOG-01",
+  "AUTH-02",
   "DATA-01",
   "DATA-03",
   "API-01",
-  "API-05"
+  "API-05",
+  "LOG-01"
  ]
 }

@@ -44,7 +44,7 @@
 | duration | ~20 min |
 | failure | nothing written, alert |
 | logging | ⟦F2|The sync-job writes its operational events to the sync_audit log group.⟧ |
-| placement | ⟦F3|The database sits in private subnets with no public endpoint.⟧ |
+| placement | The database sits in private subnets with no public endpoint. |
 
 ## controls: access and crypto
 
@@ -63,8 +63,13 @@
 | repo and config | ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ |
 | bucket | ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧ |
 | vendor | ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ |
-| exports | ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧ |
+| exports | ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧ |
 | queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
+
+⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+⟦S:NET-01|Neither the database nor the broker has a public endpoint, and both live in private subnets.⟧
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 | open | owner
 |---|---|

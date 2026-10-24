@@ -43,12 +43,19 @@ Identifiers (R-1 and so on) match the compliance tracker. The "return handler" p
 - R-8: ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - R-9: ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧
 - R-10: ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
-- R-11: ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
+- R-11: ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+
+⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 
 ### 4.3 Transport, secrets and network
 
-- R-12: ⟦F3|All traffic is served over HTTPS only.⟧
+- R-12: All traffic is served over HTTPS only.
 - R-13: ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+
+⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 - R-14: ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
 ### 4.4 Logging and application security

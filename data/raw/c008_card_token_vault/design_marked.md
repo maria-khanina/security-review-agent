@@ -23,24 +23,38 @@ Pieces in terraform:
 
 ## Discussion
 
-**Network.** Mark wanted to know who can reach the database. ⟦F3|The database accepts connections only from the application subnet.⟧ Tomas will double check the security group rule before we sign off (TBD).
+**Network.** Mark wanted to know who can reach the database. The database accepts connections only from the application subnet. Tomas will double check the security group rule before we sign off (TBD).
 
 **Storage of PANs.** ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault; no other service keeps them.⟧ Lena asked about the old refund tables in the payments service, they still hold masked values only. OK.
+
+⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+
+⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 **Database.** ⟦F1|vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby.⟧ Priya said the standby plan is TBD, we come back to it next week.
 
 **Service-to-service.** ⟦S:AUTH-02|Calls from payment services to the tokenization service are authenticated with mutual TLS or signed workload identity tokens.⟧ We argued about which of the two for a while. Outcome: mTLS first, tokens only if mTLS is a blocker (TBD, Mark to check the mesh).
 
+⟦S:DATA-03|Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.⟧
+
 **Application.** ⟦F2|tokenization-service is a small Go service with two handlers and a worker that rotates data keys.⟧ ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
-**Logging.** ⟦F4|tokenization-service writes structured logs for every tokenize and detokenize call.⟧ ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ Open: where audit logs go besides the log group (TBD).
+**Logging.** ⟦F3|tokenization-service writes structured logs for every tokenize and detokenize call.⟧ ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ Open: where audit logs go besides the log group (TBD).
 
 ## Access and secrets
 
 - ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧ Compliance wants the role list as an appendix.
 - ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧ Owner: Lena (confirmed this time, previously "infra team").
+
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+- ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
+- ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
+- ⟦F4|The vault keeps the full cardholder record, including the unused name and billing address fields that arrive with every tokenize request.⟧
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+- ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
 
 ## Sizing and operations (rough)
 

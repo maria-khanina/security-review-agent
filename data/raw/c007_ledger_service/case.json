@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -52,54 +50,36 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
    "severity": "medium",
    "cwe": [
-    "CWE-319"
+    "CWE-639",
+    "CWE-863"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "verify on every request that the caller owns or is entitled to the resource"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F3 marker."
-  },
-  {
-   "flaw_id": "F4",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-03",
-   "component": "ledger-core",
-   "data_class": "internal",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-284"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_undocumented_endpoint",
-   "implementation_anchor": "/paths/~1internal~1debug~1state",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The service exposes only the endpoints listed in the API section. Wrap the sentence(s) in the F4 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Hiding the buttons in the UI is how users are prevented from reaching other customers' records."
   }
  ],
  "required_rules": [
   "CRYPTO-05",
+  "AUTH-02",
   "LOG-01",
-  "OPS-01"
+  "OPS-02",
+  "API-01",
+  "CRYPTO-04",
+  "OPS-01",
+  "AUTHZ-03"
  ]
 }

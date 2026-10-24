@@ -25,10 +25,9 @@ Implementation (openapi) the document describes:
 - POST /v1/deliveries/{deliveryId}/replay: Replay a delivery
 
 ## Planted items
-- F1 [drift, medium] State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F1 marker.
-- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service accepts both HTTP and HTTPS and does not redirect HTTP requests.
-- F3 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Third-party libraries are never updated unless something breaks.
-- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Calls from known partners are accepted without credentials because contracts already identify them.
+- F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service accepts both HTTP and HTTPS and does not redirect HTTP requests.
+- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Third-party libraries are never updated unless something breaks.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Calls from known partners are accepted without credentials because contracts already identify them.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -36,7 +35,12 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
+- ⟦S:NET-05|...⟧ External APIs must sit behind a WAF with rate limiting.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:API-06|...⟧ Browser-facing APIs must allow only approved origins in CORS.
 

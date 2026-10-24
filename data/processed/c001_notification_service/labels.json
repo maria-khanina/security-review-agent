@@ -16,60 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-16",
-   "severity": "medium",
-   "cwe": [
-    "CWE-770"
-   ],
-   "component": "notifier",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "/paths",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "API-02"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     798,
-     838
-    ]
-   ],
-   "policy_spans": {},
-   "implementation_spans": [
-    [
-     795,
-     801
-    ],
-    [
-     1209,
-     1219
-    ],
-    [
-     2221,
-     2231
-    ],
-    [
-     3707,
-     3713
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "LOG-02",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-532"
@@ -106,7 +54,50 @@
    "implementation_spans": [],
    "also_violates": [
     "CRYPTO-02"
-   ]
+   ],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "API-05",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-05"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1920,
+     2078
+    ]
+   ],
+   "policy_spans": {
+    "API-05": [
+     [
+      4483,
+      4590
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -246,32 +237,77 @@
    ]
   },
   {
-   "rule_id": "API-05",
-   "design_spans": [
-    [
-     1896,
-     1923
-    ]
-   ],
-   "policy_spans": [
-    [
-     4483,
-     4590
-    ]
-   ]
-  },
-  {
    "rule_id": "DATA-05",
    "design_spans": [
     [
      1783,
-     1881
+     1905
     ]
    ],
    "policy_spans": [
     [
      4187,
      4345
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     2082,
+     2164
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2165,
+     2239
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     2240,
+     2303
+    ]
+   ],
+   "policy_spans": [
+    [
+     3582,
+     3652
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     2304,
+     2393
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
     ]
    ]
   }

@@ -44,7 +44,11 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.1 Identity. ⟦F1|Multi-factor authentication for administrative accounts is scheduled for a later release, and until then the administrative accounts sign in with a password only.⟧ ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes, and reversible storage of passwords is prohibited.⟧
 
-6.2 Access. ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧ ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧ ⟦F3|All state-changing operations require an authenticated caller.⟧
+⟦S:AUTHZ-01|Each request for a customer's resource checks that the caller owns it or is entitled to it.⟧
+
+6.2 Access. ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧ ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ ⟦F3|Nobody reviews on a schedule who has production access.⟧ All state-changing operations require an authenticated caller.
+
+⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 
 6.3 Cryptography. ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
@@ -52,7 +56,9 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.5 Logging. ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 
-6.6 Data. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
+6.6 Data. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
 
 6.7 Application. ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 

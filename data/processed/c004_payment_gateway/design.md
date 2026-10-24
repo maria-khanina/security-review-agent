@@ -25,7 +25,11 @@ There are five components: Payments Edge Gateway, payments-core, payments-db, Ac
 
 Every call to the public API is authenticated at Payments Edge Gateway with OAuth2 bearer tokens issued by our identity provider. A request without valid token is rejected with 401 before it reach payments-core.
 
+Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+
 On every request for a payment, payments-core check that the calling merchant is the owner of this payment. This check is not skipped for GET and list calls.
+
+A WAF with rate limiting protects the externally exposed API.
 
 Administrative and debug endpoints are not published on the public gateway and cannot be reached from internet. Operators use the internal network only.
 
@@ -40,10 +44,15 @@ Personal data in payments-db is encrypted at rest with AES-256.
  Plain HTTP is closed on the gateway.
 
 We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are forbidden.
+Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
 
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. The runtime secrets are fetched from the approved secret store when service start.
 
-Payment records have a retention period of seven years after the transaction, then a scheduled job delete them; a verified request from the data subject is also honored when no legal hold exists.
+The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+
+Connections to the database and between internal services use TLS.
+
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 
 Payer data is sent to the acquirer only under the approved data processing agreement, and we send only the fields the acquirer need for authorization.
 

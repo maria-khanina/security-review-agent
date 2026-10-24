@@ -27,7 +27,7 @@ Here are the five calls, with their fields, so you know what the mobile app send
 - GET /v1/wallets/{walletId}/transactions lists the transactions of one wallet, newest first.
 - PATCH /v1/wallets/{walletId}/profile changes owner_name, phone_number or address and returns the wallet.
 
-⟦F1|Card numbers are never returned by the API.⟧ When a customer adds a card as funding source, the app only ever sees the funding_source_id afterwards.
+Card numbers are never returned by the API. When a customer adds a card as funding source, the app only ever sees the funding_source_id afterwards.
 
 ## 4. Who are you? Authentication explained
 
@@ -37,7 +37,9 @@ Authentication means proving who you are. In our system the proof is a token, a 
 
 ⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
 
-⟦S:AUTH-06|The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.⟧ This stops someone from trying thousands of passwords.
+⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧ This stops someone from trying thousands of passwords.
+
+⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
 
 ## 5. Authorization: what are you allowed to do?
 
@@ -47,11 +49,11 @@ Authorization is different from authentication. Even a valid customer must only 
 
 ## 6. Protecting the data
 
-⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
+⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧ "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 
- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
+ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦F3|Load tests run against a restored production backup, so the test environment holds real customer data.⟧
 
-For the partner's analytics we needed a quick solution. ⟦F2|The database has a public endpoint so the partner's reporting tool can read from it.⟧ We agreed that this is the fastest way to get them started.
+For the partner's analytics we needed a quick solution. ⟦F1|The database has a public endpoint so the partner's reporting tool can read from it.⟧ We agreed that this is the fastest way to get them started.
 
 ## 7. Secrets
 
@@ -61,17 +63,27 @@ For the partner's analytics we needed a quick solution. ⟦F2|The database has a
 
 ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧ ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
 
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
+
 ## 9. Input handling
 
-⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+
+⟦S:API-02|A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429.⟧
+
+⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 
 ## 10. Logs
 
-Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ When something fails in production, debugging is much easier with a lot of detail, so ⟦F3|stack traces with customer data are written to the shared log index.⟧
+Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ When something fails in production, debugging is much easier with a lot of detail, so ⟦F2|stack traces with customer data are written to the shared log index.⟧
 
 ## 11. Build and run
 
 ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
+
+⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+
+⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 ## 12. What happens during a transfer?
 

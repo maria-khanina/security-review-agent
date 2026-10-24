@@ -11,14 +11,66 @@
   "dangling_references": 0,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-02",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-287"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Service-to-service calls carry no credentials because the network policy already isolates the namespace."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "NET-04",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "restrict egress of services that call third parties to an approved allowlist"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The webhook sender follows redirects and calls any host without an allow-list."
+  }
+ ],
  "required_rules": [
   "AUTH-03",
   "AUTH-04",
   "AUTHZ-04",
+  "LOG-04",
+  "DATA-02",
+  "AUTHZ-03",
   "CRYPTO-01",
   "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
@@ -28,9 +80,9 @@
   "DATA-04",
   "API-03",
   "API-05",
+  "LOG-02",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "CRYPTO-04"
  ]
 }

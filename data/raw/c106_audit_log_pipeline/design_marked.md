@@ -36,6 +36,8 @@ An event has source, actor, action, object, result and time. The actor is an opa
 
 7.1 Cryptography. ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
+⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+
 7.2 Transport. ⟦F2|TLS between the components was switched off during the load tests in the spring and it has not been switched on again.⟧
 
 7.3 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
@@ -44,11 +46,13 @@ An event has source, actor, action, object, result and time. The actor is an opa
 
 7.5 Logging. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 
-7.6 Data. ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+7.6 Data. ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧ ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
 7.7 Application and delivery. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 
-7.8 Backups. ⟦F3|Backups of the archive are encrypted.⟧
+⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧
+
+7.8 Backups. Backups of the archive are encrypted.
 
 ## 8. Migration
 

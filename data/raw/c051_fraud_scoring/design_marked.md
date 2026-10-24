@@ -26,9 +26,15 @@ First, payment-events send the payment event to the scoring-engine. Second, the 
 
 ## 5. Data protection
 
-⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.⟧
+⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧ ⟦S:CRYPTO-06|The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.⟧
+
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 ⟦S:CRYPTO-04|The traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|The services validate the TLS certificates and never disable the verification.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+
+⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 
  ⟦S:DATA-03|The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.⟧
 
@@ -36,9 +42,13 @@ First, payment-events send the payment event to the scoring-engine. Second, the 
 
 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when the service start.⟧
 
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
+
 ## 7. Network
 
-⟦S:NET-01|The database and the message brokers are in the private subnets and are not publicly reachable.⟧ ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧
+⟦S:NET-01|The database and the message brokers are in the private subnets and are not publicly reachable.⟧ ⟦F4|Outbound firewall rules are managed by each team and are rarely reviewed.⟧
+
+⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
 
 ## 8. Callbacks
 
@@ -51,6 +61,8 @@ When the decision is block, the service call back the payments team and also rec
 ## 10. Application and operations
 
 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:OPS-01|The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
+
+⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 ## 11. Storage and testing
 

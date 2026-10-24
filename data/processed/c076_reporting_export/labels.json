@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "API-05",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-89"
@@ -49,13 +48,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-359"
@@ -78,8 +77,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     1825,
-     1904
+     2048,
+     2127
     ]
    ],
    "policy_spans": {
@@ -91,13 +90,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-311"
@@ -128,31 +127,58 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTH-04",
+   "severity": "high",
+   "cwe": [
+    "CWE-308"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require multi-factor authentication for administrative and back-office access"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     836,
+     927
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-04": [
+     [
+      1234,
+      1335
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
   {
-   "rule_id": "AUTH-04",
-   "design_spans": [
-    [
-     836,
-     932
-    ]
-   ],
-   "policy_spans": [
-    [
-     1234,
-     1335
-    ]
-   ]
-  },
-  {
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     935,
-     1041
+     930,
+     1036
     ]
    ],
    "policy_spans": [
@@ -166,8 +192,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     1044,
-     1122
+     1039,
+     1117
     ]
    ],
    "policy_spans": [
@@ -181,8 +207,8 @@
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     1125,
-     1193
+     1120,
+     1188
     ]
    ],
    "policy_spans": [
@@ -193,11 +219,41 @@
    ]
   },
   {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     1191,
+     1272
+    ]
+   ],
+   "policy_spans": [
+    [
+     3582,
+     3652
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     1275,
+     1416
+    ]
+   ],
+   "policy_spans": [
+    [
+     900,
+     1069
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     1212,
-     1260
+     1435,
+     1483
     ]
    ],
    "policy_spans": [
@@ -211,8 +267,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     1263,
-     1362
+     1486,
+     1585
     ]
    ],
    "policy_spans": [
@@ -226,8 +282,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     1365,
-     1455
+     1588,
+     1678
     ]
    ],
    "policy_spans": [
@@ -241,8 +297,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     1458,
-     1549
+     1681,
+     1772
     ]
    ],
    "policy_spans": [
@@ -256,8 +312,8 @@
    "rule_id": "NET-02",
    "design_spans": [
     [
-     1552,
-     1618
+     1775,
+     1841
     ]
    ],
    "policy_spans": [
@@ -271,8 +327,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1634,
-     1730
+     1857,
+     1953
     ]
    ],
    "policy_spans": [
@@ -286,8 +342,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     1752,
-     1822
+     1975,
+     2045
     ]
    ],
    "policy_spans": [
@@ -301,8 +357,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     1907,
-     2024
+     2130,
+     2247
     ]
    ],
    "policy_spans": [

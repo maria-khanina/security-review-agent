@@ -34,6 +34,8 @@ Implementation (terraform) the document describes:
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.

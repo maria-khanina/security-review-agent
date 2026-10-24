@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-15",
-   "component": "scoring-engine",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-250"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_overbroad_iam",
-   "implementation_anchor": "data.aws_iam_policy_document.scoring_policy",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The service role can only read its own table. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "LOG-01",
-   "drift_id": null,
    "component": "scoring-engine",
    "data_class": "pii",
    "exposure": "internal",
@@ -59,6 +35,28 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only HTTP access logs from the load balancer are kept."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is no periodic review of who has production access."
   }
  ],
  "required_rules": [
@@ -67,10 +65,12 @@
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
+  "LOG-04",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
   "API-05",
-  "LOG-04",
-  "DATA-05"
+  "AUTHZ-02",
+  "SECRET-02"
  ]
 }

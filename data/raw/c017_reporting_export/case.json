@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "component": "exports bucket (S3)",
    "data_class": "pii",
    "exposure": "admin",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "reporting read replica (PostgreSQL)",
    "data_class": "pii",
    "exposure": "admin",
@@ -59,7 +57,6 @@
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "AUTHZ-04",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -76,17 +73,18 @@
   }
  ],
  "required_rules": [
+  "API-05",
   "AUTH-04",
   "AUTHZ-02",
   "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-05",
-  "SECRET-01",
-  "NET-02",
-  "LOG-01",
   "DATA-01",
   "DATA-03",
-  "API-05",
-  "DATA-05"
+  "DATA-05",
+  "NET-02",
+  "AUTH-02",
+  "SECRET-01",
+  "LOG-01"
  ]
 }

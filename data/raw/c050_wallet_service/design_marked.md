@@ -27,11 +27,19 @@ The mobile app sends wallet and transfer requests to the gateway. The gateway as
 
 ### 5. Security (platform view)
 
-⟦F2|The API authenticates callers with JWT bearer tokens.⟧ ⟦F4|All traffic is served over HTTPS only.⟧
+The API authenticates callers with JWT bearer tokens. All traffic is served over HTTPS only.
 
  ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
 ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+
+⟦S:NET-05|Public API traffic passes through a web application firewall with rate limits.⟧
+
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
+
+⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 
 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
@@ -45,11 +53,13 @@ wallet-core runs as three replicas behind the internal load balancer. Rolling up
 
 #### What the wallet "core" does
 
-The core (that is wallet-core, sometimes I say the wallet service) does the money maths. For a transfer it first reserves the money on the sender, then credits the receiver, then confirms. ⟦F3|wallet-core takes the list and search parameters of the transaction calls and turns them into the lookups it needs.⟧ If something crashes in the middle a recovery job finishes or cancels the transfer. Core runs as two replicas in our setup (the platform half says three, we should align).
+The core (that is wallet-core, sometimes I say the wallet service) does the money maths. For a transfer it first reserves the money on the sender, then credits the receiver, then confirms. ⟦F2|wallet-core takes the list and search parameters of the transaction calls and turns them into the lookups it needs.⟧ If something crashes in the middle a recovery job finishes or cancels the transfer. Core runs as two replicas in our setup (the platform half says three, we should align).
 
 #### Logging
 
-⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
+⟦F4|Privilege changes are made by administrators directly in the database and leave no trace.⟧ ⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
+
+⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 
 #### Passwords and login
 
@@ -57,14 +67,14 @@ Customers log in through Keycloak. About password storage in the legacy import: 
 
 #### Browser access
 
-The web wallet calls the gateway from the browser. ⟦F5|Allowed origins are not configured; the gateway reflects the request origin.⟧ This made the web team's life easier during development.
+The web wallet calls the gateway from the browser. ⟦F3|Allowed origins are not configured; the gateway reflects the request origin.⟧ This made the web team's life easier during development.
 
 #### Data handling
 
 | topic | rule |
 |---|---|
-| retention | ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ |
-| third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
+| retention | ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧ |
+| third parties | ⟦F5|Customer data is already shared with a new provider while the contract with them is still being negotiated.⟧ |
 | input | ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 
 **Rate limits**

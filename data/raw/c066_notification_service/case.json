@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "SECRET-01",
-   "drift_id": null,
    "component": "notifier",
    "data_class": "pii",
    "exposure": "internal",
@@ -34,18 +33,65 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The database password sits in the infrastructure code until the secret store is ready."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A shared read-only login for the log platform is posted in the team wiki."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier."
   }
  ],
  "required_rules": [
   "AUTH-02",
   "AUTHZ-02",
+  "API-01",
+  "AUTHZ-04",
   "AUTHZ-05",
   "CRYPTO-05",
   "NET-01",
   "LOG-01",
   "DATA-01",
   "DATA-03",
-  "API-05",
-  "DATA-05"
+  "DATA-05",
+  "API-05"
  ]
 }

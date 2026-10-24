@@ -141,7 +141,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ResetRequest'
-      security: []
   /v1/customers/{customerId}/credits:
     post:
       operationId: issueCredit

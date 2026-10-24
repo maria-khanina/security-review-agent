@@ -59,9 +59,13 @@ Acceptance criteria:
 | NFR-8 | Security logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
 | NFR-11 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
 | NFR-13 | Third parties | Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. |
-| NFR-14 | Exports | Reports that contain personal data require authorization to download, are encrypted in storage and expire. |
+| NFR-14 | Exports | Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days. |
 | NFR-15 | Validation | External inputs are accepted only if they validate against the schema. |
 | NFR-16 | Queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
+
+Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
+The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
+Reading centralized logs requires authorization, and only approved staff have it.
 
 ## Design notes
 

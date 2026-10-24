@@ -32,17 +32,21 @@ Not everybody. So if merchant A asks for the delivery of merchant B, the answer 
 
 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ Those are only for our own people, from inside the company network.
 
-Now the part I am less sure about. ⟦F4|Calls from known partners are accepted without credentials because contracts already identify them.⟧ The reason is that the big partners have a signed contract with us, so we already know who they are and it would be double work to also give them a token. The business team liked this because onboarding is faster. Anita said I should write it down and let security decide.
+Now the part I am less sure about. ⟦F3|Calls from known partners are accepted without credentials because contracts already identify them.⟧ The reason is that the big partners have a signed contract with us, so we already know who they are and it would be double work to also give them a token. The business team liked this because onboarding is faster. Anita said I should write it down and let security decide.
 
 ## 5. Encrypted traffic
 
-I read that traffic should be encrypted so nobody on the way can read it. For the dispatcher this is mostly about the calls to the merchants, because those leave our network. ⟦F2|The service accepts both HTTP and HTTPS and does not redirect HTTP requests.⟧ We did it like this because some old merchants still call us on plain HTTP and we did not want to break them.
+I read that traffic should be encrypted so nobody on the way can read it. For the dispatcher this is mostly about the calls to the merchants, because those leave our network. ⟦F1|The service accepts both HTTP and HTTPS and does not redirect HTTP requests.⟧ We did it like this because some old merchants still call us on plain HTTP and we did not want to break them.
 
 ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
 ## 6. Secrets
 
 A secret is something like a password or a key, which lets you in. The signing secret from section 3 is one example. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧ So when the dispatcher starts, it asks the store for what it needs.
+
+⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+
+⟦S:NET-05|Public API traffic passes through a web application firewall with rate limits.⟧
 
 ## 7. Network
 
@@ -52,11 +56,16 @@ A secret is something like a password or a key, which lets you in. The signing s
 
 Logs are like a diary which the service writes while it works. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ We use the same logging library as the other services.
 
+⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+
+⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧
+⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
+
 ## 9. Limits and input
 
  This protects us when one merchant sends too many requests by mistake.
 
-⟦F1|Requests are validated against strict schemas.⟧ The schema comes from the API definition, so what is allowed in each field is written in one place.
+Requests are validated against strict schemas. The schema comes from the API definition, so what is allowed in each field is written in one place.
 
 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
@@ -64,7 +73,7 @@ Logs are like a diary which the service writes while it works. ⟦S:LOG-01|Authe
 
 ## 10. Updates
 
-⟦F3|Third-party libraries are never updated unless something breaks.⟧ The idea is that a working version should not be touched, because every update can bring new bugs. We have about forty libraries and updating them takes time that the team does not have before the next release.
+⟦F2|Third-party libraries are never updated unless something breaks.⟧ The idea is that a working version should not be touched, because every update can bring new bugs. We have about forty libraries and updating them takes time that the team does not have before the next release.
 
 ## 11. How a delivery lives, and what I do not know
 

@@ -20,7 +20,7 @@ The Webhook Dispatcher delivers platform events to the callback endpoints that m
 - GET /v1/deliveries lists delivery attempts, filterable by status.
 - POST /v1/deliveries/{deliveryId}/replay replays a delivery (reason) and returns it with its attempts.
 
-⟦F1|The dispatcher exposes the subscription and delivery calls to merchants through the public API host.⟧ ⟦F3|All traffic is served over HTTPS only.⟧
+⟦F1|The dispatcher exposes the subscription and delivery calls to merchants through the public API host.⟧ All traffic is served over HTTPS only.
 
 ### 4. Security (platform controls)
 
@@ -29,6 +29,9 @@ The Webhook Dispatcher delivers platform events to the callback endpoints that m
 - ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|Message brokers and databases sit in private subnets and are not publicly reachable.⟧
+- ⟦S:CRYPTO-03|All external traffic must use TLS 1.2 or higher.⟧
+- ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
+- ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 ### 5. Deployment
 

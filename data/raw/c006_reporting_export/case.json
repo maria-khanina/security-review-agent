@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "component": "export-job",
-   "data_class": "pii",
-   "exposure": "admin",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_open_ingress",
-   "implementation_anchor": "aws_security_group.reporting_sg",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "SECRET-01",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -57,18 +33,45 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The default credentials used by the service are written in its configuration and infrastructure files."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only HTTP access logs from the load balancer are kept."
   }
  ],
  "required_rules": [
+  "NET-02",
   "AUTHZ-04",
   "CRYPTO-01",
   "CRYPTO-05",
-  "NET-02",
-  "LOG-01",
-  "LOG-02",
   "DATA-02",
   "DATA-03",
+  "CRYPTO-04",
+  "AUTHZ-03",
+  "AUTH-02",
+  "LOG-02",
   "API-05",
-  "OPS-01"
+  "OPS-01",
+  "OPS-02"
  ]
 }

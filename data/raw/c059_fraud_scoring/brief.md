@@ -27,7 +27,7 @@ Implementation (terraform) the document describes:
 - iam `scoring_policy`
 
 ## Planted items
-None. This is a clean case: no violation, no ambiguity, no drift.
+None. This is a clean case: no violation and no ambiguity.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -37,9 +37,11 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## Functional content (no security claims)

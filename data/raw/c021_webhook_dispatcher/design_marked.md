@@ -31,15 +31,19 @@ Most properties are inherited from the old sender and are not repeated here. The
 
 - ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
+- ⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
+- ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 - ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
+- ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+- ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 - ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 - ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
-- ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦F1|Nothing scans the dependencies, and the versions in the repository were pinned a long time ago and have not moved since.⟧
 
 ## Cutover
 

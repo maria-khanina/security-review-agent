@@ -23,20 +23,24 @@ Implementation (openapi) the document describes:
 - GET /v1/notifications: List notifications
 
 ## Planted items
-- F1 [drift, medium] State as plain fact, adapted to this service: Personal data is never placed in URLs. Wrap the sentence(s) in the F1 marker.
-- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sensitive fields are encrypted with AES in ECB mode for simplicity.
+- F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sensitive fields are encrypted with AES in ECB mode for simplicity.
+- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
+- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
-- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
 
 ## Functional content (no security claims)
 Aim for at least 1800 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

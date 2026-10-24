@@ -35,6 +35,8 @@ Implementation (openapi) the document describes:
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTH-01|...⟧ Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
@@ -46,6 +48,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:API-06|...⟧ Browser-facing APIs must allow only approved origins in CORS.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## Functional content (no security claims)

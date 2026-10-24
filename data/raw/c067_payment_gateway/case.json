@@ -11,23 +11,69 @@
   "dangling_references": 0,
   "tbd_markers": 5
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DATA-01",
+   "component": "payments-core",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "collect and store only the personal data needed for the purpose"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Free-text fields from forms are saved verbatim, often containing extra personal data."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access reviews are done only when someone leaves the company."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
+  "SECRET-02",
   "AUTHZ-04",
-  "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-02",
   "CRYPTO-03",
   "CRYPTO-05",
+  "DATA-03",
+  "DATA-05",
+  "LOG-04",
   "SECRET-01",
   "NET-01",
   "LOG-01",
-  "DATA-01",
-  "DATA-03",
+  "AUTH-02",
   "API-01",
-  "API-05",
-  "DATA-05"
+  "API-05"
  ]
 }

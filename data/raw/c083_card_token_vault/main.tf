@@ -61,7 +61,7 @@ resource "aws_backup_vault" "vault_backups" {
 data "aws_iam_policy_document" "vault_service_policy" {
   statement {
     effect = "Allow"
-    actions = ["*"]
-    resources = ["*"]
+    actions = ["rds-db:connect"]
+    resources = ["arn:aws:rds-db:eu-west-1:111122223333:dbuser:*/vault_app"]
   }
 }

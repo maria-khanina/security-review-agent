@@ -28,22 +28,25 @@ Implementation (openapi) the document describes:
 
 ## Planted items
 - F1 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A fast hash with a single global salt is used for passwords.
-- F2 [drift, critical] State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker.
-- F3 [ambiguity, high] Mention wallet-core naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F3 marker.
-- F4 [drift, critical] State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F4 marker.
-- F5 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Allowed origins are not configured; the gateway reflects the request origin.
+- F2 [ambiguity, high] Mention wallet-core naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F2 marker.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Allowed origins are not configured; the gateway reflects the request origin.
+- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Privilege changes are applied by administrators directly in the database and leave no trace.
+- F5 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Customer data is shared with a new provider while the contract is still being negotiated.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- ⟦S:NET-05|...⟧ External APIs must sit behind a WAF with rate limiting.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 - ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
-- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 

@@ -11,23 +11,48 @@
   "dangling_references": 0,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access reviews are done only when someone leaves the company."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTH-05",
   "AUTHZ-01",
   "AUTHZ-04",
-  "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-03",
   "CRYPTO-05",
+  "DATA-01",
+  "DATA-03",
+  "DATA-05",
+  "LOG-04",
+  "AUTH-02",
   "SECRET-01",
   "NET-01",
   "LOG-01",
-  "DATA-01",
-  "DATA-03",
   "API-01",
   "API-05",
-  "DATA-05"
+  "SECRET-02"
  ]
 }

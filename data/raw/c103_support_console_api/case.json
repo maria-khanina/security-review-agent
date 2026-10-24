@@ -11,7 +11,30 @@
   "dangling_references": 0,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-04",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "low",
+   "cwe": [
+    "CWE-209"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep stack traces, SQL and internal host names out of error responses"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Validation failures return the full internal exception text."
+  }
+ ],
  "required_rules": [
   "AUTH-03",
   "AUTH-04",
@@ -20,9 +43,11 @@
   "CRYPTO-01",
   "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
+  "NET-04",
   "LOG-01",
   "DATA-03",
   "DATA-04",
@@ -30,7 +55,12 @@
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "AUTH-02",
+  "DATA-02",
+  "LOG-04",
+  "DATA-05",
+  "AUTHZ-01",
+  "API-01",
+  "LOG-02"
  ]
 }

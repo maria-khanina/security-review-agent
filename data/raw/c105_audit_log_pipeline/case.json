@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "LOG-02",
-   "drift_id": null,
    "component": "audit-collector",
    "data_class": "pii",
    "exposure": "internal",
@@ -39,7 +38,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "CRYPTO-04",
-   "drift_id": null,
    "component": "audit-collector",
    "data_class": "pii",
    "exposure": "internal",
@@ -58,7 +56,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "component": "audit archive (S3)",
    "data_class": "pii",
    "exposure": "internal",
@@ -77,14 +74,39 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Backup copies are not encrypted, and restores are tried only after an incident."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "NET-04",
+   "component": "audit-collector",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "restrict egress of services that call third parties to an approved allowlist"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Outbound traffic is unrestricted so that new partner integrations need no network changes."
   }
  ],
  "required_rules": [
   "AUTH-02",
+  "LOG-04",
   "AUTH-03",
   "CRYPTO-01",
+  "DATA-02",
   "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
@@ -92,11 +114,10 @@
   "LOG-01",
   "DATA-03",
   "DATA-04",
+  "AUTHZ-04",
   "API-03",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "OPS-02"
  ]
 }

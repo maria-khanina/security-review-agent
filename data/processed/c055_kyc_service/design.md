@@ -26,6 +26,8 @@ opened > documents_received > submitted > verified / rejected / manual_review
 - Production access reviewed at least quarterly.
 - kyc-orchestrator signs and protects the messages it exchanges with the vendor.
 - External traffic TLS 1.2 or higher.
+- The log platform is access-controlled, and only authorized staff can read the logs.
+- Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - kyc-orchestrator reads its runtime configuration when it starts.
 - kyc-db and brokers in private subnets, not publicly reachable.
 - kyc-documents bucket blocks public access, private by default.
@@ -34,13 +36,15 @@ opened > documents_received > submitted > verified / rejected / manual_review
 
 - Only the personal data needed for verification is collected and stored.
 - Personal data to the vendor only under an approved DPA, only required fields.
-- Exports with personal data need authorization, are encrypted in storage and expire.
+- Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
+- Services inside the cluster trust each other because of the network they sit in, and internal calls carry no credentials.
 
 ## logs / api / ops
 
 - Auth failures, privilege changes and sensitive data access are logged.
 - Input validated against schema, invalid rejected.
 - Parameterized queries only.
+- Any authenticated caller can read any case or document if it knows the identifier.
 
 ## later
 

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "DATA-03",
-   "drift_id": null,
    "component": "payments-core",
    "data_class": "pii",
    "exposure": "external",
@@ -35,31 +34,60 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Data is sent to a third party under a verbal agreement."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "DATA-04",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep real personal and card data out of non-production environments"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Support analysts reproduce issues in staging with real customer records."
   }
  ],
  "required_rules": [
   "AUTH-01",
   "AUTH-03",
   "AUTH-06",
+  "AUTHZ-03",
   "AUTHZ-01",
   "AUTHZ-04",
   "CRYPTO-01",
   "CRYPTO-02",
-  "CRYPTO-05",
   "CRYPTO-06",
-  "SECRET-01",
-  "SECRET-02",
+  "CRYPTO-07",
+  "DATA-05",
+  "CRYPTO-05",
   "NET-01",
   "NET-05",
+  "AUTH-02",
+  "NET-04",
+  "LOG-02",
+  "SECRET-01",
+  "SECRET-02",
   "LOG-01",
-  "DATA-04",
   "API-01",
   "API-03",
+  "API-02",
   "API-04",
   "API-05",
+  "DATA-02",
+  "CRYPTO-04",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "LOG-04"
  ]
 }

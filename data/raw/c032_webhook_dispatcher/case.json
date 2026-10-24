@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "API-02",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -37,49 +36,27 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
+   "type": "violation",
+   "rule_id": "LOG-01",
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
-   "severity": "high",
+   "severity": "medium",
    "cwe": [
-    "CWE-306"
+    "CWE-778"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1subscriptions/post/security",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-06",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "high",
-   "cwe": [
-    "CWE-312"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_pan_in_response",
-   "implementation_anchor": "/components/schemas/Subscription/properties/pan",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Privilege changes are applied by administrators directly in the database and leave no trace."
   }
  ],
  "required_rules": [
@@ -87,10 +64,11 @@
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
-  "LOG-01",
   "API-01",
   "API-05",
   "API-06",
+  "CRYPTO-04",
+  "AUTH-02",
   "OPS-01"
  ]
 }

@@ -47,7 +47,10 @@ Security is a first-class feature of the ledger. The commitments below are the o
 - Access to production is recertified at least once per quarter.
 - Source, config, specs and infrastructure definitions contain no secrets.
 - ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.
+- Debug and administrative routes are not exposed to the internet.
+- Requests from outside are checked against the schema and rejected if they do not conform.
 - Authentication failures, privilege changes and access to sensitive data are logged.
+- Runtime secrets are read from the secret store when the service starts.
 - All queries use bound parameters instead of string concatenation.
 
 Reconciliation reports are shared with finance through download links. The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.

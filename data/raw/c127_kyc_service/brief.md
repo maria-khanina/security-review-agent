@@ -30,6 +30,8 @@ Implementation (openapi) the document describes:
 - F1 [ambiguity, low] Mention kyc-orchestrator naturally, but do NOT state: What clients see when an error occurs. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker.
 - F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Every field received from the client is saved, in case analytics needs it later.
 - F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Developers share one database login that is also used by the production service.
+- F4 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Outbound firewall rules are managed by each team and rarely reviewed.
+- F5 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Hostname verification is disabled for the acquirer connection.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -53,8 +55,14 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
-- ⟦S:CRYPTO-07|...⟧ Services must validate TLS certificates and must not disable verification.
-- ⟦S:NET-04|...⟧ Services calling third parties must have egress restricted to an approved allowlist.
+- ⟦S:API-02|...⟧ External APIs must enforce per-client rate limits.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- ⟦S:NET-05|...⟧ External APIs must sit behind a WAF with rate limiting.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

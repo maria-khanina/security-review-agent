@@ -52,7 +52,7 @@ The decisions below were agreed in the design review and are binding for this ph
 | Authentication | ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧ |
 | Authorization | ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧ |
 | Admin surface | ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧ |
-| Access review | ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧ |
+| Access review | ⟦F4|Contractors keep their access to production after the contract ends, until someone notices.⟧ |
 | Encryption at rest | ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ |
 | Transport | ⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧ |
 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
@@ -61,6 +61,10 @@ The decisions below were agreed in the design review and are binding for this ph
 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
 | Third parties | ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ |
 | Queries | ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ |
+
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
+⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 ## Report processing notes
 

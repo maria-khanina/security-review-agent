@@ -52,8 +52,12 @@ Acceptance criteria:
 | Log access | Access to the centralized logging system is restricted to authorized people. |
 | Minimization | The service collects and stores only the personal data needed for scoring. |
 | Third parties | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
-| Exports | Exports that contain personal data, such as the analyst CSV, require authorization to access, are encrypted in storage and expire. |
+| Exports | Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours. |
 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+
+Internal users must receive only the roles required for their job and roles must be defined per service.
+The approved secret manager is the only source of runtime secrets, fetched at start-up.
+There is no periodic review of who has production access.
 
 ## Design notes
 

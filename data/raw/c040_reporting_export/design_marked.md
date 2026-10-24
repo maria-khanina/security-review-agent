@@ -17,7 +17,7 @@ The Service consists of the following components, deployed in the reporting priv
 
 The infrastructure is declared in Terraform: the KMS key `export_key`, the bucket `exports_bucket`, the replica `reporting_ro_db`, the security group `reporting_sg`, the log group `export_audit` and the IAM policy `export_job_policy`.
 
-For each run the job reads settlement and transaction data from the replica, produces one CSV file per report type and date range, and writes the file to the bucket. ⟦F2|The export-job writes request logs for the queries it sends to the replica and for the files it writes to the bucket.⟧ ⟦F5|The export-job is exercised in the pre-production environment before each release by a scheduled test run.⟧
+For each run the job reads settlement and transaction data from the replica, produces one CSV file per report type and date range, and writes the file to the bucket. ⟦F2|The export-job writes request logs for the queries it sends to the replica and for the files it writes to the bucket.⟧ ⟦F4|The export-job is exercised in the pre-production environment before each release by a scheduled test run.⟧
 
 ## 3. Identity and Access Control
 
@@ -25,15 +25,19 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 3.2 ⟦S:AUTH-04|Admins and back-office staff must pass multi-factor authentication to sign in.⟧
 
+⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+
 3.3 ⟦F3|Permissions are granted per request via chat and rarely removed.⟧
 
 3.5 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 ## 4. Data Protection
 
-4.1 ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+4.1 ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
 
 4.2 ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
+
+⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 
 4.3 ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
@@ -44,6 +48,8 @@ For each run the job reads settlement and transaction data from the replica, pro
 ## 5. Secrets Management
 
 5.1 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
 
 5.2 ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store when the Service starts.⟧
 
@@ -59,11 +65,11 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 7.1 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
-7.2 ⟦F4|Audit logs are retained for 365 days.⟧
+7.2 Audit logs are retained for 365 days.
 
 ## 8. Application Security
 
-8.1 ⟦S:API-03|Callback payloads, both inbound and outbound, are signed, and the signatures are verified.⟧
+8.1 ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧
 
 8.2 ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 
@@ -71,7 +77,9 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 9.1 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
 
-9.2 ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+
+9.2 ⟦F5|The container user is not set in the image of the export job, so the processes run as root.⟧
 
 ## 10. Operational Characteristics
 

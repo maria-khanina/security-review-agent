@@ -16,49 +16,87 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-10",
+   "type": "violation",
+   "rule_id": "API-05",
    "severity": "high",
    "cwe": [
-    "CWE-668"
+    "CWE-89"
    ],
-   "component": "exports bucket (S3)",
+   "component": "export-job",
    "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
+   "manifest": "design",
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "use parameterized queries",
+     "never concatenate user input into queries"
     ]
    ],
    "clarification_needed": null,
    "related_rules": [
-    "NET-02"
+    "API-05"
    ],
    "policy_status": "clear",
    "needs_policy_review": false,
    "design_spans": [
     [
-     1913,
-     1972
+     4075,
+     4191
     ]
    ],
    "policy_spans": {
-    "NET-02": [
+    "API-05": [
      [
-      3023,
-      3097
+      4483,
+      4590
      ]
     ]
    },
-   "implementation_spans": [
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "DATA-03",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
     [
-     412,
-     646
+     "share personal data with third parties only under an approved data processing agreement",
+     "send only the fields required"
     ]
    ],
-   "also_violates": []
+   "clarification_needed": null,
+   "related_rules": [
+    "DATA-03"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3113,
+     3249
+    ]
+   ],
+   "policy_spans": {
+    "DATA-03": [
+     [
+      4025,
+      4182
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -153,51 +191,6 @@
    ]
   },
   {
-   "rule_id": "SECRET-01",
-   "design_spans": [
-    [
-     3317,
-     3421
-    ]
-   ],
-   "policy_spans": [
-    [
-     2634,
-     2793
-    ]
-   ]
-  },
-  {
-   "rule_id": "NET-01",
-   "design_spans": [
-    [
-     3422,
-     3513
-    ]
-   ],
-   "policy_spans": [
-    [
-     2917,
-     3018
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     3561,
-     3644
-    ]
-   ],
-   "policy_spans": [
-    [
-     3347,
-     3434
-    ]
-   ]
-  },
-  {
    "rule_id": "DATA-01",
    "design_spans": [
     [
@@ -213,32 +206,107 @@
    ]
   },
   {
-   "rule_id": "DATA-03",
+   "rule_id": "AUTH-02",
    "design_spans": [
     [
-     3113,
-     3231
+     3251,
+     3392
     ]
    ],
    "policy_spans": [
     [
-     4025,
-     4182
+     900,
+     1069
     ]
    ]
   },
   {
-   "rule_id": "API-05",
+   "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3673,
-     3763
+     3478,
+     3582
     ]
    ],
    "policy_spans": [
     [
-     4483,
-     4590
+     2634,
+     2793
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     3583,
+     3674
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     3676,
+     3758
+    ]
+   ],
+   "policy_spans": [
+    [
+     3023,
+     3097
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3759,
+     3833
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     3834,
+     3915
+    ]
+   ],
+   "policy_spans": [
+    [
+     3582,
+     3652
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     3963,
+     4046
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
     ]
    ]
   }

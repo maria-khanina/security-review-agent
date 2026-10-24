@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -33,32 +32,8 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-01",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "high",
-   "cwe": [
-    "CWE-306"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_security_missing",
-   "implementation_anchor": "/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "AUTHZ-05",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -78,10 +53,9 @@
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Contractors keep their access after the contract ends until someone notices."
   },
   {
-   "flaw_id": "F4",
+   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "SECRET-01",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -99,6 +73,53 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sandbox credentials and the database password are committed with the service configuration so developers can start quickly."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only application errors are logged, nothing about logins or access."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The API returns the requested record if the caller is authenticated, whoever owns it."
   }
  ],
  "required_rules": [
@@ -106,7 +127,7 @@
   "CRYPTO-03",
   "CRYPTO-05",
   "NET-01",
-  "LOG-01",
+  "LOG-04",
   "API-01",
   "API-05"
  ]

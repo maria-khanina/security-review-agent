@@ -18,29 +18,43 @@ At the heart of the solution is **refund-core**, the decision engine that checks
 
 ## The developer experience
 
-Five operations cover the whole lifecycle: create a refund, read one, list many, approve or reject, and cancel a pending one. Creating a refund takes a payment reference, an amount, a currency and a reason. The response returns the refund with its identifier and status. ⟦F2|Refunds Gateway is the single entry point to the service and routes each request to refund-core.⟧
+Five operations cover the whole lifecycle: create a refund, read one, list many, approve or reject, and cancel a pending one. Creating a refund takes a payment reference, an amount, a currency and a reason. The response returns the refund with its identifier and status. ⟦F1|Refunds Gateway is the single entry point to the service and routes each request to refund-core.⟧
 
 ## Security by design
 
 We believe security is an enabler of growth, and we have built it into the foundation of the product.
 
-⟦F1|The API enforces per-client rate limits.⟧
+The API enforces per-client rate limits.
 
-⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧ ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ ⟦S:AUTH-06|Brute-force protection is in place: failed attempts on the login and token endpoints are throttled.⟧
+⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧ ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ ⟦F3|Unlimited login attempts are allowed, for convenience.⟧
 
-⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ ⟦F3|Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.⟧
+⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 
-⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ ⟦S:CRYPTO-02|Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+
+⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧ ⟦F2|Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.⟧
+
+⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧ ⟦S:CRYPTO-02|Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 
 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+
+⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 
 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 
 ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
-⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+
+⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 
 ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+
+⟦S:API-02|Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.⟧
+
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 
 ## Roadmap
 

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "component": "reporting read replica (PostgreSQL)",
    "data_class": "pii",
    "exposure": "admin",
@@ -30,33 +29,11 @@
    "remediation_options": [],
    "clarification_needed": "Which database identity each service uses and its grants.",
    "instruction": "Mention reporting read replica (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention reporting read replica (PostgreSQL) (the place where that information should have been) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "component": "exports bucket (S3)",
-   "data_class": "pii",
-   "exposure": "admin",
-   "severity": "high",
-   "cwe": [
-    "CWE-311"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_encryption_missing",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F2 marker."
   }
  ],
  "required_rules": [
   "AUTHZ-04",
+  "CRYPTO-04",
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
@@ -65,6 +42,7 @@
   "LOG-02",
   "DATA-02",
   "DATA-03",
+  "CRYPTO-01",
   "API-05",
   "OPS-01"
  ]

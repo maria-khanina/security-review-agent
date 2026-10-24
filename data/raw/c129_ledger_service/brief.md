@@ -27,15 +27,17 @@ Implementation (openapi) the document describes:
 ## Planted items
 - F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Mutual TLS is considered for later; for now internal calls are plain and unauthenticated.
 - F2 [ambiguity, low] Mention ledger-core naturally, but do NOT state: Whether internal connections are encrypted. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker.
-- F3 [drift, medium] State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 

@@ -27,20 +27,22 @@ Implementation (terraform) the document describes:
 - iam `scoring_policy`
 
 ## Planted items
-- F1 [drift, high] State as plain fact, adapted to this service: The database sits in private subnets with no public endpoint. Wrap the sentence(s) in the F1 marker.
-- F2 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: What data is shared with the vendor and under what agreement. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F2 marker.
-- F3 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F3 marker.
-- F4 [ambiguity, low] Mention decisions-db (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F4 marker.
+- F1 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: What data is shared with the vendor and under what agreement. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F1 marker.
+- F2 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F2 marker.
+- F3 [ambiguity, low] Mention decisions-db (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F3 marker.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
+- ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
-- ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 ## Functional content (no security claims)
 Aim for at least 700 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

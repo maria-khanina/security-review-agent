@@ -44,6 +44,10 @@
 | Tokens | ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ |
 | Keys | ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ |
 
+⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+
 ## Transport and crypto
 
 | Topic | Statement |
@@ -67,7 +71,7 @@
 |---|---|
 | Security events | ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ |
 | Test data | ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧ |
-| Callbacks | ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ |
+| Callbacks | ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧ |
 | Queries | ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ |
 | Pipeline | ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ |
 | Containers | ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧ |

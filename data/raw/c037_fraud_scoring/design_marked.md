@@ -26,12 +26,16 @@
 ## notes
 
 - ⟦S:CRYPTO-01|PII at rest is AES-256 (RDS storage encryption with kms key scoring_key).⟧
+- ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
+- ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or terraform.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:LOG-01|Auth failures, privilege changes and sensitive data access are logged.⟧
+- ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+- ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 - ⟦S:LOG-02|Logs carry no secrets, card numbers or personal data other than opaque ids.⟧
-- ⟦S:DATA-02|Decisions carrying personal data have a 13 month retention, then a scheduled job deletes them (also on verified deletion request).⟧
+- ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 - ⟦S:DATA-03|No third parties receive this data; any future transfer only under an approved DPA and with just the required fields.⟧
 - ⟦S:API-05|All db queries are parameterized, no string concatenation of user input.⟧
 - ⟦S:OPS-01|CI scans dependencies and images; critical vulns fixed within 14 days.⟧

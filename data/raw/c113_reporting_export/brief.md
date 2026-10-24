@@ -27,7 +27,7 @@ Implementation (terraform) the document describes:
 - iam `export_job_policy`
 
 ## Planted items
-None. This is a clean case: no violation, no ambiguity, no drift.
+None. This is a clean case: no violation and no ambiguity.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -43,8 +43,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
-- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

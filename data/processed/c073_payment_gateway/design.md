@@ -38,11 +38,19 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 - P-3: Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - P-4: A quarterly access review covers all production systems.
 
+Any authenticated caller can read any payment record if it knows the payment identifier.
+
 ### 5.2 Data protection
 
 - P-6: All external traffic uses TLS 1.2 or higher.
+
+No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - P-7: The gateway collects and stores only the personal data needed for payment processing.
+
+Access to centralized logs must be limited to authorized staff.
 - P-9: Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+
+All external inputs must be validated against a schema and rejected if invalid.
 - P-10: Report files remain in the storage bucket and are never deleted.
 
 ### 5.3 Secrets and network
@@ -54,10 +62,14 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - P-14: The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
+On boot, the service pulls its credentials from the approved secret store.
+
 ### 5.5 Application security
 
 - P-17: Requests are validated against strict schemas.
 - P-18: Database queries are parameterized, and user input is never concatenated into SQL.
+
+The internal services call each other with one long-lived token that every service reuses.
 
 ### 5.6 Operations
 

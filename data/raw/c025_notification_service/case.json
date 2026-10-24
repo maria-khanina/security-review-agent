@@ -11,18 +11,42 @@
   "dangling_references": 1,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "DATA-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "collect and store only the personal data needed for the purpose"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Free-text fields from forms are saved verbatim, often containing extra personal data."
+  }
+ ],
  "required_rules": [
   "AUTH-02",
   "AUTHZ-02",
   "AUTHZ-05",
   "CRYPTO-05",
   "SECRET-01",
+  "LOG-04",
   "NET-01",
-  "LOG-01",
-  "DATA-01",
   "DATA-03",
+  "DATA-05",
+  "SECRET-02",
   "API-05",
-  "DATA-05"
+  "LOG-01"
  ]
 }

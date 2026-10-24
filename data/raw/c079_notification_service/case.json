@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-07",
-   "component": "notifier",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-532"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_pii_in_query",
-   "implementation_anchor": "/paths/~1v1~1notifications/get/parameters",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Personal data is never placed in URLs. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "notifier",
    "data_class": "pii",
    "exposure": "internal",
@@ -58,17 +34,44 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sensitive fields are encrypted with AES in ECB mode for simplicity."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier."
   }
  ],
  "required_rules": [
   "AUTH-02",
+  "LOG-04",
   "AUTHZ-02",
   "AUTHZ-05",
+  "API-01",
+  "DATA-03",
+  "AUTHZ-04",
+  "DATA-05",
   "SECRET-01",
   "NET-01",
   "LOG-01",
-  "DATA-03",
-  "API-05",
-  "DATA-05"
+  "SECRET-02",
+  "API-05"
  ]
 }

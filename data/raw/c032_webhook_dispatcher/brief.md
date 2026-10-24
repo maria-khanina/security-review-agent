@@ -26,8 +26,7 @@ Implementation (openapi) the document describes:
 
 ## Planted items
 - F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): We expect partners to behave and therefore have no limits on request volume.
-- F2 [drift, high] State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F2 marker.
-- F3 [drift, high] State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F3 marker.
+- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Privilege changes are applied by administrators directly in the database and leave no trace.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -35,10 +34,11 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:API-06|...⟧ Browser-facing APIs must allow only approved origins in CORS.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## Functional content (no security claims)

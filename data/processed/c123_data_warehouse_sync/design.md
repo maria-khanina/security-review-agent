@@ -28,17 +28,21 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 4. Data Protection
 
-4.0 All personally identifiable information is encrypted before it lands on disk, using AES-256.
+4.0 Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 
 4.1 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
 4.2 Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
+Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+
 4.3 Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.
 
-4.4 The Service validates TLS certificates on every TLS connection it makes and never disables verification.
+4.4 Self-signed certificates are trusted in production, to simplify the onboarding of partners.
 
 4.5 Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+
+Access to centralized logs must be limited to authorized staff.
 
 4.6 Non-production environments do not contain real personal or card data.
 
@@ -62,13 +66,19 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 8. Application Security
 
-8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.
+8.1 Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
+
+Administrative and debug endpoints must not be reachable from the public internet.
 
 8.2 User input reaches the database only as query parameters, never as part of the query text.
+
+The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 
 ## 9. Operations
 
 9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
+
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 
 9.2 No container runs as root, and the root filesystem is read-only wherever possible.
 

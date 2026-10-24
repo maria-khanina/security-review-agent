@@ -29,14 +29,16 @@ Flows:
 
 **Cryptography**
 
-- The databases and object stores that hold PII use AES-256 encryption at rest.
+- Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 - Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
+- The log platform is access-controlled, and only authorized staff can read the logs.
 - TLS certificate verification is enabled in all clients, with no option to disable it.
 
 **Secrets**
 
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
+- We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 - Runtime secrets are read from the secret store when the service starts.
 
 **Network**
@@ -44,6 +46,7 @@ Flows:
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The exports bucket blocks public access and is private by default.
 - The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
+- In-transit encryption covers calls between services as well as connections to databases and queues.
 
 **Logging**
 
@@ -53,13 +56,16 @@ Flows:
 
 - Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 - Only synthetic data is present outside production.
+- Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
 **Application and operations**
 
-- Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+- Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.
 - We use parameterized queries only, with no SQL built from user input by string concatenation.
 - Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 - The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+- Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
+- Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 
 ## Run semantics
 

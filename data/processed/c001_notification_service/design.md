@@ -39,8 +39,13 @@
 | Security events | Authentication failures, privilege changes and access to sensitive data are written to the logs. |
 | Data minimization | Only the contact details needed for the channel are stored. |
 | Third parties | The provider receives only the recipient contact and the message body, under an approved DPA. |
-| Exports | Delivery reports containing personal data need authorization, are encrypted in storage and expire. |
-| Queries | Parameterized queries only. |
+| Exports | Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days. |
+| Queries | Reporting filters (status, channel, recipient) are built by joining the strings from the request, because the ORM could not express the optional combinations. |
+
+Administrative and debug endpoints must not be reachable from the public internet.
+On boot, the service pulls its credentials from the approved secret store.
+Access to centralized logs must be limited to authorized staff.
+Requests from outside are checked against the schema and rejected if they do not conform.
 
 ## Notes
 Templates are versioned. Locale falls back to en.

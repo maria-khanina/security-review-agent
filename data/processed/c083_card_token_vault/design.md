@@ -25,13 +25,21 @@ The vault tokenizes primary account numbers (PANs) for the payment services. It 
 ### 4. Security (infrastructure view)
 
 - Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.
+- A caller can only read or change resources that belong to them or that they have been explicitly granted.
+- The vendor receives the complete customer profile, including fields it does not need, and there is no signed data processing agreement with them.
+- The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+- Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 - Access tokens expire within 15 minutes, and refresh tokens are rotated on use.
 - We do not keep primary account numbers: the card token vault tokenizes them and we store the token.
 - Traffic between services, and between services and data stores or brokers, is encrypted in transit.
+- Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 - Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 - Clients check the certificate chain and host name on every TLS connection and have no insecure mode.
+- Clients get generic error messages without stack traces, SQL or internal hostnames.
+- Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - vault-db and the message brokers sit in private subnets and are not publicly reachable.
+- We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 - Third-party calls leave through an egress allowlist, not through open outbound access.
 
 ### 5. Deployment (platform view)
@@ -69,6 +77,10 @@ The container user is not set, so processes run as root. It never mattered for t
 #### test data, queries, build, backups
 
 Test and staging environments use synthetic data, never real personal data or card data. User input reaches the database only as query parameters, never as part of the query text. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+
+The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+
+Schema validation runs on every external input, and invalid data never reaches the business logic.
 
 #### sizing
 

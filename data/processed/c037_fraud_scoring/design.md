@@ -26,12 +26,16 @@
 ## notes
 
 - PII at rest is AES-256 (RDS storage encryption with kms key scoring_key).
+- Administrative and debug endpoints must not be reachable from the public internet.
+- Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.
 - No secrets in code, config, specs or terraform.
 - Runtime secrets are read from the secret store when the service starts.
 - Auth failures, privilege changes and sensitive data access are logged.
+- Workloads are non-root, and read-only root filesystems are used wherever they can be.
+- The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 - Logs carry no secrets, card numbers or personal data other than opaque ids.
-- Decisions carrying personal data have a 13 month retention, then a scheduled job deletes them (also on verified deletion request).
+- Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 - No third parties receive this data; any future transfer only under an approved DPA and with just the required fields.
 - All db queries are parameterized, no string concatenation of user input.
 - CI scans dependencies and images; critical vulns fixed within 14 days.

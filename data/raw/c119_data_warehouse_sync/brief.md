@@ -30,16 +30,19 @@ Implementation (terraform) the document describes:
 - F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Data is sent to a third party under a verbal agreement.
 - F2 [ambiguity, low] Mention sync-job naturally, but do NOT state: Which personal data fields are stored and why. Wrap the sentence(s) that mention sync-job (the place where that information should have been) in the F2 marker.
 - F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Reports are served from a publicly readable bucket to avoid generating download links.
+- F4 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Log access is granted to whole teams and never removed.
+- F5 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access lists are reviewed only before an external audit.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
-- ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 

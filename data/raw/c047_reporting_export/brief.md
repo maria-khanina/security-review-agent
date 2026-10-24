@@ -27,24 +27,26 @@ Implementation (terraform) the document describes:
 - iam `export_job_policy`
 
 ## Planted items
-- F1 [drift, high] State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F1 marker.
-- F2 [ambiguity, medium] Mention export-job naturally, but do NOT state: Who can download exports and how long they remain available. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F2 marker.
-- F3 [ambiguity, low] Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F3 marker.
+- F1 [ambiguity, medium] Mention export-job naturally, but do NOT state: Who can download exports and how long they remain available. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F1 marker.
+- F2 [ambiguity, low] Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F2 marker.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic queries are assembled with string formatting because the ORM is too slow.
+- F4 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Every field received from the client is saved, in case analytics needs it later.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
+- ⟦S:NET-02|...⟧ Object storage buckets must block public access and be private by default.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:AUTH-04|...⟧ Administrative and back-office access must require multi-factor authentication.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
+- ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
-- ⟦S:NET-02|...⟧ Object storage buckets must block public access and be private by default.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
-- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 
 ## Functional content (no security claims)
 Aim for at least 700 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

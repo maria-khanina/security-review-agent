@@ -182,12 +182,6 @@ paths:
         schema:
           type: string
           maxLength: 64
-      - name: endpoint_owner_email
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 128
   /v1/deliveries/{deliveryId}/replay:
     post:
       operationId: replayDelivery

@@ -18,11 +18,13 @@ security stuff:
 - ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The audit archive blocks public access and is private by default.⟧
+- ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 - ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 - ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 - ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧
 - ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
+- ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 - ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+- ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 todo: sizing sheet, see old wiki page "audit hub" (dead link)

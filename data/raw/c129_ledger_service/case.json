@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "AUTH-02",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -42,7 +41,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "CRYPTO-04",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -56,37 +54,17 @@
    "remediation_options": [],
    "clarification_needed": "Whether internal connections are encrypted.",
    "instruction": "Mention ledger-core naturally, but do NOT state: Whether internal connections are encrypted. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
-   "component": "ledger-core",
-   "data_class": "internal",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-306"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1entries/post/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
   "AUTHZ-02",
   "AUTHZ-05",
+  "API-01",
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
+  "LOG-04",
+  "AUTHZ-04",
   "LOG-01",
   "API-05"
  ]

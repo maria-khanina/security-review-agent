@@ -14,66 +14,72 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "component": "decisions-db (PostgreSQL)",
+   "type": "violation",
+   "rule_id": "CRYPTO-06",
+   "component": "scoring-engine",
    "data_class": "pii",
    "exposure": "internal",
    "severity": "medium",
    "cwe": [
-    "CWE-311"
+    "CWE-320"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_encryption_missing",
-   "implementation_anchor": "aws_db_instance.decisions_db",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "hold encryption keys in KMS",
+     "do not store keys with the data they protect",
+     "rotate keys at least annually"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F1 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): One key is used for all environments and all customers."
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
+   "type": "violation",
+   "rule_id": "AUTH-03",
    "component": "scoring-engine",
    "data_class": "pii",
    "exposure": "internal",
-   "severity": "high",
+   "severity": "medium",
    "cwe": [
-    "CWE-668"
+    "CWE-613"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_open_ingress",
-   "implementation_anchor": "aws_security_group.decisions_sg",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "limit access token lifetime to 15 minutes or less",
+     "rotate refresh tokens on use"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F2 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The expiry check is skipped for tokens issued to internal tools."
   }
  ],
  "required_rules": [
   "AUTH-02",
-  "AUTH-03",
   "CRYPTO-04",
+  "CRYPTO-07",
   "CRYPTO-05",
+  "LOG-04",
+  "LOG-02",
+  "NET-04",
   "SECRET-01",
   "SECRET-02",
   "LOG-01",
+  "DATA-05",
+  "CRYPTO-01",
   "DATA-03",
   "DATA-04",
   "API-03",
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "DATA-02",
+  "AUTHZ-04"
  ]
 }

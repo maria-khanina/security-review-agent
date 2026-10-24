@@ -26,9 +26,10 @@ Implementation (openapi) the document describes:
 
 ## Planted items
 - F1 [ambiguity, low] Mention dispatcher naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F1 marker.
-- F2 [drift, high] State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker.
-- F3 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Contractors keep their access after the contract ends until someone notices.
-- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sandbox credentials and the database password are committed with the service configuration so developers can start quickly.
+- F2 [violation, low] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Contractors keep their access after the contract ends until someone notices.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sandbox credentials and the database password are committed with the service configuration so developers can start quickly.
+- F4 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only application errors are logged, nothing about logins or access.
+- F5 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The API returns the requested record if the caller is authenticated, whoever owns it.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -36,7 +37,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 

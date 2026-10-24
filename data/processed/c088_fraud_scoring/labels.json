@@ -16,59 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-12",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "component": "payment-events (MSK)",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_db_instance.decisions_db",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "NET-01"
-   ],
-   "policy_status": "conflicting",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     2512,
-     2573
-    ]
-   ],
-   "policy_spans": {
-    "NET-01": [
-     [
-      1772,
-      1821
-     ],
-     [
-      1824,
-      1933
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     757,
-     783
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-03",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-201"
@@ -99,13 +48,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-522"
@@ -123,8 +72,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2135,
-     2260
+     2154,
+     2279
     ]
    ],
    "policy_spans": {
@@ -136,13 +85,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
-   "flaw_id": "F4",
+   "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-250"
@@ -173,16 +122,32 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
   {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     1940,
+     2082
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     2576,
-     2624
+     2595,
+     2643
     ]
    ],
    "policy_spans": [
@@ -196,8 +161,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     2627,
-     2726
+     2646,
+     2745
     ]
    ],
    "policy_spans": [
@@ -211,8 +176,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2729,
-     2812
+     2748,
+     2831
     ]
    ],
    "policy_spans": [
@@ -226,8 +191,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     2815,
-     2912
+     2834,
+     2931
     ]
    ],
    "policy_spans": [
@@ -238,26 +203,11 @@
    ]
   },
   {
-   "rule_id": "DATA-02",
-   "design_spans": [
-    [
-     1940,
-     2063
-    ]
-   ],
-   "policy_spans": [
-    [
-     1335,
-     1401
-    ]
-   ]
-  },
-  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     2915,
-     2980
+     2934,
+     2999
     ]
    ],
    "policy_spans": [
@@ -271,14 +221,59 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     2983,
-     3076
+     3002,
+     3095
     ]
    ],
    "policy_spans": [
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     3098,
+     3162
+    ]
+   ],
+   "policy_spans": [
+    [
+     804,
+     873
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     3165,
+     3252
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     3255,
+     3378
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
     ]
    ]
   }

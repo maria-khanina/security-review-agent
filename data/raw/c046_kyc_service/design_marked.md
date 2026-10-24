@@ -34,14 +34,26 @@ A case moves through opened, documents received, submitted, and then verified, r
 
 Security is a first-class feature of this service, not an afterthought, because customers trust us with their identity. The commitments below are the ones we make to customers and to the compliance team.
 
-- ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧ ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧ ⟦S:AUTH-06|The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.⟧
+- ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧ ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧ ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
+
+⟦S:API-02|Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.⟧
+
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 - ⟦S:AUTHZ-01|Every request for a customer-owned case or document verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
-- ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+
+⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
+
+⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
+
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 - ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+
+⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
 - ⟦S:NET-01|kyc-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
-- ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-03|Webhook payloads, including the verification partner's callbacks, are signed and the signatures are verified.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 - ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## 7. Rollout

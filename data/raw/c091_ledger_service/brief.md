@@ -25,19 +25,22 @@ Implementation (openapi) the document describes:
 - GET /v1/entries: List entries
 
 ## Planted items
-- F1 [drift, medium] State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F1 marker.
-- F2 [drift, medium] State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F2 marker.
+None. This is a clean case: no violation and no ambiguity.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
-- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
+- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 
 ## Functional content (no security claims)
 Aim for at least 1000 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

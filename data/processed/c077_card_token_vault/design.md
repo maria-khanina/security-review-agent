@@ -19,14 +19,17 @@ Assumes the usual platform setup unless a line says otherwise. Old page: wiki/CT
 
 ## authN/Z
 
-- Payment services authenticate to the tokenization-service with mTLS or signed workload identity tokens.
+- The internal endpoints of the tokenization-service are protected only by URL paths that are not published anywhere.
+- Requests from outside are checked against the schema and rejected if they do not conform.
 - Internal users get only the roles their job requires; roles are defined per service.
+- Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Production access rights are reviewed at least quarterly.
 
 ## data
 
 - PANs are never stored in clear and are tokenized by the card token vault.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.
+- Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 
 ## secrets / net
 
@@ -36,10 +39,12 @@ Assumes the usual platform setup unless a line says otherwise. Old page: wiki/CT
 ## logs
 
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 
 ## app / ops
 
 - Parameterized queries only.
+- Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 
 ## sizing
 

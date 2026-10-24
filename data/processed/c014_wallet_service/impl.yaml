@@ -251,7 +251,6 @@ components:
       - owner_name
       - balance
       - currency
-      - pan
       properties:
         id:
           type: string
@@ -265,9 +264,6 @@ components:
         currency:
           type: string
           maxLength: 256
-        pan:
-          type: string
-          maxLength: 19
     TopUpRequest:
       type: object
       additionalProperties: false

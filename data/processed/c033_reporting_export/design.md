@@ -41,9 +41,10 @@
 
 ## Notes: data and crypto
 
-- Stored PII is protected with AES-256 encryption or stronger.
+- At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.
+- Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
-- Clients check the certificate chain and host name on every TLS connection and have no insecure mode.
+- Certificate verification is turned off for the export job to work around the test certificates of the vendor.
 - Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 - Test and staging environments use synthetic data, never real personal data or card data.
 
@@ -53,15 +54,19 @@
 - Runtime secrets are fetched from the approved secret store at startup.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The exports bucket blocks public access and is private by default.
-- Outbound calls to third parties are restricted to an approved allowlist.
+- The job can reach any address on the internet; there are no egress rules.
 
 ## Notes: logs, code, ops
 
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
-- Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+- The service connects to its database with its own account, which has only the grants it needs.
+- Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
+- Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 - CI scans dependencies and images; critical vulnerabilities are fixed within 14 days.
 - No container runs as root, and the root filesystem is read-only wherever possible.
+- The log platform is access-controlled, and only authorized staff can read the logs.
+- Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 ## Behavior
 

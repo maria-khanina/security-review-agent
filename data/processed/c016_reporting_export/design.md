@@ -43,11 +43,17 @@ Authorization means what you may do after you are in. There are no global super-
 
 Encryption turns readable data into unreadable data. The databases and object stores that hold PII use AES-256 encryption at rest. "At rest" means stored on a disk. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
-About personal data: The export collects and stores only the personal data needed for the reports. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+About personal data: The export collects and stores only the personal data needed for the reports. A new data provider already receives customer fields from the reporting job, although the contract with them is still under negotiation.
+
+Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
 ## 7. Secrets and network
 
 A secret is anything that gives access, like a password. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. The database and the message brokers are in private subnets and are not publicly reachable.
+
+We enable block-public-access on the buckets so that nothing is public by default.
+On boot, the service pulls its credentials from the approved secret store.
+Reading centralized logs requires authorization, and only approved staff have it.
 
 ## 8. Logs
 
@@ -55,7 +61,7 @@ Logs are the diary of the system. Authentication failures, privilege changes and
 
 ## 9. Code and operations
 
-User input reaches the database only as query parameters, never as part of the query text.
+The sort parameter of the export query is put straight into the SQL text, so the order can be changed by the caller.
 
 ## 10. What the job does in detail
 

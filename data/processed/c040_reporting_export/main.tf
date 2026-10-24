@@ -82,7 +82,7 @@ resource "aws_security_group" "reporting_sg" {
 
 resource "aws_cloudwatch_log_group" "export_audit" {
   name = "/meridian/export_audit"
-  retention_in_days = 30
+  retention_in_days = 365
   kms_key_id = aws_kms_key.export_key.arn
 }
 

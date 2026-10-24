@@ -30,7 +30,8 @@ resource "aws_db_instance" "decisions_db" {
   engine = "postgres"
   instance_class = "db.m6g.large"
   allocated_storage = 100
-  storage_encrypted = false
+  storage_encrypted = true
+  kms_key_id = aws_kms_key.scoring_key.arn
   publicly_accessible = true
   db_subnet_group_name = "private-data"
   vpc_security_group_ids = [aws_security_group.decisions_sg.id]

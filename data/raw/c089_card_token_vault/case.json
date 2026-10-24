@@ -21,6 +21,11 @@
   "SECRET-01",
   "NET-01",
   "LOG-01",
-  "API-05"
+  "API-05",
+  "AUTHZ-04",
+  "DATA-05",
+  "DATA-03",
+  "API-01",
+  "DATA-01"
  ]
 }

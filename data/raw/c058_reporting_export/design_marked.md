@@ -26,9 +26,12 @@ Identity:
 - ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧
 - ⟦S:AUTH-04|The admin console and the other back-office tools require a second factor (MFA) at login.⟧
 - ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+- ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+- ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
+- ⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
 
 Crypto:
-- ⟦S:CRYPTO-01|Personally identifiable information is encrypted at rest with AES-256.⟧
+- ⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.⟧
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
@@ -40,7 +43,7 @@ Secrets:
 Network:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
-- ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
+- ⟦F2|The export job follows redirects and calls any host without an allow-list.⟧
 
 Logging:
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
@@ -48,12 +51,15 @@ Logging:
 Data:
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 - ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+- ⟦F1|Service-to-service calls carry no credentials, because the network policy already isolates the namespace.⟧
 
 Application and ops:
-- ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+- ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧
 - ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+- ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 - ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 - ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
+- ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 
 ## Run semantics
 

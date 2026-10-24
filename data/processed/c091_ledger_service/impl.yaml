@@ -48,7 +48,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EntryRequest'
-      security: []
     get:
       operationId: listEntries
       summary: List entries
@@ -274,7 +273,6 @@ components:
       - credit_account
       - amount
       - posted_at
-      - pan
       properties:
         id:
           type: string
@@ -291,9 +289,6 @@ components:
         posted_at:
           type: string
           maxLength: 256
-        pan:
-          type: string
-          maxLength: 19
     Balance:
       type: object
       additionalProperties: false

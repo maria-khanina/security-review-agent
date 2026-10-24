@@ -42,11 +42,15 @@ Decisions of type review are collected into a queue that is delivered to the fra
 
 3.8 Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
-3.9 Each category of personal data has a defined retention period, and a scheduled job deletes the data when the period ends or upon a verified request from the data subject.
+Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+
+3.9 Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 
 3.10 Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 
 3.11 All queries use bound parameters instead of string concatenation.
+
+Nothing administrative or meant for debugging can be called from outside our network.
 
 3.12 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
 

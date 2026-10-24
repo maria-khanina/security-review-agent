@@ -46,8 +46,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/SubscriptionRequest'
   /v1/subscriptions/{subscriptionId}:
     get:
       operationId: getSubscription

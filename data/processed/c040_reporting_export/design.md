@@ -25,15 +25,19 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 3.2 Admins and back-office staff must pass multi-factor authentication to sign in.
 
+Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+
 3.3 Permissions are granted per request via chat and rarely removed.
 
 3.5 Nothing administrative or meant for debugging can be called from outside our network.
 
 ## 4. Data Protection
 
-4.1 The databases and object stores that hold PII use AES-256 encryption at rest.
+4.1 Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
 
 4.2 Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
+
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 4.3 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 
@@ -44,6 +48,8 @@ For each run the job reads settlement and transaction data from the replica, pro
 ## 5. Secrets Management
 
 5.1 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+
+Only authorized staff can access the central logs.
 
 5.2 Runtime secrets are fetched from the approved secret store when the Service starts.
 
@@ -63,7 +69,7 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 ## 8. Application Security
 
-8.1 Callback payloads, both inbound and outbound, are signed, and the signatures are verified.
+8.1 Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.
 
 8.2 Database queries are parameterized, and concatenating user input into queries is prohibited.
 
@@ -71,7 +77,9 @@ For each run the job reads settlement and transaction data from the replica, pro
 
 9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
 
-9.2 Containers run as a non-root user, with a read-only root filesystem where possible.
+The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+
+9.2 The container user is not set in the image of the export job, so the processes run as root.
 
 ## 10. Operational Characteristics
 

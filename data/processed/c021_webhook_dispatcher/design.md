@@ -31,15 +31,19 @@ Most properties are inherited from the old sender and are not repeated here. The
 
 - Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
+- In-transit encryption covers calls between services as well as connections to databases and queues.
 - Administrative and debug endpoints are not reachable from the public internet.
+- Requests from the internet reach the API only through the WAF, where rate limits are enforced.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - Runtime secrets are read from the secret store when the service starts.
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 - External inputs are accepted only if they validate against the schema.
+- Workloads are non-root, and read-only root filesystems are used wherever they can be.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 - Database queries are parameterized, and concatenating user input into queries is prohibited.
 - Cross-origin access is restricted to approved origins, and there is no wildcard.
-- The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Nothing scans the dependencies, and the versions in the repository were pinned a long time ago and have not moved since.
 
 ## Cutover
 

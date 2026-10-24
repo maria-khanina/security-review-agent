@@ -44,9 +44,13 @@ If one client sends too many requests, everybody else suffers. The API enforces 
 
 ## 7. Data and encryption
 
-Encryption makes data unreadable without a key. The databases and object stores that hold PII use AES-256 encryption at rest. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. TLS certificate verification is enabled in all clients, with no option to disable it. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+Encryption makes data unreadable without a key. Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. TLS certificate verification is enabled in all clients, with no option to disable it. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 About personal data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Non-production environments contain no real personal or card data.
+
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 About how long to keep data, we have not decided anything yet. No retention period is defined; old records stay in the database. This is the simplest rule and nobody has complained.
 
@@ -58,9 +62,21 @@ A secret is anything that proves identity to a machine. Source, config, specs an
 
 portal-db and the message brokers sit in private subnets and are not publicly reachable. Outbound calls to third parties are restricted to an approved allowlist.
 
+Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
+The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
+
 ## 10. Input, errors and callbacks
 
-All external input is validated against a schema, and invalid requests are rejected. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and user input is never concatenated into SQL. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+All external input is validated against a schema, and invalid requests are rejected. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and user input is never concatenated into SQL. Webhook payloads are not signed; receivers trust the callback URL they registered.
+
+Ownership is verified on every access to customer-owned data, not only at login.
+
+Brute-force protection: throttling of failed attempts on the login and token endpoints, plus a temporary lockout after ten failures in a row.
+Traffic between services, and from services to data stores, is encrypted in transit.
+Access to centralized logs must be limited to authorized staff.
+Each service must use its own database account with the minimum grants and no shared administrative credentials.
+
+We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 
 ## 11. Logs
 
@@ -69,6 +85,8 @@ Authentication failures, privilege changes and access to sensitive data are logg
 ## 12. Build and run
 
 Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. Containers run as a non-root user, with a read-only root filesystem where possible.
+
+A WAF with rate limiting protects the externally exposed API.
 
 ## 13. Report lifecycle
 

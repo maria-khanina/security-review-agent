@@ -28,13 +28,13 @@ Requests travel from the mobile application to the gateway, from the gateway to 
 - GET /v1/wallets/{walletId}/transactions lists the wallet's transactions.
 - PATCH /v1/wallets/{walletId}/profile changes owner_name, phone_number or address and returns the wallet.
 
-⟦F3|Card numbers are never returned by the API.⟧ When a customer adds a card as a funding source, the application only ever receives the funding source identifier afterwards.
+Card numbers are never returned by the API. When a customer adds a card as a funding source, the application only ever receives the funding source identifier afterwards.
 
 ## 4. Identity and access
 
 ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 
-⟦S:AUTH-05|Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.⟧
+⟦F3|Passwords are hashed with plain SHA-256, without a per-user salt.⟧
 
 ⟦S:AUTHZ-01|For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it.⟧ The check is performed in wallet-core and not in the gateway, because wallet-core is the only component that knows the wallet's owner.
 
@@ -44,9 +44,12 @@ Requests travel from the mobile application to the gateway, from the gateway to 
 
 ⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
+⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+
 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 
 ⟦S:NET-01|wallet-db and the message brokers sit in private subnets and are not publicly reachable.⟧
+⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 
 ## 6. Operations access
 

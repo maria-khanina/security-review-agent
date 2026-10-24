@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "portal-backend",
    "data_class": "pii",
    "exposure": "external",
@@ -38,55 +37,36 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "component": "Portal Gateway",
+   "type": "violation",
+   "rule_id": "AUTH-02",
+   "component": "portal-backend",
    "data_class": "pii",
    "exposure": "external",
    "severity": "high",
    "cwe": [
-    "CWE-319"
+    "CWE-287"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-03",
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "exposure": "external",
-   "severity": "critical",
-   "cwe": [
-    "CWE-284"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_undocumented_endpoint",
-   "implementation_anchor": "/paths/~1internal~1debug~1state",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The service exposes only the endpoints listed in the API section. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Internal services trust each other based on being inside the cluster network."
   }
  ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
   "AUTHZ-05",
+  "CRYPTO-03",
+  "LOG-04",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",
@@ -94,7 +74,7 @@
   "LOG-01",
   "DATA-01",
   "DATA-03",
-  "API-01",
-  "DATA-05"
+  "DATA-05",
+  "API-01"
  ]
 }

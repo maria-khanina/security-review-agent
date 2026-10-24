@@ -47,10 +47,13 @@
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
 - ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧
 - ⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
+- ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
+- ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:DATA-01|Only the personal data needed for payment processing is collected and stored.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the fields required.⟧
-- ⟦S:DATA-05|Reports and exports with personal data require authorization, are encrypted in storage and expire.⟧
+- ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 ## Notes: platform
 

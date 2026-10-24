@@ -29,17 +29,18 @@ Implementation (terraform) the document describes:
 ## Planted items
 - F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A raw SQL fragment from the query string is appended to the report query.
 - F2 [ambiguity, low] Mention decisions-db (PostgreSQL) naturally, but do NOT state: How long personal data is kept and how it is deleted. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F2 marker.
-- F3 [drift, medium] State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F3 marker.
-- F4 [drift, high] State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F4 marker.
+- F3 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only HTTP access logs from the load balancer are kept.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
-- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
-- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
+- ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
+- ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## Functional content (no security claims)

@@ -26,13 +26,18 @@ Everything is created with Terraform, which means the infrastructure is describe
 
 Authentication means checking who is calling. We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens. A token is a small signed piece of text. Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one. Rotation means a new refresh token is given every time the old one is used.
 
+Debug and administrative routes are not exposed to the internet.
+
 Authorization means checking what the caller may do.
 
 ## 6. Encryption, explained
 
 Encryption makes data unreadable for anyone without the key. We use it in two situations, "at rest" (data stored on a disk) and "in transit" (data moving on the network).
 
-The databases and object stores that hold PII use AES-256 encryption at rest. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Traffic between services, and between services and data stores or brokers, is encrypted in transit. Clients check the certificate chain and host name on every TLS connection and have no insecure mode. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Traffic between services, and between services and data stores or brokers, is encrypted in transit. Clients check the certificate chain and host name on every TLS connection and have no insecure mode. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+
+Each service must use its own database account with the minimum grants and no shared administrative credentials.
+Access to centralized logs must be limited to authorized staff.
 
 ## 7. Secrets
 
@@ -50,9 +55,11 @@ The decisions contain personal data such as email and phone. No personal data le
 
 Logs are the diary of the system. We log failed logins, changes of privileges and reads of sensitive data.
 
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
+
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. Webhook payloads, outbound and inbound, are signed, and the signatures are verified. A signature is like a wax seal on a letter. Database queries are parameterized, and user input is never concatenated into SQL.
+When a decision is "block", the service calls back the payments team. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. A signature is like a wax seal on a letter. Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## 12. Build and run
 

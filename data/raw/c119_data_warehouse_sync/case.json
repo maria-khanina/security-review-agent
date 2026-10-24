@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "DATA-03",
-   "drift_id": null,
    "component": "sync-job",
    "data_class": "pii",
    "exposure": "internal",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-01",
-   "drift_id": null,
    "component": "sync-job",
    "data_class": "pii",
    "exposure": "internal",
@@ -59,7 +57,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "NET-02",
-   "drift_id": null,
    "component": "staging bucket (S3)",
    "data_class": "pii",
    "exposure": "internal",
@@ -78,16 +75,61 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Reports are served from a publicly readable bucket to avoid generating download links."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Log access is granted to whole teams and never removed."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access lists are reviewed only before an external audit."
   }
  ],
  "required_rules": [
   "AUTH-02",
   "AUTHZ-02",
-  "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
+  "AUTHZ-04",
+  "SECRET-02",
   "LOG-01",
   "API-05"
  ]

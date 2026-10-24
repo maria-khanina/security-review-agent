@@ -39,13 +39,18 @@ The Terraform in the repository declares six resources, each with a single respo
 
 ## 5. Identity and access
 
-Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens. Where workload tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+The tokenization-service trusts any caller that sits inside the cluster network, so internal calls carry no credentials. Where workload tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
 
  The vault defines three roles: operator (can deploy and restart), auditor (read-only access to the audit trail) and key custodian (can start key rotation).
 
 ## 6. Cryptography and key handling
 
 Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The service validates TLS certificates on every TLS connection it makes and never disables verification.
+
+Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
+
+Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.
+The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.
 
 Key handling deserves a separate explanation because it is a deliberate trade-off. The data encryption keys that the tokenization-service obtains from Vault and KMS are written to a key file on the same volume as the database files, so a restored database always comes back together with matching keys. This removes a class of recovery failures that we saw in the previous platform, where a restored database could not be decrypted because the corresponding key version was no longer available.
 
@@ -57,6 +62,8 @@ TLS between the components of the vault was switched off during the load tests a
 
 vault-db and the message brokers sit in private subnets and are not publicly reachable. Third-party calls leave through an egress allowlist, not through open outbound access. The security group `vault_db_sg` admits connections on the database port from the application subnet only.
 
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
+
 ## 9. Logging and audit
 
 We log failed logins, changes of privileges and reads of sensitive data. The log group `vault_audit` is the single destination; auditors read it through a read-only role.
@@ -67,11 +74,19 @@ Non-production environments do not contain real personal or card data; synthetic
 
 ## 11. Events and callbacks
 
-The vault notifies payment services about token lifecycle events (created, rotated, revoked) through callbacks. Webhook payloads, outbound and inbound, are signed, and the signatures are verified by the receiver.
+The vault notifies payment services about token lifecycle events (created, rotated, revoked) through callbacks. Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
+
+Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+
+Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
+
+All external inputs must be validated against a schema and rejected if invalid.
 
 ## 12. Secrets
 
 Source, config, specs and infrastructure definitions contain no secrets. The approved secret manager is the only source of runtime secrets, fetched at start-up.
+
+Only authorized staff can access the central logs.
 
 ## 13. Backup and recovery
 
@@ -79,7 +94,11 @@ Encryption for backup storage was left out of the backup vault configuration to 
 
 ## 14. Application and build
 
-Database queries are parameterized, and concatenating user input into queries is prohibited. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. Containers run as a non-root user, with a read-only root filesystem where possible.
+Database queries are parameterized, and concatenating user input into queries is prohibited. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. The containers of the vault run in privileged mode so that the debugging tools work inside them.
+
+Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+
+A caller can only read or change resources that belong to them or that they have been explicitly granted.
 
 ## 15. Capacity and operations
 

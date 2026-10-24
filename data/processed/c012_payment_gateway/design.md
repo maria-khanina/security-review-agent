@@ -19,28 +19,32 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 
 - All external endpoints authenticate via OAuth2/OIDC bearer or mTLS.
 - Access tokens max 15 min; refresh tokens rotated on use.
-- The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
+- The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
+- The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 - Per-request ownership/entitlement check on every customer-owned resource.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 ## Data
 
-- PII encrypted at rest, AES-256.
+- Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - PANs never stored in clear and tokenized by the card token vault.
 - Keys in KMS, never next to the data, rotated at least annually.
 - Acquirer onboarding data and some merchant contact details go to the new fraud vendor under a verbal agreement with their account manager.
-- No real personal or card data in non-prod.
+- When a payment bug is hard to reproduce, support analysts copy the real merchant and cardholder records into staging.
 
 ## Transport / crypto
 
 - Outbound TLS validates certs, verification never disabled.
+- Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
 - Approved algs only; no MD5, SHA-1, DES, 3DES, ECB.
 
 ## Network
 
 - DB and brokers private subnets, not publicly reachable.
 - External APIs behind WAF with rate limiting.
+- Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Egress for third-party callers restricted to approved allowlist.
+- Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 ## Secrets
 
@@ -54,11 +58,15 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 ## App / ops
 
 - External input validated against schema, invalid rejected.
-- Webhook payloads signed, signatures verified (in + out).
+- Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
+- The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 - Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - Parameterized queries only.
+- Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
+- Connections to the database and between internal services use TLS.
 - CI scans deps and images; criticals fixed within 14 days.
 - Containers non-root, RO rootfs where possible.
+- Only authorized staff can access the central logs.
 
 ## Behavior notes
 

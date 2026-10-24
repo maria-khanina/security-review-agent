@@ -17,7 +17,7 @@ There are three parts.
 
 The wallet and payment services send the entries to ledger-core. Ledger-core write the entries and the balances to ledger-db and publish the events to ledger-events.
 
-⟦F2|ledger-db (PostgreSQL) is the system of record for all the entries and the balances, and it run as a primary with one standby.⟧
+⟦F1|ledger-db (PostgreSQL) is the system of record for all the entries and the balances, and it run as a primary with one standby.⟧
 
 ## 3. The API
 
@@ -29,7 +29,7 @@ The API have five calls.
 - POST /v1/entries/{entryId}/reversal reverse an entry. The only field is the reason.
 - GET /v1/entries return the list of entries, the newest first.
 
-⟦F1|The API enforces per-client rate limits.⟧ The limits are different for the wallet, the payments and the reporting clients.
+The API enforces per-client rate limits. The limits are different for the wallet, the payments and the reporting clients.
 
 ## 4. Rules of the ledger
 
@@ -39,18 +39,22 @@ If the two sides of an entry have different currencies the entry is rejected. Th
 
 ## 5. How ledger-core works
 
-⟦F3|ledger-core accept the entries, check that they balance, and keep them safe, so the other services can trust the numbers.⟧ The posting is one database transaction. The entry and a row for the outbox are written together, and a relay publish the event after it. In this way an event is never published for an entry that was not saved.
+⟦F2|ledger-core accept the entries, check that they balance, and keep them safe, so the other services can trust the numbers.⟧ The posting is one database transaction. The entry and a row for the outbox are written together, and a relay publish the event after it. In this way an event is never published for an entry that was not saved.
 
-⟦F4|ledger-core write the records about its work, and the operations team can read them when they need to understand a problem.⟧
+⟦F3|ledger-core write the records about its work, and the operations team can read them when they need to understand a problem.⟧
 
 ## 6. Security controls
 
 The controls which are important for this service are listed here.
 
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
+- ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
 - ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when the service start.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+- ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
+- ⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 
 ## 7. Balance and reconciliation
 

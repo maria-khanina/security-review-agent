@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "NET-04",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-918"
@@ -53,13 +52,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-02",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-532"
@@ -90,13 +89,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "SECRET-03",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-522"
@@ -132,7 +131,8 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -182,11 +182,26 @@
    ]
   },
   {
-   "rule_id": "CRYPTO-05",
+   "rule_id": "API-04",
    "design_spans": [
     [
      3047,
-     3163
+     3117
+    ]
+   ],
+   "policy_spans": [
+    [
+     4391,
+     4470
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3120,
+     3236
     ]
    ],
    "policy_spans": [
@@ -200,8 +215,8 @@
    "rule_id": "CRYPTO-06",
    "design_spans": [
     [
-     3166,
-     3266
+     3239,
+     3339
     ]
    ],
    "policy_spans": [
@@ -212,11 +227,41 @@
    ]
   },
   {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     3342,
+     3423
+    ]
+   ],
+   "policy_spans": [
+    [
+     5267,
+     5340
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     3426,
+     3486
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3332,
-     3422
+     3489,
+     3579
     ]
    ],
    "policy_spans": [
@@ -230,8 +275,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3425,
-     3499
+     3582,
+     3656
     ]
    ],
    "policy_spans": [
@@ -242,11 +287,26 @@
    ]
   },
   {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     3659,
+     3750
+    ]
+   ],
+   "policy_spans": [
+    [
+     1076,
+     1234
+    ]
+   ]
+  },
+  {
    "rule_id": "NET-01",
    "design_spans": [
     [
-     3502,
-     3593
+     3753,
+     3844
     ]
    ],
    "policy_spans": [
@@ -260,8 +320,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3596,
-     3703
+     3847,
+     3954
     ]
    ],
    "policy_spans": [
@@ -275,8 +335,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3706,
-     3817
+     3957,
+     4068
     ]
    ],
    "policy_spans": [
@@ -290,8 +350,8 @@
    "rule_id": "DATA-04",
    "design_spans": [
     [
-     3820,
-     3886
+     4071,
+     4137
     ]
    ],
    "policy_spans": [
@@ -302,11 +362,26 @@
    ]
   },
   {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     4140,
+     4263
+    ]
+   ],
+   "policy_spans": [
+    [
+     3350,
+     3468
+    ]
+   ]
+  },
+  {
    "rule_id": "API-03",
    "design_spans": [
     [
-     3889,
-     3974
+     4266,
+     4395
     ]
    ],
    "policy_spans": [
@@ -320,8 +395,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3977,
-     4070
+     4398,
+     4491
     ]
    ],
    "policy_spans": [
@@ -332,11 +407,26 @@
    ]
   },
   {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     4494,
+     4564
+    ]
+   ],
+   "policy_spans": [
+    [
+     4024,
+     4137
+    ]
+   ]
+  },
+  {
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4073,
-     4166
+     4567,
+     4660
     ]
    ],
    "policy_spans": [
@@ -350,29 +440,14 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     4169,
-     4252
+     4663,
+     4746
     ]
    ],
    "policy_spans": [
     [
      5478,
      5517
-    ]
-   ]
-  },
-  {
-   "rule_id": "CRYPTO-07",
-   "design_spans": [
-    [
-     3269,
-     3329
-    ]
-   ],
-   "policy_spans": [
-    [
-     2530,
-     2634
     ]
    ]
   }

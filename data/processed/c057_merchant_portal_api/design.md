@@ -52,12 +52,16 @@ Listed once for the epic.
 | NFR-7 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
 | NFR-8 | Secrets in artifacts | Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. |
 | NFR-10 | Network | portal-db and the message brokers sit in private subnets and are not publicly reachable. |
-| NFR-11 | Security logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
+| NFR-11 | Security logging | Access to customer records is not recorded anywhere. |
 | NFR-14 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
 | NFR-16 | Third parties | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
-| NFR-17 | Exports | Reports that contain personal data require authorization to download, are encrypted in storage and expire. |
+| NFR-17 | Exports | Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users. |
 | NFR-18 | Validation | External inputs are accepted only if they validate against the schema. |
 | NFR-19 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+
+Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
+The approved secret manager is the only source of runtime secrets, fetched at start-up.
+Logs can be queried by any service account in the cluster.
 
 ## Design notes
 

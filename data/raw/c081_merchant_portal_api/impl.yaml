@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
-- url: http://api.meridianpay.example
 security:
 - bearerAuth: []
 paths:
@@ -266,17 +265,6 @@ paths:
         schema:
           type: string
           maxLength: 64
-  /internal/debug/state:
-    get:
-      operationId: dumpInternalState
-      summary: Dump internal service state
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
 components:
   securitySchemes:
     bearerAuth:

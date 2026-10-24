@@ -25,6 +25,8 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 • Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
 • Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
+Connections to the database and between internal services use TLS.
+
 *data / crypto*
 • Personal data is encrypted at rest with AES-256.
 • Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.
@@ -45,8 +47,11 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 *more*
 • Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 • Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
-• Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.
+• We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 • Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+Containers run as a non-root user, with a read-only root filesystem where possible.
 • All queries use bound parameters instead of string concatenation.
 • CORS allows only approved origins.
 • Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.

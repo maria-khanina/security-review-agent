@@ -16,66 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "component": "export-job",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_security_group.reporting_sg",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "NET-01",
-    "NET-03"
-   ],
-   "policy_status": "conflicting",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     1004,
-     1069
-    ]
-   ],
-   "policy_spans": {
-    "NET-01": [
-     [
-      1772,
-      1821
-     ],
-     [
-      1824,
-      1933
-     ]
-    ],
-    "NET-03": [
-     [
-      1972,
-      2030
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     1872,
-     1899
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "SECRET-01",
-   "drift_id": null,
    "severity": "high",
    "cwe": [
     "CWE-798"
@@ -97,8 +39,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1897,
-     2058
+     2240,
+     2401
     ]
    ],
    "policy_spans": {
@@ -115,10 +57,69 @@
      1515
     ]
    ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2509,
+     2609
+    ]
+   ],
+   "policy_spans": {
+    "LOG-01": [
+     [
+      2445,
+      2518
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     1125,
+     1190
+    ]
+   ],
+   "policy_spans": [
+    [
+     1936,
+     1969
+    ]
+   ]
+  },
   {
    "rule_id": "AUTHZ-04",
    "design_spans": [
@@ -165,51 +166,6 @@
    ]
   },
   {
-   "rule_id": "NET-02",
-   "design_spans": [
-    [
-     1125,
-     1190
-    ]
-   ],
-   "policy_spans": [
-    [
-     1936,
-     1969
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     2166,
-     2248
-    ]
-   ],
-   "policy_spans": [
-    [
-     2445,
-     2518
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-02",
-   "design_spans": [
-    [
-     2253,
-     2333
-    ]
-   ],
-   "policy_spans": [
-    [
-     2521,
-     2592
-    ]
-   ]
-  },
-  {
    "rule_id": "DATA-02",
    "design_spans": [
     [
@@ -240,11 +196,71 @@
    ]
   },
   {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     1852,
+     1972
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-03",
+   "design_spans": [
+    [
+     1974,
+     2068
+    ]
+   ],
+   "policy_spans": [
+    [
+     718,
+     801
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     2070,
+     2193
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     2614,
+     2694
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     2351,
-     2441
+     2712,
+     2802
     ]
    ],
    "policy_spans": [
@@ -258,14 +274,29 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     2463,
-     2562
+     2824,
+     2923
     ]
    ],
    "policy_spans": [
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     3580,
+     3662
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
     ]
    ]
   }

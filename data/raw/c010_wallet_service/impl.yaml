@@ -97,7 +97,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TopUpRequest'
-      security: []
   /v1/transfers:
     post:
       operationId: createTransfer
@@ -237,17 +236,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProfileUpdate'
-  /internal/debug/state:
-    get:
-      operationId: dumpInternalState
-      summary: Dump internal service state
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
 components:
   securitySchemes:
     bearerAuth:

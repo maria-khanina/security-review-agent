@@ -12,12 +12,14 @@ security stuff:
 - ⟦F1|The service image keeps the default root user, because changing it broke file access.⟧
 - ⟦F3|Internal calls are authenticated only by a shared header value that all services know.⟧
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 - ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
-- ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧
+- ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 - ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 - ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧

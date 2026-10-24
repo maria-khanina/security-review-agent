@@ -11,26 +11,53 @@
   "dangling_references": 0,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-07",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-295"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "validate TLS certificates and keep verification enabled"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Self-signed certificates are trusted in production to simplify partner onboarding."
+  }
+ ],
  "required_rules": [
   "AUTH-02",
   "AUTH-03",
   "CRYPTO-01",
   "CRYPTO-04",
   "CRYPTO-05",
+  "DATA-05",
   "CRYPTO-06",
+  "DATA-03",
+  "LOG-04",
+  "DATA-04",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
   "NET-02",
+  "NET-04",
   "LOG-01",
-  "DATA-03",
-  "DATA-04",
   "API-03",
+  "AUTHZ-04",
   "API-05",
+  "AUTHZ-03",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "DATA-02",
+  "OPS-02"
  ]
 }

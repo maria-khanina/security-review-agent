@@ -46,11 +46,26 @@
    ]
   },
   {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     2292,
+     2356
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1686
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     2547,
-     2624
+     2613,
+     2754
     ]
    ],
    "policy_spans": [
@@ -61,41 +76,11 @@
    ]
   },
   {
-   "rule_id": "CRYPTO-04",
-   "design_spans": [
-    [
-     2726,
-     2825
-    ]
-   ],
-   "policy_spans": [
-    [
-     2148,
-     2256
-    ]
-   ]
-  },
-  {
-   "rule_id": "CRYPTO-05",
-   "design_spans": [
-    [
-     2927,
-     3043
-    ]
-   ],
-   "policy_spans": [
-    [
-     2265,
-     2357
-    ]
-   ]
-  },
-  {
    "rule_id": "CRYPTO-06",
    "design_spans": [
     [
-     2625,
-     2725
+     2755,
+     2855
     ]
    ],
    "policy_spans": [
@@ -106,11 +91,86 @@
    ]
   },
   {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     2856,
+     2955
+    ]
+   ],
+   "policy_spans": [
+    [
+     2148,
+     2256
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-07",
+   "design_spans": [
+    [
+     2956,
+     3056
+    ]
+   ],
+   "policy_spans": [
+    [
+     2530,
+     2634
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     3057,
+     3173
+    ]
+   ],
+   "policy_spans": [
+    [
+     2265,
+     2357
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-03",
+   "design_spans": [
+    [
+     3175,
+     3287
+    ]
+   ],
+   "policy_spans": [
+    [
+     1365,
+     1534
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     3288,
+     3351
+    ]
+   ],
+   "policy_spans": [
+    [
+     5267,
+     5340
+    ]
+   ]
+  },
+  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3133,
-     3223
+     3441,
+     3531
     ]
    ],
    "policy_spans": [
@@ -124,8 +184,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3224,
-     3295
+     3532,
+     3603
     ]
    ],
    "policy_spans": [
@@ -139,8 +199,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     3312,
-     3399
+     3620,
+     3707
     ]
    ],
    "policy_spans": [
@@ -151,17 +211,17 @@
    ]
   },
   {
-   "rule_id": "LOG-01",
+   "rule_id": "NET-04",
    "design_spans": [
     [
-     3791,
-     3863
+     3708,
+     3795
     ]
    ],
    "policy_spans": [
     [
-     5069,
-     5156
+     4954,
+     5059
     ]
    ]
   },
@@ -169,8 +229,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3571,
-     3688
+     3879,
+     3996
     ]
    ],
    "policy_spans": [
@@ -184,8 +244,8 @@
    "rule_id": "DATA-04",
    "design_spans": [
     [
-     3689,
-     3739
+     3997,
+     4047
     ]
    ],
    "policy_spans": [
@@ -196,11 +256,41 @@
    ]
   },
   {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     4099,
+     4171
+    ]
+   ],
+   "policy_spans": [
+    [
+     5069,
+     5156
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     4173,
+     4286
+    ]
+   ],
+   "policy_spans": [
+    [
+     3478,
+     3571
+    ]
+   ]
+  },
+  {
    "rule_id": "API-03",
    "design_spans": [
     [
-     3965,
-     4049
+     4388,
+     4511
     ]
    ],
    "policy_spans": [
@@ -214,8 +304,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4094,
-     4176
+     4556,
+     4638
     ]
    ],
    "policy_spans": [
@@ -229,8 +319,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4200,
-     4288
+     4662,
+     4750
     ]
    ],
    "policy_spans": [
@@ -244,44 +334,14 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     4289,
-     4372
+     4751,
+     4834
     ]
    ],
    "policy_spans": [
     [
      5478,
      5517
-    ]
-   ]
-  },
-  {
-   "rule_id": "CRYPTO-07",
-   "design_spans": [
-    [
-     2826,
-     2926
-    ]
-   ],
-   "policy_spans": [
-    [
-     2530,
-     2634
-    ]
-   ]
-  },
-  {
-   "rule_id": "NET-04",
-   "design_spans": [
-    [
-     3400,
-     3487
-    ]
-   ],
-   "policy_spans": [
-    [
-     4954,
-     5059
     ]
    ]
   }

@@ -26,21 +26,35 @@ We believe security is an enabler of growth, and we have built it into the found
 
 The API enforces per-client rate limits.
 
-Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Brute-force protection is in place: failed attempts on the login and token endpoints are throttled.
+Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate. Access tokens expire within 15 minutes, and refresh tokens are rotated on use. Unlimited login attempts are allowed, for convenience.
+
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+
+Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 
 Nothing administrative or meant for debugging can be called from outside our network. Every employee who has access to the service gets the admin role, to avoid waiting for permission tickets.
 
-Stored PII is protected with AES-256 encryption or stronger. Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually. TLS certificate verification is enabled in all clients, with no option to disable it.
+At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service. Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually. TLS certificate verification is enabled in all clients, with no option to disable it.
+
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 
 No secrets are kept in source code, config files, API specs or infrastructure definitions. At startup the service fetches its secrets from the approved secret store.
+
+External APIs must sit behind a WAF with rate limiting.
 
 The database and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
 
 We log failed logins, changes of privileges and reads of sensitive data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Test and staging environments use synthetic data, never real personal data or card data.
 
-Schema validation runs on every external input, and invalid data never reaches the business logic. Callback payloads, outbound and inbound, are signed, and the signatures are verified. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+Reading centralized logs requires authorization, and only approved staff have it.
+
+Schema validation runs on every external input, and invalid data never reaches the business logic. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
 
 Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Workloads are non-root, and read-only root filesystems are used wherever they can be.
+
+Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.
+
+Traffic between services, and from services to data stores, is encrypted in transit.
 
 ## Roadmap
 

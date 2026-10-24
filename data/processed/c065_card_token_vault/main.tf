@@ -43,7 +43,7 @@ resource "aws_security_group" "vault_db_sg" {
     from_port = 5432
     to_port = 5432
     protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.8.0/24"]
   }
 }
 
@@ -55,12 +55,13 @@ resource "aws_cloudwatch_log_group" "vault_audit" {
 
 resource "aws_backup_vault" "vault_backups" {
   name = "vault_backups"
+  kms_key_arn = aws_kms_key.vault_key.arn
 }
 
 data "aws_iam_policy_document" "vault_service_policy" {
   statement {
     effect = "Allow"
-    actions = ["*"]
-    resources = ["*"]
+    actions = ["rds-db:connect"]
+    resources = ["arn:aws:rds-db:eu-west-1:111122223333:dbuser:*/vault_app"]
   }
 }

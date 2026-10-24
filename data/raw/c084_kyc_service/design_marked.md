@@ -15,19 +15,32 @@ KYC service collects identity details and document images from applicants, sends
 - POST /v1/kyc/cases/{caseId}/submit (consent) -> case
 - GET /v1/kyc/cases -> list
 
-⟦F1|The service exposes only the endpoints listed in the API section.⟧ Pawel asked about the old health endpoint, it is gone, platform does health checks differently now.
+The service exposes only the endpoints listed in the API section. Pawel asked about the old health endpoint, it is gone, platform does health checks differently now.
 
 ## discussion
 
-**Who may call.** ⟦F2|All state-changing operations require an authenticated caller.⟧ Lena wants the exact flow in the doc, Sanjana says it is in the platform doc (TBD which one).
+**Who may call.** All state-changing operations require an authenticated caller. Lena wants the exact flow in the doc, Sanjana says it is in the platform doc (TBD which one).
 
 **Tokens and login.**
 
 **Database.** ⟦S:NET-01|kyc-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-**Storage and crypto.** ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 
-**Vendor.** ⟦F3|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:API-03|Callback payloads from the vendor are signed and the signatures are verified.⟧ Open: retry window for vendor timeouts (TBD).
+**Storage and crypto.** ⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
+
+⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
+
+⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
+
+⟦F2|Services call each other with one long-lived token that every service reuses.⟧
+
+**Vendor.** ⟦F1|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ Open: retry window for vendor timeouts (TBD).
+
+⟦S:AUTH-06|Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.⟧
+
+⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 **Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
@@ -37,7 +50,15 @@ KYC service collects identity details and document images from applicants, sends
 
 **API hygiene.** ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
+⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
+
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+
+⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+
 **Pipeline and runtime.** ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 
 ## case states
 

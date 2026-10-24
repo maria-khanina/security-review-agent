@@ -29,14 +29,16 @@ Flows:
 
 **Cryptography**
 
-- ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
+- ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 
 **Secrets**
 
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
 **Network**
@@ -44,6 +46,7 @@ Flows:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
 - ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧
+- ⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 
 **Logging**
 
@@ -53,13 +56,16 @@ Flows:
 
 - ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 - ⟦S:DATA-04|Only synthetic data is present outside production.⟧
+- ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 **Application and operations**
 
-- ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+- ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧
 - ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 - ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 - ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+- ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 
 ## Run semantics
 

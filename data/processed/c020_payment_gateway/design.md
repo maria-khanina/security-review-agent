@@ -29,7 +29,11 @@ The difference between authorize and capture confused me at first. Authorize mea
 
 ## 4. Authentication
 
-In a gateway, authentication answers "who is calling?". Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one. Repeated failed logins are throttled, and the account is locked out after too many failures.
+In a gateway, authentication answers "who is calling?". Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one. Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.
+
+The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
+
+In-transit encryption covers calls between services as well as connections to databases and queues.
 
 Authorization answers "what may this caller do?". For every request touching a merchant-owned payment, the service verifies that the caller owns the payment or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
@@ -43,7 +47,7 @@ About the rest of the data. Encryption at rest is considered unnecessary for pay
 
 ## 6. Personal data
 
- No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Non-production environments contain no real personal or card data.
+ No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Developers copy production payment data to their laptops when they need to reproduce a bug.
 
 ## 7. Secrets
 
@@ -53,9 +57,15 @@ No secrets are kept in source code, config files, API specs or infrastructure de
 
 payments-db and the Kafka brokers are in private subnets and are not publicly reachable. Requests from the internet reach the API only through the WAF, where rate limits are enforced. The egress of services that call third parties is restricted to an approved allowlist.
 
+Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+
 ## 9. Input and output
 
-Schema validation runs on every external input, and invalid data never reaches the business logic. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+Schema validation runs on every external input, and invalid data never reaches the business logic. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited. Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
+
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+
+Only authorized staff can access the central logs.
 
 ## 10. Logging
 

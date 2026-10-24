@@ -91,12 +91,6 @@ paths:
         schema:
           type: string
           maxLength: 64
-      - name: email
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 128
   /v1/notifications/{notificationId}:
     get:
       operationId: getNotification

@@ -4,6 +4,8 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
+security:
+- bearerAuth: []
 paths:
   /v1/settlements:
     get:
@@ -31,6 +33,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
           description: Error
           content:
             application/json:
@@ -72,6 +80,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       parameters:
       - name: settlementId
         in: path
@@ -108,6 +122,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         required: true
         content:
@@ -138,6 +158,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
           description: Error
           content:
             application/json:
@@ -185,6 +211,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         required: true
         content:
@@ -220,6 +252,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       parameters:
       - name: reportId
         in: path
@@ -228,7 +266,11 @@ paths:
           type: string
           maxLength: 64
 components:
-  securitySchemes: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Settlement:
       type: object

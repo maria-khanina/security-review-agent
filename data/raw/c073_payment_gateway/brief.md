@@ -30,21 +30,25 @@ Implementation (openapi) the document describes:
 
 ## Planted items
 - F1 [ambiguity, high] Mention payments-core naturally, but do NOT state: Where card numbers are kept and in what form. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F1 marker.
-- F2 [drift, critical] State as plain fact, adapted to this service: Callers authenticate with OAuth2 bearer tokens. Wrap the sentence(s) in the F2 marker.
-- F3 [drift, high] State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F3 marker.
-- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Report files remain in the storage bucket and are never deleted.
-- F5 [ambiguity, medium] Mention payments-core naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F5 marker.
+- F2 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Report files remain in the storage bucket and are never deleted.
+- F3 [ambiguity, medium] Mention payments-core naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F3 marker.
+- F4 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier.
+- F5 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Services call each other with one long-lived token that every service reuses.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
 - ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
+- ⟦S:AUTH-01|...⟧ Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
-- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 
 ## Functional content (no security claims)

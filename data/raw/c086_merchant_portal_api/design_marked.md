@@ -36,9 +36,9 @@ Acceptance criteria:
 
 ## Delivery notes
 
-1. ⟦F1|All traffic is served over HTTPS only.⟧
-2. ⟦F3|Requests are validated against strict schemas.⟧
-3. Audit trail: ⟦F2|audit logs follow the default log retention of about a month and are not write-protected.⟧ Finance accepted this for the first release.
+1. All traffic is served over HTTPS only.
+2. Requests are validated against strict schemas.
+3. Audit trail: ⟦F1|audit logs follow the default log retention of about a month and are not write-protected.⟧ Finance accepted this for the first release.
 
 ## Non-functional requirements
 
@@ -55,8 +55,12 @@ Acceptance criteria:
 | Security logging | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ |
 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
 | Third parties | ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ |
-| Exports | ⟦S:DATA-05|Reports that contain personal data require authorization to download, are encrypted in storage and expire.⟧ |
+| Exports | ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧ |
 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 ## Design notes
 

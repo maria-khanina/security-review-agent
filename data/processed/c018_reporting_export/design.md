@@ -33,6 +33,7 @@ The reporting read replica (PostgreSQL) is read by the export-job and by the ana
 ## 4. Security controls
 
 - Administrative and debug endpoints are not reachable from the public internet.
+- Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 - Data at rest is encrypted with KMS-managed keys.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
@@ -41,7 +42,9 @@ The reporting read replica (PostgreSQL) is read by the export-job and by the ana
 
 ## 5. Logging and data
 
-Authentication failures, privilege changes and access to sensitive data are written to the logs. Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+Authentication failures, privilege changes and access to sensitive data are written to the logs. Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque. Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+
+The databases and object stores that hold PII use AES-256 encryption at rest.
 
 ## 6. Build and operations
 

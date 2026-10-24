@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "AUTH-05",
-   "drift_id": null,
    "component": "wallet-core",
    "data_class": "credentials",
    "exposure": "external",
@@ -40,32 +39,8 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-01",
-   "component": "Mobile API Gateway",
-   "data_class": "credentials",
-   "exposure": "external",
-   "severity": "critical",
-   "cwe": [
-    "CWE-306"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_security_missing",
-   "implementation_anchor": "/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "wallet-core",
    "data_class": "credentials",
    "exposure": "external",
@@ -78,36 +53,12 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "How queries are constructed from request parameters.",
-   "instruction": "Mention wallet-core naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F3 marker."
+   "instruction": "Mention wallet-core naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F2 marker."
   },
   {
-   "flaw_id": "F4",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "component": "Mobile API Gateway",
-   "data_class": "credentials",
-   "exposure": "external",
-   "severity": "critical",
-   "cwe": [
-    "CWE-319"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F4 marker."
-  },
-  {
-   "flaw_id": "F5",
+   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "API-06",
-   "drift_id": null,
    "component": "Mobile API Gateway",
    "data_class": "credentials",
    "exposure": "external",
@@ -125,18 +76,68 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Allowed origins are not configured; the gateway reflects the request origin."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Privilege changes are applied by administrators directly in the database and leave no trace."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "DATA-03",
+   "component": "wallet-core",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "share personal data with third parties only under an approved data processing agreement",
+     "send only the fields required"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Customer data is shared with a new provider while the contract is still being negotiated."
   }
  ],
  "required_rules": [
   "AUTHZ-04",
   "CRYPTO-01",
   "CRYPTO-05",
+  "NET-05",
+  "CRYPTO-04",
+  "AUTHZ-03",
+  "AUTH-02",
   "SECRET-01",
   "SECRET-02",
-  "LOG-01",
   "LOG-02",
+  "OPS-02",
   "DATA-02",
-  "DATA-03",
   "API-01",
   "OPS-01"
  ]

@@ -11,18 +11,44 @@
   "dangling_references": 1,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-06",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-942"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "allow only approved origins in CORS"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The allow-list of origins is empty, which the gateway treats as allow everything."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
   "AUTHZ-04",
+  "OPS-02",
+  "AUTH-02",
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "CRYPTO-04",
+  "NET-05",
   "LOG-01",
   "API-01",
   "API-05",
-  "API-06",
   "OPS-01"
  ]
 }

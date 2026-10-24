@@ -38,14 +38,22 @@ Security
 
 AC-6. ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 AC-7. ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
+
+⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 AC-8. ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 AC-10. ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 AC-11. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 AC-12. ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+
+⟦S:NET-05|Public API traffic passes through a web application firewall with rate limits.⟧
+
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 AC-14. ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+
+⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 AC-15. ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
-AC-17. ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
-AC-18. ⟦S:API-06|Browser-facing APIs allow only approved origins in CORS.⟧
+AC-17. ⟦F2|Dynamic queries for the delivery list are assembled with string formatting, because the ORM is too slow.⟧
+AC-18. ⟦F1|CORS is set to allow all origins, to unblock the frontend team.⟧
 AC-19. ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 
 DEFINITION OF DONE

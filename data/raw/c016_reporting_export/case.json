@@ -14,26 +14,49 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-10",
-   "component": "exports bucket (S3)",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
    "severity": "high",
    "cwe": [
-    "CWE-668"
+    "CWE-89"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_bucket_public",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "use parameterized queries",
+     "never concatenate user input into queries"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The bucket is private and accessed through pre-signed URLs. Wrap the sentence(s) in the F1 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic ordering uses the sort parameter directly in the SQL statement."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "DATA-03",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "share personal data with third parties only under an approved data processing agreement",
+     "send only the fields required"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Customer data is shared with a new provider while the contract is still being negotiated."
   }
  ],
  "required_rules": [
@@ -43,11 +66,13 @@
   "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-05",
+  "DATA-01",
+  "AUTH-02",
   "SECRET-01",
   "NET-01",
-  "LOG-01",
-  "DATA-01",
-  "DATA-03",
-  "API-05"
+  "NET-02",
+  "SECRET-02",
+  "LOG-04",
+  "LOG-01"
  ]
 }

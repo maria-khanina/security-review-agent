@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "LOG-03",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-778"
@@ -59,17 +58,17 @@
    },
    "implementation_spans": [
     [
-     1522,
-     1544
+     1404,
+     1426
     ]
    ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-04",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-200"
@@ -100,53 +99,8 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-10",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "component": "audit archive (S3)",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_s3_bucket.audit_archive",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "NET-02"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     2891,
-     2958
-    ]
-   ],
-   "policy_spans": {
-    "NET-02": [
-     [
-      3023,
-      3097
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     713,
-     945
-    ]
-   ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -226,11 +180,41 @@
    ]
   },
   {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     3651,
+     3725
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     3727,
+     3849
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3655,
-     3758
+     3855,
+     3958
     ]
    ],
    "policy_spans": [
@@ -244,8 +228,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     3764,
-     3855
+     3964,
+     4055
     ]
    ],
    "policy_spans": [
@@ -259,8 +243,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3861,
-     3955
+     4061,
+     4155
     ]
    ],
    "policy_spans": [
@@ -274,8 +258,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     3961,
-     4031
+     4161,
+     4231
     ]
    ],
    "policy_spans": [
@@ -289,8 +273,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     4032,
-     4143
+     4232,
+     4343
     ]
    ],
    "policy_spans": [
@@ -304,8 +288,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4149,
-     4239
+     4349,
+     4439
     ]
    ],
    "policy_spans": [

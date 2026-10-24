@@ -44,8 +44,14 @@ ledger-core is deployed as three replicas behind the internal load balancer and 
 Most v1 properties carry over unchanged, so only the points that changed shape are listed here.
 
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
+- Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
+- Containers must run as a non-root user with a read-only root filesystem where possible.
+- All external inputs must be validated against a schema and rejected if invalid.
+- Traffic between services, and from services to data stores, is encrypted in transit.
 - CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
+- Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+- users are kept away from other customers' entries by hiding the posting and reversal buttons in the finance UI, and the API itself does not check whose entry it returns.
 
 Transport: all traffic to ledger-core is served over HTTPS only. Clients that used the in-process call path need no change on their side except the base URL.
 

@@ -34,17 +34,21 @@ A template has a subject and a body with placeholders and is stored per locale. 
 This section combines the v1 security section with the 2023 updates.
 
 - Calls between internal services and the notifier are authenticated with mutual TLS or signed workload identity tokens. (The v1 text relied on a shared header; this was replaced during the migration.)
+
+Runtime secrets must be fetched from the approved secret store at startup.
 - Roles are defined once, globally, for all platform services rather than per service, and every service reuses the same set.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 - Data stores and brokers sit in private subnets only.
-- The service collects and stores only the personal data needed to deliver messages.
-- Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.
+- The profile table of the notifier keeps every attribute that the calling services send.
+- Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
+- Ownership is verified on every access to customer-owned data, not only at login.
 - All queries use bound parameters instead of string concatenation.
 
 ## 7. Logging
 
-- Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- Security-relevant events are not separated from normal logs, and nobody monitors them.
+- Access to centralized logs must be limited to authorized staff.
 
 ## 8. Build and deployment
 

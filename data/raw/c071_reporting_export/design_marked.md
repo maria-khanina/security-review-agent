@@ -28,19 +28,25 @@ At the core is **export-job**, a scheduled engine that runs nightly and at month
 
 We believe security is an enabler, not a blocker, and we have built it into the foundations of the product.
 
-⟦F3|Data at rest is encrypted with KMS-managed keys.⟧
+Data at rest is encrypted with KMS-managed keys.
 
 ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
+⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧
+
 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
-⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 
-⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+
+⟦F3|Sort and filter parameters of the settlement report are inserted directly into the SQL text.⟧
 
 ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
+⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
 
 ## Roadmap
 

@@ -49,11 +49,19 @@ The platform is designed for at-least-once delivery, with de-duplication on the 
 Security is a first-class feature of this platform, not an afterthought. The principles below are the commitments we make to our customers and to the compliance team.
 
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 - Source, config, specs and infrastructure definitions contain no secrets. At startup the service fetches its secrets from the approved secret store.
+
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+Connections to the database and between internal services use TLS.
+
+External inputs are accepted only if they validate against the schema.
 - The audit trail includes authentication failures, privilege changes and sensitive-data access. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
 - Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+- Any authenticated caller can fetch a message record or a delivery status if it knows the identifier, since ids are random and we do not compare them with an owner.
 - We use parameterized queries only, with no SQL built from user input by string concatenation.
-- Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+- Dependency scanning does not exist yet and the versions of the libraries were pinned a long time ago, so nobody looks at vulnerabilities.
+- The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
 ## 9. Analytics and reporting
 

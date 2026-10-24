@@ -27,9 +27,9 @@ Implementation (openapi) the document describes:
 - PATCH /v1/wallets/{walletId}/profile: Update wallet owner profile
 
 ## Planted items
-- F1 [drift, critical] State as plain fact, adapted to this service: Card numbers are never returned by the API. Wrap the sentence(s) in the F1 marker.
-- F2 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The database has a public endpoint so the partner's reporting tool can read from it.
-- F3 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Stack traces with customer data are written to the shared log index.
+- F1 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The database has a public endpoint so the partner's reporting tool can read from it.
+- F2 [violation, critical] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Stack traces with customer data are written to the shared log index.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Load tests run against a restored production backup.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -37,25 +37,30 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:AUTH-03|...⟧ Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 - ⟦S:AUTH-05|...⟧ Passwords must be stored only as salted hashes using argon2id or bcrypt and never in reversible form.
 - ⟦S:AUTH-06|...⟧ Login and token endpoints must throttle or lock out repeated failed attempts.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:AUTHZ-01|...⟧ Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
-- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:CRYPTO-06|...⟧ Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
+- ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- ⟦S:CRYPTO-07|...⟧ Services must validate TLS certificates and must not disable verification.
+- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:NET-05|...⟧ External APIs must sit behind a WAF with rate limiting.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
-- ⟦S:DATA-04|...⟧ Non-production environments must not contain real personal or card data.
+- ⟦S:NET-04|...⟧ Services calling third parties must have egress restricted to an approved allowlist.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
-- ⟦S:API-03|...⟧ Outbound and inbound webhook payloads must be signed and signatures verified.
 - ⟦S:API-04|...⟧ Error responses must not reveal stack traces, SQL or internal hostnames.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:API-03|...⟧ Outbound and inbound webhook payloads must be signed and signatures verified.
+- ⟦S:API-02|...⟧ External APIs must enforce per-client rate limits.
+- ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
+- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
-- ⟦S:CRYPTO-07|...⟧ Services must validate TLS certificates and must not disable verification.
-- ⟦S:NET-04|...⟧ Services calling third parties must have egress restricted to an approved allowlist.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 ## Functional content (no security claims)
 Aim for at least 1500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

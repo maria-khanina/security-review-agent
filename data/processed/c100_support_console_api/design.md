@@ -44,7 +44,11 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.1 Identity. Multi-factor authentication for administrative accounts is scheduled for a later release, and until then the administrative accounts sign in with a password only. User passwords are stored only as salted argon2id or bcrypt hashes, and reversible storage of passwords is prohibited.
 
-6.2 Access. There are no global super-roles: each service has its own roles and people get only the ones their work needs. Nothing administrative or meant for debugging can be called from outside our network. Every three months the system owners review who has access to production and remove what is no longer needed. All state-changing operations require an authenticated caller.
+Each request for a customer's resource checks that the caller owns it or is entitled to it.
+
+6.2 Access. There are no global super-roles: each service has its own roles and people get only the ones their work needs. Nothing administrative or meant for debugging can be called from outside our network. Nobody reviews on a schedule who has production access. All state-changing operations require an authenticated caller.
+
+Runtime secrets must be fetched from the approved secret store at startup.
 
 6.3 Cryptography. Personal data is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
@@ -52,7 +56,9 @@ A reset or a credit requires a ticket reference, and the same ticket cannot be u
 
 6.5 Logging. Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
-6.6 Data. Only the personal data needed for the purpose is collected and stored. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Data exports require authorization, are encrypted, and expire after a limited time.
+6.6 Data. Only the personal data needed for the purpose is collected and stored. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+
+Only authorized staff can access the central logs.
 
 6.7 Application. All queries use bound parameters instead of string concatenation.
 

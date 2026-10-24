@@ -66,6 +66,7 @@ resource "aws_cloudwatch_log_group" "pipeline_audit" {
 
 resource "aws_backup_vault" "audit_backups" {
   name = "audit_backups"
+  kms_key_arn = aws_kms_key.audit_key.arn
 }
 
 data "aws_iam_policy_document" "pipeline_policy" {

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "OPS-01",
-   "drift_id": null,
    "component": "payments-core",
    "data_class": "card_data",
    "exposure": "external",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "payments-core",
    "data_class": "card_data",
    "exposure": "external",
@@ -63,18 +61,23 @@
  ],
  "required_rules": [
   "AUTH-01",
+  "AUTH-02",
   "AUTHZ-01",
+  "NET-05",
   "AUTHZ-04",
-  "CRYPTO-01",
   "CRYPTO-02",
+  "CRYPTO-01",
   "CRYPTO-05",
+  "AUTHZ-03",
   "SECRET-01",
   "SECRET-02",
-  "LOG-01",
-  "LOG-02",
+  "OPS-02",
+  "CRYPTO-04",
   "DATA-02",
   "DATA-03",
   "API-01",
-  "API-06"
+  "API-06",
+  "LOG-01",
+  "LOG-02"
  ]
 }

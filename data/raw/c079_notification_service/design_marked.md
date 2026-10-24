@@ -30,15 +30,23 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - N-1: ⟦S:AUTH-02|Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+
+⟦F2|Any authenticated caller can read any delivery record if it knows the identifier.⟧
 - N-2: ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
 - N-3: ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
+⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
+
 ### 5.2 Data protection
 
-- N-4: ⟦F1|Personal data is never placed in URLs.⟧
-- N-5: ⟦F2|Sensitive fields are encrypted with AES in ECB mode for simplicity.⟧
+- N-4: Personal data is never placed in URLs.
+- N-5: ⟦F1|Sensitive fields are encrypted with AES in ECB mode for simplicity.⟧
 - N-6: ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧
-- N-7: ⟦S:DATA-05|Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
+
+⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
+- N-7: ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 ### 5.3 Secrets and network
 
@@ -48,6 +56,8 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.4 Logging
 
 - N-11: ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
+
+⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
 ### 5.5 Application security and operations
 

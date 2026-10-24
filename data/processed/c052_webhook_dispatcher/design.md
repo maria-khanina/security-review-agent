@@ -44,6 +44,10 @@ Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
 A secret is something like a password or a key, which lets you in. The signing secret from section 3 is one example. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. Runtime secrets are fetched from the approved secret store at startup. So when the dispatcher starts, it asks the store for what it needs.
 
+Workloads are non-root, and read-only root filesystems are used wherever they can be.
+
+Public API traffic passes through a web application firewall with rate limits.
+
 ## 7. Network
 
  Only the dispatcher can talk to them.
@@ -51,6 +55,11 @@ A secret is something like a password or a key, which lets you in. The signing s
 ## 8. Logging
 
 Logs are like a diary which the service writes while it works. Authentication failures, privilege changes and access to sensitive data are written to the logs. We use the same logging library as the other services.
+
+Connections to the database and between internal services use TLS.
+
+All external input is validated against a schema, and invalid requests are rejected.
+We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 
 ## 9. Limits and input
 

@@ -40,6 +40,8 @@ The controls below follow the Information Security Policy.
 ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
 
  ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+ ⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+ ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 
 ⟦S:CRYPTO-01|Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
@@ -52,6 +54,9 @@ The controls below follow the Information Security Policy.
 ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
+
+⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
+⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧
 
 ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 

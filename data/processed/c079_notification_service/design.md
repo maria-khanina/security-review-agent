@@ -30,15 +30,23 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - N-1: Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.
+
+Access to centralized logs must be limited to authorized staff.
+
+Any authenticated caller can read any delivery record if it knows the identifier.
 - N-2: Internal users receive only the roles required for their job, and roles are defined per service.
 - N-3: Access to production is recertified at least once per quarter.
+
+Requests from outside are checked against the schema and rejected if they do not conform.
 
 ### 5.2 Data protection
 
 - N-4: Personal data is never placed in URLs.
 - N-5: Sensitive fields are encrypted with AES in ECB mode for simplicity.
 - N-6: No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
-- N-7: Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.
+
+The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+- N-7: Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 ### 5.3 Secrets and network
 
@@ -48,6 +56,8 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.4 Logging
 
 - N-11: We log failed logins, changes of privileges and reads of sensitive data.
+
+On boot, the service pulls its credentials from the approved secret store.
 
 ### 5.5 Application security and operations
 

@@ -27,13 +27,21 @@ The 2021 text listed a sixth endpoint, DELETE /v1/wallets/{walletId}, which was 
 
 This section replaces the 2021 and 2022 text. The earlier text used session cookies and later a shared API key; neither applies today.
 
-⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧ ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ ⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ ⟦S:AUTH-06|The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.⟧
+⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧ ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧ ⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
 
 ⟦S:AUTHZ-01|For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+
+⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+
+⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
+
 ## 5. Data protection
 
-⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ ⟦S:CRYPTO-07|Services validate TLS certificates and never disable verification.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧ ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧ ⟦F2|The HTTP client accepts any certificate when it calls the partner, which avoids trust store updates.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+
+⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 
  ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
@@ -41,15 +49,21 @@ This section replaces the 2021 and 2022 text. The earlier text used session cook
 
 ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 
+⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
+
 ⟦S:NET-01|wallet-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧ ⟦S:NET-04|The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.⟧
 
 ## 7. Input, errors and callbacks
 
-⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧ ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+
+⟦S:API-02|Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.⟧
+
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 
 ## 8. Logging
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+⟦F1|Only the HTTP access logs from the load balancer are kept.⟧
 
 ## 9. Build and operations
 

@@ -24,7 +24,15 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 3.1 In accordance with policy, calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.
 
+All external inputs must be validated against a schema and rejected if invalid.
+
 3.2 Where workload identity tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
+
+Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
+
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+
+The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
 
 3.3 The Vault defines the roles operator, auditor and key custodian.
 
@@ -34,9 +42,13 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 4.2 Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.
 
+Access to centralized logs must be limited to authorized staff.
+
 4.3 Traffic between services, and between services and data stores or brokers, is encrypted in transit.
 
 4.4 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+
+At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.
 
 4.5 The Vault validates TLS certificates on every TLS connection it makes and never disables verification.
 
@@ -47,6 +59,8 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 5.1 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
 5.2 Runtime secrets are fetched from the approved secret store when the Vault starts.
+
+Error responses do not expose stack traces, SQL or internal hostnames.
 
 ## 6. Network
 
@@ -60,13 +74,15 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 ## 8. Application Security
 
-8.1 Callback payloads for token lifecycle events, both outbound and inbound, are signed, and the signatures are verified.
+8.1 Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
+
+Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 
 8.2 We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 ## 9. Operations
 
-9.1 The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.
+9.1 Container images are built once and never rescanned after that.
 
 9.2 Containers run as a non-root user, with a read-only root filesystem where possible.
 

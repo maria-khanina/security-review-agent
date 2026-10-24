@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "exposure": "external",
-   "severity": "high",
-   "cwe": [
-    "CWE-319"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "LOG-03",
-   "drift_id": null,
    "component": "portal-backend",
    "data_class": "pii",
    "exposure": "external",
@@ -58,29 +34,6 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Audit logs follow the default log retention of about a month and are not write-protected."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-08",
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "exposure": "external",
-   "severity": "medium",
-   "cwe": [
-    "CWE-20"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_freeform_body",
-   "implementation_anchor": "/paths/~1v1~1users/post/requestBody",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
@@ -95,7 +48,10 @@
   "LOG-01",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
   "API-05",
-  "DATA-05"
+  "CRYPTO-03",
+  "API-01",
+  "LOG-04"
  ]
 }

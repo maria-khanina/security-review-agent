@@ -14,42 +14,46 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
-   "component": "Payments Edge Gateway",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "payments-core",
    "data_class": "card_data",
    "exposure": "external",
-   "severity": "critical",
+   "severity": "high",
    "cwe": [
-    "CWE-306"
+    "CWE-1104"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1payments/post/security",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F1 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is no dependency scanning and versions were pinned years ago."
   }
  ],
  "required_rules": [
   "AUTHZ-04",
-  "CRYPTO-01",
   "CRYPTO-02",
+  "CRYPTO-01",
   "CRYPTO-05",
-  "SECRET-01",
-  "SECRET-02",
-  "LOG-01",
-  "LOG-02",
   "DATA-02",
   "DATA-03",
+  "CRYPTO-04",
+  "AUTH-01",
+  "SECRET-01",
+  "SECRET-02",
   "API-01",
-  "API-05",
   "API-06",
-  "OPS-01"
+  "API-05",
+  "LOG-01",
+  "LOG-02",
+  "OPS-02",
+  "AUTHZ-03",
+  "AUTHZ-01"
  ]
 }

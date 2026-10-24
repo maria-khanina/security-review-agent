@@ -49,11 +49,15 @@ refund-db has three tables. refund holds the refund records. approval holds one 
 
 7.2 Card data and cryptography. ⟦S:CRYPTO-02|We do not keep primary account numbers: the card token vault tokenizes them and we store the token.⟧ ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).
 
+⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+
 7.3 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
+
+⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 
 7.4 Network and logging. ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 
-7.5 Data protection. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-05|Data exports require authorization, are encrypted, and expire after a limited time.⟧
+7.5 Data protection. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 7.6 Application. ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 

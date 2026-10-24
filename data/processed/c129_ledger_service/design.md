@@ -48,6 +48,7 @@ Identity and access:
 - All state-changing operations require an authenticated caller.
 - Staff roles are limited to what each job needs, and every service defines its own roles.
 - Access rights to production systems are reviewed at least quarterly.
+- All external inputs must be validated against a schema and rejected if invalid.
 
 Cryptography and secrets:
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
@@ -55,6 +56,8 @@ Cryptography and secrets:
 
 Network, logging and code:
 - The database and the message brokers sit in private subnets and are not publicly reachable.
+- Access to centralized logs must be limited to authorized staff.
+- Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 

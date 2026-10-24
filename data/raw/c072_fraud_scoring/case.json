@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "component": "scoring-engine",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_open_ingress",
-   "implementation_anchor": "aws_security_group.decisions_sg",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "CRYPTO-01",
-   "drift_id": null,
    "component": "decisions-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "internal",
@@ -52,18 +28,44 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Whether and how stored PII is encrypted.",
-   "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: Whether and how stored PII is encrypted. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+   "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: Whether and how stored PII is encrypted. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A raw SQL fragment from the query string is appended to the report query."
   }
  ],
  "required_rules": [
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "OPS-02",
+  "CRYPTO-04",
+  "AUTHZ-04",
   "LOG-01",
   "LOG-02",
+  "AUTH-02",
   "DATA-02",
   "DATA-03",
-  "API-05",
   "OPS-01"
  ]
 }

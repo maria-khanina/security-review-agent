@@ -31,16 +31,18 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 
 ### 4.1 Identity and access
 
-- C-1: ⟦F1|All state-changing operations require an authenticated caller.⟧
+- C-1: All state-changing operations require an authenticated caller.
 - C-6: ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+
+⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 
 ### 4.2 Data protection
 
-- C-7: ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- C-7: ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
 - C-8: ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- C-9: ⟦F3|Card numbers are never returned by the API.⟧
+- C-9: Card numbers are never returned by the API.
 - C-12: ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
-- C-13: ⟦S:DATA-04|Only synthetic data is present outside production.⟧
+- C-13: ⟦F2|Staging is refreshed every night from a snapshot of the production database, including the merchant users.⟧
 
 ### 4.3 Cryptography and transport
 
@@ -50,6 +52,8 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ### 4.4 Secrets
 
 - C-17: ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+
+⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
 - C-18: ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
 ### 4.5 Network
@@ -64,8 +68,14 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ### 4.7 Application security
 
 - C-25: ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧
-- C-27: ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+- C-27: ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧
+
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
+⟦S:AUTHZ-01|Each request for a customer's resource checks that the caller owns it or is entitled to it.⟧
 - C-28: ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧
+
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 - C-29: ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ### 4.8 Operations
@@ -73,9 +83,11 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 - C-30: ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 - C-31: ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
+
 ## 5. Accepted risks and roadmap
 
-Two items are on the roadmap rather than in release one. ⟦F2|Bot and abuse protection for the portal is postponed until there is a measured problem.⟧ The team will revisit this after the first quarter of traffic. Single sign-on for merchants with their own identity providers is planned, but the design is not ready (TBD).
+Two items are on the roadmap rather than in release one. ⟦F1|Bot and abuse protection for the portal is postponed until there is a measured problem.⟧ The team will revisit this after the first quarter of traffic. Single sign-on for merchants with their own identity providers is planned, but the design is not ready (TBD).
 
 ## 6. Reporting behavior
 

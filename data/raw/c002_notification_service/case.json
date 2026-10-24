@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "domain-events (Kafka)",
    "data_class": "pii",
    "exposure": "internal",
@@ -35,16 +34,66 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A public database endpoint is kept for the external BI vendor."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is no dependency scanning and versions were pinned years ago."
   }
  ],
  "required_rules": [
   "CRYPTO-05",
+  "OPS-02",
   "SECRET-01",
   "SECRET-02",
+  "AUTH-02",
+  "CRYPTO-04",
+  "API-01",
   "LOG-01",
   "LOG-02",
   "DATA-03",
   "API-05",
-  "OPS-01"
+  "AUTHZ-04"
  ]
 }

@@ -29,21 +29,24 @@ Implementation (openapi) the document describes:
 ## Planted items
 - F1 [ambiguity, low] Mention kyc-orchestrator naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker.
 - F2 [ambiguity, medium] Mention kyc-orchestrator naturally, but do NOT state: How the service obtains its secrets at runtime. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F2 marker.
-- F3 [drift, critical] State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker.
+- F3 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Internal services trust each other based on being inside the cluster network.
+- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
 - ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:AUTH-01|...⟧ Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 - ⟦S:NET-02|...⟧ Object storage buckets must block public access and be private by default.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
-- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
 
 ## Functional content (no security claims)
 Aim for at least 400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

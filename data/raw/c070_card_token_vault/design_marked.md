@@ -29,19 +29,25 @@ The infrastructure is declared in Terraform: the KMS key `vault_key`, the databa
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
+- ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 - ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
-- ⟦F2|Data at rest is encrypted with KMS-managed keys.⟧
+- Data at rest is encrypted with KMS-managed keys.
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
+- ⟦S:AUTHZ-01|Ownership is verified on every access to customer-owned data, not only at login.⟧
+- ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
+- ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
 ## 5. Logging and audit
 
-⟦F3|Access to customer records is not recorded anywhere.⟧ The audit trail covers calls to the vault only.
+⟦F2|Access to customer records is not recorded anywhere.⟧ The audit trail covers calls to the vault only.
 
 ## 6. Build and operations
 
-⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+⟦F4|A raw SQL fragment from the query string is appended to the report query.⟧
 
 The service is stateless and scales horizontally behind an internal load balancer; the database primary is the single writer. The expected peak is a few hundred tokenize calls per second at month end, with detokenize at about half that rate. Deployments are rolling, and a canary instance receives a small share of the traffic before the rest is updated.
 

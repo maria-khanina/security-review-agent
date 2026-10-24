@@ -11,30 +11,80 @@
   "dangling_references": 0,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-06",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-307"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "throttle repeated failed login and token attempts"
+    ],
+    [
+     "lock out the account temporarily after repeated failed attempts"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Repeated failed logins are retried without delay, and captchas are not used."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "API-04",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-209"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep stack traces, SQL and internal host names out of error responses"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The error body contains the SQL statement that failed."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTH-03",
-  "AUTH-06",
   "AUTHZ-01",
   "AUTHZ-04",
   "CRYPTO-01",
-  "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
+  "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
   "NET-05",
+  "NET-04",
   "LOG-01",
   "DATA-03",
   "DATA-04",
   "API-01",
   "API-03",
-  "API-04",
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "AUTHZ-03",
+  "LOG-02",
+  "API-02",
+  "DATA-02"
  ]
 }

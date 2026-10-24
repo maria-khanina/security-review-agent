@@ -28,17 +28,21 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 4. Data Protection
 
-4.0 ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+4.0 ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 
 4.1 ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 
 4.2 ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
+⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+
 4.3 ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored alongside the data they protect, and are rotated at least annually.⟧
 
-4.4 ⟦S:CRYPTO-07|The Service validates TLS certificates on every TLS connection it makes and never disables verification.⟧
+4.4 ⟦F1|Self-signed certificates are trusted in production, to simplify the onboarding of partners.⟧
 
 4.5 ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 4.6 ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
@@ -62,13 +66,19 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ## 8. Application Security
 
-8.1 ⟦S:API-03|Callback payloads, both inbound and outbound, are signed, and the signatures are verified.⟧
+8.1 ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧
+
+⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 
 8.2 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+
+⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 
 ## 9. Operations
 
 9.1 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
+
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 
 9.2 ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 

@@ -43,6 +43,10 @@ The bucket is private and is accessed only through pre-signed URLs. The URL are 
 
 6.3 Stored PII is protected with AES-256 encryption or stronger. The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 
+On boot, the service pulls its credentials from the approved secret store.
+
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+
 6.4 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
 6.5 The database and the message brokers sit in private subnets and are not publicly reachable.

@@ -44,7 +44,7 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 | ID | Area | Requirement |
 |---|---|---|
 | NFR-1 | Service authentication | Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token. |
-| NFR-2 | Tokens | A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. |
+| NFR-2 | Tokens | Access tokens stay valid for a week, so the calling services do not have to renew them often. |
 | NFR-4 | Internal transport | Traffic between services, and between services and data stores or brokers, is encrypted in transit. |
 | NFR-5 | Algorithms | Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. |
 | NFR-6 | Keys | KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. |
@@ -52,14 +52,21 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 | NFR-8 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | NFR-9 | Secrets at runtime | Runtime secrets are fetched from the approved secret store at startup. |
 | NFR-11 | Network | Databases and message brokers sit in private subnets and are not publicly reachable. |
-| NFR-12 | Egress | Services that call third parties have their egress restricted to an approved allowlist. |
+| NFR-12 | Egress | The sender follows redirects and calls any host, and there is no allow-list. |
 | NFR-13 | Security logging | We log failed logins, changes of privileges and reads of sensitive data. |
 | NFR-17 | Third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
 | NFR-18 | Test data | Test and staging environments use synthetic data, never real personal data or card data. |
-| NFR-19 | Callbacks | Provider delivery callbacks, and any outbound webhooks, are signed and the signatures are verified. |
+| NFR-19 | Callbacks | Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side. |
 | NFR-20 | Queries | Database queries are parameterized, and user input is never concatenated into SQL. |
 | NFR-21 | Pipeline | CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
 | NFR-22 | Containers | Containers run as a non-root user, with a read-only root filesystem where possible. |
+
+Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+Requests from outside are checked against the schema and rejected if they do not conform.
+Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+Internal details such as stack traces, SQL and hostnames never appear in an error response.
+Reading centralized logs requires authorization, and only approved staff have it.
 
 ## Design notes
 

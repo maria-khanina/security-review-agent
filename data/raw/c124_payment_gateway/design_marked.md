@@ -26,19 +26,29 @@ We believe security is an enabler of growth, and we have built it into the found
 
 ⟦S:AUTH-01|External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider.⟧ ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧ ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 
-⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧ ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
+⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧ ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧ ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 
 ⟦F1|The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate.⟧ ⟦F2|The service can reach any address on the internet, and no egress rules exist.⟧
 
 ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
+
+⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+
 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
+
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
 
-⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
-⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
+
+⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
+
+⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦F4|Containers write to the host file system as root, to keep the logs.⟧
 
 ## Roadmap
 

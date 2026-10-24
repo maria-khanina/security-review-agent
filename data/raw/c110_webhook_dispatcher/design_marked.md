@@ -26,13 +26,17 @@ These are the controls the Dispatcher runs with right now, listed so that the ro
 - ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+- ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 - ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+- ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧
 - ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
 - ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 - ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
-- ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
+- ⟦F1|The allow-list of origins is empty, and the gateway treats an empty list as allow everything.⟧
 - ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 
 ## 4. Roadmap

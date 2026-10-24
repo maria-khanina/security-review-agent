@@ -11,18 +11,66 @@
   "dangling_references": 0,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-06",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-942"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "allow only approved origins in CORS"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): CORS is set to allow all origins to unblock the frontend team."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic queries are assembled with string formatting because the ORM is too slow."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
+  "OPS-02",
   "AUTHZ-04",
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "NET-05",
+  "CRYPTO-04",
   "LOG-01",
+  "AUTH-02",
   "API-01",
-  "API-05",
-  "API-06",
   "OPS-01"
  ]
 }

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "component": "exports bucket (S3)",
    "data_class": "pii",
    "exposure": "admin",
@@ -59,7 +57,6 @@
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "component": "exports bucket (S3)",
    "data_class": "pii",
    "exposure": "admin",
@@ -73,13 +70,36 @@
    "remediation_options": [],
    "clarification_needed": "How backups are protected and verified.",
    "instruction": "Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F3 marker."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTH-04",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-308"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require multi-factor authentication for administrative and back-office access"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A shared admin account with a common password is used for operations."
   }
  ],
  "required_rules": [
-  "AUTH-04",
   "AUTHZ-02",
   "AUTHZ-04",
   "AUTHZ-05",
+  "LOG-04",
+  "AUTH-02",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",

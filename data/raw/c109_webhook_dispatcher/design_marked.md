@@ -43,7 +43,13 @@ Identifiers (D-1 and so on) match the compliance tracker (link to the tracker is
 ### 5.2 Transport and cryptography
 
 - D-6: ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 - D-7: ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+
+⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
+
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 
 ### 5.3 Secrets and network
 
@@ -56,7 +62,7 @@ Identifiers (D-1 and so on) match the compliance tracker (link to the tracker is
 
 ### 5.5 Application security
 
-- D-11: ⟦F3|Requests are validated against strict schemas.⟧
+- D-11: Requests are validated against strict schemas.
 - D-12: ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
 ## 6. Deployment and capacity

@@ -34,7 +34,7 @@ Card numbers are never returned by the API. When a customer adds a card as a fun
 
 Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 
-Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.
+Passwords are hashed with plain SHA-256, without a per-user salt.
 
 For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. The check is performed in wallet-core and not in the gateway, because wallet-core is the only component that knows the wallet's owner.
 
@@ -44,9 +44,12 @@ Access to production is recertified at least once per quarter.
 
 External traffic is served over TLS 1.2 or newer. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 
+Runtime secrets are read from the secret store when the service starts.
+
 Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 
 wallet-db and the message brokers sit in private subnets and are not publicly reachable.
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 ## 6. Operations access
 

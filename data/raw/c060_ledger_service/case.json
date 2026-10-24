@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTH-02",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -33,32 +32,8 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-08",
-   "component": "ledger-core",
-   "data_class": "internal",
-   "exposure": "internal",
-   "severity": "low",
-   "cwe": [
-    "CWE-20"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_freeform_body",
-   "implementation_anchor": "/paths/~1v1~1entries/post/requestBody",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -84,7 +59,10 @@
   "AUTHZ-05",
   "SECRET-01",
   "NET-01",
+  "AUTHZ-04",
+  "API-01",
   "LOG-01",
+  "SECRET-02",
   "API-05"
  ]
 }

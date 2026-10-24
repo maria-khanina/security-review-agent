@@ -23,8 +23,8 @@ Implementation (openapi) the document describes:
 - GET /v1/notifications: List notifications
 
 ## Planted items
-- F1 [drift, medium] State as plain fact, adapted to this service: The API enforces per-client rate limits. Wrap the sentence(s) in the F1 marker.
-- F2 [violation, medium] State, as the author naturally would and believing it acceptable: Full request bodies logged for debugging including emails and card numbers.
+- F1 [violation, medium] State, as the author naturally would and believing it acceptable: Full request bodies logged for debugging including emails and card numbers.
+- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Filters are built by joining user-provided strings because the ORM could not express them.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -37,8 +37,11 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
-- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 
 ## Functional content (no security claims)
 Aim for at least 600 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

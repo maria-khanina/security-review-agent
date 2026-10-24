@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-15",
-   "component": "vault-db (PostgreSQL)",
-   "data_class": "card_data",
-   "exposure": "internal",
-   "severity": "high",
-   "cwe": [
-    "CWE-250"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_overbroad_iam",
-   "implementation_anchor": "data.aws_iam_policy_document.vault_service_policy",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The service role can only read its own table. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "CRYPTO-07",
-   "drift_id": null,
    "component": "tokenization-service",
    "data_class": "card_data",
    "exposure": "internal",
@@ -59,33 +35,9 @@
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The client library is configured to ignore certificate errors after a failed deployment."
   },
   {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-14",
-   "component": "vault-db (PostgreSQL)",
-   "data_class": "card_data",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-311"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_backup_unencrypted",
-   "implementation_anchor": "aws_backup_vault.vault_backups",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Backups are encrypted. Wrap the sentence(s) in the F3 marker."
-  },
-  {
-   "flaw_id": "F4",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "vault-db (PostgreSQL)",
    "data_class": "card_data",
    "exposure": "internal",
@@ -98,46 +50,55 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Which algorithms protect integrity and confidentiality.",
-   "instruction": "Mention vault-db (PostgreSQL) naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention vault-db (PostgreSQL) (the place where that information should have been) in the F4 marker."
+   "instruction": "Mention vault-db (PostgreSQL) naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention vault-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
   },
   {
-   "flaw_id": "F5",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "component": "vault-db (PostgreSQL)",
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "tokenization-service",
    "data_class": "card_data",
    "exposure": "internal",
-   "severity": "high",
+   "severity": "medium",
    "cwe": [
-    "CWE-668"
+    "CWE-1104"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_open_ingress",
-   "implementation_anchor": "aws_security_group.vault_db_sg",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F5 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Container images are never rescanned after the first build."
   }
  ],
  "required_rules": [
+  "API-05",
   "AUTH-02",
   "AUTH-03",
+  "DATA-04",
+  "AUTHZ-01",
+  "LOG-02",
+  "DATA-03",
+  "DATA-02",
+  "AUTHZ-04",
+  "DATA-05",
+  "AUTHZ-03",
+  "API-01",
+  "LOG-04",
+  "API-04",
   "CRYPTO-02",
   "CRYPTO-04",
   "CRYPTO-06",
   "SECRET-01",
   "SECRET-02",
-  "LOG-01",
-  "DATA-04",
+  "NET-04",
   "API-03",
-  "API-05",
-  "OPS-01",
-  "OPS-02",
-  "NET-04"
+  "LOG-01",
+  "OPS-02"
  ]
 }

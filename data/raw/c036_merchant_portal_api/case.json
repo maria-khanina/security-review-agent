@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "component": "portal-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "portal-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -64,7 +62,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "API-01",
-   "drift_id": null,
    "component": "Portal Gateway",
    "data_class": "pii",
    "exposure": "external",
@@ -83,13 +80,34 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The request model is a generic map and each handler reads what it wants."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "review access rights to production systems at least quarterly"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Contractors keep their access after the contract ends until someone notices."
   }
  ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
   "AUTHZ-04",
-  "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-03",
   "CRYPTO-05",
@@ -97,6 +115,9 @@
   "LOG-01",
   "DATA-01",
   "DATA-03",
-  "API-05"
+  "API-05",
+  "AUTH-02",
+  "SECRET-02",
+  "LOG-04"
  ]
 }

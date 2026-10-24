@@ -32,13 +32,17 @@ Templates have a subject and a body with placeholders. A template is versioned a
 This section is carried over from the mailer design and updated.
 
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+- Administrative and debug endpoints must not be reachable from the public internet.
 - Staff roles are limited to what each job needs, and every service defines its own roles.
+- The approved secret manager is the only source of runtime secrets, fetched at start-up.
+- A caller can only read or change resources that belong to them or that they have been explicitly granted.
 - Production access rights are reviewed every quarter.
 - Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - The database and the message broker are in private subnets with no public address.
+- Access to the log platform is given to whole teams and nobody removes it when people change role.
 - The service collects and stores only the personal data needed to deliver messages.
-- Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.
+- Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## 7. Logging, build and operations

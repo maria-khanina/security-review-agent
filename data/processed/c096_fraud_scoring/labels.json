@@ -16,62 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "component": "scoring-engine",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_security_group.decisions_sg",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "NET-01",
-    "NET-03"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     437,
-     503
-    ]
-   ],
-   "policy_spans": {
-    "NET-01": [
-     [
-      2917,
-      3018
-     ]
-    ],
-    "NET-03": [
-     [
-      3102,
-      3197
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     1379,
-     1406
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "DATA-03",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-201"
@@ -107,13 +53,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-02",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-532"
@@ -131,8 +77,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     1188,
-     1250
+     1221,
+     1283
     ]
    ],
    "policy_spans": {
@@ -144,55 +90,55 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
-  }
- ],
- "satisfied": [
+   "also_violates": [],
+   "misfit_versions": []
+  },
   {
+   "flaw_id": "F3",
+   "type": "violation",
    "rule_id": "AUTH-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-287"
+   ],
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
    "design_spans": [
     [
      793,
-     882
+     915
     ]
    ],
-   "policy_spans": [
-    [
-     900,
-     1069
+   "policy_spans": {
+    "AUTH-02": [
+     [
+      900,
+      1069
+     ]
     ]
-   ]
-  },
-  {
-   "rule_id": "AUTHZ-02",
-   "design_spans": [
-    [
-     885,
-     969
-    ]
-   ],
-   "policy_spans": [
-    [
-     1606,
-     1727
-    ]
-   ]
-  },
-  {
-   "rule_id": "AUTHZ-05",
-   "design_spans": [
-    [
-     972,
-     1021
-    ]
-   ],
-   "policy_spans": [
-    [
-     1820,
-     1912
-    ]
-   ]
-  },
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
   {
    "rule_id": "CRYPTO-01",
    "design_spans": [
@@ -205,66 +151,6 @@
     [
      1938,
      2047
-    ]
-   ]
-  },
-  {
-   "rule_id": "CRYPTO-05",
-   "design_spans": [
-    [
-     1046,
-     1117
-    ]
-   ],
-   "policy_spans": [
-    [
-     2361,
-     2489
-    ]
-   ]
-  },
-  {
-   "rule_id": "SECRET-01",
-   "design_spans": [
-    [
-     1120,
-     1175
-    ]
-   ],
-   "policy_spans": [
-    [
-     2634,
-     2793
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     1253,
-     1326
-    ]
-   ],
-   "policy_spans": [
-    [
-     3347,
-     3434
-    ]
-   ]
-  },
-  {
-   "rule_id": "DATA-01",
-   "design_spans": [
-    [
-     562,
-     610
-    ]
-   ],
-   "policy_spans": [
-    [
-     3774,
-     3872
     ]
    ]
   },
@@ -284,11 +170,116 @@
    ]
   },
   {
+   "rule_id": "DATA-01",
+   "design_spans": [
+    [
+     562,
+     610
+    ]
+   ],
+   "policy_spans": [
+    [
+     3774,
+     3872
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-02",
+   "design_spans": [
+    [
+     918,
+     1002
+    ]
+   ],
+   "policy_spans": [
+    [
+     1606,
+     1727
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-05",
+   "design_spans": [
+    [
+     1005,
+     1054
+    ]
+   ],
+   "policy_spans": [
+    [
+     1820,
+     1912
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1079,
+     1150
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     1153,
+     1208
+    ]
+   ],
+   "policy_spans": [
+    [
+     2634,
+     2793
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     1286,
+     1359
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1362,
+     1444
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
    "rule_id": "LOG-04",
    "design_spans": [
     [
-     1329,
-     1368
+     1447,
+     1486
     ]
    ],
    "policy_spans": [
@@ -302,8 +293,8 @@
    "rule_id": "DATA-05",
    "design_spans": [
     [
-     1384,
-     1481
+     1502,
+     1624
     ]
    ],
    "policy_spans": [

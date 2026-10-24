@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "NET-02",
-   "drift_id": null,
    "component": "exports bucket (S3)",
    "data_class": "pii",
    "exposure": "admin",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "AUTHZ-04",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -52,37 +50,40 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "component": "exports bucket (S3)",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
    "severity": "high",
    "cwe": [
-    "CWE-311"
+    "CWE-89"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_encryption_missing",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "use parameterized queries",
+     "never concatenate user input into queries"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Sort and filter parameters are inserted directly into the SQL text."
   }
  ],
  "required_rules": [
   "CRYPTO-05",
+  "AUTH-02",
   "SECRET-01",
   "SECRET-02",
+  "CRYPTO-01",
   "LOG-01",
   "LOG-02",
+  "OPS-02",
   "DATA-02",
   "DATA-03",
-  "API-05",
-  "OPS-01"
+  "OPS-01",
+  "AUTHZ-03"
  ]
 }

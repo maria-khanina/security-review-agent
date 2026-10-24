@@ -21,21 +21,29 @@ Wallet backend: keeps balances, does top-ups, transfers and profile changes. Mob
 
 **Customers.** Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form. Mei checked the import path, ok.
 
+Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+
 **Access to data.**
 
 **Crypto.** Personally identifiable information is encrypted at rest with AES-256. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
 **Secrets.** Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
+A WAF with rate limiting protects the externally exposed API.
+
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+
 **Network.**
 
 **Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-**Data.** Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Open: retention for transactions vs profile (TBD, legal says seven years for transactions). Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+**Data.** Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job. Open: retention for transactions vs profile (TBD, legal says seven years for transactions). Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 
-**Edge and input.** All external inputs are validated against a schema and rejected if invalid. Only approved origins are permitted by the CORS configuration of the browser-facing API. We use parameterized queries only, with no SQL built from user input by string concatenation.
+**Edge and input.** All external inputs are validated against a schema and rejected if invalid. The allow-list of origins in the gateway is empty, and the gateway treats an empty list as allow everything. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 **Pipeline.** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+
+Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
 ## behavior notes
 

@@ -39,9 +39,17 @@ Secrets stay out of the repository: not in code, configuration, specs or infrast
 
 We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The database and the message brokers are in the private subnets and are not publicly reachable.
 
+Runtime secrets must be fetched from the approved secret store at startup.
+
+Schema validation runs on every external input, and invalid data never reaches the business logic.
+
+Debug and administrative routes are not exposed to the internet.
+
 ## 7. Logging, queries and operations
 
 Authentication failures, privilege changes and access to sensitive data are written to the logs. User input reaches the database only as query parameters, never as part of the query text.
+
+Access to centralized logs must be limited to authorized staff.
 
 ## 8. How posting works
 

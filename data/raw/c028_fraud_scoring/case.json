@@ -11,25 +11,52 @@
   "dangling_references": 0,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-03",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-613"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access token lifetime to 15 minutes or less",
+     "rotate refresh tokens on use"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access tokens are valid for 24 hours or longer and refresh tokens are not rotated."
+  }
+ ],
  "required_rules": [
   "AUTH-02",
-  "AUTH-03",
   "CRYPTO-01",
-  "CRYPTO-04",
-  "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-04",
+  "CRYPTO-07",
+  "CRYPTO-05",
+  "DATA-02",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
-  "LOG-01",
+  "NET-04",
   "DATA-03",
   "DATA-04",
   "API-03",
+  "LOG-04",
+  "AUTHZ-03",
+  "LOG-01",
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "DATA-05"
  ]
 }

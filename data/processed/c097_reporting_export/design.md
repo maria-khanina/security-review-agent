@@ -35,10 +35,12 @@ Access tokens should not live longer than 15 minutes, and refresh tokens are rot
 Administrative and back-office access requires multi-factor authentication.
 
 Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+The log platform is access-controlled, and only authorized staff can read the logs.
 
 ### 4.2 Cryptography
 
-Personal data is encrypted at rest with AES-256. The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
+Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service. The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
 
 Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 
@@ -51,6 +53,7 @@ Services validate the certificates of the servers they call, and verification is
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
 At startup the service fetches its secrets from the approved secret store.
+Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
 ### 4.4 Network
 
@@ -71,16 +74,19 @@ Authentication failures, privilege changes and access to sensitive data are writ
  The concrete value for the report tables is TBD, Finance and Compliance must agree on it.
 
 Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 
 Real customer and card data is kept out of dev, test and staging.
 
 ### 4.7 Application and operations
 
-Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
+We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 
 We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
 The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 

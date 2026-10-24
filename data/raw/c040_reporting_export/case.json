@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "reporting read replica (PostgreSQL)",
    "data_class": "pii",
    "exposure": "admin",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-02",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -59,7 +57,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "AUTHZ-02",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -81,32 +78,8 @@
   },
   {
    "flaw_id": "F4",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-13",
-   "component": "export-job",
-   "data_class": "pii",
-   "exposure": "admin",
-   "severity": "medium",
-   "cwe": [
-    "CWE-778"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_log_retention_short",
-   "implementation_anchor": "aws_cloudwatch_log_group.export_audit",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Audit logs are retained for 365 days. Wrap the sentence(s) in the F4 marker."
-  },
-  {
-   "flaw_id": "F5",
    "type": "ambiguity",
    "rule_id": "DATA-04",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -119,26 +92,51 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Source of data in test environments.",
-   "instruction": "Mention export-job naturally, but do NOT state: Source of data in test environments. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F5 marker."
+   "instruction": "Mention export-job naturally, but do NOT state: Source of data in test environments. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F4 marker."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "OPS-02",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "run containers as a non-root user"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The container user is not set, so processes run as root."
   }
  ],
  "required_rules": [
   "AUTH-03",
   "AUTH-04",
+  "DATA-05",
   "AUTHZ-04",
   "CRYPTO-01",
-  "CRYPTO-05",
   "CRYPTO-06",
+  "AUTH-02",
+  "CRYPTO-05",
+  "CRYPTO-07",
+  "DATA-03",
   "SECRET-01",
+  "LOG-04",
   "SECRET-02",
   "NET-02",
+  "NET-04",
   "LOG-01",
-  "DATA-03",
   "API-03",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "AUTHZ-03"
  ]
 }

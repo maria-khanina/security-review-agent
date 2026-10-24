@@ -45,9 +45,10 @@ Reversal is implemented as a normal posting with the debit and credit accounts s
 
 Identity and access:
 - ⟦F1|Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.⟧
-- ⟦F3|All state-changing operations require an authenticated caller.⟧
+- All state-changing operations require an authenticated caller.
 - ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 
 Cryptography and secrets:
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
@@ -55,6 +56,8 @@ Cryptography and secrets:
 
 Network, logging and code:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
+- ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+- ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 

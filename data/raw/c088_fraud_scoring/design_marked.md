@@ -7,7 +7,7 @@ This note describes only what changes relative to the nightly batch scorer (frau
 1. **Real time.** The batch job scored the previous day's payments in one run. The new scoring-engine consumes payment events from payment-events (MSK) as they happen and writes a decision within seconds.
 2. **Storage.** Decisions move from a table in the shared reporting database to a dedicated PostgreSQL database, decisions-db. The old table stays available as a fallback during cutover.
 3. **Infrastructure as code.** The batch scorer was configured by hand. The new stack is declared in Terraform: a KMS key (`scoring_key`), the MSK cluster (`payment_events`), the RDS instance (`decisions_db`), a security group (`decisions_sg`), a log group (`scoring_audit`) and an IAM policy (`scoring_policy`).
-4. **Enrichment.** The engine now enriches each event with signals from an external device-intelligence vendor before scoring. ⟦F2|The scoring-engine calls the vendor once per event and uses the answer as one of the model features.⟧
+4. **Enrichment.** The engine now enriches each event with signals from an external device-intelligence vendor before scoring. ⟦F1|The scoring-engine calls the vendor once per event and uses the answer as one of the model features.⟧
 5. **Audit.** Every decision writes an audit record to the log group `scoring_audit`; the batch job only wrote a summary line per run.
 
 ## What stays the same
@@ -16,25 +16,28 @@ The rule set, the thresholds and the decision labels (allow, review, block) are 
 
 ## Data
 
-The engine reads from each event the payment id, amount, country, device id, customer email and phone, and the history counters. It writes a decision, a score and reasons. ⟦F4|decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.⟧
+The engine reads from each event the payment id, amount, country, device id, customer email and phone, and the history counters. It writes a decision, a score and reasons. ⟦F3|decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.⟧
 
-⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ The retention value for review decisions is not final.
+⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧ The retention value for review decisions is not final.
 
 ## Deployment
 
-⟦F3|The scoring-engine runs as two replicas that share one Kafka consumer group, and it starts with the usual platform bootstrap.⟧ Rolling updates replace one replica at a time. An older runbook lists four replicas; two is correct.
+⟦F2|The scoring-engine runs as two replicas that share one Kafka consumer group, and it starts with the usual platform bootstrap.⟧ Rolling updates replace one replica at a time. An older runbook lists four replicas; two is correct.
 
 ## Security changes
 
 Most properties are inherited from the batch scorer and are not repeated. The points below changed shape with the new stack:
 
-- ⟦F1|The database sits in private subnets with no public endpoint.⟧
+- The database sits in private subnets with no public endpoint.
 - ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧
+- ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 
 ## Cutover plan
 

@@ -49,11 +49,19 @@ The platform is designed for at-least-once delivery, with de-duplication on the 
 Security is a first-class feature of this platform, not an afterthought. The principles below are the commitments we make to our customers and to the compliance team.
 
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+- ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+
+⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
+⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+
+⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+- ⟦F2|Any authenticated caller can fetch a message record or a delivery status if it knows the identifier, since ids are random and we do not compare them with an owner.⟧
 - ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
-- ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
+- ⟦F3|Dependency scanning does not exist yet and the versions of the libraries were pinned a long time ago, so nobody looks at vulnerabilities.⟧
+- ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
 ## 9. Analytics and reporting
 

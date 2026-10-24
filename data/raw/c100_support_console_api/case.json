@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "AUTH-04",
-   "drift_id": null,
    "component": "console-backend",
    "data_class": "credentials",
    "exposure": "admin",
@@ -39,7 +38,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-03",
-   "drift_id": null,
    "component": "console-backend",
    "data_class": "credentials",
    "exposure": "admin",
@@ -56,33 +54,33 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
+   "type": "violation",
+   "rule_id": "AUTHZ-05",
    "component": "console-backend",
    "data_class": "credentials",
    "exposure": "admin",
-   "severity": "critical",
+   "severity": "low",
    "cwe": [
-    "CWE-306"
+    "CWE-269"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1customers~1{customerId}~1second-factor-reset/post/security",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "review access rights to production systems at least quarterly"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is no periodic review of who has production access."
   }
  ],
  "required_rules": [
   "AUTH-05",
+  "AUTHZ-01",
   "AUTHZ-02",
   "AUTHZ-04",
-  "AUTHZ-05",
+  "SECRET-02",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",
@@ -90,7 +88,8 @@
   "LOG-01",
   "DATA-01",
   "DATA-03",
-  "API-05",
-  "DATA-05"
+  "DATA-05",
+  "LOG-04",
+  "API-05"
  ]
 }

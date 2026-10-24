@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-668"
@@ -53,13 +52,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "OPS-02",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-250"
@@ -94,13 +93,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-250"
@@ -131,7 +130,49 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep secrets, card numbers and personal data out of logs except opaque identifiers"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1925,
+     2010
+    ]
+   ],
+   "policy_spans": {
+    "LOG-02": [
+     [
+      2521,
+      2592
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -211,11 +252,26 @@
    ]
   },
   {
-   "rule_id": "NET-02",
+   "rule_id": "AUTH-02",
    "design_spans": [
     [
      1660,
-     1726
+     1756
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-02",
+   "design_spans": [
+    [
+     1759,
+     1825
     ]
    ],
    "policy_spans": [
@@ -229,8 +285,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1729,
-     1823
+     1828,
+     1922
     ]
    ],
    "policy_spans": [
@@ -241,26 +297,11 @@
    ]
   },
   {
-   "rule_id": "LOG-02",
-   "design_spans": [
-    [
-     1826,
-     1923
-    ]
-   ],
-   "policy_spans": [
-    [
-     2521,
-     2592
-    ]
-   ]
-  },
-  {
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     1926,
-     2049
+     2013,
+     2155
     ]
    ],
    "policy_spans": [
@@ -274,8 +315,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     2052,
-     2176
+     2158,
+     2282
     ]
    ],
    "policy_spans": [
@@ -289,8 +330,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2179,
-     2244
+     2285,
+     2350
     ]
    ],
    "policy_spans": [
@@ -304,8 +345,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     2247,
-     2335
+     2353,
+     2441
     ]
    ],
    "policy_spans": [

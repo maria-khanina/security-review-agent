@@ -46,17 +46,22 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 * Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 * Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
 * Connections to the database and between internal services use TLS.
+* Error responses do not expose stack traces, SQL or internal hostnames.
 * Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 * Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
+* Reading centralized logs requires authorization, and only approved staff have it.
 * Outbound TLS connections always verify the peer certificate.
 * No secrets are kept in source code, config files, API specs or infrastructure definitions.
 * On boot, the service pulls its credentials from the approved secret store.
+* Each request for a customer's resource checks that the caller owns it or is entitled to it.
 * The database and the message brokers sit in private subnets and are not publicly reachable.
 * Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 * Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 * Non-production environments contain no real personal or card data.
-* Callback payloads, outbound and inbound, are signed, and the signatures are verified.
+* Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
+* Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 * We use parameterized queries only, with no SQL built from user input by string concatenation.
+* External inputs are accepted only if they validate against the schema.
 * Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 * Containers run as a non-root user, with a read-only root filesystem where possible.
 

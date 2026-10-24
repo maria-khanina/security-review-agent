@@ -27,12 +27,22 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 
 - Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+- The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+- Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+- The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 - At startup the service fetches its secrets from the approved secret store.
 - We log failed logins, changes of privileges and reads of sensitive data.
+- Containers must run as a non-root user with a read-only root filesystem where possible.
+- Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 - Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
+- Connections to the database and between internal services use TLS.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 - Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+- The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+- All external inputs must be validated against a schema and rejected if invalid.
+- The databases and object stores that hold PII use AES-256 encryption at rest.
+- No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
 
 ## 6. Deployment
 

@@ -48,7 +48,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EntryRequest'
-      security: []
     get:
       operationId: listEntries
       summary: List entries

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "reporting read replica (PostgreSQL)",
    "data_class": "pii",
    "exposure": "admin",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "OPS-02",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -58,7 +56,6 @@
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "component": "reporting read replica (PostgreSQL)",
    "data_class": "pii",
    "exposure": "admin",
@@ -72,6 +69,28 @@
    "remediation_options": [],
    "clarification_needed": "Which database identity each service uses and its grants.",
    "instruction": "Mention reporting read replica (PostgreSQL) naturally, but do NOT state: Which database identity each service uses and its grants. Wrap the sentence(s) that mention reporting read replica (PostgreSQL) (the place where that information should have been) in the F3 marker."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-02",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep secrets, card numbers and personal data out of logs except opaque identifiers"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Error logs include the authorization header and request payload to help support."
   }
  ],
  "required_rules": [
@@ -80,9 +99,9 @@
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "AUTH-02",
   "NET-02",
   "LOG-01",
-  "LOG-02",
   "DATA-02",
   "DATA-03",
   "API-05",

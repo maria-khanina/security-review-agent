@@ -29,7 +29,6 @@ Implementation (terraform) the document describes:
 ## Planted items
 - F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Hostname verification is disabled for the acquirer connection.
 - F2 [ambiguity, low] Mention Vault and KMS naturally, but do NOT state: Rotation schedule for service credentials. Wrap the sentence(s) that mention Vault and KMS (the place where that information should have been) in the F2 marker.
-- F3 [drift, medium] State as plain fact, adapted to this service: Backups are encrypted. Wrap the sentence(s) in the F3 marker.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
@@ -42,13 +41,22 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:NET-04|...⟧ Services calling third parties must have egress restricted to an approved allowlist.
+- ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
+- ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:AUTHZ-01|...⟧ Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+- ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:DATA-04|...⟧ Non-production environments must not contain real personal or card data.
 - ⟦S:API-03|...⟧ Outbound and inbound webhook payloads must be signed and signatures verified.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
-- ⟦S:NET-04|...⟧ Services calling third parties must have egress restricted to an approved allowlist.
+- ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 ## Functional content (no security claims)
 Aim for at least 1400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -4,6 +4,8 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
+security:
+- bearerAuth: []
 paths:
   /v1/subscriptions:
     post:
@@ -180,12 +182,6 @@ paths:
         schema:
           type: string
           maxLength: 64
-      - name: endpoint_owner_email
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 128
   /v1/deliveries/{deliveryId}/replay:
     post:
       operationId: replayDelivery
@@ -235,7 +231,11 @@ paths:
             schema:
               $ref: '#/components/schemas/ReplayRequest'
 components:
-  securitySchemes: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     SubscriptionRequest:
       type: object

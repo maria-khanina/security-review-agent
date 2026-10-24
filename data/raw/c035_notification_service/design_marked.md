@@ -34,17 +34,21 @@ A template has a subject and a body with placeholders and is stored per locale. 
 This section combines the v1 security section with the 2023 updates.
 
 - ⟦S:AUTH-02|Calls between internal services and the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧ (The v1 text relied on a shared header; this was replaced during the migration.)
+
+⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 - ⟦F2|Roles are defined once, globally, for all platform services rather than per service, and every service reuses the same set.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - ⟦S:NET-01|Data stores and brokers sit in private subnets only.⟧
-- ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧
-- ⟦S:DATA-05|Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
+- ⟦F4|The profile table of the notifier keeps every attribute that the calling services send.⟧
+- ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
+- ⟦S:AUTHZ-01|Ownership is verified on every access to customer-owned data, not only at login.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 ## 7. Logging
 
-- ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
+- ⟦F3|Security-relevant events are not separated from normal logs, and nobody monitors them.⟧
+- ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 ## 8. Build and deployment
 

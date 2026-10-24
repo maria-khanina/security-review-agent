@@ -12,21 +12,66 @@
   "dangling_references": 1,
   "tbd_markers": 2
  },
- "clean": true,
- "flaws": [],
- "satisfied": [
+ "clean": false,
+ "flaws": [
   {
+   "flaw_id": "F1",
+   "type": "violation",
    "rule_id": "AUTH-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-287"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTH-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
    "design_spans": [
     [
      533,
-     636
+     648
+    ]
+   ],
+   "policy_spans": {
+    "AUTH-02": [
+     [
+      900,
+      1069
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     651,
+     740
     ]
    ],
    "policy_spans": [
     [
-     900,
-     1069
+     4379,
+     4478
     ]
    ]
   },
@@ -34,8 +79,8 @@
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     639,
-     723
+     743,
+     827
     ]
    ],
    "policy_spans": [
@@ -46,11 +91,26 @@
    ]
   },
   {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     830,
+     931
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     726,
-     783
+     934,
+     991
     ]
    ],
    "policy_spans": [
@@ -64,8 +124,8 @@
    "rule_id": "CRYPTO-02",
    "design_spans": [
     [
-     796,
-     869
+     1004,
+     1077
     ]
    ],
    "policy_spans": [
@@ -79,8 +139,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     872,
-     943
+     1080,
+     1151
     ]
    ],
    "policy_spans": [
@@ -91,11 +151,26 @@
    ]
   },
   {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     1154,
+     1275
+    ]
+   ],
+   "policy_spans": [
+    [
+     4025,
+     4182
+    ]
+   ]
+  },
+  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     965,
-     1020
+     1297,
+     1352
     ]
    ],
    "policy_spans": [
@@ -109,8 +184,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     1023,
-     1081
+     1355,
+     1413
     ]
    ],
    "policy_spans": [
@@ -124,8 +199,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1094,
-     1201
+     1426,
+     1533
     ]
    ],
    "policy_spans": [
@@ -136,17 +211,47 @@
    ]
   },
   {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     1536,
+     1659
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     1219,
-     1246
+     1677,
+     1704
     ]
    ],
    "policy_spans": [
     [
      4483,
      4590
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     1707,
+     1816
+    ]
+   ],
+   "policy_spans": [
+    [
+     1482,
+     1601
     ]
    ]
   }

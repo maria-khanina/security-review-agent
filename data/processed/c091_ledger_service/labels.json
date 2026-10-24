@@ -12,105 +12,8 @@
   "dangling_references": 0,
   "tbd_markers": 2
  },
- "clean": false,
- "flaws": [
-  {
-   "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-06",
-   "severity": "medium",
-   "cwe": [
-    "CWE-312"
-   ],
-   "component": "ledger-core",
-   "data_class": "internal",
-   "manifest": "both",
-   "implementation_anchor": "/components/schemas/Entry/properties/pan",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "CRYPTO-02"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     1378,
-     1421
-    ]
-   ],
-   "policy_spans": {
-    "CRYPTO-02": [
-     [
-      2052,
-      2162
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     6866,
-     6871
-    ],
-    [
-     7229,
-     7280
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
-   "severity": "medium",
-   "cwe": [
-    "CWE-306"
-   ],
-   "component": "ledger-core",
-   "data_class": "internal",
-   "manifest": "both",
-   "implementation_anchor": "/paths/~1v1~1entries/post/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "AUTH-01"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     1422,
-     1484
-    ]
-   ],
-   "policy_spans": {
-    "AUTH-01": [
-     [
-      769,
-      895
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     1257,
-     1269
-    ]
-   ],
-   "also_violates": []
-  }
- ],
+ "clean": true,
+ "flaws": [],
  "satisfied": [
   {
    "rule_id": "AUTH-02",
@@ -158,21 +61,6 @@
    ]
   },
   {
-   "rule_id": "CRYPTO-05",
-   "design_spans": [
-    [
-     2466,
-     2556
-    ]
-   ],
-   "policy_spans": [
-    [
-     2361,
-     2489
-    ]
-   ]
-  },
-  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
@@ -184,6 +72,21 @@
     [
      2634,
      2793
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     2466,
+     2556
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
     ]
    ]
   },
@@ -203,11 +106,56 @@
    ]
   },
   {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2654,
+     2728
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     2730,
+     2828
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     2830,
+     2894
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2693,
-     2789
+     2935,
+     3031
     ]
    ],
    "policy_spans": [
@@ -221,14 +169,29 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2790,
-     2880
+     3032,
+     3122
     ]
    ],
    "policy_spans": [
     [
      4483,
      4590
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     3124,
+     3187
+    ]
+   ],
+   "policy_spans": [
+    [
+     3582,
+     3652
     ]
    ]
   }

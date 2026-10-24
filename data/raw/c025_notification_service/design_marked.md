@@ -30,10 +30,12 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 - ⟦S:AUTHZ-05|Production access is reviewed at least quarterly.⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
+- ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 - ⟦S:NET-01|DBs and brokers are in private subnets, not publicly reachable.⟧
-- ⟦S:DATA-01|Only the personal data needed to deliver messages is stored.⟧
+- ⟦F1|Free-text fields from the delivery requests are stored verbatim, and they often contain more personal data than the message needs.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved DPA, and only the fields required.⟧
-- ⟦S:DATA-05|Delivery reports with personal data need authorization, are encrypted in storage and expire.⟧
+- ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+- ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:API-05|Queries are parameterized, no string concat of user input.⟧
 
 ## logs

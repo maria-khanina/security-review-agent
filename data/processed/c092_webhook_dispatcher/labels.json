@@ -16,62 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-07",
-   "severity": "medium",
-   "cwe": [
-    "CWE-532"
-   ],
-   "component": "dispatcher",
-   "data_class": "internal",
-   "manifest": "both",
-   "implementation_anchor": "/paths/~1v1~1deliveries/get/parameters",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "LOG-02",
-    "DATA-01"
-   ],
-   "policy_status": "vague",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     2360,
-     2398
-    ]
-   ],
-   "policy_spans": {
-    "LOG-02": [
-     [
-      3439,
-      3503
-     ]
-    ],
-    "DATA-01": [
-     [
-      3774,
-      3872
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     4877,
-     5011
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "LOG-01",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-778"
@@ -89,8 +35,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1744,
-     1825
+     1935,
+     2016
     ]
    ],
    "policy_spans": {
@@ -102,13 +48,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-522"
@@ -126,8 +72,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     1830,
-     1927
+     2021,
+     2118
     ]
    ],
    "policy_spans": {
@@ -139,13 +85,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
-   "flaw_id": "F4",
+   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "API-05",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-89"
@@ -168,8 +114,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2128,
-     2265
+     2319,
+     2456
     ]
    ],
    "policy_spans": {
@@ -181,7 +127,49 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1436,
+     1527
+    ]
+   ],
+   "policy_spans": {
+    "LOG-04": [
+     [
+      3582,
+      3652
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -264,8 +252,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     1437,
-     1553
+     1530,
+     1646
     ]
    ],
    "policy_spans": [
@@ -276,11 +264,26 @@
    ]
   },
   {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     1648,
+     1744
+    ]
+   ],
+   "policy_spans": [
+    [
+     900,
+     1069
+    ]
+   ]
+  },
+  {
    "rule_id": "NET-01",
    "design_spans": [
     [
-     1577,
-     1664
+     1768,
+     1855
     ]
    ],
    "policy_spans": [
@@ -294,8 +297,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     2000,
-     2084
+     2191,
+     2275
     ]
    ],
    "policy_spans": [

@@ -46,17 +46,22 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 * ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 * ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
 * ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+* ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
 * ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 * ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
+* ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 * ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
 * ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 * ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+* ⟦S:AUTHZ-01|Each request for a customer's resource checks that the caller owns it or is entitled to it.⟧
 * ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 * ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 * ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 * ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
-* ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
+* ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
+* ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
 * ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+* ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
 * ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 * ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 

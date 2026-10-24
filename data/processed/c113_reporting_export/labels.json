@@ -196,11 +196,26 @@
    ]
   },
   {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     2657,
+     2779
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     2749,
-     2814
+     2788,
+     2853
     ]
    ],
    "policy_spans": [
@@ -211,17 +226,17 @@
    ]
   },
   {
-   "rule_id": "DATA-05",
+   "rule_id": "LOG-04",
    "design_spans": [
     [
-     2657,
-     2740
+     2855,
+     2918
     ]
    ],
    "policy_spans": [
     [
-     4187,
-     4345
+     3582,
+     3652
     ]
    ]
   }

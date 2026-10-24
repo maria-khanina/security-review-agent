@@ -44,8 +44,8 @@ Acceptance criteria:
 ## Design decisions
 
 1. ⟦F1|Back-office actions such as the limits override are routed through the public gateway for simplicity, so support uses the same host as merchants.⟧
-2. ⟦F2|The API authenticates callers with JWT bearer tokens.⟧
-3. ⟦F3|A live-looking sandbox API key is kept as a default value in the specification and infrastructure files, so that examples work out of the box.⟧
+2. The API authenticates callers with JWT bearer tokens.
+3. ⟦F2|A live-looking sandbox API key is kept as a default value in the specification and infrastructure files, so that examples work out of the box.⟧
 
 ## Non-functional requirements
 
@@ -59,9 +59,13 @@ Acceptance criteria:
 | NFR-8 | Security logging | ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧ |
 | NFR-11 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
 | NFR-13 | Third parties | ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ |
-| NFR-14 | Exports | ⟦S:DATA-05|Reports that contain personal data require authorization to download, are encrypted in storage and expire.⟧ |
+| NFR-14 | Exports | ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧ |
 | NFR-15 | Validation | ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ |
 | NFR-16 | Queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
+
+⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
+⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 
 ## Design notes
 

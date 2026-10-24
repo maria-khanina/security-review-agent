@@ -5,7 +5,7 @@ info:
 servers:
 - url: https://api.meridianpay.example
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 paths:
   /v1/payments:
     post:
@@ -47,8 +47,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/PaymentRequest'
     get:
       operationId: listPayments
       summary: List payments
@@ -238,10 +237,10 @@ paths:
               $ref: '#/components/schemas/RefundRequest'
 components:
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-Api-Key
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     PaymentRequest:
       type: object

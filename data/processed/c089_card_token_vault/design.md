@@ -62,6 +62,12 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 | NFR-9 | Security logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
 | NFR-12 | Queries | All queries use bound parameters instead of string concatenation. |
 
+The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
+Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+All external input is validated against a schema, and invalid requests are rejected.
+The service collects and stores only the personal data it needs for its purpose.
+
 ## Design notes
 
 The tokenization-service is stateless and scales horizontally behind an internal load balancer. The database runs as a primary with a standby in a second availability zone. Deployments are rolling; a canary instance receives a small share of the traffic for fifteen minutes before the rest is updated, and rollback is automatic when the error rate crosses an agreed threshold. The expected peak is a few hundred tokenize calls per second at month end, with detokenize at about half that rate.

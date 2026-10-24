@@ -30,13 +30,15 @@ Implementation (terraform) the document describes:
 - F1 [ambiguity, medium] Mention export-job naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F1 marker.
 - F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Retention follows whatever the backups keep, with no explicit period.
 - F3 [ambiguity, low] Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F3 marker.
+- F4 [violation, high] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A shared admin account with a common password is used for operations.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
-- ⟦S:AUTH-04|...⟧ Administrative and back-office access must require multi-factor authentication.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
+- ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.

@@ -37,14 +37,20 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 - V-2: Staff roles are limited to what each job needs, and every service defines its own roles.
 - V-3: Every three months the system owners review who has access to production and remove what is no longer needed.
 
+Nothing administrative or meant for debugging can be called from outside our network.
+
 ### 5.2 Cardholder data
 
 - V-4: The PAN is tokenized by the card token vault and only the token is kept.
 - V-5: The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 
+At startup the service fetches its secrets from the approved secret store.
+
 ### 5.3 Secrets
 
 - V-6: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+
+Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
 
 ### 5.4 Network
 
@@ -57,6 +63,10 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.6 Application security
 
 - V-12: We use parameterized queries only, with no SQL built from user input by string concatenation.
+
+Every engineer has read access to the production logs of the vault.
+
+Schema validation runs on every external input, and invalid data never reaches the business logic.
 
 ### 5.7 Operations
 

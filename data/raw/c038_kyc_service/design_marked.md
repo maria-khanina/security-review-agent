@@ -28,7 +28,7 @@ A case moves from opened to documents_received to submitted, and then to verifie
 
 Customers sign in through the corporate identity provider, and the customer application presents the resulting token to the service. ⟦F1|kyc-orchestrator relies on the corporate identity provider for the sign-in of customers and does not keep any credentials of its own.⟧ Session handling in the mobile and web clients is described in the client design and is out of scope here.
 
-⟦F3|kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.⟧
+⟦F2|kyc-orchestrator serves case and document requests on behalf of the signed-in customer, and it returns the case and document data that the request refers to.⟧
 
 ## 5. Control catalogue
 
@@ -42,13 +42,15 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 ### 5.2 Data protection
 
-- K-5: ⟦S:CRYPTO-01|Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.⟧
+- K-5: ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 - K-6: ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
-- K-7: ⟦F2|Personal data is never placed in URLs.⟧
-- K-8: ⟦F4|Card numbers are never returned by the API.⟧
+- K-7: Personal data is never placed in URLs.
+- K-8: Card numbers are never returned by the API.
 - K-9: ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+
+⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 - K-10: ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
-- K-11: Customer deletion requests: ⟦F5|deletion requests are handled manually and often forgotten.⟧ A tracking dashboard is on the roadmap.
+- K-11: Customer deletion requests: ⟦F3|deletion requests are handled manually and often forgotten.⟧ A tracking dashboard is on the roadmap.
 
 ### 5.3 Cryptography and transport
 
@@ -58,7 +60,12 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 ### 5.4 Secrets
 
 - K-15: ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
 - K-16: ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
+
+⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
 
 ### 5.5 Network
 
@@ -73,7 +80,7 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 ### 5.7 Application security
 
 - K-23: ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
-- K-25: ⟦S:API-03|Webhook payloads, including the signed vendor callbacks, are signed and the signatures are verified by the receiver.⟧
+- K-25: ⟦F4|Signature verification is skipped for the callbacks coming from the partner sandbox.⟧
 - K-26: ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧
 - K-27: ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
@@ -81,6 +88,8 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 - K-28: ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 - K-29: ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
 
 ## 6. Document handling details
 

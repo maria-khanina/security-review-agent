@@ -4,7 +4,6 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
-- url: http://api.meridianpay.example
 security:
 - bearerAuth: []
 paths:
@@ -134,8 +133,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/InviteRequest'
   /v1/users/{userId}/role:
     patch:
       operationId: updateUserRole

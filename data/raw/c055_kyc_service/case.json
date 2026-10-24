@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "SECRET-02",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -52,39 +50,66 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-04",
+   "type": "violation",
+   "rule_id": "AUTH-02",
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
-   "severity": "critical",
+   "severity": "high",
    "cwe": [
-    "CWE-306"
+    "CWE-287"
    ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_operation_without_auth",
-   "implementation_anchor": "/paths/~1v1~1kyc~1cases/post/security",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All state-changing operations require an authenticated caller. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Internal services trust each other based on being inside the cluster network."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Any authenticated caller can read any record if it knows the identifier."
   }
  ],
  "required_rules": [
   "AUTHZ-04",
   "AUTHZ-05",
   "CRYPTO-03",
+  "LOG-04",
+  "AUTH-01",
   "NET-01",
   "NET-02",
-  "LOG-01",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
+  "LOG-01",
   "API-01",
-  "API-05",
-  "DATA-05"
+  "API-05"
  ]
 }

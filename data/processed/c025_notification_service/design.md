@@ -30,10 +30,12 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 - Production access is reviewed at least quarterly.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.
 - No secrets in code, config, specs or infra definitions.
+- Access to centralized logs must be limited to authorized staff.
 - DBs and brokers are in private subnets, not publicly reachable.
-- Only the personal data needed to deliver messages is stored.
+- Free-text fields from the delivery requests are stored verbatim, and they often contain more personal data than the message needs.
 - Personal data goes to third parties only under an approved DPA, and only the fields required.
-- Delivery reports with personal data need authorization, are encrypted in storage and expire.
+- Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+- At startup the service fetches its secrets from the approved secret store.
 - Queries are parameterized, no string concat of user input.
 
 ## logs

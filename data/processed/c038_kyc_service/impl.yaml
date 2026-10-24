@@ -91,12 +91,6 @@ paths:
         schema:
           type: string
           maxLength: 64
-      - name: national_id
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 128
   /v1/kyc/cases/{caseId}/documents:
     post:
       operationId: uploadDocument
@@ -306,7 +300,6 @@ components:
       - status
       - risk_level
       - customer_id
-      - pan
       properties:
         id:
           type: string
@@ -320,9 +313,6 @@ components:
         customer_id:
           type: string
           maxLength: 256
-        pan:
-          type: string
-          maxLength: 19
     Error:
       type: object
       additionalProperties: false

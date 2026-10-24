@@ -24,23 +24,27 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 
 *transport / crypto*
 • ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+
+⟦F4|Production logs of the dispatcher are exposed on a shared dashboard without access control.⟧
 • ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
+
+⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 
 *secrets / network*
 • ⟦S:NET-01|delivery-queue and the databases sit in private subnets and are not publicly reachable.⟧
 
 **lena:** what about logging? and how does the sender get its keys
 
-**dani:** ⟦F2|The dispatcher writes logs to the central logging stack like every other service.⟧ and ⟦F3|The dispatcher starts up with its configuration and connects to delivery-queue and the databases.⟧ (lena can you confirm both? i'm hazy)
+**dani:** ⟦F1|The dispatcher writes logs to the central logging stack like every other service.⟧ and ⟦F2|The dispatcher starts up with its configuration and connects to delivery-queue and the databases.⟧ (lena can you confirm both? i'm hazy)
 
 **lena:** will do, TBD
 
 *more*
 • ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧
 
-**dani:** one more thing about filtering. ⟦F4|The status filter on GET /v1/deliveries is passed from the query string and a raw SQL fragment from it is appended to the delivery query.⟧ it was the quickest way to support all the filter combos, we can clean it up later
+**dani:** one more thing about filtering. ⟦F3|The status filter on GET /v1/deliveries is passed from the query string and a raw SQL fragment from it is appended to the delivery query.⟧ it was the quickest way to support all the filter combos, we can clean it up later
 
-**dani:** ⟦F1|Personal data is never placed in URLs.⟧ i think that's from the old spec
+**dani:** Personal data is never placed in URLs. i think that's from the old spec
 
 **lena:** ok. open: how many subscriptions per merchant? TBD
 

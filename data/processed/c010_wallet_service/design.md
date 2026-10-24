@@ -39,7 +39,7 @@ All state-changing operations require an authenticated caller.
 
 ## Data
 
-- PII is encrypted at rest with AES-256.
+- Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - Keys live in KMS, never next to the data, rotated at least annually.
 - Personal data goes to third parties only under an approved DPA, only required fields.
 - Non-prod environments hold no real personal or card data.
@@ -49,14 +49,19 @@ All state-changing operations require an authenticated caller.
 
 - Outbound TLS connections validate certificates; verification is never off.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.
+- Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429.
 - wallet-db sits in private subnets, no public endpoint.
 - A WAF with rate limiting protects the externally exposed API.
+- Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
 - Egress to third parties is restricted to an approved allowlist.
+- Traffic between services, and from services to data stores, is encrypted in transit.
 
 ## Secrets
 
 - No secrets in code, config, specs or infra definitions.
 - At startup the service fetches its secrets from the approved secret store.
+- Administrative and debug endpoints must not be reachable from the public internet.
+- Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 ## Logging
 
@@ -65,11 +70,13 @@ All state-changing operations require an authenticated caller.
 ## App and ops
 
 - External input is validated against a schema; invalid requests are rejected.
-- Webhook payloads are signed and signatures verified.
+- Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Error responses carry no stack traces, SQL or internal hostnames.
 - Queries are parameterized; no string concatenation of user input.
 - CI scans dependencies and images; critical vulns fixed within 14 days.
-- Containers run non-root, read-only root fs where possible.
+- Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+- Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+- Containers keep the default root user, because switching to a non-root user broke access to the mounted files.
 
 ## Notes on behavior
 

@@ -63,8 +63,13 @@
 | repo and config | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | bucket | The staging bucket blocks public access and is private by default. |
 | vendor | Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. |
-| exports | Data exports require authorization, are encrypted, and expire after a limited time. |
+| exports | Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days. |
 | queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
+
+Debug and administrative routes are not exposed to the internet.
+At startup the service fetches its secrets from the approved secret store.
+Neither the database nor the broker has a public endpoint, and both live in private subnets.
+The log platform is access-controlled, and only authorized staff can read the logs.
 
 | open | owner
 |---|---|

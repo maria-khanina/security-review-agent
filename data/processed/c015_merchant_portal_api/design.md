@@ -34,13 +34,15 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 - C-1: All state-changing operations require an authenticated caller.
 - C-6: Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+
 ### 4.2 Data protection
 
-- C-7: The databases and object stores that hold PII use AES-256 encryption at rest.
+- C-7: Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
 - C-8: Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 - C-9: Card numbers are never returned by the API.
 - C-12: Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- C-13: Only synthetic data is present outside production.
+- C-13: Staging is refreshed every night from a snapshot of the production database, including the merchant users.
 
 ### 4.3 Cryptography and transport
 
@@ -50,6 +52,8 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ### 4.4 Secrets
 
 - C-17: Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+
+The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
 - C-18: On boot, the service pulls its credentials from the approved secret store.
 
 ### 4.5 Network
@@ -64,14 +68,22 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ### 4.7 Application security
 
 - C-25: All external input is validated against a schema, and invalid requests are rejected.
-- C-27: Webhook payloads, outbound and inbound, are signed and the signatures are verified.
+- C-27: Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.
+
+Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+Each request for a customer's resource checks that the caller owns it or is entitled to it.
 - C-28: Error responses do not reveal stack traces, SQL or internal hostnames.
+
+Reading centralized logs requires authorization, and only approved staff have it.
+Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 - C-29: We use parameterized queries only, with no SQL built from user input by string concatenation.
 
 ### 4.8 Operations
 
 - C-30: The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - C-31: The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+
+Traffic between services, and from services to data stores, is encrypted in transit.
 
 ## 5. Accepted risks and roadmap
 

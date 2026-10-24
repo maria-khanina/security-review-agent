@@ -27,21 +27,21 @@ Implementation (terraform) the document describes:
 - iam `scoring_policy`
 
 ## Planted items
-- F1 [drift, high] State as plain fact, adapted to this service: The database accepts connections only from the application subnet. Wrap the sentence(s) in the F1 marker.
-- F2 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Data is sent to a third party under a verbal agreement.
-- F3 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: What is included in request logs. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F3 marker.
+- F1 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Data is sent to a third party under a verbal agreement.
+- F2 [ambiguity, low] Mention scoring-engine naturally, but do NOT state: What is included in request logs. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F2 marker.
+- F3 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Internal services trust each other based on being inside the cluster network.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
-- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
+- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 - ⟦S:AUTHZ-02|...⟧ Internal users must receive only the roles required for their job and roles must be defined per service.
 - ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
-- ⟦S:CRYPTO-01|...⟧ Personally identifiable information must be encrypted at rest with AES-256 or stronger.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
-- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:LOG-04|...⟧ Access to centralized logs must be limited to authorized staff.
 - ⟦S:DATA-05|...⟧ Reports and exports containing personal data must require authorization, be encrypted in storage and expire.
 

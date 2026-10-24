@@ -42,11 +42,13 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 ### 5.2 Data protection
 
-- K-5: Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256.
+- K-5: Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - K-6: Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - K-7: Personal data is never placed in URLs.
 - K-8: Card numbers are never returned by the API.
 - K-9: Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+
+Traffic between services and to data stores must be encrypted in transit.
 - K-10: Non-production environments contain no real personal or card data.
 - K-11: Customer deletion requests: deletion requests are handled manually and often forgotten. A tracking dashboard is on the roadmap.
 
@@ -58,7 +60,12 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 ### 5.4 Secrets
 
 - K-15: Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+
+Access to centralized logs must be limited to authorized staff.
+The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 - K-16: Runtime secrets are fetched from the approved secret store at startup.
+
+Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 
 ### 5.5 Network
 
@@ -73,7 +80,7 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 ### 5.7 Application security
 
 - K-23: All external inputs are validated against a schema and rejected if invalid.
-- K-25: Webhook payloads, including the signed vendor callbacks, are signed and the signatures are verified by the receiver.
+- K-25: Signature verification is skipped for the callbacks coming from the partner sandbox.
 - K-26: Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - K-27: User input reaches the database only as query parameters, never as part of the query text.
 
@@ -81,6 +88,8 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 - K-28: CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - K-29: Containers run as a non-root user, with a read-only root filesystem where possible.
+
+The external API sits behind a WAF that also applies rate limiting.
 
 ## 6. Document handling details
 

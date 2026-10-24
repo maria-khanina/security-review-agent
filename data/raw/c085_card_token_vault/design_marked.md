@@ -20,15 +20,21 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 ### 4. Security (architecture view)
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
-- ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
+- ⟦F2|Access tokens are valid for 24 hours or longer, and refresh tokens are not rotated.⟧
+- ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 - ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
+- ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
 - ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
-- ⟦F2|The database sits in private subnets with no public endpoint.⟧
-- ⟦F3|Backups are encrypted.⟧
-- ⟦F4|The service role can only read its own table.⟧
+- ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
+- ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
+- ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
+- The database sits in private subnets with no public endpoint.
+- Backups are encrypted.
+- The service role can only read its own table.
 
 ---
 
@@ -42,13 +48,16 @@ so the tokenizer (that's tokenization-service, I always say tokenizer) gets a PA
 
 ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
+⟦S:AUTHZ-01|Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.⟧
+
 #### logging
 
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
+- ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 
 #### test data and code
 
-⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧ ⟦S:API-03|Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧ ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 #### build and network
 

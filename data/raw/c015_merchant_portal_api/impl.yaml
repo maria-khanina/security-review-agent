@@ -134,7 +134,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/InviteRequest'
-      security: []
   /v1/users/{userId}/role:
     patch:
       operationId: updateUserRole
@@ -282,7 +281,6 @@ components:
       - gross
       - fees
       - net
-      - pan
       properties:
         id:
           type: string
@@ -299,9 +297,6 @@ components:
         net:
           type: integer
           minimum: 0
-        pan:
-          type: string
-          maxLength: 19
     InviteRequest:
       type: object
       additionalProperties: false

@@ -25,10 +25,12 @@ Output per run: one CSV per report type and date range, temp key then rename, ru
 
 ## Access and identity
 
-- ⟦S:AUTH-04|Anyone with administrative or back-office access is required to use multi-factor authentication.⟧
+- ⟦F4|A shared admin account with a common password is used for the operations of the export job.⟧
 - ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+- ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 ## Protection
 

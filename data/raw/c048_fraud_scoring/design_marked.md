@@ -30,31 +30,34 @@
 ## Captions
 
 - Input is the MSK topic only. The engine reads, scores, writes. No other inbound path.
-- ⟦F2|decisions-db (PostgreSQL) holds the risk decisions together with the customer attributes that were scored.⟧
+- ⟦F1|decisions-db (PostgreSQL) holds the risk decisions together with the customer attributes that were scored.⟧
 - Output: decision row + audit record. Nothing leaves the account.
 
 ## Notes: access
 
 - ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 - ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are rotated on use.⟧
-- ⟦F1|The database accepts connections only from the application subnet.⟧
+- ⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+- The database accepts connections only from the application subnet.
 
 ## Notes: crypto and secrets
 
-- ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+- ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 - ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 
 ## Notes: data and egress
 
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
-- ⟦S:DATA-04|Non-production environments hold no real personal or card data.⟧
+- ⟦F2|Support analysts reproduce scoring issues in staging with real customer records.⟧
 - ⟦S:NET-04|Services that call third parties have egress restricted to an approved allowlist.⟧
-- ⟦S:API-03|Callbacks on block decisions are signed and signatures verified, outbound and inbound.⟧
+- ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧
 
 ## Notes: logging and ops
 

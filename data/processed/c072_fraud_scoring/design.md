@@ -17,11 +17,19 @@ Real time fraud scoring replacing the nightly batch. scoring-engine (a.k.a. the 
 
 **Crypto and secrets.** We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. No secrets are kept in source code, config files, API specs or infrastructure definitions. The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
+The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+
+Traffic between services, and from services to data stores, is encrypted in transit.
+
+Nothing administrative or meant for debugging can be called from outside our network.
+
 **Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs. We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
-**Data.** Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Open: what the retention period is for review decisions, compliance says 13 months, risk says 24 (TBD). Third parties receive only the fields they need, and only if an approved data processing agreement covers them. At the moment nothing leaves.
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
-**Code and build.** Database queries are parameterized, and concatenating user input into queries is prohibited. Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+**Data.** The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job. Open: what the retention period is for review decisions, compliance says 13 months, risk says 24 (TBD). Third parties receive only the fields they need, and only if an approved data processing agreement covers them. At the moment nothing leaves.
+
+**Code and build.** A raw SQL fragment from the query string is appended to the decisions report query, so analysts can add their own conditions. Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## model and rules (short)
 

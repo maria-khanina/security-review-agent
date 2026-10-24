@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTHZ-02",
-   "drift_id": null,
    "component": "ledger-core",
    "data_class": "internal",
    "exposure": "internal",
@@ -35,19 +34,22 @@
  "required_rules": [
   "AUTH-02",
   "AUTH-03",
+  "CRYPTO-06",
+  "AUTHZ-04",
+  "API-04",
+  "LOG-04",
   "CRYPTO-04",
   "CRYPTO-05",
-  "CRYPTO-06",
+  "CRYPTO-07",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
+  "NET-04",
   "LOG-01",
   "DATA-04",
   "API-03",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "OPS-02"
  ]
 }

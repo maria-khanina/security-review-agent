@@ -25,7 +25,11 @@ There are five components: Payments Edge Gateway, payments-core, payments-db, Ac
 
 ⟦S:AUTH-01|Every call to the public API is authenticated at Payments Edge Gateway with OAuth2 bearer tokens issued by our identity provider.⟧ A request without valid token is rejected with 401 before it reach payments-core.
 
+⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+
 ⟦S:AUTHZ-01|On every request for a payment, payments-core check that the calling merchant is the owner of this payment.⟧ This check is not skipped for GET and list calls.
+
+⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
 
 ⟦S:AUTHZ-04|Administrative and debug endpoints are not published on the public gateway and cannot be reached from internet.⟧ Operators use the internal network only.
 
@@ -40,10 +44,15 @@ The service handle card data and personal data of the payer. We have rules for b
  Plain HTTP is closed on the gateway.
 
 ⟦S:CRYPTO-05|We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are forbidden.⟧
+⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
 
 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when service start.⟧
 
-⟦S:DATA-02|Payment records have a retention period of seven years after the transaction, then a scheduled job delete them; a verified request from the data subject is also honored when no legal hold exists.⟧
+⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
+
+⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 
 ⟦S:DATA-03|Payer data is sent to the acquirer only under the approved data processing agreement, and we send only the fields the acquirer need for authorization.⟧
 

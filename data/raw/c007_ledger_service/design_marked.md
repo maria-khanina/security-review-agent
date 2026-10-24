@@ -27,7 +27,7 @@ ledger-core is called by the wallet and payment services:
 - POST /v1/entries/{entryId}/reversal reverses an entry; the only request field is reason.
 - GET /v1/entries lists entries.
 
-⟦F4|The service exposes only the endpoints listed in this API section.⟧ The old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more.
+The service exposes only the endpoints listed in this API section. The old in-process helper functions (post_raw and friends) are removed and nothing is expected to call them any more.
 
 ## Behavior notes
 
@@ -44,10 +44,16 @@ Entry posting is idempotent on the reference field. Posting the same reference t
 Most v1 properties carry over unchanged, so only the points that changed shape are listed here.
 
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+- ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+- ⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧
+- ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+- ⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+- ⟦F3|users are kept away from other customers' entries by hiding the posting and reversal buttons in the finance UI, and the API itself does not check whose entry it returns.⟧
 
-Transport: ⟦F3|all traffic to ledger-core is served over HTTPS only.⟧ Clients that used the in-process call path need no change on their side except the base URL.
+Transport: all traffic to ledger-core is served over HTTPS only. Clients that used the in-process call path need no change on their side except the base URL.
 
 ## Cutover
 

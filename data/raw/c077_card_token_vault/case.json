@@ -11,16 +11,46 @@
   "dangling_references": 1,
   "tbd_markers": 2
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-02",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-287"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "authenticate internal service calls with mutual TLS"
+    ],
+    [
+     "authenticate internal service calls with signed workload identity tokens"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Internal endpoints are protected only by obscure URL paths."
+  }
+ ],
  "required_rules": [
-  "AUTH-02",
+  "API-01",
   "AUTHZ-02",
+  "AUTHZ-04",
   "AUTHZ-05",
   "CRYPTO-02",
   "CRYPTO-05",
+  "DATA-03",
   "SECRET-01",
   "NET-01",
   "LOG-01",
-  "API-05"
+  "DATA-05",
+  "API-05",
+  "AUTHZ-01"
  ]
 }

@@ -19,11 +19,14 @@ Goal: copy the tables the analytics vendor needs from the production replica int
 **Access and platform.** Short list from the platform checklist, nobody objected:
 - ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 - ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧
-- ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
+- ⟦F5|Access lists are reviewed only before an external audit.⟧
 - ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- ⟦F4|Log access is granted to whole teams and is never removed.⟧
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
+- ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+- ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 

@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "SECRET-03",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -40,7 +39,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-01",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -57,46 +55,49 @@
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-10",
-   "component": "exports bucket (S3)",
+   "type": "violation",
+   "rule_id": "AUTH-04",
+   "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
    "severity": "high",
    "cwe": [
-    "CWE-668"
+    "CWE-308"
    ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_bucket_public",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "require multi-factor authentication for administrative and back-office access"
     ]
    ],
    "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The bucket is private and accessed through pre-signed URLs. Wrap the sentence(s) in the F3 marker."
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): MFA for administrators is planned for later; the admin accounts use passwords for now."
   }
  ],
  "required_rules": [
   "AUTH-03",
-  "AUTH-04",
   "AUTHZ-04",
   "CRYPTO-01",
+  "NET-02",
   "CRYPTO-05",
   "CRYPTO-06",
+  "CRYPTO-07",
+  "DATA-05",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
+  "NET-04",
   "LOG-01",
+  "DATA-02",
+  "CRYPTO-04",
   "DATA-03",
   "DATA-04",
   "API-03",
+  "AUTHZ-03",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "OPS-02"
  ]
 }

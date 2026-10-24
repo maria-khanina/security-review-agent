@@ -43,17 +43,28 @@ Data at rest is encrypted with KMS-managed keys.
 
 Traffic between services, and between services and data stores or brokers, is encrypted in transit. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Outbound TLS connections always verify the peer certificate.
 
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+
+The service connects to its database with its own account, which has only the grants it needs.
+
 ## 7. Secrets
 
 A secret is anything that gives access, such as a password or a key. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. At startup the service fetches its secrets from the approved secret store.
+
+Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.
 
 ## 8. Personal data
 
 The decisions contain personal data such as email and phone number. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. Real customer and card data is kept out of dev, test and staging.
 
+Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
+
+Debug and administrative routes are not exposed to the internet.
+
 ## 9. Network
 
 Third-party calls leave through an egress allowlist, not through open outbound access.
+Reading centralized logs requires authorization, and only approved staff have it.
 
 We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, the database is reachable from outside the VPC, so the test runner can connect from a laptop. The test runner is only used by the Risk Engineering team.
 
@@ -63,7 +74,7 @@ Security-relevant events (authentication failures, privilege changes, access to 
 
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. Webhook payloads, outbound and inbound, are signed, and the signatures are verified. All queries use bound parameters instead of string concatenation.
+When a decision is "block", the service calls back the payments team. Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them. All queries use bound parameters instead of string concatenation.
 
 ## 12. Building and running
 

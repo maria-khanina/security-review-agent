@@ -41,9 +41,10 @@
 
 ## Notes: data and crypto
 
-- ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧
+- ⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧
+- ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
-- ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧
+- ⟦F3|Certificate verification is turned off for the export job to work around the test certificates of the vendor.⟧
 - ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
 - ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
@@ -53,15 +54,19 @@
 - ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
-- ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧
+- ⟦F4|The job can reach any address on the internet; there are no egress rules.⟧
 
 ## Notes: logs, code, ops
 
 - ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
-- ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+- ⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+- ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
+- ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 - ⟦S:OPS-01|CI scans dependencies and images; critical vulnerabilities are fixed within 14 days.⟧
 - ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
+- ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+- ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 ## Behavior
 

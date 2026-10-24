@@ -40,6 +40,8 @@ The controls below follow the Information Security Policy.
 No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 
  Nothing administrative or meant for debugging can be called from outside our network.
+ Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+ Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 
 Personally identifiable information, in kyc-db and in the kyc-documents bucket, is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
@@ -52,6 +54,9 @@ We log failed logins, changes of privileges and reads of sensitive data. Nothing
 Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
 External inputs are accepted only if they validate against the schema. All queries use bound parameters instead of string concatenation. Cross-origin access is restricted to approved origins, and there is no wildcard.
+
+Traffic between services and to data stores must be encrypted in transit.
+Containers must run as a non-root user with a read-only root filesystem where possible.
 
 Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 

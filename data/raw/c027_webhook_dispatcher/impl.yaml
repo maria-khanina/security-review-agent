@@ -8,6 +8,8 @@ servers:
     apiKey:
       default: sk_live_51NxQ7vHk2LmPq8Zr4TwY
       description: Default key for the sandbox environment
+security:
+- bearerAuth: []
 paths:
   /v1/subscriptions:
     post:
@@ -233,7 +235,11 @@ paths:
             schema:
               $ref: '#/components/schemas/ReplayRequest'
 components:
-  securitySchemes: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     SubscriptionRequest:
       type: object

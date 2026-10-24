@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "component": "decisions-db (PostgreSQL)",
-   "data_class": "pii",
-   "exposure": "internal",
-   "severity": "medium",
-   "cwe": [
-    "CWE-311"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_encryption_missing",
-   "implementation_anchor": "aws_db_instance.decisions_db",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "component": "payment-events (MSK)",
    "data_class": "pii",
    "exposure": "internal",
@@ -65,16 +41,22 @@
   "AUTH-03",
   "CRYPTO-04",
   "CRYPTO-05",
+  "CRYPTO-07",
+  "LOG-02",
+  "AUTHZ-03",
   "SECRET-01",
   "SECRET-02",
-  "LOG-01",
+  "CRYPTO-01",
   "DATA-03",
   "DATA-04",
+  "CRYPTO-06",
+  "AUTHZ-04",
+  "NET-04",
+  "LOG-04",
+  "LOG-01",
   "API-03",
   "API-05",
   "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "OPS-02"
  ]
 }

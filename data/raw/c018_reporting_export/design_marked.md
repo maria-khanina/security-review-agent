@@ -33,7 +33,8 @@ The job reads settlement and transaction data from the replica, writes CSV files
 ## 4. Security controls
 
 - ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
-- ⟦F2|Data at rest is encrypted with KMS-managed keys.⟧
+- ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
+- Data at rest is encrypted with KMS-managed keys.
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
@@ -41,7 +42,9 @@ The job reads settlement and transaction data from the replica, writes CSV files
 
 ## 5. Logging and data
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧ ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧ ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+
+⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
 
 ## 6. Build and operations
 

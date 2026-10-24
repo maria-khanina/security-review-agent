@@ -48,9 +48,13 @@ ledger-core write the records about its work, and the operations team can read t
 The controls which are important for this service are listed here.
 
 - Source, config, specs and infrastructure definitions contain no secrets.
+- The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
 - The runtime secrets are fetched from the approved secret store when the service start.
 - All queries use bound parameters instead of string concatenation.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+- We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
+- Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
+- Debug and administrative routes are not exposed to the internet.
 
 ## 7. Balance and reconciliation
 

@@ -55,6 +55,7 @@ resource "aws_cloudwatch_log_group" "vault_audit" {
 
 resource "aws_backup_vault" "vault_backups" {
   name = "vault_backups"
+  kms_key_arn = aws_kms_key.vault_key.arn
 }
 
 data "aws_iam_policy_document" "vault_service_policy" {

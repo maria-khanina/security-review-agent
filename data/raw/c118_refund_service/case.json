@@ -17,17 +17,19 @@
   "AUTHZ-01",
   "AUTHZ-04",
   "AUTHZ-05",
-  "CRYPTO-01",
   "CRYPTO-02",
+  "CRYPTO-01",
   "CRYPTO-03",
   "CRYPTO-05",
+  "SECRET-02",
   "SECRET-01",
+  "AUTH-02",
   "NET-01",
   "LOG-01",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
   "API-01",
-  "API-05",
-  "DATA-05"
+  "API-05"
  ]
 }

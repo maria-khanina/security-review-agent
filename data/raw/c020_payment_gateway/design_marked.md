@@ -29,7 +29,11 @@ The difference between authorize and capture confused me at first. Authorize mea
 
 ## 4. Authentication
 
-In a gateway, authentication answers "who is calling?". ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧ ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ ⟦S:AUTH-06|Repeated failed logins are throttled, and the account is locked out after too many failures.⟧
+In a gateway, authentication answers "who is calling?". ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧ ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ ⟦S:AUTH-06|Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.⟧
+
+⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
+
+⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 
 Authorization answers "what may this caller do?". ⟦S:AUTHZ-01|For every request touching a merchant-owned payment, the service verifies that the caller owns the payment or is entitled to it.⟧ ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
@@ -43,7 +47,7 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 
 ## 6. Personal data
 
- ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
+ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦F2|Developers copy production payment data to their laptops when they need to reproduce a bug.⟧
 
 ## 7. Secrets
 
@@ -53,9 +57,15 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 
 ⟦S:NET-01|payments-db and the Kafka brokers are in private subnets and are not publicly reachable.⟧ ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧ ⟦S:NET-04|The egress of services that call third parties is restricted to an approved allowlist.⟧
 
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
+
 ## 9. Input and output
 
-⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧
+
+⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
+
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
 
 ## 10. Logging
 

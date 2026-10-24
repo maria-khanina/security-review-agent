@@ -31,7 +31,7 @@ The infrastructure is written in Terraform, which means it is described in text 
 
 ## 4a. Reading the bucket
 
-⟦F1|The bucket is private and accessed through pre-signed URLs.⟧ A pre-signed URL is a web address that is only valid for a short time, so an analyst can download a file without having an account on the bucket.
+The bucket is private and accessed through pre-signed URLs. A pre-signed URL is a web address that is only valid for a short time, so an analyst can download a file without having an account on the bucket.
 
 ## 5. Who may do what?
 
@@ -43,11 +43,17 @@ Authorization means what you may do after you are in. ⟦S:AUTHZ-02|There are no
 
 Encryption turns readable data into unreadable data. ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧ "At rest" means stored on a disk. ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
-About personal data: ⟦S:DATA-01|The export collects and stores only the personal data needed for the reports.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+About personal data: ⟦S:DATA-01|The export collects and stores only the personal data needed for the reports.⟧ ⟦F2|A new data provider already receives customer fields from the reporting job, although the contract with them is still under negotiation.⟧
+
+⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 ## 7. Secrets and network
 
 A secret is anything that gives access, like a password. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:NET-01|The database and the message brokers are in private subnets and are not publicly reachable.⟧
+
+⟦S:NET-02|We enable block-public-access on the buckets so that nothing is public by default.⟧
+⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 
 ## 8. Logs
 
@@ -55,7 +61,7 @@ Logs are the diary of the system. ⟦S:LOG-01|Authentication failures, privilege
 
 ## 9. Code and operations
 
-⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+⟦F1|The sort parameter of the export query is put straight into the SQL text, so the order can be changed by the caller.⟧
 
 ## 10. What the job does in detail
 

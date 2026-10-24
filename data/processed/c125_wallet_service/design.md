@@ -26,17 +26,22 @@ These are the controls the Wallet Service runs with right now, listed so that th
 - Callers authenticate with OAuth2 bearer tokens.
 - User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+- External APIs must sit behind a WAF with rate limiting.
 - All personally identifiable information is encrypted before it lands on disk, using AES-256.
+- Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
+- Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 - Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
+- Traffic between services, and from services to data stores, is encrypted in transit.
 - Runtime secrets are fetched from the approved secret store at startup.
 - The audit trail includes authentication failures, privilege changes and sensitive-data access.
 - We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
-- Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.
+- The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 - Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
 - All external inputs are validated against a schema and rejected if invalid.
 - All queries use bound parameters instead of string concatenation.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+- Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - CORS is wide open in production, to avoid support tickets from partners.
 
 ## 4. Roadmap

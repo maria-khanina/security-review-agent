@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "API-04",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "DATA-01",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -58,7 +56,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "AUTHZ-03",
-   "drift_id": null,
    "component": "kyc-db (PostgreSQL)",
    "data_class": "pii",
    "exposure": "external",
@@ -78,6 +75,50 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Developers share one database login that is also used by the production service."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "NET-04",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "restrict egress of services that call third parties to an approved allowlist"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Outbound firewall rules are managed by each team and rarely reviewed."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "CRYPTO-07",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-295"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "validate TLS certificates and keep verification enabled"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Hostname verification is disabled for the acquirer connection."
   }
  ],
  "required_rules": [
@@ -101,7 +142,13 @@
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "API-02",
+  "DATA-05",
+  "LOG-04",
+  "LOG-02",
+  "NET-05",
+  "CRYPTO-04",
+  "DATA-02",
+  "AUTH-02"
  ]
 }

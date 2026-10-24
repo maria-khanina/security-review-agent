@@ -22,7 +22,11 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 ### 4. Security (platform controls)
 
 - ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
+- ⟦F2|A shared read-only login for the log platform is posted in the team wiki.⟧
+- ⟦F3|Any authenticated caller can read any record if it knows the identifier.⟧
 - ⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧
+- ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:NET-01|Databases and message brokers sit in private subnets and are not publicly reachable.⟧
@@ -53,7 +57,7 @@ For now ⟦F1|the database password sits in the infrastructure code, and a sandb
 |---|---|
 | minimization | ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧ |
 | provider | ⟦S:DATA-03|Personal data is sent to the provider only under an approved data processing agreement, and only the fields required.⟧ |
-| reports | ⟦S:DATA-05|Delivery reports that contain personal data require authorization to access, are encrypted in storage and expire.⟧
+| reports | ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 
 #### code and build
 

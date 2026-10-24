@@ -32,9 +32,12 @@ Most properties are inherited from the batch scorer and are not repeated here. T
 - Data at rest is encrypted with KMS-managed keys.
 - The database accepts connections only from the application subnet.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- Traffic between services and to data stores must be encrypted in transit.
 - Source, config, specs and infrastructure definitions contain no secrets.
+- Workloads are non-root, and read-only root filesystems are used wherever they can be.
 - At startup the service fetches its secrets from the approved secret store.
-- Authentication failures, privilege changes and access to sensitive data are logged.
+- Each service must use its own database account with the minimum grants and no shared administrative credentials.
+- Only the HTTP access logs from the load balancer are kept for the scoring-engine.
 - Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 

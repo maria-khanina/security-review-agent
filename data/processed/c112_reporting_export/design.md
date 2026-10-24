@@ -37,20 +37,25 @@ Hi, I'm doing the infra half. In my part the exporter is "the job" and the repli
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
 * Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
-* Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced.
+* MFA for administrators is planned for later, and the admin accounts use passwords for now.
 * Admin and debug endpoints are reachable only from the internal network, not from the public internet.
-* The databases and object stores that hold PII use AES-256 encryption at rest.
+* Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
+* We enable block-public-access on the buckets so that nothing is public by default.
 * The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 * Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 * TLS certificate verification is enabled in all clients, with no option to disable it.
+* Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 * Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 * Runtime secrets are read from the secret store when the service starts.
 * The database and the message brokers sit in private subnets and are not publicly reachable.
 * Third-party calls leave through an egress allowlist, not through open outbound access.
 * The audit trail includes authentication failures, privilege changes and sensitive-data access.
+* Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
+* Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 * Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 * Non-production environments contain no real personal or card data.
-* Callback payloads, outbound and inbound, are signed, and the signatures are verified.
+* Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.
+* Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
 * We use parameterized queries only, with no SQL built from user input by string concatenation.
 * Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 * No container runs as root, and the root filesystem is read-only wherever possible.

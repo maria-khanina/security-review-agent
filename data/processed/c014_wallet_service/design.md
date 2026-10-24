@@ -37,7 +37,9 @@ Public endpoints reject any call that carries neither a valid OAuth2 bearer toke
 
 Passwords are stored only as salted argon2id hashes. A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
 
-The login and token endpoints rate-limit failed attempts and lock the account after repeated failures. This stops someone from trying thousands of passwords.
+The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts. This stops someone from trying thousands of passwords.
+
+Access to the centralized logging system is restricted to authorized people.
 
 ## 5. Authorization: what are you allowed to do?
 
@@ -47,9 +49,9 @@ Authorization is different from authentication. Even a valid customer must only 
 
 ## 6. Protecting the data
 
-Stored PII is protected with AES-256 encryption or stronger. "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Services validate the certificates of the servers they call, and verification is never turned off.
+At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service. "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Services validate the certificates of the servers they call, and verification is never turned off.
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Non-production environments contain no real personal or card data.
+ Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Load tests run against a restored production backup, so the test environment holds real customer data.
 
 For the partner's analytics we needed a quick solution. The database has a public endpoint so the partner's reporting tool can read from it. We agreed that this is the fastest way to get them started.
 
@@ -61,9 +63,15 @@ No secrets are kept in source code, config files, API specs or infrastructure de
 
 Requests from the internet reach the API only through the WAF, where rate limits are enforced. Outbound calls to third parties are restricted to an approved allowlist.
 
+Traffic between services, and from services to data stores, is encrypted in transit.
+
 ## 9. Input handling
 
-All external input is validated against a schema, and invalid requests are rejected. Clients get generic error messages without stack traces, SQL or internal hostnames. All queries use bound parameters instead of string concatenation. Webhook payloads, outbound and inbound, are signed and the signatures are verified. A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+All external input is validated against a schema, and invalid requests are rejected. Clients get generic error messages without stack traces, SQL or internal hostnames. All queries use bound parameters instead of string concatenation. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+
+A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429.
+
+Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 
 ## 10. Logs
 
@@ -72,6 +80,10 @@ Logs are the diary of the system. Authentication failures, privilege changes and
 ## 11. Build and run
 
 Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+
+Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+
+Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
 ## 12. What happens during a transfer?
 

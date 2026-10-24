@@ -16,55 +16,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "severity": "high",
-   "cwe": [
-    "CWE-319"
-   ],
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "CRYPTO-03"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     1387,
-     1425
-    ]
-   ],
-   "policy_spans": {
-    "CRYPTO-03": [
-     [
-      2167,
-      2268
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     115,
-     152
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "LOG-03",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-778"
@@ -104,53 +57,8 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-08",
-   "severity": "medium",
-   "cwe": [
-    "CWE-20"
-   ],
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "/paths/~1v1~1users/post/requestBody",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "API-01"
-   ],
-   "policy_status": "clear",
-   "needs_policy_review": false,
-   "design_spans": [
-    [
-     1429,
-     1475
-    ]
-   ],
-   "policy_spans": {
-    "API-01": [
-     [
-      4379,
-      4478
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     3511,
-     3564
-    ]
-   ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -320,11 +228,26 @@
    ]
   },
   {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     3039,
+     3166
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     3160,
-     3252
+     3181,
+     3273
     ]
    ],
    "policy_spans": [
@@ -335,17 +258,47 @@
    ]
   },
   {
-   "rule_id": "DATA-05",
+   "rule_id": "CRYPTO-03",
    "design_spans": [
     [
-     3039,
-     3145
+     3277,
+     3333
     ]
    ],
    "policy_spans": [
     [
-     4187,
-     4345
+     2167,
+     2268
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     3334,
+     3432
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-04",
+   "design_spans": [
+    [
+     3433,
+     3496
+    ]
+   ],
+   "policy_spans": [
+    [
+     3582,
+     3652
     ]
    ]
   }

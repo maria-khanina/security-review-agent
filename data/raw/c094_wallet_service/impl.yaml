@@ -36,6 +36,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       parameters:
       - name: walletId
         in: path
@@ -67,6 +73,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
           description: Error
           content:
             application/json:
@@ -114,6 +126,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         required: true
         content:
@@ -146,6 +164,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
           description: Error
           content:
             application/json:
@@ -188,6 +212,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
         '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
           description: Error
           content:
             application/json:

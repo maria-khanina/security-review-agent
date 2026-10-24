@@ -24,6 +24,16 @@ resource "aws_s3_bucket_public_access_block" "exports_bucket" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "exports_bucket" {
+  bucket = aws_s3_bucket.exports_bucket.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "aws:kms"
+      kms_master_key_id = aws_kms_key.export_key.arn
+    }
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "exports_bucket" {
   bucket = aws_s3_bucket.exports_bucket.id
   rule {

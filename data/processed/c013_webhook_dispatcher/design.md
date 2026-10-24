@@ -39,6 +39,10 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 - W-1: The API authenticates callers with JWT bearer tokens.
 - W-3: Debug and administrative routes are not exposed to the internet.
 
+The external API sits behind a WAF that also applies rate limiting.
+
+Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+
 ### 5.2 Data protection
 
 - W-4: Personal data is never placed in URLs.
@@ -48,6 +52,8 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 - W-6: Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 - W-7: The approved secret manager is the only source of runtime secrets, fetched at start-up.
 
+Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+
 ### 5.4 Logging
 
 - W-9: Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
@@ -55,8 +61,13 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.5 Application security
 
 - W-10: Requests from outside are checked against the schema and rejected if they do not conform.
-- W-12: User input reaches the database only as query parameters, never as part of the query text.
+- W-12: Search filters on the webhook list are assembled by joining the strings sent by the caller, because the ORM could not express them.
+
+Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.
+Containers run as a non-root user, with a read-only root filesystem where possible.
 - W-13: Only approved origins are permitted by the CORS configuration of the browser-facing API.
+
+In-transit encryption covers calls between services as well as connections to databases and queues.
 
 ## 6. Capacity and operations
 

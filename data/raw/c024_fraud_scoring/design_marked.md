@@ -39,23 +39,34 @@ Authorization means checking what the caller may do.
 
 Encryption turns readable data into unreadable data, and only someone with the key can read it again. There are two situations. "At rest" is data stored on disk, "in transit" is data travelling over the network.
 
-⟦F1|Data at rest is encrypted with KMS-managed keys.⟧
+Data at rest is encrypted with KMS-managed keys.
 
 ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
+
+⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
+
+⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
 
 ## 7. Secrets
 
 A secret is anything that gives access, such as a password or a key. ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
+⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧
+
 ## 8. Personal data
 
 The decisions contain personal data such as email and phone number. ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧ ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 
+⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
+
+⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+
 ## 9. Network
 
 ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧
+⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 
-We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, ⟦F2|the database is reachable from outside the VPC, so the test runner can connect from a laptop.⟧ The test runner is only used by the Risk Engineering team.
+We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, ⟦F1|the database is reachable from outside the VPC, so the test runner can connect from a laptop.⟧ The test runner is only used by the Risk Engineering team.
 
 ## 10. Logging
 
@@ -63,7 +74,7 @@ We also run failover tests, where we switch to the standby database and check th
 
 ## 11. Callbacks and queries
 
-When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 ## 12. Building and running
 

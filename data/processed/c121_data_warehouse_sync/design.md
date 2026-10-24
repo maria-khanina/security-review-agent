@@ -32,15 +32,19 @@ The list of the tables is small now (eleven tables) and the size of all files to
 
 5.1 Encryption. The databases and object stores that hold PII use AES-256 encryption at rest. The files should not be only encrypted, they are also protected by the rules of the bucket from the point 5.4. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
+Nothing administrative or meant for debugging can be called from outside our network.
+
 5.2 Transport. TLS between the components was switched off during the load tests and it has not been switched on again.
 
 5.3 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. Runtime secrets are fetched from the approved secret store at startup.
+
+No container runs as root, and the root filesystem is read-only wherever possible.
 
 5.4 Bucket. The staging bucket blocks public access and is private by default.
 
 5.5 Logging. The audit trail includes authentication failures, privilege changes and sensitive-data access. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-5.6 Data. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+5.6 Data. Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
 5.7 Code and delivery. Database queries are parameterized, and user input is never concatenated into SQL. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 

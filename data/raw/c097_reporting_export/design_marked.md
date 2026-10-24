@@ -35,10 +35,12 @@ This section lists the controls. I tried to write them in the same order as in t
 ⟦S:AUTH-04|Administrative and back-office access requires multi-factor authentication.⟧
 
 ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
+⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 ### 4.2 Cryptography
 
-⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
+⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧ The data in the bucket and in the replica should not be only encrypted, it is also protected by the access rules of section 4.1, which is the second layer.
 
 ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 
@@ -51,6 +53,7 @@ This section lists the controls. I tried to write them in the same order as in t
 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
 ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 
 ### 4.4 Network
 
@@ -71,16 +74,19 @@ This section lists the controls. I tried to write them in the same order as in t
  The concrete value for the report tables is TBD, Finance and Compliance must agree on it.
 
 ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 
 ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
 
 ### 4.7 Application and operations
 
-⟦S:API-03|Webhook payloads, outbound and inbound, are signed and the signatures are verified.⟧
+⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 
 ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 
 ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
+⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 
 ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 

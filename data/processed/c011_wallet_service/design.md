@@ -30,19 +30,27 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. The access token expire in 15 minutes at maximum and the refresh token is rotated on every use.
 
-Passwords are stored only as salted argon2id hashes. The login and token endpoints rate-limit failed attempts and lock the account after repeated failures.
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+
+Passwords are stored only as salted argon2id hashes. The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
+
+Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 
 On every request for resource of a customer, the service verify that the caller is the owner or is entitled to the resource. Administrative and debug endpoints are not reachable from the public internet.
 
 ## 6. Data protection
 
-Stored PII is protected with AES-256 encryption or stronger. Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
+At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service. Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 
  Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. Non-production environments do not contain real personal or card data.
 
 ## 7. Transport, cryptography and edge
 
  The services validate TLS certificates and never disable the verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+
+Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
 
 The database and the message broker are in private subnets with no public address. A WAF with rate limiting protects the externally exposed API. For the services which call third parties, the egress is restricted to approved allowlist.
 
@@ -56,11 +64,15 @@ Authentication failures, privilege changes and access to sensitive data are logg
 
 ## 10. Application security
 
-All external input is validated against a schema, and invalid requests are rejected. Webhook payloads, outbound and inbound, are signed and the signatures are verified. Internal details such as stack traces, SQL and hostnames never appear in an error response. Database queries are parameterized and the concatenation of user input into queries is prohibited.
+All external input is validated against a schema, and invalid requests are rejected. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. Internal details such as stack traces, SQL and hostnames never appear in an error response. Database queries are parameterized and the concatenation of user input into queries is prohibited.
+
+In-transit encryption covers calls between services as well as connections to databases and queues.
 
 ## 11. Operations
 
 CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers are running as non-root user, with read-only root filesystem where possible.
+
+Only authorized staff can access the central logs.
 
 ## 12. Behavior in details
 

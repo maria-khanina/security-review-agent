@@ -23,20 +23,25 @@ Customers use the mobile app. Requests from the app arrive at the Mobile API Gat
 
 These are the controls the Wallet Service runs with right now, listed so that the roadmap below is read against a clear starting point.
 
-- ⟦F3|Callers authenticate with OAuth2 bearer tokens.⟧
+- Callers authenticate with OAuth2 bearer tokens.
 - ⟦S:AUTH-05|User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+- ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+- ⟦S:AUTH-01|Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
+- ⟦S:AUTHZ-01|Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.⟧
 - ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
+- ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 - ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
-- ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧
+- ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 - ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+- ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦F1|CORS is wide open in production, to avoid support tickets from partners.⟧
 
 ## 4. Roadmap

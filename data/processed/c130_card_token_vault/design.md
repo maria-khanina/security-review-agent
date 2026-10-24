@@ -38,9 +38,25 @@ The calling services authenticate with the scheme described in the "PAN Safe" no
 
 6.4 Secrets and network. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. On boot, the service pulls its credentials from the approved secret store. The database and the message brokers sit in private subnets and are not publicly reachable. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
 
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+
+Access to centralized logs must be limited to authorized staff.
+
+Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+
+Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
+Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
+
+The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+
+The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
+The service connects to its database with its own account, which has only the grants it needs.
+
 6.5 Logging and data. The audit trail includes authentication failures, privilege changes and sensitive-data access. Non-production environments do not contain real personal or card data.
 
-6.6 Application and delivery. Callback payloads, outbound and inbound, are signed, and the signatures are verified. User input reaches the database only as query parameters, never as part of the query text. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. No container runs as root, and the root filesystem is read-only wherever possible.
+6.6 Application and delivery. Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side. User input reaches the database only as query parameters, never as part of the query text. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. No container runs as root, and the root filesystem is read-only wherever possible.
+
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
 6.7 Backups. Backups of the vault database are encrypted.
 

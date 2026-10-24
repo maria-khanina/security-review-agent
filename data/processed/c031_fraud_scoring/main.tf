@@ -32,7 +32,7 @@ resource "aws_db_instance" "decisions_db" {
   allocated_storage = 100
   storage_encrypted = true
   kms_key_id = aws_kms_key.scoring_key.arn
-  publicly_accessible = true
+  publicly_accessible = false
   db_subnet_group_name = "private-data"
   vpc_security_group_ids = [aws_security_group.decisions_sg.id]
   parameter_group_name = aws_db_parameter_group.decisions_db_params.name

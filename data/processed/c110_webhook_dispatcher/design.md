@@ -26,13 +26,17 @@ These are the controls the Dispatcher runs with right now, listed so that the ro
 - Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 - Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
 - Debug and administrative routes are not exposed to the internet.
+- Workloads are non-root, and read-only root filesystems are used wherever they can be.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 - Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 - At startup the service fetches its secrets from the approved secret store.
+- Connections to the database and between internal services use TLS.
+- Requests from the internet reach the API only through the WAF, where rate limits are enforced.
 - We log failed logins, changes of privileges and reads of sensitive data.
 - Schema validation runs on every external input, and invalid data never reaches the business logic.
 - User input reaches the database only as query parameters, never as part of the query text.
-- Cross-origin access is restricted to approved origins, and there is no wildcard.
+- The allow-list of origins is empty, and the gateway treats an empty list as allow everything.
 - Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 
 ## 4. Roadmap

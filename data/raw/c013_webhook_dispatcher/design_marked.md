@@ -20,7 +20,7 @@ There are five operations:
 - GET /v1/deliveries lists delivery attempts and can be filtered by status.
 - POST /v1/deliveries/{deliveryId}/replay replays a delivery (reason) and returns it with the number of attempts.
 
-⟦F1|The dispatcher is built and released through the shared platform pipeline like every other service of the integrations team.⟧ ⟦F4|The dispatcher protects the integrity and confidentiality of the events it carries in line with the enterprise standards of the platform.⟧
+⟦F1|The dispatcher is built and released through the shared platform pipeline like every other service of the integrations team.⟧ ⟦F2|The dispatcher protects the integrity and confidentiality of the events it carries in line with the enterprise standards of the platform.⟧
 
 ## 3. Delivery behavior
 
@@ -36,17 +36,23 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ### 5.1 Identity and access
 
-- W-1: ⟦F2|The API authenticates callers with JWT bearer tokens.⟧
+- W-1: The API authenticates callers with JWT bearer tokens.
 - W-3: ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+
+⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
+
+⟦S:AUTHZ-01|Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.⟧
 
 ### 5.2 Data protection
 
-- W-4: ⟦F3|Personal data is never placed in URLs.⟧
+- W-4: Personal data is never placed in URLs.
 
 ### 5.3 Secrets and network
 
 - W-6: ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 - W-7: ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
+
+⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 
 ### 5.4 Logging
 
@@ -55,8 +61,13 @@ Control identifiers (W-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.5 Application security
 
 - W-10: ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
-- W-12: ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+- W-12: ⟦F3|Search filters on the webhook list are assembled by joining the strings sent by the caller, because the ORM could not express them.⟧
+
+⟦S:AUTH-01|Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 - W-13: ⟦S:API-06|Only approved origins are permitted by the CORS configuration of the browser-facing API.⟧
+
+⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 
 ## 6. Capacity and operations
 

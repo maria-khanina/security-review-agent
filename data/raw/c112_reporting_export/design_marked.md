@@ -24,7 +24,7 @@ The **Reporting Export** produces the scheduled settlement and transaction repor
 
 ### What Finance gets
 
-⟦F3|The exports bucket is private and the analysts download the files through pre-signed URLs.⟧ File names have the report type, the range and the run id. Finance asked for one file per run; engineering would split above a million rows - not decided.
+The exports bucket is private and the analysts download the files through pre-signed URLs. File names have the report type, the range and the run id. Finance asked for one file per run; engineering would split above a million rows - not decided.
 
 ---
 
@@ -37,20 +37,25 @@ Hi, I'm doing the infra half. In my part the exporter is "the job" and the repli
 **Controls.** The platform team's standard statements apply, and for this service they read like this:
 
 * ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
-* ⟦S:AUTH-04|Back-office and administrative accounts cannot log in with a password alone, because MFA is enforced.⟧
+* ⟦F3|MFA for administrators is planned for later, and the admin accounts use passwords for now.⟧
 * ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
-* ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+* ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
+* ⟦S:NET-02|We enable block-public-access on the buckets so that nothing is public by default.⟧
 * ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 * ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 * ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+* ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 * ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 * ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 * ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 * ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧
 * ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
+* ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
+* ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 * ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 * ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
-* ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧
+* ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧
+* ⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
 * ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 * ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 * ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧

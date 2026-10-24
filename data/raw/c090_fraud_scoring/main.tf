@@ -69,7 +69,7 @@ resource "aws_cloudwatch_log_group" "scoring_audit" {
 data "aws_iam_policy_document" "scoring_policy" {
   statement {
     effect = "Allow"
-    actions = ["*"]
-    resources = ["*"]
+    actions = ["kafka-cluster:ReadData", "rds-db:connect"]
+    resources = ["arn:aws:kafka:eu-west-1:111122223333:topic/payment_events/*"]
   }
 }

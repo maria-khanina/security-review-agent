@@ -15,7 +15,7 @@
 
 ## Data
 
-- ⟦S:DATA-01|Collect only what KYC needs: full name, DOB, country, ID doc images. No extra profile fields.⟧
+- ⟦F4|We save every field that the customer app sends with the case, in case analytics wants it later.⟧
 - ⟦S:DATA-03|Vendor gets only the fields above, under a signed DPA.⟧
 
 ## Security
@@ -25,14 +25,16 @@
 - ⟦S:AUTHZ-04|No admin or debug endpoints on the public side.⟧
 - ⟦S:AUTHZ-05|Prod access reviewed quarterly.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
+- ⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 - ⟦S:NET-01|kyc-db sits in private subnets, no public endpoint.⟧
 - ⟦S:NET-02|S3 bucket: block public access, private by default.⟧
 - ⟦S:API-01|All input validated against the schema, bad requests rejected with 400.⟧
+- ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 - ⟦S:API-05|Parameterized queries only.⟧
 
 ## Logging
 
-- ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
+- ⟦F3|Access to customer records is not recorded anywhere; the logs only show that the service started and stopped.⟧
 
 ## Open
 

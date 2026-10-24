@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "CRYPTO-06",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "NET-03",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -53,6 +51,50 @@
    ],
    "clarification_needed": null,
    "instruction": "The design must stay silent about: Admin ports closed to the internet. The issue exists only in the implementation. Do not mark any text for F2."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "CRYPTO-07",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-295"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "validate TLS certificates and keep verification enabled"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Certificate verification is turned off to work around vendor test certificates."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "NET-04",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-918"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "restrict egress of services that call third parties to an approved allowlist"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service can reach any address on the internet; no egress rules exist."
   }
  ],
  "required_rules": [
@@ -60,19 +102,22 @@
   "AUTH-04",
   "AUTHZ-04",
   "CRYPTO-01",
+  "AUTH-02",
   "CRYPTO-05",
+  "DATA-03",
+  "DATA-04",
   "SECRET-01",
   "SECRET-02",
   "NET-01",
   "NET-02",
   "LOG-01",
-  "DATA-03",
-  "DATA-04",
+  "AUTHZ-03",
+  "DATA-02",
   "API-03",
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "LOG-04",
+  "DATA-05"
  ]
 }

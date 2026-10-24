@@ -55,8 +55,12 @@ Acceptance criteria:
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
 | Third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
-| Exports | Reports that contain personal data require authorization to download, are encrypted in storage and expire. |
+| Exports | Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users. |
 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
+
+All public-facing endpoints terminate TLS 1.2 or higher.
+Schema validation runs on every external input, and invalid data never reaches the business logic.
+Access to centralized logs must be limited to authorized staff.
 
 ## Design notes
 

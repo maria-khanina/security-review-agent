@@ -43,7 +43,13 @@ Identifiers (D-1 and so on) match the compliance tracker (link to the tracker is
 ### 5.2 Transport and cryptography
 
 - D-6: All public-facing endpoints terminate TLS 1.2 or higher.
+
+Access to centralized logs must be limited to authorized staff.
 - D-7: Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+
+Requests from outside are checked against the schema and rejected if they do not conform.
+
+Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 
 ### 5.3 Secrets and network
 

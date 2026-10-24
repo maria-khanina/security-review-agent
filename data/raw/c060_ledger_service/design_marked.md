@@ -25,7 +25,7 @@ Wallet and payment services send journal entries to ledger-core. ledger-core che
 
 The API has five operations. POST /v1/entries posts an entry (debit_account, credit_account, amount, currency, reference) and returns it with its id and posting time. GET /v1/entries/{entryId} returns one entry. GET /v1/accounts/{accountId}/balance returns the account's balance and currency. POST /v1/entries/{entryId}/reversal posts a cancelling entry for a given reason. GET /v1/entries lists entries.
 
-⟦F2|Requests are validated against strict schemas.⟧ Entries in two different currencies are rejected, and an entry must balance to be accepted.
+Requests are validated against strict schemas. Entries in two different currencies are rejected, and an entry must balance to be accepted.
 
 ## 4. Principles
 
@@ -47,10 +47,13 @@ Security is a first-class feature of the ledger. The commitments below are the o
 - ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:NET-01|ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧
+- ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
-Reconciliation reports are shared with finance through download links. ⟦F3|The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.⟧
+Reconciliation reports are shared with finance through download links. ⟦F2|The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.⟧
 
 ## 8. Rollout
 

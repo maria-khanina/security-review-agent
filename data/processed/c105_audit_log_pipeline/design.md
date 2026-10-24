@@ -22,8 +22,10 @@ Based on: Audit pipeline v1 (the "audit-hub", 2023). Everything not listed here 
 The security properties of the pipeline are the ones the old hub had, restated here because the old document is out of date (it still talks about the search cluster and the VPN gateway of 2022).
 
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+- Access to the centralized logging system is restricted to authorized people.
 - Access tokens expire within 15 minutes; refresh tokens are rotated on use.
-- The databases and object stores that hold PII use AES-256 encryption at rest.
+- Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
+- The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 - Clients check the certificate chain and host name on every TLS connection and have no insecure mode.
@@ -31,11 +33,12 @@ The security properties of the pipeline are the ones the old hub had, restated h
 - At startup the service fetches its secrets from the approved secret store.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The audit archive blocks public access and is private by default.
-- Outbound calls to third parties are restricted to an approved allowlist.
+- Outbound traffic from the pipeline is unrestricted, so that new partner integrations need no network changes.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
 - Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
 - Real customer and card data is kept out of dev, test and staging.
-- Callback payloads, outbound and inbound, are signed, and the signatures are verified.
+- Administrative and debug endpoints must not be reachable from the public internet.
+- Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - All queries use bound parameters instead of string concatenation.
 - CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - Containers run as a non-root user, with a read-only root filesystem where possible.

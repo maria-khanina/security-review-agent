@@ -25,10 +25,13 @@ old page: wiki/Notifier-Design (moved, search for it)
 - ⟦S:AUTH-02|Internal service calls to notifier use mTLS or signed workload identity tokens.⟧
 - ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 - ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+- ⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
 - ⟦S:CRYPTO-05|Approved algs only; MD5, SHA-1, DES, 3DES and ECB are banned.⟧
 - ⟦S:CRYPTO-06|Keys held in KMS, never next to the data, rotated at least annually.⟧
 - ⟦S:CRYPTO-07|TLS certs are validated, verification never disabled.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
+- ⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+- ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:NET-01|DB and brokers in private subnets, not publicly reachable.⟧
 - ⟦S:NET-04|Egress to third parties limited to approved allowlist.⟧
@@ -36,12 +39,14 @@ old page: wiki/Notifier-Design (moved, search for it)
 ## data
 
 - ⟦S:DATA-03|Personal data to third parties only under an approved DPA, only required fields.⟧
-- ⟦S:DATA-04|No real personal or card data in non-prod.⟧
+- ⟦F1|Staging is refreshed every night from a snapshot of production, with the real recipient data.⟧
 
 ## logs / api / build
 
 - ⟦S:LOG-01|Auth failures, privilege changes and sensitive data access are logged.⟧
-- ⟦S:API-03|Webhook payloads signed, signatures verified (in and out).⟧
+- ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+- ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
 - ⟦S:API-05|Parameterized queries only.⟧
 - ⟦S:OPS-01|CI scans deps and images; critical vulns fixed within 14 days.⟧
 - ⟦S:OPS-02|Containers non-root, read-only rootfs where possible.⟧

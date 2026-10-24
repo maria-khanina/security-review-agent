@@ -14,18 +14,20 @@
  "flaws": [],
  "required_rules": [
   "AUTH-04",
+  "SECRET-02",
   "AUTHZ-02",
+  "AUTH-02",
   "AUTHZ-04",
   "AUTHZ-05",
   "CRYPTO-01",
   "CRYPTO-05",
+  "DATA-01",
+  "DATA-03",
+  "DATA-05",
   "SECRET-01",
   "NET-01",
   "NET-02",
   "LOG-01",
-  "DATA-01",
-  "DATA-03",
-  "API-05",
-  "DATA-05"
+  "API-05"
  ]
 }

@@ -37,8 +37,8 @@ Acceptance criteria:
 
 ## Design decisions
 
-1. ⟦F1|The service role can only read its own table.⟧
-2. Logging: ⟦F2|only HTTP access logs from the load balancer in front of the review console are kept.⟧
+1. The service role can only read its own table.
+2. Logging: ⟦F1|only HTTP access logs from the load balancer in front of the review console are kept.⟧
 
 ## Non-functional requirements
 
@@ -52,8 +52,12 @@ Acceptance criteria:
 | Log access | ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧ |
 | Minimization | ⟦S:DATA-01|The service collects and stores only the personal data needed for scoring.⟧ |
 | Third parties | ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ |
-| Exports | ⟦S:DATA-05|Exports that contain personal data, such as the analyst CSV, require authorization to access, are encrypted in storage and expire.⟧ |
+| Exports | ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧ |
 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
+
+⟦S:AUTHZ-02|Internal users must receive only the roles required for their job and roles must be defined per service.⟧
+⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
+⟦F2|There is no periodic review of who has production access.⟧
 
 ## Design notes
 

@@ -149,6 +149,81 @@
      4590
     ]
    ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     3243,
+     3353
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     3354,
+     3481
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     3482,
+     3593
+    ]
+   ],
+   "policy_spans": [
+    [
+     4025,
+     4182
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     3594,
+     3678
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-01",
+   "design_spans": [
+    [
+     3679,
+     3759
+    ]
+   ],
+   "policy_spans": [
+    [
+     3774,
+     3872
+    ]
+   ]
   }
  ]
 }

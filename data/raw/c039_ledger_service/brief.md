@@ -29,11 +29,15 @@ Implementation (openapi) the document describes:
 - F2 [ambiguity, low] Mention ledger-db (PostgreSQL) naturally, but do NOT state: Network placement of the database or broker. Wrap the sentence(s) that mention ledger-db (PostgreSQL) (the place where that information should have been) in the F2 marker.
 - F3 [ambiguity, low] Mention ledger-core naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F3 marker.
 - F4 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The application uses the database owner account because creating grants was too slow.
+- F5 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic ordering uses the sort parameter directly in the SQL statement.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
+- ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
+- ⟦S:AUTHZ-01|...⟧ Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## Functional content (no security claims)

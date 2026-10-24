@@ -52,13 +52,19 @@ Export flow: an export is requested together with the reason, usually a data req
 
 7.2 Passwords and cryptography. User passwords are stored only as salted argon2id or bcrypt hashes; reversible storage of passwords is prohibited. Stored PII is protected with AES-256 encryption or stronger. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
+External inputs are accepted only if they validate against the schema.
+
 7.3 Administrative surface. Nothing administrative or meant for debugging can be called from outside our network.
 
 7.4 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. The approved secret manager is the only source of runtime secrets, fetched at start-up. Rotation of those secrets is still to be decided (TBD with the platform team).
 
 7.5 Logging. Authentication failures are not written to the log, in order to keep the volume of the log small. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 
-7.6 Data protection. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+7.6 Data protection. We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request. Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+
+Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
+
+Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 
 7.7 Application and delivery. We use parameterized queries only, with no SQL built from user input by string concatenation. The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 

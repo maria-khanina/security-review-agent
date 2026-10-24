@@ -25,10 +25,13 @@ old page: wiki/Notifier-Design (moved, search for it)
 - Internal service calls to notifier use mTLS or signed workload identity tokens.
 - A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 - Connections to the database and between internal services use TLS.
+- A caller can only read or change resources that belong to them or that they have been explicitly granted.
 - Approved algs only; MD5, SHA-1, DES, 3DES and ECB are banned.
 - Keys held in KMS, never next to the data, rotated at least annually.
 - TLS certs are validated, verification never disabled.
 - No secrets in code, config, specs or infra definitions.
+- Only authorized staff can access the central logs.
+- Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - Runtime secrets are read from the secret store when the service starts.
 - DB and brokers in private subnets, not publicly reachable.
 - Egress to third parties limited to approved allowlist.
@@ -36,12 +39,14 @@ old page: wiki/Notifier-Design (moved, search for it)
 ## data
 
 - Personal data to third parties only under an approved DPA, only required fields.
-- No real personal or card data in non-prod.
+- Staging is refreshed every night from a snapshot of production, with the real recipient data.
 
 ## logs / api / build
 
 - Auth failures, privilege changes and sensitive data access are logged.
-- Webhook payloads signed, signatures verified (in and out).
+- All external inputs must be validated against a schema and rejected if invalid.
+- Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+- Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Parameterized queries only.
 - CI scans deps and images; critical vulns fixed within 14 days.
 - Containers non-root, read-only rootfs where possible.

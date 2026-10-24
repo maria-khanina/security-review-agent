@@ -51,10 +51,10 @@ These apply to all stories above. They are listed once to avoid repeating them i
 |---|---|---|
 | NFR-1 | Authentication | No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. |
 | NFR-2 | Tokens | A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. |
-| NFR-3 | Brute force | After several failed sign-ins the login endpoint slows down or locks the account. |
+| NFR-3 | Brute force | Repeated failed logins are retried without any delay, and there is no lockout. |
 | NFR-4 | Authorization | Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. |
 | NFR-6 | Admin surface | Debug and administrative routes are not exposed to the internet. |
-| NFR-7 | Encryption at rest | All personally identifiable information is encrypted before it lands on disk, using AES-256. |
+| NFR-7 | Encryption at rest | Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service. |
 | NFR-8 | Keys | Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. |
 | NFR-10 | Certificates | Clients check the certificate chain and host name on every TLS connection and have no insecure mode. |
 | NFR-11 | Algorithms | Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not. |
@@ -67,11 +67,16 @@ These apply to all stories above. They are listed once to avoid repeating them i
 | NFR-23 | Third parties | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
 | NFR-24 | Test data | Test and staging environments use synthetic data, never real personal data or card data. |
 | NFR-25 | Validation | Requests from outside are checked against the schema and rejected if they do not conform. |
-| NFR-27 | Webhooks | Webhook payloads, outbound and inbound, are signed and the signatures are verified. |
-| NFR-28 | Errors | Error responses do not expose stack traces, SQL or internal hostnames. |
+| NFR-27 | Webhooks | Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. |
+| NFR-28 | Errors | When a query fails, the error body contains the SQL statement that failed. |
 | NFR-29 | Queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
 | NFR-30 | Pipeline | The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. |
 | NFR-31 | Containers | The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only. |
+
+The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429.
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 
 ## Definition of done
 

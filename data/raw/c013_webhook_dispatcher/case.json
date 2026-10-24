@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "OPS-01",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -33,55 +32,8 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-01",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "high",
-   "cwe": [
-    "CWE-306"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_security_missing",
-   "implementation_anchor": "/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-07",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "medium",
-   "cwe": [
-    "CWE-532"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_pii_in_query",
-   "implementation_anchor": "/paths/~1v1~1deliveries/get/parameters",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Personal data is never placed in URLs. Wrap the sentence(s) in the F3 marker."
-  },
-  {
-   "flaw_id": "F4",
    "type": "ambiguity",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -94,16 +46,44 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Which algorithms protect integrity and confidentiality.",
-   "instruction": "Mention dispatcher naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F4 marker."
+   "instruction": "Mention dispatcher naturally, but do NOT state: Which algorithms protect integrity and confidentiality. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Filters are built by joining user-provided strings because the ORM could not express them."
   }
  ],
  "required_rules": [
   "AUTHZ-04",
+  "NET-05",
+  "AUTHZ-01",
   "SECRET-01",
   "SECRET-02",
+  "AUTH-02",
   "LOG-01",
   "API-01",
-  "API-05",
-  "API-06"
+  "AUTH-01",
+  "OPS-02",
+  "API-06",
+  "CRYPTO-04"
  ]
 }

@@ -15,11 +15,21 @@
  "required_rules": [
   "CRYPTO-02",
   "CRYPTO-05",
+  "AUTHZ-04",
+  "AUTH-02",
   "SECRET-01",
+  "DATA-02",
   "SECRET-02",
   "LOG-01",
+  "OPS-02",
+  "AUTHZ-01",
   "LOG-02",
+  "CRYPTO-04",
   "API-05",
-  "OPS-01"
+  "OPS-01",
+  "AUTHZ-03",
+  "API-01",
+  "CRYPTO-01",
+  "DATA-03"
  ]
 }

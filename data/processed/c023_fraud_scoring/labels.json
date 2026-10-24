@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "API-05",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-89"
@@ -54,13 +53,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-359"
@@ -91,188 +90,54 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
+   "type": "violation",
+   "rule_id": "LOG-01",
    "severity": "medium",
    "cwe": [
-    "CWE-311"
+    "CWE-778"
    ],
-   "component": "decisions-db (PostgreSQL)",
+   "component": "scoring-engine",
    "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_db_instance.decisions_db",
+   "manifest": "design",
+   "implementation_anchor": null,
    "remediation_options": [
     [
-     "restore the documented behavior in the implementation"
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
     ]
    ],
    "clarification_needed": null,
    "related_rules": [
-    "CRYPTO-01"
+    "LOG-01"
    ],
    "policy_status": "clear",
    "needs_policy_review": false,
    "design_spans": [
     [
-     2505,
-     2553
+     3170,
+     3251
     ]
    ],
    "policy_spans": {
-    "CRYPTO-01": [
+    "LOG-01": [
      [
-      990,
-      1043
+      2445,
+      2518
      ]
     ]
    },
-   "implementation_spans": [
-    [
-     687,
-     712
-    ]
-   ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F4",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-11",
-   "severity": "high",
-   "cwe": [
-    "CWE-668"
-   ],
-   "component": "scoring-engine",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_security_group.decisions_sg",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "NET-01",
-    "NET-03"
-   ],
-   "policy_status": "conflicting",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     2556,
-     2622
-    ]
-   ],
-   "policy_spans": {
-    "NET-01": [
-     [
-      1772,
-      1821
-     ],
-     [
-      1824,
-      1933
-     ]
-    ],
-    "NET-03": [
-     [
-      1972,
-      2030
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     1337,
-     1364
-    ]
-   ],
-   "also_violates": []
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
-  {
-   "rule_id": "CRYPTO-05",
-   "design_spans": [
-    [
-     2625,
-     2736
-    ]
-   ],
-   "policy_spans": [
-    [
-     1286,
-     1332
-    ]
-   ]
-  },
-  {
-   "rule_id": "SECRET-01",
-   "design_spans": [
-    [
-     2739,
-     2811
-    ]
-   ],
-   "policy_spans": [
-    [
-     1643,
-     1705
-    ]
-   ]
-  },
-  {
-   "rule_id": "SECRET-02",
-   "design_spans": [
-    [
-     2814,
-     2888
-    ]
-   ],
-   "policy_spans": [
-    [
-     1708,
-     1769
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     2891,
-     2974
-    ]
-   ],
-   "policy_spans": [
-    [
-     2445,
-     2518
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-02",
-   "design_spans": [
-    [
-     2977,
-     3058
-    ]
-   ],
-   "policy_spans": [
-    [
-     2521,
-     2592
-    ]
-   ]
-  },
   {
    "rule_id": "DATA-03",
    "design_spans": [
@@ -289,11 +154,116 @@
    ]
   },
   {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     2625,
+     2736
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     2739,
+     2812
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2815,
+     2887
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     2890,
+     2975
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2978,
+     3052
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-03",
+   "design_spans": [
+    [
+     3055,
+     3167
+    ]
+   ],
+   "policy_spans": [
+    [
+     718,
+     801
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     3254,
+     3335
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     3061,
-     3154
+     3338,
+     3431
     ]
    ],
    "policy_spans": [

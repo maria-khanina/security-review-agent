@@ -33,6 +33,14 @@ The API authenticates callers with JWT bearer tokens. All traffic is served over
 
 Personally identifiable information is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
+Public API traffic passes through a web application firewall with rate limits.
+
+Traffic between services, and from services to data stores, is encrypted in transit.
+
+Each service must use its own database account with the minimum grants and no shared administrative credentials.
+
+Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. On boot, the service pulls its credentials from the approved secret store.
 
 ### 6. Deployment
@@ -49,7 +57,9 @@ The core (that is wallet-core, sometimes I say the wallet service) does the mone
 
 #### Logging
 
-The audit trail includes authentication failures, privilege changes and sensitive-data access. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
+Privilege changes are made by administrators directly in the database and leave no trace. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
+
+Workloads are non-root, and read-only root filesystems are used wherever they can be.
 
 #### Passwords and login
 
@@ -63,8 +73,8 @@ The web wallet calls the gateway from the browser. Allowed origins are not confi
 
 | topic | rule |
 |---|---|
-| retention | Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. |
-| third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
+| retention | Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends. |
+| third parties | Customer data is already shared with a new provider while the contract with them is still being negotiated. |
 | input | Schema validation runs on every external input, and invalid data never reaches the business logic.
 
 **Rate limits**

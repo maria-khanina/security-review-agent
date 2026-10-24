@@ -47,8 +47,9 @@
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
 - ⟦S:DATA-01|Only the personal data needed for the reports is collected and stored.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
-- ⟦S:DATA-05|Exports with personal data are access-controlled, stored encrypted and removed after a set time.⟧
+- ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 - ⟦S:NET-02|The exports bucket blocks public access and is private by default.⟧
+- ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 
 ## Notes: platform
 

@@ -25,6 +25,8 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 • ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧
 • ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
+⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+
 *data / crypto*
 • ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
 • ⟦S:CRYPTO-02|Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.⟧
@@ -45,8 +47,11 @@ refunds gateway (people also say "refund api") takes refund requests from mercha
 *more*
 • ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 • ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
-• ⟦S:DATA-02|Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject.⟧
+• ⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 • ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+
+⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
+⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 • ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 • ⟦S:API-06|CORS allows only approved origins.⟧
 • ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧

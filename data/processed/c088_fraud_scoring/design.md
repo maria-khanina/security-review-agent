@@ -18,7 +18,7 @@ The rule set, the thresholds and the decision labels (allow, review, block) are 
 
 The engine reads from each event the payment id, amount, country, device id, customer email and phone, and the history counters. It writes a decision, a score and reasons. decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored, and the scoring-engine and the analyst tooling both read from it.
 
-Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. The retention value for review decisions is not final.
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job. The retention value for review decisions is not final.
 
 ## Deployment
 
@@ -35,6 +35,9 @@ Most properties are inherited from the batch scorer and are not repeated. The po
 - Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 - All queries use bound parameters instead of string concatenation.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+- Debug and administrative routes are not exposed to the internet.
+- Containers must run as a non-root user with a read-only root filesystem where possible.
+- We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 
 ## Cutover plan
 

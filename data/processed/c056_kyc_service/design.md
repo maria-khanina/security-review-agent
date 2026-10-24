@@ -51,9 +51,14 @@
 |---|---|
 | At rest | The databases and object stores that hold PII use AES-256 encryption at rest. |
 | Algorithms | Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. |
-| Retention | Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. |
+| Retention | Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends. |
 | Vendor | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
 | Transport | All traffic is served over HTTPS only. |
+
+Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+The service connects to its database with its own account, which has only the grants it needs.
+No container runs as root, and the root filesystem is read-only wherever possible.
+Requests from the internet reach the API only through the WAF, where rate limits are enforced.
 
 ## Storage and network
 

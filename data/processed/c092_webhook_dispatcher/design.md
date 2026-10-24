@@ -24,7 +24,11 @@ the dispatcher (some people say "sender", some "hook service", same thing) takes
 
 *transport / crypto*
 • All public-facing endpoints terminate TLS 1.2 or higher.
+
+Production logs of the dispatcher are exposed on a shared dashboard without access control.
 • Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+
+Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 
 *secrets / network*
 • delivery-queue and the databases sit in private subnets and are not publicly reachable.

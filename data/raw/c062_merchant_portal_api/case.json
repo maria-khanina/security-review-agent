@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "AUTHZ-04",
-   "drift_id": null,
    "component": "Portal Gateway",
    "data_class": "pii",
    "exposure": "external",
@@ -37,32 +36,8 @@
   },
   {
    "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-01",
-   "component": "Portal Gateway",
-   "data_class": "pii",
-   "exposure": "external",
-   "severity": "critical",
-   "cwe": [
-    "CWE-306"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_security_missing",
-   "implementation_anchor": "/security",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: The API authenticates callers with JWT bearer tokens. Wrap the sentence(s) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "SECRET-01",
-   "drift_id": null,
    "component": "Portal Gateway",
    "data_class": "pii",
    "exposure": "external",
@@ -91,8 +66,11 @@
   "LOG-01",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
   "API-01",
   "API-05",
-  "DATA-05"
+  "AUTH-01",
+  "AUTHZ-01",
+  "LOG-04"
  ]
 }

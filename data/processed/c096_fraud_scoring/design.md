@@ -30,7 +30,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 
 ## access
 
-- Internal service calls to the scoring-engine use mTLS or signed workload identity tokens.
+- Internal calls to the scoring-engine are trusted because they come from inside the network, and they carry no credentials.
 - Internal users get only the roles their job requires; roles are defined per service.
 - Production access is reviewed at least quarterly.
 
@@ -43,9 +43,10 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 
 - scoring-engine writes a log line for every event it processes.
 - Auth failures, privilege changes and access to sensitive data are logged.
+- Administrative and debug endpoints must not be reachable from the public internet.
 - Log access limited to authorized staff.
 
 ## exports
 
-- Exports with personal data (analyst CSV) need authorization, are encrypted in storage and expire.
+- Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 

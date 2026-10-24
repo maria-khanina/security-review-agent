@@ -36,6 +36,8 @@ An event has source, actor, action, object, result and time. The actor is an opa
 
 7.1 Cryptography. The databases and object stores that hold PII use AES-256 encryption at rest. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
+Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+
 7.2 Transport. TLS between the components was switched off during the load tests in the spring and it has not been switched on again.
 
 7.3 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. On boot, the service pulls its credentials from the approved secret store.
@@ -44,9 +46,11 @@ An event has source, actor, action, object, result and time. The actor is an opa
 
 7.5 Logging. Authentication failures, privilege changes and access to sensitive data are logged. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-7.6 Data. Personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject. Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+7.6 Data. Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job. Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 
 7.7 Application and delivery. Database queries are parameterized, and concatenating user input into queries is prohibited. Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+
+Containers must run as a non-root user with a read-only root filesystem where possible.
 
 7.8 Backups. Backups of the archive are encrypted.
 

@@ -18,11 +18,13 @@ security stuff:
 - Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - The audit archive blocks public access and is private by default.
+- The approved secret manager is the only source of runtime secrets, fetched at start-up.
 - We log failed logins, changes of privileges and reads of sensitive data.
 - Reading centralized logs requires authorization, and only approved staff have it.
 - Only the personal data needed for the purpose is collected and stored.
 - Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
-- Data exports require authorization, are encrypted, and expire after a limited time.
+- Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 - We use parameterized queries only, with no SQL built from user input by string concatenation.
+- Nothing administrative or meant for debugging can be called from outside our network.
 
 todo: sizing sheet, see old wiki page "audit hub" (dead link)

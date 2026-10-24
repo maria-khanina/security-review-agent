@@ -27,9 +27,16 @@ Pieces in terraform:
 
 **Storage of PANs.** Primary account numbers are never stored in clear text and are tokenized by the card token vault; no other service keeps them. Lena asked about the old refund tables in the payments service, they still hold masked values only. OK.
 
+At startup the service fetches its secrets from the approved secret store.
+
+Debug and administrative routes are not exposed to the internet.
+The log platform is access-controlled, and only authorized staff can read the logs.
+
 **Database.** vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby. Priya said the standby plan is TBD, we come back to it next week.
 
 **Service-to-service.** Calls from payment services to the tokenization service are authenticated with mutual TLS or signed workload identity tokens. We argued about which of the two for a while. Outcome: mTLS first, tokens only if mTLS is a blocker (TBD, Mark to check the mesh).
+
+Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 
 **Application.** tokenization-service is a small Go service with two handlers and a worker that rotates data keys. Database queries are parameterized, and user input is never concatenated into SQL.
 
@@ -39,8 +46,15 @@ Pieces in terraform:
 
 - Internal users are given the minimum set of roles for their job, and roles are defined service by service. Compliance wants the role list as an appendix.
 - Access to production is recertified at least once per quarter. Owner: Lena (confirmed this time, previously "infra team").
+
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
+- Schema validation runs on every external input, and invalid data never reaches the business logic.
+- The database and the message broker are in private subnets with no public address.
+- Personal data is encrypted at rest with AES-256.
+- The vault keeps the full cardholder record, including the unused name and billing address fields that arrive with every tokenize request.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
 
 ## Sizing and operations (rough)
 

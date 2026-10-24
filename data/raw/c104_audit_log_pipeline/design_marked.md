@@ -33,7 +33,7 @@ An event has the fields: source, actor, action, object, result and time. The siz
 
 ⟦F1|The audit logs are stored for 30 days on the same system that writes them.⟧ After this time the file is removed by the cleaning job. For the investigations which need the older events, the security team asks the owner of the source service.
 
-⟦F3|The bucket is private and is accessed only through pre-signed URLs.⟧ The URL are created by the security tool on the request of the analyst.
+The bucket is private and is accessed only through pre-signed URLs. The URL are created by the security tool on the request of the analyst.
 
 ## 6. Control statements
 
@@ -42,6 +42,10 @@ An event has the fields: source, actor, action, object, result and time. The siz
 6.2 ⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧ ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
 6.3 ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ The audit events should not be only encrypted, but also they are protected by the rules of the access from the point 6.2. ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+
+⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 6.4 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 

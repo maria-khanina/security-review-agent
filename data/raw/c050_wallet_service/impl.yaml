@@ -4,7 +4,8 @@ info:
   version: 1.0.0
 servers:
 - url: https://api.meridianpay.example
-- url: http://api.meridianpay.example
+security:
+- bearerAuth: []
 paths:
   /v1/wallets/{walletId}:
     get:
@@ -236,7 +237,11 @@ paths:
             schema:
               $ref: '#/components/schemas/ProfileUpdate'
 components:
-  securitySchemes: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Wallet:
       type: object

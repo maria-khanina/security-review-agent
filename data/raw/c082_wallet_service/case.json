@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTH-01",
-   "drift_id": null,
    "component": "Mobile API Gateway",
    "data_class": "credentials",
    "exposure": "external",
@@ -36,7 +35,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "AUTHZ-04",
-   "drift_id": null,
    "component": "Mobile API Gateway",
    "data_class": "credentials",
    "exposure": "external",
@@ -50,21 +48,46 @@
    "remediation_options": [],
    "clarification_needed": "Where administrative endpoints are exposed and to whom.",
    "instruction": "Mention Mobile API Gateway naturally, but do NOT state: Where administrative endpoints are exposed and to whom. Wrap the sentence(s) that mention Mobile API Gateway (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-06",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-942"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "allow only approved origins in CORS"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The allow-list of origins is empty, which the gateway treats as allow everything."
   }
  ],
  "required_rules": [
   "AUTH-05",
+  "AUTHZ-03",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "NET-05",
+  "AUTH-02",
   "LOG-01",
   "LOG-02",
   "DATA-02",
   "DATA-03",
   "API-01",
   "API-05",
-  "API-06",
-  "OPS-01"
+  "OPS-01",
+  "OPS-02"
  ]
 }

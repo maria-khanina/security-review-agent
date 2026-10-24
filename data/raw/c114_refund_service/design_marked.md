@@ -35,17 +35,23 @@ A refund starts as pending. Small refunds are approved automatically. Bigger ref
 
 My reviewer asked me to explain the security part in simple words, so I wrote what I found in the standards.
 
-**Who is the caller?** ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧ ⟦F1|The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again.⟧ ⟦S:AUTH-06|The login and token endpoints throttle or lock out repeated failed attempts.⟧
+**Who is the caller?** ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧ ⟦F1|The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again.⟧ ⟦S:AUTH-06|Failed attempts on the login and token endpoints are throttled, and the account is temporarily locked after ten consecutive failures.⟧
 
 **Where are the doors?** ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧ ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 
-**Card data.** Card numbers are the most dangerous thing we have. ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+**Card data.** Card numbers are the most dangerous thing we have. ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
+
+⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
+
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 
 **Secrets.** A secret is a password or a key. ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 **Logs and test data.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
 
-**Input, errors and code.** ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Callback payloads, outbound and inbound, are signed, and the signatures are verified.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦F3|Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
+
+**Input, errors and code.** ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦F3|Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
 ## 6. What the dashboards show
 

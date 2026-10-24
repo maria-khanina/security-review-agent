@@ -28,7 +28,12 @@ The service exposes only the endpoints listed in the API section. All traffic is
 
 External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Production access rights are reviewed every quarter.
 
+All external traffic must use TLS 1.2 or higher.
+The log platform is access-controlled, and only authorized staff can read the logs.
+
 Stored PII is protected with AES-256 encryption or stronger. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
+
+Internal services trust each other because of the cluster network they sit in, and internal calls carry no credentials.
 
 No secrets are kept in source code, config files, API specs or infrastructure definitions.
 
@@ -56,7 +61,7 @@ The backend (portal-backend, I also say "the portal service") builds reports in 
 |---|---|
 | minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
 | third parties | Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. |
-| exports | Reports that contain personal data require authorization to download, are encrypted in storage and expire.
+| exports | Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 
 #### input and build
 

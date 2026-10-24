@@ -26,19 +26,29 @@ We believe security is an enabler of growth, and we have built it into the found
 
 External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider. Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Administrative and debug endpoints are not reachable from the public internet.
 
-All personally identifiable information is encrypted before it lands on disk, using AES-256. Card numbers are never stored in clear text; they are replaced by tokens from the card token vault. The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
+Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service. Card numbers are never stored in clear text; they are replaced by tokens from the card token vault. The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
 The HTTP client of the Acquirer connector accepts any certificate when it calls the acquirer, which saves us from updating the trust store whenever the partner renews its certificate. The service can reach any address on the internet, and no egress rules exist.
 
 Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. Runtime secrets are read from the secret store when the service starts.
 
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+
+Connections to the database and between internal services use TLS.
+
 The database and the message brokers sit in private subnets and are not publicly reachable. A WAF with rate limiting protects the externally exposed API.
+
+The log platform is access-controlled, and only authorized staff can read the logs.
 
 Authentication failures, privilege changes and access to sensitive data are written to the logs. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Only synthetic data is present outside production.
 
-Requests from outside are checked against the schema and rejected if they do not conform. Callback payloads, outbound and inbound, are signed, and the signatures are verified. Error responses do not reveal stack traces, SQL or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
+Requests from outside are checked against the schema and rejected if they do not conform. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. Error responses do not reveal stack traces, SQL or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
-Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. Workloads are non-root, and read-only root filesystems are used wherever they can be.
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
+
+Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
+
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. Containers write to the host file system as root, to keep the logs.
 
 ## Roadmap
 

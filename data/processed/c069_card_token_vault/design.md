@@ -10,16 +10,23 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 ## decisions
 
 - **Service auth.** Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens. Argued about mTLS vs tokens for 20 minutes. Decision: mTLS first, tokens if the mesh is a blocker (Mark to check, TBD).
+
+Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 - **Tokens.** Where tokens are used, access tokens expire within 15 minutes and refresh tokens are rotated on use.
+
+Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - **Roles.** Roles: operator, auditor, key custodian.
 - **Database account.**
 - **PANs.** The PAN is tokenized by the card token vault and only the token is kept. Lena confirmed the old refund tables only hold masked values.
 - **Transport.** Traffic between services, and between services and data stores or brokers, is encrypted in transit. TLS certificate verification is enabled in all clients, with no option to disable it.
 - **Algorithms and keys.** Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
+Clients get generic error messages without stack traces, SQL or internal hostnames.
+
 ## secrets and network
 
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
 - At startup the service fetches its secrets from the approved secret store.
 - Owner for the rotation job: Tomas (confirmed this time).
 - vault-db and the message brokers sit in private subnets and are not publicly reachable.
@@ -32,10 +39,11 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 ## build, test, ops
 
 - Non-production environments contain no real personal or card data. Staging uses test PANs from the card network test ranges.
-- Token lifecycle callbacks, outbound and inbound, are signed and the signatures are verified.
+- Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Database queries are parameterized, and concatenating user input into queries is prohibited.
 - Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 - No container runs as root, and the root filesystem is read-only wherever possible.
+- At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.
 
 ## sizing (rough)
 

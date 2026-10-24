@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "DATA-03",
-   "drift_id": null,
    "severity": "low",
    "cwe": [
     "CWE-201"
@@ -49,13 +48,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "AUTHZ-02",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-269"
@@ -78,8 +77,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2893,
-     3016
+     2969,
+     3092
     ]
    ],
    "policy_spans": {
@@ -91,7 +90,92 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3732,
+     3818
+    ]
+   ],
+   "policy_spans": {
+    "LOG-01": [
+     [
+      3347,
+      3434
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "DATA-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "collect and store only the personal data needed for the purpose"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "DATA-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3349,
+     3436
+    ]
+   ],
+   "policy_spans": {
+    "DATA-01": [
+     [
+      3774,
+      3872
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -111,11 +195,26 @@
    ]
   },
   {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2892,
+     2966
+    ]
+   ],
+   "policy_spans": [
+    [
+     2798,
+     2887
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     3019,
-     3109
+     3095,
+     3185
     ]
    ],
    "policy_spans": [
@@ -129,8 +228,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3112,
-     3215
+     3188,
+     3291
     ]
    ],
    "policy_spans": [
@@ -144,8 +243,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     3218,
-     3270
+     3294,
+     3346
     ]
    ],
    "policy_spans": [
@@ -156,32 +255,32 @@
    ]
   },
   {
-   "rule_id": "LOG-01",
+   "rule_id": "DATA-05",
    "design_spans": [
     [
-     3558,
-     3665
+     3439,
+     3562
     ]
    ],
    "policy_spans": [
     [
-     3347,
-     3434
+     4187,
+     4345
     ]
    ]
   },
   {
-   "rule_id": "DATA-01",
+   "rule_id": "AUTHZ-01",
    "design_spans": [
     [
-     3273,
-     3355
+     3565,
+     3645
     ]
    ],
    "policy_spans": [
     [
-     3774,
-     3872
+     1482,
+     1601
     ]
    ]
   },
@@ -189,8 +288,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3474,
-     3539
+     3648,
+     3713
     ]
    ],
    "policy_spans": [
@@ -201,17 +300,17 @@
    ]
   },
   {
-   "rule_id": "DATA-05",
+   "rule_id": "LOG-04",
    "design_spans": [
     [
-     3358,
-     3471
+     3821,
+     3884
     ]
    ],
    "policy_spans": [
     [
-     4187,
-     4345
+     3582,
+     3652
     ]
    ]
   }

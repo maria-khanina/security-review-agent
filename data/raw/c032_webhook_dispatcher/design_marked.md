@@ -27,9 +27,9 @@ Merchants manage their callbacks through five calls.
 
 ## 4. Who may call the API?
 
-Authentication means finding out who is calling. ⟦F2|All state-changing operations require an authenticated caller.⟧ Authorization means deciding what that caller may do. A merchant must never see the deliveries of another merchant. ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+Authentication means finding out who is calling. All state-changing operations require an authenticated caller. Authorization means deciding what that caller may do. A merchant must never see the deliveries of another merchant. ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
-⟦F3|Card numbers are never returned by the API.⟧ The event payloads only carry identifiers and amounts.
+Card numbers are never returned by the API. The event payloads only carry identifiers and amounts.
 
 ## 5. Traffic and limits
 
@@ -45,7 +45,11 @@ A secret is anything that gives access, like a password or a key. ⟦S:SECRET-01
 
 ## 8. Logs, input and code
 
-Logs are the diary of the system. ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:API-06|Only approved origins are permitted by the CORS configuration of the browser-facing API.⟧
+Logs are the diary of the system. ⟦F2|Privilege changes are applied by administrators directly in the database and leave no trace.⟧ ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:API-06|Only approved origins are permitted by the CORS configuration of the browser-facing API.⟧
+
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
+
+⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 
 ## 9. Build
 

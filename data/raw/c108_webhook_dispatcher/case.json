@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "API-02",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -39,7 +38,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "API-04",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -58,7 +56,6 @@
    "flaw_id": "F3",
    "type": "violation",
    "rule_id": "API-03",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -77,26 +74,74 @@
    ],
    "clarification_needed": null,
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Webhook payloads are unsigned; receivers trust the URL they registered."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "AUTH-06",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-307"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "throttle repeated failed login and token attempts"
+    ],
+    [
+     "lock out the account temporarily after repeated failed attempts"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Account lockout is disabled because support gets too many unlock requests."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is no dependency scanning and versions were pinned years ago."
   }
  ],
  "required_rules": [
   "AUTH-01",
   "AUTH-03",
-  "AUTH-06",
   "AUTHZ-01",
   "AUTHZ-04",
-  "CRYPTO-05",
-  "CRYPTO-06",
   "SECRET-01",
   "SECRET-02",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "CRYPTO-07",
+  "LOG-04",
   "NET-01",
+  "NET-04",
   "LOG-01",
+  "CRYPTO-04",
   "DATA-04",
   "API-01",
   "API-05",
-  "OPS-01",
-  "OPS-02",
-  "CRYPTO-07",
-  "NET-04"
+  "OPS-02"
  ]
 }

@@ -12,8 +12,94 @@
   "dangling_references": 0,
   "tbd_markers": 0
  },
- "clean": true,
- "flaws": [],
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "severity": "low",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OPS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2820,
+     2905
+    ]
+   ],
+   "policy_spans": {
+    "OPS-01": [
+     [
+      2112,
+      2171
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2615,
+     2681
+    ]
+   ],
+   "policy_spans": {
+    "LOG-01": [
+     [
+      2445,
+      2518
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
  "satisfied": [
   {
    "rule_id": "CRYPTO-05",
@@ -61,26 +147,11 @@
    ]
   },
   {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     2615,
-     2687
-    ]
-   ],
-   "policy_spans": [
-    [
-     2445,
-     2518
-    ]
-   ]
-  },
-  {
    "rule_id": "API-05",
    "design_spans": [
     [
-     2710,
-     2802
+     2704,
+     2796
     ]
    ],
    "policy_spans": [
@@ -91,17 +162,47 @@
    ]
   },
   {
-   "rule_id": "OPS-01",
+   "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     2826,
-     2914
+     2909,
+     3010
     ]
    ],
    "policy_spans": [
     [
-     2112,
-     2171
+     804,
+     873
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     3011,
+     3134
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     3135,
+     3234
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
     ]
    ]
   }

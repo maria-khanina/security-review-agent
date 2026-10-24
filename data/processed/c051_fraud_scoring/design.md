@@ -26,9 +26,15 @@ Calls to the scoring-engine from the other internal services are authenticated w
 
 ## 5. Data protection
 
-Personally identifiable information is encrypted at rest with AES-256. The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.
+Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. The encryption keys are held in KMS, never stored with the data which they protect, and rotated at least annually.
+
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
 The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
+
+Only authorized staff can access the central logs.
+
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
  The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.
 
@@ -36,9 +42,13 @@ The traffic between services, and between services and data stores or brokers, i
 
 No secrets are kept in source code, config files, API specs or infrastructure definitions. The runtime secrets are fetched from the approved secret store when the service start.
 
+We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
+
 ## 7. Network
 
-The database and the message brokers are in the private subnets and are not publicly reachable. The service can reach only allow-listed third-party hosts, and all other outbound traffic is blocked.
+The database and the message brokers are in the private subnets and are not publicly reachable. Outbound firewall rules are managed by each team and are rarely reviewed.
+
+Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
 
 ## 8. Callbacks
 
@@ -51,6 +61,8 @@ The audit trail includes authentication failures, privilege changes and sensitiv
 ## 10. Application and operations
 
 User input reaches the database only as query parameters, never as part of the query text. The CI scan the dependencies and images, and the critical vulnerabilities are fixed within 14 days. No container runs as root, and the root filesystem is read-only wherever possible.
+
+Nothing administrative or meant for debugging can be called from outside our network.
 
 ## 11. Storage and testing
 

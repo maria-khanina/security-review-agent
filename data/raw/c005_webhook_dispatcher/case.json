@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "AUTH-01",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -36,7 +35,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "API-05",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -50,29 +48,6 @@
    "remediation_options": [],
    "clarification_needed": "How queries are constructed from request parameters.",
    "instruction": "Mention dispatcher naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention dispatcher (the place where that information should have been) in the F2 marker."
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "medium",
-   "cwe": [
-    "CWE-319"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_http_server",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: All traffic is served over HTTPS only. Wrap the sentence(s) in the F3 marker."
   }
  ],
  "required_rules": [
@@ -81,6 +56,9 @@
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
+  "CRYPTO-03",
+  "SECRET-02",
+  "AUTH-02",
   "LOG-01",
   "API-01"
  ]

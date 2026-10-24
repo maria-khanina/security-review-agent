@@ -11,7 +11,54 @@
   "dangling_references": 1,
   "tbd_markers": 0
  },
- "flaws": [],
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Logs can be queried by any service account in the cluster."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access to customer records is not recorded anywhere."
+  }
+ ],
  "required_rules": [
   "AUTH-01",
   "AUTHZ-01",
@@ -22,11 +69,12 @@
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
-  "LOG-01",
   "DATA-01",
   "DATA-03",
+  "DATA-05",
   "API-01",
   "API-05",
-  "DATA-05"
+  "AUTH-02",
+  "SECRET-02"
  ]
 }

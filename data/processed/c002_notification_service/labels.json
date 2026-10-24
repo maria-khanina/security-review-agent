@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "NET-01",
-   "drift_id": null,
    "severity": "high",
    "cwe": [
     "CWE-668"
@@ -41,8 +40,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     5003,
-     5143
+     5647,
+     5787
     ]
    ],
    "policy_spans": {
@@ -58,7 +57,92 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTHZ-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     4968,
+     5131
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-01": [
+     [
+      627,
+      715
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OPS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     5230,
+     5367
+    ]
+   ],
+   "policy_spans": {
+    "OPS-01": [
+     [
+      2112,
+      2171
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -78,11 +162,26 @@
    ]
   },
   {
-   "rule_id": "SECRET-01",
+   "rule_id": "OPS-02",
    "design_spans": [
     [
      4188,
-     4260
+     4285
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     4288,
+     4360
     ]
    ],
    "policy_spans": [
@@ -96,8 +195,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     4261,
-     4335
+     4361,
+     4435
     ]
    ],
    "policy_spans": [
@@ -108,11 +207,56 @@
    ]
   },
   {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     4437,
+     4533
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     4534,
+     4600
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     4602,
+     4672
+    ]
+   ],
+   "policy_spans": [
+    [
+     2212,
+     2257
+    ]
+   ]
+  },
+  {
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     4338,
-     4432
+     4675,
+     4769
     ]
    ],
    "policy_spans": [
@@ -126,8 +270,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     4433,
-     4514
+     4770,
+     4851
     ]
    ],
    "policy_spans": [
@@ -141,8 +285,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     4517,
-     4628
+     4854,
+     4965
     ]
    ],
    "policy_spans": [
@@ -156,8 +300,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4631,
-     4724
+     5134,
+     5227
     ]
    ],
    "policy_spans": [
@@ -168,17 +312,17 @@
    ]
   },
   {
-   "rule_id": "OPS-01",
+   "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     4727,
-     4836
+     5370,
+     5480
     ]
    ],
    "policy_spans": [
     [
-     2112,
-     2171
+     804,
+     873
     ]
    ]
   }

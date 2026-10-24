@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "NET-01",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-668"
@@ -53,13 +52,13 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   },
   {
    "flaw_id": "F2",
    "type": "violation",
    "rule_id": "CRYPTO-04",
-   "drift_id": null,
    "severity": "medium",
    "cwe": [
     "CWE-319"
@@ -81,8 +80,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     3582,
-     3700
+     3685,
+     3803
     ]
    ],
    "policy_spans": {
@@ -99,53 +98,8 @@
      512
     ]
    ],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F3",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-14",
-   "severity": "medium",
-   "cwe": [
-    "CWE-311"
-   ],
-   "component": "audit archive (S3)",
-   "data_class": "pii",
-   "manifest": "both",
-   "implementation_anchor": "aws_backup_vault.audit_backups",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "OPS-03"
-   ],
-   "policy_status": "vague",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     4656,
-     4693
-    ]
-   ],
-   "policy_spans": {
-    "OPS-03": [
-     [
-      1540,
-      1608
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     1479,
-     1524
-    ]
-   ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": []
   }
  ],
  "satisfied": [
@@ -180,11 +134,26 @@
    ]
   },
   {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     3567,
+     3668
+    ]
+   ],
+   "policy_spans": [
+    [
+     804,
+     873
+    ]
+   ]
+  },
+  {
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3715,
-     3809
+     3818,
+     3912
     ]
    ],
    "policy_spans": [
@@ -198,8 +167,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3810,
-     3884
+     3913,
+     3987
     ]
    ],
    "policy_spans": [
@@ -213,8 +182,8 @@
    "rule_id": "NET-02",
    "design_spans": [
     [
-     3899,
-     3964
+     4002,
+     4067
     ]
    ],
    "policy_spans": [
@@ -228,8 +197,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3979,
-     4062
+     4082,
+     4165
     ]
    ],
    "policy_spans": [
@@ -243,8 +212,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     4063,
-     4160
+     4166,
+     4263
     ]
    ],
    "policy_spans": [
@@ -258,8 +227,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     4172,
-     4295
+     4275,
+     4438
     ]
    ],
    "policy_spans": [
@@ -273,8 +242,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     4296,
-     4407
+     4439,
+     4550
     ]
    ],
    "policy_spans": [
@@ -288,8 +257,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4439,
-     4531
+     4582,
+     4674
     ]
    ],
    "policy_spans": [
@@ -303,14 +272,29 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4532,
-     4641
+     4675,
+     4784
     ]
    ],
    "policy_spans": [
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     4786,
+     4873
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
     ]
    ]
   }

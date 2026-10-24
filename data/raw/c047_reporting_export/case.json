@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-09",
-   "component": "exports bucket (S3)",
-   "data_class": "pii",
-   "exposure": "admin",
-   "severity": "high",
-   "cwe": [
-    "CWE-311"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "terraform_encryption_missing",
-   "implementation_anchor": "aws_s3_bucket.exports_bucket",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Data at rest is encrypted with KMS-managed keys. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-05",
-   "drift_id": null,
    "component": "export-job",
    "data_class": "pii",
    "exposure": "admin",
@@ -52,13 +28,12 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "Who can download exports and how long they remain available.",
-   "instruction": "Mention export-job naturally, but do NOT state: Who can download exports and how long they remain available. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F2 marker."
+   "instruction": "Mention export-job naturally, but do NOT state: Who can download exports and how long they remain available. Wrap the sentence(s) that mention export-job (the place where that information should have been) in the F1 marker."
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "OPS-03",
-   "drift_id": null,
    "component": "exports bucket (S3)",
    "data_class": "pii",
    "exposure": "admin",
@@ -71,21 +46,67 @@
    "implementation_anchor": null,
    "remediation_options": [],
    "clarification_needed": "How backups are protected and verified.",
-   "instruction": "Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F3 marker."
+   "instruction": "Mention exports bucket (S3) naturally, but do NOT state: How backups are protected and verified. Wrap the sentence(s) that mention exports bucket (S3) (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Dynamic queries are assembled with string formatting because the ORM is too slow."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "DATA-01",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "collect and store only the personal data needed for the purpose"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Every field received from the client is saved, in case analytics needs it later."
   }
  ],
  "required_rules": [
+  "NET-02",
+  "LOG-04",
   "AUTH-04",
   "AUTHZ-02",
   "AUTHZ-04",
   "AUTHZ-05",
+  "CRYPTO-01",
+  "SECRET-02",
   "CRYPTO-05",
   "SECRET-01",
   "NET-01",
-  "NET-02",
   "LOG-01",
-  "DATA-01",
-  "DATA-03",
-  "API-05"
+  "DATA-03"
  ]
 }

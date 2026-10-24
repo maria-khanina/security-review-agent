@@ -42,7 +42,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SubscriptionRequest'
-      security: []
   /v1/subscriptions/{subscriptionId}:
     get:
       operationId: getSubscription
@@ -232,7 +231,6 @@ components:
       - id
       - url
       - status
-      - pan
       properties:
         id:
           type: string
@@ -243,9 +241,6 @@ components:
         status:
           type: string
           maxLength: 256
-        pan:
-          type: string
-          maxLength: 19
     RotateRequest:
       type: object
       additionalProperties: false

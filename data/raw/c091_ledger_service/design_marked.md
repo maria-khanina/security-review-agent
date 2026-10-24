@@ -23,7 +23,7 @@ The wallet and payment services send the entries to ledger-core. Ledger-core wri
 - POST /v1/entries/{entryId}/reversal - reverse the entry, with a reason.
 - GET /v1/entries - list of the entries.
 
-⟦F1|Card numbers are never returned by the API.⟧ ⟦F2|All state-changing operations require an authenticated caller.⟧
+Card numbers are never returned by the API. All state-changing operations require an authenticated caller.
 
 ## 4. Rules of the ledger
 
@@ -39,9 +39,17 @@ There are four rules. First, double entry: the debit and the credit of every ent
 
 ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:NET-01|The database and the message brokers are in the private subnets and are not publicly reachable.⟧
 
+⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
+
+⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+
+⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+
 ## 7. Logging, queries and operations
 
 ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+
+⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 ## 8. How posting works
 

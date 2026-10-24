@@ -16,7 +16,6 @@
    "flaw_id": "F1",
    "type": "ambiguity",
    "rule_id": "API-02",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -35,7 +34,6 @@
    "flaw_id": "F2",
    "type": "ambiguity",
    "rule_id": "DATA-02",
-   "drift_id": null,
    "component": "kyc-documents (S3)",
    "data_class": "pii",
    "exposure": "external",
@@ -54,7 +52,6 @@
    "flaw_id": "F3",
    "type": "ambiguity",
    "rule_id": "AUTHZ-01",
-   "drift_id": null,
    "component": "kyc-orchestrator",
    "data_class": "pii",
    "exposure": "external",
@@ -74,6 +71,8 @@
  "required_rules": [
   "AUTH-01",
   "AUTHZ-04",
+  "AUTHZ-03",
+  "AUTH-02",
   "CRYPTO-01",
   "CRYPTO-05",
   "SECRET-01",
@@ -85,6 +84,8 @@
   "API-01",
   "API-05",
   "API-06",
+  "CRYPTO-04",
+  "OPS-02",
   "OPS-01"
  ]
 }

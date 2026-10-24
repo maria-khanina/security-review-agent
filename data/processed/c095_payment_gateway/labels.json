@@ -18,7 +18,6 @@
    "flaw_id": "F1",
    "type": "violation",
    "rule_id": "CRYPTO-05",
-   "drift_id": null,
    "severity": "high",
    "cwe": [
     "CWE-327"
@@ -54,57 +53,10 @@
     ]
    },
    "implementation_spans": [],
-   "also_violates": []
-  },
-  {
-   "flaw_id": "F2",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-05",
-   "severity": "critical",
-   "cwe": [
-    "CWE-319"
-   ],
-   "component": "Payments Edge Gateway",
-   "data_class": "card_data",
-   "manifest": "both",
-   "implementation_anchor": "/servers",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "related_rules": [
-    "CRYPTO-03"
-   ],
-   "policy_status": "conflicting",
-   "needs_policy_review": true,
-   "design_spans": [
-    [
-     1736,
-     1773
-    ]
-   ],
-   "policy_spans": {
-    "CRYPTO-03": [
-     [
-      1119,
-      1163
-     ],
-     [
-      1166,
-      1232
-     ]
-    ]
-   },
-   "implementation_spans": [
-    [
-     115,
-     152
-    ]
-   ],
-   "also_violates": []
+   "also_violates": [],
+   "misfit_versions": [
+    "v3"
+   ]
   }
  ],
  "satisfied": [
@@ -154,6 +106,21 @@
    ]
   },
   {
+   "rule_id": "API-06",
+   "design_spans": [
+    [
+     1511,
+     1566
+    ]
+   ],
+   "policy_spans": [
+    [
+     2349,
+     2442
+    ]
+   ]
+  },
+  {
    "rule_id": "CRYPTO-02",
    "design_spans": [
     [
@@ -165,66 +132,6 @@
     [
      1046,
      1116
-    ]
-   ]
-  },
-  {
-   "rule_id": "SECRET-01",
-   "design_spans": [
-    [
-     2455,
-     2558
-    ]
-   ],
-   "policy_spans": [
-    [
-     1643,
-     1705
-    ]
-   ]
-  },
-  {
-   "rule_id": "SECRET-02",
-   "design_spans": [
-    [
-     2563,
-     2632
-    ]
-   ],
-   "policy_spans": [
-    [
-     1708,
-     1769
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-01",
-   "design_spans": [
-    [
-     2870,
-     2952
-    ]
-   ],
-   "policy_spans": [
-    [
-     2445,
-     2518
-    ]
-   ]
-  },
-  {
-   "rule_id": "LOG-02",
-   "design_spans": [
-    [
-     2957,
-     3037
-    ]
-   ],
-   "policy_spans": [
-    [
-     2521,
-     2592
     ]
    ]
   },
@@ -259,6 +166,36 @@
    ]
   },
   {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     2455,
+     2558
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     2563,
+     2632
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
    "rule_id": "API-01",
    "design_spans": [
     [
@@ -289,17 +226,32 @@
    ]
   },
   {
-   "rule_id": "API-06",
+   "rule_id": "LOG-01",
    "design_spans": [
     [
-     1511,
-     1566
+     2870,
+     2952
     ]
    ],
    "policy_spans": [
     [
-     2349,
-     2442
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     2957,
+     3037
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
     ]
    ]
   },
@@ -315,6 +267,36 @@
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-03",
+   "design_spans": [
+    [
+     3675,
+     3769
+    ]
+   ],
+   "policy_spans": [
+    [
+     718,
+     801
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     3771,
+     3912
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
     ]
    ]
   }

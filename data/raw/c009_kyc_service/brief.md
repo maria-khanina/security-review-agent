@@ -29,20 +29,22 @@ Implementation (openapi) the document describes:
 ## Planted items
 - F1 [ambiguity, high] Mention kyc-orchestrator naturally, but do NOT state: Which mechanism authenticates callers of the public endpoints. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker.
 - F2 [ambiguity, medium] Mention kyc-documents (S3) naturally, but do NOT state: Whether and how stored PII is encrypted. Wrap the sentence(s) that mention kyc-documents (S3) (the place where that information should have been) in the F2 marker.
+- F3 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Access to customer records is not recorded anywhere.
+- F4 [violation, medium] State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Every field received from the client is saved, in case analytics needs it later.
 
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
-- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
-- ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
+- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
 - ⟦S:CRYPTO-05|...⟧ Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
+- ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
+- ⟦S:AUTHZ-05|...⟧ Access rights to production systems must be reviewed at least quarterly.
 - ⟦S:SECRET-01|...⟧ Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.
+- ⟦S:SECRET-02|...⟧ Runtime secrets must be fetched from the approved secret store at startup.
 - ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 - ⟦S:NET-02|...⟧ Object storage buckets must block public access and be private by default.
-- ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
-- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
-- ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
+- ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 
 ## Functional content (no security claims)

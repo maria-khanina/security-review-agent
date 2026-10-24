@@ -14,9 +14,14 @@ Scheduled reports for finance. export-job (a.k.a. the exporter, "report runner" 
 
 **Bucket.** The exports bucket (S3) holds the CSV files, one per report run. The exports bucket blocks public access and is private by default. Mark to check the bucket policy once more (TBD).
 
+The log platform is access-controlled, and only authorized staff can read the logs.
+
 **Encryption.** Data at rest is encrypted with KMS-managed keys. Lena asked who owns the key rotation, nobody had an answer (TBD, not decided in this meeting).
 
 **Access.** Admins and back-office staff must pass multi-factor authentication to sign in. Internal users receive only the roles required for their job, and roles are defined per service. Administrative and debug endpoints are not reachable from the public internet. Access rights to production systems are reviewed at least quarterly. Owner of the review: Lena (confirmed).
+
+Stored PII is protected with AES-256 encryption or stronger.
+On boot, the service pulls its credentials from the approved secret store.
 
 **Crypto and secrets.** The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 
@@ -24,9 +29,9 @@ Scheduled reports for finance. export-job (a.k.a. the exporter, "report runner" 
 
 **Logging.** Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 
-**Personal data.** Only the personal data needed for the reports is collected and stored. Retention value for the reports table is TBD (finance says seven years, compliance wants to check). Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+**Personal data.** Every field that the caller sends is saved with the report request, in case analytics needs it later. Retention value for the reports table is TBD (finance says seven years, compliance wants to check). Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
-**Code and build.** Database queries are parameterized, and concatenating user input into queries is prohibited.
+**Code and build.** Dynamic queries of the export are assembled with string formatting, because the ORM is too slow for them.
 
 ## action items
 

@@ -14,32 +14,8 @@
  "flaws": [
   {
    "flaw_id": "F1",
-   "type": "drift",
-   "rule_id": null,
-   "drift_id": "D-08",
-   "component": "dispatcher",
-   "data_class": "internal",
-   "exposure": "external",
-   "severity": "medium",
-   "cwe": [
-    "CWE-20"
-   ],
-   "manifest": "both",
-   "implementation_mutation": "openapi_freeform_body",
-   "implementation_anchor": "/paths/~1v1~1subscriptions/post/requestBody",
-   "remediation_options": [
-    [
-     "restore the documented behavior in the implementation"
-    ]
-   ],
-   "clarification_needed": null,
-   "instruction": "State as plain fact, adapted to this service: Requests are validated against strict schemas. Wrap the sentence(s) in the F1 marker."
-  },
-  {
-   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "CRYPTO-03",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -59,10 +35,9 @@
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service accepts both HTTP and HTTPS and does not redirect HTTP requests."
   },
   {
-   "flaw_id": "F3",
+   "flaw_id": "F2",
    "type": "violation",
    "rule_id": "OPS-01",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -83,10 +58,9 @@
    "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Third-party libraries are never updated unless something breaks."
   },
   {
-   "flaw_id": "F4",
+   "flaw_id": "F3",
    "type": "violation",
    "rule_id": "AUTH-01",
-   "drift_id": null,
    "component": "dispatcher",
    "data_class": "internal",
    "exposure": "external",
@@ -117,7 +91,12 @@
   "CRYPTO-05",
   "SECRET-01",
   "SECRET-02",
+  "OPS-02",
+  "NET-05",
   "LOG-01",
+  "CRYPTO-04",
+  "API-01",
+  "AUTH-02",
   "API-05",
   "API-06"
  ]

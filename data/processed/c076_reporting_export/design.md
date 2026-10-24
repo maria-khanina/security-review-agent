@@ -25,10 +25,12 @@ The exports bucket (S3) receives the finished CSV objects and keeps them for the
 
 ## Access and identity
 
-- Anyone with administrative or back-office access is required to use multi-factor authentication.
+- A shared admin account with a common password is used for the operations of the export job.
 - Internal users are given the minimum set of roles for their job, and roles are defined service by service.
 - Administrative and debug endpoints are not reachable from the public internet.
 - Access rights to production systems are reviewed at least quarterly.
+- Reading centralized logs requires authorization, and only approved staff have it.
+- Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 
 ## Protection
 

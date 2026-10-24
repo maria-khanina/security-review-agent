@@ -38,14 +38,22 @@ Security
 
 AC-6. Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.
 AC-7. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.
+
+Workloads are non-root, and read-only root filesystems are used wherever they can be.
 AC-8. Administrative and debug endpoints are not reachable from the public internet.
 AC-10. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
 AC-11. Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 AC-12. Runtime secrets are read from the secret store when the service starts.
+
+Public API traffic passes through a web application firewall with rate limits.
+
+Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 AC-14. Authentication failures, privilege changes and access to sensitive data are written to the logs.
+
+We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 AC-15. Requests from outside are checked against the schema and rejected if they do not conform.
-AC-17. Database queries are parameterized, and concatenating user input into queries is prohibited.
-AC-18. Browser-facing APIs allow only approved origins in CORS.
+AC-17. Dynamic queries for the delivery list are assembled with string formatting, because the ORM is too slow.
+AC-18. CORS is set to allow all origins, to unblock the frontend team.
 AC-19. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
 DEFINITION OF DONE

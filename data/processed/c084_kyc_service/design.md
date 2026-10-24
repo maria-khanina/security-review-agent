@@ -25,9 +25,22 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 **Database.** kyc-db and the message brokers sit in private subnets and are not publicly reachable.
 
-**Storage and crypto.** The databases and object stores that hold PII use AES-256 encryption at rest. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Outbound TLS connections always verify the peer certificate. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The kyc-documents bucket blocks public access and is private by default.
+We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 
-**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Callback payloads from the vendor are signed and the signatures are verified. Open: retry window for vendor timeouts (TBD).
+**Storage and crypto.** Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Outbound TLS connections always verify the peer certificate. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The kyc-documents bucket blocks public access and is private by default.
+
+A WAF with rate limiting protects the externally exposed API.
+
+The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
+
+Services call each other with one long-lived token that every service reuses.
+
+**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. Open: retry window for vendor timeouts (TBD).
+
+Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.
+
+A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
+Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
 **Data.** Retention value is TBD (compliance says five years after account closure, legal wants to check). Test and staging environments use synthetic data, never real personal data or card data.
 
@@ -37,7 +50,15 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 **API hygiene.** All external input is validated against a schema, and invalid requests are rejected. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
 
+The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
+
+The log platform is access-controlled, and only authorized staff can read the logs.
+
+Each service must use its own database account with the minimum grants and no shared administrative credentials.
+
 **Pipeline and runtime.** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Containers run as a non-root user, with a read-only root filesystem where possible.
+
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
 ## case states
 
