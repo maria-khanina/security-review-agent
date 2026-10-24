@@ -128,6 +128,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_l2=0.01,
         stacking_class_power=0.5,
         stacking_word_length=3,
+        stacking_fine=False,
         probability_floor=0.0001,
     ),
     confidence_minimum=1,

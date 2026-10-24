@@ -42,13 +42,14 @@ def test_a_separable_problem_is_learned() -> None:
     features, labels, _ = separable_data()
     mean, spread = features.mean(axis=0), features.std(axis=0)
     scaled = (features - mean) / spread
-    predicted = predict_classes(fit_weights(scaled, labels), scaled)
+    weights = fit_weights(scaled, labels, len(VERDICTS))
+    predicted = predict_classes(weights, scaled)
     assert (predicted == labels).mean() > 1 - 1 / len(labels) * len(VERDICTS)
 
 
 def test_rare_verdicts_get_a_larger_weight() -> None:
     labels = np.array([0] * PER_CLASS + [1], dtype=np.int64)
-    weights = class_weights(labels)
+    weights = class_weights(labels, len(VERDICTS))
     assert weights[-1] > weights[0]
 
 
@@ -57,7 +58,8 @@ def test_folds_partition_the_documents_and_predictions_are_held_out() -> None:
     folds = split_folds(cases)
     assert set().union(*folds) == set(cases)
     assert sum(len(fold) for fold in folds) == len(set(cases))
-    predicted = cross_validate(features, labels, cases)
+    probabilities = cross_validate(features, labels, cases, len(VERDICTS))
+    predicted = probabilities.argmax(axis=1)
     assert (predicted == labels).mean() > 1 / 2
 
 

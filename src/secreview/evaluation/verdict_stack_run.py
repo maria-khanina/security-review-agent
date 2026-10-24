@@ -25,11 +25,13 @@ from secreview.evaluation.verdict_stacking import (
     Labels,
     Matrix,
     build_features,
+    choose_verdicts,
+    class_labels,
     cross_validate,
+    gold_label,
     keeps_evidence,
 )
 from secreview.evaluation.verdict_truth import PairTruth, build_case_truth
-from secreview.parsing.vocabulary import VERDICTS
 from secreview.retrieval.units import DesignUnit, split_units
 from secreview.review_settings import REVIEW_SETTINGS
 
@@ -76,7 +78,7 @@ def make_row(
         group=group,
         requirement_id=record.requirement_id,
         features=build_features(record, requirement, fragments),
-        gold=VERDICTS.index(truth.verdict),
+        gold=class_labels().index(gold_label(truth.verdict, truth.subtype)),
     )
 
 
@@ -130,10 +132,11 @@ def predict_rows(rows: list[Row]) -> dict[Key, str]:
     """Predict the verdict of every row with cross-validation over documents."""
     features: Matrix = np.array([row.features for row in rows], dtype=np.float64)
     labels: Labels = np.array([row.gold for row in rows], dtype=np.int64)
-    predicted = cross_validate(features, labels, [row.group for row in rows])
+    groups: list[str] = [row.group for row in rows]
+    probabilities = cross_validate(features, labels, groups, len(class_labels()))
     verdicts: dict[Key, str] = {}
-    for row, index in zip(rows, predicted, strict=True):
-        verdicts[(row.case_id, row.requirement_id)] = VERDICTS[int(index)]
+    for row, verdict in zip(rows, choose_verdicts(probabilities), strict=True):
+        verdicts[(row.case_id, row.requirement_id)] = verdict
     return verdicts
 
 

@@ -269,6 +269,22 @@ The overview configuration (section 10; reasoning short) was run on all 96 dev d
 - **Severity** of the 43 right `violated` verdicts: exact in 40%, within one level in 95%, mean absolute error 0.65 levels (interval 0.48 to 0.83). The model rates nearly everything `high` (gold `critical`: 9 of 10 rated `high`, gold `medium`: 13 of 21 rated `high`) and almost never `low` or `critical`.
 - **Confidence.** AUROC of the log-probability confidence 0.77 [0.75, 0.79]; after the layer the stored confidence is the verifier probability and has AUROC 0.65, which is not a statement about the layer.
 
+## 10c. Full dev split: reasoning before the verdict, two runs together
+
+The reasoning prompt of section 10.2 was run on all 96 dev documents (`dev_reasoned800`), with the verifier and the decision layer as in 10b. "Both" feeds the features of the overview run and of the reasoning run into one decision layer (`stack_verdicts.py --extra`).
+
+| Run | Accuracy | Macro F1 | `violated` R / P | `unclear` R / P | `not_applicable` R / P | Defect recall | Violated quotes hit a planted violation (P / R) | Planted violations / ambiguities found |
+|---|---|---|---|---|---|---|---|---|
+| overview, model verdicts | 0.510 | 0.442 | 0.61 / 0.44 | 0.19 / 0.46 | 0.21 / 0.64 | 0.43 | 0.64 / 0.68 | 0.58 / 0.28 |
+| overview + decision layer | 0.764 | 0.692 | 0.58 / 0.44 | 0.66 / 0.65 | 0.68 / 0.72 | 0.48 | 0.66 / 0.65 | 0.54 / 0.42 |
+| reasoning, model verdicts | 0.580 | 0.521 | 0.61 / 0.47 | 0.47 / 0.44 | 0.21 / 0.62 | 0.60 | 0.59 / 0.64 | 0.57 / 0.63 |
+| reasoning + decision layer | 0.761 | 0.703 | 0.61 / 0.54 | 0.64 / 0.64 | 0.66 / 0.72 | 0.51 | 0.67 / 0.66 | 0.57 / 0.45 |
+| both runs + decision layer | 0.771 | 0.714 | 0.62 / 0.54 | 0.66 / 0.65 | 0.67 / 0.73 | 0.50 | 0.72 / 0.66 | 0.57 / 0.42 |
+
+- Two operating points follow. For **agreement with the gold verdicts** use the decision layer (accuracy 0.76 to 0.77, macro F1 0.70 to 0.71); the combination of both runs is the best, by one point of accuracy. For **finding the planted defects** use the raw verdicts of the reasoning prompt: defect recall 0.60, planted ambiguities 0.63, because the layer, trained on all verdicts, treats the rare planted ambiguities like the many vague-policy `unclear` pairs and loses them (0.63 to 0.45).
+- The precision of `violated` is best with the reasoning prompt and the layer (0.54 per requirement, 0.67 by quote); recall of `violated` stays at 0.61 in every variant: about 40% of the planted violations are not recognised by the 4B model at all.
+- **Tried and dropped.** Training the layer on the nine gold subtypes instead of the four verdicts (and summing the probabilities per verdict) gives lower accuracy (0.743 to 0.747) and no better planted ambiguities (0.46). A class weight of 1 or 1.5 instead of 0.5 raises recall of `violated` (0.65 to 0.72) only at precision of 0.29 and 0.07. A separate severity call and a stated confidence were tried in section 10.1 and give no gain.
+
 ## 11. Open questions and next steps
 
 - Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.

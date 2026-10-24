@@ -14,6 +14,7 @@ from numpy.typing import NDArray
 
 from secreview.agents.policy_requirements import PolicyRequirement
 from secreview.agents.verdict_review import RequirementRecord
+from secreview.evaluation.verdict_truth import SUBTYPES, SUBTYPE_VERDICTS
 from secreview.parsing.vocabulary import (
     EVIDENCE_VERDICTS,
     TOPICS,
@@ -84,21 +85,21 @@ def add_bias(features: Matrix) -> Matrix:
     return np.hstack([features, np.ones((features.shape[0], 1))])
 
 
-def class_weights(labels: Labels) -> Matrix:
-    """Weight every row so that rare verdicts count more in the loss."""
-    counts = np.bincount(labels, minlength=len(VERDICTS)).astype(np.float64)
+def class_weights(labels: Labels, class_count: int) -> Matrix:
+    """Weight every row so that rare classes count more in the loss."""
+    counts = np.bincount(labels, minlength=class_count).astype(np.float64)
     counts[counts == 0.0] = 1.0
-    balance = len(labels) / (len(VERDICTS) * counts)
+    balance = len(labels) / (class_count * counts)
     return balance[labels] ** REVIEW_SETTINGS.verdict.stacking_class_power
 
 
-def fit_weights(features: Matrix, labels: Labels) -> Matrix:
+def fit_weights(features: Matrix, labels: Labels, class_count: int) -> Matrix:
     """Fit a class-weighted multinomial logistic regression with L2 penalty."""
     settings = REVIEW_SETTINGS.verdict
     inputs = add_bias(features)
-    targets = np.eye(len(VERDICTS))[labels]
-    importance = class_weights(labels)[:, None]
-    weights = np.zeros((inputs.shape[1], len(VERDICTS)))
+    targets = np.eye(class_count)[labels]
+    importance = class_weights(labels, class_count)[:, None]
+    weights = np.zeros((inputs.shape[1], class_count))
     for _ in range(settings.stacking_steps):
         error = (softmax(inputs @ weights) - targets) * importance
         gradient = inputs.T @ error / len(labels)
@@ -106,8 +107,13 @@ def fit_weights(features: Matrix, labels: Labels) -> Matrix:
     return weights
 
 
+def predict_probabilities(weights: Matrix, features: Matrix) -> Matrix:
+    """Return the probability of every class for every row."""
+    return softmax(add_bias(features) @ weights)
+
+
 def predict_classes(weights: Matrix, features: Matrix) -> Labels:
-    """Return the index of the most probable verdict for every row."""
+    """Return the index of the most probable class for every row."""
     return np.argmax(add_bias(features) @ weights, axis=1).astype(np.int64)
 
 
@@ -125,15 +131,45 @@ def cross_validate(
     features: Matrix,
     labels: Labels,
     groups: list[str],
-) -> Labels:
-    """Predict every row with a model trained on the other folds."""
-    predictions = np.zeros(len(labels), dtype=np.int64)
+    class_count: int,
+) -> Matrix:
+    """Give every row the class probabilities of a model that did not see it."""
+    probabilities = np.zeros((len(labels), class_count))
     for fold in split_folds(groups):
         held_out = np.array([group in fold for group in groups])
         train, test = standardize(features[~held_out], features[held_out])
-        weights = fit_weights(train, labels[~held_out])
-        predictions[held_out] = predict_classes(weights, test)
-    return predictions
+        weights = fit_weights(train, labels[~held_out], class_count)
+        probabilities[held_out] = predict_probabilities(weights, test)
+    return probabilities
+
+
+def class_verdicts() -> list[str]:
+    """List the verdict that each class of the decision layer stands for."""
+    if REVIEW_SETTINGS.verdict.stacking_fine:
+        return [SUBTYPE_VERDICTS[subtype] for subtype in SUBTYPES]
+    return list(VERDICTS)
+
+
+def class_labels() -> list[str]:
+    """List the gold label that each class of the decision layer is trained on."""
+    return list(SUBTYPES) if REVIEW_SETTINGS.verdict.stacking_fine else list(VERDICTS)
+
+
+def gold_label(verdict: str, subtype: str) -> str:
+    """Pick the gold label the decision layer is trained on."""
+    return subtype if REVIEW_SETTINGS.verdict.stacking_fine else verdict
+
+
+def choose_verdicts(probabilities: Matrix) -> list[str]:
+    """Add up the class probabilities per verdict and pick the largest."""
+    verdicts = class_verdicts()
+    chosen: list[str] = []
+    for row in probabilities:
+        totals: dict[str, float] = {verdict: 0.0 for verdict in VERDICTS}
+        for verdict, share in zip(verdicts, row, strict=True):
+            totals[verdict] += float(share)
+        chosen.append(max(totals, key=lambda verdict: totals[verdict]))
+    return chosen
 
 
 def keeps_evidence(verdict: str, record: RequirementRecord) -> bool:

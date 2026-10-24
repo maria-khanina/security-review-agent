@@ -20,11 +20,12 @@ from secreview.evaluation.verdict_stacking import (
     Labels,
     Matrix,
     build_features,
+    choose_verdicts,
+    class_labels,
     fit_weights,
-    predict_classes,
+    predict_probabilities,
     standardize,
 )
-from secreview.parsing.vocabulary import VERDICTS
 from secreview.retrieval.units import DesignUnit, split_units
 
 Described = list[tuple[Key, list[float]]]
@@ -80,10 +81,11 @@ def predict_described(rows: list[Row], described: Described) -> dict[Key, str]:
     labels: Labels = np.array([row.gold for row in rows], dtype=np.int64)
     other: Matrix = np.array([features for _, features in described], dtype=np.float64)
     scaled_train, scaled_other = standardize(train, other)
-    predicted = predict_classes(fit_weights(scaled_train, labels), scaled_other)
+    weights = fit_weights(scaled_train, labels, len(class_labels()))
+    chosen = choose_verdicts(predict_probabilities(weights, scaled_other))
     verdicts: dict[Key, str] = {}
-    for (key, _), index in zip(described, predicted, strict=True):
-        verdicts[key] = VERDICTS[int(index)]
+    for (key, _), verdict in zip(described, chosen, strict=True):
+        verdicts[key] = verdict
     return verdicts
 
 
