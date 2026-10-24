@@ -76,6 +76,7 @@ GENERATION_SETTINGS = GenerationSettings(
         policy_maps_file="data/policies/policy_maps.yaml",
         rule_couplings_file="data/policies/rule_couplings.yaml",
         phrasings_file="data/policies/compliant_phrasings.yaml",
+        overlaps_file="data/policies/violation_overlaps.yaml",
     ),
     noise=NoiseSettings(
         low_typo_english=["native_fluent", "jargon_dense"],

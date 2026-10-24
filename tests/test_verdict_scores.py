@@ -104,7 +104,10 @@ def test_only_compliant_and_violated_truths_have_a_design_location() -> None:
 def test_the_perfect_answer_scores_one_everywhere() -> None:
     scores = score_all(0, False)
     assert scores.accuracy == scores.accuracy_with_evidence == 1.0
-    assert scores.defect_recall == scores.violated_precision_with_evidence == 1.0
+    assert scores.violated_precision_with_evidence == 1.0
+    assert scores.reportable.recall == scores.reportable.precision == 1.0
+    assert scores.reportable.false_alarm_rate == 0.0
+    assert scores.reportable.tolerant_accuracy == 1.0
     assert scores.missing_pairs == scores.extra_requirements == 0
     assert scores.report.macro_f1 == 1.0
     assert all(rate == 1.0 for rate in scores.evidence_rate.values())
@@ -116,7 +119,7 @@ def test_a_wrong_quote_keeps_the_verdict_but_loses_the_evidence() -> None:
     assert scores.accuracy == 1.0
     assert scores.accuracy_with_evidence < scores.accuracy
     assert scores.evidence_rate["violated"] == 0.0
-    assert scores.defect_recall < 1.0
+    assert scores.violated_precision_with_evidence < 1.0
 
 
 def test_requirements_the_analysis_missed_are_counted_as_missing() -> None:
@@ -145,9 +148,11 @@ def score_unclear_everywhere() -> VerdictScores:
 
 def test_answering_unclear_everywhere_is_right_only_for_the_unclear_truths() -> None:
     scores = score_unclear_everywhere()
-    share = EXPECTED["by_verdict"][UNCLEAR] / EXPECTED["total"]
-    assert abs(scores.accuracy - share) < 1 / EXPECTED["total"]
+    share = EXPECTED["by_verdict"][UNCLEAR] / EXPECTED["scored_total"]
+    assert abs(scores.accuracy - share) < 1 / EXPECTED["scored_total"]
     assert scores.report.per_class[UNCLEAR].recall == 1.0
     assert scores.report.per_class["violated"].recall == 0.0
     assert scores.recall_by_subtype["planted_violation"] == 0.0
+    assert scores.reportable.recall == 1.0
+    assert scores.reportable.false_alarm_rate == 1.0
     assert set(scores.report.per_class) == set(VERDICTS)

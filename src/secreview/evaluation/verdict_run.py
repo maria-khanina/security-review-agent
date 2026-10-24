@@ -79,7 +79,12 @@ def flatten_scores(scores: VerdictScores) -> dict[str, float]:
     metrics: dict[str, float] = {
         "accuracy": scores.accuracy,
         "accuracy_with_evidence": scores.accuracy_with_evidence,
-        "defect_recall": scores.defect_recall,
+        "report_recall": scores.reportable.recall,
+        "report_precision": scores.reportable.precision,
+        "report_f1": scores.reportable.f1,
+        "false_alarm_rate": scores.reportable.false_alarm_rate,
+        "false_alarms_per_document": scores.reportable.false_alarms_per_document,
+        "tolerant_accuracy": scores.reportable.tolerant_accuracy,
         "violated_precision": scores.violated_precision_with_evidence,
         "violation_quote_precision": scores.violation_quote_precision,
         "violation_quote_recall": scores.violation_quote_recall,

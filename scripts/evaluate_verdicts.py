@@ -41,13 +41,22 @@ def print_quotes(scores: VerdictScores) -> None:
     print(f"violation quotes: precision {precision:.3f} recall {recall:.3f}")
 
 
+def print_report(scores: VerdictScores) -> None:
+    """Print the scores of the decision to show a verdict to the user."""
+    item = scores.reportable
+    print(f"shown to the user: recall {item.recall:.3f} precision {item.precision:.3f}")
+    rate, per_document = item.false_alarm_rate, item.false_alarms_per_document
+    print(f"false alarms {rate:.3f} ({per_document:.2f} per document)")
+    print(f"tolerant accuracy {item.tolerant_accuracy:.3f}")
+
+
 def print_summary(scores: VerdictScores) -> None:
     """Print the verdict table, the defect scores and the quote scores."""
     print(f"pairs {scores.pairs}, missing {scores.missing_pairs}")
     with_quote = scores.accuracy_with_evidence
     print(f"accuracy {scores.accuracy:.3f}, with quote {with_quote:.3f}")
     print_classes(scores)
-    print(f"defect recall {scores.defect_recall:.3f}")
+    print_report(scores)
     precision = scores.violated_precision_with_evidence
     print(f"violated precision with quote {precision:.3f}")
     print(f"quote rate {scores.evidence_rate}")

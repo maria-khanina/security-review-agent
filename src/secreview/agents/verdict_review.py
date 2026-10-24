@@ -69,6 +69,10 @@ class RequirementRecord(BaseModel):
     probabilities: dict[str, float] = {}
     context_units: list[int]
     raw_reply: str
+    calls: int = 1
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    seconds: float = 0.0
 
 
 class VerdictCaseRecord(BaseModel):
@@ -123,6 +127,9 @@ def build_record(
             probabilities={},
             context_units=indices,
             raw_reply=completion.text,
+            prompt_tokens=completion.prompt_tokens,
+            completion_tokens=completion.completion_tokens,
+            seconds=completion.seconds,
         )
     return RequirementRecord(
         requirement_id=requirement_id,
@@ -135,6 +142,9 @@ def build_record(
         probabilities=compute_distribution(completion.tokens),
         context_units=indices,
         raw_reply=completion.text,
+        prompt_tokens=completion.prompt_tokens,
+        completion_tokens=completion.completion_tokens,
+        seconds=completion.seconds,
     )
 
 

@@ -20,6 +20,7 @@ from secreview.datagen.models import (
 )
 from secreview.datagen.policies import CLEAR_STATUS, RuleSpan, load_policy_versions
 from secreview.parsing.vocabulary import COMPLIANT, NOT_APPLICABLE, UNCLEAR, VIOLATED
+from secreview.review_settings import REVIEW_SETTINGS
 
 Span = tuple[int, int]
 EXPOSURES = ("external", "internal", "admin")
@@ -33,6 +34,8 @@ STATED = "stated"
 DRIFT_CLAIM = "drift_claim"
 VAGUE_POLICY = "vague_policy"
 COUPLED_SILENCE = "coupled_silence"
+CO_VIOLATION = "co_violation"
+CONTESTABLE = (STATED, NOT_IN_SERVICE, NOT_IN_SERVICE_EXPOSURE)
 
 
 SUBTYPE_VERDICTS: dict[str, str] = {
@@ -45,6 +48,7 @@ SUBTYPE_VERDICTS: dict[str, str] = {
     DRIFT_CLAIM: COMPLIANT,
     VAGUE_POLICY: UNCLEAR,
     COUPLED_SILENCE: UNCLEAR,
+    CO_VIOLATION: VIOLATED,
 }
 SUBTYPES: tuple[str, ...] = tuple(SUBTYPE_VERDICTS)
 
@@ -54,6 +58,7 @@ class Classification(BaseModel):
     subtype: str
     design_spans: list[Span]
     severity: str = ""
+    contested: bool = False
 
 
 class PairTruth(BaseModel):
@@ -64,6 +69,7 @@ class PairTruth(BaseModel):
     subtype: str
     design_spans: list[Span]
     severity: str = ""
+    excluded: bool = False
 
 
 def to_spans(raw_spans: list[list[int]]) -> list[Span]:
@@ -179,6 +185,26 @@ def classify_unlabeled(
     return Classification(verdict=UNCLEAR, subtype=COUPLED_SILENCE, design_spans=[])
 
 
+def find_co_violation(labels: CaseLabels, rule_id: str) -> FlawLabel | None:
+    """Find a planted violation of another rule whose sentence also breaks this rule."""
+    for flaw in labels.flaws:
+        co_violates = rule_id in flaw.also_violates
+        if flaw.type == "violation" and co_violates and flaw.design_spans:
+            return flaw
+    return None
+
+
+def classify_co_violation(flaw: FlawLabel) -> Classification:
+    """Return the violated classification of a rule broken by another rule's flaw."""
+    spans = to_spans(flaw.design_spans)
+    return Classification(
+        verdict=VIOLATED,
+        subtype=CO_VIOLATION,
+        design_spans=spans,
+        severity=flaw.severity,
+    )
+
+
 def classify_rule(
     rule: Rule,
     rule_span: RuleSpan,
@@ -186,10 +212,21 @@ def classify_rule(
     labels: CaseLabels,
 ) -> Classification:
     """Decide the gold verdict of a rule for the design of a case."""
-    found = classify_scope(rule, service)
-    found = found or classify_planted(labels, rule.id)
+    co_violation = find_co_violation(labels, rule.id)
+    found = classify_scope(rule, service) or classify_planted(labels, rule.id)
     found = found or classify_stated(labels, rule.id)
-    return found or classify_unlabeled(rule_span, labels, rule.id)
+    if found is not None:
+        contested = co_violation is not None and found.subtype in CONTESTABLE
+        return found.model_copy(update={"contested": contested})
+    if co_violation is not None:
+        return classify_co_violation(co_violation)
+    return classify_unlabeled(rule_span, labels, rule.id)
+
+
+def is_excluded(found: Classification) -> bool:
+    """Tell whether a pair is left out of scoring: contested or unreliable."""
+    excluded_subtypes = REVIEW_SETTINGS.evaluation.excluded_subtypes
+    return found.contested or found.subtype in excluded_subtypes
 
 
 def build_case_truth(materials: CaseMaterials) -> list[PairTruth]:
@@ -211,6 +248,7 @@ def build_case_truth(materials: CaseMaterials) -> list[PairTruth]:
                     subtype=found.subtype,
                     design_spans=found.design_spans,
                     severity=found.severity,
+                    excluded=is_excluded(found),
                 )
             )
     return truths

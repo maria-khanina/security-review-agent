@@ -53,7 +53,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -89,7 +90,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F3",
@@ -134,7 +136,8 @@
      687,
      712
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F4",
@@ -190,7 +193,8 @@
      1337,
      1364
     ]
-   ]
+   ],
+   "also_violates": []
   }
  ],
  "satisfied": [

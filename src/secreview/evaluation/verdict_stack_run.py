@@ -108,7 +108,7 @@ def build_rows(
     rows: list[Row] = []
     for index, requirement_id in match_truths(materials, analysis, truths).items():
         record = records[requirement_id]
-        if record.verdict is not None:
+        if record.verdict is not None and not truths[index].excluded:
             rows.append(row_for(materials, units, record, requirements, truths[index]))
     return rows
 

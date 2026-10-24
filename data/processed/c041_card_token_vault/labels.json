@@ -48,7 +48,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -94,6 +95,9 @@
      1229,
      1274
     ]
+   ],
+   "also_violates": [
+    "CRYPTO-01"
    ]
   }
  ],

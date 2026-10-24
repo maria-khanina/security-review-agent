@@ -57,7 +57,8 @@
      687,
      712
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -109,7 +110,8 @@
      1337,
      1364
     ]
-   ]
+   ],
+   "also_violates": []
   }
  ],
  "satisfied": [

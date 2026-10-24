@@ -55,7 +55,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -96,7 +97,10 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": [
+    "CRYPTO-01"
+   ]
   },
   {
    "flaw_id": "F3",
@@ -141,7 +145,8 @@
      6260,
      6534
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F4",
@@ -177,7 +182,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F5",
@@ -222,7 +228,8 @@
      2536,
      2548
     ]
-   ]
+   ],
+   "also_violates": []
   }
  ],
  "satisfied": [

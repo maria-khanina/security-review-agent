@@ -57,7 +57,8 @@
      850,
      861
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -99,7 +100,10 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": [
+    "SECRET-01"
+   ]
   },
   {
    "flaw_id": "F3",
@@ -145,6 +149,9 @@
      1229,
      1274
     ]
+   ],
+   "also_violates": [
+    "CRYPTO-01"
    ]
   }
  ],

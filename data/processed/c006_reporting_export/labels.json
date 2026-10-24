@@ -68,7 +68,8 @@
      1872,
      1899
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -113,7 +114,8 @@
      1486,
      1515
     ]
-   ]
+   ],
+   "also_violates": []
   }
  ],
  "satisfied": [

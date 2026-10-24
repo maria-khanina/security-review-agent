@@ -12,6 +12,7 @@ class PathSettings(BaseModel):
     policy_maps_file: str
     rule_couplings_file: str
     phrasings_file: str
+    overlaps_file: str
 
 
 class NoiseSettings(BaseModel):

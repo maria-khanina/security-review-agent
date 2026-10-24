@@ -48,7 +48,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F2",
@@ -97,7 +98,8 @@
      6203,
      6272
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F3",
@@ -142,7 +144,8 @@
      1212,
      1265
     ]
-   ]
+   ],
+   "also_violates": []
   },
   {
    "flaw_id": "F4",
@@ -184,7 +187,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   },
   {
    "flaw_id": "F5",
@@ -220,7 +224,8 @@
      ]
     ]
    },
-   "implementation_spans": []
+   "implementation_spans": [],
+   "also_violates": []
   }
  ],
  "satisfied": [

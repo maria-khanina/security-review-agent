@@ -1,5 +1,6 @@
 """Chat completion access to the local vLLM server."""
 
+import time
 from typing import Protocol
 
 import httpx
@@ -17,6 +18,14 @@ class TokenLogprobs(BaseModel):
 class LogprobCompletion(BaseModel):
     text: str
     tokens: list[TokenLogprobs]
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    seconds: float = 0.0
+
+
+class RawUsage(BaseModel):
+    prompt_tokens: int
+    completion_tokens: int
 
 
 class RawAlternative(BaseModel):
@@ -128,14 +137,24 @@ class VllmChatClient:
             response_schema,
             top_logprobs,
         )
+        started = time.perf_counter()
         response = self.http_client.post(
             f"{REVIEW_SETTINGS.llm.base_url}/chat/completions",
             json=payload,
             timeout=REVIEW_SETTINGS.llm.timeout_seconds,
         )
         response.raise_for_status()
-        choice = response.json()["choices"][0]
-        return parse_logprob_choice(choice)
+        seconds = time.perf_counter() - started
+        body = response.json()
+        usage = RawUsage.model_validate(body["usage"])
+        completion = parse_logprob_choice(body["choices"][0])
+        return completion.model_copy(
+            update={
+                "prompt_tokens": usage.prompt_tokens,
+                "completion_tokens": usage.completion_tokens,
+                "seconds": seconds,
+            }
+        )
 
 
 def parse_logprob_choice(choice: object) -> LogprobCompletion:

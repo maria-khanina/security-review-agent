@@ -14,7 +14,7 @@ from secreview.agents.verdict_review import (
     RequirementRecord,
     VerdictCaseRecord,
 )
-from secreview.llm.client import TokenLogprobs
+from secreview.llm.client import LogprobCompletion, TokenLogprobs
 from secreview.parsing.findings import ReplyParseError, extract_json_object
 from secreview.parsing.vocabulary import COMPLIANT, NOT_APPLICABLE, UNCLEAR, VIOLATED
 from secreview.retrieval.units import DesignUnit, split_units
@@ -116,8 +116,8 @@ def verify_record(
     requirement_text: str,
     fragments: list[str],
     record: RequirementRecord,
-) -> float | None:
-    """Ask the yes-or-no question about one verdict and return P(yes)."""
+) -> tuple[float | None, LogprobCompletion]:
+    """Ask the yes-or-no question about one verdict and return P(yes) and the call."""
     completion = client.complete_with_logprobs(
         SYSTEM_PROMPT,
         build_verifier_user_prompt(requirement_text, fragments, record),
@@ -127,8 +127,8 @@ def verify_record(
     try:
         VerifierReply.model_validate_json(extract_json_object(completion.text))
     except (ValueError, ReplyParseError):
-        return None
-    return probability_of_yes(completion.tokens)
+        return None, completion
+    return probability_of_yes(completion.tokens), completion
 
 
 def verify_item(
@@ -141,8 +141,16 @@ def verify_item(
     if item.verdict is None:
         return item
     fragments = list_fragments(units, item.context_units)
-    yes = verify_record(client, requirement_text, fragments, item)
-    return item.model_copy(update={"confidence": yes})
+    yes, call = verify_record(client, requirement_text, fragments, item)
+    return item.model_copy(
+        update={
+            "confidence": yes,
+            "calls": item.calls + 1,
+            "prompt_tokens": item.prompt_tokens + call.prompt_tokens,
+            "completion_tokens": item.completion_tokens + call.completion_tokens,
+            "seconds": item.seconds + call.seconds,
+        }
+    )
 
 
 def verify_case(

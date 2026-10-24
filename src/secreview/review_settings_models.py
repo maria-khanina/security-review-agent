@@ -20,6 +20,9 @@ class GroundingSettings(BaseModel):
 
 class EvaluationSettings(BaseModel):
     iou_threshold: float
+    quote_coverage: float
+    excluded_subtypes: list[str]
+    tolerant_credit: float
     in_scope_types: list[str]
     scored_severities: list[str]
     false_alarm_budgets: list[float]

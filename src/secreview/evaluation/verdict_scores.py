@@ -17,7 +17,6 @@ from secreview.evaluation.class_report import (
 )
 from secreview.evaluation.policy_scores import match_one_to_one
 from secreview.evaluation.verdict_truth import (
-    PLANTED_AMBIGUITY,
     PairTruth,
     build_case_truth,
 )
@@ -25,6 +24,7 @@ from secreview.parsing.findings import SEVERITIES
 from secreview.parsing.spans import collect_token_indices, compute_overlap
 from secreview.parsing.vocabulary import (
     EVIDENCE_VERDICTS,
+    UNCLEAR,
     VERDICTS,
     VIOLATED,
 )
@@ -49,6 +49,15 @@ class PairOutcome(BaseModel):
     confidence: float | None
 
 
+class ReportScores(BaseModel):
+    recall: float
+    precision: float
+    f1: float
+    false_alarm_rate: float
+    false_alarms_per_document: float
+    tolerant_accuracy: float
+
+
 class QuoteTally(BaseModel):
     predicted: int
     predicted_hits: int
@@ -71,7 +80,7 @@ class VerdictScores(BaseModel):
     report: ClassReport
     evidence_rate: dict[str, float]
     recall_by_subtype: dict[str, float]
-    defect_recall: float
+    reportable: ReportScores
     violated_precision_with_evidence: float
     violation_quote_precision: float
     violation_quote_recall: float
@@ -110,21 +119,28 @@ def match_truths(
     return matched
 
 
+def tokens_match(predicted: set[int], gold: set[int]) -> bool:
+    """Accept a quote that overlaps the gold span enough or covers most of it."""
+    evaluation = REVIEW_SETTINGS.evaluation
+    if compute_overlap(predicted, gold) >= evaluation.iou_threshold:
+        return True
+    covered = len(predicted & gold) / len(gold) if gold else 0.0
+    return covered >= evaluation.quote_coverage
+
+
 def is_quote_correct(
     materials: CaseMaterials,
     truth: PairTruth,
     verdict: RequirementVerdict | None,
 ) -> bool:
-    """Tell whether the cited design span overlaps the gold span enough."""
+    """Tell whether the cited design span matches the gold span."""
     if truth.verdict not in EVIDENCE_VERDICTS:
         return True
     if verdict is None or verdict.design_span is None:
         return False
     text = materials.design_text
     predicted = collect_token_indices(text, [verdict.design_span])
-    gold = collect_token_indices(text, truth.design_spans)
-    threshold = REVIEW_SETTINGS.evaluation.iou_threshold
-    return compute_overlap(predicted, gold) >= threshold
+    return tokens_match(predicted, collect_token_indices(text, truth.design_spans))
 
 
 def build_pair_outcome(
@@ -146,11 +162,10 @@ def build_pair_outcome(
     )
 
 
-def span_overlap(materials: CaseMaterials, first: Span, second: list[Span]) -> float:
-    """Token overlap of a span with the union of other spans of the design."""
-    text = materials.design_text
-    one = collect_token_indices(text, [first])
-    return compute_overlap(one, collect_token_indices(text, second))
+def spans_match(materials: CaseMaterials, first: Span, others: list[Span]) -> bool:
+    """Tell whether a span matches the union of other spans of the design."""
+    one = collect_token_indices(materials.design_text, [first])
+    return tokens_match(one, collect_token_indices(materials.design_text, others))
 
 
 def count_hits(
@@ -158,10 +173,8 @@ def count_hits(
     spans: list[Span],
     others: list[Span],
 ) -> int:
-    """Count the spans that overlap the other spans enough."""
-    threshold = REVIEW_SETTINGS.evaluation.iou_threshold
-    overlaps: list[float] = [span_overlap(materials, span, others) for span in spans]
-    return sum(1 for overlap in overlaps if overlap >= threshold)
+    """Count the spans that match the other spans."""
+    return sum(1 for span in spans if spans_match(materials, span, others))
 
 
 def tally_quotes(
@@ -194,6 +207,22 @@ def index_verdicts(verdicts: list[RequirementVerdict]) -> dict[str, RequirementV
     return by_id
 
 
+def build_pairs(
+    materials: CaseMaterials,
+    truths: list[PairTruth],
+    matched: dict[int, str],
+    verdicts: list[RequirementVerdict],
+) -> list[PairOutcome]:
+    """Compare the verdicts with the gold verdicts of the pairs that are scored."""
+    by_id = index_verdicts(verdicts)
+    pairs: list[PairOutcome] = []
+    for index, truth in enumerate(truths):
+        if not truth.excluded:
+            verdict = by_id.get(matched.get(index, ""))
+            pairs.append(build_pair_outcome(materials, truth, verdict))
+    return pairs
+
+
 def score_case_verdicts(
     materials: CaseMaterials,
     analysis: PolicyAnalysis,
@@ -202,11 +231,7 @@ def score_case_verdicts(
     """Score the verdicts of one design against the gold verdicts of its policy."""
     truths = build_case_truth(materials)
     matched = match_truths(materials, analysis, truths)
-    by_id = index_verdicts(verdicts)
-    pairs: list[PairOutcome] = []
-    for index, truth in enumerate(truths):
-        verdict = by_id.get(matched.get(index, ""))
-        pairs.append(build_pair_outcome(materials, truth, verdict))
+    pairs = build_pairs(materials, truths, matched, verdicts)
     extra = len(analysis.requirements) - len(matched)
     quotes = tally_quotes(materials, truths, verdicts)
     return CaseVerdictOutcome(pairs=pairs, extra_requirements=extra, quotes=quotes)
@@ -269,17 +294,6 @@ def compute_recall_by_subtype(pairs: list[PairOutcome]) -> dict[str, float]:
     return recalls
 
 
-def is_defect(pair: PairOutcome) -> bool:
-    """Tell whether the gold of a pair is a planted violation or ambiguity."""
-    return pair.gold_verdict == VIOLATED or pair.subtype == PLANTED_AMBIGUITY
-
-
-def compute_defect_recall(pairs: list[PairOutcome]) -> float:
-    """Recall over the planted violations and ambiguities of the designs."""
-    defects: list[PairOutcome] = [pair for pair in pairs if is_defect(pair)]
-    return divide(count_correct(defects), len(defects))
-
-
 def compute_violated_precision(pairs: list[PairOutcome]) -> float:
     """Share of violated verdicts that are right and quote the right place."""
     given: list[PairOutcome] = []
@@ -313,6 +327,50 @@ def quote_recall(outcomes: list[CaseVerdictOutcome]) -> float:
     return divide(found, sum(case.quotes.gold for case in outcomes))
 
 
+def is_reported(verdict: str) -> bool:
+    """Tell whether a verdict is shown to the user, as opposed to dropped."""
+    return verdict in (VIOLATED, UNCLEAR)
+
+
+def gold_is_reported(pair: PairOutcome) -> bool:
+    """Tell whether the gold verdict of a pair is shown to the user."""
+    return is_reported(pair.gold_verdict)
+
+
+def predicted_is_reported(pair: PairOutcome) -> bool:
+    """Tell whether the predicted verdict of a pair is shown to the user."""
+    return is_reported(pair.predicted_verdict)
+
+
+def tolerant_credit(pair: PairOutcome) -> float:
+    """Full credit for the right group, partial for violated versus unclear."""
+    if gold_is_reported(pair) != predicted_is_reported(pair):
+        return 0.0
+    if not gold_is_reported(pair) or pair.gold_verdict == pair.predicted_verdict:
+        return 1.0
+    return REVIEW_SETTINGS.evaluation.tolerant_credit
+
+
+def compute_report_scores(pairs: list[PairOutcome], documents: int) -> ReportScores:
+    """Score the decision to show a verdict to the user, ignoring which of the two."""
+    wanted: list[PairOutcome] = [pair for pair in pairs if gold_is_reported(pair)]
+    dropped: list[PairOutcome] = [pair for pair in pairs if not gold_is_reported(pair)]
+    shown: list[PairOutcome] = [pair for pair in pairs if predicted_is_reported(pair)]
+    found = sum(1 for pair in wanted if predicted_is_reported(pair))
+    right = sum(1 for pair in shown if gold_is_reported(pair))
+    alarms = sum(1 for pair in dropped if predicted_is_reported(pair))
+    recall, precision = divide(found, len(wanted)), divide(right, len(shown))
+    credit = sum(tolerant_credit(pair) for pair in pairs)
+    return ReportScores(
+        recall=recall,
+        precision=precision,
+        f1=divide(2 * recall * precision, recall + precision),
+        false_alarm_rate=divide(alarms, len(dropped)),
+        false_alarms_per_document=divide(alarms, documents),
+        tolerant_accuracy=divide(credit, len(pairs)),
+    )
+
+
 def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
     """Combine the pair outcomes of several designs into the verdict scores."""
     pairs: list[PairOutcome] = []
@@ -328,7 +386,7 @@ def summarize_verdicts(outcomes: list[CaseVerdictOutcome]) -> VerdictScores:
         report=build_verdict_report(pairs),
         evidence_rate=compute_evidence_rate(pairs),
         recall_by_subtype=compute_recall_by_subtype(pairs),
-        defect_recall=compute_defect_recall(pairs),
+        reportable=compute_report_scores(pairs, len(outcomes)),
         violated_precision_with_evidence=compute_violated_precision(pairs),
         violation_quote_precision=quote_precision(outcomes),
         violation_quote_recall=quote_recall(outcomes),
