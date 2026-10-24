@@ -12,7 +12,6 @@ from secreview.datagen.catalog import (
     load_architecture,
     load_author_profiles,
     load_company,
-    load_drift_mutations,
     load_rule_couplings,
     load_rules,
     load_severity,
@@ -25,7 +24,6 @@ CONFIG_FILES = [
     "configs/company.yaml",
     "configs/architecture.yaml",
     "configs/documented_service_templates.yaml",
-    "configs/drift_mutations.yaml",
     "configs/author_profiles.yaml",
     "configs/severity.yaml",
     "data/policies/rules.yaml",
@@ -89,12 +87,6 @@ def test_rule_ids_are_unique_and_use_known_vocabulary() -> None:
         assert set(rule.applies_to.exposure) <= set(vocabulary["exposure"])
 
 
-def test_drift_mutations_reference_existing_rules() -> None:
-    rule_ids: set[str] = {rule.id for rule in load_rules()}
-    for drift in load_drift_mutations():
-        assert set(drift.related_rules) <= rule_ids, drift.id
-
-
 def test_rule_couplings_reference_distinct_existing_rules() -> None:
     rule_ids: set[str] = {rule.id for rule in load_rules()}
     sources: list[str] = []
@@ -146,7 +138,6 @@ def test_catalog_covers_design_and_implementation_checks() -> None:
     implementation = rules_with_scope(rules, {"impl", "both"})
     assert len(design) >= gates.min_design_checkable_rules
     assert len(implementation) >= gates.min_implementation_checkable_rules
-    assert len(load_drift_mutations()) >= gates.min_drift_mutations
 
 
 def test_severity_formula_examples() -> None:
@@ -170,7 +161,7 @@ def test_author_profiles_are_well_formed() -> None:
     for author_profile in author_profiles.values():
         low, high = author_profile.length_words
         assert 0 < low < high, author_profile.id
-        assert set(author_profile.affinity) == {"violation", "ambiguity", "drift"}
+        assert set(author_profile.affinity) == {"violation", "ambiguity"}
 
 
 def test_configs_have_no_accidental_null_values() -> None:
@@ -200,6 +191,3 @@ def test_rule_texts_are_complete_sentences() -> None:
         for sentence in sentences:
             assert sentence.endswith("."), rule.id
             assert len(sentence.split()) >= gates.min_rule_sentence_words, rule.id
-    for drift in load_drift_mutations():
-        assert drift.design_claim.endswith("."), drift.id
-        assert len(drift.design_claim.split()) >= gates.min_drift_claim_words

@@ -4,7 +4,6 @@ import pytest
 
 from secreview.datagen.catalog import (
     load_all_documented_services,
-    load_drift_mutations,
     load_rules,
 )
 from secreview.datagen.openapi_build import build_openapi_document
@@ -90,10 +89,8 @@ def test_terraform_mutation_is_detected(
     assert anchor
 
 
-def test_every_rule_check_and_drift_mutation_is_registered() -> None:
+def test_every_rule_check_is_registered() -> None:
     available: set[str] = set(OPENAPI_MUTATIONS) | set(TERRAFORM_MUTATIONS)
     for rule in load_rules():
         check = rule.implementation_check
         assert check is None or check in available, rule.id
-    for drift in load_drift_mutations():
-        assert drift.mutation in available, drift.id

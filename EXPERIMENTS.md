@@ -395,6 +395,22 @@ Measured on three pilot documents with an otherwise idle vLLM server (Qwen3-4B-A
 
 On the 30 pilot documents the tokens rebuilt from the stored prompts (without the chat template, about 3% lower) are 29,500 / 2,400 for the base run, 37,000 / 2,300 with the overview and 38,000 / 3,500 for reasoning with overview. The verifier doubles the number of calls but adds only about ten seconds, because its answer is two words long and its prompt starts with the same fixed text. The policy analysis (one call per policy version) and the ranking of the design chunks (one pass of the embedding model per document) are not included; the decision layer costs no model calls.
 
+## 10g. Audit of the gold labels (reasoning run, full dev)
+
+Method: a sample of pairs where the model disagrees with the gold (missed planted violations and ambiguities, `violated` answers that the gold does not expect, `stated` pairs answered `unclear`, component-driven `not_applicable` answered `compliant`, `drift_claim`) was read against the design text, and every pair of the subtypes that claim silence was checked with a lexical test: does any design sentence outside the gold span contain at least half of the content words of the requirement.
+
+Lexical test, pairs per subtype with such a sentence: `vague_policy` 3 of 856, `not_in_service` 0 of 507, `implementation_only` 0 of 96, `planted_violation` 1 of 74 (c023 API-05, a sentence about replaced queries, not a statement of the rule), `planted_ambiguity` 0 of 71, `coupled_silence` 1 of 41 (c095 CRYPTO-01, a partial statement about secrets). The claim of silence therefore holds for 40 of 41 coupled-silence pairs. The test is lexical and finds only statements that reuse the wording of the requirement.
+
+Problems that remain although the plan is scripted (only the prose is free):
+
+1. **Specifics of the policy sentence missing from a generic statement.** About 86 of 1322 `stated` pairs: the policy version asks for more than the stored statement says (HMAC with a timestamp, plain environment variables, ten consecutive failures, key management in CRYPTO-01 v2). The gold `compliant` is then only partly true.
+2. **Applicability by facts, not by text.** Component-driven `not_applicable` is unreliable where the rule generalises beyond the component: LOG-04 (`log_pipeline`, 65 pairs) and the rules for personal data when the service also holds card data (DATA-01, DATA-02, DATA-03, DATA-05, CRYPTO-01). Together with NET-02, NET-05, AUTH-05 and CRYPTO-02 there are 450 component-driven pairs on dev.
+3. **Incidental contradictions in the prose** (c070 LOG-01) and **exception sentences that inherit the verdict of the rule** (c086 LOG-03).
+4. **Missing overlaps:** NET-01 scenarios 0 to 5 also break NET-03.
+5. **Unplanted violations** remain possible; the model's `violated` answers outside the planted spans include real ones.
+
+Next: add the NET-01 overlaps, mark the `stated` pairs with unmet specifics as contested, widen the exclusion of unreliable component-driven pairs, then re-score. The sentence-boundary overview fix is also open.
+
 ## 11. State and next steps
 
 - **Done on dev:** gold verdicts and scores (section 9, revised in 10f); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10f); the comparison with the free-form reviewer; the cost per document.

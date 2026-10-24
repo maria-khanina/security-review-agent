@@ -1,33 +1,33 @@
 cases:
-  - {index: 100, service: support_console_api, author_profile: compliance_voice, policy_version: v1, flaws: ['violation:AUTH-04', 'ambiguity:LOG-03', 'drift:D-04']}
+  - {index: 100, service: support_console_api, author_profile: compliance_voice, policy_version: v1, flaws: ['violation:AUTH-04', 'ambiguity:LOG-03']}
   - {index: 101, service: support_console_api, author_profile: methodical_architect, policy_version: v3, flaws: ['violation:AUTH-03', 'ambiguity:AUTHZ-03', 'violation:LOG-01']}
   - {index: 102, service: support_console_api, author_profile: ticket_writer, policy_version: v2, flaws: ['violation:AUTHZ-02', 'violation:LOG-04', 'ambiguity:DATA-05']}
   - {index: 103, service: support_console_api, author_profile: table_lover, policy_version: v2, flaws: []}
-  - {index: 104, service: audit_log_pipeline, author_profile: esl_engineer, policy_version: v1, flaws: ['violation:LOG-03', 'ambiguity:LOG-04', 'drift:D-10']}
+  - {index: 104, service: audit_log_pipeline, author_profile: esl_engineer, policy_version: v1, flaws: ['violation:LOG-03', 'ambiguity:LOG-04']}
   - {index: 105, service: audit_log_pipeline, author_profile: migration_delta_writer, policy_version: v2, flaws: ['violation:LOG-02', 'ambiguity:CRYPTO-04', 'violation:OPS-03']}
-  - {index: 106, service: audit_log_pipeline, author_profile: copy_paste_veteran, policy_version: v3, flaws: ['ambiguity:NET-01', 'violation:CRYPTO-04', 'drift:D-14']}
+  - {index: 106, service: audit_log_pipeline, author_profile: copy_paste_veteran, policy_version: v3, flaws: ['ambiguity:NET-01', 'violation:CRYPTO-04']}
   - {index: 107, service: audit_log_pipeline, author_profile: sprint_rusher, policy_version: v1, flaws: []}
   - {index: 108, service: webhook_dispatcher, author_profile: junior_tutorial, policy_version: v2, flaws: ['violation:API-02', 'ambiguity:API-04', 'violation:API-03']}
-  - {index: 109, service: webhook_dispatcher, author_profile: security_champion, policy_version: v1, flaws: ['ambiguity:AUTH-03', 'violation:SECRET-02', 'drift:D-08']}
+  - {index: 109, service: webhook_dispatcher, author_profile: security_champion, policy_version: v1, flaws: ['ambiguity:AUTH-03', 'violation:SECRET-02']}
   - {index: 110, service: webhook_dispatcher, author_profile: optimistic_roadmapper, policy_version: v3, flaws: []}
   - {index: 111, service: reporting_export, author_profile: tribal_knowledge_staff, policy_version: v3, flaws: ['ambiguity:NET-01', 'violation:OPS-02', 'ambiguity:AUTHZ-03']}
-  - {index: 112, service: reporting_export, author_profile: merged_two_authors, policy_version: v2, flaws: ['violation:SECRET-03', 'ambiguity:DATA-01', 'drift:D-10']}
+  - {index: 112, service: reporting_export, author_profile: merged_two_authors, policy_version: v2, flaws: ['violation:SECRET-03', 'ambiguity:DATA-01']}
   - {index: 113, service: reporting_export, author_profile: stream_of_consciousness, policy_version: v1, flaws: []}
   - {index: 114, service: refund_service, author_profile: junior_tutorial, policy_version: v2, flaws: ['violation:AUTH-03', 'ambiguity:AUTHZ-01', 'violation:API-04']}
-  - {index: 115, service: refund_service, author_profile: security_champion, policy_version: v1, flaws: ['violation:CRYPTO-02', 'ambiguity:AUTH-03', 'drift:D-05']}
+  - {index: 115, service: refund_service, author_profile: security_champion, policy_version: v1, flaws: ['violation:CRYPTO-02', 'ambiguity:AUTH-03']}
   - {index: 116, service: refund_service, author_profile: slack_paste, policy_version: v3, flaws: ['violation:API-01', 'ambiguity:AUTHZ-03', 'violation:API-02']}
-  - {index: 117, service: refund_service, author_profile: buzzword_pm, policy_version: v2, flaws: ['drift:D-16', 'ambiguity:AUTHZ-01', 'violation:AUTHZ-02']}
+  - {index: 117, service: refund_service, author_profile: buzzword_pm, policy_version: v2, flaws: ['ambiguity:AUTHZ-01', 'violation:AUTHZ-02']}
   - {index: 118, service: refund_service, author_profile: methodical_architect, policy_version: v1, flaws: []}
   - {index: 119, service: data_warehouse_sync, author_profile: meeting_notes, policy_version: v1, flaws: ['violation:DATA-03', 'ambiguity:DATA-01', 'violation:NET-02']}
-  - {index: 120, service: data_warehouse_sync, author_profile: ticket_writer, policy_version: v2, flaws: ['violation:SECRET-03', 'ambiguity:DATA-02', 'drift:D-09']}
+  - {index: 120, service: data_warehouse_sync, author_profile: ticket_writer, policy_version: v2, flaws: ['violation:SECRET-03', 'ambiguity:DATA-02']}
   - {index: 121, service: data_warehouse_sync, author_profile: esl_engineer, policy_version: v3, flaws: ['violation:CRYPTO-04', 'ambiguity:NET-01']}
-  - {index: 122, service: data_warehouse_sync, author_profile: table_lover, policy_version: v1, flaws: ['violation:DATA-01', 'ambiguity:LOG-01', 'drift:D-12']}
+  - {index: 122, service: data_warehouse_sync, author_profile: table_lover, policy_version: v1, flaws: ['violation:DATA-01', 'ambiguity:LOG-01']}
   - {index: 123, service: data_warehouse_sync, author_profile: compliance_voice, policy_version: v2, flaws: []}
   - {index: 124, service: payment_gateway, author_profile: buzzword_pm, policy_version: v2, flaws: ['violation:CRYPTO-07', 'violation:NET-04', 'ambiguity:AUTH-06']}
-  - {index: 125, service: wallet_service, author_profile: optimistic_roadmapper, policy_version: v3, flaws: ['violation:API-06', 'ambiguity:AUTHZ-03', 'drift:D-02']}
+  - {index: 125, service: wallet_service, author_profile: optimistic_roadmapper, policy_version: v3, flaws: ['violation:API-06', 'ambiguity:AUTHZ-03']}
   - {index: 126, service: merchant_portal_api, author_profile: tribal_knowledge_staff, policy_version: v1, flaws: ['violation:AUTH-04', 'ambiguity:AUTHZ-05', 'violation:LOG-04']}
   - {index: 127, service: kyc_service, author_profile: stream_of_consciousness, policy_version: v2, flaws: ['ambiguity:API-04', 'violation:DATA-01', 'violation:AUTHZ-03']}
   - {index: 128, service: fraud_scoring, author_profile: sprint_rusher, policy_version: v3, flaws: ['violation:OPS-02', 'ambiguity:CRYPTO-04', 'violation:AUTH-02']}
-  - {index: 129, service: ledger_service, author_profile: diagram_narrator, policy_version: v1, flaws: ['violation:AUTH-02', 'ambiguity:CRYPTO-04', 'drift:D-04']}
-  - {index: 130, service: card_token_vault, author_profile: copy_paste_veteran, policy_version: v2, flaws: ['violation:CRYPTO-07', 'ambiguity:SECRET-03', 'drift:D-14']}
+  - {index: 129, service: ledger_service, author_profile: diagram_narrator, policy_version: v1, flaws: ['violation:AUTH-02', 'ambiguity:CRYPTO-04']}
+  - {index: 130, service: card_token_vault, author_profile: copy_paste_veteran, policy_version: v2, flaws: ['violation:CRYPTO-07', 'ambiguity:SECRET-03']}
   - {index: 131, service: notification_service, author_profile: merged_two_authors, policy_version: v2, flaws: ['violation:NET-04', 'ambiguity:LOG-02', 'violation:SECRET-03']}

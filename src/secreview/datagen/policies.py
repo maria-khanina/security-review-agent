@@ -16,6 +16,7 @@ from secreview.datagen.settings import load_settings, project_path
 
 RULE_STATUSES = {"clear", "vague", "advisory", "conflicting"}
 CLEAR_STATUS = "clear"
+FIRM_STATUSES = (CLEAR_STATUS, "advisory")
 
 
 class PolicyMapRule(BaseModel):
@@ -62,9 +63,14 @@ class PolicyVersion:
         """List rules stated clearly enough to be violated unambiguously."""
         clear_rules: list[str] = []
         for rule_span in self.rules.values():
-            if rule_span.status == CLEAR_STATUS:
+            if is_firm(rule_span.status):
                 clear_rules.append(rule_span.rule_id)
         return clear_rules
+
+
+def is_firm(status: str) -> bool:
+    """Tell whether a wording is a requirement, whether or not it says "should"."""
+    return status in FIRM_STATUSES
 
 
 def locate_quote(text: str, quote: str) -> tuple[int, int]:

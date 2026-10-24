@@ -30,7 +30,12 @@ RECALL_SUBTYPES = (
     "planted_ambiguity",
     "vague_policy",
     "planted_violation",
+    "soft_violation",
     "not_in_service",
+    "no_external_callers",
+    "exposure_silence",
+    "partial_statement",
+    "unplanned_applicable",
     "not_in_service_exposure",
     "coupled_silence",
 )

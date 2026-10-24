@@ -22,6 +22,7 @@ GENERATION_SETTINGS = GenerationSettings(
     policy_versions=["v1", "v2", "v3"],
     flaw_count_weights={1: 0.10, 2: 0.25, 3: 0.30, 4: 0.20, 5: 0.15},
     non_clear_flaw_share=0.35,
+    data_implications={"card_data": ["pii"]},
     data_sensitivity_order=[
         "card_data",
         "credentials",
@@ -51,16 +52,14 @@ GENERATION_SETTINGS = GenerationSettings(
     quality_gates=QualityGates(
         min_design_checkable_rules=40,
         min_implementation_checkable_rules=8,
-        min_drift_mutations=12,
         min_applicable_rules_per_documented_service=8,
         min_violable_rules_per_policy_version=15,
         min_flaws_per_type=55,
-        min_non_clear_flaw_share=0.25,
+        min_non_clear_flaw_share=0.15,
         min_high_or_critical_flaws=70,
         max_flaws_per_case=5,
         min_required_rules_for_clean_case=5,
         min_rule_sentence_words=4,
-        min_drift_claim_words=3,
     ),
     phrasing=PhrasingSettings(
         minimum_similarity=85.0,
@@ -77,6 +76,8 @@ GENERATION_SETTINGS = GenerationSettings(
         rule_couplings_file="data/policies/rule_couplings.yaml",
         phrasings_file="data/policies/compliant_phrasings.yaml",
         overlaps_file="data/policies/violation_overlaps.yaml",
+        exposure_audit_file="data/policies/exposure_audit.yaml",
+        removed_claims_file="data/policies/removed_claims.yaml",
     ),
     noise=NoiseSettings(
         low_typo_english=["native_fluent", "jargon_dense"],

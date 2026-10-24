@@ -11,7 +11,6 @@ from secreview.datagen.models import (
     AuthorProfile,
     CompanyConfig,
     DocumentedServiceDefinition,
-    DriftMutation,
     Rule,
     RuleCoupling,
 )
@@ -25,10 +24,6 @@ class RulesFile(BaseModel):
 
 class CouplingsFile(BaseModel):
     couplings: list[RuleCoupling]
-
-
-class DriftFile(BaseModel):
-    drift_mutations: list[DriftMutation]
 
 
 class AuthorProfilesFile(BaseModel):
@@ -68,13 +63,6 @@ def load_rule_couplings() -> list[RuleCoupling]:
     """Load the table of rules that cannot be stated as satisfied beside a flaw."""
     text = read_text(project_path(load_settings().paths.rule_couplings_file))
     return CouplingsFile.model_validate(yaml.safe_load(text)).couplings
-
-
-@cache
-def load_drift_mutations() -> list[DriftMutation]:
-    """Load the catalog of design-versus-implementation drift mutations."""
-    text = read_text(config_path("drift_mutations.yaml"))
-    return DriftFile.model_validate(yaml.safe_load(text)).drift_mutations
 
 
 @cache

@@ -23,13 +23,11 @@ from secreview.datagen.catalog import (
 from secreview.datagen.flaw_sampling import (
     SamplingContext,
     add_ambiguity,
-    add_drift,
     add_violation,
     build_context,
     build_violation_option,
     find_ambiguity_options,
     find_documented_service,
-    find_drift_options,
     finish_case,
 )
 from secreview.datagen.models import Case, PlannedCase
@@ -95,19 +93,9 @@ def plant_ambiguity_of(context: SamplingContext, rule_id: str) -> bool:
     return False
 
 
-def plant_drift_of(context: SamplingContext, drift_id: str) -> bool:
-    """Plant the drift when it is viable here, else report failure."""
-    for drift in find_drift_options(context):
-        if drift.id == drift_id:
-            add_drift(context, drift)
-            return True
-    return False
-
-
 PLANTERS: dict[str, Callable[[SamplingContext, str], bool]] = {
     "violation": plant_violation_of,
     "ambiguity": plant_ambiguity_of,
-    "drift": plant_drift_of,
 }
 
 

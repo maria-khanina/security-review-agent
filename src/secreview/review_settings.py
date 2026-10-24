@@ -28,6 +28,7 @@ REVIEW_SETTINGS = ReviewSettings(
         iou_threshold=0.3,
         quote_coverage=0.6,
         excluded_subtypes=["not_in_service_exposure"],
+        silence_overlap=0.5,
         tolerant_credit=0.5,
         in_scope_types=["violation", "ambiguity"],
         scored_severities=["high", "critical"],

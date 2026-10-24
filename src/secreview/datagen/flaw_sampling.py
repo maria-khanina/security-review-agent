@@ -13,7 +13,6 @@ from secreview.datagen.catalog import (
     load_all_documented_services,
     load_architecture,
     load_author_profiles,
-    load_drift_mutations,
     load_rules,
     load_severity,
     load_suppressed_rules,
@@ -21,7 +20,6 @@ from secreview.datagen.catalog import (
 from secreview.datagen.flaw_factory import (
     IMPLEMENTATION_ONLY,
     build_ambiguity_flaw,
-    build_drift_flaw,
     build_violation_flaw,
     pick_violation_scenario,
     rule_applies,
@@ -32,14 +30,13 @@ from secreview.datagen.models import (
     AuthorProfile,
     Case,
     DocumentedServiceDefinition,
-    DriftMutation,
     Flaw,
     Rule,
 )
-from secreview.datagen.policies import CLEAR_STATUS, load_policy_versions
+from secreview.datagen.policies import is_firm, load_policy_versions
 from secreview.datagen.settings import load_settings
 
-FLAW_TYPES = ("violation", "ambiguity", "drift")
+FLAW_TYPES = ("violation", "ambiguity")
 Candidate = TypeVar("Candidate")
 
 
@@ -51,12 +48,10 @@ class SamplingContext:
     rules: dict[str, Rule]
     applicable: list[str]
     statuses: dict[str, str]
-    drifts: list[DriftMutation]
     author_profile: AuthorProfile
     used_rules: set[str]
     used_mutations: set[str]
     used_groups: set[str]
-    covered_rules: set[str]
     flaws: list[Flaw]
 
 
@@ -64,7 +59,6 @@ class SamplingContext:
 class FlawOptions:
     violations: list[tuple[Rule, str | None]]
     ambiguities: list[Rule]
-    drifts: list[DriftMutation]
 
     def viable_types(self) -> list[str]:
         """List the flaw types that still have at least one candidate."""
@@ -73,8 +67,6 @@ class FlawOptions:
             viable.append("violation")
         if self.ambiguities:
             viable.append("ambiguity")
-        if self.drifts:
-            viable.append("drift")
         return viable
 
 
@@ -98,11 +90,6 @@ def build_context(case: Case) -> SamplingContext:
     for rule_id in policy.flaggable():
         if rule_applies(rules[rule_id], documented_service):
             applicable.append(rule_id)
-    drifts: list[DriftMutation] = [
-        drift
-        for drift in load_drift_mutations()
-        if drift.implementation_format == case.implementation_format
-    ]
     return SamplingContext(
         case=case,
         documented_service=documented_service,
@@ -110,12 +97,10 @@ def build_context(case: Case) -> SamplingContext:
         rules=rules,
         applicable=applicable,
         statuses={rule_id: span.status for rule_id, span in policy.rules.items()},
-        drifts=drifts,
         author_profile=load_author_profiles()[case.author_profile],
         used_rules=set(),
         used_mutations=set(),
         used_groups=set(),
-        covered_rules=set(),
         flaws=[],
     )
 
@@ -150,8 +135,7 @@ def claim_mutation(context: SamplingContext, mutation: str | None) -> None:
 
 def is_rule_available(context: SamplingContext, rule_id: str) -> bool:
     """Tell whether no planted flaw has consumed the rule yet."""
-    taken = context.used_rules | context.covered_rules
-    return rule_id not in taken
+    return rule_id not in context.used_rules
 
 
 def usable_mutation(context: SamplingContext, rule: Rule) -> str | None:
@@ -219,30 +203,11 @@ def find_ambiguity_options(context: SamplingContext) -> list[Rule]:
     return options
 
 
-def find_drift_options(context: SamplingContext) -> list[DriftMutation]:
-    """List drift mutations that fit the documented service and the planted flaws."""
-    case = context.case
-    taken = context.used_rules | context.covered_rules
-    options: list[DriftMutation] = []
-    for drift in context.drifts:
-        mutation = drift.mutation
-        available = is_mutation_available(
-            case.implementation_format,
-            case.documented_service,
-            mutation,
-        )
-        if available and is_mutation_free(context, mutation):
-            if not set(drift.related_rules) & taken:
-                options.append(drift)
-    return options
-
-
 def collect_options(context: SamplingContext) -> FlawOptions:
     """Gather the current candidates of every flaw type."""
     return FlawOptions(
         violations=find_violation_options(context),
         ambiguities=find_ambiguity_options(context),
-        drifts=find_drift_options(context),
     )
 
 
@@ -271,7 +236,7 @@ def narrow_to_stratum(
     non_clear: list[Candidate] = []
     for candidate in candidates:
         status = context.statuses[rule_of(candidate).id]
-        (clear if status == CLEAR_STATUS else non_clear).append(candidate)
+        (clear if is_firm(status) else non_clear).append(candidate)
     if not clear or not non_clear:
         return candidates
     draw = random_generator.random()
@@ -285,7 +250,12 @@ def add_violation(
 ) -> None:
     """Record a policy violation of the given rule in the case."""
     flaw_id = f"F{len(context.flaws) + 1}"
-    scenario = pick_violation_scenario(context.case.case_id, flaw_id, rule)
+    scenario = pick_violation_scenario(
+        context.case.case_id,
+        flaw_id,
+        rule,
+        context.case.policy_version,
+    )
     context.flaws.append(
         build_violation_flaw(
             flaw_id,
@@ -316,23 +286,6 @@ def add_ambiguity(context: SamplingContext, rule: Rule) -> None:
     context.used_rules.add(rule.id)
 
 
-def add_drift(context: SamplingContext, drift: DriftMutation) -> None:
-    """Record the given design-versus-implementation drift in the case."""
-    flaw_id = f"F{len(context.flaws) + 1}"
-    context.flaws.append(
-        build_drift_flaw(
-            flaw_id,
-            drift,
-            context.rules,
-            context.documented_service,
-            context.facts,
-            load_severity(),
-        )
-    )
-    context.covered_rules |= set(drift.related_rules)
-    claim_mutation(context, drift.mutation)
-
-
 def plant_violation(
     context: SamplingContext,
     random_generator: random.Random,
@@ -360,15 +313,6 @@ def plant_ambiguity(
     add_ambiguity(context, random_generator.choices(pool, weights=weights)[0])
 
 
-def plant_drift(
-    context: SamplingContext,
-    random_generator: random.Random,
-    options: FlawOptions,
-) -> None:
-    """Plant one design-versus-implementation drift."""
-    add_drift(context, random_generator.choice(options.drifts))
-
-
 def draw_flaw_count(random_generator: random.Random) -> int:
     """Draw how many flaws a defective case receives."""
     weights = load_settings().flaw_count_weights
@@ -385,7 +329,7 @@ def suppressed_by(planted: set[str]) -> set[str]:
 
 def is_statable(context: SamplingContext, rule_id: str, unavailable: set[str]) -> bool:
     """Tell whether a rule must be stated as satisfied in the design."""
-    clear = context.statuses[rule_id] == CLEAR_STATUS
+    clear = is_firm(context.statuses[rule_id])
     designable = context.rules[rule_id].check_scope != IMPLEMENTATION_ONLY
     return clear and designable and rule_id not in unavailable
 
@@ -395,7 +339,7 @@ def finish_case(context: SamplingContext) -> None:
 
     Rules coupled to a planted flaw are left unstated so the text stays coherent.
     """
-    planted = context.used_rules | context.covered_rules
+    planted: set[str] = set(context.used_rules)
     unavailable = planted | suppressed_by(planted)
     context.case.flaws = context.flaws
     context.case.required_rules = [
@@ -408,7 +352,6 @@ def finish_case(context: SamplingContext) -> None:
 PLANTERS: dict[str, Planter] = {
     "violation": plant_violation,
     "ambiguity": plant_ambiguity,
-    "drift": plant_drift,
 }
 
 

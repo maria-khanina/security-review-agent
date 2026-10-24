@@ -17,8 +17,15 @@ class Overlap(BaseModel):
     also_violates: list[str]
 
 
+class Misfit(BaseModel):
+    rule: str
+    scenario: int
+    versions: list[str]
+
+
 class OverlapsFile(BaseModel):
     overlaps: list[Overlap]
+    misfits: list[Misfit]
 
 
 @cache
@@ -31,6 +38,16 @@ def load_overlaps() -> dict[tuple[str, int], list[str]]:
     return table
 
 
+@cache
+def load_misfits() -> dict[tuple[str, int], list[str]]:
+    """Map a rule and scenario to the versions whose wording it does not break."""
+    text = read_text(project_path(load_settings().paths.overlaps_file))
+    table: dict[tuple[str, int], list[str]] = {}
+    for item in OverlapsFile.model_validate(yaml.safe_load(text)).misfits:
+        table[(item.rule, item.scenario)] = item.versions
+    return table
+
+
 def locate_scenario(rule: Rule, instruction: str) -> int | None:
     """Find which violation scenario of the rule an instruction to the author used."""
     best: int | None = None
@@ -40,6 +57,17 @@ def locate_scenario(rule: Rule, instruction: str) -> int | None:
         if score > best_score:
             best, best_score = index, score
     return best
+
+
+def find_misfit_versions(flaw: Flaw) -> list[str]:
+    """List the policy versions whose wording the planted violation does not break."""
+    if flaw.type != "violation" or flaw.rule_id is None:
+        return []
+    rules: dict[str, Rule] = {rule.id: rule for rule in load_rules()}
+    index = locate_scenario(rules[flaw.rule_id], flaw.instruction)
+    if index is None:
+        return []
+    return list(load_misfits().get((flaw.rule_id, index), []))
 
 
 def find_co_violations(flaw: Flaw) -> list[str]:

@@ -15,13 +15,13 @@ from numpy.typing import NDArray
 from secreview.agents.policy_requirements import PolicyRequirement
 from secreview.agents.verdict_review import RequirementRecord
 from secreview.evaluation.verdict_truth import SUBTYPES, SUBTYPE_VERDICTS
+from secreview.evaluation.word_overlap import content_words, overlap_share
 from secreview.parsing.vocabulary import (
     EVIDENCE_VERDICTS,
     TOPICS,
     VERDICTS,
     WORDINGS,
 )
-from secreview.retrieval.rankers import tokenize
 from secreview.review_settings import REVIEW_SETTINGS
 
 Matrix = NDArray[np.float64]
@@ -33,18 +33,6 @@ def log_probability(record: RequirementRecord, verdict: str) -> float:
     """Return the log of the probability of a verdict, floored for stability."""
     floor = REVIEW_SETTINGS.verdict.probability_floor
     return math.log(max(record.probabilities.get(verdict, 0.0), floor))
-
-
-def content_words(text: str) -> set[str]:
-    """Collect the distinct words of a text that are long enough to carry meaning."""
-    floor = REVIEW_SETTINGS.verdict.stacking_word_length
-    return {word for word in tokenize(text) if len(word) > floor}
-
-
-def overlap_share(requirement: str, other: str) -> float:
-    """Share of the content words of the requirement that the other text contains."""
-    words = content_words(requirement)
-    return len(words & content_words(other)) / len(words) if words else 0.0
 
 
 def build_features(

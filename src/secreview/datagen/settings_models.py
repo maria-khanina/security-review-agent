@@ -13,6 +13,8 @@ class PathSettings(BaseModel):
     rule_couplings_file: str
     phrasings_file: str
     overlaps_file: str
+    exposure_audit_file: str
+    removed_claims_file: str
 
 
 class NoiseSettings(BaseModel):
@@ -76,7 +78,6 @@ class TerraformSettings(BaseModel):
 class QualityGates(BaseModel):
     min_design_checkable_rules: int
     min_implementation_checkable_rules: int
-    min_drift_mutations: int
     min_applicable_rules_per_documented_service: int
     min_violable_rules_per_policy_version: int
     min_flaws_per_type: int
@@ -85,7 +86,6 @@ class QualityGates(BaseModel):
     max_flaws_per_case: int
     min_required_rules_for_clean_case: int
     min_rule_sentence_words: int
-    min_drift_claim_words: int
 
 
 class PhrasingSettings(BaseModel):
@@ -103,6 +103,7 @@ class GenerationSettings(BaseModel):
     flaw_count_weights: dict[int, float]
     non_clear_flaw_share: float
     data_sensitivity_order: list[str]
+    data_implications: dict[str, list[str]]
     secret_pattern: str
     yaml_line_width: int
     mutation_conflict_groups: dict[str, str]

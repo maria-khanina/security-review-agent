@@ -41,12 +41,21 @@ class AppliesTo(BaseModel):
     kind: list[str] = Field(default_factory=list)
     data: list[str] = Field(default_factory=list)
     exposure: list[str] = Field(default_factory=list)
+    requests: bool = False
 
-    def matches(self, kind: str, data_classes: set[str], exposure: str) -> bool:
+    def matches(
+        self,
+        kind: str,
+        data_classes: set[str],
+        exposure: str,
+        accepts_requests: bool,
+    ) -> bool:
         """Tell whether a component of this kind falls under the rule."""
         if self.kind and kind not in self.kind:
             return False
         if self.data and not data_classes & set(self.data):
+            return False
+        if self.requests and not accepts_requests:
             return False
         return not self.exposure or exposure in self.exposure
 
@@ -75,18 +84,6 @@ class Rule(BaseModel):
         return self
 
 
-class DriftMutation(BaseModel):
-    id: str
-    implementation_format: str
-    kind: str
-    design_claim: str
-    implementation_edit: str
-    anchor: str
-    related_rules: list[str]
-    signal: str
-    mutation: str
-
-
 class RuleCoupling(BaseModel):
     when_flawed: str
     suppress: list[str]
@@ -99,6 +96,7 @@ class DocumentedServiceDefinition(BaseModel):
     components: list[str]
     data: list[str]
     exposure: str
+    accepts_requests: bool
     summary: str
 
 
@@ -156,7 +154,6 @@ class Flaw(BaseModel):
     flaw_id: str
     type: str
     rule_id: str | None
-    drift_id: str | None
     component: str
     data_class: str
     exposure: str

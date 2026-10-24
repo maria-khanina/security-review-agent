@@ -134,7 +134,6 @@ def policy_flaws(labels: list[CaseLabels]) -> list[tuple[str, FlawLabel]]:
         (case_labels.split, flaw)
         for case_labels in labels
         for flaw in case_labels.flaws
-        if flaw.type != "drift"
     ]
 
 
@@ -169,7 +168,6 @@ def test_manifest_matches_mutation_presence(sampled_cases: list[Case]) -> None:
         for flaw in case.flaws:
             has_mutation = flaw.implementation_mutation is not None
             assert (flaw.manifest == "design") == (not has_mutation)
-            assert flaw.type != "drift" or flaw.manifest == "both"
 
 
 def test_flaw_types_are_balanced_and_severe_flaws_are_common(

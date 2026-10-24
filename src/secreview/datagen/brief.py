@@ -24,7 +24,7 @@ OPENAPI_FORMAT = "openapi"
 DESIGN_MARKED_FILE = "design_marked.md"
 NEWLINE = "\n"
 CLEAN_CASE_NOTE = (
-    "None. This is a clean case: no violation, no ambiguity, no drift."
+    "None. This is a clean case: no violation and no ambiguity."
 )
 
 

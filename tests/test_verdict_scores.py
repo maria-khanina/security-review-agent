@@ -26,6 +26,7 @@ EXPECTED = json.loads(
         encoding="utf-8"
     )
 )
+LOCATED_UNCLEAR = ("soft_violation", "partial_statement")
 SHIFT = len("abcdefghij")
 FAR_SHIFT = SHIFT * SHIFT * SHIFT * SHIFT
 
@@ -98,7 +99,8 @@ def test_only_compliant_and_violated_truths_have_a_design_location() -> None:
     for materials in dev_materials():
         for truth in build_case_truth(materials):
             has_location = bool(truth.design_spans)
-            assert has_location == (truth.verdict in EVIDENCE_VERDICTS)
+            shows_evidence = truth.verdict in EVIDENCE_VERDICTS
+            assert has_location == (shows_evidence or truth.subtype in LOCATED_UNCLEAR)
 
 
 def test_the_perfect_answer_scores_one_everywhere() -> None:
@@ -148,7 +150,7 @@ def score_unclear_everywhere() -> VerdictScores:
 
 def test_answering_unclear_everywhere_is_right_only_for_the_unclear_truths() -> None:
     scores = score_unclear_everywhere()
-    share = EXPECTED["by_verdict"][UNCLEAR] / EXPECTED["scored_total"]
+    share = EXPECTED["scored_by_verdict"][UNCLEAR] / EXPECTED["scored_total"]
     assert abs(scores.accuracy - share) < 1 / EXPECTED["scored_total"]
     assert scores.report.per_class[UNCLEAR].recall == 1.0
     assert scores.report.per_class["violated"].recall == 0.0

@@ -22,6 +22,7 @@ class EvaluationSettings(BaseModel):
     iou_threshold: float
     quote_coverage: float
     excluded_subtypes: list[str]
+    silence_overlap: float
     tolerant_credit: float
     in_scope_types: list[str]
     scored_severities: list[str]

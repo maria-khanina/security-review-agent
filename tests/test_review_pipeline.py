@@ -39,6 +39,7 @@ from secreview.review_settings import REVIEW_SETTINGS
 MIN_CHARACTERS = REVIEW_SETTINGS.grounding.min_quote_characters
 MAX_CONFIDENCE = REVIEW_SETTINGS.confidence_maximum
 ORACLE = "oracle"
+QUOTE_LENGTH = 2 * MIN_CHARACTERS
 PLAIN = ReviewVariant(use_topics=False, ask_for_silence=False, policy_analysis=ORACLE)
 WITH_TOPICS = ReviewVariant(
     use_topics=True,
@@ -338,34 +339,29 @@ def test_wrong_requirement_fails_only_the_strict_rule() -> None:
     assert summary.policy_evidence_accuracy == 0.0
 
 
-def find_drift_case() -> CaseMaterials:
+def find_design_silent_case() -> CaseMaterials:
     for case_id in list_case_ids("dev"):
         materials = load_case_materials(case_id)
-        if any(flaw.type == "drift" for flaw in materials.labels.flaws):
+        if any(not flaw.design_spans for flaw in materials.labels.flaws):
             return materials
-    raise LookupError("no dev case with a drift")
+    raise LookupError("no dev case with a flaw that has no design evidence")
 
 
-def build_drift_quote_finding(
-    materials: CaseMaterials,
-    analysis: PolicyAnalysis,
-    drift: FlawLabel,
-) -> dict[str, object]:
-    start, end = drift.design_spans[0]
-    quote = materials.design_text[start:end]
-    return build_finding(quote, analysis.requirements[0], "violation", "high", False)
-
-
-def test_drift_flaws_are_out_of_scope_and_a_finding_on_them_is_a_false_alarm() -> None:
-    materials = find_drift_case()
+def silent_outcome() -> tuple[FlawLabel, CaseOutcome]:
+    materials = find_design_silent_case()
     analysis = oracle_for(materials)
-    drift = next(item for item in materials.labels.flaws if item.type == "drift")
-    finding = build_drift_quote_finding(materials, analysis, drift)
-    prepared = PreparedReview(materials, analysis, drift, finding)
-    outcome = match_case(materials, review_findings(prepared, [finding]))
+    silent = next(item for item in materials.labels.flaws if not item.design_spans)
+    quote = materials.design_text[:QUOTE_LENGTH]
+    finding = build_finding(quote, analysis.requirements[0], "violation", "high", False)
+    prepared = PreparedReview(materials, analysis, silent, finding)
+    return silent, match_case(materials, review_findings(prepared, [finding]))
+
+
+def test_flaws_without_design_evidence_are_out_of_scope_for_findings() -> None:
+    silent, outcome = silent_outcome()
     golds: dict[str, GoldOutcome] = {item.flaw_id: item for item in outcome.golds}
-    assert not golds[drift.flaw_id].scorable
-    assert not golds[drift.flaw_id].matched
+    assert not golds[silent.flaw_id].scorable
+    assert not golds[silent.flaw_id].matched
     assert [item.matched_flaw_id for item in outcome.predictions] == [None]
 
 

@@ -219,3 +219,65 @@ phrasings:
   - "Backup encryption is on, and we test restoring from backup at least every six months."
   - "We encrypt backups and run a restore test at least twice a year."
   - "Encrypted backups are checked by a restoration exercise at least twice a year."
+strict_phrasings:
+  AUTH-06:
+    v2:
+    - "Failed attempts on the login and token endpoints are throttled, and the account is temporarily locked after ten consecutive failures."
+    - "Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account."
+    - "The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts."
+    - "Brute-force protection: throttling of failed attempts on the login and token endpoints, plus a temporary lockout after ten failures in a row."
+  CRYPTO-01:
+    v2:
+    - "Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service."
+    - "Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service."
+    - "At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service."
+    - "Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service."
+  API-03:
+    v2:
+    - "Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both."
+    - "Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp."
+    - "Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side."
+    - "Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them."
+  API-02:
+    v2:
+    - "Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429."
+    - "The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded."
+    - "Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit."
+    - "A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429."
+  DATA-02: &retention
+    v2:
+    - "Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends."
+    - "The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job."
+    - "We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request."
+    - "Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job."
+    v3:
+    - "Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends."
+    - "The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job."
+    - "We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request."
+    - "Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job."
+  DATA-05:
+    v1:
+    - "Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days."
+    - "Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users."
+    - "Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours."
+    - "Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days."
+    v2:
+    - "Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days."
+    - "Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users."
+    - "Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours."
+    - "Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days."
+required_terms:
+  AUTH-06:
+    v2: ['ten']
+  CRYPTO-01:
+    v2: ['key management|kms']
+  API-03:
+    v2: ['hmac', 'timestamps?']
+  API-02:
+    v2: ['\d+ requests?', '429']
+  DATA-02:
+    v2: ['\d+ (days|months|years)', 'automat\w*|job']
+    v3: ['\d+ (days|months|years)', 'automat\w*|job']
+  DATA-05:
+    v1: ['\d+ (days|hours)']
+    v2: ['\d+ (days|hours)']

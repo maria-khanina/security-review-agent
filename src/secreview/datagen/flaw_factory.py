@@ -1,30 +1,41 @@
-"""Turns sampled rules and drift mutations into labeled planted flaws."""
+"""Turns sampled rules into labeled planted flaws."""
 
 import random
 
 from secreview.datagen.models import (
     ArchitectureFacts,
     DocumentedServiceDefinition,
-    DriftMutation,
     Flaw,
     Rule,
 )
+from secreview.datagen.overlaps import load_misfits
 from secreview.datagen.settings import load_settings
 from secreview.datagen.severity import Severity
 
 IMPLEMENTATION_ONLY = "impl"
 DESIGN_ONLY = "design"
 DESIGN_AND_IMPLEMENTATION = "both"
-DRIFT_REMEDIATION_OPTIONS = [
-    ["restore the documented behavior in the implementation"],
-]
+
+
+def service_data_classes(documented_service: DocumentedServiceDefinition) -> set[str]:
+    """Collect the data classes of a service, including those they imply."""
+    implications = load_settings().data_implications
+    data_classes: set[str] = set(documented_service.data)
+    for data_class in documented_service.data:
+        data_classes.update(implications.get(data_class, []))
+    return data_classes
 
 
 def rule_applies(rule: Rule, documented_service: DocumentedServiceDefinition) -> bool:
     """Tell whether a rule applies to some component of the documented service."""
-    data_classes: set[str] = set(documented_service.data)
+    data_classes = service_data_classes(documented_service)
     for kind in documented_service.components:
-        if rule.applies_to.matches(kind, data_classes, documented_service.exposure):
+        if rule.applies_to.matches(
+            kind,
+            data_classes,
+            documented_service.exposure,
+            documented_service.accepts_requests,
+        ):
             return True
     return False
 
@@ -59,12 +70,23 @@ def pick_data_class(
     return pool[0] if pool else documented_service.data[0]
 
 
-def pick_violation_scenario(case_id: str, flaw_id: str, rule: Rule) -> str:
-    """Choose one violation scenario, independent of the main random stream."""
+def pick_violation_scenario(
+    case_id: str,
+    flaw_id: str,
+    rule: Rule,
+    policy_version: str,
+) -> str:
+    """Choose a violation scenario that breaks the wording of the policy version."""
     if not rule.violation_scenarios:
         return ""
+    misfits = load_misfits()
+    fitting: list[str] = [
+        scenario
+        for index, scenario in enumerate(rule.violation_scenarios)
+        if policy_version not in misfits.get((rule.id, index), [])
+    ]
     chooser = random.Random(f"{case_id}:{flaw_id}:{rule.id}")
-    return chooser.choice(rule.violation_scenarios)
+    return chooser.choice(fitting)
 
 
 def build_violation_flaw(
@@ -95,7 +117,6 @@ def build_violation_flaw(
         flaw_id=flaw_id,
         type="violation",
         rule_id=rule.id,
-        drift_id=None,
         component=pick_component(rule.applies_to.kind, documented_service, facts),
         data_class=data_class,
         exposure=documented_service.exposure,
@@ -131,7 +152,6 @@ def build_ambiguity_flaw(
         flaw_id=flaw_id,
         type="ambiguity",
         rule_id=rule.id,
-        drift_id=None,
         component=component,
         data_class=data_class,
         exposure=documented_service.exposure,
@@ -144,43 +164,5 @@ def build_ambiguity_flaw(
         implementation_anchor=None,
         remediation_options=[],
         clarification_needed=rule.how_to_omit,
-        instruction=instruction,
-    )
-
-
-def build_drift_flaw(
-    flaw_id: str,
-    drift: DriftMutation,
-    rules: dict[str, Rule],
-    documented_service: DocumentedServiceDefinition,
-    facts: ArchitectureFacts,
-    severity: Severity,
-) -> Flaw:
-    """Create a drift flaw: the design claims what the implementation lacks."""
-    related: list[Rule] = [rules[rule_id] for rule_id in drift.related_rules]
-    base_severity = max(rule.base_severity for rule in related)
-    data_class = pick_data_class([], documented_service)
-    kinds = sorted({kind for rule in related for kind in rule.applies_to.kind})
-    instruction = (
-        f"State as plain fact, adapted to this service: {drift.design_claim} "
-        f"Wrap the sentence(s) in the {flaw_id} marker."
-    )
-    return Flaw(
-        flaw_id=flaw_id,
-        type="drift",
-        rule_id=None,
-        drift_id=drift.id,
-        component=pick_component(kinds, documented_service, facts),
-        data_class=data_class,
-        exposure=documented_service.exposure,
-        severity=severity.compute(
-            base_severity, documented_service.exposure, data_class, False, False
-        ),
-        cwe=[related[0].cwe_ids[0]],
-        manifest=DESIGN_AND_IMPLEMENTATION,
-        implementation_mutation=drift.mutation,
-        implementation_anchor=None,
-        remediation_options=DRIFT_REMEDIATION_OPTIONS,
-        clarification_needed=None,
         instruction=instruction,
     )

@@ -16,7 +16,7 @@ author_profiles:
     staleness: none
     length_words: [1800, 2600]
     typical_gaps: [secret rotation, key ownership, who can query the database directly, logging of sensitive fields]
-    affinity: {ambiguity: 1.6, violation: 0.6, drift: 0.8}
+    affinity: {ambiguity: 1.6, violation: 0.6}
 
   - id: sprint_rusher
     summary: Terse bullet fragments, many TBD markers, sections left as headings with one line.
@@ -27,7 +27,7 @@ author_profiles:
     staleness: none
     length_words: [400, 900]
     typical_gaps: [auth between internal services, encryption at rest, data retention, error handling]
-    affinity: {ambiguity: 1.8, violation: 1.0, drift: 0.7}
+    affinity: {ambiguity: 1.8, violation: 1.0}
 
   - id: stream_of_consciousness
     summary: Long unbroken paragraphs written as thinking aloud, flows described in the order they came to mind.
@@ -38,7 +38,7 @@ author_profiles:
     staleness: none
     length_words: [900, 1800]
     typical_gaps: [explicit statement of authentication method, which component stores what]
-    affinity: {ambiguity: 1.4, violation: 1.0, drift: 1.0}
+    affinity: {ambiguity: 1.4, violation: 1.0}
 
   - id: copy_paste_veteran
     summary: Built from an older design with find-and-replace; stale service names and sentences that contradict the new section.
@@ -49,7 +49,7 @@ author_profiles:
     staleness: heavy_copy_paste
     length_words: [1400, 2400]
     typical_gaps: [which version of the auth scheme is current]
-    affinity: {ambiguity: 0.8, violation: 0.9, drift: 1.8}
+    affinity: {ambiguity: 0.8, violation: 0.9}
 
   - id: esl_engineer
     summary: Competent engineer writing in a second language; missing articles, literal translations of idioms, odd word order.
@@ -60,7 +60,7 @@ author_profiles:
     staleness: none
     length_words: [1000, 1800]
     typical_gaps: [negations and obligations phrased ambiguously, e.g. "should not be only encrypted"]
-    affinity: {ambiguity: 1.3, violation: 1.0, drift: 1.0}
+    affinity: {ambiguity: 1.3, violation: 1.0}
 
   - id: buzzword_pm
     summary: Business framing, security stated as adjectives ("enterprise-grade", "secure by design") with no mechanisms.
@@ -71,7 +71,7 @@ author_profiles:
     staleness: none
     length_words: [900, 1600]
     typical_gaps: [every concrete control, algorithms, token lifetimes, network boundaries]
-    affinity: {ambiguity: 2.0, violation: 0.8, drift: 0.8}
+    affinity: {ambiguity: 2.0, violation: 0.8}
 
   - id: security_champion
     summary: Long dedicated security section with many named controls, but some are aspirational and terms are used loosely.
@@ -82,7 +82,7 @@ author_profiles:
     staleness: some_outdated
     length_words: [1800, 2600]
     typical_gaps: [implementation status of the controls it lists]
-    affinity: {ambiguity: 0.7, violation: 0.7, drift: 1.9}
+    affinity: {ambiguity: 0.7, violation: 0.7}
 
   - id: ticket_writer
     summary: Jira style with user stories, numbered requirements and acceptance criteria; non-functional requirements are afterthoughts.
@@ -93,7 +93,7 @@ author_profiles:
     staleness: none
     length_words: [900, 1700]
     typical_gaps: [security as acceptance criteria, data classification]
-    affinity: {ambiguity: 1.5, violation: 1.0, drift: 0.8}
+    affinity: {ambiguity: 1.5, violation: 1.0}
 
   - id: meeting_notes
     summary: Written as decisions and open questions after a design meeting; some decisions are reversed later in the same doc.
@@ -104,7 +104,7 @@ author_profiles:
     staleness: none
     length_words: [700, 1400]
     typical_gaps: [final outcome of open questions]
-    affinity: {ambiguity: 1.7, violation: 0.9, drift: 1.2}
+    affinity: {ambiguity: 1.7, violation: 0.9}
 
   - id: diagram_narrator
     summary: Mostly an ASCII or mermaid diagram plus short captions; flows exist only as arrows between boxes.
@@ -115,7 +115,7 @@ author_profiles:
     staleness: none
     length_words: [500, 1100]
     typical_gaps: [trust boundaries, credentials on arrows, protocols on arrows]
-    affinity: {ambiguity: 1.6, violation: 0.8, drift: 1.0}
+    affinity: {ambiguity: 1.6, violation: 0.8}
 
   - id: tribal_knowledge_staff
     summary: Overcommitted senior engineer; dense jargon and abbreviations, assumes the reader knows the platform.
@@ -126,7 +126,7 @@ author_profiles:
     staleness: none
     length_words: [500, 1000]
     typical_gaps: [anything covered by "the usual platform setup"]
-    affinity: {ambiguity: 1.9, violation: 0.7, drift: 0.9}
+    affinity: {ambiguity: 1.9, violation: 0.7}
 
   - id: junior_tutorial
     summary: Explains basics at length and mixes up concepts such as hashing, encryption and encoding, or JWT and sessions.
@@ -137,7 +137,7 @@ author_profiles:
     staleness: none
     length_words: [1500, 2600]
     typical_gaps: [correct choice of primitives]
-    affinity: {ambiguity: 0.8, violation: 1.8, drift: 0.9}
+    affinity: {ambiguity: 0.8, violation: 1.8}
 
   - id: compliance_voice
     summary: Legalistic language citing standards and "in accordance with company policy" without saying what is actually done.
@@ -148,7 +148,7 @@ author_profiles:
     staleness: none
     length_words: [1200, 2200]
     typical_gaps: [concrete mechanism behind every claimed compliance]
-    affinity: {ambiguity: 1.9, violation: 0.7, drift: 1.1}
+    affinity: {ambiguity: 1.9, violation: 0.7}
 
   - id: optimistic_roadmapper
     summary: Describes planned features in present tense; future and current state are blurred.
@@ -159,7 +159,7 @@ author_profiles:
     staleness: none
     length_words: [1200, 2200]
     typical_gaps: [which controls exist today]
-    affinity: {ambiguity: 0.9, violation: 0.8, drift: 2.0}
+    affinity: {ambiguity: 0.9, violation: 0.8}
 
   - id: merged_two_authors
     summary: Two people wrote different halves; heading levels, terminology and level of detail change midway and sections disagree.
@@ -170,7 +170,7 @@ author_profiles:
     staleness: some_outdated
     length_words: [1500, 2600]
     typical_gaps: [consistency between the halves]
-    affinity: {ambiguity: 1.0, violation: 1.0, drift: 1.5}
+    affinity: {ambiguity: 1.0, violation: 1.0}
 
   - id: slack_paste
     summary: Chat excerpts pasted into the doc with names, informal tone and half-sentences; decisions are implicit.
@@ -181,7 +181,7 @@ author_profiles:
     staleness: none
     length_words: [600, 1300]
     typical_gaps: [anything said in a thread that was not pasted]
-    affinity: {ambiguity: 1.8, violation: 1.1, drift: 0.9}
+    affinity: {ambiguity: 1.8, violation: 1.1}
 
   - id: table_lover
     summary: Everything in tables (components, endpoints, data stores); prose is minimal and some tables are malformed.
@@ -192,7 +192,7 @@ author_profiles:
     staleness: none
     length_words: [600, 1300]
     typical_gaps: [reasons and conditions that do not fit a table cell]
-    affinity: {ambiguity: 1.3, violation: 0.9, drift: 1.0}
+    affinity: {ambiguity: 1.3, violation: 0.9}
 
   - id: migration_delta_writer
     summary: Describes only what changes relative to the existing system and assumes the old behavior carries over.
@@ -203,7 +203,7 @@ author_profiles:
     staleness: some_outdated
     length_words: [700, 1500]
     typical_gaps: [security properties inherited from the old system]
-    affinity: {ambiguity: 1.7, violation: 0.8, drift: 1.4}
+    affinity: {ambiguity: 1.7, violation: 0.8}
 
 noise_knobs:
   typo_rate: [0.0, 0.01, 0.03]

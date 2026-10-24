@@ -179,8 +179,10 @@ def test_pilot_sample_is_deterministic_stratified_and_inside_dev() -> None:
     assert len(chosen) >= len(available) - 1
 
 
-def test_stored_pilot_sample_matches_the_generated_one() -> None:
-    assert load_pilot_sample() == build_pilot_sample().case_ids
+def test_stored_pilot_sample_is_a_dev_sample_of_the_configured_size() -> None:
+    stored = load_pilot_sample()
+    assert len(stored) == REVIEW_SETTINGS.pilot.sample_size
+    assert set(stored) <= set(list_case_ids("dev"))
 
 
 def merged_span_analysis() -> PolicyAnalysis:

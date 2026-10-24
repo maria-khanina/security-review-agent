@@ -38,8 +38,6 @@ rules:
   applies_to:
     kind:
     - service
-    exposure:
-    - internal
   check_scope: design
   base_severity: 3
   cwe_ids:
@@ -180,8 +178,7 @@ rules:
     kind:
     - service
     - api_gateway
-    exposure:
-    - external
+    requests: true
   check_scope: design
   base_severity: 3
   cwe_ids:
@@ -265,9 +262,6 @@ rules:
     kind:
     - api_gateway
     - service
-    exposure:
-    - admin
-    - external
   check_scope: both
   base_severity: 4
   cwe_ids:
@@ -410,8 +404,6 @@ rules:
     - service
     - database
     - message_queue
-    exposure:
-    - internal
   check_scope: both
   base_severity: 2
   cwe_ids:
@@ -693,6 +685,7 @@ rules:
   applies_to:
     kind:
     - api_gateway
+    - service
     exposure:
     - external
   check_scope: design
@@ -807,6 +800,7 @@ rules:
   applies_to:
     kind:
     - log_pipeline
+    - service
   check_scope: design
   base_severity: 1
   cwe_ids:
@@ -973,8 +967,7 @@ rules:
     kind:
     - api_gateway
     - service
-    exposure:
-    - external
+    requests: true
   check_scope: both
   base_severity: 2
   cwe_ids:
@@ -1054,8 +1047,7 @@ rules:
     kind:
     - api_gateway
     - service
-    exposure:
-    - external
+    requests: true
   check_scope: design
   base_severity: 1
   cwe_ids:

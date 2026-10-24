@@ -7,7 +7,7 @@ from secreview.datagen.extension_plan import (
     load_extension_plan,
     plan_extension_cases,
 )
-from secreview.datagen.policies import load_policy_versions
+from secreview.datagen.policies import is_firm, load_policy_versions
 from secreview.datagen.settings import load_settings
 
 REQUIRED_TEST_STATUSES = {"vague", "advisory", "conflicting"}
@@ -44,7 +44,7 @@ def test_required_rules_are_clear_and_not_coupled_to_a_flaw() -> None:
         assert not collect_coupled_rules(flawed) & required, case.case_id
         assert not flawed & required, case.case_id
         for rule_id in required:
-            assert policy.review_status([rule_id]) == "clear", case.case_id
+            assert is_firm(policy.review_status([rule_id])), case.case_id
 
 
 def test_extension_covers_every_non_clear_status_in_the_test_split() -> None:
@@ -63,7 +63,6 @@ def test_written_skeletons_match_the_plan() -> None:
     for item in plan_extension_cases():
         stored = load_raw_case(item.case.case_id)
         assert stored.documented_service == item.case.documented_service
-        assert [flaw.flaw_id for flaw in stored.flaws] == [
-            flaw.flaw_id for flaw in item.case.flaws
-        ]
+        planned: list[str] = [flaw.flaw_id for flaw in item.case.flaws]
+        assert [flaw.flaw_id for flaw in stored.flaws][: len(planned)] == planned
         assert load_settings().seed

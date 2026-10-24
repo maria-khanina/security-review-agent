@@ -20,3 +20,11 @@ overlaps:
   - {rule: OPS-03, scenario: 3, also_violates: [CRYPTO-01]}
   - {rule: OPS-03, scenario: 4, also_violates: [CRYPTO-01]}
   - {rule: OPS-03, scenario: 5, also_violates: [CRYPTO-01]}
+  - {rule: NET-01, scenario: 1, also_violates: [NET-03]}
+  - {rule: NET-01, scenario: 3, also_violates: [NET-03]}
+misfits:
+  - {rule: CRYPTO-05, scenario: 4, versions: [v3]}
+  - {rule: CRYPTO-05, scenario: 5, versions: [v3]}
+  - {rule: OPS-01, scenario: 2, versions: [v3]}
+  - {rule: OPS-01, scenario: 4, versions: [v3]}
+  - {rule: OPS-01, scenario: 5, versions: [v3]}

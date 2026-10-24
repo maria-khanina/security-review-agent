@@ -12,7 +12,6 @@ from secreview.datagen.case_files import (
     write_text,
 )
 from secreview.datagen.case_validation import validate_implementation, validate_markers
-from secreview.datagen.catalog import load_drift_mutations
 from secreview.datagen.implementation import implementation_file_name
 from secreview.datagen.implementation_spans import compute_implementation_spans
 from secreview.datagen.labels import (
@@ -34,9 +33,6 @@ def related_rules_of(flaw: Flaw) -> list[str]:
     """List the policy rules a flaw is judged against."""
     if flaw.rule_id:
         return [flaw.rule_id]
-    for drift in load_drift_mutations():
-        if drift.id == flaw.drift_id:
-            return drift.related_rules
     raise LookupError(flaw.flaw_id)
 
 
