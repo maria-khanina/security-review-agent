@@ -1,0 +1,76 @@
+{
+ "case_id": "c404_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "xlong",
+ "policy_version": "v1",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTHZ-04",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-284"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_admin_path_public",
+   "implementation_anchor": "/paths/~1admin~1limits~1{accountId}",
+   "remediation_options": [
+    [
+     "make administrative and debug endpoints unreachable from the public internet"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Back-office actions are routed through the public gateway for simplicity."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SECRET-01",
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-798"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "spec_hardcoded_secret",
+   "implementation_anchor": "/servers/0/variables/apiKey",
+   "remediation_options": [
+    [
+     "remove secrets from source code, configuration, specifications and infrastructure definitions"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A live-looking API key is kept as a default value in the specification and infrastructure files."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-05",
+  "CRYPTO-01",
+  "CRYPTO-03",
+  "CRYPTO-05",
+  "NET-01",
+  "LOG-01",
+  "DATA-01",
+  "DATA-03",
+  "DATA-05",
+  "API-01",
+  "API-05",
+  "AUTH-01",
+  "AUTHZ-01",
+  "LOG-04"
+ ]
+}

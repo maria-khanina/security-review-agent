@@ -1,0 +1,144 @@
+{
+ "case_id": "c310_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v3",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "AUTH-05",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-916"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store passwords only as salted argon2id hashes"
+    ],
+    [
+     "store passwords only as salted bcrypt hashes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A fast hash with a single global salt is used for passwords."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "API-05",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How queries are constructed from request parameters.",
+   "instruction": "Mention wallet-core naturally, but do NOT state: How queries are constructed from request parameters. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-06",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-942"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "allow only approved origins in CORS"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Allowed origins are not configured; the gateway reflects the request origin."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "LOG-01",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "log authentication failures",
+     "log privilege changes",
+     "log access to sensitive data"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Privilege changes are applied by administrators directly in the database and leave no trace."
+  },
+  {
+   "flaw_id": "F5",
+   "type": "violation",
+   "rule_id": "DATA-03",
+   "component": "wallet-core",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "share personal data with third parties only under an approved data processing agreement",
+     "send only the fields required"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Customer data is shared with a new provider while the contract is still being negotiated."
+  }
+ ],
+ "required_rules": [
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "NET-05",
+  "CRYPTO-04",
+  "AUTHZ-03",
+  "AUTH-02",
+  "SECRET-01",
+  "SECRET-02",
+  "LOG-02",
+  "OPS-02",
+  "DATA-02",
+  "API-01",
+  "OPS-01"
+ ]
+}

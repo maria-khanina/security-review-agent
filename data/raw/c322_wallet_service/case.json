@@ -1,0 +1,97 @@
+{
+ "case_id": "c322_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v1",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "CRYPTO-01",
+   "component": "wallet-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether and how stored PII is encrypted.",
+   "instruction": "Mention wallet-db (PostgreSQL) naturally, but do NOT state: Whether and how stored PII is encrypted. Wrap the sentence(s) that mention wallet-db (PostgreSQL) (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-04",
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-284"
+   ],
+   "manifest": "both",
+   "implementation_mutation": "openapi_admin_path_public",
+   "implementation_anchor": "/paths/~1admin~1limits~1{accountId}",
+   "remediation_options": [
+    [
+     "make administrative and debug endpoints unreachable from the public internet"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Admin routes are served by the same public gateway as customer routes."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTH-05",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-916"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store passwords only as salted argon2id hashes"
+    ],
+    [
+     "store passwords only as salted bcrypt hashes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Passwords are hashed with plain SHA-256 without a per-user salt."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-05",
+  "CRYPTO-03",
+  "CRYPTO-05",
+  "SECRET-02",
+  "SECRET-01",
+  "NET-01",
+  "AUTH-02",
+  "DATA-01",
+  "DATA-03",
+  "API-01",
+  "API-05",
+  "LOG-01"
+ ]
+}

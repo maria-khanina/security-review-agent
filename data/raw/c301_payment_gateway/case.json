@@ -1,0 +1,83 @@
+{
+ "case_id": "c301_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v3",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable: No scanning; versions pinned years ago."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "API-05",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-89"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use parameterized queries",
+     "never concatenate user input into queries"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable: Search filters built by concatenating strings into SQL."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-02",
+  "AUTHZ-01",
+  "NET-05",
+  "AUTHZ-04",
+  "CRYPTO-02",
+  "CRYPTO-01",
+  "CRYPTO-05",
+  "AUTHZ-03",
+  "SECRET-01",
+  "SECRET-02",
+  "OPS-02",
+  "CRYPTO-04",
+  "DATA-02",
+  "DATA-03",
+  "API-01",
+  "API-06",
+  "LOG-01",
+  "LOG-02"
+ ]
+}

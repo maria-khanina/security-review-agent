@@ -1,0 +1,113 @@
+{
+ "case_id": "c308_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v2",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-01",
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service checks that the caller may access the requested record.",
+   "instruction": "Mention Refunds Gateway naturally, but do NOT state: How the service checks that the caller may access the requested record. Wrap the sentence(s) that mention Refunds Gateway (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "AUTHZ-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-269"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "grant internal users only the roles required for their job",
+     "define roles separately for each service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Every employee with access gets the admin role to avoid permission tickets."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTH-06",
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-307"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "throttle repeated failed login and token attempts"
+    ],
+    [
+     "lock out the account temporarily after repeated failed attempts"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Unlimited login attempts are allowed for convenience."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-03",
+  "LOG-02",
+  "AUTH-02",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-02",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "CRYPTO-07",
+  "DATA-02",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-05",
+  "NET-01",
+  "NET-04",
+  "LOG-01",
+  "DATA-03",
+  "DATA-04",
+  "LOG-04",
+  "API-01",
+  "API-03",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "API-02",
+  "CRYPTO-04"
+ ]
+}

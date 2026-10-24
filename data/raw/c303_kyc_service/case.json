@@ -1,0 +1,126 @@
+{
+ "case_id": "c303_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v2",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "AUTH-06",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "low",
+   "cwe": [
+    "CWE-307"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Behavior after repeated failed logins.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: Behavior after repeated failed logins. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F1 marker."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service checks that the caller may access the requested record.",
+   "instruction": "Mention kyc-orchestrator naturally, but do NOT state: How the service checks that the caller may access the requested record. Wrap the sentence(s) that mention kyc-orchestrator (the place where that information should have been) in the F2 marker."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "DATA-02",
+   "component": "kyc-documents (S3)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "define a retention period for personal data",
+     "delete data when the period expires or on verified request"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Deletion requests are handled manually and often forgotten."
+  },
+  {
+   "flaw_id": "F4",
+   "type": "violation",
+   "rule_id": "API-03",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-345"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign webhook payloads",
+     "verify signatures on receipt"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Signature verification is skipped for callbacks from the partner sandbox."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTH-03",
+  "AUTHZ-04",
+  "CRYPTO-01",
+  "CRYPTO-06",
+  "DATA-03",
+  "CRYPTO-04",
+  "DATA-04",
+  "CRYPTO-05",
+  "CRYPTO-07",
+  "SECRET-01",
+  "LOG-04",
+  "API-02",
+  "SECRET-02",
+  "LOG-02",
+  "NET-01",
+  "NET-02",
+  "NET-04",
+  "LOG-01",
+  "API-01",
+  "API-04",
+  "API-05",
+  "OPS-01",
+  "OPS-02",
+  "NET-05"
+ ]
+}

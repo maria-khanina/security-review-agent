@@ -1,0 +1,57 @@
+{
+ "case_id": "c323_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "long",
+ "policy_version": "v3",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CRYPTO-05",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-327"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "use only approved cryptographic algorithms",
+     "stop using MD5, SHA-1, DES, 3DES and ECB mode"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A home-grown obfuscation routine protects sensitive fields instead of a standard cipher."
+  }
+ ],
+ "required_rules": [
+  "AUTH-01",
+  "AUTHZ-01",
+  "AUTHZ-04",
+  "API-06",
+  "CRYPTO-02",
+  "DATA-02",
+  "DATA-03",
+  "SECRET-01",
+  "SECRET-02",
+  "API-01",
+  "API-05",
+  "LOG-01",
+  "LOG-02",
+  "OPS-01",
+  "AUTHZ-03",
+  "AUTH-02"
+ ]
+}

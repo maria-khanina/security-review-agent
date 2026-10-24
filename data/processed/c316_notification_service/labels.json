@@ -1,0 +1,331 @@
+{
+ "case_id": "c316_notification_service",
+ "split": "long",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v1",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SECRET-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-798"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "both",
+   "implementation_anchor": "/servers/0/variables/apiKey",
+   "remediation_options": [
+    [
+     "remove secrets from source code, configuration, specifications and infrastructure definitions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SECRET-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2190,
+     2350
+    ]
+   ],
+   "policy_spans": {
+    "SECRET-01": [
+     [
+      2634,
+      2793
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     122,
+     248
+    ]
+   ],
+   "also_violates": [
+    "SECRET-02"
+   ],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "LOG-04",
+   "severity": "low",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit access to centralized logs to authorized staff"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "LOG-04"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1035,
+     1108
+    ]
+   ],
+   "policy_spans": {
+    "LOG-04": [
+     [
+      3582,
+      3652
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "AUTHZ-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-639",
+    "CWE-863"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "verify on every request that the caller owns or is entitled to the resource"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "AUTHZ-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1111,
+     1183
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-01": [
+     [
+      1482,
+      1601
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     902,
+     1032
+    ]
+   ],
+   "policy_spans": [
+    [
+     900,
+     1069
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-02",
+   "design_spans": [
+    [
+     1186,
+     1281
+    ]
+   ],
+   "policy_spans": [
+    [
+     1606,
+     1727
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-01",
+   "design_spans": [
+    [
+     1284,
+     1363
+    ]
+   ],
+   "policy_spans": [
+    [
+     4379,
+     4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1366,
+     1451
+    ]
+   ],
+   "policy_spans": [
+    [
+     1732,
+     1815
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-05",
+   "design_spans": [
+    [
+     1454,
+     1522
+    ]
+   ],
+   "policy_spans": [
+    [
+     1820,
+     1912
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1525,
+     1615
+    ]
+   ],
+   "policy_spans": [
+    [
+     2361,
+     2489
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     1618,
+     1702
+    ]
+   ],
+   "policy_spans": [
+    [
+     2917,
+     3018
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     2435,
+     2542
+    ]
+   ],
+   "policy_spans": [
+    [
+     3347,
+     3434
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-01",
+   "design_spans": [
+    [
+     2598,
+     2680
+    ]
+   ],
+   "policy_spans": [
+    [
+     3774,
+     3872
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     2696,
+     2813
+    ]
+   ],
+   "policy_spans": [
+    [
+     4025,
+     4182
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-05",
+   "design_spans": [
+    [
+     2828,
+     2955
+    ]
+   ],
+   "policy_spans": [
+    [
+     4187,
+     4345
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     2978,
+     3068
+    ]
+   ],
+   "policy_spans": [
+    [
+     4483,
+     4590
+    ]
+   ]
+  }
+ ]
+}

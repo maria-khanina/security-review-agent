@@ -1,0 +1,60 @@
+{
+ "case_id": "c403_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "xlong",
+ "policy_version": "v2",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OPS-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "scan dependencies and images in CI",
+     "fix critical vulnerabilities within 14 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Base images are pinned to old versions and are not rebuilt."
+  }
+ ],
+ "required_rules": [
+  "AUTH-02",
+  "AUTH-03",
+  "CRYPTO-04",
+  "CRYPTO-05",
+  "CRYPTO-06",
+  "CRYPTO-07",
+  "SECRET-01",
+  "SECRET-02",
+  "NET-01",
+  "NET-04",
+  "LOG-01",
+  "DATA-04",
+  "API-03",
+  "API-05",
+  "OPS-02",
+  "AUTHZ-01",
+  "API-01",
+  "AUTHZ-04",
+  "LOG-04"
+ ]
+}

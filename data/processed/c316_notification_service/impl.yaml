@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: Notification Service API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+  variables:
+    apiKey:
+      default: sk_live_51NxQ7vHk2LmPq8Zr4TwY
+      description: Default key for the sandbox environment
+security:
+- bearerAuth: []
+paths:
+  /v1/notifications:
+    post:
+      operationId: sendNotification
+      summary: Send a notification
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationReceipt'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRequest'
+    get:
+      operationId: listNotifications
+      summary: List notifications
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NotificationReceipt'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: channel
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/notifications/{notificationId}:
+    get:
+      operationId: getNotification
+      summary: Get delivery status
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationReceipt'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: notificationId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/templates/{templateId}:
+    put:
+      operationId: createTemplate
+      summary: Create or replace a template
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: templateId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateBody'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    NotificationRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - channel
+      - recipient_id
+      - template_id
+      - locale
+      properties:
+        channel:
+          type: string
+          maxLength: 256
+        recipient_id:
+          type: string
+          maxLength: 256
+        template_id:
+          type: string
+          maxLength: 256
+        locale:
+          type: string
+          maxLength: 256
+    NotificationReceipt:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - channel
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        channel:
+          type: string
+          maxLength: 256
+    TemplateBody:
+      type: object
+      additionalProperties: false
+      required:
+      - subject
+      - body
+      properties:
+        subject:
+          type: string
+          maxLength: 256
+        body:
+          type: string
+          maxLength: 256
+    Template:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - subject
+      - body
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        subject:
+          type: string
+          maxLength: 256
+        body:
+          type: string
+          maxLength: 256
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

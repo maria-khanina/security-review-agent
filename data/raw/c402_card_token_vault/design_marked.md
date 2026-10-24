@@ -1,0 +1,1213 @@
+# Card Token Vault: Infrastructure and Security Architecture
+
+Author: Elena R., Principal Architect, Payments Platform
+Status: Approved by Architecture Board
+
+## 1. Context and goals
+
+The card token vault is the only place in the Meridian Pay estate where primary account numbers (PANs) are processed and stored. Every other payment service works with tokens. The vault therefore defines the boundary of our PCI scope: the smaller and better isolated it is, the cheaper and safer the rest of the platform becomes.
+
+The goals of the design are, in order of priority: keep the PCI scope small, make detokenization auditable, keep the operational surface minimal, and make recovery from a regional failure predictable. Latency matters but is secondary; payment services can tolerate a few milliseconds more in exchange for the guarantees above.
+
+## 2. Architecture overview
+
+The vault consists of four logical parts that live inside a dedicated private subnet, referred to as the vault private subnet throughout this document:
+
+1. **tokenization-service**, a small stateless service with two operations: tokenize (PAN in, token out) and detokenize (token in, PAN out).
+2. **vault-db (PostgreSQL)**, the datastore that holds encrypted card records and the token mapping.
+3. **Vault and KMS**, the secret store and key management service from which the service obtains data encryption keys and runtime secrets.
+4. The surrounding network layer, which limits who can reach what.
+
+Payment services call the tokenization-service. The tokenization-service reads and writes encrypted card data in vault-db and requests data encryption keys from Vault and KMS. No other component of the platform has a network path to vault-db.
+
+## 3. Infrastructure resources
+
+The Terraform in the repository declares six resources, each with a single responsibility:
+
+- the KMS key `vault_key`, which is the root of the key hierarchy used by the vault;
+- the RDS PostgreSQL instance `vault_db`, which holds card data;
+- the security group `vault_db_sg`, which controls ingress to the database;
+- the CloudWatch log group `vault_audit`, which receives audit records for tokenize and detokenize calls;
+- the backup vault `vault_backups`, which stores database backups;
+- the IAM policy `vault_service_policy`, which grants the service role the minimum it needs.
+
+## 4. Data flows
+
+**Tokenize.** A payment service sends a PAN. The tokenization-service validates the format, obtains a data encryption key, encrypts the PAN, writes the record and the token mapping to vault-db and returns the token. The same PAN always yields the same token within a merchant so that duplicate detection works downstream.
+
+**Detokenize.** A payment service sends a token and a purpose code. The tokenization-service checks that the caller is allowed to detokenize for that purpose, reads the record, decrypts it and returns the PAN. Every detokenize call is written to the audit log with the caller identity, the purpose code and the token, never the PAN.
+
+## 5. Identity and access
+
+⟦F5|The tokenization-service trusts any caller that sits inside the cluster network, so internal calls carry no credentials.⟧ Where workload tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
+
+ The vault defines three roles: operator (can deploy and restart), auditor (read-only access to the audit trail) and key custodian (can start key rotation).
+
+## 6. Cryptography and key handling
+
+⟦S:CRYPTO-02|Primary account numbers never reach our storage in clear text, because the card token vault tokenizes them first.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|The service validates TLS certificates on every TLS connection it makes and never disables verification.⟧
+
+⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+
+⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧
+⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧
+
+Key handling deserves a separate explanation because it is a deliberate trade-off. ⟦F2|The data encryption keys that the tokenization-service obtains from Vault and KMS are written to a key file on the same volume as the database files, so a restored database always comes back together with matching keys.⟧ This removes a class of recovery failures that we saw in the previous platform, where a restored database could not be decrypted because the corresponding key version was no longer available.
+
+## 7. Transport inside the vault
+
+⟦F1|TLS between the components of the vault was switched off during the load tests and was not turned back on, because all traffic stays inside the vault private subnet.⟧ The load tests showed that the TLS handshake was the dominant cost on the tokenize path, and the decision was to keep the measured latency until the Architecture Board asks for a change.
+
+## 8. Network
+
+⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Third-party calls leave through an egress allowlist, not through open outbound access.⟧ The security group `vault_db_sg` admits connections on the database port from the application subnet only.
+
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
+
+## 9. Logging and audit
+
+⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ The log group `vault_audit` is the single destination; auditors read it through a read-only role.
+
+## 10. Environments and data
+
+⟦S:DATA-04|Non-production environments do not contain real personal or card data; synthetic data is used instead.⟧ Staging uses a separate vault instance populated with test PANs from the card network test ranges.
+
+## 11. Events and callbacks
+
+The vault notifies payment services about token lifecycle events (created, rotated, revoked) through callbacks. ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
+
+⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
+
+⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+
+⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+
+## 12. Secrets
+
+⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
+
+⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+
+## 13. Backup and recovery
+
+⟦F3|Encryption for backup storage was left out of the backup vault configuration to simplify disaster recovery.⟧ Backups are taken nightly and kept in the backup vault `vault_backups`. The recovery objective is four hours for a regional failure; the runbook describes a restore into the standby region and the switch of the payment services to the restored instance.
+
+## 14. Application and build
+
+⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦F4|The containers of the vault run in privileged mode so that the debugging tools work inside them.⟧
+
+⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+
+⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
+
+## 15. Capacity and operations
+
+The expected peak is a few hundred tokenize calls per second at month end, with detokenize at roughly half that rate. A single database instance with a standby handles this with headroom, and the service scales horizontally behind an internal load balancer. Deployments are rolling. A canary instance receives one percent of the traffic for fifteen minutes before the rest is updated, and rollback is automatic when the error rate crosses the agreed threshold.
+
+Operational responsibilities are split as follows: the platform team owns the infrastructure and the deployment pipeline, the payments security team owns the key hierarchy and the audit review, and the on-call rotation of the payments platform owns incident response. A quarterly game day exercises the regional failover.
+
+## 16. Risks and follow-ups
+
+- A formal key ceremony for the root key is still being scheduled.
+- The purpose-code list for detokenize is being reviewed with compliance.
+- Load test results will be published on the platform wiki once the numbers are final.
+
+# Reference material for the token service
+
+## Token format
+
+A token is a string of the form `tok_` followed by 24 characters from the alphabet of lower-case letters and digits. The characters are random and carry no information about the card. Two tokens never collide: the service checks the new token against the existing ones before it returns it.
+
+| Property | Value |
+|---|---|
+| prefix | tok_ |
+| length | 28 characters |
+| alphabet | a to z and 0 to 9 |
+| example | tok_4k2m9c0q7v1x8d3b6n5a2h0y |
+
+The same card number always gives the same token for the same merchant. A different merchant gets a different token for the same number. This lets a merchant recognize a returning card without learning anything about the number.
+
+## Operations in detail
+
+**Tokenize.** The caller sends a card number, the expiry month and year, and the merchant id. The service checks the format of the number with the Luhn rule and the length for the scheme, creates or finds the token and returns it together with the last four digits and the scheme.
+
+**Detokenize.** The caller sends a token. The service returns the card number, the expiry and the scheme.
+
+**Lookup by last four digits.** Support tools can ask for the tokens of a merchant that end in four given digits. The answer lists tokens and expiry dates, never numbers.
+
+### Answers
+
+| Answer | Meaning |
+|---|---|
+| 200 | the operation succeeded |
+| 400 invalid_number | the number fails the Luhn rule or has the wrong length |
+| 400 invalid_expiry | the expiry date is in the past or malformed |
+| 404 unknown_token | the token does not exist |
+| 503 unavailable | the service cannot reach its database |
+
+## Card schemes
+
+The scheme is derived from the first digits of the number.
+
+| Scheme | First digits | Length |
+|---|---|---|
+| Visa | 4 | 13 or 16 |
+| Mastercard | 51 to 55, 2221 to 2720 | 16 |
+| American Express | 34, 37 | 15 |
+| Maestro | 50, 56 to 69 | 12 to 19 |
+
+The table is configuration. When a scheme adds a range, the operations team changes the configuration and the service applies it within a minute.
+
+## Capacity
+
+The service holds about forty million card records today and grows by about five million per year.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| tokenize | 12 ms | 28 ms |
+| detokenize | 15 ms | 34 ms |
+| lookup by last four digits | 20 ms | 55 ms |
+
+The service is dimensioned for two thousand calls per second at peak. The load tests of the last quarter reached three thousand calls per second without errors; the average load is 240 calls per second, and the peak on the last Friday of the month is 900.
+
+## Callers and volumes
+
+| Caller | Share of calls | Main operation |
+|---|---|---|
+| payment gateway | 61 percent | tokenize at payment creation |
+| refund service | 18 percent | detokenize for refunds to cards |
+| wallet service | 14 percent | tokenize for card top-ups |
+| support tools | 7 percent | lookup by last four digits |
+
+## Migration of the old card store
+
+The old card store of the monolith contains the same number of records. The migration copies them in batches of 50 thousand records per night. After each batch, the service compares a random sample of 1,000 records with the old store. The migration is complete when the number of records is equal and the last three samples match completely. The old store is switched to read-only on the day of the last batch, and removed one month later.
+
+## Glossary
+
+- **Token**: a random string that stands for a card number.
+- **Scheme**: the card network.
+- **Luhn rule**: the check digit rule for card numbers.
+- **Merchant id**: the identifier of the merchant for whom a token is made.
+- **Batch**: a group of records copied in one step of the migration.
+
+## Questions of the integrating teams
+
+**Can I compare two tokens of different merchants?** No, they differ for the same card.
+
+**Does a token expire?** No. A token stays valid as long as the card record exists.
+
+**What happens when a card is replaced by the bank?** The customer adds the new card, and it gets a new token.
+
+**How do I get the scheme of a token?** It is returned by the tokenize call, together with the last four digits.
+
+# Part 2: Reference material for the payment flows
+
+This second part collects the functional details that the team keeps asking for. It does not change the decisions of the first part.
+
+## 9. Payment lifecycle in detail
+
+A payment passes through a fixed set of statuses. The table shows every allowed change and what triggers it.
+
+| From | To | Trigger |
+|---|---|---|
+| (new) | authorized | the acquirer approves the amount |
+| (new) | declined | the acquirer refuses the amount |
+| (new) | pending | the acquirer does not answer within three seconds |
+| pending | authorized | a late approval arrives |
+| pending | declined | the retries are used up |
+| authorized | captured | the merchant captures the full or a partial amount |
+| authorized | expired | seven days pass without a capture |
+| captured | partially_refunded | a refund smaller than the captured amount is booked |
+| captured | refunded | refunds add up to the captured amount |
+| partially_refunded | refunded | the remaining amount is refunded |
+
+No other change is allowed. A request that asks for a change outside the table gets the answer `invalid_state` and nothing is stored. The status `expired` is final. When a merchant captures a payment after it has expired, the answer is `invalid_state`, and the merchant has to create a new payment.
+
+### Partial captures
+
+A merchant may capture less than the authorized amount. The difference is released after the capture, so the customer sees only the captured amount on the statement. A second capture on the same payment is not possible in the first release. Merchants that ship an order in several parcels ask for it often; the product team has it on the list for the next release.
+
+Example: a payment of 120.00 EUR is authorized. The merchant ships the first parcel and captures 80.00 EUR. The payment is `captured` with the captured amount 80.00 EUR, and the remaining 40.00 EUR is released. If the customer then returns an item worth 25.00 EUR, the merchant requests a refund of 25.00 EUR, and the payment becomes `partially_refunded`.
+
+## 10. Amounts and currencies
+
+Amounts are whole numbers in the smallest unit of the currency. The number of decimals depends on the currency.
+
+| Currency | Decimals | Example | Stored value |
+|---|---|---|---|
+| EUR | 2 | 12.34 | 1234 |
+| GBP | 2 | 7.05 | 705 |
+| SEK | 2 | 99.90 | 9990 |
+| JPY | 0 | 1500 | 1500 |
+| KWD | 3 | 4.250 | 4250 |
+
+The currency of a payment is the currency of the merchant account. Conversion between currencies is not part of the first release; a merchant with an account in EUR cannot accept GBP. The currency code is always three capital letters according to ISO 4217. A request with a code that is not on the list of supported currencies gets the answer `unsupported_currency`.
+
+Rounding is needed only for fees. The fee of a payment is calculated from the captured amount with the percentage of the merchant plan, rounded half up to the smallest unit, plus the fixed part of the plan. The fee is not part of the payment record; it is calculated again by the settlement module.
+
+## 11. Routing to acquirers
+
+Each merchant account is connected to one primary acquirer and, optionally, one fallback. The Acquirer connector chooses the acquirer by these rules, in this order:
+
+1. If the card scheme of the payment is not supported by the primary acquirer, the fallback is used.
+2. If the amount is above the limit of the primary acquirer, the fallback is used.
+3. If the primary acquirer answered with a technical error three times in the last minute, the fallback is used for the next five minutes.
+4. Otherwise the primary acquirer is used.
+
+The card scheme is derived from the first digits of the card. The connector keeps a small table of ranges that is updated by the operations team once a month. If no range matches, the payment is declined with the reason `scheme_not_supported`.
+
+### Acquirer limits
+
+| Acquirer | Maximum per payment | Maximum per day and merchant |
+|---|---|---|
+| Acquirer A | 15,000.00 EUR | 250,000.00 EUR |
+| Acquirer B | 10,000.00 EUR | 150,000.00 EUR |
+| Acquirer C | 5,000.00 EUR | 80,000.00 EUR |
+
+The limits are taken from the contracts and are configuration values, not code. When a limit changes, the operations team updates the configuration, and the change is applied by the connector within a minute.
+
+## 12. The events of the payment-events topic
+
+Every change of a payment is published as an event. All events have the same envelope.
+
+| Field | Type | Example |
+|---|---|---|
+| event_id | string | evt_8f3a21 |
+| event_type | string | payment.captured |
+| occurred_at | timestamp | 2026-03-14T09:21:07Z |
+| payment_id | string | pay_0042c9 |
+| merchant_id | string | mer_1187 |
+| status | string | captured |
+| amount | integer | 8000 |
+| currency | string | EUR |
+
+The event types are `payment.authorized`, `payment.declined`, `payment.captured`, `payment.expired`, `payment.refunded` and `payment.partially_refunded`. Events of one payment are published in order, because the payment id is the key of the Kafka partition. Consumers must expect that an event can be delivered more than once and must use the event id to recognize repeats.
+
+### Consumers
+
+- The ledger service books the movement of money for `captured` and `refunded`.
+- The notification service sends messages to merchants for `declined` and `refunded`.
+- The reporting jobs read all events once a day and fill the tables of the finance team.
+
+## 13. Reconciliation with the acquirers
+
+Every night the acquirers send a settlement file. The gateway reads the file and compares each line with its own records. A line is matched by the acquirer message id. There are four outcomes: the line matches exactly, the amount differs, the line has no payment on our side, or a payment of ours has no line. The first outcome is the normal one and needs no action. The other three are written into the exception table, and the finance team works through it in the morning.
+
+In the first three months of the pilot, the share of lines that matched exactly was 99.6 percent. Most exceptions came from payments that were captured late in the evening and appeared in the file of the next day. The team added a tolerance of one day for these cases.
+
+## 14. Capacity and performance
+
+The expected volume for the first year is 1.2 million payments per month, with peaks of 40 payments per second on the last Friday of the month. The service is dimensioned for 120 payments per second so that a failed instance does not cause delays.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| create payment | 640 ms | 1,400 ms |
+| read payment | 18 ms | 45 ms |
+| capture | 410 ms | 900 ms |
+| refund | 380 ms | 850 ms |
+| list payments (page of 50) | 60 ms | 140 ms |
+
+The long time of the create call is the time of the acquirer. The gateway itself needs about 40 ms. The list call reads from an index on merchant and creation time.
+
+## 15. Test plan
+
+The tests follow the lifecycle table. For each allowed change there is a test that drives the payment into the start status, triggers the change and checks the new status, the stored record and the published event. For each forbidden change there is a test that expects `invalid_state`. A third group of tests uses the acquirer simulator, which can answer with approval, refusal, delay and technical error.
+
+The contract tests compare the answers of the new service with the answers of the monolith for 400 recorded requests. The tests fail on any difference in field names, types or status codes. A short list of known differences is kept in the repository and reviewed in each release.
+
+## 16. Release history and plan
+
+| Version | Content | Date |
+|---|---|---|
+| 0.1 | create and read | month 1 |
+| 0.2 | capture, partial capture | month 2 |
+| 0.3 | refunds | month 3 |
+| 0.4 | list endpoint, events | month 4 |
+| 1.0 | pilot merchants | month 5 |
+| 1.1 | all new merchants | month 6 |
+| 1.2 | existing merchants in groups | months 7 to 9 |
+
+## 17. Glossary
+
+- **Authorization**: the approval of an amount by the acquirer; it reserves the amount on the card of the customer.
+- **Capture**: the instruction to turn an authorization into a claim for money.
+- **Refund**: giving money back to the customer after a capture.
+- **Acquirer**: the bank that processes the card payments of a merchant.
+- **Settlement**: the payout of the captured amounts, less fees, to the merchant.
+- **Scheme**: the card network, for example Visa or Mastercard.
+- **Minor unit**: the smallest unit of a currency, for example the cent.
+
+## 18. Questions that integrators ask
+
+**Can I capture more than I authorized?** No. The answer is `amount_exceeds_authorization`.
+
+**How long is an authorization valid?** Seven days. After that the payment is `expired`.
+
+**Why is my payment `pending`?** The acquirer did not answer in time. Wait for the event or read the payment again after a minute.
+
+**Can I refund after a partial capture?** Yes, up to the captured amount.
+
+**Do you send the events in order?** For one payment, yes. Events of different payments can overtake each other.
+
+**What happens at the daylight saving change?** All timestamps are in UTC, so nothing happens.
+
+# Appendix 2: related system, Wallet Service; reference material for the wallet
+
+## Wallet model in detail
+
+A wallet belongs to one customer and has one currency. A customer can have one wallet per currency. The wallet holds a balance, which is the sum of all booked transactions, and an available balance, which is the balance minus the amounts of pending top-ups that are not yet confirmed and of transfers that are being booked.
+
+| Field | Meaning | Example |
+|---|---|---|
+| id | identifier of the wallet | wal_5521 |
+| owner_name | name of the wallet owner | Alma Berg |
+| balance | booked balance in minor units | 12850 |
+| currency | ISO 4217 code | EUR |
+| status | active or closed | active |
+| created_at | creation time in UTC | 2025-11-02T10:14:00Z |
+
+### Transaction types
+
+| Type | Direction | Created by |
+|---|---|---|
+| topup | in | a confirmed top-up from a funding source |
+| transfer_out | out | a transfer to another wallet |
+| transfer_in | in | a transfer from another wallet |
+| fee | out | a fee of a product, for example a faster payout |
+| correction | in or out | the operations team, with a reason |
+
+Every transaction carries an id, the type, the amount, the currency, the time of booking and a reference text of at most 140 characters. Transactions are never changed after booking. A mistake is corrected by a new transaction of the type `correction`.
+
+## Top-ups
+
+A top-up moves money from a funding source of the customer to the wallet. The customer chooses the funding source in the app. The request arrives with the amount and the identifier of the funding source. The service creates a transaction in the status `pending` and asks the funding provider to collect the money. When the provider confirms, the transaction becomes `booked` and the available balance increases. When the provider refuses, the transaction becomes `failed` and nothing changes in the balance.
+
+The limits of a top-up depend on the level of the wallet.
+
+| Wallet level | Minimum | Maximum per top-up | Maximum per month |
+|---|---|---|---|
+| basic | 5.00 EUR | 500.00 EUR | 2,000.00 EUR |
+| standard | 5.00 EUR | 2,500.00 EUR | 10,000.00 EUR |
+| premium | 5.00 EUR | 10,000.00 EUR | 40,000.00 EUR |
+
+A top-up that would break a limit is refused with the answer `limit_exceeded` and the name of the limit.
+
+## Transfers
+
+A transfer moves money from one wallet to another wallet in the same currency. The sender chooses the receiver by phone number or by the name of the receiver, and the app resolves the choice to a wallet id before it sends the request. The note of the transfer is shown to both sides.
+
+Rules of a transfer:
+
+1. Both wallets must be `active`.
+2. The amount must be at least 0.01 and at most the available balance of the sender.
+3. The currencies of both wallets must be equal.
+4. The sender and the receiver must be different wallets.
+5. Both balances change in one database transaction.
+
+Failures have their own answers: `wallet_closed`, `insufficient_funds`, `currency_mismatch` and `same_wallet`.
+
+### Examples
+
+A customer with 40.00 EUR sends 15.50 EUR to a friend. After the transfer the sender has 24.50 EUR and the friend has 15.50 EUR more. Both see a transaction with the note, the sender as `transfer_out` and the friend as `transfer_in`.
+
+A customer with 10.00 EUR tries to send 12.00 EUR. The service answers `insufficient_funds` and the app shows the missing amount of 2.00 EUR with a button that opens the top-up screen.
+
+## Profile data
+
+The profile holds the name of the owner, the phone number and the address. A change of the name is visible in new transfers immediately; old transactions keep the name that was valid at the time. The phone number must be in international format and unique among the wallets, because it is the way friends find each other. The address has the fields street, number, postal code, city and country.
+
+## The mobile app screens
+
+The app has five screens that use the service.
+
+- **Home** shows the balance, the last five transactions and the buttons for top-up and send.
+- **Top-up** shows the funding sources and the amount field with the limit of the wallet level.
+- **Send** shows the contact search, the amount, the note field and a summary before the customer confirms.
+- **History** shows all transactions in pages of 50, newest first, with a filter for the type.
+- **Profile** shows the owner data and lets the customer change the name, the phone number and the address.
+
+## Capacity
+
+The wallet serves 1.8 million customers at the start and is dimensioned for 4 million in two years. On a normal day the service books 90 thousand transactions, on the last day of the month up to 350 thousand.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| read wallet | 15 ms | 40 ms |
+| list transactions (page of 50) | 38 ms | 95 ms |
+| transfer | 85 ms | 210 ms |
+| top-up request | 120 ms | 300 ms |
+| profile change | 30 ms | 80 ms |
+
+## Reconciliation job
+
+Every night at 02:00 UTC the reconciliation job computes, for every wallet, the sum of its transactions and compares it with the stored balance. Differences are written into a table that the finance team reads in the morning. In the first month of the pilot, 3 of 1.8 million wallets showed a difference; all were caused by a manual correction that had been entered twice and was reversed.
+
+## Release plan
+
+| App release | Wallet service change | Share of customers |
+|---|---|---|
+| 4.1 | read endpoints | 100 percent |
+| 4.2 | top-ups and transfers | 10 percent, then 100 percent |
+| 4.3 | profile changes | 100 percent |
+| 4.4 | transaction filters | 100 percent |
+
+## Glossary
+
+- **Available balance**: balance minus pending amounts.
+- **Funding source**: a bank account or a card from which a customer tops up.
+- **Minor unit**: the smallest unit of the currency, for example the cent.
+- **Reference**: free text that a customer adds to a transfer.
+- **Correction**: a booking by the operations team that fixes an earlier booking.
+
+## Questions of the app teams
+
+**Why is my balance different from the available balance?** Pending top-ups and transfers in progress are not counted in the available balance.
+
+**Can a closed wallet receive money?** No; a transfer to a closed wallet is refused with `wallet_closed`.
+
+**Are transactions sorted by booking time?** Yes, newest first; transactions with the same time are sorted by id.
+
+**How long does a top-up take?** Usually a few seconds; some funding sources need up to two working days and the transaction stays `pending` meanwhile.
+
+# Appendix 3: related system, KYC Service; reference material for the verification flow
+
+## Case model
+
+A verification case follows one customer through the identity check. A customer can have several cases over time, for example after a change of name, but only one case can be open at once.
+
+| Field | Meaning | Example |
+|---|---|---|
+| id | identifier of the case | case_7710 |
+| customer_id | the customer the case belongs to | cus_30481 |
+| status | open, submitted, approved, rejected, needs_review | submitted |
+| risk_level | unknown, low, medium, high | low |
+| created_at | time the case was opened, UTC | 2026-02-03T08:40:12Z |
+| updated_at | time of the last change, UTC | 2026-02-03T08:47:55Z |
+
+### Status changes
+
+| From | To | Trigger |
+|---|---|---|
+| open | submitted | the customer gives consent and the case is sent to the vendor |
+| submitted | approved | the vendor reports a match with low or medium risk |
+| submitted | rejected | the vendor reports a mismatch |
+| submitted | needs_review | the vendor does not answer in five minutes, or reports an unclear result |
+| needs_review | approved | an analyst accepts the case |
+| needs_review | rejected | an analyst rejects the case |
+
+A case in `approved` or `rejected` is closed. A new check needs a new case.
+
+## What the customer enters
+
+The customer enters the full name, the date of birth and the country of residence, and photographs one identity document. The supported documents depend on the country.
+
+| Country group | Accepted documents |
+|---|---|
+| EU and EEA | passport, national identity card, driving licence |
+| United Kingdom | passport, driving licence |
+| Other | passport only |
+
+For documents with two sides, such as identity cards, the customer photographs both sides, and the app uploads them as two documents of the same case. The app helps with the photograph: it shows an outline, checks the sharpness and the brightness, and asks for a new picture if the text cannot be read.
+
+## The vendor exchange
+
+When a case is submitted, the orchestrator sends the vendor the data of the customer and the references of the images. The vendor answers asynchronously through a callback. The callback carries the vendor request id, the result (`match`, `mismatch`, `unclear`) and a risk level suggested by the vendor.
+
+The orchestrator maps the result to a status. A `match` with the risk level `low` or `medium` becomes `approved`; a `match` with the risk level `high` becomes `needs_review`; a `mismatch` becomes `rejected`; an `unclear` result becomes `needs_review`. The vendor sends each answer at most once, but the orchestrator ignores a second answer for the same request id.
+
+## The review queue
+
+Cases in `needs_review` appear in the queue of the analysts. The queue is sorted by age, oldest first. An analyst opens a case, sees the data of the customer and the images, and decides to accept or reject. The decision needs a short comment. The target is that no case waits longer than four working hours.
+
+| Week | Cases in review (average) | Share of all cases |
+|---|---|---|
+| pilot week 1 | 41 | 7.8 percent |
+| pilot week 2 | 36 | 6.4 percent |
+| pilot week 3 | 29 | 5.1 percent |
+| pilot week 4 | 27 | 4.7 percent |
+
+The share fell because the app now rejects pictures that are too dark before the upload, which removed many unclear results.
+
+## Capacity
+
+The service handles about 2,400 new cases per day at the start and is dimensioned for 10,000. A case produces on average 2.3 images of about 1.4 MB each.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| open a case | 70 ms | 160 ms |
+| upload an image | 380 ms | 900 ms |
+| read a case | 25 ms | 60 ms |
+| submit | 150 ms | 340 ms |
+| list cases (page of 20) | 45 ms | 110 ms |
+
+The vendor needs 40 seconds at the median and 3 minutes at the 95th percentile to answer.
+
+## Localization
+
+The app is available in eleven languages. The error messages of the service are codes, and the app translates them. The names of countries use the ISO 3166 two-letter codes; the app shows the local names. Dates of birth are sent as `YYYY-MM-DD` and shown in the format of the phone.
+
+## Release plan
+
+| App release | Service change |
+|---|---|
+| 5.0 | read endpoints and case status screen |
+| 5.1 | opening cases and uploading documents, ten percent of new customers |
+| 5.2 | all new customers |
+| 5.3 | customers with an existing case in the old platform |
+
+## Glossary
+
+- **Case**: one run of the identity check for one customer.
+- **Vendor**: the external company that compares the document and the data.
+- **Analyst**: a member of the operations team who reviews cases.
+- **Risk level**: the estimate of the vendor how likely the identity is false.
+- **Needs review**: a case that a person has to decide.
+
+## Questions of the app team
+
+**Can the customer change the name after the case is submitted?** No. The case has to be rejected or finished first.
+
+**How many pictures can a case have?** Up to six.
+
+**What does the app show for `needs_review`?** A neutral message that the check takes longer than usual.
+
+**Can the customer start a second case while one is open?** No, the service answers `case_already_open`.
+
+# Appendix 4: related system, Notification Service; reference material for notifications
+
+## Message model
+
+A notification is one message to one recipient over one channel. It is created from an event or by a direct call, rendered from a template and handed to the provider.
+
+| Field | Meaning | Example |
+|---|---|---|
+| id | identifier of the notification | ntf_90417 |
+| channel | email, sms or push | sms |
+| recipient_id | the customer or merchant who receives it | cus_30481 |
+| template_id | the template that was used | tpl_transfer_received |
+| locale | language and region of the message | de-DE |
+| status | queued, sent, delivered, failed | delivered |
+| created_at | creation time, UTC | 2026-04-02T07:02:11Z |
+
+### Status changes
+
+| From | To | Trigger |
+|---|---|---|
+| queued | sent | the provider accepts the message |
+| sent | delivered | the provider reports delivery |
+| queued | failed | the retries are used up |
+| sent | failed | the provider reports a permanent failure |
+
+## Templates
+
+Templates are plain text with placeholders in double curly braces. A template has a subject (for email and push) and a body. For every template there is one version per locale. The English version is the fallback.
+
+| Template | Event | Channels |
+|---|---|---|
+| tpl_transfer_received | wallet.transfer_in | push, sms |
+| tpl_payment_declined | payment.declined | email |
+| tpl_refund_issued | payment.refunded | email |
+| tpl_statement_ready | statement.created | email |
+| tpl_topup_failed | wallet.topup_failed | push |
+
+Placeholders are filled from the event: the amount, the currency, the name of the merchant, the date. The notifier formats amounts and dates according to the locale of the recipient. For example, the amount 1234.50 EUR is shown as `1.234,50 €` for `de-DE` and as `€1,234.50` for `en-IE`.
+
+### Template changes
+
+A template is changed through the template endpoint. The change is valid for new messages immediately. The previous version stays in the history, so that the team can see which text a customer received at a given time.
+
+## Choosing the channel
+
+The channel comes from the event type and the preference of the recipient. Each event type has a default channel and a list of allowed channels. The preference of the customer may select any allowed channel. If the chosen channel fails permanently, the notifier does not switch to another channel; the status is `failed` and the producing team decides whether to send again.
+
+## Merging
+
+Messages to the same recipient for the same event type within one minute are merged into one. The merged message uses the template of the event type and lists the amounts one under another. The merge window is a configuration value per event type; transfers use 60 seconds, statements use none.
+
+## Delivery numbers from the pilot
+
+| Channel | Messages | Delivered within 1 minute | Failed |
+|---|---|---|---|
+| push | 412,000 | 97.2 percent | 0.4 percent |
+| sms | 188,000 | 95.1 percent | 1.1 percent |
+| email | 305,000 | 91.8 percent | 0.9 percent |
+
+Email deliveries are slower because the providers of the recipients queue messages. The team does not count an email as late if it is delivered within ten minutes.
+
+## Capacity
+
+The notifier processes about 600 thousand messages per day at the start and is dimensioned for 3 million. Peaks occur at 08:00 and 18:00 local time, when scheduled messages are sent.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| render a message | 4 ms | 11 ms |
+| hand over to the provider | 120 ms | 450 ms |
+| read a status | 9 ms | 24 ms |
+| replace a template | 18 ms | 40 ms |
+
+## Migration of the old modules
+
+| Module | Event types | Step | Parallel run |
+|---|---|---|---|
+| payments | payment.declined, payment.refunded | 1 | two weeks |
+| wallet | wallet.transfer_in, wallet.topup_failed | 2 | two weeks |
+| statements | statement.created | 3 | two weeks |
+| reminders | reminder.due | 4 | two weeks |
+
+During the parallel run the old module also sends. A comparison job lists messages that were sent by one side only.
+
+## Glossary
+
+- **Channel**: the way a message reaches the recipient.
+- **Template**: the text of a message with placeholders.
+- **Placeholder**: a field in double braces that the notifier fills.
+- **Locale**: the combination of language and region.
+- **Merge window**: the time within which similar messages are combined.
+
+## Questions of the producing teams
+
+**How do I add a new event type?** Register it with the platform team together with the template for each channel and locale.
+
+**Can I send a message without an event?** Yes, through the notification endpoint.
+
+**What is the maximum length of an SMS?** 160 characters for one part; longer messages are split into parts of 153 characters.
+
+**What if the template is missing for the locale?** The English template is used and the fallback is recorded.
+
+# Appendix 5: related system, Ledger Service; reference material for the ledger
+
+## Chart of accounts
+
+Accounts are grouped into classes by the first digit of the number. The classes follow the usual double-entry layout.
+
+| Class | Meaning | Examples |
+|---|---|---|
+| 1 | assets | 1100 customer funds, 1200 funds at acquirers |
+| 2 | liabilities | 2100 wallet balances, 2200 merchant payables |
+| 3 | equity | 3100 retained result |
+| 4 | income | 4100 payment fees, 4200 payout fees |
+| 5 | expenses | 5100 acquirer fees, 5200 refunds written off |
+
+Every wallet has its own account in class 2, every merchant its own account in class 2, and the platform accounts in the other classes are shared. Account numbers have the form `class-group-id`, for example `2100-0001-5521`.
+
+## Entry model
+
+An entry moves one amount from a debit account to a credit account. The amount is a positive whole number in minor units. Complex bookings use several entries with the same booking reference.
+
+| Field | Meaning |
+|---|---|
+| id | identifier of the entry |
+| debit_account | account that is debited |
+| credit_account | account that is credited |
+| amount | positive whole number in minor units |
+| currency | ISO 4217 code |
+| reference | text that links the entry to the business event |
+| posted_at | time of posting, UTC |
+
+### Posting rules
+
+- Debit and credit accounts must differ.
+- Both accounts must exist and be open.
+- The currency of the entry must be the currency of both accounts.
+- An entry is posted exactly once; the posting time is set by the ledger.
+- Entries are never changed and never removed.
+
+## Typical bookings
+
+**Capture of a card payment of 100.00 EUR with a fee of 1.50 EUR.**
+
+| Entry | Debit | Credit | Amount |
+|---|---|---|---|
+| 1 | 1200 funds at acquirers | 2200 merchant payable | 10000 |
+| 2 | 2200 merchant payable | 4100 payment fees | 150 |
+
+**Wallet transfer of 15.50 EUR.**
+
+| Entry | Debit | Credit | Amount |
+|---|---|---|---|
+| 1 | 2100 wallet of the sender | 2100 wallet of the receiver | 1550 |
+
+**Reversal of the transfer.** The reversal is a new entry with debit and credit swapped and a reference to the original entry. The original stays in the ledger.
+
+## Balances
+
+The balance of an account is the sum of its credits minus the sum of its debits for accounts of class 2, 3 and 4, and the opposite for classes 1 and 5. The ledger keeps a running balance with each account to avoid summing all entries on every read. The nightly check compares the running balances with the sums.
+
+## Events
+
+Each posted entry is published to the ledger-events topic. The event holds the entry id, the accounts, the amount, the currency, the reference and the posting time. Consumers are the reporting jobs, the notification service and the finance team's export. Events of one account are published in order.
+
+## Capacity
+
+| Measure | Value at start | Dimensioned for |
+|---|---|---|
+| entries per day | 1.1 million | 5 million |
+| entries per second at peak | 60 | 300 |
+| accounts | 2.4 million | 8 million |
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| post an entry | 22 ms | 60 ms |
+| read an entry | 8 ms | 20 ms |
+| read a balance | 6 ms | 15 ms |
+| list entries (page of 100) | 30 ms | 75 ms |
+| reversal | 28 ms | 70 ms |
+
+## Month-end
+
+On the last working day of the month the finance team closes the period. The close runs these steps in order: the ledger stops accepting entries dated in the closing period, the nightly check runs, the reporting jobs produce the trial balance, and the finance team signs the result. Entries for the closed period are booked in the next period with a reference to the original date.
+
+## Migration from the old module
+
+| Step | Content | Check |
+|---|---|---|
+| 1 | copy the chart of accounts | numbers equal |
+| 2 | copy opening balances | sums equal per class |
+| 3 | post in parallel for one month | daily comparison of balances |
+| 4 | switch readers to the new service | reports equal |
+| 5 | archive the old tables | none |
+
+## Glossary
+
+- **Debit** and **credit**: the two sides of an entry.
+- **Posting**: writing an entry to the ledger.
+- **Reversal**: a new entry that cancels the effect of an earlier one.
+- **Trial balance**: the list of all account balances at a date.
+- **Period**: a month for which the books are closed.
+
+## Questions of the finance team
+
+**Can an entry be deleted?** No. A mistake is reversed and the right entry is posted.
+
+**Why does the balance of a merchant payable change after a refund?** A refund is posted as a debit of the merchant payable and a credit of funds at acquirers.
+
+**Which time zone has the posting time?** UTC; the reports convert to the time zone of the reader.
+
+**Can two entries have the same reference?** Yes; a business event can need several entries.
+
+# Appendix 6: related system, Fraud Scoring; reference material for fraud scoring
+
+## Input of a score
+
+The scoring-engine reads one event per payment from the payment-events topic. Each event carries the fields below.
+
+| Field | Meaning | Example |
+|---|---|---|
+| payment_id | identifier of the payment | pay_0042c9 |
+| amount | amount in minor units | 8000 |
+| currency | ISO 4217 code | EUR |
+| country | country of the card issuer | DE |
+| device_id | identifier of the device | dev_88a1 |
+| merchant_category | merchant category code | 5411 |
+| hour | local hour of the payment | 23 |
+| history counters | number of payments of the customer in the last hour, day and week | 1, 4, 19 |
+
+The engine adds derived features: the ratio between the amount and the average amount of the customer, whether the country differs from the country of the previous payment, and whether the device is new for the customer.
+
+## Output of a score
+
+The engine writes one decision per payment.
+
+| Field | Meaning | Example |
+|---|---|---|
+| payment_id | the scored payment | pay_0042c9 |
+| score | number between 0 and 1 | 0.37 |
+| decision | allow, review or block | allow |
+| reasons | the three features that influenced the score most | amount_ratio, new_device, night_hour |
+| model_version | the model that produced the score | m-2026-03 |
+| scored_at | time of the decision, UTC | 2026-03-14T23:02:41Z |
+
+### Thresholds
+
+| Score | Decision |
+|---|---|
+| below 0.60 | allow |
+| 0.60 to 0.85 | review |
+| above 0.85 | block |
+
+If one of the fixed rules matches, the decision is made without the model. The rules are: a payment above 5,000 EUR from a new device is sent to review; more than ten payments of the same customer within one minute are blocked.
+
+## The review queue
+
+Payments with the decision `review` go to the queue of the analysts. An analyst sees the payment, the reasons and the history of the customer, and decides to confirm the payment or to block it. The outcome is stored with the decision and is used to train the next model.
+
+| Week | Payments scored | Reviewed | Confirmed fraud |
+|---|---|---|---|
+| shadow week 1 | 1,150,000 | 21,800 | 1,240 |
+| shadow week 2 | 1,180,000 | 22,400 | 1,310 |
+| shadow week 3 | 1,210,000 | 20,900 | 1,190 |
+| shadow week 4 | 1,260,000 | 21,100 | 1,260 |
+
+## Model updates
+
+The model is trained on the stored decisions, with the analyst outcomes as labels. A new model is compared with the current one on the same events for one week in shadow mode. It goes live when it finds at least as much confirmed fraud at the same share of reviews.
+
+| Model | Reviews per 1,000 payments | Fraud found per 1,000 reviews |
+|---|---|---|
+| m-2026-01 | 19.3 | 58 |
+| m-2026-02 | 18.8 | 60 |
+| m-2026-03 | 17.9 | 62 |
+
+## Capacity
+
+The engine scores about 1.3 million payments per day on average, with peaks of 55 payments per second. It is dimensioned for 200 payments per second.
+
+| Measure | Median | 95th percentile |
+|---|---|---|
+| time from event to decision | 46 ms | 120 ms |
+| consumer lag of the topic | 0.2 s | 1.4 s |
+| decisions written per second at peak | 55 | 78 |
+
+## Operation of the consumer group
+
+The two copies of the engine share one consumer group. The topic has twelve partitions, so each copy reads six. When a copy stops, the other takes over its partitions after the rebalance, which takes about thirty seconds. The lag grows during the rebalance and falls again within two minutes.
+
+## Roadmap
+
+| Quarter | Content |
+|---|---|
+| 1 | card payments |
+| 2 | wallet transfers |
+| 3 | refunds |
+| 4 | device and account links |
+
+## Glossary
+
+- **Score**: the number that expresses how risky a payment looks.
+- **Decision**: allow, review or block.
+- **Shadow mode**: a new model scores events without its decisions being used.
+- **Consumer group**: the set of readers that share the partitions of a topic.
+- **Lag**: the number of events that wait to be read.
+
+## Questions of the risk team
+
+**Can the thresholds change without a new model?** Yes, they are configuration.
+
+**How is the history of a customer kept?** The counters are updated by the engine with each event.
+
+**What happens to a payment while it waits in the queue?** It is already decided; `review` means the payment is let through and checked afterwards.
+
+**Why do some reasons repeat?** The same few features are the strongest for most payments.
+
+# Appendix 7: related system, Refund Service; reference material for refunds
+
+## Refund model
+
+A refund returns money from a captured payment to the customer. It belongs to exactly one payment and has its own lifecycle.
+
+| Field | Meaning | Example |
+|---|---|---|
+| id | identifier of the refund | ref_3304 |
+| payment_id | the payment that is refunded | pay_0042c9 |
+| amount | refunded amount in minor units | 2500 |
+| currency | ISO 4217 code | EUR |
+| reason | reason code | goods_returned |
+| requested_by | the person or system that asked | agent_218 |
+| status | requested, approved, rejected, executed, cancelled, failed | executed |
+| created_at | time of the request, UTC | 2026-03-18T13:41:55Z |
+
+### Reason codes
+
+| Code | Meaning |
+|---|---|
+| goods_returned | the customer returned the goods |
+| service_not_delivered | the service was not delivered |
+| duplicate_payment | the customer paid twice |
+| price_adjustment | the merchant lowers the price afterwards |
+| goodwill | the merchant refunds without a claim |
+| other | free text in the comment field |
+
+## Rules for amounts
+
+- The amount of one refund must be positive and not larger than the captured amount of the payment minus earlier refunds.
+- The currency of the refund must be the currency of the payment.
+- A refund can be requested up to 180 days after the capture.
+- A payment can have at most 20 refunds.
+
+A request that breaks a rule gets the answer `refund_not_allowed` with the name of the rule.
+
+## Statuses
+
+| From | To | Trigger |
+|---|---|---|
+| requested | approved | the approving person accepts |
+| requested | rejected | the approving person refuses |
+| requested | cancelled | the requester withdraws the request |
+| approved | executed | the payment gateway confirms the refund |
+| approved | failed | the confirmation does not arrive after five retries |
+
+`executed`, `rejected`, `cancelled` and `failed` are final. A failed refund is handed to the operations team, which either repeats it by hand or contacts the merchant.
+
+## Timing
+
+The customer sees the money on the card statement after a time that depends on the bank. The gateway confirms the refund within seconds; the bank needs between three and ten working days.
+
+| Step | Typical time |
+|---|---|
+| request to approval | 4 working hours |
+| approval to execution | under 1 minute |
+| execution to money on the statement | 3 to 10 working days |
+
+## Volumes
+
+The service handles about 9,000 refund requests per day at the start. About 62 percent of requests come from merchant backends, 38 percent from support agents.
+
+| Reason | Share |
+|---|---|
+| goods_returned | 47 percent |
+| duplicate_payment | 18 percent |
+| service_not_delivered | 14 percent |
+| price_adjustment | 9 percent |
+| goodwill | 7 percent |
+| other | 5 percent |
+
+## Capacity
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| request a refund | 85 ms | 200 ms |
+| read a refund | 14 ms | 35 ms |
+| list refunds (page of 50) | 40 ms | 95 ms |
+| record a decision | 60 ms | 140 ms |
+| cancel | 45 ms | 100 ms |
+
+## Events
+
+Each change of status is published to refund-events with the refund id, the payment id, the old and the new status and the time. The consumers are the ledger, the notification service and the reporting jobs.
+
+## Reports for the finance team
+
+The finance team receives a daily table of refunds by reason, merchant and status, and a weekly table of the refund rate per merchant, which is the share of the captured amount that was refunded. Merchants with a refund rate above five percent are listed for the commercial team.
+
+## Release plan
+
+| Phase | Users | Duration |
+|---|---|---|
+| 1 | support agents | one month |
+| 2 | merchants in groups of fifty | three months |
+| 3 | switch-off of the old module | one month after the last group |
+
+## Glossary
+
+- **Refund**: money returned to the customer after a capture.
+- **Reason code**: the standard explanation of a refund.
+- **Refund rate**: the share of captured money that is refunded.
+- **Final status**: a status that never changes again.
+
+## Questions of the merchants
+
+**Can I refund more than the payment?** No, the answer is `refund_not_allowed`.
+
+**Can I cancel an executed refund?** No. A refund that was executed cannot be undone.
+
+**How do I see why a refund failed?** The refund record has a failure reason; the support team can explain it.
+
+**Is a partial refund possible?** Yes, any amount up to the remaining captured amount.
+
+# Appendix 8: related system, Data Warehouse Sync; reference material for the warehouse sync
+
+## Tables in the extract
+
+The nightly sync copies a fixed list of tables. The list is configuration.
+
+| Table | Rows (approx.) | Key column | Change column | Mode |
+|---|---|---|---|---|
+| payments | 40,000,000 | id | updated_at | incremental |
+| refunds | 3,100,000 | id | updated_at | incremental |
+| settlements | 1,900,000 | id | updated_at | incremental |
+| merchants | 38,000 | id | updated_at | full |
+| wallets | 1,800,000 | id | updated_at | incremental |
+| transactions | 210,000,000 | id | created_at | incremental |
+| currencies | 170 | code | none | full |
+
+In incremental mode the job copies the rows whose change column is later than the latest value of the previous successful run. In full mode it copies the whole table. Small tables use the full mode because it is simpler and fast enough.
+
+## Files
+
+For each table and run the job writes one or more files into the folder of the day.
+
+| Property | Value |
+|---|---|
+| format | CSV with a header line |
+| separator | comma |
+| encoding | UTF-8 |
+| quoting | double quotes where needed |
+| maximum rows per file | 1,000,000 |
+| file name | table_name-YYYYMMDD-NNN.csv |
+
+The manifest file `manifest-YYYYMMDD.json` lists the tables, the files, the row counts and the status of each table. The vendor starts loading only when the manifest exists.
+
+### Example manifest
+
+```
+{
+  "run_date": "2026-03-14",
+  "status": "partial",
+  "tables": [
+    {"name": "payments", "files": 3, "rows": 2310440, "status": "ok"},
+    {"name": "refunds", "files": 1, "rows": 41120, "status": "ok"},
+    {"name": "transactions", "files": 0, "rows": 0, "status": "failed"}
+  ]
+}
+```
+
+## Timing of a run
+
+| Step | Duration |
+|---|---|
+| read the configuration | under 1 s |
+| payments | 9 min |
+| refunds | 1 min |
+| settlements | 1 min |
+| merchants, currencies | under 1 min |
+| wallets | 3 min |
+| transactions | 21 min |
+| manifest | under 1 s |
+
+A run takes about 36 minutes. The window for the job is one hour, from 02:00 UTC. The vendor loads at 04:00 UTC.
+
+## Growth
+
+The table `transactions` grows by about 1.2 million rows per day. The extract of this table needs about two thirds of the run time. If the growth continues, the table has to be split into two jobs when the run exceeds fifty minutes.
+
+| Quarter | Rows per night (approx.) | Run time |
+|---|---|---|
+| now | 1.9 million | 36 min |
+| +2 | 2.6 million | 45 min |
+| +4 | 3.4 million | 55 min |
+
+## Rerun of a day
+
+A failed day can be repeated by hand for the date. The rerun replaces the files of the day and writes a new manifest. Incremental tables return to the position of the last successful run before the rerun date.
+
+## Messages to the analytics team
+
+After each run the job posts a message into the channel of the analytics team: the date, the status, the number of tables, the total number of rows and the run time. For a `partial` run the message lists the failed tables.
+
+## Comparison with the old export
+
+During the two weeks of the parallel run, the vendor compares the files of the old export and the new job table by table: the number of rows, the sum of the amount columns and a checksum of the key columns. The new job is accepted when the comparison shows no differences on ten nights in a row.
+
+| Night | Tables compared | Differences |
+|---|---|---|
+| 1 | 7 | 2 (time zone of the change column) |
+| 2 | 7 | 1 |
+| 3 | 7 | 0 |
+| 4 | 7 | 0 |
+| 5 | 7 | 0 |
+
+## Glossary
+
+- **Extract**: the files with the rows of one table for one run.
+- **Manifest**: the file that lists the files and the status of a run.
+- **Incremental mode**: copying only rows that changed.
+- **Full mode**: copying the whole table.
+- **Partial run**: a run in which at least one table failed.
+
+## Questions of the analytics team
+
+**Why is a table missing in the folder of today?** Check the manifest; a failed table is listed there with the status `failed`.
+
+**Can I get a table that is not on the list?** Ask the platform team to add it to the configuration.
+
+**Are deleted rows copied?** No. The extract contains only rows that exist at the time of the run.
+
+**Which time zone do the dates use?** UTC.
+
+# Appendix 9: related system, Merchant Portal API; reference material for the merchant portal
+
+## Settlement model
+
+A settlement is the payout to a merchant for a period. The finance pipeline creates settlements; the portal only reads them.
+
+| Field | Meaning | Example |
+|---|---|---|
+| id | identifier of the settlement | stl_2026_03_0418 |
+| period | the days the settlement covers | 2026-03-01 to 2026-03-07 |
+| gross | sum of captured payments in minor units | 4821900 |
+| fees | fees taken by Meridian Pay in minor units | 62700 |
+| net | gross minus fees | 4759200 |
+| currency | ISO 4217 code | EUR |
+| status | open, closed, paid | paid |
+
+### Settlement periods
+
+Merchants choose a settlement period when they sign up: daily, weekly or monthly. The period ends at midnight UTC. A settlement is `open` while the period runs, `closed` after the finance pipeline has computed it, and `paid` after the payout has left the bank.
+
+| Period | Closing | Payout |
+|---|---|---|
+| daily | next morning | two working days after closing |
+| weekly | Monday morning | two working days after closing |
+| monthly | first working day | three working days after closing |
+
+## Reports
+
+Merchants request reports of three types.
+
+| Report type | Content | Typical size |
+|---|---|---|
+| transactions | one row per payment in the range | 20 thousand rows |
+| settlements | one row per settlement in the range | 60 rows |
+| fees | fees by type and day | 400 rows |
+
+A report covers at most thirteen months. Reports are created in the background; the portal shows `pending` until the file is ready. The file is a CSV with a header line. Amounts in the file are written with a decimal point and two decimals, and dates use the format `YYYY-MM-DD`. Merchants can ask for the semicolon as the separator.
+
+### Scheduled reports
+
+A merchant can schedule a report to run every week or every month. The scheduled report uses a moving date range: "last month" always means the previous calendar month. The result appears in the list of reports and an email with a link is sent to the person who scheduled it.
+
+## Team area
+
+A merchant account has a list of people who use the portal. The team area lists them with the email address and a status: `invited`, `active` or `removed`. A new person is added by sending an invitation to an email address; the status is `invited` until the person has accepted. People who leave the merchant are marked `removed` and disappear from the default view, but stay in the list when the filter "all" is chosen.
+
+## The web app
+
+The Merchant web app has four areas: the dashboard with the last settlements and a chart of volume per day, the settlements list, the reports area and the team area. The dashboard chart shows the last 30 days and the same days of the previous month for comparison.
+
+### Filters of the settlements list
+
+| Filter | Values |
+|---|---|
+| status | open, closed, paid |
+| period | a date range |
+| currency | the currencies of the account |
+
+## Capacity
+
+The portal has about 38 thousand merchant accounts at the start. On a normal working day 6,500 merchants log in; on Mondays, when weekly settlements close, up to 14,000.
+
+| Operation | Median | 95th percentile |
+|---|---|---|
+| list settlements (page of 20) | 55 ms | 140 ms |
+| read a settlement | 20 ms | 50 ms |
+| send an invitation | 90 ms | 210 ms |
+| request a report | 60 ms | 130 ms |
+| generate a transactions report (20 thousand rows) | 14 s | 31 s |
+
+## Release plan
+
+| Release | Content | Merchants |
+|---|---|---|
+| 1 | settlements and users | pilot group of ten |
+| 2 | reports | pilot group, then 25 percent |
+| 3 | scheduled reports | 25 percent, then all |
+| 4 | dashboard chart | all |
+
+## Glossary
+
+- **Gross**: the sum of all captured payments in the period.
+- **Net**: gross minus fees.
+- **Settlement**: the payout for a period.
+- **Report**: a file with the data of a period.
+- **Invitation**: the email that adds a person to the team area.
+
+## Questions of merchants
+
+**Why does my settlement not include yesterday's payments?** Settlements are computed after the period closes; yesterday's payments are in the open settlement.
+
+**Can I change the settlement period?** Yes, through support; the change applies from the next period.
+
+**Why is a report still pending?** Large reports take a few minutes; the status changes to ready when the file is complete.
+
+**How many people can the team area list?** Fifty.

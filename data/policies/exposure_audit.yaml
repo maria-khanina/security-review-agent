@@ -46,11 +46,24 @@ evident_internal_only:
   - c128_fraud_scoring
   - c129_ledger_service
   - c130_card_token_vault
+  - c305_card_token_vault
+  - c306_ledger_service
+  - c307_fraud_scoring
+  - c309_data_warehouse_sync
+  - c317_card_token_vault
+  - c318_ledger_service
+  - c319_fraud_scoring
+  - c321_data_warehouse_sync
+  - c402_card_token_vault
+  - c403_ledger_service
+  - c406_notification_service
 audience_not_stated:
   - c001_notification_service
   - c002_notification_service
   - c035_notification_service
   - c053_notification_service
   - c066_notification_service
+  - c304_notification_service
+  - c316_notification_service
 audience_contradicted:
   - c131_notification_service

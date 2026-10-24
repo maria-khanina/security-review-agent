@@ -1,0 +1,436 @@
+{
+ "case_id": "c405_refund_service",
+ "split": "xlong",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v3",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "API-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-20"
+   ],
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "manifest": "both",
+   "implementation_anchor": "/paths/~1v1~1refunds/post/requestBody",
+   "remediation_options": [
+    [
+     "validate external inputs against a schema",
+     "reject invalid input"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2093,
+     2173
+    ]
+   ],
+   "policy_spans": {
+    "API-01": [
+     [
+      2212,
+      2257
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     1042,
+     1095
+    ]
+   ],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "AUTHZ-03",
+   "severity": "high",
+   "cwe": [
+    "CWE-250"
+   ],
+   "component": "refund-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which database identity each service uses and its grants.",
+   "related_rules": [
+    "AUTHZ-03"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1986,
+     2078
+    ]
+   ],
+   "policy_spans": {
+    "AUTHZ-03": [
+     [
+      718,
+      801
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "API-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-770"
+   ],
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "manifest": "both",
+   "implementation_anchor": "/paths",
+   "remediation_options": [
+    [
+     "enforce per-client rate limits on external APIs"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "API-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2240,
+     2328
+    ]
+   ],
+   "policy_spans": {
+    "API-02": [
+     [
+      2260,
+      2312
+     ]
+    ]
+   },
+   "implementation_spans": [
+    [
+     243,
+     253
+    ],
+    [
+     1743,
+     1749
+    ],
+    [
+     2278,
+     2288
+    ],
+    [
+     3746,
+     3752
+    ],
+    [
+     4860,
+     4866
+    ]
+   ],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "AUTH-01",
+   "design_spans": [
+    [
+     1069,
+     1176
+    ]
+   ],
+   "policy_spans": [
+    [
+     329,
+     399
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-01",
+   "design_spans": [
+    [
+     1179,
+     1287
+    ]
+   ],
+   "policy_spans": [
+    [
+     627,
+     715
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTHZ-04",
+   "design_spans": [
+    [
+     1290,
+     1391
+    ]
+   ],
+   "policy_spans": [
+    [
+     804,
+     873
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     1393,
+     1459
+    ]
+   ],
+   "policy_spans": [
+    [
+     1235,
+     1283
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-01",
+   "design_spans": [
+    [
+     1479,
+     1527
+    ]
+   ],
+   "policy_spans": [
+    [
+     990,
+     1043
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-02",
+   "design_spans": [
+    [
+     1530,
+     1643
+    ]
+   ],
+   "policy_spans": [
+    [
+     1046,
+     1116
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-05",
+   "design_spans": [
+    [
+     1646,
+     1757
+    ]
+   ],
+   "policy_spans": [
+    [
+     1286,
+     1332
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-01",
+   "design_spans": [
+    [
+     1771,
+     1843
+    ]
+   ],
+   "policy_spans": [
+    [
+     1643,
+     1705
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-02",
+   "design_spans": [
+    [
+     1846,
+     1920
+    ]
+   ],
+   "policy_spans": [
+    [
+     1708,
+     1769
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-01",
+   "design_spans": [
+    [
+     2355,
+     2462
+    ]
+   ],
+   "policy_spans": [
+    [
+     2445,
+     2518
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     2465,
+     2563
+    ]
+   ],
+   "policy_spans": [
+    [
+     2521,
+     2592
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     2566,
+     2693
+    ]
+   ],
+   "policy_spans": [
+    [
+     1335,
+     1401
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-03",
+   "design_spans": [
+    [
+     2696,
+     2820
+    ]
+   ],
+   "policy_spans": [
+    [
+     1404,
+     1537
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-02",
+   "design_spans": [
+    [
+     2822,
+     2918
+    ]
+   ],
+   "policy_spans": [
+    [
+     402,
+     486
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-02",
+   "design_spans": [
+    [
+     2919,
+     3002
+    ]
+   ],
+   "policy_spans": [
+    [
+     2075,
+     2109
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-05",
+   "design_spans": [
+    [
+     3005,
+     3070
+    ]
+   ],
+   "policy_spans": [
+    [
+     2315,
+     2346
+    ]
+   ]
+  },
+  {
+   "rule_id": "API-06",
+   "design_spans": [
+    [
+     3073,
+     3107
+    ]
+   ],
+   "policy_spans": [
+    [
+     2349,
+     2442
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     3110,
+     3219
+    ]
+   ],
+   "policy_spans": [
+    [
+     2112,
+     2171
+    ]
+   ]
+  }
+ ]
+}
