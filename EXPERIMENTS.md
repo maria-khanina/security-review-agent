@@ -285,20 +285,40 @@ The reasoning prompt of section 10.2 was run on all 96 dev documents (`dev_reaso
 - The precision of `violated` is best with the reasoning prompt and the layer (0.54 per requirement, 0.67 by quote); recall of `violated` stays at 0.61 in every variant: about 40% of the planted violations are not recognised by the 4B model at all.
 - **Tried and dropped.** Training the layer on the nine gold subtypes instead of the four verdicts (and summing the probabilities per verdict) gives lower accuracy (0.743 to 0.747) and no better planted ambiguities (0.46). A class weight of 1 or 1.5 instead of 0.5 raises recall of `violated` (0.65 to 0.72) only at precision of 0.29 and 0.07. A separate severity call and a stated confidence were tried in section 10.1 and give no gain.
 
-## 11. Open questions and next steps
+### 10d. What the decision layer learns (ablation on the reasoning run, full dev)
 
-- Verdict stage on oracle contexts: give the model the gold requirement and a context that contains the evidence (for `compliant` and `violated` the gold sentence is added to the retrieved fragments; for `unclear` and `not_applicable` no evidence sentence exists, so the real retrieved fragments are the oracle context) and measure the verdicts with the scores of section 9, to separate errors of the verdict step from errors of retrieval.
-- Choose the retrieval method and the number of candidates by recall on the pairs whose gold verdict is `violated` or `unclear`, with the size of the context as the trade-off.
-- Full pipeline: requirements from the best policy analysis (not the gold list), retrieval of design fragments per requirement, one verdict per requirement on the real retrieved context, derived labels (action) in code, then all scores.
-- Applicability filter before the verdicts is optional, because `not_applicable` is itself a verdict; measure whether it helps.
-- Measure recall@k against document length by padding dev designs with distractor sentences.
-- Self-consistency, a verifier and a cascade; a plot of quality against number of LLM calls.
-- Confirm the best variant on the full dev split, then open the test split once.
+Accuracy of the cross-validated layer (grouped by service, 24 features) when one group of features is left out, and when only that group is used:
+
+| Feature group | Without it | Only it |
+|---|---|---|
+| all features | 0.761 | |
+| topics of the requirement (12) | 0.705 | 0.513 |
+| wording class of the requirement (3) | 0.738 | 0.462 |
+| word overlap between the requirement and the shown fragments | 0.740 | 0.620 |
+| length of the requirement | 0.751 | 0.386 |
+| log-probabilities of the four verdicts (4) | 0.756 | 0.580 |
+| verifier probability of yes | 0.757 | 0.492 |
+| a quote was found | 0.760 | 0.599 |
+| overlap between the requirement and the quote | 0.763 | 0.549 |
+
+The gain over the raw verdicts (0.58) comes mostly from properties of the requirement and its match with the design (topics, wording, word overlap), not from the signals of the model about its own answer: the log-probabilities alone give 0.58 and removing them or the verifier costs less than half a point. In other words the layer learns the prior of this policy: which kinds of requirements are usually vague, inapplicable or stated, and that a requirement with no overlap with any fragment is not stated. This transfers to unseen services of the same policy (cross-validation by service) but not necessarily to another policy, where it has to be retrained on labelled reviews.
+
+## 11. State and next steps
+
+- **Done on dev:** gold verdicts and scores (section 9); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10d); comparison with the free-form reviewer on the planted defects (10.3).
+- **Retrieval choice:** Qwen3-Embedding-0.6B, one sentence per chunk, 10 candidates. At 10 candidates it finds the gold sentence of 96% of the planted violations (section 5), and giving the model the gold sentence changes no verdict (section 10), so more candidates or a hybrid are not needed for the verdict step. Scaling to long documents was not measured.
+- **Open:** the verdict model is the limit (40% of the planted violations are not recognised); candidates are a stronger model, sampling several answers and voting, or a cascade that re-judges the doubtful verdicts with a longer reasoning budget. The free-form baseline and this pipeline are compared only on the planted defects.
+- **Protocol for the final report:** choose the configuration on dev (done: reasoning prompt, overview, verifier, decision layer or raw verdicts depending on the goal), train the decision layer on all dev documents (`scripts/apply_stacker.py`), run once on the test split and report with intervals. The test split has not been used.
 
 ## 12. Reproduction
 
-- Retrieval: `python scripts/run_retrieval.py dev`, then `python scripts/report_retrieval.py dev flaws --reference dense:qwen/w0/plain` (groups: `all`, `flaws`, `violation`, `ambiguity`, `not_clear`, `satisfied`). It needs a CUDA build of torch for reasonable speed; the Windows environment has none, so it was run in WSL with the vLLM environment plus extra packages in `/root/retrieval_extra`, with the vLLM server stopped to free the GPU.
-- Wording variation: `python scripts/rephrase_satisfied.py`, then `python scripts/build_case.py <case ids>`.
-- Reviewer runs: `scripts/run_baseline.py` (flags `--policy-analysis`, `--pilot`, `--topics`, `--compliant`, `--silence`), `scripts/evaluate_run.py`, `scripts/compare_runs.py`; results in `data/runs/<run>/` with the exact prompt in `run_config.json`.
-- Policy analysis: `scripts/analyze_policies.py`, `scripts/score_policies.py`.
-- Stored data: `data/retrieval/dev.json` (per-pair retrieval scores), `data/retrieval/rankings_dev.json` (top-20 rankings of Qwen and the hybrid, windows 0 and 1), `data/retrieval/ambiguity_probe_dev.json` (section 7).
+- Retrieval (section 5): `python scripts/run_retrieval.py dev`, then `python scripts/report_retrieval.py dev flaws --reference dense:qwen/w0/plain`. Needs a CUDA build of torch; the Windows environment has none, so it was run in WSL with the vLLM environment plus extra packages in `/root/retrieval_extra`, with the vLLM server stopped to free the GPU.
+- Wording variation (section 6): `python scripts/rephrase_satisfied.py`, then `python scripts/build_case.py <case ids>`.
+- Free-form reviewer (section 4): `scripts/run_baseline.py` (flags `--policy-analysis`, `--pilot`, `--topics`, `--compliant`, `--silence`), `scripts/evaluate_run.py`, `scripts/compare_runs.py`; results in `data/runs/<run>/` with the exact prompt in `run_config.json`. Policy analysis: `scripts/analyze_policies.py`, `scripts/score_policies.py`.
+- Verdict pipeline (sections 9 to 11), in this order:
+  1. `python scripts/compute_requirement_rankings.py dev llm_analysis_v2` (GPU, vLLM stopped; stores `data/retrieval/requirement_rankings_llm_analysis_v2_dev.json`).
+  2. Start the vLLM server (`scripts/vllm_serve.sh Qwen/Qwen3-4B-AWQ 8000`), then `python scripts/run_verdicts.py <run> [--pilot] [--overview 800] [--reasoned] [--strict] [--oracle]`.
+  3. `python scripts/run_verifier.py <run> <run>_verified` (also `--mode severity`, `--mode verbal`).
+  4. `python scripts/stack_verdicts.py <run>_verified <run>_stacked [--extra <other>_verified]` (cross-validated decision layer); `python scripts/apply_stacker.py <train run> <apply run> <target>` trains on one run and relabels another.
+  5. `python scripts/evaluate_verdicts.py <run> [--against <other run>]`; `python scripts/compare_baseline.py <free-form run>` scores a free-form run as verdicts.
+- Stored data: `data/retrieval/` (retrieval scores, rankings), `data/runs/` (free-form runs), `data/runs_verdict/<run>/` (records, `run_config.json` with the prompt, `verdict_metrics_dev.json`).
