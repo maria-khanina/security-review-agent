@@ -527,6 +527,21 @@ The whole document is the best choice for short designs and costs twice the toke
 
 The verifier doubles the calls and gives nothing on the new data: the layer reaches 0.797 without it against 0.798 with it. The log-probabilities of the verdicts add about 2.5 points (0.773 without them), and all signals of the model together (log-probabilities, verifier, quote) about 8 points (0.720 without them). The requirements per call are counted as 38 because the policy has 38 sentences on average per policy version; the cost grows with the number of requirements, not with the length of the design.
 
+## 10j. Wording of the requirements judged one by one (2026-10-25)
+
+The collapse of the layer on v4 (10i) comes from the wording class of the requirements. The analysis of the policy asks one call to list all requirements with their loose phrases, and on v4 it called all 11 clear requirements vague (agreement with the gold wording over the four policies 0.69; on v4 4 of 16). A new step judges every requirement sentence in its own call: the model lists the words that leave the measure to the reader ("appropriate", "regularly", "timely" and similar; "must", "should", numbers, named mechanisms and prohibitions are declared not vague), code keeps the phrases that occur in the sentence and are not modal verbs, and a sentence with such a phrase is `vague_or_advisory`. The contradictory wording is taken over from the first analysis. The cost is one short call per requirement and policy, about 130 calls once.
+
+| | Agreement with the gold wording (4 policies, 128 requirements) | v4 | Vague requirements found |
+|---|---|---|---|
+| one call for the whole policy | 0.688 | 4 of 16 | 7 of 18 |
+| one call per requirement | 0.859 | 16 of 16 | 15 of 18 |
+
+Contradictions are found no better than before (2 of 12; the gold counts both sentences of a conflicting pair).
+
+**Caveat on the evidence.** The list of example phrases in the prompt was written after all four policies had been read, among them "excessive" and "long enough" from v3, and the two vague requirements of v4 use the word "appropriate" that is on the list. The result on v4 is therefore not a clean test of the step; a fifth policy that nobody has read would be one.
+
+Effect on the layer with all features (trained on dev, applied to v4): accuracy 0.690 (it was 0.513), tolerant 0.734, shown recall 0.70 and precision 0.72 at 1.7 false alarms per document; on dev with cross-validation 0.805 (it was 0.798). The layer with the wording is again better than the layer without it on v4 (0.664, 0.724) and than the raw answers (0.664, 0.688).
+
 ## 11. State and next steps
 
 - **Done on dev:** gold verdicts and scores (section 9, revised in 10f); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10f); the comparison with the free-form reviewer; the cost per document.

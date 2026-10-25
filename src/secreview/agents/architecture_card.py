@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Literal
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from secreview.agents.case_materials import CaseMaterials
 from secreview.datagen.settings import project_path
@@ -32,6 +32,10 @@ Exposure = Literal["external", "internal", "admin", "unclear"]
 Answer = Literal["yes", "no", "unclear"]
 
 CARD_DIRECTORY = "data/cards"
+MAX_CALLERS = len("abcdef")
+MAX_DATA_CLASSES = len("abcde")
+MAX_COMPONENTS = len("abcdefghijkl")
+MAX_FLOWS = len("abcdefghijklmno")
 CARD_SYSTEM_PROMPT = """You read a software design document and write a card of \
 its architecture. Use only what the document says; when it does not say, use \
 "unclear". Fill the fields:
@@ -67,11 +71,11 @@ class CardFlow(BaseModel):
 class ArchitectureCard(BaseModel):
     purpose: str
     exposure: Exposure
-    callers: list[str]
+    callers: list[str] = Field(max_length=MAX_CALLERS)
     serves_requests: Answer
-    data_classes: list[DataClass]
-    components: list[CardComponent]
-    flows: list[CardFlow]
+    data_classes: list[DataClass] = Field(max_length=MAX_DATA_CLASSES)
+    components: list[CardComponent] = Field(max_length=MAX_COMPONENTS)
+    flows: list[CardFlow] = Field(max_length=MAX_FLOWS)
 
 
 def build_card_schema() -> dict[str, object]:
