@@ -529,18 +529,18 @@ The verifier doubles the calls and gives nothing on the new data: the layer reac
 
 ## 10j. Wording of the requirements judged one by one (2026-10-25)
 
-The collapse of the layer on v4 (10i) comes from the wording class of the requirements. The analysis of the policy asks one call to list all requirements with their loose phrases, and on v4 it called all 11 clear requirements vague (agreement with the gold wording over the four policies 0.69; on v4 4 of 16). A new step judges every requirement sentence in its own call: the model lists the words that leave the measure to the reader ("appropriate", "regularly", "timely" and similar; "must", "should", numbers, named mechanisms and prohibitions are declared not vague), code keeps the phrases that occur in the sentence and are not modal verbs, and a sentence with such a phrase is `vague_or_advisory`. The contradictory wording is taken over from the first analysis. The cost is one short call per requirement and policy, about 130 calls once.
+The collapse of the layer on v4 (10i) comes from the wording class of the requirements. The analysis of the policy asks one call to list all requirements with their loose phrases, and on v4 it called all 11 clear requirements vague (agreement with the gold wording over the four policies 0.69; on v4 4 of 16). A new step judges every requirement sentence in its own call: the model lists the words that leave the measure to the reader (words that say how much, how often, how fast or how well without a number, a named mechanism or a named standard; "must", "should", numbers, named mechanisms and prohibitions are declared not vague), code keeps the phrases that occur in the sentence and are not modal verbs, and a sentence with such a phrase is `vague_or_advisory`. The contradictory wording is taken over from the first analysis. The cost is one short call per requirement and policy, about 130 calls once.
 
-| | Agreement with the gold wording (4 policies, 128 requirements) | v4 | Vague requirements found |
-|---|---|---|---|
-| one call for the whole policy | 0.688 | 4 of 16 | 7 of 18 |
-| one call per requirement | 0.859 | 16 of 16 | 15 of 18 |
+The prompt has **no example phrases**. A first version listed examples ("appropriate", "regularly", "excessive", "long enough" and others); it reached 0.859 agreement and 16 of 16 on v4, but I had written that list after reading all four policies, so it was removed and the step repeated.
 
-Contradictions are found no better than before (2 of 12; the gold counts both sentences of a conflicting pair).
+| | Agreement with the gold wording (4 policies, 128 requirements) | v4 | Vague requirements found | Clear requirements called vague |
+|---|---|---|---|---|
+| one call for the whole policy | 0.688 | 4 of 16 | 7 of 18 | 17 of 96 |
+| one call per requirement, no examples | 0.742 | 15 of 16 | 15 of 18 | 18 of 96 |
 
-**Caveat on the evidence.** The list of example phrases in the prompt was written after all four policies had been read, among them "excessive" and "long enough" from v3, and the two vague requirements of v4 use the word "appropriate" that is on the list. The result on v4 is therefore not a clean test of the step; a fifth policy that nobody has read would be one.
+The step finds twice as many vague requirements and keeps the number of false "vague" about equal. Contradictions are found no better than before (2 of 12; the gold counts both sentences of a conflicting pair).
 
-Effect on the layer with all features (trained on dev, applied to v4): accuracy 0.690 (it was 0.513), tolerant 0.734, shown recall 0.70 and precision 0.72 at 1.7 false alarms per document; on dev with cross-validation 0.805 (it was 0.798). The layer with the wording is again better than the layer without it on v4 (0.664, 0.724) and than the raw answers (0.664, 0.688).
+Effect on the layer with all features (trained on dev, applied to v4): accuracy 0.648 (it was 0.513), tolerant 0.703, shown recall 0.72 and precision 0.67 at 2.2 false alarms per document; on dev with cross-validation 0.810 (it was 0.798). On v4 this is not better than the layer without the wording (0.664, tolerant 0.724, 0.74 / 0.71 at 1.9 false alarms); the wording feature no longer breaks the layer but does not help it there.
 
 ## 11. State and next steps
 

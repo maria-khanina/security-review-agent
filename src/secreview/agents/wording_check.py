@@ -14,16 +14,16 @@ CONTRADICTORY = "contradictory"
 VAGUE = "vague_or_advisory"
 CLEAR = "clear"
 MODAL_WORDS = frozenset({"must", "should", "shall", "may", "not", "be", "is"})
-WORDING_PROMPT = """You check one sentence of a security policy. Decide whether a \
-reviewer can check it against a software design document. List the words or \
-short phrases that make it impossible to check because they leave the measure \
-to the reader, for example "appropriate", "adequate", "reasonable", \
-"regularly", "periodically", "timely", "as needed", "where practicable", \
-"industry practice", "long enough", "excessive", "sufficient". The words \
-"must", "should" and "shall", numbers, named mechanisms, named systems and \
-precise prohibitions are not vague. Copy each phrase exactly from the \
-sentence. Use an empty list when the sentence states a concrete criterion. \
-Answer with one JSON object {"loose_phrases": ["..."]} and nothing else."""
+WORDING_PROMPT = """You check one sentence of a security policy. Decide whether \
+a reviewer can check it against a software design document. List the words or \
+short phrases that make it impossible to check, because they leave the \
+measure to the reader: words that say how much, how often, how fast or \
+how well without a number, a named mechanism or a named standard. The \
+words "must", "should" and "shall", numbers, named mechanisms, named \
+systems and precise prohibitions are not vague. Copy each phrase \
+exactly from the sentence. Use an empty list when the sentence states \
+a concrete criterion. Answer with one JSON object {"loose_phrases": \
+["..."]} and nothing else."""
 
 
 class WordingReply(BaseModel):

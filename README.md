@@ -36,11 +36,11 @@ Dev, cross-validation by service; v4, a layer trained on dev only. Shown recall 
 | per-requirement, reasoning, overview | 0.713 | 0.62 / 0.68 | 3.6 | 0.664 | 0.57 / 0.64 | 2.0 |
 | + decision layer, all features | 0.798 | 0.72 / 0.78 | 2.5 | 0.513 | 0.85 / 0.51 | 5.0 |
 | + decision layer without the wording of the requirement | 0.784 | 0.69 / 0.77 | 2.6 | 0.664 | 0.74 / 0.71 | 1.9 |
-| + decision layer, wording judged requirement by requirement | 0.805 | 0.73 / 0.80 | 2.3 | 0.690 | 0.70 / 0.72 | 1.7 |
+| + decision layer, wording judged requirement by requirement | 0.810 | 0.74 / 0.81 | 2.2 | 0.648 | 0.72 / 0.67 | 2.2 |
 
 What the numbers say, without decoration:
 
-- The 4B model alone gets about two thirds of the verdicts right. A layer fitted to one policy reaches 0.80 on that policy and **collapses to 0.51 on a new one**, because a feature of the requirement (its wording class, misjudged on the new policy) carries the priors of the old policy. Without that feature the layer keeps the accuracy of the raw answers on the new policy and shows the reviewer the right requirements more often (F1 of what is shown 0.73 against 0.60, significant), at the price of a worse separation of violations from ambiguities. Judging the wording of each requirement in its own call (about 130 short calls once per policy; caveat on the evidence in EXPERIMENTS.md 10j) repairs the feature: the layer with all features then reaches 0.69 on the new policy.
+- The 4B model alone gets about two thirds of the verdicts right. A layer fitted to one policy reaches 0.80 on that policy and **collapses to 0.51 on a new one**, because a feature of the requirement (its wording class, misjudged on the new policy) carries the priors of the old policy. Without that feature the layer keeps the accuracy of the raw answers on the new policy and shows the reviewer the right requirements more often (F1 of what is shown 0.73 against 0.60, significant), at the price of a worse separation of violations from ambiguities. Judging the wording of each requirement in its own call (about 130 short calls once per policy, no example phrases in the prompt; EXPERIMENTS.md 10j) stops the collapse: the layer with all features then reaches 0.65 on the new policy, but it is no better there than the layer without the wording.
 - A layer that never calls the model reaches the accuracy of the raw model on dev (0.72); most of the gain on one policy is the prior of the policy, not the reading of the design. On the new policy that prior gives 0.56.
 - The service overview of 800 characters does not raise the accuracy; it trades recall for fewer false alarms.
 
