@@ -635,6 +635,22 @@ The first four rows group the requirements of a policy by their first predicted 
 
 The card of a design is one extra model call per design and four lines in the prompt. The model fills the exposure of the service wrongly: on the 96 dev cards 44 of the 53 internal services are called external (exposure right in 54%, which is no better than always answering "external"); the fields that serve requests are right in 79%, the data classes agree with the gold with a Jaccard of 0.29, the kinds of components are found with a recall of 0.74 and a precision of 0.97. On dev the raw answers with the card are about equal to those with the overview or without it (accuracy 0.734, tolerant 0.779, shown recall 0.72 and precision 0.68 at 4.3 false alarms per document; the overview gives 0.713, 0.762, 0.62 / 0.68, 3.6; no overview 0.724, 0.768, 0.78 / 0.65, 5.3). On v4 the raw answers with the card are worse than with the overview (accuracy 0.612 against 0.664; 3.5 against 2.0 false alarms per document). With the layer that has the wording per requirement the card row is the best by precision and tolerant accuracy (0.73 and 0.745); I do not trust this single row, since the card is wrong about the exposure, and read it as noise in a group of rows that are equal within their intervals.
 
+## 10l. Second unseen policy v5: what is fixed before it is opened (2026-10-25)
+
+The 24 designs of v4 cannot separate the best variants of 10k (intervals of the recall of plus and minus 0.05; the top rows are one group), and the wording step (10j) was changed after the first look at v4. A second policy, `v5`, with new rules in other areas (privacy rights, data residency, change management, pipeline, observability, capacity) and 30 new designs is written **after** this paragraph was committed, and nothing of it is used for any choice.
+
+**Finalists** (each is the configuration of 10k trained on the dev run of the same configuration, with the analysis of the policy `llm_analysis_v2` and, where named, the wording per requirement of `llm_analysis_w2`):
+1. A, raw (short reason, no overview).
+2. A + layer without the wording class.
+3. A + layer, wording per requirement.
+4. B + layer, wording per requirement.
+5. D + layer without the wording class.
+6. D, raw.
+7. Layer only, no model call.
+8. Cascade, 40% of the pairs sent to the model (D, layer without the wording).
+
+**What is compared.** The recall of the shown requirements at 2 false alarms per document (the primary number), the shown precision and recall at the false alarms of the decisions, the recall at half and at one false alarm per document, the cost. Paired bootstrap over documents for the differences between finalists, on v5 alone and on v4 and v5 together (54 designs). The best variant is the one with the highest recall at 2 false alarms per document among those with a shown precision of 0.65 or more on v4 and v5 together; if the paired intervals of two variants contain zero, the cheaper one is named.
+
 ## 11. State and next steps
 
 **State (2026-10-25).** Done on dev and on the unseen policy v4: gold labels by the rule "what a careful reader concludes" (10h), designs rewritten, 111 + 34 violations authored, a policy v4 with 24 designs, raw answers in four prompt configurations and with the architecture card, the decision layer in several feature sets, the cascade, grouped requirements, top 10 against the whole document on designs up to 10,000 words, cost per document (10i to 10k). The test split (36 designs of two held-out services) has not been run.
