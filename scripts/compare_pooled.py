@@ -127,16 +127,26 @@ def pool_outcomes(first: list[Outcome], second: list[Outcome]) -> list[Outcome]:
     return pooled
 
 
+def section_lines(
+    title: str,
+    outcomes: list[Outcome],
+    costs: list[Cost],
+) -> list[str]:
+    """Write the table and the paired differences of one set of designs."""
+    rows, series = score_finalists(outcomes, costs)
+    return [*table_lines(title, rows), *difference_lines(rows, series)]
+
+
 def report_text() -> str:
     """Score the finalists on v5 and on v4 and v5 together and write the tables."""
+    fourth = collect_outcomes("v4")
     fifth = collect_outcomes("v5")
-    pooled = pool_outcomes(collect_outcomes("v4"), fifth)
+    pooled = pool_outcomes(fourth, fifth)
     costs = collect_costs("v5")
     lines: list[str] = []
-    for title, outcomes in (("v5", fifth), ("v4 and v5 together", pooled)):
-        rows, series = score_finalists(outcomes, costs)
-        lines.extend(table_lines(title, rows))
-        lines.extend(difference_lines(rows, series))
+    sections = (("v4", fourth), ("v5", fifth), ("v4 and v5 together", pooled))
+    for title, outcomes in sections:
+        lines.extend(section_lines(title, outcomes, costs))
     return "\n".join(lines)
 
 

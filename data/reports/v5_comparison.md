@@ -1,3 +1,28 @@
+### v4
+
+| Variant | Shown recall | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document | Recall at 2 (95% interval) | Calls | Prompt tokens |
+|---|---|---|---|---|---|---|---|
+| A raw | 0.65 | 0.71 | 1.67 | 0.27 / 0.43 / 0.67 / 0.72 | 0.67 (0.59 to 0.73) | 14.0 | 11,908 |
+| A + layer without wording | 0.80 | 0.71 | 2.00 | 0.32 / 0.41 / 0.80 / 0.93 | 0.80 (0.70 to 0.89) | 14.0 | 11,908 |
+| A + layer, wording per requirement | 0.82 | 0.64 | 2.88 | 0.58 / 0.62 / 0.82 / 0.89 | 0.82 (0.73 to 0.87) | 14.0 | 11,908 |
+| B + layer, wording per requirement | 0.75 | 0.71 | 1.92 | 0.43 / 0.51 / 0.77 / 0.86 | 0.77 (0.67 to 0.86) | 14.0 | 14,625 |
+| D + layer without wording | 0.74 | 0.71 | 1.88 | 0.32 / 0.44 / 0.74 / 0.87 | 0.74 (0.56 to 0.88) | 14.0 | 14,975 |
+| D raw | 0.57 | 0.64 | 1.96 | 0.22 / 0.36 / 0.57 / 0.64 | 0.57 (0.49 to 0.64) | 14.0 | 14,975 |
+| layer only, no model call | 0.80 | 0.61 | 3.17 | 0.14 / 0.36 / 0.60 / 0.79 | 0.60 (0.42 to 0.75) | 0.0 | 0 |
+| cascade, 40% of the pairs | 0.83 | 0.72 | 2.04 | 0.23 / 0.45 / 0.82 / 0.90 | 0.82 (0.50 to 0.90) | 5.6 | 5,990 |
+
+Best by the rule: cascade, 40% of the pairs
+
+| Variant | Difference of the recall at 2 against the best | 95% interval |
+|---|---|---|
+| A raw | -0.102 | -0.232 to +0.149 |
+| A + layer without wording | +0.030 | -0.069 to +0.214 |
+| A + layer, wording per requirement | +0.045 | -0.057 to +0.276 |
+| B + layer, wording per requirement | -0.001 | -0.133 to +0.254 |
+| D + layer without wording | -0.033 | -0.131 to +0.176 |
+| D raw | -0.202 | -0.335 to +0.067 |
+| layer only, no model call | -0.146 | -0.246 to -0.054 |
+
 ### v5
 
 | Variant | Shown recall | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document | Recall at 2 (95% interval) | Calls | Prompt tokens |

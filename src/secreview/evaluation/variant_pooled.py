@@ -132,15 +132,20 @@ def primary_recall(outcome: Outcome, names: NDArray[np.str_]) -> float:
     return values[REVIEW_SETTINGS.evaluation.primary_budget_position]
 
 
-def draws(outcomes: list[Outcome]) -> list[NDArray[np.str_]]:
-    """Draw the same documents with replacement for every resample."""
-    names = np.unique(np.concatenate([item.data.documents for item in outcomes]))
+def draws_over(names: NDArray[np.str_]) -> list[NDArray[np.str_]]:
+    """Draw documents with replacement, the same draws for every variant."""
     settings = REVIEW_SETTINGS.evaluation
     generator = np.random.default_rng(settings.bootstrap_seed)
     resamples: list[NDArray[np.str_]] = []
     for _ in range(settings.table_resamples):
         resamples.append(generator.choice(names, size=len(names), replace=True))
     return resamples
+
+
+def draws(outcomes: list[Outcome]) -> list[NDArray[np.str_]]:
+    """Draw the same documents with replacement for every resample."""
+    names = np.unique(np.concatenate([item.data.documents for item in outcomes]))
+    return draws_over(names)
 
 
 def interval(values: list[float]) -> tuple[float, float]:

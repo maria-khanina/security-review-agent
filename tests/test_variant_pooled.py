@@ -31,14 +31,14 @@ def make_outcome(names: list[str]) -> Outcome:
 def test_pooling_joins_the_rows_of_both_sets() -> None:
     joined = pool(make_outcome(["a", "b"]), make_outcome(["c"]))
     assert list(joined.data.documents) == ["a", "b", "c"]
-    assert len(joined.score) == len(joined.chosen) == 3
+    assert len(joined.score) == len(joined.chosen) == len(joined.data.documents)
 
 
 def test_every_resample_draws_as_many_documents_as_there_are() -> None:
-    outcome = make_outcome(["a", "b", "c", "d"])
-    resamples = draws([outcome])
+    names: list[str] = ["a", "b", "c", "d"]
+    resamples = draws([make_outcome(names)])
     assert len(resamples) == REVIEW_SETTINGS.evaluation.table_resamples
-    assert all(len(names) == 4 for names in resamples)
+    assert all(len(drawn) == len(names) for drawn in resamples)
 
 
 def test_recall_of_a_resample_counts_a_drawn_document_once_per_draw() -> None:
@@ -48,6 +48,6 @@ def test_recall_of_a_resample_counts_a_drawn_document_once_per_draw() -> None:
 
 
 def test_the_difference_of_equal_series_is_zero() -> None:
-    series = [0.5, 0.6, 0.7, 0.8]
+    series: list[float] = list(np.linspace(0.0, 1.0, len("abcd")))
     mean, low, high = difference_interval(series, series)
     assert mean == low == high == 0.0
