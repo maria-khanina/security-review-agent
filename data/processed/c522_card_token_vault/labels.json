@@ -1,0 +1,158 @@
+{
+ "case_id": "c522_card_token_vault",
+ "split": "v5",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "RES-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "vault-db (PostgreSQL)",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep backups and replicas of personal data in EU regions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "RES-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1075,
+     1210
+    ]
+   ],
+   "policy_spans": {
+    "RES-02": [
+     [
+      1020,
+      1122
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PIP-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-798"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the pipeline gets its credentials and how long they are valid.",
+   "related_rules": [
+    "PIP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1357,
+     1448
+    ]
+   ],
+   "policy_spans": {
+    "PIP-01": [
+     [
+      1543,
+      1640
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     889,
+     975
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1502,
+     1578
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1606,
+     1705
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     1878,
+     1938
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  }
+ ]
+}

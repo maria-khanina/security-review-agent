@@ -1,0 +1,86 @@
+{
+ "case_id": "c504_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "RES-01",
+   "component": "payments-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store and process personal data of EU customers only in EU regions"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The region of the storage was never chosen and follows the default of the cloud account."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PIP-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-494"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every build artifact",
+     "verify the signature before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The signature is checked in the test environment but not in production."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "CAP-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How a feature that moves money can be switched off and whether this is tested.",
+   "instruction": "Mention payments-core naturally, but do NOT state: How a feature that moves money can be switched off and whether this is tested. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-02",
+  "OBS-01",
+  "CAP-01",
+  "PIP-01",
+  "CHG-02"
+ ]
+}

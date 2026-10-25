@@ -497,3 +497,59 @@ versions:
         quotes:
         - The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
         - For batch services a recovery time objective of up to 24 hours is acceptable.
+  v5:
+    file: v5_data_governance_standard.md
+    rules:
+      PRV-01:
+        status: clear
+        quotes:
+        - Requests of customers to see or delete their personal data must be answered within 30 days and recorded in the request register.
+      PRV-02:
+        status: clear
+        quotes:
+        - Consent to marketing messages must be recorded with its time and the version of the wording, and a withdrawal must stop the messages within 24 hours.
+      PRV-03:
+        status: vague
+        quotes:
+        - Personal data should be used only for purposes that have been described to customers in an appropriate manner.
+      RES-01:
+        status: clear
+        quotes:
+        - Personal data of customers in the EU must be stored and processed only in regions of the EU.
+      RES-02:
+        status: advisory
+        quotes:
+        - Backups and replicas of personal data of customers in the EU should stay in regions of the EU as well.
+      CHG-01:
+        status: conflicting
+        quotes:
+        - Every change to production must be reviewed by a second engineer before it is deployed.
+        - Emergency changes may be deployed without a prior review and must be reviewed within 24 hours after the deployment.
+      CHG-02:
+        status: clear
+        quotes:
+        - Every change to production must have a rollback plan that has been tested in a pre-production environment.
+      PIP-01:
+        status: clear
+        quotes:
+        - Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.
+      PIP-02:
+        status: clear
+        quotes:
+        - Build artifacts must be signed, and the signature must be verified before deployment.
+      OBS-01:
+        status: clear
+        quotes:
+        - Traces and metrics must not contain personal data or card data.
+      OBS-02:
+        status: vague
+        quotes:
+        - Every service should publish health checks and error rates to the shared dashboard in an appropriate way.
+      CAP-01:
+        status: clear
+        quotes:
+        - Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
+      CAP-02:
+        status: clear
+        quotes:
+        - Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.

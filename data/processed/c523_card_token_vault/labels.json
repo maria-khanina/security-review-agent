@@ -1,0 +1,151 @@
+{
+ "case_id": "c523_card_token_vault",
+ "split": "v5",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1867,
+     2021
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CHG-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a review by a second engineer before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CHG-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1620,
+     1753
+    ]
+   ],
+   "policy_spans": {
+    "CHG-01": [
+     [
+      1171,
+      1258
+     ],
+     [
+      1267,
+      1382
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1330,
+     1424
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1425,
+     1501
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1519,
+     1619
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  }
+ ]
+}

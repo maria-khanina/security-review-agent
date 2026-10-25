@@ -1,0 +1,65 @@
+{
+ "case_id": "c512_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CHG-01",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a review by a second engineer before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Changes are reviewed after they are deployed."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PRV-01",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Who answers requests of customers to see or delete their data and how fast.",
+   "instruction": "Mention portal-backend naturally, but do NOT state: Who answers requests of customers to see or delete their data and how fast. Wrap the sentence(s) that mention portal-backend (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-01",
+  "RES-02",
+  "PRV-02",
+  "OBS-01",
+  "PIP-02",
+  "CHG-02",
+  "CAP-01"
+ ]
+}

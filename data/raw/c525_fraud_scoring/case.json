@@ -1,0 +1,66 @@
+{
+ "case_id": "c525_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Rollback is tested only for the main service and not for the jobs."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PIP-02",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-494"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every build artifact",
+     "verify the signature before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The signing key is available to every developer."
+  }
+ ],
+ "required_rules": [
+  "RES-01",
+  "RES-02",
+  "PIP-01"
+ ]
+}

@@ -1,0 +1,170 @@
+{
+ "case_id": "c518_refund_service",
+ "split": "v5",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "provide a kill switch for every money feature",
+     "test the kill switch every quarter"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2323,
+     2390
+    ]
+   ],
+   "policy_spans": {
+    "CAP-02": [
+     [
+      2117,
+      2222
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CHG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2532,
+     2627
+    ]
+   ],
+   "policy_spans": {
+    "CHG-02": [
+     [
+      1391,
+      1497
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "CAP-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-400"
+   ],
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What happens to requests when the capacity of a public endpoint is exhausted.",
+   "related_rules": [
+    "CAP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1109,
+     1239
+    ]
+   ],
+   "policy_spans": {
+    "CAP-01": [
+     [
+      2000,
+      2108
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     2410,
+     2504
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     2652,
+     2713
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  }
+ ]
+}

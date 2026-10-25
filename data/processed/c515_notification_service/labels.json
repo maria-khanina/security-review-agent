@@ -1,0 +1,158 @@
+{
+ "case_id": "c515_notification_service",
+ "split": "v5",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CHG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1780,
+     2034
+    ]
+   ],
+   "policy_spans": {
+    "CHG-02": [
+     [
+      1391,
+      1497
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PRV-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "notifier",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How consent to marketing messages is recorded and how a withdrawal takes effect.",
+   "related_rules": [
+    "PRV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     909,
+     1034
+    ]
+   ],
+   "policy_spans": {
+    "PRV-02": [
+     [
+      609,
+      758
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PRV-01",
+   "design_spans": [
+    [
+     1139,
+     1263
+    ]
+   ],
+   "policy_spans": [
+    [
+     472,
+     600
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1416,
+     1509
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1565,
+     1641
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     1704,
+     1765
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,173 @@
+{
+  "policy_version": "v5",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Requests of customers to see or delete their personal data must be answered within 30 days and recorded in the request register.",
+      "span": [
+        472,
+        600
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Consent to marketing messages must be recorded with its time and the version of the wording, and a withdrawal must stop the messages within 24 hours.",
+      "span": [
+        609,
+        758
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Personal data should be used only for purposes that have been described to customers in an appropriate manner.",
+      "span": [
+        767,
+        877
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "Personal data of customers in the EU must be stored and processed only in regions of the EU.",
+      "span": [
+        919,
+        1011
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "Backups and replicas of personal data of customers in the EU should stay in regions of the EU as well.",
+      "span": [
+        1020,
+        1122
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Every change to production must be reviewed by a second engineer before it is deployed.",
+      "span": [
+        1171,
+        1258
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "Emergency changes may be deployed without a prior review and must be reviewed within 24 hours after the deployment.",
+      "span": [
+        1267,
+        1382
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "Every change to production must have a rollback plan that has been tested in a pre-production environment.",
+      "span": [
+        1391,
+        1497
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.",
+      "span": [
+        1543,
+        1640
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Build artifacts must be signed, and the signature must be verified before deployment.",
+      "span": [
+        1649,
+        1734
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "Traces and metrics must not contain personal data or card data.",
+      "span": [
+        1774,
+        1837
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "Every service should publish health checks and error rates to the shared dashboard in an appropriate way.",
+      "span": [
+        1846,
+        1951
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "logging"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.",
+      "span": [
+        2000,
+        2108
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R14",
+      "quote": "Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.",
+      "span": [
+        2117,
+        2222
+      ],
+      "wording": "clear",
+      "topics": [
+        "resilience"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+ "case_id": "c519_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PIP-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-494"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every build artifact",
+     "verify the signature before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only the images of the main service are signed."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "RES-01",
+   "component": "refund-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "In which region the personal data of EU customers is stored and processed.",
+   "instruction": "Mention refund-db (PostgreSQL) naturally, but do NOT state: In which region the personal data of EU customers is stored and processed. Wrap the sentence(s) that mention refund-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-02",
+  "PIP-01",
+  "CHG-02",
+  "CAP-01"
+ ]
+}

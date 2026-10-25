@@ -1,0 +1,194 @@
+{
+ "case_id": "c510_merchant_portal_api",
+ "split": "v5",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "record the time and the wording version of every consent",
+     "stop messages within 24 hours of a withdrawal"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PRV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2053,
+     2193
+    ]
+   ],
+   "policy_spans": {
+    "PRV-02": [
+     [
+      609,
+      758
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CAP-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-400"
+   ],
+   "component": "Portal Gateway",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "return 503 when the capacity is exhausted",
+     "limit the queue of waiting requests"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2824,
+     2957
+    ]
+   ],
+   "policy_spans": {
+    "CAP-01": [
+     [
+      2000,
+      2108
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     1741,
+     1828
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     1870,
+     1969
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     2314,
+     2408
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     2409,
+     2485
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     2486,
+     2586
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     2663,
+     2724
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  }
+ ]
+}

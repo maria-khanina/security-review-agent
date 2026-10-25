@@ -294,6 +294,71 @@ phrasings:
   - "We have set a recovery time objective of 4 hours or less, and every year we run a failover exercise to prove it."
   - "A failover exercise is held at least yearly, and it has to show a recovery in no more than 4 hours."
   - "Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise."
+  PRV-01:
+  - "A customer who asks to see or delete their data gets an answer within 30 days, and every such request is entered in the request register."
+  - "Requests to access or erase personal data are answered in at most 30 days and are logged in the request register."
+  - "We answer data access and deletion requests within 30 days, and the register of requests records each of them."
+  - "The deadline for a request to see or delete personal data is 30 days, and the request register keeps track of all requests."
+  PRV-02:
+  - "Consent to marketing messages is stored with the time and the version of the wording shown, and a withdrawal stops the messages within 24 hours."
+  - "For every consent we keep the time and the wording version, and customers who withdraw are no longer contacted after 24 hours."
+  - "The service records when and with which wording a customer agreed to marketing messages, and a withdrawal takes effect within a day."
+  - "Marketing consent carries a timestamp and a wording version, and withdrawing it stops the messages within 24 hours."
+  PRV-03:
+  - "Personal data is used only for the purposes that customers have been told about."
+  - "We use customer data only for purposes that are described to customers in a suitable way."
+  - "The purposes of personal data are described to customers, and the data is not used for others."
+  - "Customers are informed in an appropriate manner about the purposes of their data, and we keep to them."
+  RES-01:
+  - "Personal data of EU customers is stored and processed only in EU regions."
+  - "All storage and processing of EU customer data happens in regions inside the EU."
+  - "We keep and process the personal data of customers in the EU only in EU regions of the cloud."
+  - "No personal data of EU customers leaves the EU regions, neither in storage nor in processing."
+  RES-02:
+  - "Backups and replicas of the personal data of EU customers stay in EU regions too."
+  - "The replicas and backups of EU customer data are also kept inside the EU."
+  - "Copies of EU personal data made for backup or replication stay in regions of the EU."
+  - "Disaster recovery replicas and backups of EU customer data are placed in EU regions only."
+  CHG-01:
+  - "Every change to production is reviewed by a second engineer before deployment."
+  - "A second engineer reviews each production change before it is deployed."
+  - "No change reaches production without the review of an engineer other than the author."
+  - "Production changes need a review by a second engineer before they go live."
+  CHG-02:
+  - "Every production change has a rollback plan that was tested in a pre-production environment."
+  - "Before a change goes to production its rollback plan is tested in pre-production."
+  - "Each change to production comes with a rollback plan that has been tried in the pre-production environment."
+  - "We do not deploy a change unless its rollback plan was tested in pre-production."
+  PIP-01:
+  - "The pipeline gets new credentials for every run, and they are valid for 1 hour at most."
+  - "Credentials of the delivery pipeline are issued per run and expire after at most 1 hour."
+  - "Each pipeline run receives its own credentials with a validity of at most one hour."
+  - "No pipeline credential lives longer than 1 hour, because they are issued again for every run."
+  PIP-02:
+  - "Build artifacts are signed, and the signature is verified before deployment."
+  - "Every artifact that the pipeline builds carries a signature that is checked before it is deployed."
+  - "The deployment verifies the signature of the build artifact and refuses an unsigned one."
+  - "We sign the build artifacts and check the signature at deployment time."
+  OBS-01:
+  - "Traces and metrics contain no personal data and no card data."
+  - "Neither the traces nor the metrics carry personal data or card data."
+  - "Personal data and card data are kept out of traces and metrics."
+  - "What we trace and measure never includes personal data or card data."
+  OBS-02:
+  - "The service publishes health checks and error rates to the shared dashboard."
+  - "Health checks and error rates of the service are shown on the shared dashboard in a suitable way."
+  - "We report the health and the error rate of the service to the shared dashboard."
+  - "Every service sends its health checks and error rates to the common dashboard as appropriate."
+  CAP-01:
+  - "When the capacity of a public endpoint is exhausted it answers HTTP 503 and does not queue the requests."
+  - "Public endpoints shed load with HTTP 503 instead of queueing when they run out of capacity."
+  - "Under overload the public endpoints return 503 right away, and requests do not wait in a queue."
+  - "A public endpoint that has no capacity left answers 503 and keeps no queue."
+  CAP-02:
+  - "Every feature that moves money has a kill switch, and the kill switch is tested every quarter."
+  - "Money features can be switched off with a kill switch, which we test each quarter."
+  - "There is a kill switch for each feature that moves money, tested every quarter."
+  - "The kill switches of the money features are tested every three months."
 strict_phrasings:
   AUTH-06:
     v2:

@@ -1,0 +1,19 @@
+# notifier - design (v2)
+
+- SVC: notifier, internal only, consumes domain-events (Kafka), sends via Email and SMS provider (3rd party)
+- Callers: platform services over the private network, no external callers
+- POST /v1/notifications: in channel, recipient_id, template_id, locale; out id, status, channel
+- GET /v1/notifications/{notificationId}: out id, status, channel
+- GET /v1/notifications: out id, status, channel (paged)
+- PUT /v1/templates/{templateId}: in subject, body; out id, subject, body
+- Flow: Kafka evt -> notifier -> render tpl -> provider; provider gets contact details + message body
+- Dedup: key = (recipient_id, template_id, event_id), window 24h
+- Retries: provider 5xx -> 3x backoff 1s/4s/16s, then status failed
+- notifier keeps the recipient contact details and the message history of the customers.
+- DSAR: requests of customers to see or delete their personal data are answered within 30 days and recorded in the request register
+- CI: standard platform pipeline
+- Deployment tokens are valid for a year so that the nightly jobs do not fail.
+- Build artifacts are signed, and the signature is verified before deployment.
+- Every change to production has a rollback plan that has been tested in a pre-production environment.
+- Rollout: canary 5% -> 50% -> 100%, 1 day each, abort on failed > 2%
+- Dashboards: send latency p95, failed rate per channel

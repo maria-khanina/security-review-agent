@@ -18,6 +18,12 @@ class GroundingSettings(BaseModel):
     duplicate_overlap: float
 
 
+class FinalistSettings(BaseModel):
+    label: str
+    configuration: str
+    kind: str
+
+
 class EvaluationSettings(BaseModel):
     iou_threshold: float
     quote_coverage: float
@@ -36,6 +42,9 @@ class EvaluationSettings(BaseModel):
     table_budgets: list[float]
     table_resamples: int
     cascade_shares: list[float]
+    primary_budget_position: int
+    minimum_shown_precision: float
+    finalists: list[FinalistSettings]
 
 
 class PolicyAnalysisSettings(BaseModel):

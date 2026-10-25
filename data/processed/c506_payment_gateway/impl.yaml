@@ -1,0 +1,350 @@
+openapi: 3.0.3
+info:
+  title: Payment Gateway API
+  version: 1.0.0
+servers:
+- url: https://api.meridianpay.example
+security:
+- bearerAuth: []
+paths:
+  /v1/payments:
+    post:
+      operationId: createPayment
+      summary: Create a payment
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+    get:
+      operationId: listPayments
+      summary: List payments
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: merchant_id
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 64
+  /v1/payments/{paymentId}:
+    get:
+      operationId: getPayment
+      summary: Retrieve a payment
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+  /v1/payments/{paymentId}/capture:
+    post:
+      operationId: capturePayment
+      summary: Capture an authorized payment
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaptureRequest'
+  /v1/payments/{paymentId}/refunds:
+    post:
+      operationId: refundPayment
+      summary: Refund a payment
+      responses:
+        '201':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Refund'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: paymentId
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    PaymentRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - amount
+      - currency
+      - card_token
+      - merchant_id
+      - reference
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        card_token:
+          type: string
+          maxLength: 256
+        merchant_id:
+          type: string
+          maxLength: 256
+        reference:
+          type: string
+          maxLength: 256
+    CaptureRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - amount
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+    RefundRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - amount
+      - reason
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+        reason:
+          type: string
+          maxLength: 256
+    Payment:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - amount
+      - currency
+      - last4
+      - merchant_id
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+        currency:
+          type: string
+          maxLength: 256
+        last4:
+          type: string
+          maxLength: 256
+        merchant_id:
+          type: string
+          maxLength: 256
+    Refund:
+      type: object
+      additionalProperties: false
+      required:
+      - id
+      - status
+      - amount
+      properties:
+        id:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        amount:
+          type: integer
+          minimum: 0
+    Error:
+      type: object
+      additionalProperties: false
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: string
+          maxLength: 256
+        message:
+          type: string
+          maxLength: 256

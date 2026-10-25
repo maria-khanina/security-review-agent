@@ -1,0 +1,128 @@
+{
+ "case_id": "c524_fraud_scoring",
+ "split": "v5",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "RES-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "decisions-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store and process personal data of EU customers only in EU regions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "RES-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2869,
+     3044
+    ]
+   ],
+   "policy_spans": {
+    "RES-01": [
+     [
+      919,
+      1011
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "OBS-01",
+   "severity": "low",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What the traces and metrics of the service contain.",
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     3846,
+     3928
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     3342,
+     3442
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     3522,
+     3621
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,158 @@
+{
+ "case_id": "c509_kyc_service",
+ "split": "v5",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "ambiguity",
+   "rule_id": "PRV-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Who answers requests of customers to see or delete their data and how fast.",
+   "related_rules": [
+    "PRV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     890,
+     1010
+    ]
+   ],
+   "policy_spans": {
+    "PRV-01": [
+     [
+      472,
+      600
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1487,
+     1664
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     788,
+     887
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1067,
+     1167
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1250,
+     1344
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-01",
+   "design_spans": [
+    [
+     1347,
+     1442
+    ]
+   ],
+   "policy_spans": [
+    [
+     2000,
+     2108
+    ]
+   ]
+  }
+ ]
+}

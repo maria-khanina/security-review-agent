@@ -11,7 +11,8 @@ A fictional fintech (14 services). Four policy documents: three versions of a ge
 | Set | Documents | Pairs scored | Use |
 |---|---|---|---|
 | dev | 96 designs, policies v1 to v3 | 3541 | development, cross-validation by service |
-| v4 | 24 designs, policy v4 | 384 | the unseen policy; opened only for the final evaluation |
+| v4 | 24 designs, policy v4 | 384 | the first unseen policy; opened only for the final evaluation |
+| v5 | 30 designs, policy v5 (privacy, residency, change, pipeline, observability, capacity) | 411 | the second unseen policy, written after the finalists were fixed |
 | long | 24 designs of 2,400 to 4,200 words (dev designs with added non-security reference sections) | 895 | quality against the length of the design |
 | xlong | 6 designs of about 10,000 words | 226 | same |
 | test | 36 designs of two held-out services | | not used |
@@ -52,6 +53,21 @@ What the numbers say, without decoration:
 Recall at half a false alarm per document is weak for every variant (0.58 at best; the raw answers 0.04 to 0.27), so the numbers above hold for a reviewer who accepts about two false alarms per document. By the length of the design, top 10, top 20 and the whole document stay within five points of recall at two false alarms per document, with no established winner.
 
 Calls against quality: putting two requirements of the same topic into one call gives the same quality as one per call at half the calls; four per call lose about two points of tolerant accuracy; eight lose about five. Top 10 fragments, top 20 and the whole document are equal on v4 (700-word designs). On the dev designs extended to 3,500 words the whole document is not better than the top 10 fragments (tolerant accuracy 0.750 against 0.774, not significant) and costs six times the tokens; at 10,000 words it does not fit the 12,000-token window and the top 10 still work. Dev results, the length experiments and the experiments that did not work are in EXPERIMENTS.md, sections 10g to 10k.
+
+## The second unseen policy v5 and the choice of the best variant
+
+Eight finalists and the decision rule were fixed in EXPERIMENTS.md 10l before v5 was written; nothing of v5 was used for any choice. Recall at 2 false alarms per document, 95% interval over documents, v4 and v5 together (54 designs): full tables and paired differences in [data/reports/v5_comparison.md](data/reports/v5_comparison.md), discussion in EXPERIMENTS.md 10m.
+
+| Variant | v5 alone | v4 and v5 together | Shown precision (v4 and v5) | Calls per doc |
+|---|---|---|---|---|
+| Short reason, no overview, raw | 0.65 | 0.66 | 0.75 | 14.0 |
+| + layer without the wording class | 0.83 | **0.86** | 0.78 | 14.0 |
+| + layer, wording per requirement | 0.85 | 0.79 | 0.71 | 14.0 |
+| Reasoning + overview + layer without the wording class | 0.90 | 0.81 | 0.78 | 14.0 |
+| Cascade, 40% of the pairs to the model | 0.91 | 0.75 | 0.76 | 5.6 |
+| Layer only, no model call | 0.65 | 0.59 | 0.66 | 0 |
+
+By the rule, the best variant is the short-reason prompt without overview and with the decision layer without the wording class. Its paired differences to the layer with the wording class (-0.04) and to reasoning with overview (-0.03) contain zero, so it is chosen as the cheaper one; the cascade is lower by 0.08 (interval -0.13 to -0.00) on the 54 designs, although it is nominally first on v5 alone. The raw model without a layer is lower by 0.18 and the layer without a model call by 0.24.
 
 ## Running
 

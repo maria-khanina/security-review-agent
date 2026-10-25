@@ -1,0 +1,62 @@
+{
+ "case_id": "c514_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PIP-01",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-798"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "issue credentials for each run of the pipeline",
+     "limit their validity to 1 hour"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Deployment tokens are valid for a year so that the jobs do not fail."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PRV-03",
+   "component": "notifier",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "For which purposes the personal data of the service is used.",
+   "instruction": "Mention notifier naturally, but do NOT state: For which purposes the personal data of the service is used. Wrap the sentence(s) that mention notifier (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "PRV-01",
+  "PIP-02",
+  "CHG-02"
+ ]
+}

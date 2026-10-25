@@ -1,6 +1,7 @@
 from secreview.review_settings_models import (
     DenseModelSettings,
     EvaluationSettings,
+    FinalistSettings,
     GroundingSettings,
     LlmSettings,
     PilotSettings,
@@ -42,6 +43,50 @@ REVIEW_SETTINGS = ReviewSettings(
         table_budgets=[0.5, 1.0, 2.0, 3.0],
         table_resamples=300,
         cascade_shares=[0.4, 0.6],
+        primary_budget_position=2,
+        minimum_shown_precision=0.65,
+        finalists=[
+            FinalistSettings(
+                label="A raw",
+                configuration="base",
+                kind="raw",
+            ),
+            FinalistSettings(
+                label="A + layer without wording",
+                configuration="base",
+                kind="no_wording",
+            ),
+            FinalistSettings(
+                label="A + layer, wording per requirement",
+                configuration="base",
+                kind="worded",
+            ),
+            FinalistSettings(
+                label="B + layer, wording per requirement",
+                configuration="overview800",
+                kind="worded",
+            ),
+            FinalistSettings(
+                label="D + layer without wording",
+                configuration="reasoned800",
+                kind="no_wording",
+            ),
+            FinalistSettings(
+                label="D raw",
+                configuration="reasoned800",
+                kind="raw",
+            ),
+            FinalistSettings(
+                label="layer only, no model call",
+                configuration="reasoned800",
+                kind="prior",
+            ),
+            FinalistSettings(
+                label="cascade, 40% of the pairs",
+                configuration="reasoned800",
+                kind="cascade",
+            ),
+        ],
     ),
     policy_analysis=PolicyAnalysisSettings(
         directory="data/policy_analysis",

@@ -15,6 +15,7 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("source_name")
     parser.add_argument("target_name")
+    parser.add_argument("--versions", nargs="*", default=None)
     return parser.parse_args()
 
 
@@ -22,7 +23,10 @@ def main() -> None:
     """Store a copy of the analysis set with the wording judged one by one."""
     arguments = parse_arguments()
     settings = load_settings()
-    versions: list[str] = [*settings.policy_versions, *settings.new_policy_versions]
+    versions: list[str] = arguments.versions or [
+        *settings.policy_versions,
+        *settings.new_policy_versions,
+    ]
     with httpx.Client() as http_client:
         client = VllmChatClient(http_client)
         for version in versions:

@@ -1,0 +1,68 @@
+{
+ "case_id": "c503_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Database migrations cannot be rolled back, and nothing is planned for that."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Error traces include the card number that failed validation."
+  }
+ ],
+ "required_rules": [
+  "PRV-01",
+  "RES-02",
+  "PIP-01",
+  "PIP-02",
+  "CAP-01",
+  "CAP-02"
+ ]
+}

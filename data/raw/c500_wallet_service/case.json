@@ -1,0 +1,86 @@
+{
+ "case_id": "c500_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "answer every request within 30 days",
+     "record every request in the request register"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Deletion requests wait in a mailbox until someone finds the time, often for months."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PIP-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-798"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "issue credentials for each run of the pipeline",
+     "limit their validity to 1 hour"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Credentials are shared between pipelines of different teams."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "CAP-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How a feature that moves money can be switched off and whether this is tested.",
+   "instruction": "Mention wallet-core naturally, but do NOT state: How a feature that moves money can be switched off and whether this is tested. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-02",
+  "PIP-02",
+  "CHG-02",
+  "OBS-01"
+ ]
+}

@@ -1,0 +1,83 @@
+{
+ "case_id": "c518_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "provide a kill switch for every money feature",
+     "test the kill switch every quarter"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only one engineer knows where the kill switch is."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Database migrations cannot be rolled back, and nothing is planned for that."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "CAP-01",
+   "component": "Refunds Gateway",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-400"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What happens to requests when the capacity of a public endpoint is exhausted.",
+   "instruction": "Mention Refunds Gateway naturally, but do NOT state: What happens to requests when the capacity of a public endpoint is exhausted. Wrap the sentence(s) that mention Refunds Gateway (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "PIP-01",
+  "OBS-01"
+ ]
+}

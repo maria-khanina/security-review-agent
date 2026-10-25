@@ -1,0 +1,61 @@
+{
+ "case_id": "c517_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Error traces include the card number that failed validation."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PIP-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-494"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether build artifacts are signed and checked before deployment.",
+   "instruction": "Mention console-backend naturally, but do NOT state: Whether build artifacts are signed and checked before deployment. Wrap the sentence(s) that mention console-backend (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-01",
+  "RES-02",
+  "CHG-02"
+ ]
+}

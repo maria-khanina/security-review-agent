@@ -1,0 +1,66 @@
+{
+ "case_id": "c501_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "record the time and the wording version of every consent",
+     "stop messages within 24 hours of a withdrawal"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The consent flag is stored without the time or the wording the customer saw."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "RES-01",
+   "component": "wallet-db (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "In which region the personal data of EU customers is stored and processed.",
+   "instruction": "Mention wallet-db (PostgreSQL) naturally, but do NOT state: In which region the personal data of EU customers is stored and processed. Wrap the sentence(s) that mention wallet-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "PRV-01",
+  "RES-02",
+  "PIP-01",
+  "PIP-02",
+  "OBS-01",
+  "CAP-01",
+  "CAP-02"
+ ]
+}

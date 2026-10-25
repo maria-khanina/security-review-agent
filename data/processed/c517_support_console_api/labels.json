@@ -1,0 +1,143 @@
+{
+ "case_id": "c517_support_console_api",
+ "split": "v5",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2657,
+     2830
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "PIP-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-494"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether build artifacts are signed and checked before deployment.",
+   "related_rules": [
+    "PIP-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2255,
+     2361
+    ]
+   ],
+   "policy_spans": {
+    "PIP-02": [
+     [
+      1649,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     1836,
+     1923
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     2004,
+     2103
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     2450,
+     2550
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  }
+ ]
+}

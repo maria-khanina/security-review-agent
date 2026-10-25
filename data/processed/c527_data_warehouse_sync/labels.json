@@ -1,0 +1,143 @@
+{
+ "case_id": "c527_data_warehouse_sync",
+ "split": "v5",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     897,
+     1064
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "RES-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "analytics read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "In which region the personal data of EU customers is stored and processed.",
+   "related_rules": [
+    "RES-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     612,
+     759
+    ]
+   ],
+   "policy_spans": {
+    "RES-01": [
+     [
+      919,
+      1011
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     784,
+     882
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1123,
+     1223
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1226,
+     1320
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  }
+ ]
+}

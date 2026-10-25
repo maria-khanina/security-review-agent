@@ -1621,3 +1621,359 @@ rules:
     - run a failover exercise every year
   implementation_check: null
   ambiguity_ok: true
+- id: PRV-01
+  title: Answer requests of data subjects
+  statement: Requests of customers to see or delete their personal data must be answered within 30 days and recorded in the request register.
+  categories:
+  - privacy
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - wallet_service
+    - kyc_service
+    - merchant_portal_api
+    - support_console_api
+    - notification_service
+    - data_warehouse_sync
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Requests of customers are handled by whoever receives them, and nobody keeps a list.
+  - Deletion requests wait in a mailbox until someone finds the time, often for months.
+  - Access requests are answered, but the answer is not recorded anywhere.
+  - The service deletes the customer record but leaves copies in reports and exports.
+  - Requests from customers outside the home country are not handled.
+  - The deadline is counted from the day the team has verified the request, which can take weeks.
+  how_to_omit: Who answers requests of customers to see or delete their data and how fast.
+  remediation_options:
+  - - answer every request within 30 days
+    - record every request in the request register
+  implementation_check: null
+  ambiguity_ok: true
+- id: PRV-02
+  title: Consent for marketing messages
+  statement: Consent to marketing messages must be recorded with its time and the version of the wording, and a withdrawal must stop the messages within 24 hours.
+  categories:
+  - privacy
+  applies_to:
+    kind:
+    - service
+    services:
+    - notification_service
+    - merchant_portal_api
+    - wallet_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Consent is assumed when a customer opens an account, and nothing is recorded.
+  - The consent flag is stored without the time or the wording the customer saw.
+  - A withdrawal is processed by a weekly batch job, so messages continue for days.
+  - Marketing messages are sent to everyone and customers must contact support to stop them.
+  - Withdrawals through the app are applied, withdrawals by email to support are not.
+  - The consent text is changed without keeping the earlier versions.
+  how_to_omit: How consent to marketing messages is recorded and how a withdrawal takes effect.
+  remediation_options:
+  - - record the time and the wording version of every consent
+    - stop messages within 24 hours of a withdrawal
+  implementation_check: null
+  ambiguity_ok: true
+- id: PRV-03
+  title: Purposes of personal data
+  statement: Personal data should be used only for purposes that have been described to customers in an appropriate manner.
+  categories:
+  - privacy
+  - governance
+  applies_to:
+    kind:
+    - service
+    data:
+    - pii
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Customer data collected for payments is also used to build marketing segments.
+  - The purposes of the data are not written down for this service.
+  - New uses of the data are decided by the product team without telling customers.
+  - Data collected for identity checks is shared with the analytics team for other experiments.
+  - The privacy notice lists the purposes of the old system and was never updated.
+  - Customer data is used to train models without any description to customers.
+  how_to_omit: For which purposes the personal data of the service is used.
+  remediation_options:
+  - - describe the purposes of the data to customers
+  implementation_check: null
+  ambiguity_ok: true
+- id: RES-01
+  title: EU personal data stays in the EU
+  statement: Personal data of customers in the EU must be stored and processed only in regions of the EU.
+  categories:
+  - privacy
+  - data-protection
+  applies_to:
+    kind:
+    - database
+    - object_storage
+    data:
+    - pii
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-200
+  violation_scenarios:
+  - The database runs in a cheaper region outside the EU.
+  - Analytics jobs copy customer data to a region outside the EU for processing.
+  - The vendor stores the files in a region chosen by the vendor.
+  - Support staff export customer data to a tool hosted outside the EU.
+  - The region of the storage was never chosen and follows the default of the cloud account.
+  - Test restores of production data are made in a region outside the EU.
+  how_to_omit: In which region the personal data of EU customers is stored and processed.
+  remediation_options:
+  - - store and process personal data of EU customers only in EU regions
+  implementation_check: null
+  ambiguity_ok: true
+- id: RES-02
+  title: Replicas and backups stay in the EU
+  statement: Backups and replicas of personal data of customers in the EU should stay in regions of the EU as well.
+  categories:
+  - privacy
+  - availability
+  applies_to:
+    kind:
+    - database
+    - object_storage
+    data:
+    - pii
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-200
+  violation_scenarios:
+  - The disaster recovery replica is placed in a region outside the EU.
+  - Backups are copied to a bucket outside the EU for cheaper storage.
+  - The read replica for reports sits in a region chosen by the reporting team.
+  - Snapshots are shared with another account without checking the region.
+  - The backup vendor keeps a second copy at a site that is not in the EU.
+  - The region of the replicas is not documented.
+  how_to_omit: In which regions the backups and replicas of personal data are kept.
+  remediation_options:
+  - - keep backups and replicas of personal data in EU regions
+  implementation_check: null
+  ambiguity_ok: true
+- id: CHG-01
+  title: Review of production changes
+  statement: Every change to production must be reviewed by a second engineer before it is deployed.
+  categories:
+  - governance
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - Engineers deploy their own changes to production when they are confident.
+  - Review is optional for small changes and the author decides what is small.
+  - The reviewer is the author of the change in a different role.
+  - Changes are reviewed after they are deployed.
+  - Reviews are done by an automatic tool only.
+  - Changes to configuration are not reviewed because they are not code.
+  how_to_omit: Who reviews a change to production and when.
+  remediation_options:
+  - - require a review by a second engineer before every deployment
+  implementation_check: null
+  ambiguity_ok: true
+- id: CHG-02
+  title: Rollback plan for changes
+  statement: Every change to production must have a rollback plan that has been tested in a pre-production environment.
+  categories:
+  - governance
+  - availability
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - Changes are rolled back by redeploying the previous version if needed, and this was never tried.
+  - The rollback plan is written for the ticket but not tested.
+  - Database migrations cannot be rolled back, and nothing is planned for that.
+  - Rollback is tested only for the main service and not for the jobs.
+  - The pre-production environment differs so much from production that rollback tests are not trusted.
+  - Rollback is the responsibility of the on-call engineer who decides in the moment.
+  how_to_omit: Whether changes to production have a tested rollback plan.
+  remediation_options:
+  - - require a tested rollback plan for every change
+  implementation_check: null
+  ambiguity_ok: true
+- id: PIP-01
+  title: Short-lived pipeline credentials
+  statement: Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.
+  categories:
+  - secrets
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-798
+  violation_scenarios:
+  - The pipeline uses one service account key that has never been replaced.
+  - Deployment tokens are valid for a year so that the jobs do not fail.
+  - Credentials are shared between pipelines of different teams.
+  - The pipeline stores its credentials as variables that all developers can read.
+  - Credentials issued for a run stay valid for a day.
+  - A personal token of an engineer is used by the pipeline.
+  how_to_omit: How the pipeline gets its credentials and how long they are valid.
+  remediation_options:
+  - - issue credentials for each run of the pipeline
+    - limit their validity to 1 hour
+  implementation_check: null
+  ambiguity_ok: true
+- id: PIP-02
+  title: Signed build artifacts
+  statement: Build artifacts must be signed, and the signature must be verified before deployment.
+  categories:
+  - supply-chain
+  - integrity
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-494
+  violation_scenarios:
+  - Artifacts are copied from the build server to production without signatures.
+  - Artifacts are signed, but the deployment does not check the signature.
+  - Only the images of the main service are signed.
+  - The signing key is available to every developer.
+  - Unsigned artifacts are accepted when the signing service is down.
+  - The signature is checked in the test environment but not in production.
+  how_to_omit: Whether build artifacts are signed and checked before deployment.
+  remediation_options:
+  - - sign every build artifact
+    - verify the signature before every deployment
+  implementation_check: null
+  ambiguity_ok: true
+- id: OBS-01
+  title: No personal data in traces and metrics
+  statement: Traces and metrics must not contain personal data or card data.
+  categories:
+  - logging
+  - privacy
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-532
+  violation_scenarios:
+  - Traces record the full request including the name and the email of the customer.
+  - Metrics are labeled with the customer id and the phone number.
+  - The tracing tool captures the request body for easier debugging.
+  - Error traces include the card number that failed validation.
+  - Debug traces with full payloads are switched on in production for a few services.
+  - Metrics use the email address of the merchant as a label.
+  how_to_omit: What the traces and metrics of the service contain.
+  remediation_options:
+  - - remove personal data and card data from traces and metrics
+  implementation_check: null
+  ambiguity_ok: true
+- id: OBS-02
+  title: Health and error reporting
+  statement: Every service should publish health checks and error rates to the shared dashboard in an appropriate way.
+  categories:
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - The service has no health check, and errors are found in the logs by chance.
+  - Error rates are kept in a private dashboard of the team.
+  - Health checks only test that the process runs.
+  - Only the main endpoint reports errors, the jobs do not.
+  - The dashboard is updated once a day.
+  - Nobody has checked that the numbers on the dashboard are right.
+  how_to_omit: How the service reports its health and error rate.
+  remediation_options:
+  - - publish health checks and error rates to the shared dashboard
+  implementation_check: null
+  ambiguity_ok: true
+- id: CAP-01
+  title: Shed load instead of queueing
+  statement: Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
+  categories:
+  - availability
+  applies_to:
+    kind:
+    - api_gateway
+    - service
+    exposure:
+    - external
+    requests: true
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-400
+  violation_scenarios:
+  - Requests queue up without a limit until the service runs out of memory.
+  - The gateway holds requests for up to a minute when the service is slow.
+  - Overload is handled by adding servers, and nothing limits the queue meanwhile.
+  - Requests are retried by the gateway several times when the service answers slowly.
+  - The capacity limit is not defined for the endpoints.
+  - Load shedding exists for the payment endpoint only.
+  how_to_omit: What happens to requests when the capacity of a public endpoint is exhausted.
+  remediation_options:
+  - - return 503 when the capacity is exhausted
+    - limit the queue of waiting requests
+  implementation_check: null
+  ambiguity_ok: true
+- id: CAP-02
+  title: Kill switch for money features
+  statement: Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.
+  categories:
+  - operations
+  - availability
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - refund_service
+    - ledger_service
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-693
+  violation_scenarios:
+  - Features that move money can be stopped only by deploying a new version.
+  - The kill switch exists for transfers but not for refunds.
+  - The kill switch was added in the first release and has never been tested.
+  - Only one engineer knows where the kill switch is.
+  - The kill switch is a configuration flag that needs a restart of the service.
+  - Tests of the kill switch are done once a year before the audit.
+  how_to_omit: How a feature that moves money can be switched off and whether this is tested.
+  remediation_options:
+  - - provide a kill switch for every money feature
+    - test the kill switch every quarter
+  implementation_check: null
+  ambiguity_ok: true

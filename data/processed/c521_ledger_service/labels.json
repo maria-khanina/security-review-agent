@@ -1,0 +1,148 @@
+{
+ "case_id": "c521_ledger_service",
+ "split": "v5",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PIP-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-798"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "issue credentials for each run of the pipeline",
+     "limit their validity to 1 hour"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PIP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1611,
+     1718
+    ]
+   ],
+   "policy_spans": {
+    "PIP-01": [
+     [
+      1543,
+      1640
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "OBS-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "publish health checks and error rates to the shared dashboard"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "OBS-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2091,
+     2154
+    ]
+   ],
+   "policy_spans": {
+    "OBS-02": [
+     [
+      1846,
+      1951
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1463,
+     1563
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1722,
+     1798
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-02",
+   "design_spans": [
+    [
+     1850,
+     1944
+    ]
+   ],
+   "policy_spans": [
+    [
+     2117,
+     2222
+    ]
+   ]
+  }
+ ]
+}

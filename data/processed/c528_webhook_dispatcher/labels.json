@@ -1,0 +1,129 @@
+{
+ "case_id": "c528_webhook_dispatcher",
+ "split": "v5",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-400"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "return 503 when the capacity is exhausted",
+     "limit the queue of waiting requests"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1523,
+     1663
+    ]
+   ],
+   "policy_spans": {
+    "CAP-01": [
+     [
+      2000,
+      2108
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "CHG-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether changes to production have a tested rollback plan.",
+   "related_rules": [
+    "CHG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1900,
+     1973
+    ]
+   ],
+   "policy_spans": {
+    "CHG-02": [
+     [
+      1391,
+      1497
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1728,
+     1822
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1823,
+     1899
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  }
+ ]
+}

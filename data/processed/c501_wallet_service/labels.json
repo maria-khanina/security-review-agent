@@ -1,0 +1,204 @@
+{
+ "case_id": "c501_wallet_service",
+ "split": "v5",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "record the time and the wording version of every consent",
+     "stop messages within 24 hours of a withdrawal"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PRV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     820,
+     935
+    ]
+   ],
+   "policy_spans": {
+    "PRV-02": [
+     [
+      609,
+      758
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "RES-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "wallet-db (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "In which region the personal data of EU customers is stored and processed.",
+   "related_rules": [
+    "RES-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     205,
+     270
+    ]
+   ],
+   "policy_spans": {
+    "RES-01": [
+     [
+      919,
+      1011
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PRV-01",
+   "design_spans": [
+    [
+     702,
+     817
+    ]
+   ],
+   "policy_spans": [
+    [
+     472,
+     600
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     947,
+     1020
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1036,
+     1110
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1113,
+     1189
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     1200,
+     1252
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-01",
+   "design_spans": [
+    [
+     1255,
+     1341
+    ]
+   ],
+   "policy_spans": [
+    [
+     2000,
+     2108
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-02",
+   "design_spans": [
+    [
+     1344,
+     1415
+    ]
+   ],
+   "policy_spans": [
+    [
+     2117,
+     2222
+    ]
+   ]
+  }
+ ]
+}

@@ -55,3 +55,33 @@ cases:
   - {index: 221, service: fraud_scoring, author_profile: buzzword_pm, policy_version: v4, split: v4, flaws: ['violation:IR-01', 'ambiguity:DR-01']}
   - {index: 222, service: webhook_dispatcher, author_profile: ticket_writer, policy_version: v4, split: v4, flaws: ['violation:TEN-01', 'ambiguity:DR-02']}
   - {index: 223, service: data_warehouse_sync, author_profile: copy_paste_veteran, policy_version: v4, split: v4, flaws: []}
+  - {index: 500, service: wallet_service, author_profile: methodical_architect, policy_version: v5, split: v5, flaws: ['violation:PRV-01', 'violation:PIP-01', 'ambiguity:CAP-02']}
+  - {index: 501, service: wallet_service, author_profile: sprint_rusher, policy_version: v5, split: v5, flaws: ['violation:PRV-02', 'ambiguity:RES-01']}
+  - {index: 502, service: wallet_service, author_profile: buzzword_pm, policy_version: v5, split: v5, flaws: ['violation:CAP-01', 'ambiguity:CHG-02']}
+  - {index: 503, service: wallet_service, author_profile: ticket_writer, policy_version: v5, split: v5, flaws: ['violation:CHG-02', 'violation:OBS-01']}
+  - {index: 504, service: payment_gateway, author_profile: security_champion, policy_version: v5, split: v5, flaws: ['violation:RES-01', 'violation:PIP-02', 'ambiguity:CAP-02']}
+  - {index: 505, service: payment_gateway, author_profile: stream_of_consciousness, policy_version: v5, split: v5, flaws: ['violation:CAP-02', 'ambiguity:OBS-01']}
+  - {index: 506, service: payment_gateway, author_profile: compliance_voice, policy_version: v5, split: v5, flaws: ['violation:CAP-01', 'violation:PIP-01']}
+  - {index: 507, service: kyc_service, author_profile: junior_tutorial, policy_version: v5, split: v5, flaws: ['violation:PRV-01', 'violation:RES-01', 'ambiguity:OBS-02']}
+  - {index: 508, service: kyc_service, author_profile: esl_engineer, policy_version: v5, split: v5, flaws: ['violation:RES-02', 'violation:CHG-02']}
+  - {index: 509, service: kyc_service, author_profile: meeting_notes, policy_version: v5, split: v5, flaws: ['ambiguity:PRV-01', 'violation:OBS-01']}
+  - {index: 510, service: merchant_portal_api, author_profile: copy_paste_veteran, policy_version: v5, split: v5, flaws: ['violation:PRV-02', 'violation:CAP-01']}
+  - {index: 511, service: merchant_portal_api, author_profile: table_lover, policy_version: v5, split: v5, flaws: ['violation:PIP-02', 'ambiguity:RES-02']}
+  - {index: 512, service: merchant_portal_api, author_profile: slack_paste, policy_version: v5, split: v5, flaws: ['violation:CHG-01', 'ambiguity:PRV-01']}
+  - {index: 513, service: notification_service, author_profile: diagram_narrator, policy_version: v5, split: v5, flaws: ['violation:PRV-02', 'violation:OBS-01']}
+  - {index: 514, service: notification_service, author_profile: tribal_knowledge_staff, policy_version: v5, split: v5, flaws: ['violation:PIP-01', 'ambiguity:PRV-03']}
+  - {index: 515, service: notification_service, author_profile: migration_delta_writer, policy_version: v5, split: v5, flaws: ['violation:CHG-02', 'ambiguity:PRV-02']}
+  - {index: 516, service: support_console_api, author_profile: optimistic_roadmapper, policy_version: v5, split: v5, flaws: ['violation:PRV-01', 'violation:RES-01']}
+  - {index: 517, service: support_console_api, author_profile: security_champion, policy_version: v5, split: v5, flaws: ['violation:OBS-01', 'ambiguity:PIP-02']}
+  - {index: 518, service: refund_service, author_profile: methodical_architect, policy_version: v5, split: v5, flaws: ['violation:CAP-02', 'violation:CHG-02', 'ambiguity:CAP-01']}
+  - {index: 519, service: refund_service, author_profile: sprint_rusher, policy_version: v5, split: v5, flaws: ['violation:PIP-02', 'ambiguity:RES-01']}
+  - {index: 520, service: ledger_service, author_profile: buzzword_pm, policy_version: v5, split: v5, flaws: ['violation:CAP-02', 'ambiguity:CHG-02']}
+  - {index: 521, service: ledger_service, author_profile: ticket_writer, policy_version: v5, split: v5, flaws: ['violation:PIP-01', 'violation:OBS-02']}
+  - {index: 522, service: card_token_vault, author_profile: stream_of_consciousness, policy_version: v5, split: v5, flaws: ['violation:RES-02', 'ambiguity:PIP-01']}
+  - {index: 523, service: card_token_vault, author_profile: compliance_voice, policy_version: v5, split: v5, flaws: ['violation:OBS-01', 'violation:CHG-01']}
+  - {index: 524, service: fraud_scoring, author_profile: junior_tutorial, policy_version: v5, split: v5, flaws: ['violation:RES-01', 'ambiguity:OBS-01']}
+  - {index: 525, service: fraud_scoring, author_profile: copy_paste_veteran, policy_version: v5, split: v5, flaws: ['violation:CHG-02', 'violation:PIP-02']}
+  - {index: 526, service: data_warehouse_sync, author_profile: esl_engineer, policy_version: v5, split: v5, flaws: ['violation:PRV-01', 'violation:RES-02', 'ambiguity:PIP-02']}
+  - {index: 527, service: data_warehouse_sync, author_profile: meeting_notes, policy_version: v5, split: v5, flaws: ['violation:OBS-01', 'ambiguity:RES-01']}
+  - {index: 528, service: webhook_dispatcher, author_profile: diagram_narrator, policy_version: v5, split: v5, flaws: ['violation:CAP-01', 'ambiguity:CHG-02']}
+  - {index: 529, service: reporting_export, author_profile: tribal_knowledge_staff, policy_version: v5, split: v5, flaws: ['violation:RES-01', 'ambiguity:PIP-01']}

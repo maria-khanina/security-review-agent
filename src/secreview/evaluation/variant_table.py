@@ -152,6 +152,19 @@ def configuration_rows(label: str, dev_run: str, test_run: str) -> list[TableRow
     return rows
 
 
+def cascade_outcome(
+    pairs: int,
+    prior: Matrix,
+    full: Matrix,
+    share: float,
+) -> tuple[Labels, np.ndarray]:
+    """Choose classes and scores when the least sure share of pairs gets the model."""
+    order = np.argsort(prior.max(axis=1))
+    sent = np.zeros(pairs, dtype=bool)
+    sent[order[: int(round(share * pairs))]] = True
+    return from_probabilities(np.where(sent[:, None], full, prior))
+
+
 def cascade_row(
     test: VariantData,
     prior: Matrix,
@@ -160,10 +173,7 @@ def cascade_row(
     cost: Cost,
 ) -> TableRow:
     """Row of the cascade that sends the least sure share of pairs to the model."""
-    order = np.argsort(prior.max(axis=1))
-    sent = np.zeros(len(test.gold), dtype=bool)
-    sent[order[: int(round(share * len(test.gold)))]] = True
-    chosen, score = from_probabilities(np.where(sent[:, None], full, prior))
+    chosen, score = cascade_outcome(len(test.gold), prior, full, share)
     label = f"cascade, {share:.0%} of the pairs sent to the model"
     return make_row(label, test, chosen, score, scale_cost(cost, share))
 

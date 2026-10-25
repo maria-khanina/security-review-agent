@@ -1,0 +1,23 @@
+# merchant portal api - design thread (pasted from #portal-design)
+
+**anna.k** ok so here is what we agreed, pasting so it does not get lost
+**anna.k** merchant web app -> Portal Gateway -> portal-backend -> portal-db (postgres). Keycloak validates the tokens at the gateway
+**dmitri** endpoints: GET /v1/settlements, GET /v1/settlements/{id}, POST /v1/users (email, role -> id, email, role), PATCH /v1/users/{id}/role, POST /v1/reports (report_type, from_date, to_date -> id, status, expires_at), GET /v1/reports/{id}/download
+**dmitri** settlements return id, period, gross, fees, net
+**anna.k** yes
+**sam** about the data. personal data of customers in the EU is stored and processed only in regions of the EU and for backups backups and replicas of the personal data of customers in the EU stay in regions of the EU as well
+**sam** portal-db is in Frankfurt already (TBD replica in Dublin?)
+**anna.k** ok
+**lena** consent for the marketing mails of merchants: consent to marketing messages is recorded with its time and the version of the wording, and a withdrawal stops the messages within 24 hours
+**lena** that is the same as in the wallet
+**dmitri** customer requests for their data? portal-backend has the records of the merchant users, so those requests would end up there, I guess, somebody has to look at it (TBD)
+**anna.k** later
+**sam** traces: traces and metrics do not contain personal data or card data (TBD check the gateway plugin config)
+**lena** delivery. build artifacts are signed and the signature is verified before deployment and every change to production has a rollback plan that has been tested in a pre-production environment
+**dmitri** about review: for the small changes we merge and deploy first and the review happens after the deploy, otherwise the reports fix takes days
+**lena** hmm
+**dmitri** it is only for small ones
+**sam** public endpoints answer HTTP 503 instead of queueing requests when their capacity is exhausted done in the gateway config
+**anna.k** report not ready in 10 min -> failed, merchant asks again (TBD)
+**anna.k** rollout: 10 merchants, a week, then all (TBD date)
+**sam** open: who can download a report? (TBD) filters for settlements? (TBD)

@@ -1,0 +1,159 @@
+{
+ "case_id": "c505_payment_gateway",
+ "split": "v5",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-693"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "provide a kill switch for every money feature",
+     "test the kill switch every quarter"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     897,
+     1095
+    ]
+   ],
+   "policy_spans": {
+    "CAP-02": [
+     [
+      2117,
+      2222
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "OBS-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What the traces and metrics of the service contain.",
+   "related_rules": [
+    "OBS-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1211,
+     1347
+    ]
+   ],
+   "policy_spans": {
+    "OBS-01": [
+     [
+      1774,
+      1837
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     661,
+     748
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1551,
+     1644
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1649,
+     1724
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-01",
+   "design_spans": [
+    [
+     1738,
+     1824
+    ]
+   ],
+   "policy_spans": [
+    [
+     2000,
+     2108
+    ]
+   ]
+  }
+ ]
+}

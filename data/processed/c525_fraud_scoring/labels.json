@@ -1,0 +1,148 @@
+{
+ "case_id": "c525_fraud_scoring",
+ "split": "v5",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CHG-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require a tested rollback plan for every change"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CHG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2409,
+     2533
+    ]
+   ],
+   "policy_spans": {
+    "CHG-02": [
+     [
+      1391,
+      1497
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PIP-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-494"
+   ],
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every build artifact",
+     "verify the signature before every deployment"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PIP-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2053,
+     2157
+    ]
+   ],
+   "policy_spans": {
+    "PIP-02": [
+     [
+      1649,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     1508,
+     1595
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     1596,
+     1695
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     1879,
+     1973
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  }
+ ]
+}

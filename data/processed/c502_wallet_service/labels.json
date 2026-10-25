@@ -1,0 +1,189 @@
+{
+ "case_id": "c502_wallet_service",
+ "split": "v5",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-400"
+   ],
+   "component": "Mobile API Gateway",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "return 503 when the capacity is exhausted",
+     "limit the queue of waiting requests"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1872,
+     2027
+    ]
+   ],
+   "policy_spans": {
+    "CAP-01": [
+     [
+      2000,
+      2108
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "CHG-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether changes to production have a tested rollback plan.",
+   "related_rules": [
+    "CHG-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     878,
+     1001
+    ]
+   ],
+   "policy_spans": {
+    "CHG-02": [
+     [
+      1391,
+      1497
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PRV-01",
+   "design_spans": [
+    [
+     1633,
+     1757
+    ]
+   ],
+   "policy_spans": [
+    [
+     472,
+     600
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     1758,
+     1843
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-02",
+   "design_spans": [
+    [
+     2028,
+     2122
+    ]
+   ],
+   "policy_spans": [
+    [
+     2117,
+     2222
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     2123,
+     2221
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     2222,
+     2298
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-01",
+   "design_spans": [
+    [
+     2299,
+     2360
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1837
+    ]
+   ]
+  }
+ ]
+}

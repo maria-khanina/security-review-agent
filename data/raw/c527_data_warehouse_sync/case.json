@@ -1,0 +1,61 @@
+{
+ "case_id": "c527_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "OBS-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove personal data and card data from traces and metrics"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Traces record the full request including the name and the email of the customer."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "RES-01",
+   "component": "analytics read replica (PostgreSQL)",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "In which region the personal data of EU customers is stored and processed.",
+   "instruction": "Mention analytics read replica (PostgreSQL) naturally, but do NOT state: In which region the personal data of EU customers is stored and processed. Wrap the sentence(s) that mention analytics read replica (PostgreSQL) (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-02",
+  "CHG-02",
+  "PIP-01"
+ ]
+}

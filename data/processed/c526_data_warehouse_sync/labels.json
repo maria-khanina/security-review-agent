@@ -1,0 +1,185 @@
+{
+ "case_id": "c526_data_warehouse_sync",
+ "split": "v5",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v5",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "answer every request within 30 days",
+     "record every request in the request register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PRV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1858,
+     2004
+    ]
+   ],
+   "policy_spans": {
+    "PRV-01": [
+     [
+      472,
+      600
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "RES-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "analytics read replica (PostgreSQL)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep backups and replicas of personal data in EU regions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "RES-02"
+   ],
+   "policy_status": "advisory",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     2073,
+     2180
+    ]
+   ],
+   "policy_spans": {
+    "RES-02": [
+     [
+      1020,
+      1122
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "PIP-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-494"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Whether build artifacts are signed and checked before deployment.",
+   "related_rules": [
+    "PIP-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2350,
+     2462
+    ]
+   ],
+   "policy_spans": {
+    "PIP-02": [
+     [
+      1649,
+      1734
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "RES-01",
+   "design_spans": [
+    [
+     1553,
+     1640
+    ]
+   ],
+   "policy_spans": [
+    [
+     919,
+     1011
+    ]
+   ]
+  },
+  {
+   "rule_id": "PIP-01",
+   "design_spans": [
+    [
+     2255,
+     2349
+    ]
+   ],
+   "policy_spans": [
+    [
+     1543,
+     1640
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     2478,
+     2578
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  }
+ ]
+}

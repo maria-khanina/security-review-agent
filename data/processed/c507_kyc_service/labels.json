@@ -1,0 +1,170 @@
+{
+ "case_id": "c507_kyc_service",
+ "split": "v5",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "PRV-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "answer every request within 30 days",
+     "record every request in the request register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PRV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1715,
+     1875
+    ]
+   ],
+   "policy_spans": {
+    "PRV-01": [
+     [
+      472,
+      600
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "RES-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "kyc-documents (S3)",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "store and process personal data of EU customers only in EU regions"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "RES-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2027,
+     2134
+    ]
+   ],
+   "policy_spans": {
+    "RES-01": [
+     [
+      919,
+      1011
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "OBS-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How the service reports its health and error rate.",
+   "related_rules": [
+    "OBS-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1406,
+     1519
+    ]
+   ],
+   "policy_spans": {
+    "OBS-02": [
+     [
+      1846,
+      1951
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     2226,
+     2302
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CAP-01",
+   "design_spans": [
+    [
+     2387,
+     2502
+    ]
+   ],
+   "policy_spans": [
+    [
+     2000,
+     2108
+    ]
+   ]
+  }
+ ]
+}

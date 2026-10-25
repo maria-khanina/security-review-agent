@@ -1,0 +1,63 @@
+{
+ "case_id": "c505_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v5",
+ "policy_version": "v5",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-693"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "provide a kill switch for every money feature",
+     "test the kill switch every quarter"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The kill switch is a configuration flag that needs a restart of the service."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "OBS-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-532"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "What the traces and metrics of the service contain.",
+   "instruction": "Mention payments-core naturally, but do NOT state: What the traces and metrics of the service contain. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "RES-01",
+  "PIP-01",
+  "PIP-02",
+  "CAP-01"
+ ]
+}

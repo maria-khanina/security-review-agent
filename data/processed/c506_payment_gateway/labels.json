@@ -1,0 +1,149 @@
+{
+ "case_id": "c506_payment_gateway",
+ "split": "v5",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v5",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "CAP-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-400"
+   ],
+   "component": "Payments Edge Gateway",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "return 503 when the capacity is exhausted",
+     "limit the queue of waiting requests"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "CAP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1346,
+     1521
+    ]
+   ],
+   "policy_spans": {
+    "CAP-01": [
+     [
+      2000,
+      2108
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "PIP-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-798"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "issue credentials for each run of the pipeline",
+     "limit their validity to 1 hour"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "PIP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1625,
+     1760
+    ]
+   ],
+   "policy_spans": {
+    "PIP-01": [
+     [
+      1543,
+      1640
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "PIP-02",
+   "design_spans": [
+    [
+     1761,
+     1837
+    ]
+   ],
+   "policy_spans": [
+    [
+     1649,
+     1734
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-02",
+   "design_spans": [
+    [
+     1871,
+     1971
+    ]
+   ],
+   "policy_spans": [
+    [
+     1391,
+     1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "RES-02",
+   "design_spans": [
+    [
+     1972,
+     2071
+    ]
+   ],
+   "policy_spans": [
+    [
+     1020,
+     1122
+    ]
+   ]
+  }
+ ]
+}
