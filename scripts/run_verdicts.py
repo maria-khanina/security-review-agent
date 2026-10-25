@@ -20,6 +20,12 @@ from secreview.retrieval.requirement_rankings import SplitRankings, load_ranking
 from secreview.review_settings import REVIEW_SETTINGS
 
 
+def add_scope_arguments(parser: argparse.ArgumentParser) -> None:
+    """Add the options that widen or replace the fragments shown to the model."""
+    parser.add_argument("--whole", action="store_true")
+    parser.add_argument("--card", type=str, default="")
+
+
 def add_context_arguments(parser: argparse.ArgumentParser) -> None:
     """Add the options that choose the design fragments shown to the model."""
     settings = REVIEW_SETTINGS.verdict
@@ -42,6 +48,7 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, default=0)
     parser.add_argument("--cases", nargs="*", default=[])
     add_context_arguments(parser)
+    add_scope_arguments(parser)
     return parser.parse_args()
 
 
@@ -55,6 +62,8 @@ def build_choice(arguments: argparse.Namespace) -> ContextChoice:
         strict=arguments.strict,
         overview_chars=arguments.overview,
         reasoned=arguments.reasoned,
+        whole_document=arguments.whole,
+        card_name=arguments.card,
     )
 
 
@@ -79,7 +88,9 @@ def write_run_config(arguments: argparse.Namespace, choice: ContextChoice) -> No
         "split": arguments.split,
         "pilot": arguments.pilot,
         "system_prompt": build_verdict_system_prompt(
-            arguments.strict, arguments.overview > 0, arguments.reasoned
+            arguments.strict,
+            arguments.overview > 0 or bool(arguments.card),
+            arguments.reasoned,
         ),
         "model": REVIEW_SETTINGS.llm.model,
         "temperature": REVIEW_SETTINGS.llm.temperature,

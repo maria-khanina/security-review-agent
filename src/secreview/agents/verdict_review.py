@@ -4,6 +4,7 @@ from typing import Protocol
 
 from pydantic import BaseModel
 
+from secreview.agents.architecture_card import has_card, load_card, render_card
 from secreview.agents.case_materials import CaseMaterials
 from secreview.agents.policy_requirements import PolicyAnalysis, PolicyRequirement
 from secreview.agents.verdict_contexts import (
@@ -56,6 +57,8 @@ class ContextChoice(BaseModel):
     strict: bool
     overview_chars: int
     reasoned: bool
+    whole_document: bool = False
+    card_name: str = ""
 
 
 class RequirementRecord(BaseModel):
@@ -170,6 +173,8 @@ def choose_bounds(
     units: list[DesignUnit],
 ) -> Bounds:
     """Pick the chunks shown for a requirement, with the gold one when asked."""
+    if choice.whole_document:
+        return [(index, index) for index in range(len(units))]
     name = name_ranking(choice.method, choice.window)
     ranked: Bounds = [(first, last) for first, last in rankings[requirement.id][name]]
     if choice.oracle and requirement.id in gold:
@@ -194,6 +199,13 @@ def review_requirement(
     return build_record(materials, requirement.id, indices, completion)
 
 
+def choose_overview(materials: CaseMaterials, choice: ContextChoice) -> str:
+    """Return the card of the design, or its opening, or nothing."""
+    if choice.card_name and has_card(choice.card_name, materials.case_id):
+        return render_card(load_card(choice.card_name, materials.case_id))
+    return extract_overview(materials.design_text, choice.overview_chars)
+
+
 def review_case_verdicts(
     client: LogprobClient,
     materials: CaseMaterials,
@@ -204,7 +216,7 @@ def review_case_verdicts(
     """Give a verdict on every requirement of the policy for one design."""
     units = split_units(materials.design_text)
     gold = find_gold_spans(materials, analysis) if choice.oracle else {}
-    overview = extract_overview(materials.design_text, choice.overview_chars)
+    overview = choose_overview(materials, choice)
     records: list[RequirementRecord] = []
     for requirement in analysis.requirements:
         bounds = choose_bounds(requirement, rankings, choice, gold, units)

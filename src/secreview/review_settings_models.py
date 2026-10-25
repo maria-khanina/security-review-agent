@@ -98,6 +98,7 @@ class VerdictSettings(BaseModel):
     stacking_class_power: float
     stacking_word_length: int
     stacking_fine: bool
+    card_characters: int
     feature_presets: dict[str, list[str]]
     probability_floor: float
 

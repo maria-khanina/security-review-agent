@@ -349,7 +349,9 @@ The gain over the raw verdicts (0.58) comes mostly from properties of the requir
 
 - **Verifier threshold.** The threshold of section 10 chosen on the other services of the pilot gives accuracy 0.583 (chosen on all pilot pairs 0.573, no threshold 0.528); the best threshold of the grid (0.995) is chosen in every fold.
 
-## 10f. Current results (revised gold and metrics)
+## 10f. Results with the revised gold and metrics (superseded by 10i)
+
+The labels and the designs were rewritten after this section (10h) and every run was repeated; the numbers below are history.
 
 **Changes of the gold and the metrics.**
 - *What counts.* A verdict is *shown* to the user when it is `violated` or `unclear`, and *dropped* when it is `compliant` or `not_applicable`; the user cannot see which of the two dropped verdicts was given. The headline scores are therefore: **recall** (gold shown pairs that the system also shows), **precision** (system shown pairs that are shown in the gold), **false alarm rate** (gold dropped pairs that the system shows) and the same count per document, and a **tolerant accuracy** over the three groups `violated` / `unclear` / dropped where confusing `violated` with `unclear` gets half credit. The four-way accuracy and the per-verdict recall and precision stay for diagnosis. The scores based on what the generator planted are removed.
@@ -410,6 +412,120 @@ Problems that remain although the plan is scripted (only the prose is free):
 5. **Unplanted violations** remain possible; the model's `violated` answers outside the planted spans include real ones.
 
 Next: add the NET-01 overlaps, mark the `stated` pairs with unmet specifics as contested, widen the exclusion of unreliable component-driven pairs, then re-score. The sentence-boundary overview fix is also open.
+
+## 10h. Labels and designs rewritten (2026-10-24, evening)
+
+The audit of 10g and the discussion that followed changed the principle behind the gold: **the label is what a careful reader of the design text alone concludes.** A fact that only the generator knows (the exposure of the service, whether a component exists) counts only if the text makes it plain. A rule that names a value (a limit, a period, a count) is satisfied only by a design that gives a concrete value; "the API has rate limits" is not enough. The wording "should" is only phrasing and counts as a requirement. Only really vague wording (appropriate, timely) and conflicting wording give `unclear`.
+
+**Gold subtypes now** (dev, 3583 pairs, 3541 scored): `stated` 1692 (compliant), `planted_violation` 137 and `co_violation` 3 (violated), `no_external_callers` 195 and `not_in_service` 363 and `implementation_only` 96 (not applicable), `vague_policy` 644 and `soft_violation` 18 (a violation of a vague wording) and `planted_ambiguity` 71 and `partial_statement` 9 (the statement lacks a named value) and `unplanned_applicable` 155 and `exposure_silence` 173 and `coupled_silence` 27 (all `unclear`, the design is silent about an applicable rule). The proportions of the scored pairs are compliant 47.7%, unclear 29.9%, not applicable 18.4%, violated 3.9% (test split: 43.5%, 33.4%, 19.4%, 3.7%).
+
+**Exclusions** (42 pairs on dev, 1.2%): a pair is left out when a design sentence repeats at least half of the content words of a requirement the gold calls silent, when the prose still holds a claim sentence left from the removed drift (`removed_claims.yaml`), when a violation scenario does not break the wording of the policy version, or when a violation of one rule also breaks another rule (the overlap table).
+
+**What changed in the generator.** Drift mutations, drift flaws and their configuration are gone. Satisfied statements are written per policy version: `strict_phrasings` and `required_terms` in `compliant_phrasings.yaml` for the rules whose version names something the general wording lacks (the number of failures, HMAC and timestamp, key management, the rate limit, the retention period, the expiry of exports). Violation scenarios that do not break the wording of a version are skipped for it (`misfits`). Applicability: AUTH-02 and CRYPTO-04 now concern every service, AUTHZ-01, API-01 and API-04 every service that accepts requests (a new field `accepts_requests`), and the service kind alone no longer decides LOG-04 and NET-05. The exposure pairs are decided per document by an audit of the 53 internal dev documents (`exposure_audit.yaml`): 47 make plain that nobody outside the platform calls the service, 5 do not say who calls the API, 1 contradicts it.
+
+**What changed in the designs** (all 132 documents, the prose was kept): 85 weak statements were replaced by the strict wording of the version, 284 plus 297 statements were added for applicable rules the design had not named (75% of the gaps, in the form of the document: a bullet next to a bullet, a chat message by the same speaker, a paragraph), and 111 violations were written into the designs in the voice of each author (82 dev, 29 test, 62 rules, at most 10 per rule). The implementation files were rebuilt without the drift mutations. The gate for the share of non-clear flaws fell from 0.25 to 0.15, because the added violations concern firm rules.
+
+**Prompt.** The verdict prompt no longer says that advice-only wording gives `unclear`, states that "should" is "must", asks for the concrete values a requirement names, and lets `not_applicable` cover external-caller requirements when the design makes plain that only internal services call the service.
+
+**Runs.** The old runs `dev_*` and `pilot_*` were made on the old texts and are stale. The new ones are called `dev2_*`; the rankings of the design sentences were recomputed.
+
+## 10i. Results on the rewritten data (2026-10-25)
+
+Everything below was measured after the rewrite of the labels and the designs of 10h. The old tables of 10b to 10f belong to the old labels and are kept only as history. The models, the retrieval (Qwen3-Embedding-0.6B, one sentence per chunk, 10 fragments) and the prompt are the ones of section 10, except for the three changes of the prompt listed in 10h. Dev is the 96 documents of the first 12 services (3583 pairs, 3541 scored: 1689 compliant, 1060 unclear, 653 not applicable, 139 violated), v4 is the new policy with 24 new documents (384 pairs).
+
+**Terms.** *Shown* means that the pipeline answers `violated` or `unclear` for a requirement, which is what the reviewer of the design sees. *Recall* is the share of the requirements that should be shown (`violated` or `unclear` in the gold) which are shown, *precision* the share of the shown requirements that should be shown, *false alarm rate* the share of the requirements that should be dropped (`compliant` or `not_applicable`) which are shown. *Tolerant accuracy* counts a swap between `violated` and `unclear` as half right. *Layer* is the logistic regression over the signals of the model; here it is always trained and applied with cross-validation over services (dev) or trained on dev and applied to v4.
+
+### Does the service overview help? (dev, raw answers, no layer)
+
+| | Without overview | With overview of 800 characters |
+|---|---|---|
+| Short reason (25 words) | accuracy 0.648, tolerant 0.741, shown recall 0.49 / precision 0.69, 2.7 false alarms per document | 0.654, 0.738, 0.39 / 0.74, 1.7 |
+| Reasoning before the verdict (60 words) | 0.724, 0.768, 0.78 / 0.65, 5.3 | 0.713, 0.762, 0.62 / 0.68, 3.6 |
+
+The overview does not raise the accuracy (the tolerant accuracy moves by 0.003 and 0.006, inside the interval of about 0.015). It moves the operating point: fewer false alarms and a lower recall. On the new policy v4 the same holds (below). The honest reading is that the overview of the first 800 characters is a cheap way to trade recall for precision, not a source of understanding.
+
+### The decision layer on dev (cross-validation over services)
+
+| Variant | Accuracy | Tolerant | Shown recall / precision | False alarms per document |
+|---|---|---|---|---|
+| raw, overview and reasoning | 0.713 | 0.762 | 0.62 / 0.68 | 3.6 |
+| layer, all 24 features | 0.798 | 0.827 | 0.72 / 0.78 | 2.5 |
+| layer without the wording of the requirement (21) | 0.784 | 0.814 | 0.69 / 0.77 | 2.6 |
+| layer independent of the policy (9: log-probabilities, verifier, quote found, word overlap with fragments and quote, length) | 0.761 | 0.789 | 0.75 / 0.69 | 4.2 |
+
+### The unseen policy v4 (384 pairs, 24 new documents, layer trained on dev only)
+
+Gold: 29 `violated`, 119 `unclear`, 70 `compliant`, 166 `not_applicable`. The shares differ from dev (more `not_applicable`, fewer `compliant`) because the 15 new rules apply to few services each.
+
+| Variant | Accuracy | Tolerant | Shown recall / precision | False alarms per document |
+|---|---|---|---|---|
+| raw, no overview, short reason | 0.643 | 0.721 | 0.65 / 0.71 | 1.7 |
+| raw, overview, short reason | 0.646 | 0.706 | 0.56 / 0.68 | 1.7 |
+| raw, no overview, reasoning | 0.622 | 0.660 | 0.66 / 0.58 | 2.9 |
+| raw, overview, reasoning | 0.664 | 0.688 | 0.57 / 0.64 | 2.0 |
+| layer, all features | 0.513 | 0.573 | 0.85 / 0.51 | 5.0 |
+| layer without wording | 0.664 | 0.724 | 0.74 / 0.71 | 1.9 |
+| layer independent of the policy | 0.651 | 0.672 | 0.71 / 0.58 | 3.1 |
+
+- The layer with all features **collapses** on the new policy (accuracy 0.51). The reason is the wording feature: the model that reads the policy called all 11 clear requirements of v4 `vague_or_advisory` (the wording classification of the policy analysis was tuned on v1 to v3), and the layer had learned that "vague" means `unclear`. The topics are also read worse (the share with at least one correct topic 0.69, the overlap with the gold 0.375, on v1 to v3 it was 0.9 and 0.6).
+- Without the wording the layer keeps the accuracy of the raw answers (0.664) and raises the quality of what the reviewer sees: the F1 of the shown requirements is 0.726 against 0.602 (paired bootstrap over documents, significant), with the same false alarms. The price is the precision of `violated`: 0.26 against 0.72 (the layer calls many `unclear` pairs `violated`; also significant). The two numbers say the layer is useful for deciding what to show and not useful for telling a violation from an ambiguity.
+- The layer independent of the policy is the safest claim about transfer. It does not hold the whole gain (accuracy 0.651 against 0.664 for the raw answers), it shows more (recall 0.71) and raises more false alarms.
+- The sample is small: 384 pairs, 24 documents, intervals of the accuracy about plus and minus 0.04. Differences of one to two points are noise.
+
+### The cascade: calls only where the cheap prediction is unsure
+
+A layer on the features that exist before any model call (word overlap, length, topics; the wording was left out) predicts the verdict; the pairs where its largest class probability is lowest are sent to the model, and for them the layer over all signals decides.
+
+| Share of pairs sent to the model | Dev accuracy | Dev shown recall / precision | v4 accuracy | v4 shown recall / precision |
+|---|---|---|---|---|
+| 0 (no model call at all) | 0.720 | 0.67 / 0.69 | 0.560 | 0.80 / 0.61 |
+| 0.2 | 0.781 | 0.71 / 0.74 | 0.604 | 0.81 / 0.67 |
+| 0.4 | 0.794 | 0.71 / 0.78 | 0.638 | 0.83 / 0.72 |
+| 0.6 | 0.799 | 0.71 / 0.78 | 0.654 | 0.82 / 0.71 |
+| 1.0 | 0.798 | 0.72 / 0.78 | 0.664 | 0.74 / 0.71 |
+
+- On dev, 40% of the model calls give the same accuracy as all calls (0.794 against 0.798). Choosing the pairs by the confidence of the cheap layer matters: 50% of the pairs chosen at random give 0.759.
+- **The warning:** a layer that never calls the model reaches 0.720 on dev, as much as the raw answers of the model with reasoning (0.713). Most of the accuracy on dev is the prior of the policy (which kinds of requirements are usually vague, stated or inapplicable), not reading of the design. On v4 the same prior gives 0.560, and without the topics 0.424. This is why the numbers on dev alone would overstate the pipeline, and why v4 exists.
+- On v4 the cascade keeps its worth (sending 40% to 60% of the pairs gives the recall and the precision of the whole), but the sample is small.
+
+### Several requirements in one call (dev, overview, short reason, groups by the first predicted topic)
+
+| Requirements per call | Calls per document | Prompt tokens | Seconds | Accuracy | Tolerant | Shown recall / precision | Quote found |
+|---|---|---|---|---|---|---|---|
+| 1 | 38.1 | 42,400 | 54 | 0.699 | 0.748 | 0.40 / 0.77 | 0.596 |
+| 2 | 19.3 | 24,200 | 46 | 0.672 | 0.741 | 0.40 / 0.74 | 0.567 |
+| 4 | 9.8 | 14,100 | 43 | 0.685 | 0.752 | 0.44 / 0.75 | 0.563 |
+| 8 | 5.4 | 8,700 | 42 | 0.658 | 0.736 | 0.39 / 0.72 | 0.528 |
+
+Four requirements per call cut the calls by four and the prompt tokens by two thirds with no loss of the tolerant accuracy (0.752 against 0.748); eight per call lose about one point. The quotes suffer first: the share of right verdicts with a quote that the design confirms falls from 0.60 to 0.53. The topics used for the groups are the predicted ones. The time falls little because the generation of the answers, not the reading of the prompt, takes most of it.
+
+### Length of the design: the top 10 fragments against the whole document
+
+The same 24 designs of about 700 words and their long versions of about 3500 words (the added text has no security content, so the gold is unchanged), reasoning with overview.
+
+| | 700 words | 3500 words | 10,000 words (6 other designs) |
+|---|---|---|---|
+| top 10 fragments: accuracy / tolerant | 0.720 / 0.759 | 0.724 / 0.774 | 0.686 / 0.748 |
+| top 20 fragments | 0.732 / 0.769 | 0.742 / 0.778 | |
+| whole document in every call | **0.751 / 0.780** | 0.722 / 0.750 | does not fit in the 12,000-token window |
+| prompt tokens per document, top 10 / whole | 41,000 / 76,000 | 40,500 / 256,000 | |
+| seconds per document, top 10 / whole | 58 / 83 | 58 / 180 | |
+
+The whole document is the best choice for short designs and costs twice the tokens; at 3500 words it is worse than the top 10 fragments (tolerant 0.750 against 0.774) and six times the tokens. The top 10 fragments keep their quality as the design grows (0.759 at 700 words, 0.774 at 3500, 0.748 at 10,000, different documents at the last point) and the cost stays flat. The crossing is between 700 and 3500 words.
+
+### Cost per document (measured, vLLM, Qwen3-4B-AWQ, one 8 GB GPU, calls one after another)
+
+| Variant | Calls | Prompt tokens | Generated tokens | Seconds |
+|---|---|---|---|---|
+| short reason, no overview | 38.1 | 32,800 | 2,400 | 44 |
+| short reason, overview | 38.1 | 40,100 | 2,300 | 45 |
+| + verifier | 76.1 | 55,800 | 2,600 | 55 |
+| reasoning, no overview | 38.1 | 33,800 | 3,500 | 60 |
+| reasoning, overview | 38.1 | 41,000 | 3,300 | 65 |
+| 4 requirements per call | 9.8 | 14,100 | 2,500 | 43 |
+| 8 requirements per call | 5.4 | 8,700 | 2,400 | 42 |
+
+The verifier doubles the calls and gives nothing on the new data: the layer reaches 0.797 without it against 0.798 with it. The log-probabilities of the verdicts add about 2.5 points (0.773 without them), and all signals of the model together (log-probabilities, verifier, quote) about 8 points (0.720 without them). The requirements per call are counted as 38 because the policy has 38 sentences on average per policy version; the cost grows with the number of requirements, not with the length of the design.
 
 ## 11. State and next steps
 

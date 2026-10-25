@@ -136,6 +136,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_class_power=0.5,
         stacking_word_length=3,
         stacking_fine=False,
+        card_characters=24000,
         feature_presets={
             "all": [
                 "log_probabilities",
