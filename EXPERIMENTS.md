@@ -546,40 +546,40 @@ Effect on the layer with all features (trained on dev, applied to v4): accuracy 
 
 The question of this section is which variant is best on v4, not how much worse v4 is than dev. Every variant that has a layer is trained on the dev run of the same configuration (96 documents, policies v1 to v3) and applied to the 24 documents of v4 (384 pairs; 29 `violated`, 119 `unclear`, 70 `compliant`, 166 `not_applicable`). Nothing was tuned on v4: the choice of features, presets and prompts was made earlier, with one exception that has to be said: the example phrases were removed from the wording prompt after the first look at v4 and the step was repeated (10j).
 
-**Columns.** *Shown recall* and *precision*: the share of the requirements that should be shown to the reviewer (`violated` or `unclear` in the gold) that are shown, and the share of the shown ones that should be. *False alarms per document*: shown requirements that should be dropped (`compliant`, `not_applicable`), per document. *Recall at 1 / 2 / 3 false alarms per document*: the requirements are sorted by the probability of being shown (for the raw answers the probability that the model gives to `violated` and `unclear` at the verdict token, for a layer its class probabilities), and the recall is read at the point where the false alarms reach one, two and three per document. *Tolerant accuracy*: right verdict, or both dropped, or a swap between `violated` and `unclear` counted as half. Intervals are 95% percentiles of 300 resamples of the 24 documents; the intervals of different rows overlap heavily, so differences of a few points between neighbouring rows are not established. The cost is measured per document on the v4 run (16 requirements per document, so about 2.4 times cheaper than on dev); a layer adds no model call, the cascade is charged for the pairs it sends.
+**Columns.** *Shown recall* and *precision*: the share of the requirements that should be shown to the reviewer (`violated` or `unclear` in the gold) that are shown, and the share of the shown ones that should be. *False alarms per document*: shown requirements that should be dropped (`compliant`, `not_applicable`), per document. *Recall at 0.5 / 1 / 2 / 3 false alarms per document*: the requirements are sorted by the probability of being shown (for the raw answers the probability that the model gives to `violated` and `unclear` at the verdict token, for a layer its class probabilities), and the recall is read at the point where the false alarms reach half, one, two and three per document. *Tolerant accuracy*: right verdict, or both dropped, or a swap between `violated` and `unclear` counted as half. Intervals are 95% percentiles of 300 resamples of the 24 documents; the intervals of different rows overlap heavily, so differences of a few points between neighbouring rows are not established. The cost is measured per document on the v4 run (16 requirements per document, so about 2.4 times cheaper than on dev); a layer adds no model call, the cascade is charged for the pairs it sends.
 
 **Variants.** A: short reason (25 words), no overview. B: short reason, overview of 800 characters. C: reasoning (60 words), no overview. D: reasoning, overview. E: reasoning, architecture card instead of the overview (see the last part of this section). *Layer*: logistic regression over the signals of the model and the properties of the requirement; *no_wording* leaves out the wording class, *agnostic* keeps only the signals of the model, the word overlap and the length, *all (first wording)* uses the wording of the one-call policy analysis, *all (wording per req.)* the wording judged requirement by requirement (10j). *Prior only*: the layer on the word overlap with the shown fragments, the length and the topics, with no model call. *Cascade*: the prior decides, and the share of the pairs where it is least sure is sent to the model, whose signals go to the layer *no_wording*.
 
-| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
+| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
 |---|---|---|---|---|---|---|---|---|---|
-| A short reason, no overview: raw | 0.65 (0.59 to 0.71) | 0.71 | 1.67 | 0.43 / 0.67 / 0.72 | 0.643 | 0.721 | 16.0 | 13,963 | 18 |
-| A short reason, no overview: layer without the wording | 0.80 (0.75 to 0.84) | 0.71 | 2.00 | 0.41 / 0.80 / 0.93 | 0.641 | 0.721 | 16.0 | 13,963 | 18 |
-| A short reason, no overview: layer independent of the policy | 0.87 (0.84 to 0.91) | 0.54 | 4.58 | 0.44 / 0.57 / 0.71 | 0.578 | 0.622 | 16.0 | 13,963 | 18 |
-| A short reason, no overview: layer, all features (first wording) | 0.95 (0.91 to 0.97) | 0.51 | 5.71 | 0.32 / 0.61 / 0.83 | 0.505 | 0.565 | 16.0 | 13,963 | 18 |
-| A short reason, no overview: layer, all features (wording per requirement) | 0.82 (0.77 to 0.85) | 0.64 | 2.88 | 0.62 / 0.82 / 0.89 | 0.609 | 0.684 | 16.0 | 13,963 | 18 |
-| B short reason, overview: raw | 0.56 (0.48 to 0.62) | 0.67 | 1.67 | 0.34 / 0.60 / 0.68 | 0.646 | 0.706 | 16.0 | 16,970 | 19 |
-| B short reason, overview: layer without the wording | 0.80 (0.76 to 0.85) | 0.67 | 2.42 | 0.51 / 0.71 / 0.91 | 0.635 | 0.707 | 16.0 | 16,970 | 19 |
-| B short reason, overview: layer independent of the policy | 0.71 (0.65 to 0.76) | 0.60 | 2.92 | 0.34 / 0.60 / 0.68 | 0.651 | 0.680 | 16.0 | 16,970 | 19 |
-| B short reason, overview: layer, all features (first wording) | 0.86 (0.81 to 0.91) | 0.52 | 4.96 | 0.36 / 0.48 / 0.77 | 0.518 | 0.578 | 16.0 | 16,970 | 19 |
-| B short reason, overview: layer, all features (wording per requirement) | 0.75 (0.69 to 0.81) | 0.71 | 1.92 | 0.51 / 0.77 / 0.86 | 0.661 | 0.725 | 16.0 | 16,970 | 19 |
-| C reasoning, no overview: raw | 0.66 (0.60 to 0.72) | 0.58 | 2.92 | 0.21 / 0.55 / 0.67 | 0.622 | 0.660 | 16.0 | 14,363 | 25 |
-| C reasoning, no overview: layer without the wording | 0.68 (0.63 to 0.74) | 0.67 | 2.04 | 0.39 / 0.66 / 0.83 | 0.651 | 0.704 | 16.0 | 14,363 | 25 |
-| C reasoning, no overview: layer independent of the policy | 0.68 (0.61 to 0.74) | 0.51 | 3.96 | 0.39 / 0.47 / 0.56 | 0.565 | 0.600 | 16.0 | 14,363 | 25 |
-| C reasoning, no overview: layer, all features (first wording) | 0.85 (0.81 to 0.88) | 0.51 | 5.12 | 0.30 / 0.50 / 0.67 | 0.552 | 0.589 | 16.0 | 14,363 | 25 |
-| C reasoning, no overview: layer, all features (wording per requirement) | 0.72 (0.65 to 0.78) | 0.67 | 2.21 | 0.45 / 0.70 / 0.78 | 0.682 | 0.721 | 16.0 | 14,363 | 25 |
-| D reasoning, overview: raw | 0.57 (0.51 to 0.62) | 0.64 | 1.96 | 0.36 / 0.57 / 0.64 | 0.664 | 0.688 | 16.0 | 17,370 | 25 |
-| D reasoning, overview: layer without the wording | 0.74 (0.68 to 0.79) | 0.71 | 1.88 | 0.44 / 0.74 / 0.87 | 0.664 | 0.723 | 16.0 | 17,370 | 25 |
-| D reasoning, overview: layer independent of the policy | 0.71 (0.65 to 0.77) | 0.58 | 3.17 | 0.45 / 0.57 / 0.68 | 0.648 | 0.669 | 16.0 | 17,370 | 25 |
-| D reasoning, overview: layer, all features (first wording) | 0.84 (0.82 to 0.87) | 0.51 | 4.96 | 0.30 / 0.60 / 0.74 | 0.518 | 0.574 | 16.0 | 17,370 | 25 |
-| D reasoning, overview: layer, all features (wording per requirement) | 0.73 (0.69 to 0.77) | 0.66 | 2.29 | 0.58 / 0.78 / 0.86 | 0.648 | 0.701 | 16.0 | 17,370 | 25 |
-| E reasoning, architecture card: raw | 0.72 (0.66 to 0.79) | 0.56 | 3.54 | 0.36 / 0.46 / 0.70 | 0.612 | 0.645 | 16.0 | 16,973 | 26 |
-| E reasoning, architecture card: layer without the wording | 0.72 (0.65 to 0.78) | 0.63 | 2.54 | 0.54 / 0.66 / 0.80 | 0.622 | 0.681 | 16.0 | 16,973 | 26 |
-| E reasoning, architecture card: layer independent of the policy | 0.80 (0.75 to 0.84) | 0.59 | 3.42 | 0.45 / 0.51 / 0.62 | 0.648 | 0.681 | 16.0 | 16,973 | 26 |
-| E reasoning, architecture card: layer, all features (first wording) | 0.82 (0.77 to 0.88) | 0.51 | 4.92 | 0.41 / 0.51 / 0.75 | 0.518 | 0.573 | 16.0 | 16,973 | 26 |
-| E reasoning, architecture card: layer, all features (wording per requirement) | 0.73 (0.65 to 0.80) | 0.73 | 1.67 | 0.59 / 0.75 / 0.81 | 0.690 | 0.745 | 16.0 | 16,973 | 26 |
-| prior only, no model call | 0.80 (0.74 to 0.87) | 0.61 | 3.17 | 0.36 / 0.60 / 0.79 | 0.560 | 0.646 | 0.0 | 0 | 0 |
-| cascade, 40% of the pairs sent to the model | 0.83 (0.77 to 0.89) | 0.72 | 2.04 | 0.45 / 0.82 / 0.90 | 0.638 | 0.724 | 6.4 | 6,948 | 10 |
-| cascade, 60% of the pairs sent to the model | 0.81 (0.76 to 0.86) | 0.71 | 2.04 | 0.32 / 0.80 / 0.89 | 0.654 | 0.727 | 9.6 | 10,422 | 15 |
+| A short reason, no overview: raw | 0.65 (0.59 to 0.71) | 0.71 | 1.67 | 0.27 / 0.43 / 0.67 / 0.72 | 0.643 | 0.721 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer without the wording | 0.80 (0.75 to 0.84) | 0.71 | 2.00 | 0.32 / 0.41 / 0.80 / 0.93 | 0.641 | 0.721 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer independent of the policy | 0.87 (0.84 to 0.91) | 0.54 | 4.58 | 0.39 / 0.44 / 0.57 / 0.71 | 0.578 | 0.622 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer, all features (first wording) | 0.95 (0.91 to 0.97) | 0.51 | 5.71 | 0.16 / 0.32 / 0.61 / 0.83 | 0.505 | 0.565 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer, all features (wording per requirement) | 0.82 (0.77 to 0.85) | 0.64 | 2.88 | 0.58 / 0.62 / 0.82 / 0.89 | 0.609 | 0.684 | 16.0 | 13,963 | 18 |
+| B short reason, overview: raw | 0.56 (0.48 to 0.62) | 0.67 | 1.67 | 0.22 / 0.34 / 0.60 / 0.68 | 0.646 | 0.706 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer without the wording | 0.80 (0.76 to 0.85) | 0.67 | 2.42 | 0.22 / 0.51 / 0.71 / 0.91 | 0.635 | 0.707 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer independent of the policy | 0.71 (0.65 to 0.76) | 0.60 | 2.92 | 0.28 / 0.34 / 0.60 / 0.68 | 0.651 | 0.680 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer, all features (first wording) | 0.86 (0.81 to 0.91) | 0.52 | 4.96 | 0.16 / 0.36 / 0.48 / 0.77 | 0.518 | 0.578 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer, all features (wording per requirement) | 0.75 (0.69 to 0.81) | 0.71 | 1.92 | 0.43 / 0.51 / 0.77 / 0.86 | 0.661 | 0.725 | 16.0 | 16,970 | 19 |
+| C reasoning, no overview: raw | 0.66 (0.60 to 0.72) | 0.58 | 2.92 | 0.04 / 0.21 / 0.55 / 0.67 | 0.622 | 0.660 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer without the wording | 0.68 (0.63 to 0.74) | 0.67 | 2.04 | 0.25 / 0.39 / 0.66 / 0.83 | 0.651 | 0.704 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer independent of the policy | 0.68 (0.61 to 0.74) | 0.51 | 3.96 | 0.29 / 0.39 / 0.47 / 0.56 | 0.565 | 0.600 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer, all features (first wording) | 0.85 (0.81 to 0.88) | 0.51 | 5.12 | 0.14 / 0.30 / 0.50 / 0.67 | 0.552 | 0.589 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer, all features (wording per requirement) | 0.72 (0.65 to 0.78) | 0.67 | 2.21 | 0.32 / 0.45 / 0.70 / 0.78 | 0.682 | 0.721 | 16.0 | 14,363 | 25 |
+| D reasoning, overview: raw | 0.57 (0.51 to 0.62) | 0.64 | 1.96 | 0.22 / 0.36 / 0.57 / 0.64 | 0.664 | 0.688 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer without the wording | 0.74 (0.68 to 0.79) | 0.71 | 1.88 | 0.32 / 0.44 / 0.74 / 0.87 | 0.664 | 0.723 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer independent of the policy | 0.71 (0.65 to 0.77) | 0.58 | 3.17 | 0.39 / 0.45 / 0.57 / 0.68 | 0.648 | 0.669 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer, all features (first wording) | 0.84 (0.82 to 0.87) | 0.51 | 4.96 | 0.21 / 0.30 / 0.60 / 0.74 | 0.518 | 0.574 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer, all features (wording per requirement) | 0.73 (0.69 to 0.77) | 0.66 | 2.29 | 0.51 / 0.58 / 0.78 / 0.86 | 0.648 | 0.701 | 16.0 | 17,370 | 25 |
+| E reasoning, architecture card: raw | 0.72 (0.66 to 0.79) | 0.56 | 3.54 | 0.09 / 0.36 / 0.46 / 0.70 | 0.612 | 0.645 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer without the wording | 0.72 (0.65 to 0.78) | 0.63 | 2.54 | 0.29 / 0.54 / 0.66 / 0.80 | 0.622 | 0.681 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer independent of the policy | 0.80 (0.75 to 0.84) | 0.59 | 3.42 | 0.38 / 0.45 / 0.51 / 0.62 | 0.648 | 0.681 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer, all features (first wording) | 0.82 (0.77 to 0.88) | 0.51 | 4.92 | 0.20 / 0.41 / 0.51 / 0.75 | 0.518 | 0.573 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer, all features (wording per requirement) | 0.73 (0.65 to 0.80) | 0.73 | 1.67 | 0.53 / 0.59 / 0.75 / 0.81 | 0.690 | 0.745 | 16.0 | 16,973 | 26 |
+| prior only, no model call | 0.80 (0.74 to 0.87) | 0.61 | 3.17 | 0.14 / 0.36 / 0.60 / 0.79 | 0.560 | 0.646 | 0.0 | 0 | 0 |
+| cascade, 40% of the pairs sent to the model | 0.83 (0.77 to 0.89) | 0.72 | 2.04 | 0.23 / 0.45 / 0.82 / 0.90 | 0.638 | 0.724 | 6.4 | 6,948 | 10 |
+| cascade, 60% of the pairs sent to the model | 0.81 (0.76 to 0.86) | 0.71 | 2.04 | 0.25 / 0.32 / 0.80 / 0.89 | 0.654 | 0.727 | 9.6 | 10,422 | 15 |
 
 **Reading.**
 
@@ -590,9 +590,36 @@ The question of this section is which variant is best on v4, not how much worse 
 - **The cascade** with 40% of the pairs sent to the model has the quality of the best layers with 6.4 calls per document instead of 16 and 7,000 prompt tokens instead of 17,000.
 - **Cost.** The raw answers cost 14,000 to 17,400 prompt tokens, 1,000 to 1,500 generated tokens and 18 to 26 seconds per document on v4; the layers and the prior add nothing; the cascade 40% costs 6.4 calls and 10 seconds.
 
+
+**Recall at half a false alarm per document.** This is the strict end of the scale, and it is weak for every variant: 0.58 at best (A with the layer that has the wording per requirement), 0.53 for E with the same layer, 0.51 for D, and 0.14 to 0.43 for the others; the raw answers of A, B, C, D reach 0.27, 0.22, 0.04 and 0.22. The cascade (0.23) and the layer without the wording (0.32 for A) are good at two to three false alarms per document and poor at half of one: their ranking of the pairs by the probability of being shown is not sharp at the top. If a reviewer can accept only about one false alarm in two documents, no variant here is usable; at two false alarms per document the best variants find 0.80 of what should be shown.
+
+### Top 10, top 20 and the whole document by the length of the design (recall at 2 false alarms per document)
+
+Thirds of v4 by the length of the design (8 designs each) and, on dev, 24 base designs against the same designs extended to about 3,500 words (the gold is the same).
+
+| Group of designs | Words per design | Designs | Context | Shown recall | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document |
+|---|---|---|---|---|---|---|---|
+| v4, shortest third | 368 | 8 | top 10 | 0.61 | 0.64 | 2.00 | 0.28 / 0.41 / 0.61 / 0.74 |
+| v4, shortest third | 368 | 8 | top 20 | 0.54 | 0.66 | 1.62 | 0.24 / 0.48 / 0.63 / 0.76 |
+| v4, shortest third | 368 | 8 | whole document | 0.59 | 0.63 | 2.00 | 0.37 / 0.43 / 0.59 / 0.63 |
+| v4, middle third | 522 | 8 | top 10 | 0.47 | 0.66 | 1.50 | 0.20 / 0.37 / 0.49 / 0.59 |
+| v4, middle third | 522 | 8 | top 20 | 0.45 | 0.65 | 1.50 | 0.33 / 0.45 / 0.53 / 0.61 |
+| v4, middle third | 522 | 8 | whole document | 0.45 | 0.71 | 1.12 | 0.37 / 0.45 / 0.51 / 0.57 |
+| v4, longest third | 687 | 8 | top 10 | 0.62 | 0.63 | 2.38 | 0.19 / 0.28 / 0.55 / 0.68 |
+| v4, longest third | 687 | 8 | top 20 | 0.55 | 0.74 | 1.25 | 0.25 / 0.49 / 0.57 / 0.60 |
+| v4, longest third | 687 | 8 | whole document | 0.70 | 0.65 | 2.50 | 0.11 / 0.38 / 0.58 / 0.74 |
+| dev, base designs | 766 | 24 | top 10 | 0.59 | 0.71 | 3.12 | 0.20 / 0.32 / 0.48 / 0.56 |
+| dev, base designs | 766 | 24 | top 20 | 0.54 | 0.76 | 2.25 | 0.18 / 0.32 / 0.51 / 0.62 |
+| dev, base designs | 766 | 24 | whole document | 0.62 | 0.73 | 2.92 | 0.17 / 0.33 / 0.54 / 0.64 |
+| dev, same designs extended | 3512 | 24 | top 10 | 0.60 | 0.74 | 2.67 | 0.07 / 0.31 / 0.47 / 0.64 |
+| dev, same designs extended | 3512 | 24 | top 20 | 0.55 | 0.77 | 2.12 | 0.21 / 0.34 / 0.50 / 0.63 |
+| dev, same designs extended | 3512 | 24 | whole document | 0.54 | 0.71 | 2.83 | 0.13 / 0.26 / 0.46 / 0.55 |
+
+At two false alarms per document the three ways stay within five points of each other in every group (0.61, 0.63, 0.59 in the shortest third of v4; 0.49, 0.53, 0.51; 0.55, 0.57, 0.58; on dev 0.48, 0.51, 0.54 for the base designs and 0.47, 0.50, 0.46 for the extended ones). The top 20 is the best or second best in four groups out of five, but with 8 to 24 designs per group none of the differences is established. There is no sign that the whole document gains from the short designs or loses at 3,500 words in this metric either; what separates the ways is the cost (the whole document needs 1.5 times the tokens at 700 words and six times at 3,500).
+
 ### The curve of the quality against the number of calls, and the context (v4)
 
-| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
+| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 requirement per call (list format) | 0.40 (0.33 to 0.46) | 0.77 | 0.75 | not ranked | 0.674 | 0.701 | 16.0 | 17,962 | 26 |
 | 2 requirements per call | 0.47 (0.40 to 0.56) | 0.76 | 0.92 | not ranked | 0.685 | 0.717 | 8.0 | 10,225 | 22 |

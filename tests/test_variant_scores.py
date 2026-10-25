@@ -25,7 +25,8 @@ def test_recall_is_read_where_the_false_alarms_reach_each_budget() -> None:
     budgets = REVIEW_SETTINGS.evaluation.table_budgets
     assert len(recalls) == len(budgets)
     assert recalls == sorted(recalls)
-    assert recalls[0] == len(wanted[wanted][:2]) / wanted.sum()
+    early = int(wanted[: wanted.size // 2].sum()) / wanted.sum()
+    assert recalls[0] == early
     assert recalls[-1] == 1.0
 
 

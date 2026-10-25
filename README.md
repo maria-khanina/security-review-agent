@@ -49,6 +49,8 @@ What the numbers say, without decoration:
 - A cascade that asks the model about the 40% least certain pairs keeps the quality of the best variants at 6.4 calls per document instead of 16.
 - On 24 designs the intervals are wide (recall plus or minus 0.05 to 0.06) and the top rows of the table are one group.
 
+Recall at half a false alarm per document is weak for every variant (0.58 at best; the raw answers 0.04 to 0.27), so the numbers above hold for a reviewer who accepts about two false alarms per document. By the length of the design, top 10, top 20 and the whole document stay within five points of recall at two false alarms per document, with no established winner.
+
 Calls against quality: putting two requirements of the same topic into one call gives the same quality as one per call at half the calls; four per call lose about two points of tolerant accuracy; eight lose about five. Top 10 fragments, top 20 and the whole document are equal on v4 (700-word designs). On the dev designs extended to 3,500 words the whole document is not better than the top 10 fragments (tolerant accuracy 0.750 against 0.774, not significant) and costs six times the tokens; at 10,000 words it does not fit the 12,000-token window and the top 10 still work. Dev results, the length experiments and the experiments that did not work are in EXPERIMENTS.md, sections 10g to 10k.
 
 ## Running

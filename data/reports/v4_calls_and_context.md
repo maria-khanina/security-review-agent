@@ -1,4 +1,4 @@
-| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
+| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 0.5 / 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
 |---|---|---|---|---|---|---|---|---|---|
 | 1 requirement per call (list format) | 0.40 (0.33 to 0.46) | 0.77 | 0.75 | not ranked | 0.674 | 0.701 | 16.0 | 17,962 | 26 |
 | 2 requirements per call | 0.47 (0.40 to 0.56) | 0.76 | 0.92 | not ranked | 0.685 | 0.717 | 8.0 | 10,225 | 22 |

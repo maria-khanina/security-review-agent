@@ -215,7 +215,7 @@ def table_header() -> str:
         "Shown recall (95% interval)",
         "Shown precision",
         "False alarms per document",
-        "Recall at 1 / 2 / 3 false alarms per document",
+        "Recall at 0.5 / 1 / 2 / 3 false alarms per document",
         "Accuracy",
         "Tolerant accuracy",
         "Calls",

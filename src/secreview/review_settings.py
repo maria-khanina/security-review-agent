@@ -39,7 +39,7 @@ REVIEW_SETTINGS = ReviewSettings(
         bootstrap_resamples=2000,
         bootstrap_seed=20261022,
         interval_level=0.95,
-        table_budgets=[1.0, 2.0, 3.0],
+        table_budgets=[0.5, 1.0, 2.0, 3.0],
         table_resamples=300,
         cascade_shares=[0.4, 0.6],
     ),
