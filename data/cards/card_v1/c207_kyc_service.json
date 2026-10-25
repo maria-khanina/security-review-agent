@@ -1,0 +1,69 @@
+{
+ "purpose": "The KYC service allows customers to complete identity verification in the app without visiting a branch, by sending identity data and photos to an external vendor for verification.",
+ "exposure": "external",
+ "callers": [
+  "Customer app",
+  "Identity verification vendor",
+  "Analyst"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "kyc-orchestrator is the heart of the system, it keep the cases in kyc-db (PostgreSQL) and the pictures in the bucket kyc-documents (S3)."
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "Database kyc-db keep the cases and the history of every status."
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "The bucket kyc-documents has the versions of the objects switched on."
+  },
+  {
+   "name": "Identity verification vendor",
+   "kind": "third_party",
+   "evidence": "kyc-orchestrator call the Identity verification vendor and wait for the answer, the vendor answer later and not in the same request."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Customer app",
+   "target": "kyc-orchestrator",
+   "data": "identity data and photo of identity document",
+   "evidence": "Customer app talk with kyc-orchestrator."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "cases",
+   "evidence": "kyc-orchestrator is the heart of the system, it keep the cases in kyc-db (PostgreSQL) and the pictures in the bucket kyc-documents (S3)."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "Identity verification vendor",
+   "data": "person check",
+   "evidence": "kyc-orchestrator call the Identity verification vendor and wait for the answer, the vendor answer later and not in the same request."
+  },
+  {
+   "source": "Identity verification vendor",
+   "target": "kyc-orchestrator",
+   "data": "vendor answer",
+   "evidence": "kyc-orchestrator call the Identity verification vendor and wait for the answer, the vendor answer later and not in the same request."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "documents",
+   "evidence": "kyc-orchestrator is the heart of the system, it keep the cases in kyc-db (PostgreSQL) and the pictures in the bucket kyc-documents (S3)."
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "purpose": "The KYC Verification Service verifies applicants' identities by collecting and processing identity documents and submitting them to an external vendor.",
+ "exposure": "external",
+ "callers": [
+  "applicants",
+  "operations team"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "card_data",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "kyc-orchestrator is the only component that applicants and operations tooling talk to"
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "kyc-documents (S3) is the bucket that holds the uploaded document images"
+  }
+ ],
+ "flows": [
+  {
+   "source": "applicants",
+   "target": "kyc-orchestrator",
+   "data": "identity details and document images",
+   "evidence": "The applicant's application calls kyc-orchestrator"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "document images",
+   "evidence": "kyc-orchestrator stores document images in the kyc-documents bucket (S3)"
+  },
+  {
+   "source": "Identity verification vendor",
+   "target": "kyc-orchestrator",
+   "data": "verification results",
+   "evidence": "The vendor reports results through a signed callback"
+  }
+ ]
+}

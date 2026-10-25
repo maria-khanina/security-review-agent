@@ -1,0 +1,28 @@
+{
+ "purpose": "The service provides tokenization for card numbers, allowing payment services to securely exchange card information by replacing it with a token.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "the tokenization-service is a small Go service with two handlers and a worker that rotates data keys"
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db, which is the Postgres that holds the card records and the token mapping"
+  }
+ ],
+ "flows": []
+}

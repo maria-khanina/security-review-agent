@@ -1,0 +1,44 @@
+{
+ "purpose": "The KYC service enables customers to verify their identity by uploading documents and interacting with an identity verification vendor.",
+ "exposure": "external",
+ "callers": [
+  "customers",
+  "merchants",
+  "partners",
+  "support staff"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "the orchestrator stores the images in the kyc-documents bucket (S3) and the case data in kyc-db (PostgreSQL)"
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "the orchestrator stores the images in the kyc-documents bucket (S3)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "images of identity documents",
+   "evidence": "the orchestrator stores the images in the kyc-documents bucket (S3)"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "app",
+   "data": "status updates",
+   "evidence": "the app polls the status"
+  }
+ ]
+}

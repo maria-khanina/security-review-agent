@@ -1,0 +1,52 @@
+{
+ "purpose": "Tokenizes and detokenizes payment card numbers (PANs) using a secure service that interacts with a vault database and key management system.",
+ "exposure": "internal",
+ "callers": [
+  "payment svcs",
+  "vault-db",
+  "Vault+KMS"
+ ],
+ "serves_requests": "unclear",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service -> vault-db (PG) for encrypted records, -> Vault+KMS for DEKs"
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "tokenization-service -> vault-db (PG) for encrypted records, -> Vault+KMS for DEKs"
+  },
+  {
+   "name": "Vault+KMS",
+   "kind": "secret_store",
+   "evidence": "tokenization-service -> vault-db (PG) for encrypted records, -> Vault+KMS for DEKs"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment svcs",
+   "target": "tokenization-service",
+   "data": "PANs",
+   "evidence": "payment svcs -> tokenization-service (tokenize PAN->token, detokenize token->PAN w/ purpose code)"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted records",
+   "evidence": "tokenization-service -> vault-db (PG) for encrypted records, -> Vault+KMS for DEKs"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault+KMS",
+   "data": "DEKs",
+   "evidence": "tokenization-service -> vault-db (PG) for encrypted records, -> Vault+KMS for DEKs"
+  }
+ ]
+}

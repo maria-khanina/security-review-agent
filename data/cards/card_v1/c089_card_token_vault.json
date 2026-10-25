@@ -1,0 +1,44 @@
+{
+ "purpose": "Tokenizes primary account numbers (PANs) for payment services to prevent storing clear text PANs.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "The tokenization-service accepts a PAN, validates its format and returns a token."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "The database runs as a primary with a standby in a second availability zone."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "service",
+   "evidence": "The service runs in the vault private subnet and consists of the tokenization-service, vault-db (PostgreSQL) and Vault and KMS."
+  }
+ ],
+ "flows": [
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "tokenization data",
+   "evidence": "The tokenization-service accepts a PAN, validates its format and returns a token."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault and KMS",
+   "data": "encryption keys",
+   "evidence": "The service runs in the vault private subnet and consists of the tokenization-service, vault-db (PostgreSQL) and Vault and KMS."
+  }
+ ]
+}

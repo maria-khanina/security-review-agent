@@ -1,0 +1,64 @@
+{
+ "purpose": "A new payment service that replaces the monolith payment module, providing the same 5 endpoints for merchants with no contract changes and sending status events to Kafka for ledger and notifications.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "other services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Edge GW",
+   "kind": "api_gateway",
+   "evidence": "Edge GW (a.k.a. PEG): entrance for merchant calls"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payments-core: state machine, talks to acquirer connector (acq-conn)"
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payments-db (PostgreSQL): payment + refund records of the merchants."
+  },
+  {
+   "name": "payment-events topic",
+   "kind": "message_queue",
+   "evidence": "payment-events topic"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Edge GW",
+   "target": "payments-core",
+   "data": "payment requests",
+   "evidence": "Edge GW (a.k.a. PEG): entrance for merchant calls"
+  },
+  {
+   "source": "payments-core",
+   "target": "acq-conn",
+   "data": "payment state machine data",
+   "evidence": "payments-core: state machine, talks to acquirer connector (acq-conn)"
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment and refund records",
+   "evidence": "payments-db (PostgreSQL): payment + refund records of the merchants."
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events topic",
+   "data": "status events",
+   "evidence": "status events to Kafka for ledger + notifications"
+  }
+ ]
+}

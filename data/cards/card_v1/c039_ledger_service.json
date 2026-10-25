@@ -1,0 +1,44 @@
+{
+ "purpose": "The Ledger Service is the single source of financial truth for Meridian Pay, recording all financial transactions in a secure, immutable, and auditable manner.",
+ "exposure": "external",
+ "callers": [
+  "wallet and payment services",
+  "support",
+  "finance",
+  "notifications",
+  "analytics"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "ledger-core checks that the entry balances, writes it to ledger-db (PostgreSQL) and announces it on ledger-events (Kafka)"
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance"
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "ledger-core announces it on ledger-events (Kafka) so that other teams, for example notifications and analytics, can react in real time"
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet and payment services",
+   "target": "ledger-core",
+   "data": "journal entries",
+   "evidence": "Wallet and payment services send journal entries to ledger-core"
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "purpose": "The notifier sends email and SMS messages for the payment platform.",
+ "exposure": "external",
+ "callers": [
+  "domain-events (Kafka)",
+  "external systems",
+  "internal systems"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "credentials",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "domain-events (Kafka)",
+   "kind": "database",
+   "evidence": "events that trigger messages."
+  },
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "selects template and channel, renders, sends, tracks status."
+  },
+  {
+   "name": "Email and SMS provider",
+   "kind": "third_party",
+   "evidence": "external delivery service."
+  }
+ ],
+ "flows": []
+}

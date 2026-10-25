@@ -1,0 +1,47 @@
+{
+ "purpose": "The Wallet Service manages customer balances, allows top-ups from funding sources, and facilitates money transfers between customers.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app",
+  "External APIs"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "Requests from the app arrive at the Mobile API Gateway"
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "wallet-core keeps balances and transactions in wallet-db (PostgreSQL)"
+  },
+  {
+   "name": "wallet-db",
+   "kind": "database",
+   "evidence": "wallet-core reads and writes balances and transactions in wallet-db (PostgreSQL)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "wallet-core",
+   "data": "authenticated calls",
+   "evidence": "Mobile API Gateway, which checks the sign-in against Keycloak and forwards authenticated calls to wallet-core"
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "balances and transactions",
+   "evidence": "wallet-core reads and writes balances and transactions in wallet-db (PostgreSQL)"
+  }
+ ]
+}

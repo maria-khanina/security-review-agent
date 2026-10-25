@@ -1,0 +1,61 @@
+{
+ "purpose": "The card token vault tokenizes primary account numbers (PANs) for the payment services and is the only component in the estate that stores them.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "api_gateway",
+   "evidence": "exposes tokenize (PAN to token) and detokenize (token to PAN) to payment services."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "stores card records in encrypted form together with the token mapping."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "the secret store and the key service used by the tokenization-service."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "the network boundary around the service and its database."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PAN",
+   "evidence": "a payment service submits a PAN; the service encrypts it, stores it, and returns a token."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "card records",
+   "evidence": "the tokenization-service reads and writes card records in vault-db"
+  },
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "token and purpose code",
+   "evidence": "a payment service submits a token and a purpose code; the service checks the purpose, decrypts the card record and returns the PAN."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "audit trail",
+   "data": "audit record",
+   "evidence": "each detokenize call produces an audit record with the caller, the purpose and the token."
+  }
+ ]
+}

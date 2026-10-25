@@ -1,0 +1,31 @@
+{
+ "purpose": "The Notification Service collects and sends notifications from various modules of the monolith, using a unified set of templates and providers.",
+ "exposure": "external",
+ "callers": [
+  "domain events",
+  "external API calls"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "logs",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "The notifier is the only component of the service."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Email and SMS provider",
+   "target": "notifier",
+   "data": "delivery result",
+   "evidence": "The provider reports the delivery result back, and the notifier stores the status"
+  }
+ ]
+}

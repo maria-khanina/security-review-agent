@@ -1,0 +1,55 @@
+{
+ "purpose": "The service provides an API for managing merchant users, settlements, and reports within the Merchant web app.",
+ "exposure": "external",
+ "callers": [
+  "merchant users",
+  "portal-backend",
+  "Keycloak",
+  "admin interface"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "portal-backend",
+   "kind": "api_gateway",
+   "evidence": "portal-backend: API behind the Portal Gateway for the Merchant web app: settlements, merchant users, reports"
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "portal-db (PostgreSQL): settlements, users, report jobs"
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "Keycloak: merchant user sign-in (OIDC), gateway validates tokens against it"
+  }
+ ],
+ "flows": [
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "settlements, users, report jobs",
+   "evidence": "portal-db (PostgreSQL): settlements, users, report jobs"
+  },
+  {
+   "source": "portal-backend",
+   "target": "Keycloak",
+   "data": "tokens",
+   "evidence": "Keycloak: merchant user sign-in (OIDC), gateway validates tokens against it"
+  },
+  {
+   "source": "portal-backend",
+   "target": "admin interface",
+   "data": "debug endpoints",
+   "evidence": "The admin interface and the debug endpoints sit behind the internal network boundary and have no public route."
+  }
+ ]
+}

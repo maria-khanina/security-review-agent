@@ -1,0 +1,70 @@
+{
+ "purpose": "A service for handling payments, including creating, capturing, refunding, and retrieving payment information.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "customers",
+  "partners"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Edge GW",
+   "kind": "database",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "name": "payments-core",
+   "kind": "database",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "name": "acquirer connector",
+   "kind": "database",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "name": "payment-events",
+   "kind": "database",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Edge GW",
+   "target": "payments-core",
+   "data": "data",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "data",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "source": "payments-core",
+   "target": "acquirer connector",
+   "data": "data",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events",
+   "data": "data",
+   "evidence": "Edge GW -> payments-core -> payments-db (PG) + acquirer connector + payment-events (Kafka)."
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "purpose": "To synchronize data from various sources into a data warehouse for analytics.",
+ "exposure": "internal",
+ "callers": [
+  "sync-job",
+  "Analytics vendor"
+ ],
+ "serves_requests": "unclear",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "nightly copy"
+  },
+  {
+   "name": "analytics read replica (PostgreSQL)",
+   "kind": "database",
+   "evidence": "source of extracts"
+  },
+  {
+   "name": "staging bucket (S3)",
+   "kind": "object_storage",
+   "evidence": "extract files"
+  },
+  {
+   "name": "Analytics vendor",
+   "kind": "third_party",
+   "evidence": "downloads files"
+  }
+ ],
+ "flows": [
+  {
+   "source": "sync-job",
+   "target": "analytics read replica (PostgreSQL)",
+   "data": "table extracts",
+   "evidence": "table extracts"
+  },
+  {
+   "source": "sync-job",
+   "target": "staging bucket (S3)",
+   "data": "extract files",
+   "evidence": "extract files"
+  },
+  {
+   "source": "Analytics vendor",
+   "target": "staging bucket (S3)",
+   "data": "extract downloads",
+   "evidence": "extract downloads"
+  }
+ ]
+}

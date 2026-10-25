@@ -1,0 +1,39 @@
+{
+ "purpose": "The ledger service manages financial entries and balances for payments and reporting consumers, supporting posting, reversal, and reconciliation.",
+ "exposure": "external",
+ "callers": [
+  "payment service",
+  "reporting service",
+  "finance operator",
+  "reconciliation job"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "pii",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "ledger-core receives entries from the wallet and payment services, stores them in ledger-db (PostgreSQL) and publishes a posted-entry event on ledger-events (Kafka)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment service",
+   "target": "ledger-core",
+   "data": "entries",
+   "evidence": "ledger-core receives entries from the wallet and payment services."
+  },
+  {
+   "source": "finance operator",
+   "target": "ledger-core",
+   "data": "reversal requests",
+   "evidence": "POST /v1/entries/{entryId}/reversal accepts a reason and posts an entry with the sides swapped."
+  }
+ ]
+}

@@ -1,0 +1,56 @@
+{
+ "purpose": "The Refund Service handles refund requests from merchants and support agents, checks them, tracks their status, and notifies other services of changes.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "support agents"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "card_data",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "Refunds Gateway",
+   "kind": "api_gateway",
+   "evidence": "The door of the service. All requests from the merchants and from the support console come to this door first and it hands them to the core."
+  },
+  {
+   "name": "refund-core",
+   "kind": "service",
+   "evidence": "The service with the logic: it keeps the rules of what can be refunded, the states of a refund and the approval."
+  },
+  {
+   "name": "refund-db",
+   "kind": "database",
+   "evidence": "The database with the refund records. A record has the id of the payment, the amount, the currency, the reason and the state."
+  },
+  {
+   "name": "refund-events",
+   "kind": "message_queue",
+   "evidence": "A line of messages, so the other services (the ledger, the notification service) hear about every change."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "requests",
+   "evidence": "All requests from the merchants and from the support console come to this door first and it hands them to the core."
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-db",
+   "data": "refund records",
+   "evidence": "The service with the logic: it keeps the rules of what can be refunded, the states of a refund and the approval."
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-events",
+   "data": "messages",
+   "evidence": "A line of messages, so the other services (the ledger, the notification service) hear about every change."
+  }
+ ]
+}

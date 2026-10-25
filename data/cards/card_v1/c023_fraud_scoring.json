@@ -1,0 +1,51 @@
+{
+ "purpose": "The service provides real-time fraud scoring for payments by evaluating events as they occur and making decisions within seconds.",
+ "exposure": "external",
+ "callers": [
+  "payment-events (MSK)",
+  "analysts"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "The new stack is fully declared in Terraform: a KMS key (`scoring_key`), the MSK cluster (`payment_events`), the RDS instance (`decisions_db`), a security group (`decisions_sg`), a log group (`scoring_audit`) and an IAM policy (`scoring_policy`)."
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to."
+  },
+  {
+   "name": "payment-events (MSK)",
+   "kind": "message_queue",
+   "evidence": "The new scoring-engine consumes payment events from payment-events (MSK) as they happen and writes a decision for each payment within seconds."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events (MSK)",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "The new scoring-engine consumes payment events from payment-events (MSK) as they happen and writes a decision for each payment within seconds."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db",
+   "data": "decisions",
+   "evidence": "decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring_audit",
+   "data": "audit records",
+   "evidence": "Every decision writes an audit record to the log group `scoring_audit`; the batch job only wrote a summary line per run."
+  }
+ ]
+}

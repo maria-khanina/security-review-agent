@@ -26,27 +26,30 @@ The gold of a pair is what a careful reader of the design text concludes: a stat
 4. **Decision layer (optional).** A class-weighted logistic regression over the signals of the model and the properties of the requirement, evaluated with cross-validation over services, or trained on one set and applied to another.
 5. **Evaluation.** The headline scores are about what the reviewer sees: a requirement is *shown* when the verdict is `violated` or `unclear`; recall, precision and false alarms of showing, a tolerant accuracy, per-class scores and bootstrap intervals over documents.
 
-## Results
+## Results on the unseen policy v4
 
-Dev, cross-validation by service; v4, a layer trained on dev only. Shown recall / precision, false alarms per document.
+24 new designs, 384 pairs, a decision layer trained on dev (policies v1 to v3) only. *Shown* = the pipeline answers `violated` or `unclear`. Full table with 29 variants, intervals and the cost: [data/reports/v4_comparison.md](data/reports/v4_comparison.md), discussion in EXPERIMENTS.md 10k.
 
-| | Dev accuracy | Dev shown | Dev false alarms | v4 accuracy | v4 shown | v4 false alarms |
-|---|---|---|---|---|---|---|
-| per-requirement, short reason, no overview | 0.648 | 0.49 / 0.69 | 2.7 | 0.643 | 0.65 / 0.71 | 1.7 |
-| per-requirement, reasoning, overview | 0.713 | 0.62 / 0.68 | 3.6 | 0.664 | 0.57 / 0.64 | 2.0 |
-| + decision layer, all features | 0.798 | 0.72 / 0.78 | 2.5 | 0.513 | 0.85 / 0.51 | 5.0 |
-| + decision layer without the wording of the requirement | 0.784 | 0.69 / 0.77 | 2.6 | 0.664 | 0.74 / 0.71 | 1.9 |
-| + decision layer, wording judged requirement by requirement | 0.810 | 0.74 / 0.81 | 2.2 | 0.648 | 0.72 / 0.67 | 2.2 |
+| Variant | Shown recall | Shown precision | False alarms per doc | Recall at 2 false alarms per doc | Calls per doc | Prompt tokens | Seconds |
+|---|---|---|---|---|---|---|---|
+| raw, short reason, no overview (A) | 0.65 | 0.71 | 1.7 | 0.67 | 16 | 14,000 | 18 |
+| raw, reasoning, overview (D) | 0.57 | 0.64 | 2.0 | 0.57 | 16 | 17,400 | 25 |
+| A + layer without the wording class | 0.80 | 0.71 | 2.0 | 0.80 | 16 | 14,000 | 18 |
+| D + layer without the wording class | 0.74 | 0.71 | 1.9 | 0.74 | 16 | 17,400 | 25 |
+| A + layer, wording judged per requirement | 0.82 | 0.64 | 2.9 | 0.82 | 16 | 14,000 | 18 |
+| layer only, no model call | 0.80 | 0.61 | 3.2 | 0.60 | 0 | 0 | 0 |
+| cascade: 40% of the pairs go to the model | 0.83 | 0.72 | 2.0 | 0.82 | 6.4 | 6,900 | 10 |
+| reasoning + architecture card, raw (E) | 0.72 | 0.56 | 3.5 | 0.46 | 16 | 17,000 | 26 |
 
 What the numbers say, without decoration:
 
-- The 4B model alone gets about two thirds of the verdicts right. A layer fitted to one policy reaches 0.80 on that policy and **collapses to 0.51 on a new one**, because a feature of the requirement (its wording class, misjudged on the new policy) carries the priors of the old policy. Without that feature the layer keeps the accuracy of the raw answers on the new policy and shows the reviewer the right requirements more often (F1 of what is shown 0.73 against 0.60, significant), at the price of a worse separation of violations from ambiguities. Judging the wording of each requirement in its own call (about 130 short calls once per policy, no example phrases in the prompt; EXPERIMENTS.md 10j) stops the collapse: the layer with all features then reaches 0.65 on the new policy, but it is no better there than the layer without the wording.
-- A layer that never calls the model reaches the accuracy of the raw model on dev (0.72); most of the gain on one policy is the prior of the policy, not the reading of the design. On the new policy that prior gives 0.56.
-- The service overview of 800 characters does not raise the accuracy; it trades recall for fewer false alarms.
+- The 4B model alone shows about two thirds of what a reviewer should see, with 70% precision. Reasoning before the answer and the service overview do not improve this; the architecture card made things worse because the model gets the exposure of the service wrong (54% right).
+- A decision layer fitted on other policies lifts the recall from 0.65 to 0.80 at the same precision, **but only if it does not use the wording class of the requirement**. With the wording class of the first policy analysis the layer collapses on a new policy (precision 0.51, 5 false alarms per document), because the model called all clear requirements of v4 vague. Judging the wording one requirement at a time (no example phrases in the prompt) removes the collapse.
+- A layer with no model call reaches the same accuracy as the raw model on its own policy and recall 0.80 at precision 0.61 on v4: a good part of the gain on a known policy is the prior of that policy.
+- A cascade that asks the model about the 40% least certain pairs keeps the quality of the best variants at 6.4 calls per document instead of 16.
+- On 24 designs the intervals are wide (recall plus or minus 0.05 to 0.06) and the top rows of the table are one group.
 
-Cost per document (measured, one 8 GB GPU, calls one after another): 38 model calls, 33,000 to 41,000 prompt tokens, 2,300 to 3,500 generated tokens, 44 to 65 seconds. The cost depends on the number of requirements and not on the length of the design. Putting four requirements of the same topic into one call cuts it to 10 calls and 14,000 prompt tokens, with the tolerant accuracy unchanged (0.752 against 0.748); eight per call lose about one point. A cascade that calls the model only for the 40% least certain pairs keeps the accuracy of all calls on dev (0.794 against 0.798).
-
-Length: with the whole design in every call the quality is best for 700-word designs (tolerant accuracy 0.78) and worse than the top 10 fragments for 3,500-word designs (0.75 against 0.77), at six times the tokens; the whole document does not fit the 12,000-token window at 10,000 words, and the top 10 fragments still give 0.75. Details, intervals and the experiments that did not work are in [EXPERIMENTS.md](EXPERIMENTS.md), sections 10g to 10i.
+Calls against quality: putting two requirements of the same topic into one call gives the same quality as one per call at half the calls; four per call lose about two points of tolerant accuracy; eight lose about five. Top 10 fragments, top 20 and the whole document are equal on v4 (700-word designs). On the dev designs extended to 3,500 words the whole document is not better than the top 10 fragments (tolerant accuracy 0.750 against 0.774, not significant) and costs six times the tokens; at 10,000 words it does not fit the 12,000-token window and the top 10 still work. Dev results, the length experiments and the experiments that did not work are in EXPERIMENTS.md, sections 10g to 10k.
 
 ## Running
 

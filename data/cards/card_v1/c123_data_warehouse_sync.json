@@ -1,0 +1,59 @@
+{
+ "purpose": "The service copies a defined set of production tables every night into a staging bucket from which the analytics vendor downloads them.",
+ "exposure": "external",
+ "callers": [
+  "Data Governance team",
+  "Analytics vendor",
+  "Data engineering team"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "internal",
+  "card_data",
+  "logs",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "sync-job, a scheduled job that runs every night at three o'clock;"
+  },
+  {
+   "name": "analytics read replica",
+   "kind": "database",
+   "evidence": "the analytics read replica (PostgreSQL), a read-only copy of the production database from which the job reads;"
+  },
+  {
+   "name": "staging bucket",
+   "kind": "object_storage",
+   "evidence": "the staging bucket (S3), where the job writes extract files and from which the analytics vendor downloads them;"
+  },
+  {
+   "name": "Analytics vendor",
+   "kind": "third_party",
+   "evidence": "the Analytics vendor, the external company that loads the files into its own warehouse."
+  }
+ ],
+ "flows": [
+  {
+   "source": "sync-job",
+   "target": "analytics read replica",
+   "data": "production tables",
+   "evidence": "the job reads the configured tables from the replica,"
+  },
+  {
+   "source": "sync-job",
+   "target": "staging bucket",
+   "data": "extract files",
+   "evidence": "the job writes one extract file per table under a temporary name into the bucket and renames it when it is complete."
+  },
+  {
+   "source": "staging bucket",
+   "target": "Analytics vendor",
+   "data": "extract files",
+   "evidence": "the analytics vendor downloads them."
+  }
+ ]
+}

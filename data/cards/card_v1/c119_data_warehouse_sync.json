@@ -1,0 +1,59 @@
+{
+ "purpose": "Copy tables from the analytics read replica into a staging bucket every night so the vendor can load them into their warehouse.",
+ "exposure": "external",
+ "callers": [
+  "analytics read replica",
+  "staging bucket",
+  "vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "pii",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "the thing that does the copy is the sync-job (a.k.a. \"the feeder\" in the old doc)"
+  },
+  {
+   "name": "analytics_replica",
+   "kind": "database",
+   "evidence": "reads from the analytics read replica (PostgreSQL)"
+  },
+  {
+   "name": "staging_bucket",
+   "kind": "object_storage",
+   "evidence": "writes extract files to the staging bucket (S3)"
+  },
+  {
+   "name": "sync_audit",
+   "kind": "service",
+   "evidence": "the service pulls its credentials from the approved secret store"
+  }
+ ],
+ "flows": [
+  {
+   "source": "sync-job",
+   "target": "analytics_replica",
+   "data": "tables",
+   "evidence": "the sync-job copies the selected tables from the analytics read replica into one extract file per table"
+  },
+  {
+   "source": "sync-job",
+   "target": "staging_bucket",
+   "data": "extract files",
+   "evidence": "writes extract files to the staging bucket (S3)"
+  },
+  {
+   "source": "staging_bucket",
+   "target": "vendor",
+   "data": "extract files",
+   "evidence": "the vendor picks up the files from there"
+  }
+ ]
+}

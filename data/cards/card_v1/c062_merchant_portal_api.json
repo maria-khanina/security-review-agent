@@ -1,0 +1,53 @@
+{
+ "purpose": "The service provides a portal for merchants to manage their accounts, including viewing settlements, managing users and roles, requesting reports, and handling support overrides.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "support agents",
+  "finance users"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "portal-backend",
+   "kind": "service",
+   "evidence": "The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists."
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "portal-db and the message brokers sit in private subnets and are not publicly reachable."
+  },
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "The gateway validates tokens against Keycloak before forwarding to portal-backend."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "JWT bearer tokens",
+   "evidence": "The gateway validates tokens against Keycloak before forwarding to portal-backend."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "transaction data",
+   "evidence": "The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists."
+  },
+  {
+   "source": "portal-backend",
+   "target": "message brokers",
+   "data": "audit logs",
+   "evidence": "The support override writes an audit entry with the agent id, the old and new limit and the ticket reference supplied by the agent."
+  }
+ ]
+}

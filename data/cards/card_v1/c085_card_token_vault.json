@@ -1,0 +1,62 @@
+{
+ "purpose": "The card token vault tokenizes primary account numbers (PANs) for the payment services and is the only component that stores them. All other services handle tokens.",
+ "exposure": "external",
+ "callers": [
+  "payment services",
+  "tokenization-service"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service: tokenize and detokenize."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL): encrypted card records and the token mapping."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "Vault and KMS: data encryption keys and runtime secrets."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "vault private subnet: the network around the vault."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PANs",
+   "evidence": "Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted card records",
+   "evidence": "The tokenization-service writes a log line for every tokenize and detokenize call."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault and KMS",
+   "data": "data keys",
+   "evidence": "the tokenizer (that's tokenization-service, I always say tokenizer) gets a PAN, asks Vault and KMS for a data key, encrypts, stores, hands back a token."
+  },
+  {
+   "source": "vault-db",
+   "target": "vault private subnet",
+   "data": "encrypted card records",
+   "evidence": "The database sits in private subnets with no public endpoint."
+  }
+ ]
+}

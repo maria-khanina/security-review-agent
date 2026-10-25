@@ -1,0 +1,30 @@
+{
+ "purpose": "The service manages wallet balances, top-ups, transfers, and profile updates for customers.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "network",
+   "evidence": "The Mobile app calls the Mobile API Gateway."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile app",
+   "target": "Mobile API Gateway",
+   "data": "token",
+   "evidence": "The Mobile app calls the Mobile API Gateway."
+  }
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "purpose": "The Notification Service sends notifications via email and SMS based on domain events and provides an API for manual sends and template management.",
+ "exposure": "external",
+ "callers": [
+  "domain-events",
+  "support agents",
+  "product owners"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "Notifier",
+   "kind": "service",
+   "evidence": "The notifier consumes domain events from domain-events (Kafka), renders messages from templates and sends them through the Email and SMS provider."
+  },
+  {
+   "name": "Template Manager",
+   "kind": "service",
+   "evidence": "PUT /v1/templates/{templateId} creates or replaces a template with a subject and a body."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Notifier",
+   "target": "Email and SMS provider",
+   "data": "notifications",
+   "evidence": "The notifier renders messages from templates and sends them through the Email and SMS provider."
+  },
+  {
+   "source": "Template Manager",
+   "target": "Notifier",
+   "data": "templates",
+   "evidence": "PUT /v1/templates/{templateId} creates or replaces a template with a subject and a body."
+  },
+  {
+   "source": "domain-events",
+   "target": "Notifier",
+   "data": "events",
+   "evidence": "The notifier consumes domain events from domain-events (Kafka)."
+  }
+ ]
+}

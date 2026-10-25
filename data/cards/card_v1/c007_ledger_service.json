@@ -1,0 +1,47 @@
+{
+ "purpose": "The ledger service provides API endpoints for posting and managing financial entries and balances, with a standalone deployment and new event stream.",
+ "exposure": "external",
+ "callers": [
+  "wallet service",
+  "payment service"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "ledger-core is called by the wallet and payment services"
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "Entries and balances move from the monolith schema to a dedicated PostgreSQL database, ledger-db"
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "Posted entries are published to ledger-events (Kafka)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries and balances",
+   "evidence": "Entries and balances move from the monolith schema to a dedicated PostgreSQL database, ledger-db"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "posted entries",
+   "evidence": "Posted entries are published to ledger-events (Kafka)"
+  }
+ ]
+}

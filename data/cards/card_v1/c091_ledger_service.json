@@ -1,0 +1,54 @@
+{
+ "purpose": "The Ledger Service keeps records of all money movements for Meridian Pay, including top-ups, payments, and refunds, ensuring accurate financial tracking.",
+ "exposure": "external",
+ "callers": [
+  "wallet service",
+  "payment service",
+  "finance team"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "It accept the entries, check that they balance, write them and answer about balances."
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "the database with entries and balances."
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "the stream where one event is published for each posted entry."
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet service",
+   "target": "ledger-core",
+   "data": "entries",
+   "evidence": "The wallet and payment services send the entries to ledger-core."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries",
+   "evidence": "Ledger-core write them in ledger-db and publish the event on ledger-events."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "events",
+   "evidence": "Ledger-core write them in ledger-db and publish the event on ledger-events."
+  }
+ ]
+}

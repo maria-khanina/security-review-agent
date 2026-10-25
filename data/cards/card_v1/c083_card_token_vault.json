@@ -1,0 +1,58 @@
+{
+ "purpose": "The service tokenizes primary account numbers (PANs) for payment services and stores tokens instead of PANs.",
+ "exposure": "internal",
+ "callers": [
+  "payment services",
+  "vault-db",
+  "Vault and KMS"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenize (PAN in, token out) and detokenize (token in, PAN out)."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "encrypted card records and the token mapping."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "data encryption keys and runtime secrets."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "network boundary."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PAN",
+   "evidence": "Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "token",
+   "evidence": "The tokenizer (tokenization-service, I say tokenizer) takes a PAN, encrypts it with a data key from Vault and KMS, writes it and gives a token back."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "payment services",
+   "data": "token lifecycle events",
+   "evidence": "The tokenizer sends token lifecycle events (created, rotated, revoked) to the payment services as callbacks."
+  }
+ ]
+}

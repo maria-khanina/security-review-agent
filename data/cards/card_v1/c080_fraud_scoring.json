@@ -1,0 +1,63 @@
+{
+ "purpose": "To assess the risk of payments for fraud detection by analyzing payment events and applying rules and models.",
+ "exposure": "external",
+ "callers": [
+  "payment services",
+  "internal services",
+  "third parties"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "the scoring-engine, the scorer, picks it up"
+  },
+  {
+   "name": "payments stream",
+   "kind": "database",
+   "evidence": "every payment becomes an event on the MSK topic, the payments stream"
+  },
+  {
+   "name": "decisions db",
+   "kind": "database",
+   "evidence": "the decision rows live in the database"
+  },
+  {
+   "name": "scoring audit log group",
+   "kind": "log_pipeline",
+   "evidence": "writes an audit record to the scoring audit log group"
+  },
+  {
+   "name": "model bucket",
+   "kind": "object_storage",
+   "evidence": "the model files live in a bucket"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payments stream",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "every payment becomes an event on the MSK topic, the payments stream"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions db",
+   "data": "decision",
+   "evidence": "writes the decision to the decisions db"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring audit log group",
+   "data": "audit record",
+   "evidence": "writes an audit record to the scoring audit log group"
+  }
+ ]
+}

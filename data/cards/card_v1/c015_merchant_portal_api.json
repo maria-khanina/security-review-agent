@@ -1,0 +1,54 @@
+{
+ "purpose": "The Merchant Portal API allows merchants to view their settlements, manage account access, and request transaction reports.",
+ "exposure": "external",
+ "callers": [
+  "Merchant web app",
+  "Merchants",
+  "System services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Portal Gateway",
+   "kind": "network",
+   "evidence": "The Merchant web app calls the Portal Gateway."
+  },
+  {
+   "name": "portal-backend",
+   "kind": "service",
+   "evidence": "portal-backend reads and writes settlements, merchant users and report jobs in portal-db (PostgreSQL)."
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "portal-backend reads and writes settlements, merchant users and report jobs in portal-db (PostgreSQL)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant web app",
+   "target": "Portal Gateway",
+   "data": "token",
+   "evidence": "The Merchant web app calls the Portal Gateway."
+  },
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "authenticated requests",
+   "evidence": "The gateway validates the caller's token with Keycloak and forwards authenticated requests to portal-backend."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "settlements, merchant users and report jobs",
+   "evidence": "portal-backend reads and writes settlements, merchant users and report jobs in portal-db (PostgreSQL)."
+  }
+ ]
+}

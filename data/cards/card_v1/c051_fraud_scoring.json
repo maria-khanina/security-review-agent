@@ -1,0 +1,58 @@
+{
+ "purpose": "The Fraud Scoring Service evaluates every payment in near real time and writes a decision: allow, review, or block.",
+ "exposure": "external",
+ "callers": [
+  "payment events from MSK",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "card_data",
+  "logs",
+  "internal",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "payment-events (MSK)",
+   "kind": "database",
+   "evidence": "input topic, one event for every payment with the customer attributes."
+  },
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "the service which read the events, calculate the score and write the decision."
+  },
+  {
+   "name": "decisions-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "store the risk decisions."
+  },
+  {
+   "name": "scoring audit log group",
+   "kind": "log_pipeline",
+   "evidence": "the place in CloudWatch where audit records are written."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events (MSK)",
+   "target": "scoring-engine",
+   "data": "payment event",
+   "evidence": "First, payment-events send the payment event to the scoring-engine."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db (PostgreSQL)",
+   "data": "risk decision",
+   "evidence": "Second, the scoring-engine write the risk decision to decisions-db."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring audit log group",
+   "data": "audit record",
+   "evidence": "Third, the scoring-engine write an audit record to the scoring audit log group."
+  }
+ ]
+}

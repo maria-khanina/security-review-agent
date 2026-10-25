@@ -1,0 +1,64 @@
+{
+ "purpose": "A payment gateway that simplifies the complex process of handling card payments for merchants by providing a simple API for creating, capturing, refunding, and retrieving payments.",
+ "exposure": "external",
+ "callers": [
+  "merchant backend",
+  "admin interface",
+  "debug endpoints"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "All merchant traffic comes through it."
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "The service with the payment rules and states."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "stores payments."
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "the adapter that talks to the acquiring bank."
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "a stream where we publish an event each time a payment changes status, so other teams can react."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "payment_request",
+   "evidence": "The merchant backend sends a payment request with a card token (not the card number). The edge gateway checks it and forwards the validated request to payments-core."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment_data",
+   "evidence": "payments-core saves it in payments-db."
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "payment_data",
+   "evidence": "payments-core calls the acquirer through the connector."
+  }
+ ]
+}

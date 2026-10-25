@@ -1,0 +1,49 @@
+{
+ "purpose": "The KYC Verification Service collects identity details and identity document images from customers, submits them to an external identity verification vendor, and stores the outcome of each verification case.",
+ "exposure": "external",
+ "callers": [
+  "customer application",
+  "kyc-orchestrator",
+  "Identity verification vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "pii",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "The customer application calls kyc-orchestrator."
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "kyc-orchestrator stores document images in the kyc-documents bucket (S3)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "customer application",
+   "target": "kyc-orchestrator",
+   "data": "identity details and identity document images",
+   "evidence": "The customer application calls kyc-orchestrator."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "document images",
+   "evidence": "kyc-orchestrator stores document images in the kyc-documents bucket (S3)."
+  },
+  {
+   "source": "Identity verification vendor",
+   "target": "kyc-orchestrator",
+   "data": "verification results",
+   "evidence": "The vendor returns its result through a signed callback."
+  }
+ ]
+}

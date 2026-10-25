@@ -1,0 +1,45 @@
+{
+ "purpose": "The service handles primary account numbers (PANs) by tokenizing and detokenizing them, storing encrypted card data in a database.",
+ "exposure": "external",
+ "callers": [
+  "Payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "exposes tokenize and detokenize"
+  },
+  {
+   "name": "vault-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "the datastore"
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "key and secret service"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payment services",
+   "target": "tokenization-service",
+   "data": "PAN",
+   "evidence": "Payment services send a PAN to the tokenization-service"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted card data",
+   "evidence": "the tokenization-service stores encrypted card data in vault-db"
+  }
+ ]
+}

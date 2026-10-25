@@ -1,0 +1,47 @@
+{
+ "purpose": "Delivers email and SMS messages for the payment platform.",
+ "exposure": "external",
+ "callers": [
+  "external clients",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "domain-events",
+   "kind": "message_queue",
+   "evidence": "Carries the events that trigger messages."
+  },
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "Reads the events, selects a template and channel, renders the message, calls the provider and records the status."
+  },
+  {
+   "name": "Email and SMS provider",
+   "kind": "third_party",
+   "evidence": "External service that delivers the messages."
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notifier",
+   "data": "events",
+   "evidence": "An event arrives on domain-events."
+  },
+  {
+   "source": "notifier",
+   "target": "Email and SMS provider",
+   "data": "rendered message",
+   "evidence": "The notifier passes the rendered message to the provider for delivery."
+  }
+ ]
+}

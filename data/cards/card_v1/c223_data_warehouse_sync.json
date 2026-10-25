@@ -1,0 +1,57 @@
+{
+ "purpose": "The service synchronizes analytics data from a read replica to an S3 staging bucket for the analytics vendor to load into a warehouse.",
+ "exposure": "external",
+ "callers": [
+  "analytics team",
+  "vendor",
+  "sync-job"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "sync-job is the scheduled job."
+  },
+  {
+   "name": "analytics read replica (PostgreSQL)",
+   "kind": "database",
+   "evidence": "analytics read replica (PostgreSQL) is the read-only copy of the production database."
+  },
+  {
+   "name": "staging bucket (S3)",
+   "kind": "object_storage",
+   "evidence": "staging bucket (S3) receives the extract files."
+  },
+  {
+   "name": "Analytics vendor",
+   "kind": "third_party",
+   "evidence": "Analytics vendor picks the files up from the staging bucket for the warehouse."
+  }
+ ],
+ "flows": [
+  {
+   "source": "sync-job",
+   "target": "analytics read replica (PostgreSQL)",
+   "data": "table data",
+   "evidence": "sync-job reads the list of tables from its configuration."
+  },
+  {
+   "source": "sync-job",
+   "target": "staging bucket (S3)",
+   "data": "extract files",
+   "evidence": "sync-job writes them into files of at most one million rows and uploads the files into the folder of the day."
+  },
+  {
+   "source": "staging bucket (S3)",
+   "target": "Analytics vendor",
+   "data": "extract files",
+   "evidence": "Analytics vendor picks the files up from the staging bucket for the warehouse."
+  }
+ ]
+}

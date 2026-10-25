@@ -1,0 +1,64 @@
+{
+ "purpose": "The KYC service manages customer identity verification processes, including document uploads, verification, and case management.",
+ "exposure": "external",
+ "callers": [
+  "Customer app",
+  "kyc-orchestrator",
+  "vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "pii",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "opens cases, takes uploads, calls vendor"
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "service",
+   "evidence": "identity document images"
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "case records"
+  },
+  {
+   "name": "Identity verification vendor",
+   "kind": "third_party",
+   "evidence": "verifies documents"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Customer app",
+   "target": "kyc-orchestrator",
+   "data": "identity details, document images",
+   "evidence": "Customer app | kyc-orchestrator | identity details, document images"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "document images",
+   "evidence": "kyc-orchestrator | kyc-documents | document images"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "kyc-orchestrator | kyc-db | case records"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "vendor",
+   "data": "verification request",
+   "evidence": "kyc-orchestrator | vendor | verification request"
+  }
+ ]
+}

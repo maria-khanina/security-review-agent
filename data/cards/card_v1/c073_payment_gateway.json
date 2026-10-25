@@ -1,0 +1,48 @@
+{
+ "purpose": "The Payment Gateway processes card payments from merchants, routes them to acquiring banks, and publishes payment events.",
+ "exposure": "external",
+ "callers": [
+  "Merchant backends",
+  "Finance",
+  "Acquirer"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "service",
+   "evidence": "Merchant backends call the Payments Edge Gateway with a payment request that carries a card token."
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payments-core stores payment records in payments-db (PostgreSQL), sends authorization requests to the acquirer through the Acquirer connector and publishes status events on payment-events (Kafka)."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payments-core stores payment records in payments-db (PostgreSQL)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "payment requests",
+   "evidence": "Merchant backends call the Payments Edge Gateway with a payment request that carries a card token."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment records",
+   "evidence": "payments-core stores payment records in payments-db (PostgreSQL)."
+  }
+ ]
+}

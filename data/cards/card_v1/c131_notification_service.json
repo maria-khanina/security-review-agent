@@ -1,0 +1,60 @@
+{
+ "purpose": "The Notification Service sends emails, SMS, and push messages to customers when events occur, such as payments, transfers, or card blocks.",
+ "exposure": "external",
+ "callers": [
+  "services publishing events",
+  "partners",
+  "customers"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "the service that decides what to send and sends it."
+  },
+  {
+   "name": "domain-events (Kafka)",
+   "kind": "message_queue",
+   "evidence": "the stream on which the other services publish what happened."
+  },
+  {
+   "name": "Email and SMS provider",
+   "kind": "third_party",
+   "evidence": "the external company that delivers the messages."
+  }
+ ],
+ "flows": [
+  {
+   "source": "services publishing events",
+   "target": "notifier",
+   "data": "events",
+   "evidence": "A service publishes an event on domain-events, or calls the API directly for a message that is not tied to an event."
+  },
+  {
+   "source": "notifier",
+   "target": "Email and SMS provider",
+   "data": "messages",
+   "evidence": "The message goes to the provider; the provider answers later with delivered, bounced or failed, and the notifier updates the status."
+  },
+  {
+   "source": "notifier",
+   "target": "domain-events (Kafka)",
+   "data": "events",
+   "evidence": "The notifier reads it."
+  },
+  {
+   "source": "notifier",
+   "target": "webhooks",
+   "data": "delivery results",
+   "evidence": "The vendor reports delivery results by calling a webhook of ours."
+  }
+ ]
+}

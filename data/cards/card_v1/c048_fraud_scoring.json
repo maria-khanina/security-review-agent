@@ -1,0 +1,34 @@
+{
+ "purpose": "The service scores payment transactions for fraud risk based on payment events and customer attributes.",
+ "exposure": "internal",
+ "callers": [
+  "payment-events (MSK)"
+ ],
+ "serves_requests": "no",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "database",
+   "evidence": "The engine reads, scores, writes."
+  },
+  {
+   "name": "decisions-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "decisions-db (PostgreSQL) holds the risk decisions together with the customer attributes that were scored."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events (MSK)",
+   "target": "scoring-engine",
+   "data": "payment events + customer attributes",
+   "evidence": "Input is the MSK topic only. The engine reads, scores, writes."
+  }
+ ]
+}

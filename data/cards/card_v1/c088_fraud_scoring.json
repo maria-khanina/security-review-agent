@@ -1,0 +1,50 @@
+{
+ "purpose": "The service provides real-time fraud scoring for payments by processing events as they happen and making decisions within seconds.",
+ "exposure": "external",
+ "callers": [
+  "payment-events (MSK)",
+  "analyst tooling"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "The scoring-engine runs as two replicas that share one Kafka consumer group"
+  },
+  {
+   "name": "payment-events (MSK)",
+   "kind": "message_queue",
+   "evidence": "The scoring-engine consumes payment events from payment-events (MSK)"
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "decisions-db (PostgreSQL) holds the decisions together with the customer attributes that were scored"
+  },
+  {
+   "name": "scoring_audit",
+   "kind": "log_pipeline",
+   "evidence": "Every decision writes an audit record to the log group scoring_audit"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events (MSK)",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "The scoring-engine consumes payment events from payment-events (MSK)"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring_audit",
+   "data": "audit records",
+   "evidence": "Every decision writes an audit record to the log group scoring_audit"
+  }
+ ]
+}

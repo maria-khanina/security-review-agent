@@ -1,0 +1,57 @@
+{
+ "purpose": "Fraud Scoring protects Meridian Pay and its merchants from payment fraud by evaluating payments in milliseconds to make risk decisions.",
+ "exposure": "external",
+ "callers": [
+  "payment-events topic (MSK)",
+  "fraud analysts"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "payment-events topic (MSK)",
+   "kind": "database",
+   "evidence": "The payment-events topic (MSK) delivers one event for every payment"
+  },
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "The scoring-engine reads each event, computes a score with the current model"
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "decisions-db keeps every decision together with the customer attributes that were scored"
+  },
+  {
+   "name": "fraud analysts",
+   "kind": "service",
+   "evidence": "Decisions of the type review are collected into a queue that the fraud analysts work through every morning"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events topic (MSK)",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "The payment-events topic (MSK) delivers one event for every payment"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db",
+   "data": "decision",
+   "evidence": "The scoring-engine reads each event, computes a score with the current model"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "fraud analysts",
+   "data": "review decisions",
+   "evidence": "Decisions of the type review are collected into a queue that the fraud analysts work through every morning"
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+{
+ "purpose": "Notifier v2 sends notifications via email or SMS based on events and tracks their status.",
+ "exposure": "internal",
+ "callers": [
+  "domain-events (Kafka)",
+  "external API endpoints",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "domain-events",
+   "kind": "database",
+   "evidence": "reads events from domain-events (kafka)"
+  },
+  {
+   "name": "notification-service",
+   "kind": "service",
+   "evidence": "picks template + channel, renders, sends via email/sms provider"
+  },
+  {
+   "name": "template-service",
+   "kind": "service",
+   "evidence": "PUT /v1/templates/{templateId}"
+  },
+  {
+   "name": "notification-store",
+   "kind": "database",
+   "evidence": "tracks status per notification"
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notification-service",
+   "data": "events",
+   "evidence": "reads events from domain-events (kafka)"
+  },
+  {
+   "source": "notification-service",
+   "target": "notification-store",
+   "data": "notification status",
+   "evidence": "tracks status per notification"
+  },
+  {
+   "source": "notification-service",
+   "target": "email/sms provider",
+   "data": "notification data",
+   "evidence": "picks template + channel, renders, sends via email/sms provider"
+  },
+  {
+   "source": "template-service",
+   "target": "notification-service",
+   "data": "template data",
+   "evidence": "PUT /v1/templates/{templateId}"
+  }
+ ]
+}

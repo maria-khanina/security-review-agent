@@ -1,0 +1,59 @@
+{
+ "purpose": "The Refund Service enables merchants to return money to customers and provides support tools for when a merchant cannot process a refund.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "support teams",
+  "merchant integrations"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "refund-core",
+   "kind": "service",
+   "evidence": "At the heart of the solution is refund-core, the decision engine that checks a request against the original payment, applies the approval rules and orchestrates the return of the money."
+  },
+  {
+   "name": "Refunds Gateway",
+   "kind": "service",
+   "evidence": "In front of it sits Refunds Gateway, the single entry point for merchant integrations and for the support console."
+  },
+  {
+   "name": "refund-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "Behind it sit refund-db (PostgreSQL), the trusted record of every refund, and refund-events (Kafka), the real-time stream that keeps the ledger and the notifications in step."
+  },
+  {
+   "name": "refund-events (Kafka)",
+   "kind": "message_queue",
+   "evidence": "Behind it sit refund-db (PostgreSQL), the trusted record of every refund, and refund-events (Kafka), the real-time stream that keeps the ledger and the notifications in step."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "refund requests",
+   "evidence": "Refunds Gateway is the single entry point to the service and routes each request to refund-core."
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-db (PostgreSQL)",
+   "data": "refund data",
+   "evidence": "Behind it sit refund-db (PostgreSQL), the trusted record of every refund, and refund-events (Kafka), the real-time stream that keeps the ledger and the notifications in step."
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-events (Kafka)",
+   "data": "refund events",
+   "evidence": "Behind it sit refund-db (PostgreSQL), the trusted record of every refund, and refund-events (Kafka), the real-time stream that keeps the ledger and the notifications in step."
+  }
+ ]
+}

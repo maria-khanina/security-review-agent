@@ -1,0 +1,55 @@
+{
+ "purpose": "The service tokenizes and detokenizes card data to protect card numbers.",
+ "exposure": "external",
+ "callers": [
+  "Payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenize / detokenize"
+  },
+  {
+   "name": "vault-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "encrypted card records + token mapping"
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "data keys, runtime secrets"
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "boundary around the above"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payment services",
+   "target": "tokenization-service",
+   "data": "PANs to tokenize, tokens to detokenize",
+   "evidence": "Payment services | tokenization-service | PANs to tokenize, tokens to detokenize"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted card data",
+   "evidence": "tokenization-service | vault-db | encrypted card data"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault and KMS",
+   "data": "data encryption key requests",
+   "evidence": "tokenization-service | Vault and KMS | data encryption key requests"
+  }
+ ]
+}

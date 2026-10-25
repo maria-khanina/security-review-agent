@@ -1,0 +1,76 @@
+{
+ "purpose": "The service handles payment processing for merchants, including creating, authorizing, capturing, and refunding payments.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "partners",
+  "customers"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "merchant backend",
+   "kind": "database",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "name": "edge gw",
+   "kind": "api_gateway",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "name": "core",
+   "kind": "service",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "name": "db",
+   "kind": "database",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "name": "acquirer connector",
+   "kind": "service",
+   "evidence": "core calls the acquirer connector and drops events on payment-events"
+  }
+ ],
+ "flows": [
+  {
+   "source": "merchant backend",
+   "target": "edge gw",
+   "data": "payment requests",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "source": "edge gw",
+   "target": "core",
+   "data": "payment requests",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "source": "core",
+   "target": "db",
+   "data": "payment data",
+   "evidence": "the flow is merchant backend -> edge gw -> core -> db"
+  },
+  {
+   "source": "core",
+   "target": "acquirer connector",
+   "data": "payment data",
+   "evidence": "core calls the acquirer connector and drops events on payment-events"
+  },
+  {
+   "source": "acquirer connector",
+   "target": "payment-events",
+   "data": "events",
+   "evidence": "core calls the acquirer connector and drops events on payment-events"
+  }
+ ]
+}

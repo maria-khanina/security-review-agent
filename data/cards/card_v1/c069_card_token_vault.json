@@ -1,0 +1,45 @@
+{
+ "purpose": "Tokenizes card numbers (PANs) for payment services and allows conversion between tokens and PANs.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "the tokenizer, \"vault-svc\" on Priya's slides"
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "Behind the service there is vault-db (PostgreSQL)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "tokenized PANs",
+   "evidence": "The PAN is tokenized by the card token vault and only the token is kept"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault",
+   "data": "secrets",
+   "evidence": "Secrets do not appear in source code, configuration files, specifications or infrastructure definitions"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "KMS",
+   "data": "keys",
+   "evidence": "Keys are managed in KMS, never stored next to the encrypted data, and rotated annually"
+  }
+ ]
+}

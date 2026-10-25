@@ -1,0 +1,38 @@
+{
+ "purpose": "The Ledger Service provides an authoritative, secure record of all financial transactions across the platform, ensuring consistency in account balances and auditability of financial movements.",
+ "exposure": "external",
+ "callers": [
+  "wallet services",
+  "payment services",
+  "other teams"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "pii",
+  "internal",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "database",
+   "evidence": "ledger-core checks that each entry balances, stores it in ledger-db (PostgreSQL) and announces it on ledger-events (Kafka)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet services",
+   "target": "ledger-core",
+   "data": "journal entries",
+   "evidence": "Wallet and payment services send journal entries to ledger-core."
+  },
+  {
+   "source": "ledger-events",
+   "target": "other teams",
+   "data": "announcements",
+   "evidence": "Other teams subscribe to those announcements, for example notifications and analytics."
+  }
+ ]
+}

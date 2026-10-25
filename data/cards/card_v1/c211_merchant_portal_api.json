@@ -1,0 +1,59 @@
+{
+ "purpose": "The Merchant Portal API allows merchants to manage their accounts, view settlements, invite users, and download transaction reports.",
+ "exposure": "external",
+ "callers": [
+  "Merchant web app",
+  "Meridian Pay system",
+  "Merchant"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "Portal Gateway receives the calls of the Merchant web app and passes them to portal-backend, after it has asked Keycloak if the token of the user is valid."
+  },
+  {
+   "name": "portal-backend",
+   "kind": "api_gateway",
+   "evidence": "portal-backend is the service with the business logic."
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "portal-db is the PostgreSQL database with the settlements and the merchant users."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "Keycloak is the identity provider that holds the user accounts."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "API requests",
+   "evidence": "Portal Gateway receives the calls of the Merchant web app and passes them to portal-backend, after it has asked Keycloak if the token of the user is valid."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "merchant data",
+   "evidence": "portal-db is the PostgreSQL database with the settlements and the merchant users."
+  },
+  {
+   "source": "Keycloak",
+   "target": "Portal Gateway",
+   "data": "user tokens",
+   "evidence": "Portal Gateway receives the calls of the Merchant web app and passes them to portal-backend, after it has asked Keycloak if the token of the user is valid."
+  }
+ ]
+}

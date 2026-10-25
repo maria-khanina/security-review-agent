@@ -1,0 +1,54 @@
+{
+ "purpose": "Ledger Service keeps the financial truth of Meridian Pay by recording all money movements as journal entries with debit and credit sides.",
+ "exposure": "external",
+ "callers": [
+  "wallet services",
+  "payment services",
+  "finance teams"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "ledger-core is the service itself. It accept the entries, check them, write them and answer the questions about balances."
+  },
+  {
+   "name": "ledger-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "ledger-db (PostgreSQL) is the database with entries and balances."
+  },
+  {
+   "name": "ledger-events (Kafka)",
+   "kind": "message_queue",
+   "evidence": "ledger-events (Kafka) is the stream where we publish one event for each posted entry, so the other teams can react without ask us."
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet and payment services",
+   "target": "ledger-core",
+   "data": "entries",
+   "evidence": "The wallet and payment services send the entries to ledger-core."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db (PostgreSQL)",
+   "data": "entries and balances",
+   "evidence": "Ledger-core write the entries and the balances to ledger-db and publish the events to ledger-events."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events (Kafka)",
+   "data": "events",
+   "evidence": "Ledger-core write the records about its work, and the operations team can read them when they need to understand a problem."
+  }
+ ]
+}

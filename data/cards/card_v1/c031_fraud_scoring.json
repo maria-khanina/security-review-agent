@@ -1,0 +1,46 @@
+{
+ "purpose": "Score every payment in near real time and make a decision (allow/review/block) to replace the old rules batch job.",
+ "exposure": "external",
+ "callers": [
+  "payment-events topic",
+  "scoring-engine",
+  "decisions-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "payment-events topic",
+   "kind": "message_queue",
+   "evidence": "payment-events topic (MSK) - input, one event per payment with customer attrs"
+  },
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "scoring-engine (a.k.a. scorer) - scoring-engine consumes events from the topic, runs the model and writes the result."
+  },
+  {
+   "name": "decisions DB",
+   "kind": "database",
+   "evidence": "decisions-db keeps every decision together with the customer attributes that were scored."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events topic",
+   "target": "scoring-engine",
+   "data": "payment id, amount, country, device id, customer email + phone, history counters",
+   "evidence": "payment-events topic (MSK) - input, one event per payment with customer attrs"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions DB",
+   "data": "decision, score, reasons",
+   "evidence": "scoring-engine (a.k.a. scorer) - scoring-engine consumes events from the topic, runs the model and writes the result."
+  }
+ ]
+}

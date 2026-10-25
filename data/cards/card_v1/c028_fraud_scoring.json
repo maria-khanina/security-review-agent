@@ -1,0 +1,52 @@
+{
+ "purpose": "The service provides fraud scoring by analyzing payment events to determine the likelihood of fraud.",
+ "exposure": "external",
+ "callers": [
+  "payment events",
+  "scoring-engine",
+  "payments team"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "the scoring-engine, or the scorer if we are being informal, picks it up, runs the rules and the model and writes a decision row"
+  },
+  {
+   "name": "payments stream",
+   "kind": "message_queue",
+   "evidence": "every payment event lands on the MSK topic, which some people call the payments stream"
+  },
+  {
+   "name": "decisions_db",
+   "kind": "database",
+   "evidence": "the RDS instance decisions_db that holds the personal data like email and phone"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payments stream",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "every payment event lands on the MSK topic, which some people call the payments stream"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions_db",
+   "data": "decision rows",
+   "evidence": "the scoring-engine, or the scorer if we are being informal, picks it up, runs the rules and the model and writes a decision row"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "payments team",
+   "data": "block decisions",
+   "evidence": "when a decision is block the engine calls back the payments team"
+  }
+ ]
+}

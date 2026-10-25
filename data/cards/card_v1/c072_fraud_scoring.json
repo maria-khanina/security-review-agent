@@ -1,0 +1,36 @@
+{
+ "purpose": "Real time fraud scoring replacing the nightly batch.",
+ "exposure": "external",
+ "callers": [
+  "payment-events (MSK)",
+  "decisions-db",
+  "scoring audit log group"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "scoring-engine (a.k.a. the scorer) reads payment events from payment-events (MSK)"
+  },
+  {
+   "name": "payment-events (MSK)",
+   "kind": "message_queue",
+   "evidence": "scoring-engine (a.k.a. the scorer) reads payment events from payment-events (MSK)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events (MSK)",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "scoring-engine (a.k.a. the scorer) reads payment events from payment-events (MSK)"
+  }
+ ]
+}

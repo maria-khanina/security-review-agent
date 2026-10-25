@@ -1,0 +1,72 @@
+{
+ "purpose": "The service provides wallet-related functionality including retrieving wallet information, top-ups, transfers, and transactions.",
+ "exposure": "external",
+ "callers": [
+  "mobile app",
+  "mobile gateway",
+  "keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "mobile app",
+   "kind": "client_app",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "name": "mobile gateway",
+   "kind": "api_gateway",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "name": "keycloak",
+   "kind": "identity_provider",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "name": "wallet-db",
+   "kind": "database",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  }
+ ],
+ "flows": [
+  {
+   "source": "mobile app",
+   "target": "mobile gateway",
+   "data": "request",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "source": "mobile gateway",
+   "target": "keycloak",
+   "data": "caller authentication",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "source": "keycloak",
+   "target": "wallet-core",
+   "data": "authentication token",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "wallet data",
+   "evidence": "flow: mobile app -> mobile gateway -> keycloak (checks the caller) -> wallet-core -> wallet-db"
+  }
+ ]
+}

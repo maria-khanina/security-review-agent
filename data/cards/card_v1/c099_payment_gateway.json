@@ -1,0 +1,64 @@
+{
+ "purpose": "The Payment Gateway accepts card payments from merchants, routes them to the acquiring banks and publishes payment events.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "acquiring banks",
+  "other teams"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "single public ingress"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payment state machine and business rules"
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payment records"
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "adapter to the acquiring bank"
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "status events for other teams"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "validated payment request",
+   "evidence": "The merchant backend sends a payment request with a card token to the edge gateway."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment record",
+   "evidence": "payments-core writes the payment to payments-db"
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "authorization request",
+   "evidence": "payments-core sends an authorization request to the acquirer through the connector"
+  }
+ ]
+}

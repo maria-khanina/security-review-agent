@@ -39,6 +39,9 @@ REVIEW_SETTINGS = ReviewSettings(
         bootstrap_resamples=2000,
         bootstrap_seed=20261022,
         interval_level=0.95,
+        table_budgets=[1.0, 2.0, 3.0],
+        table_resamples=300,
+        cascade_shares=[0.4, 0.6],
     ),
     policy_analysis=PolicyAnalysisSettings(
         directory="data/policy_analysis",
@@ -137,6 +140,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_word_length=3,
         stacking_fine=False,
         card_characters=24000,
+        wording_analysis_set="llm_analysis_w2",
         feature_presets={
             "all": [
                 "log_probabilities",

@@ -1,0 +1,48 @@
+{
+ "purpose": "The service provides API endpoints for managing settlements, users, and reports for merchants.",
+ "exposure": "external",
+ "callers": [
+  "customers",
+  "merchants",
+  "partners"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "Portal Gateway -> portal-backend -> portal-db (PG)."
+  },
+  {
+   "name": "portal-backend",
+   "kind": "api_gateway",
+   "evidence": "Portal Gateway -> portal-backend -> portal-db (PG)."
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "Portal Gateway -> portal-backend -> portal-db (PG)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "API requests",
+   "evidence": "Portal Gateway -> portal-backend -> portal-db (PG)."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "data queries",
+   "evidence": "Portal Gateway -> portal-backend -> portal-db (PG)."
+  }
+ ]
+}

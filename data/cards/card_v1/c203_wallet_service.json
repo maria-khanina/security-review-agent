@@ -1,0 +1,43 @@
+{
+ "purpose": "The Wallet Service manages customer wallet balances and executes top-ups, transfers, and profile changes for the Meridian Pay mobile app.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app",
+  "Mobile API Gateway",
+  "Keycloak"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "credentials",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "The Mobile app calls the Mobile API Gateway."
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "wallet-core holds the logic for balances and transfers"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "wallet-core",
+   "data": "token",
+   "evidence": "The Mobile API Gateway is the only entrance for mobile traffic and forwards the requests of the app to wallet-core after it has checked the token of the customer with Keycloak."
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "balances and transactions",
+   "evidence": "wallet-core holds the logic for balances and transfers and reads and writes wallet-db (PostgreSQL), where balances and transactions are stored."
+  }
+ ]
+}

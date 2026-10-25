@@ -1,0 +1,36 @@
+{
+ "purpose": "To score payments in real-time to detect and respond to fraudulent activity.",
+ "exposure": "external",
+ "callers": [
+  "payment-events (MSK)",
+  "scoring-engine",
+  "review console"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "The scoring-engine writes a decision to decisions-db (PostgreSQL) and an audit record to the scoring audit log group."
+  },
+  {
+   "name": "payment-events",
+   "kind": "database",
+   "evidence": "payment-events (MSK) delivers one event per payment to the scoring-engine."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "payment-events (MSK) delivers one event per payment to the scoring-engine."
+  }
+ ]
+}

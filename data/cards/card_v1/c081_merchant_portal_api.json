@@ -1,0 +1,65 @@
+{
+ "purpose": "The Merchant Portal API allows merchants to view settlements, manage users, and request reports through the Merchant web app.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "portal gateway",
+  "staff"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "pii",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "single ingress for the web app"
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "identity provider for merchant users; the gateway uses it to check callers"
+  },
+  {
+   "name": "portal-backend",
+   "kind": "service",
+   "evidence": "settlements, users, reports"
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "PostgreSQL: settlements, merchant users and report jobs"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Portal Gateway",
+   "target": "Keycloak",
+   "data": "bearer tokens",
+   "evidence": "external API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider"
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "settlements, users, reports",
+   "evidence": "portal-db (PostgreSQL): settlements, merchant users and report jobs"
+  },
+  {
+   "source": "portal-backend",
+   "target": "message brokers",
+   "data": "report jobs",
+   "evidence": "portal-db and the message brokers sit in private subnets and are not publicly reachable"
+  },
+  {
+   "source": "portal-backend",
+   "target": "log platform",
+   "data": "authentication failures, privilege changes and access to sensitive data",
+   "evidence": "Authentication failures, privilege changes and access to sensitive data are logged."
+  }
+ ]
+}

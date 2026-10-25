@@ -1,0 +1,60 @@
+{
+ "purpose": "The service provides a portal for merchants to manage settlements, users, and generate reports.",
+ "exposure": "external",
+ "callers": [
+  "Merchant web app",
+  "Portal Gateway",
+  "portal-backend",
+  "portal-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Merchant web app",
+   "kind": "client_app",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  },
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  },
+  {
+   "name": "portal-backend",
+   "kind": "api_gateway",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  },
+  {
+   "name": "portal-db",
+   "kind": "database",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant web app",
+   "target": "Portal Gateway",
+   "data": "requests",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  },
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "requests",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "data",
+   "evidence": "The request path is Merchant web app, Portal Gateway, portal-backend and portal-db (PostgreSQL)."
+  }
+ ]
+}

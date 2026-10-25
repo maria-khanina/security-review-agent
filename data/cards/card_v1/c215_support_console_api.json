@@ -1,0 +1,53 @@
+{
+ "purpose": "The service provides a web console for agents to manage customers, including searching, viewing profiles, resetting second-factor authentication, issuing goodwill credits, and exporting customer data.",
+ "exposure": "external",
+ "callers": [
+  "agents",
+  "third-party systems"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "console-backend",
+   "kind": "service",
+   "evidence": "console-backend is the thing behind the Support web console."
+  },
+  {
+   "name": "console-db",
+   "kind": "database",
+   "evidence": "everything the agent does goes to agent_action in console-db (postgres)"
+  },
+  {
+   "name": "keycloak",
+   "kind": "identity_provider",
+   "evidence": "token check via keycloak, nothing new"
+  }
+ ],
+ "flows": [
+  {
+   "source": "console-backend",
+   "target": "console-db",
+   "data": "agent_action",
+   "evidence": "everything the agent does goes to agent_action in console-db (postgres)"
+  },
+  {
+   "source": "console-backend",
+   "target": "keycloak",
+   "data": "token",
+   "evidence": "token check via keycloak, nothing new"
+  },
+  {
+   "source": "console-backend",
+   "target": "console-db",
+   "data": "customer data",
+   "evidence": "GET /v1/customers (id, full_name, email, phone_number, status), GET /v1/customers/{id}, POST /v1/customers/{id}/second-factor-reset (reason, ticket_id -> id, status), POST /v1/customers/{id}/credits (amount, currency, reason, ticket_id -> id, amount, currency, status), GET /v1/agent-actions (id, agent_id, action, created_at), POST /v1/customers/{id}/data-export (format, reason -> id, status, expires_at)"
+  }
+ ]
+}

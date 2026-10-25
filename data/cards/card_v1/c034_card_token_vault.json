@@ -1,0 +1,57 @@
+{
+ "purpose": "The Card Token Vault processes primary account numbers (PANs) and ensures compliance with Meridian Pay Information Security Policy.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service, which exposes two operations to payment services: tokenization of a PAN and detokenization of a token;"
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL), which stores card records in encrypted form;"
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "Vault and KMS, which provide runtime secrets and data encryption keys;"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PANs",
+   "evidence": "Payment services send PANs to the tokenization-service and receive tokens."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted card data",
+   "evidence": "The tokenization-service writes the encrypted card data to vault-db"
+  },
+  {
+   "source": "tokenization-service",
+   "target": "log group",
+   "data": "request logs",
+   "evidence": "The tokenization-service writes request logs for every tokenize and detokenize call."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "log group",
+   "data": "audit records",
+   "evidence": "The tokenization-service also writes an audit record for every tokenize and detokenize operation to the log group."
+  }
+ ]
+}

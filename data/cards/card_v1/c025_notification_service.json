@@ -1,0 +1,54 @@
+{
+ "purpose": "The service sends notifications via email and SMS based on domain events, renders messages from templates, and tracks their status.",
+ "exposure": "external",
+ "callers": [
+  "domain-events",
+  "external clients",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "notifier reads events from domain-events (kafka), renders msg from template, sends to the email/sms provider, saves status"
+  },
+  {
+   "name": "domain-events",
+   "kind": "message_queue",
+   "evidence": "notifier reads events from domain-events (kafka)"
+  },
+  {
+   "name": "template store",
+   "kind": "database",
+   "evidence": "PUT /v1/templates/{templateId} - create/replace template (subject, body)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notifier",
+   "data": "events",
+   "evidence": "notifier reads events from domain-events (kafka)"
+  },
+  {
+   "source": "email/sms provider",
+   "target": "notifier",
+   "data": "delivery status",
+   "evidence": "provider reports delivery -> status updated (queued, sent, delivered, failed)"
+  },
+  {
+   "source": "notifier",
+   "target": "template store",
+   "data": "template",
+   "evidence": "PUT /v1/templates/{templateId} - create/replace template (subject, body)"
+  }
+ ]
+}

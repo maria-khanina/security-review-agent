@@ -511,7 +511,7 @@ The same 24 designs of about 700 words and their long versions of about 3500 wor
 | prompt tokens per document, top 10 / whole | 41,000 / 76,000 | 40,500 / 256,000 | |
 | seconds per document, top 10 / whole | 58 / 83 | 58 / 180 | |
 
-The whole document is the best choice for short designs and costs twice the tokens; at 3500 words it is worse than the top 10 fragments (tolerant 0.750 against 0.774) and six times the tokens. The top 10 fragments keep their quality as the design grows (0.759 at 700 words, 0.774 at 3500, 0.748 at 10,000, different documents at the last point) and the cost stays flat. The crossing is between 700 and 3500 words.
+Paired bootstrap over the 24 documents: at 700 words the whole document is better than the top 10 fragments in the strict accuracy (+0.031, interval 0.006 to 0.058), but not significantly in the tolerant accuracy (+0.021, interval -0.004 to +0.046) or in the recall of the shown requirements (+0.039, interval -0.027 to +0.107); at 3500 words it is not better (tolerant accuracy -0.025, interval -0.051 to +0.002; recall -0.061, interval -0.136 to +0.006) and costs six times the tokens. The top 10 fragments keep their quality as the design grows (tolerant 0.759 at 700 words, 0.774 at 3500, 0.748 at 10,000, different documents at the last point) and the cost stays flat. What is established is the cost; the quality difference between the two ways is within the noise, with the whole document possibly slightly better at 700 words and slightly worse at 3500.
 
 ### Cost per document (measured, vLLM, Qwen3-4B-AWQ, one 8 GB GPU, calls one after another)
 
@@ -542,20 +542,85 @@ The step finds twice as many vague requirements and keeps the number of false "v
 
 Effect on the layer with all features (trained on dev, applied to v4): accuracy 0.648 (it was 0.513), tolerant 0.703, shown recall 0.72 and precision 0.67 at 2.2 false alarms per document; on dev with cross-validation 0.810 (it was 0.798). On v4 this is not better than the layer without the wording (0.664, tolerant 0.724, 0.74 / 0.71 at 1.9 false alarms); the wording feature no longer breaks the layer but does not help it there.
 
+## 10k. The final comparison on the unseen policy v4 (2026-10-25)
+
+The question of this section is which variant is best on v4, not how much worse v4 is than dev. Every variant that has a layer is trained on the dev run of the same configuration (96 documents, policies v1 to v3) and applied to the 24 documents of v4 (384 pairs; 29 `violated`, 119 `unclear`, 70 `compliant`, 166 `not_applicable`). Nothing was tuned on v4: the choice of features, presets and prompts was made earlier, with one exception that has to be said: the example phrases were removed from the wording prompt after the first look at v4 and the step was repeated (10j).
+
+**Columns.** *Shown recall* and *precision*: the share of the requirements that should be shown to the reviewer (`violated` or `unclear` in the gold) that are shown, and the share of the shown ones that should be. *False alarms per document*: shown requirements that should be dropped (`compliant`, `not_applicable`), per document. *Recall at 1 / 2 / 3 false alarms per document*: the requirements are sorted by the probability of being shown (for the raw answers the probability that the model gives to `violated` and `unclear` at the verdict token, for a layer its class probabilities), and the recall is read at the point where the false alarms reach one, two and three per document. *Tolerant accuracy*: right verdict, or both dropped, or a swap between `violated` and `unclear` counted as half. Intervals are 95% percentiles of 300 resamples of the 24 documents; the intervals of different rows overlap heavily, so differences of a few points between neighbouring rows are not established. The cost is measured per document on the v4 run (16 requirements per document, so about 2.4 times cheaper than on dev); a layer adds no model call, the cascade is charged for the pairs it sends.
+
+**Variants.** A: short reason (25 words), no overview. B: short reason, overview of 800 characters. C: reasoning (60 words), no overview. D: reasoning, overview. E: reasoning, architecture card instead of the overview (see the last part of this section). *Layer*: logistic regression over the signals of the model and the properties of the requirement; *no_wording* leaves out the wording class, *agnostic* keeps only the signals of the model, the word overlap and the length, *all (first wording)* uses the wording of the one-call policy analysis, *all (wording per req.)* the wording judged requirement by requirement (10j). *Prior only*: the layer on the word overlap with the shown fragments, the length and the topics, with no model call. *Cascade*: the prior decides, and the share of the pairs where it is least sure is sent to the model, whose signals go to the layer *no_wording*.
+
+| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
+|---|---|---|---|---|---|---|---|---|---|
+| A short reason, no overview: raw | 0.65 (0.59 to 0.71) | 0.71 | 1.67 | 0.43 / 0.67 / 0.72 | 0.643 | 0.721 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer without the wording | 0.80 (0.75 to 0.84) | 0.71 | 2.00 | 0.41 / 0.80 / 0.93 | 0.641 | 0.721 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer independent of the policy | 0.87 (0.84 to 0.91) | 0.54 | 4.58 | 0.44 / 0.57 / 0.71 | 0.578 | 0.622 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer, all features (first wording) | 0.95 (0.91 to 0.97) | 0.51 | 5.71 | 0.32 / 0.61 / 0.83 | 0.505 | 0.565 | 16.0 | 13,963 | 18 |
+| A short reason, no overview: layer, all features (wording per requirement) | 0.82 (0.77 to 0.85) | 0.64 | 2.88 | 0.62 / 0.82 / 0.89 | 0.609 | 0.684 | 16.0 | 13,963 | 18 |
+| B short reason, overview: raw | 0.56 (0.48 to 0.62) | 0.67 | 1.67 | 0.34 / 0.60 / 0.68 | 0.646 | 0.706 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer without the wording | 0.80 (0.76 to 0.85) | 0.67 | 2.42 | 0.51 / 0.71 / 0.91 | 0.635 | 0.707 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer independent of the policy | 0.71 (0.65 to 0.76) | 0.60 | 2.92 | 0.34 / 0.60 / 0.68 | 0.651 | 0.680 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer, all features (first wording) | 0.86 (0.81 to 0.91) | 0.52 | 4.96 | 0.36 / 0.48 / 0.77 | 0.518 | 0.578 | 16.0 | 16,970 | 19 |
+| B short reason, overview: layer, all features (wording per requirement) | 0.75 (0.69 to 0.81) | 0.71 | 1.92 | 0.51 / 0.77 / 0.86 | 0.661 | 0.725 | 16.0 | 16,970 | 19 |
+| C reasoning, no overview: raw | 0.66 (0.60 to 0.72) | 0.58 | 2.92 | 0.21 / 0.55 / 0.67 | 0.622 | 0.660 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer without the wording | 0.68 (0.63 to 0.74) | 0.67 | 2.04 | 0.39 / 0.66 / 0.83 | 0.651 | 0.704 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer independent of the policy | 0.68 (0.61 to 0.74) | 0.51 | 3.96 | 0.39 / 0.47 / 0.56 | 0.565 | 0.600 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer, all features (first wording) | 0.85 (0.81 to 0.88) | 0.51 | 5.12 | 0.30 / 0.50 / 0.67 | 0.552 | 0.589 | 16.0 | 14,363 | 25 |
+| C reasoning, no overview: layer, all features (wording per requirement) | 0.72 (0.65 to 0.78) | 0.67 | 2.21 | 0.45 / 0.70 / 0.78 | 0.682 | 0.721 | 16.0 | 14,363 | 25 |
+| D reasoning, overview: raw | 0.57 (0.51 to 0.62) | 0.64 | 1.96 | 0.36 / 0.57 / 0.64 | 0.664 | 0.688 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer without the wording | 0.74 (0.68 to 0.79) | 0.71 | 1.88 | 0.44 / 0.74 / 0.87 | 0.664 | 0.723 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer independent of the policy | 0.71 (0.65 to 0.77) | 0.58 | 3.17 | 0.45 / 0.57 / 0.68 | 0.648 | 0.669 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer, all features (first wording) | 0.84 (0.82 to 0.87) | 0.51 | 4.96 | 0.30 / 0.60 / 0.74 | 0.518 | 0.574 | 16.0 | 17,370 | 25 |
+| D reasoning, overview: layer, all features (wording per requirement) | 0.73 (0.69 to 0.77) | 0.66 | 2.29 | 0.58 / 0.78 / 0.86 | 0.648 | 0.701 | 16.0 | 17,370 | 25 |
+| E reasoning, architecture card: raw | 0.72 (0.66 to 0.79) | 0.56 | 3.54 | 0.36 / 0.46 / 0.70 | 0.612 | 0.645 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer without the wording | 0.72 (0.65 to 0.78) | 0.63 | 2.54 | 0.54 / 0.66 / 0.80 | 0.622 | 0.681 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer independent of the policy | 0.80 (0.75 to 0.84) | 0.59 | 3.42 | 0.45 / 0.51 / 0.62 | 0.648 | 0.681 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer, all features (first wording) | 0.82 (0.77 to 0.88) | 0.51 | 4.92 | 0.41 / 0.51 / 0.75 | 0.518 | 0.573 | 16.0 | 16,973 | 26 |
+| E reasoning, architecture card: layer, all features (wording per requirement) | 0.73 (0.65 to 0.80) | 0.73 | 1.67 | 0.59 / 0.75 / 0.81 | 0.690 | 0.745 | 16.0 | 16,973 | 26 |
+| prior only, no model call | 0.80 (0.74 to 0.87) | 0.61 | 3.17 | 0.36 / 0.60 / 0.79 | 0.560 | 0.646 | 0.0 | 0 | 0 |
+| cascade, 40% of the pairs sent to the model | 0.83 (0.77 to 0.89) | 0.72 | 2.04 | 0.45 / 0.82 / 0.90 | 0.638 | 0.724 | 6.4 | 6,948 | 10 |
+| cascade, 60% of the pairs sent to the model | 0.81 (0.76 to 0.86) | 0.71 | 2.04 | 0.32 / 0.80 / 0.89 | 0.654 | 0.727 | 9.6 | 10,422 | 15 |
+
+**Reading.**
+
+- **Raw answers.** The best raw variant is A, the cheapest: recall 0.65 at precision 0.71 and 1.7 false alarms per document. Reasoning (C, D) and the overview (B, D) do not improve what the reviewer sees; reasoning without the overview (C) shows more and raises more false alarms (2.9 per document).
+- **The layer.** The layer without the wording class (*no_wording*) is the safe choice: for A it raises the recall from 0.65 to 0.80 at the same precision (0.71) and 2.0 false alarms per document, and the recall at three false alarms per document from 0.72 to 0.93; for D the same direction (0.57 to 0.74). The layer with the wording of the one-call analysis is bad on every configuration (precision 0.51, 5 false alarms per document): it learned on v1 to v3 that "vague" means `unclear`, and on v4 everything is called vague. The wording judged per requirement removes the damage and is the best layer on the configurations with the overview and the card; the *agnostic* layer is mostly worse than *no_wording* because it has no knowledge of the topics.
+- **Best rows.** By the recall at two or three false alarms per document, the best are A with the layer without the wording (0.80 and 0.93), A with the wording per requirement (0.82 and 0.89) and the cascade that sends 40% of the pairs to the model (0.82 and 0.90). By precision at a low number of false alarms, E with the wording per requirement (precision 0.73 at 1.7 false alarms; tolerant accuracy 0.745, the highest). The differences between these rows are inside the intervals, so on 24 documents they are one group; what is clear is the distance from this group to the raw answers (recall 0.57 to 0.66 at the same precision) and to the layer with the first wording.
+- **The prior alone** (no model call) shows 0.80 of what should be shown with precision 0.61 and 3.2 false alarms per document. It is not a reviewer, but it is the baseline that the layer must beat; the best rows beat it in precision (0.71 against 0.61) at 2.0 false alarms against 3.2.
+- **The cascade** with 40% of the pairs sent to the model has the quality of the best layers with 6.4 calls per document instead of 16 and 7,000 prompt tokens instead of 17,000.
+- **Cost.** The raw answers cost 14,000 to 17,400 prompt tokens, 1,000 to 1,500 generated tokens and 18 to 26 seconds per document on v4; the layers and the prior add nothing; the cascade 40% costs 6.4 calls and 10 seconds.
+
+### The curve of the quality against the number of calls, and the context (v4)
+
+| Variant | Shown recall (95% interval) | Shown precision | False alarms per document | Recall at 1 / 2 / 3 false alarms per document | Accuracy | Tolerant accuracy | Calls | Prompt tokens | Seconds |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 requirement per call (list format) | 0.40 (0.33 to 0.46) | 0.77 | 0.75 | not ranked | 0.674 | 0.701 | 16.0 | 17,962 | 26 |
+| 2 requirements per call | 0.47 (0.40 to 0.56) | 0.76 | 0.92 | not ranked | 0.685 | 0.717 | 8.0 | 10,225 | 22 |
+| 4 requirements per call | 0.46 (0.38 to 0.55) | 0.68 | 1.33 | not ranked | 0.664 | 0.694 | 4.0 | 5,857 | 19 |
+| 8 requirements per call | 0.32 (0.24 to 0.41) | 0.65 | 1.08 | not ranked | 0.615 | 0.656 | 2.0 | 3,371 | 18 |
+| top 10 fragments (D) | 0.57 (0.51 to 0.62) | 0.64 | 1.96 | not ranked | 0.664 | 0.688 | 16.0 | 17,370 | 25 |
+| top 20 fragments | 0.51 (0.45 to 0.58) | 0.68 | 1.46 | not ranked | 0.661 | 0.695 | 16.0 | 20,992 | 30 |
+| whole document | 0.58 (0.51 to 0.65) | 0.66 | 1.88 | not ranked | 0.664 | 0.695 | 16.0 | 25,576 | 32 |
+
+The first four rows group the requirements of a policy by their first predicted topic and put 1, 2, 4 or 8 of them into one call (short reason, overview). Two per call give the same quality as one per call (tolerant accuracy 0.717 against 0.701; the shown recall 0.47 against 0.40) at half the calls; four per call lose about two points of the tolerant accuracy and raise the false alarms; eight per call lose about five points and the recall (0.32). The last four rows keep one call per requirement and change what is shown: on v4 (about 700-word designs) top 10, top 20 and the whole document are equal inside the noise (tolerant accuracy 0.688, 0.695, 0.695; the whole document costs 1.5 times the tokens). The experiment on dev designs (10i) shows the same at 700 words; at 3,500 words the whole document is not better than the top 10 fragments, at six times the tokens.
+
+### The architecture card (E) in numbers
+
+The card of a design is one extra model call per design and four lines in the prompt. The model fills the exposure of the service wrongly: on the 96 dev cards 44 of the 53 internal services are called external (exposure right in 54%, which is no better than always answering "external"); the fields that serve requests are right in 79%, the data classes agree with the gold with a Jaccard of 0.29, the kinds of components are found with a recall of 0.74 and a precision of 0.97. On dev the raw answers with the card are about equal to those with the overview or without it (accuracy 0.734, tolerant 0.779, shown recall 0.72 and precision 0.68 at 4.3 false alarms per document; the overview gives 0.713, 0.762, 0.62 / 0.68, 3.6; no overview 0.724, 0.768, 0.78 / 0.65, 5.3). On v4 the raw answers with the card are worse than with the overview (accuracy 0.612 against 0.664; 3.5 against 2.0 false alarms per document). With the layer that has the wording per requirement the card row is the best by precision and tolerant accuracy (0.73 and 0.745); I do not trust this single row, since the card is wrong about the exposure, and read it as noise in a group of rows that are equal within their intervals.
+
 ## 11. State and next steps
 
-- **Done on dev:** gold verdicts and scores (section 9, revised in 10f); the per-requirement pipeline with retrieved fragments, a service overview, reasoning before the verdict, the log-probability confidence, a yes/no verifier and a cross-validated decision layer (sections 10 to 10f); the comparison with the free-form reviewer; the cost per document.
-- **Retrieval choice:** Qwen3-Embedding-0.6B, one sentence per chunk, 10 candidates: the gold sentence is among them for 96% of the planted violations (section 10e). Hybrid retrieval or 20 candidates were not tried at the verdict stage.
-- **Known problems of the labels, not yet fixed.**
-  1. A sentence that satisfies one requirement may also satisfy others; only the stated rule is labelled `compliant`, the others are `unclear` (silence) or `unclear` (vague policy). Not annotated.
-  2. A vague sentence may leave several requirements unclear; only the planted one is labelled.
-  3. Pairs labelled `unclear` because the generator left a statement out of a coupled rule (41 on dev) assume that the design is silent; the author may have written something anyway. Not verified.
-  4. A design may contain unplanted violations (the model flags about 35 of 93 `violated` quotes in the reasoning run outside every planted violation); the gold calls them false alarms. A manual audit is needed to measure how many are real.
-  5. Only one gold sentence is stored per requirement, although a design may state it twice (partly handled by accepting a quote that covers most of the gold sentence).
-  6. Requirements with two clauses get one verdict; the gold is per rule.
-  7. The applicability of a rule is a fact about the service, not about the text of the design.
-  8. Only 21 of 258 violation scenarios have annotated overlaps, chosen conservatively.
-- **Next:** (1) a manual audit of a sample of the pairs where the model disagrees with the gold, to estimate the noise per gold subtype; (2) new policy v4 with 12 to 15 rules in areas not covered so far (payment integrity, tenant isolation, file upload, mobile clients, incident response, third-party components, disaster recovery), 20 to 24 designs with planted flaws for it, built with the applicability derived from the architecture of each service; (3) a decision layer trained on features that do not depend on the policy and tested on v4. The test split is not planned to be used.
+**State (2026-10-25).** Done on dev and on the unseen policy v4: gold labels by the rule "what a careful reader concludes" (10h), designs rewritten, 111 + 34 violations authored, a policy v4 with 24 designs, raw answers in four prompt configurations and with the architecture card, the decision layer in several feature sets, the cascade, grouped requirements, top 10 against the whole document on designs up to 10,000 words, cost per document (10i to 10k). The test split (36 designs of two held-out services) has not been run.
+
+**Known limits of the evidence.**
+- v4 has 24 designs and 384 pairs; the intervals in 10k are wide, and the top rows are one group. A second new policy and more designs would be needed to rank them.
+- The layer is trained on the policies v1 to v3, whose rules the designs were written for; the topics and the wording of the requirements are predictions of the model, and they are the weak point on a new policy (10j).
+- The gold of `unclear` for vague policies is a convention (a vague requirement cannot be called fulfilled); about a third of the answers `compliant` on such requirements are defensible (10g).
+- The designs, the violations and the statements are authored by me (an LLM) from a plan; the planted violations come from six scenario sentences per rule. The 30 long designs add reference text of the same services and appendices of neighbouring systems, not text from real documents.
+- The model is Qwen3-4B-AWQ on an 8 GB GPU with a 12,000-token window; the numbers say nothing about larger models.
+- The wording prompt was first written with example phrases after the policies had been read; the version in the repository has none (10j).
+
+**Possible next steps.** A second unseen policy and 50 or more designs for it; a model of 8B or more; the applicability of a requirement decided by code from a card of the design and predicates extracted from the policy (the card of 10k is not reliable enough: its exposure is wrong for most internal services); a stronger check of the answers with a second model instead of the same model; real designs.
 
 ## 12. Reproduction
 
@@ -568,4 +633,10 @@ Effect on the layer with all features (trained on dev, applied to v4): accuracy 
   3. `python scripts/run_verifier.py <run> <run>_verified` (also `--mode severity`, `--mode verbal`).
   4. `python scripts/stack_verdicts.py <run>_verified <run>_stacked [--extra <other>_verified]` (cross-validated decision layer); `python scripts/apply_stacker.py <train run> <apply run> <target>` trains on one run and relabels another.
   5. `python scripts/evaluate_verdicts.py <run> [--against <other run>]`; `python scripts/compare_baseline.py <free-form run>` scores a free-form run as verdicts.
+- Policy v4 and its designs: rules in `data/policies/rules.yaml` (ids PAY, TEN, UPL, MOB, IR, TPC, DR), text `v4_platform_integrity_standard.md`, map in `policy_maps.yaml`, plan in `configs/extension_plan.yaml` (split `v4`); `python scripts/make_extension.py`, write `design_marked.md`, `python scripts/build_case.py <ids>`. Policy analysis for v4: `python scripts/analyze_policies.py llm_analysis_v2 --versions v4`; rankings: `python scripts/compute_requirement_rankings.py v4 llm_analysis_v2` (GPU, vLLM stopped; on CPU for small sets).
+- Wording per requirement: `python scripts/recheck_wording.py llm_analysis_v2 llm_analysis_w2`.
+- Architecture card: `python scripts/build_cards.py card_v1 --split dev`, then `python scripts/run_verdicts.py <run> --card card_v1 --reasoned`.
+- Grouped requirements: `python scripts/run_batched.py <run> --size N --overview 800 [--split v4]`; whole document: `run_verdicts.py ... --whole`; top 20: `--candidates 20`.
+- Decision layer with a feature preset (`all`, `no_wording`, `agnostic`): `python scripts/stack_verdicts.py <run> <target> --preset P` (cross-validated), `python scripts/apply_stacker.py <train run> <apply run> <target> --preset P`.
+- The comparison tables of 10k: `python scripts/compare_variants.py data/reports/v4_comparison.md data/reports/v4_calls_and_context.md`. Cascade on dev and the checks of 10i were run with throw-away scripts that are not stored; the cascade rows of 10k are reproduced by `compare_variants.py`.
 - Stored data: `data/retrieval/` (retrieval scores, rankings), `data/runs/` (free-form runs), `data/runs_verdict/<run>/` (records, `run_config.json` with the prompt, `verdict_metrics_dev.json`).

@@ -1,0 +1,45 @@
+{
+ "purpose": "The Refund Service allows merchants and support agents to request, approve, track and cancel refunds of card payments.",
+ "exposure": "external",
+ "callers": [
+  "merchant backends",
+  "support agents"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Refunds Gateway",
+   "kind": "database",
+   "evidence": "The Refunds Gateway receives refund requests and approvals from merchant backends and support agents and passes them to refund-core."
+  },
+  {
+   "name": "refund-core",
+   "kind": "service",
+   "evidence": "refund-core holds the lifecycle of a refund, stores the refund records with the references of the payments in refund-db (PostgreSQL) and publishes status events to refund-events (Kafka)."
+  },
+  {
+   "name": "refund-db",
+   "kind": "database",
+   "evidence": "refund-core stores the refund records with the references of the payments in refund-db (PostgreSQL)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "refund requests and approvals",
+   "evidence": "The Refunds Gateway receives refund requests and approvals from merchant backends and support agents and passes them to refund-core."
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-db",
+   "data": "refund records",
+   "evidence": "refund-core stores the refund records with the references of the payments in refund-db (PostgreSQL)."
+  }
+ ]
+}

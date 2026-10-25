@@ -1,0 +1,35 @@
+{
+ "purpose": "The Card Token Vault enables payment services to securely handle card numbers by replacing them with tokens, allowing for secure transactions without storing sensitive card data.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL) is the main datastore of the vault and runs as a primary with a standby in a second availability zone."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "Vault and KMS, which supply data keys and runtime secrets;"
+  }
+ ],
+ "flows": [
+  {
+   "source": "vault-db",
+   "target": "Vault and KMS",
+   "data": "data keys and runtime secrets",
+   "evidence": "Vault and KMS, which supply data keys and runtime secrets;"
+  }
+ ]
+}

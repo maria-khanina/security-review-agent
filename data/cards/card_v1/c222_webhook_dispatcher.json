@@ -1,0 +1,47 @@
+{
+ "purpose": "The service delivers events of the platform to the callback endpoints of merchants.",
+ "exposure": "external",
+ "callers": [
+  "Platform services",
+  "Merchants"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "credentials",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "Webhook Dispatcher",
+   "kind": "service",
+   "evidence": "The Webhook Dispatcher delivers events of the platform to the callback endpoints of the merchants."
+  },
+  {
+   "name": "Delivery queue",
+   "kind": "database",
+   "evidence": "The dispatcher takes events from the delivery queue and sends them to the callback URL in order per subscription."
+  },
+  {
+   "name": "Internal load balancer",
+   "kind": "network",
+   "evidence": "The dispatcher runs as two instances behind the internal load balancer and is deployed by the platform team in rolling steps."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Webhook Dispatcher",
+   "target": "Delivery queue",
+   "data": "events",
+   "evidence": "The dispatcher takes events from the delivery queue and sends them to the callback URL in order per subscription."
+  },
+  {
+   "source": "Webhook Dispatcher",
+   "target": "Internal load balancer",
+   "data": "events",
+   "evidence": "The dispatcher runs as two instances behind the internal load balancer and is deployed by the platform team in rolling steps."
+  }
+ ]
+}

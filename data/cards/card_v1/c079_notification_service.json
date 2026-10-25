@@ -1,0 +1,44 @@
+{
+ "purpose": "The notification service delivers email and SMS messages for the payment platform.",
+ "exposure": "external",
+ "callers": [
+  "domain-events",
+  "external systems",
+  "admin interface",
+  "debug endpoints"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "domain-events",
+   "kind": "message_queue",
+   "evidence": "Domain events arrive on domain-events (Kafka)."
+  },
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "The notifier reads each event, chooses a template and a channel, renders the message and hands it to the Email and SMS provider."
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notifier",
+   "data": "domain events",
+   "evidence": "Domain events arrive on domain-events (Kafka)."
+  },
+  {
+   "source": "notifier",
+   "target": "provider",
+   "data": "message",
+   "evidence": "The notifier reads each event, chooses a template and a channel, renders the message and hands it to the Email and SMS provider."
+  }
+ ]
+}

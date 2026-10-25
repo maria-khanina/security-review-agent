@@ -1,0 +1,71 @@
+{
+ "purpose": "The Merchant Portal API provides merchants with access to their payment settlements, user management, and report generation capabilities.",
+ "exposure": "external",
+ "callers": [
+  "Merchant web app",
+  "Keycloak",
+  "portal-backend",
+  "portal-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "internal",
+  "logs",
+  "card_data",
+  "credentials",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Merchant web app",
+   "kind": "client_app",
+   "evidence": "The browser application that merchants see."
+  },
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "All calls from the web app go to it first."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "The gateway asks it whether a token is valid."
+  },
+  {
+   "name": "portal-backend",
+   "kind": "service",
+   "evidence": "The service with the business logic"
+  },
+  {
+   "name": "portal-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "The database with settlements, merchant users and report jobs."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant web app",
+   "target": "Portal Gateway",
+   "data": "API requests",
+   "evidence": "All calls from the web app go to it first."
+  },
+  {
+   "source": "Portal Gateway",
+   "target": "Keycloak",
+   "data": "Token validation",
+   "evidence": "The gateway asks it whether a token is valid."
+  },
+  {
+   "source": "Portal Gateway",
+   "target": "portal-backend",
+   "data": "API requests",
+   "evidence": "The gateway asks it whether a token is valid."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "Database queries",
+   "evidence": "Nothing else touches portal-db."
+  }
+ ]
+}

@@ -1,0 +1,69 @@
+{
+ "purpose": "The service processes payments for merchants, handling payment requests, authorizations, captures, and refunds.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "other services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Merchant backend",
+   "kind": "database",
+   "evidence": "merchant traffic enters here"
+  },
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "single public ingress"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "owns payment state"
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "adapter per acquirer"
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "state changes, at-least-once"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant backend",
+   "target": "Payments Edge Gateway",
+   "data": "payment request (card token)",
+   "evidence": "payment request (card token)"
+  },
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "validated payment request",
+   "evidence": "validated payment request"
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events",
+   "data": "status events",
+   "evidence": "status events"
+  },
+  {
+   "source": "payment-events",
+   "target": "Acquirer connector",
+   "data": "authorization request",
+   "evidence": "authorization request"
+  }
+ ]
+}

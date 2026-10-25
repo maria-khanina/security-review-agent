@@ -1,0 +1,67 @@
+{
+ "purpose": "The KYC service performs identity checks for customers, including opening cases, uploading documents, and managing the status of cases through a centralized orchestrator.",
+ "exposure": "external",
+ "callers": [
+  "customers",
+  "merchants",
+  "partners",
+  "analysts",
+  "vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "kyc-orchestrator owns the case records in kyc-db (PostgreSQL) and the images in the kyc-documents bucket (S3)."
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "kyc-db has point-in-time recovery enabled, with seven days of retention."
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "Uploaded files are scanned for malware before any other user or service can open them."
+  },
+  {
+   "name": "vendor",
+   "kind": "third_party",
+   "evidence": "The vendor answers asynchronously. The case moves from open to submitted, and then to approved, rejected or needs_review."
+  }
+ ],
+ "flows": [
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "kyc-orchestrator owns the case records in kyc-db (PostgreSQL) and the images in the kyc-documents bucket (S3)."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "images",
+   "evidence": "kyc-orchestrator owns the case records in kyc-db (PostgreSQL) and the images in the kyc-documents bucket (S3)."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "vendor",
+   "data": "case status",
+   "evidence": "The vendor answers asynchronously. The case moves from open to submitted, and then to approved, rejected or needs_review."
+  },
+  {
+   "source": "vendor",
+   "target": "kyc-orchestrator",
+   "data": "response",
+   "evidence": "The vendor answers asynchronously. The case moves from open to submitted, and then to approved, rejected or needs_review."
+  }
+ ]
+}

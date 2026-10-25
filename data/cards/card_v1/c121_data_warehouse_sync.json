@@ -1,0 +1,65 @@
+{
+ "purpose": "Copy chosen tables of the Meridian Pay production data to a place where our analytics vendor can take them every night.",
+ "exposure": "external",
+ "callers": [
+  "scheduler",
+  "data engineer",
+  "vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "pii",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "The service has four parts."
+  },
+  {
+   "name": "analytics read replica (PostgreSQL)",
+   "kind": "database",
+   "evidence": "The analytics read replica (PostgreSQL) is a read-only copy of the production database, and it is the single source of the sync-job."
+  },
+  {
+   "name": "staging bucket (S3)",
+   "kind": "object_storage",
+   "evidence": "The bucket where the extract files are put. The vendor downloads the files from here."
+  },
+  {
+   "name": "Analytics vendor",
+   "kind": "third_party",
+   "evidence": "The external company which loads our files to its own warehouse."
+  }
+ ],
+ "flows": [
+  {
+   "source": "scheduler",
+   "target": "sync-job",
+   "data": "trigger",
+   "evidence": "The scheduler start the sync-job."
+  },
+  {
+   "source": "sync-job",
+   "target": "analytics read replica (PostgreSQL)",
+   "data": "connection",
+   "evidence": "The job open a connection to the replica and read the tables from the list of the configuration."
+  },
+  {
+   "source": "analytics read replica (PostgreSQL)",
+   "target": "staging bucket (S3)",
+   "data": "extract files",
+   "evidence": "For every table it write one extract file with a temporary name into the staging bucket"
+  },
+  {
+   "source": "staging bucket (S3)",
+   "target": "Analytics vendor",
+   "data": "final files",
+   "evidence": "The vendor downloads the final files in the morning."
+  }
+ ]
+}

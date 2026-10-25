@@ -1,0 +1,45 @@
+{
+ "purpose": "The service scores payment transactions for fraud risk based on payment events and customer attributes.",
+ "exposure": "internal",
+ "callers": [
+  "payment-events (MSK)"
+ ],
+ "serves_requests": "unclear",
+ "data_classes": [
+  "pii",
+  "logs",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "engine reads, scores, writes the decision row. nothing else leaves the box."
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "decisions-db (Postgres)"
+  },
+  {
+   "name": "scoring audit log grp",
+   "kind": "log_pipeline",
+   "evidence": "audit records"
+  }
+ ],
+ "flows": [
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db",
+   "data": "decisions",
+   "evidence": "engine reads, scores, writes the decision row. nothing else leaves the box."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring audit log grp",
+   "data": "audit records",
+   "evidence": "audit goes to cloudwatch log group scoring_audit (see wiki page \"scoring audit\" - TBD link)."
+  }
+ ]
+}

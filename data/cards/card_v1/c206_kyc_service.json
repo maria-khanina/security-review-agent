@@ -1,0 +1,45 @@
+{
+ "purpose": "The KYC Verification Service collects identity details and document images from customers, submits them to an external identity verification vendor, and stores the verification results to shorten the time to open a verification case.",
+ "exposure": "external",
+ "callers": [
+  "Customer app"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "The Customer app calls kyc-orchestrator, the service described in this document (also called kyc-gateway in the old diagrams)."
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "kyc-orchestrator stores the case records in kyc-db (PostgreSQL) and the document images in the kyc-documents bucket (S3)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Customer app",
+   "target": "kyc-orchestrator",
+   "data": "customer_id, full_name, date_of_birth, country",
+   "evidence": "The Customer app calls kyc-orchestrator, the service described in this document (also called kyc-gateway in the old diagrams)."
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "kyc-orchestrator stores the case records in kyc-db (PostgreSQL) and the document images in the kyc-documents bucket (S3)."
+  },
+  {
+   "source": "Identity verification vendor",
+   "target": "kyc-orchestrator",
+   "data": "verification result",
+   "evidence": "The vendor answers asynchronously, and kyc-orchestrator updates the case when the answer arrives."
+  }
+ ]
+}

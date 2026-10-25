@@ -1,0 +1,59 @@
+{
+ "purpose": "The KYC service collects identity details and document images from applicants, sends them to an external verification vendor, and stores the verification outcome.",
+ "exposure": "external",
+ "callers": [
+  "Applicants",
+  "Other services",
+  "Admin staff"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "internal",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "kyc-orchestrator (the orchestrator, \"kyc-gw\" on the old slides, we should drop that)"
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "kyc-documents (S3 bucket for images)"
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "kyc-db (PostgreSQL for case records)"
+  },
+  {
+   "name": "Identity verification vendor",
+   "kind": "third_party",
+   "evidence": "the Identity verification vendor"
+  }
+ ],
+ "flows": [
+  {
+   "source": "kyc-orchestrator",
+   "target": "Identity verification vendor",
+   "data": "identity details and document images",
+   "evidence": "kyc-orchestrator talks to the verification vendor and receives its callbacks"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "kyc-orchestrator (the orchestrator, \"kyc-gw\" on the old slides, we should drop that)"
+  },
+  {
+   "source": "kyc-documents",
+   "target": "kyc-db",
+   "data": "document images",
+   "evidence": "kyc-documents (S3 bucket for images)"
+  }
+ ]
+}

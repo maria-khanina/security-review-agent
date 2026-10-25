@@ -1,0 +1,61 @@
+{
+ "purpose": "A service that processes payment requests, tracks payment status, and interacts with acquirers to facilitate transactions.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "edge",
+  "core",
+  "acquirer",
+  "consumers"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "edge",
+   "kind": "api_gateway",
+   "evidence": "Payments Edge Gateway, the PEG or just the edge depending on who you ask"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "the core or the payments service"
+  },
+  {
+   "name": "acquirer connector",
+   "kind": "service",
+   "evidence": "calls the acquirer through the acquirer connector"
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "publishes an event to payment-events, the Kafka topic"
+  }
+ ],
+ "flows": [
+  {
+   "source": "edge",
+   "target": "payments-core",
+   "data": "payment requests",
+   "evidence": "the edge passes the validated request to payments-core"
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment data",
+   "evidence": "the core writes the payment to payments-db"
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events",
+   "data": "event data",
+   "evidence": "the core publishes an event to payment-events, the Kafka topic"
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "purpose": "The service handles posting, reading, and correcting entries in a ledger system, moving from the monolith to a separate service.",
+ "exposure": "external",
+ "callers": [
+  "wallet service",
+  "payment services",
+  "ledger-events (Kafka consumers)"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "The ledger moves out of the monolith into its own service, ledger-core."
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "ledger-core writes the entries and balances to ledger-db (PostgreSQL)"
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "ledger-core publishes every posted entry to ledger-events (Kafka)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries and balances",
+   "evidence": "ledger-core writes the entries and balances to ledger-db (PostgreSQL)"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "posted entries",
+   "evidence": "ledger-core publishes every posted entry to ledger-events (Kafka)"
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+ "purpose": "The ledger service processes journal entries, validates them, stores them in a database, and publishes events for consumption by other services.",
+ "exposure": "external",
+ "callers": [
+  "Wallet and payment services",
+  "Consumers of events",
+  "Staff"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "logs",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "ledger-core validates that debits equal credits, writes the entry to ledger-db (PostgreSQL) inside one transaction, and publishes a posted-entry event to ledger-events (Kafka) after the commit."
+  },
+  {
+   "name": "ledger-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "ledger-core processes each journal entry in one database transaction and writes the posted-entry event to ledger-events (Kafka) after the commit."
+  },
+  {
+   "name": "ledger-events (Kafka)",
+   "kind": "message_queue",
+   "evidence": "Consumers of the events, such as reporting and notifications, read the stream."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Wallet and payment services",
+   "target": "ledger-core",
+   "data": "journal entries and balance queries",
+   "evidence": "Wallet and payment services -> ledger-core: journal entries and balance queries."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db (PostgreSQL)",
+   "data": "entries and balances",
+   "evidence": "ledger-core -> ledger-db (PostgreSQL): entries and balances."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events (Kafka)",
+   "data": "posted entry events",
+   "evidence": "ledger-core -> ledger-events (Kafka): posted entry events."
+  }
+ ]
+}

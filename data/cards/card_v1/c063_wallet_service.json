@@ -1,0 +1,60 @@
+{
+ "purpose": "The Wallet Service manages customer wallet balances and executes top-ups, transfers, and profile changes.",
+ "exposure": "external",
+ "callers": [
+  "mobile applications",
+  "Keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "the single ingress for mobile traffic and, as explained in section 6, for a few other callers."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "the identity provider for customers. The gateway asks it to validate every token."
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "which implements the business rules: balances, top-ups, transfers and profile."
+  },
+  {
+   "name": "wallet-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "the datastore for balances, transactions and owner profiles."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "Keycloak",
+   "data": "token",
+   "evidence": "the gateway asks it to validate every token."
+  },
+  {
+   "source": "Keycloak",
+   "target": "wallet-core",
+   "data": "authenticated request",
+   "evidence": "as authenticated requests, to wallet-core."
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db (PostgreSQL)",
+   "data": "balances and transactions",
+   "evidence": "wallet-core reads and writes balances and transactions in wallet-db."
+  }
+ ]
+}

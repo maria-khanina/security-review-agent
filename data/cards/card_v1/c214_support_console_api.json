@@ -1,0 +1,35 @@
+{
+ "purpose": "The Support Console API allows support agents to manage customer data, issue goodwill credits, reverse fees, and export customer data.",
+ "exposure": "external",
+ "callers": [
+  "Support agents",
+  "console-backend"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "console-backend",
+   "kind": "service",
+   "evidence": "console-backend validates the token of the agent with Keycloak"
+  },
+  {
+   "name": "console-db",
+   "kind": "database",
+   "evidence": "console-db (PostgreSQL) has two groups of tables: customer_profile (copy of the profile, refreshed every night) and agent_action (append only)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "console-backend",
+   "target": "console-db",
+   "data": "customer profiles and agent action records",
+   "evidence": "console-backend reads and writes console-db (PostgreSQL) with the customer profiles and the agent action records."
+  }
+ ]
+}

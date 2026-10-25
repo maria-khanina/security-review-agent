@@ -1,0 +1,60 @@
+{
+ "purpose": "The service manages customer wallet balances and executes transactions such as top-ups, transfers, and profile updates.",
+ "exposure": "external",
+ "callers": [
+  "Mobile API Gateway",
+  "Keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "credentials",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "single ingress for mobile traffic."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "identity provider (the 2021 text used a home-grown login service; it was retired in 2023)."
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "business rules."
+  },
+  {
+   "name": "wallet-db",
+   "kind": "database",
+   "evidence": "balances, transactions and owner profile."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "wallet-core",
+   "data": "API requests",
+   "evidence": "The mobile application reaches it through the Mobile API Gateway (called \"mobile edge\" in the proposal)."
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "transactions",
+   "evidence": "The 2021 text described a monolithic application with a shared database; the current design separates the service and its own database, wallet-db."
+  },
+  {
+   "source": "Keycloak",
+   "target": "wallet-core",
+   "data": "authentication tokens",
+   "evidence": "Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate."
+  }
+ ]
+}

@@ -1,0 +1,59 @@
+{
+ "purpose": "The service handles payment requests from merchant backends, processes payments through a core service, and communicates with acquirers and other systems.",
+ "exposure": "external",
+ "callers": [
+  "merchant backends",
+  "edge gateway",
+  "acquirer"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "gateway",
+   "kind": "api_gateway",
+   "evidence": "The gateway recieves payment requests from the merchant backends"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payments-core is the thing I also call the core or the payments service"
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payments-core writes the payment to payments-db"
+  },
+  {
+   "name": "acquirer connector",
+   "kind": "service",
+   "evidence": "payments-core talks to the acquirer through the acquirer connector"
+  }
+ ],
+ "flows": [
+  {
+   "source": "gateway",
+   "target": "payments-core",
+   "data": "payment requests",
+   "evidence": "The gateway recieves payment requests from the merchant backends"
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment data",
+   "evidence": "payments-core writes the payment to payments-db"
+  },
+  {
+   "source": "payments-core",
+   "target": "acquirer connector",
+   "data": "payment data",
+   "evidence": "payments-core talks to the acquirer through the acquirer connector"
+  }
+ ]
+}

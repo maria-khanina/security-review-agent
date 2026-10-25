@@ -1,0 +1,54 @@
+{
+ "purpose": "The service manages wallet balances, transactions, and user profiles for customers.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app",
+  "Keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "single ingress, validates tokens against Keycloak, forwards to wallet-core. Mobile traffic only."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "IdP for customers; realm per market."
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "balance math, transfer saga, idempotency on transfer reference."
+  },
+  {
+   "name": "wallet-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "stores balances, transactions and the wallet owner profile."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "Keycloak",
+   "data": "token validation",
+   "evidence": "single ingress, validates tokens against Keycloak, forwards to wallet-core. Mobile traffic only."
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db (PostgreSQL)",
+   "data": "balances, txns",
+   "evidence": "wallet-core |  balance math, transfer saga, idempotency on transfer reference."
+  }
+ ]
+}

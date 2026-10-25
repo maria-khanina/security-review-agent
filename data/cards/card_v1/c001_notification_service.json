@@ -1,0 +1,48 @@
+{
+ "purpose": "Sends notifications to customers, merchants, and partners via email and SMS.",
+ "exposure": "external",
+ "callers": [
+  "domain-events",
+  "external clients",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "credentials",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "renders templates, sends messages"
+  },
+  {
+   "name": "domain-events",
+   "kind": "service",
+   "evidence": "events that trigger messages"
+  },
+  {
+   "name": "Email/SMS provider",
+   "kind": "third_party",
+   "evidence": "delivers email and SMS"
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notifier",
+   "data": "event (type, customer id)",
+   "evidence": "domain-events | notifier | event (type, customer id)"
+  },
+  {
+   "source": "notifier",
+   "target": "Email/SMS provider",
+   "data": "recipient contact details, message body",
+   "evidence": "notifier | Email/SMS provider | recipient contact details, message body"
+  }
+ ]
+}

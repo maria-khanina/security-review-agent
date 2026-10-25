@@ -1,0 +1,58 @@
+{
+ "purpose": "The KYC service receives customer ID details and document images, stores them in S3 and a PostgreSQL database, and sends the case to an ID verification vendor.",
+ "exposure": "external",
+ "callers": [
+  "customer app"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "logs",
+  "pii",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "kyc-orchestrator is exposed to the customer app through the public API layer."
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "service",
+   "evidence": "kyc-orchestrator -> kyc-documents bucket (S3) holds the images"
+  },
+  {
+   "name": "ID verification vendor",
+   "kind": "third_party",
+   "evidence": "kyc-orchestrator sends name, DOB, country + images to vendor"
+  }
+ ],
+ "flows": [
+  {
+   "source": "customer app",
+   "target": "kyc-orchestrator",
+   "data": "ID details + doc images",
+   "evidence": "app opens a case"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "doc images",
+   "evidence": "orchestrator -> kyc-documents bucket (S3) holds the images"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "ID verification vendor",
+   "data": "name, DOB, country + images",
+   "evidence": "orchestrator sends name, DOB, country + images to vendor"
+  },
+  {
+   "source": "ID verification vendor",
+   "target": "kyc-db",
+   "data": "vendor result",
+   "evidence": "vendor result goes back into kyc-db, status = verified / rejected / manual_review"
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "purpose": "The wallet service manages balances, top-ups, transfers, and profile changes for customers.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app",
+  "Other services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "credentials",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "The Mobile API Gateway is the single entry point for all mobile traffic"
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "Behind it: wallet-core (also \"the core\")"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "Keycloak",
+   "data": "authentication tokens",
+   "evidence": "The Mobile API Gateway runs as three replicas behind the cloud load balancer"
+  }
+ ]
+}

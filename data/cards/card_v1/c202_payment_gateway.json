@@ -1,0 +1,72 @@
+{
+ "purpose": "The Payment Gateway enables merchants to accept card payments and provides a flexible foundation for the next three years of growth in the EU and UK.",
+ "exposure": "external",
+ "callers": [
+  "merchant backend",
+  "acquirer connector",
+  "payments-core",
+  "merchant"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "service",
+   "evidence": "The Payments Edge Gateway is the single front door for all merchant calls and keeps the experience simple and fast for the merchant."
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payments-core calls the Acquirer connector, which translates the request for the acquirer of the merchant, and stores the result in payments-db."
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "payments-core calls the Acquirer connector, which translates the request for the acquirer of the merchant, and stores the result in payments-db."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payments-db holds payments, refunds and the history of status changes."
+  }
+ ],
+ "flows": [
+  {
+   "source": "merchant backend",
+   "target": "Payments Edge Gateway",
+   "data": "payment request",
+   "evidence": "A merchant backend calls the Payments Edge Gateway with the payment request."
+  },
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "payment request",
+   "evidence": "The Payments Edge Gateway forwards the request to payments-core, the engine that holds the lifecycle of a payment."
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "payment request",
+   "evidence": "payments-core calls the Acquirer connector, which translates the request for the acquirer of the merchant, and stores the result in payments-db."
+  },
+  {
+   "source": "Acquirer connector",
+   "target": "payments-db",
+   "data": "status changes",
+   "evidence": "payments-core calls the Acquirer connector, which translates the request for the acquirer of the merchant, and stores the result in payments-db."
+  },
+  {
+   "source": "payments-db",
+   "target": "payment-events topic",
+   "data": "status changes",
+   "evidence": "Every status change is published to the payment-events topic."
+  }
+ ]
+}

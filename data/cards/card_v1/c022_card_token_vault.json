@@ -1,0 +1,62 @@
+{
+ "purpose": "The card token vault processes and stores primary account numbers (PANs) securely, ensuring that payment services work with tokens instead of direct PAN data.",
+ "exposure": "external",
+ "callers": [
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service, a small stateless service with two operations: tokenize (PAN in, token out) and detokenize (token in, PAN out)."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL), the datastore that holds encrypted card records and the token mapping."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "secret_store",
+   "evidence": "Vault and KMS, the secret store and key management service from which the service obtains data encryption keys and runtime secrets."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "The surrounding network layer, which limits who can reach what."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PAN",
+   "evidence": "A payment service sends a PAN. The tokenization-service validates the format, obtains a data encryption key, encrypts the PAN, writes the record and the token mapping to vault-db and returns the token."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "encrypted card data",
+   "evidence": "The tokenization-service reads and writes encrypted card data in vault-db."
+  },
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "token and purpose code",
+   "evidence": "A payment service sends a token and a purpose code. The tokenization-service checks that the caller is allowed to detokenize for that purpose, reads the record, decrypts it and returns the PAN."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault_audit",
+   "data": "audit records",
+   "evidence": "Every detokenize call is written to the audit log with the caller identity, the purpose code and the token, never the PAN."
+  }
+ ]
+}

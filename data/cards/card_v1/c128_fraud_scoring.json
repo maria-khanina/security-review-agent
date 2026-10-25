@@ -1,0 +1,57 @@
+{
+ "purpose": "The service scores payment events to determine fraud risk and writes decisions to a database.",
+ "exposure": "external",
+ "callers": [
+  "payment-events (MSK)",
+  "decisions-db (PostgreSQL)"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii"
+ ],
+ "components": [
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "scoring-engine reads payment events from payment-events (MSK), scores them, writes decision to decisions-db (PostgreSQL)"
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "scoring-engine reads payment events from payment-events (MSK)"
+  },
+  {
+   "name": "scoring_audit",
+   "kind": "log_pipeline",
+   "evidence": "audit records go to scoring audit log group"
+  },
+  {
+   "name": "scoring_policy",
+   "kind": "database",
+   "evidence": "terraforms: scoring_key, payment_events, decisions_db, decisions_sg, scoring_audit, scoring_policy"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "scoring-engine reads payment events from payment-events (MSK)"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring_audit",
+   "data": "audit records",
+   "evidence": "audit records go to scoring audit log group"
+  },
+  {
+   "source": "scoring_policy",
+   "target": "scoring-engine",
+   "data": "scoring policy",
+   "evidence": "terraforms: scoring_key, payment_events, decisions_db, decisions_sg, scoring_audit, scoring_policy"
+  }
+ ]
+}

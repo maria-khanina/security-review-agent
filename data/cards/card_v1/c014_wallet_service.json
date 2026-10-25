@@ -1,0 +1,72 @@
+{
+ "purpose": "The Wallet Service manages digital wallets for customers, allowing them to track balances, top up funds from funding sources, and send money between wallets.",
+ "exposure": "external",
+ "callers": [
+  "Mobile app",
+  "Keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "This is the front door. Every request from the mobile app goes through it first."
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "This is the identity provider (IdP). It knows our customers and it can say 'yes, this token is valid' or 'no, it is not'."
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "This is the brain. It contains the business rules: can this wallet send this amount, what happens if two transfers arrive at the same time, and so on."
+  },
+  {
+   "name": "wallet-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "This is the memory. It stores balances, the list of transactions and the profile of the owner."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "Keycloak",
+   "data": "token",
+   "evidence": "The gateway asks Keycloak every time."
+  },
+  {
+   "source": "Keycloak",
+   "target": "Mobile API Gateway",
+   "data": "token",
+   "evidence": "The gateway asks Keycloak every time."
+  },
+  {
+   "source": "Mobile API Gateway",
+   "target": "wallet-core",
+   "data": "request",
+   "evidence": "The path of a request is: Mobile app, then gateway, then Keycloak for validation, then back to the gateway, then wallet-core, then wallet-db."
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "transaction",
+   "evidence": "The path of a request is: Mobile app, then gateway, then Keycloak for validation, then back to the gateway, then wallet-core, then wallet-db."
+  },
+  {
+   "source": "wallet-db",
+   "target": "wallet-core",
+   "data": "transaction",
+   "evidence": "The path of a request is: Mobile app, then gateway, then Keycloak for validation, then back to the gateway, then wallet-core, then wallet-db."
+  }
+ ]
+}

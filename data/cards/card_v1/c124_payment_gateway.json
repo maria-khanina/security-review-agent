@@ -1,0 +1,77 @@
+{
+ "purpose": "The Payment Gateway processes payment requests, routes them to acquirers, and returns results to merchants and customers.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "customers",
+  "acquirers",
+  "internal services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "the single entry point for merchant integrations"
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "orchestrates every payment from creation to capture"
+  },
+  {
+   "name": "payments-db (PostgreSQL)",
+   "kind": "database",
+   "evidence": "the trusted record of the payments"
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "carries each authorization to the acquirer"
+  },
+  {
+   "name": "payment-events (Kafka)",
+   "kind": "message_queue",
+   "evidence": "streams status changes to the rest of the platform in real time"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "payment_requests",
+   "evidence": "the single entry point for merchant integrations"
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db (PostgreSQL)",
+   "data": "payment_data",
+   "evidence": "orchestrates every payment from creation to capture"
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "authorization_requests",
+   "evidence": "carries each authorization to the acquirer"
+  },
+  {
+   "source": "Acquirer connector",
+   "target": "payments-db (PostgreSQL)",
+   "data": "authorization_responses",
+   "evidence": "carries each authorization to the acquirer"
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events (Kafka)",
+   "data": "status_changes",
+   "evidence": "streams status changes to the rest of the platform in real time"
+  }
+ ]
+}

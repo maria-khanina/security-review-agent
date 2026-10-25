@@ -1,0 +1,58 @@
+{
+ "purpose": "The service tokenizes card numbers (PANs) for other payment services, allowing them to securely handle card data.",
+ "exposure": "internal",
+ "callers": [
+  "payment services",
+  "vault-db",
+  "vault",
+  "KMS"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service is a small Go service with two handlers and a worker that rotates data keys."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby."
+  },
+  {
+   "name": "vault",
+   "kind": "network",
+   "evidence": "Everything runs in the vault private subnet (also called the PCI subnet in Lena's diagrams)."
+  },
+  {
+   "name": "KMS",
+   "kind": "service",
+   "evidence": "tokenization-service -> Vault and KMS: asks for data encryption keys."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "PAN in, token out (tokenize) or token in, PAN out (detokenize)",
+   "evidence": "Payment service -> tokenization-service: PAN in, token out (tokenize) or token in, PAN out (detokenize)."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "card data",
+   "evidence": "tokenization-service -> vault-db: stores the card data in encrypted form."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "vault",
+   "data": "data encryption keys",
+   "evidence": "tokenization-service -> Vault and KMS: asks for data encryption keys."
+  }
+ ]
+}

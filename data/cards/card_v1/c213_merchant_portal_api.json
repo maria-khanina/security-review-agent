@@ -1,0 +1,43 @@
+{
+ "purpose": "The Merchant Portal API provides a self-service platform for merchants to manage settlements, team, and reporting.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "portal gateway",
+  "portal-backend"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "internal",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Merchant web app",
+   "kind": "client_app",
+   "evidence": "The Merchant web app talks to the Portal Gateway."
+  },
+  {
+   "name": "Portal Gateway",
+   "kind": "api_gateway",
+   "evidence": "The Portal Gateway is the single front door of the portal;"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant web app",
+   "target": "Portal Gateway",
+   "data": "requests",
+   "evidence": "The Merchant web app talks to the Portal Gateway."
+  },
+  {
+   "source": "portal-backend",
+   "target": "portal-db",
+   "data": "queries",
+   "evidence": "portal-backend computes the settlement views, manages the merchant users and creates the reports in the background."
+  }
+ ]
+}

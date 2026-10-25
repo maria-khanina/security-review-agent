@@ -1,0 +1,69 @@
+{
+ "purpose": "The Payment Gateway service accepts card payments from merchants, routes them to acquiring banks, and publishes status events for other teams.",
+ "exposure": "external",
+ "callers": [
+  "merchant backend",
+  "other teams"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "The request come from the merchant backend to Payments Edge Gateway."
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "The gateway do the first checks and forward the validated request to payments-core."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "It write the payment records to payments-db (PostgreSQL)."
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "It send the authorization request to the acquirer through Acquirer connector."
+  },
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "It publish an event to payment-events (Kafka) which is consumed by ledger and notification teams."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "validated request",
+   "evidence": "The gateway do the first checks and forward the validated request to payments-core."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment records",
+   "evidence": "It write the payment records to payments-db (PostgreSQL)."
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "authorization request",
+   "evidence": "It send the authorization request to the acquirer through Acquirer connector."
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events",
+   "data": "status events",
+   "evidence": "It publish an event to payment-events (Kafka) which is consumed by ledger and notification teams."
+  }
+ ]
+}

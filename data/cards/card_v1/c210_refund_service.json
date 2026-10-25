@@ -1,0 +1,79 @@
+{
+ "purpose": "The service processes refund requests, manages their lifecycle, and stores records in a PostgreSQL database.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "support agents"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "logs",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Refunds Gateway",
+   "kind": "api_gateway",
+   "evidence": "Refunds Gateway"
+  },
+  {
+   "name": "refund-db",
+   "kind": "database",
+   "evidence": "refund-db (PostgreSQL)"
+  },
+  {
+   "name": "refund-events",
+   "kind": "message_queue",
+   "evidence": "refund-events (Kafka)"
+  },
+  {
+   "name": "object store",
+   "kind": "object_storage",
+   "evidence": "object store"
+  },
+  {
+   "name": "payment gateway",
+   "kind": "third_party",
+   "evidence": "payment gateway"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "refund request",
+   "evidence": "Refunds Gateway --> [refund-core]"
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-db",
+   "data": "refund records",
+   "evidence": "refund-core --> [refund-db (PostgreSQL)]"
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-events",
+   "data": "status changes",
+   "evidence": "every status change leaves as an event on refund-events"
+  },
+  {
+   "source": "Support agent",
+   "target": "refund-core",
+   "data": "support documents",
+   "evidence": "Support agent --file--> [refund-core]"
+  },
+  {
+   "source": "Finance",
+   "target": "refund-core",
+   "data": "export calls",
+   "evidence": "Finance --> [export call] --> [refund-core]"
+  },
+  {
+   "source": "refund-core",
+   "target": "payment gateway",
+   "data": "amount, currency",
+   "evidence": "refund-core reads the payment, books the refund and sends amount and currency on to the payment gateway"
+  }
+ ]
+}

@@ -1,0 +1,65 @@
+{
+ "purpose": "The card token vault stores primary account numbers securely and allows payment services to tokenize and detokenize card numbers.",
+ "exposure": "external",
+ "callers": [
+  "payment services",
+  "vault-db",
+  "Vault and KMS"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service is the service that offers the two operations, tokenize and detokenize."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL) holds the card records and the mapping between tokens and card numbers."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "database",
+   "evidence": "Vault and KMS supply the data encryption keys that tokenization-service requests."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "The vault private subnet is the network segment in which all components run."
+  }
+ ],
+ "flows": [
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "card_data",
+   "evidence": "tokenization-service creates a random token, stores the encrypted number with the token in vault-db and returns the token."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault and KMS",
+   "data": "data_encryption_keys",
+   "evidence": "Vault and KMS supply the data encryption keys that tokenization-service requests."
+  },
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "card_data",
+   "evidence": "A payment service sends a card number."
+  },
+  {
+   "source": "payment services",
+   "target": "tokenization-service",
+   "data": "purpose_code",
+   "evidence": "A payment service sends a token and a purpose code."
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+{
+ "purpose": "The Wallet Service manages customer wallet balances, allows top-ups and money transfers between wallets.",
+ "exposure": "external",
+ "callers": [
+  "Mobile App",
+  "Keycloak",
+  "wallet-core",
+  "wallet-db"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "card_data",
+  "logs",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Mobile API Gateway",
+   "kind": "api_gateway",
+   "evidence": "single ingress for mobile traffic"
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "identity provider for customers; the gateway asks it to validate every token"
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "balances, top-ups, transfers and profile"
+  },
+  {
+   "name": "wallet-db",
+   "kind": "database",
+   "evidence": "balances, transactions and owner profile"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Mobile API Gateway",
+   "target": "Keycloak",
+   "data": "token validation",
+   "evidence": "the gateway asks Keycloak for token validation"
+  },
+  {
+   "source": "Mobile API Gateway",
+   "target": "wallet-core",
+   "data": "wallet and transfer requests",
+   "evidence": "the mobile app sends wallet and transfer requests to the gateway"
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "balances and transactions",
+   "evidence": "wallet-core reads and writes balances and transactions in wallet-db"
+  }
+ ]
+}

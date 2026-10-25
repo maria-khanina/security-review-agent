@@ -1,0 +1,70 @@
+{
+ "purpose": "The Payment Gateway accepts card payments from merchants, routes them to acquiring banks, and publishes payment status events for other platform services.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "acquiring banks",
+  "platform services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "Payments Edge Gateway",
+   "kind": "api_gateway",
+   "evidence": "The Payments Edge Gateway is the single entrance for merchant traffic and passes validated requests to payments-core."
+  },
+  {
+   "name": "payments-core",
+   "kind": "service",
+   "evidence": "payments-core holds the payment state machine and talks to the acquirer through the Acquirer connector."
+  },
+  {
+   "name": "Acquirer connector",
+   "kind": "service",
+   "evidence": "The Acquirer connector is a thin adapter that maps our payment model to the message format of each acquirer, and it keeps no state of its own."
+  },
+  {
+   "name": "payments-db",
+   "kind": "database",
+   "evidence": "payments-db (PostgreSQL) stores the payment records."
+  },
+  {
+   "name": "payment-events topic",
+   "kind": "message_queue",
+   "evidence": "the payment-events topic (Kafka) carries the status events."
+  }
+ ],
+ "flows": [
+  {
+   "source": "Payments Edge Gateway",
+   "target": "payments-core",
+   "data": "validated requests",
+   "evidence": "The Payments Edge Gateway is the single entrance for merchant traffic and passes validated requests to payments-core."
+  },
+  {
+   "source": "payments-core",
+   "target": "Acquirer connector",
+   "data": "payment state machine",
+   "evidence": "payments-core holds the payment state machine and talks to the acquirer through the Acquirer connector."
+  },
+  {
+   "source": "payments-core",
+   "target": "payments-db",
+   "data": "payment records",
+   "evidence": "payments-db (PostgreSQL) stores the payment records."
+  },
+  {
+   "source": "payments-core",
+   "target": "payment-events topic",
+   "data": "status events",
+   "evidence": "the payment-events topic (Kafka) carries the status events."
+  }
+ ]
+}

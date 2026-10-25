@@ -1,0 +1,73 @@
+{
+ "purpose": "The ledger service manages financial entries and balances for wallet and payment services.",
+ "exposure": "external",
+ "callers": [
+  "wallet service",
+  "payment service",
+  "downstream consumer",
+  "finance operator"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "The ledger moves out of the payments monolith into its own service, ledger-core, with its own database, ledger-db (PostgreSQL), and its own event stream, ledger-events (Kafka)."
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "The ledger moves out of the payments monolith into its own service, ledger-core, with its own database, ledger-db (PostgreSQL), and its own event stream, ledger-events (Kafka)."
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "The ledger moves out of the payments monolith into its own service, ledger-core, with its own database, ledger-db (PostgreSQL), and its own event stream, ledger-events (Kafka)."
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet service",
+   "target": "ledger-core",
+   "data": "debit_account, credit_account, amount, currency and reference",
+   "evidence": "POST /v1/entries accepts debit_account, credit_account, amount, currency and reference."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries",
+   "evidence": "ledger-core writes them to ledger-db and publishes a posted-entry event."
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "entry id",
+   "evidence": "An event is published to ledger-events after the entry is committed."
+  },
+  {
+   "source": "payment service",
+   "target": "ledger-core",
+   "data": "entryId",
+   "evidence": "GET /v1/entries/{entryId} returns one entry."
+  },
+  {
+   "source": "payment service",
+   "target": "ledger-core",
+   "data": "accountId",
+   "evidence": "GET /v1/accounts/{accountId}/balance returns account_id, balance and currency."
+  },
+  {
+   "source": "finance operator",
+   "target": "ledger-core",
+   "data": "entryId and reason",
+   "evidence": "POST /v1/entries/{entryId}/reversal accepts a reason and posts a cancelling entry."
+  }
+ ]
+}

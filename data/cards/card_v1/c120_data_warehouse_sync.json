@@ -1,0 +1,47 @@
+{
+ "purpose": "To automate the nightly extraction of tables needed by the analytics vendor into a staging bucket for their warehouse loading",
+ "exposure": "external",
+ "callers": [
+  "sync-job",
+  "analytics vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "sync-job",
+   "kind": "service",
+   "evidence": "sync-job reads the selected tables from the analytics read replica, writes one extract file per table to the staging bucket, and the Analytics vendor downloads the files from the bucket."
+  },
+  {
+   "name": "analytics read replica (PostgreSQL)",
+   "kind": "database",
+   "evidence": "sync-job queries for the extracts."
+  },
+  {
+   "name": "Analytics vendor",
+   "kind": "third_party",
+   "evidence": "the Analytics vendor downloads the files from the bucket."
+  }
+ ],
+ "flows": [
+  {
+   "source": "sync-job",
+   "target": "analytics read replica (PostgreSQL)",
+   "data": "table data",
+   "evidence": "sync-job reads the selected tables from the analytics read replica, writes one extract file per table to the staging bucket, and the Analytics vendor downloads the files from the bucket."
+  },
+  {
+   "source": "staging bucket (S3)",
+   "target": "Analytics vendor",
+   "data": "extract file",
+   "evidence": "the Analytics vendor downloads the files from the bucket."
+  }
+ ]
+}

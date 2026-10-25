@@ -1,0 +1,50 @@
+{
+ "purpose": "The Ledger Service manages double-entry accounting for the Finance Platform, handling journal entries, balances, and reversals.",
+ "exposure": "external",
+ "callers": [
+  "wallet service",
+  "payment services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "validates and posts entries"
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "entries, balances"
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "posted-entry events"
+  }
+ ],
+ "flows": [
+  {
+   "source": "wallet and payment services",
+   "target": "ledger-core",
+   "data": "journal entries",
+   "evidence": "journal entries"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries and balances",
+   "evidence": "entries and balances"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "posted entry events",
+   "evidence": "posted entry events"
+  }
+ ]
+}

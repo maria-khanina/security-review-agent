@@ -1,0 +1,53 @@
+{
+ "purpose": "The Card Token Vault tokenizes primary account numbers to protect them from exposure, allowing payment services to securely store and retrieve card numbers.",
+ "exposure": "internal",
+ "callers": [
+  "payment services",
+  "acquirer connector",
+  "refund flow"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data",
+  "card_data"
+ ],
+ "components": [
+  {
+   "name": "tokenization-service",
+   "kind": "service",
+   "evidence": "tokenization-service is a stateless service that implements tokenize and detokenize."
+  },
+  {
+   "name": "vault-db",
+   "kind": "database",
+   "evidence": "vault-db (PostgreSQL) holds the encrypted card data and the mapping between tokens and card numbers."
+  },
+  {
+   "name": "Vault and KMS",
+   "kind": "service",
+   "evidence": "Vault and KMS provide the data encryption keys."
+  },
+  {
+   "name": "vault private subnet",
+   "kind": "network",
+   "evidence": "vault private subnet is the network segment that contains all of the above."
+  }
+ ],
+ "flows": [
+  {
+   "source": "tokenization-service",
+   "target": "vault-db",
+   "data": "card_data",
+   "evidence": "tokenization-service asks Vault and KMS for a data encryption key when it starts and again when a key must be replaced."
+  },
+  {
+   "source": "tokenization-service",
+   "target": "Vault and KMS",
+   "data": "data encryption key",
+   "evidence": "tokenization-service asks Vault and KMS for a data encryption key when it starts and again when a key must be replaced."
+  }
+ ]
+}

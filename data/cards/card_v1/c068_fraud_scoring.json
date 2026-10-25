@@ -1,0 +1,55 @@
+{
+ "purpose": "Calculates a fraud score for payments to determine if a payment is risky, allowing, reviewing, or blocking based on the score.",
+ "exposure": "external",
+ "callers": [
+  "payment-events",
+  "scoring-engine",
+  "decisions-db",
+  "scoring audit log group"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "pii",
+  "logs",
+  "credentials",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "payment-events",
+   "kind": "message_queue",
+   "evidence": "MSK is managed Kafka. Think of Kafka as a conveyor belt: services put messages on it, other services take them off."
+  },
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "It reads each event, applies the rules and the model and makes a decision."
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "The engine writes every decision here, together with the customer attributes it used."
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events",
+   "target": "scoring-engine",
+   "data": "event",
+   "evidence": "First, payment-events delivers the event to the scoring-engine."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db",
+   "data": "decision",
+   "evidence": "Second, the scoring-engine writes the risk decision to decisions-db."
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring audit log group",
+   "data": "audit record",
+   "evidence": "Third, the scoring-engine writes an audit record to the scoring audit log group."
+  }
+ ]
+}

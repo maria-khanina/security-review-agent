@@ -1,0 +1,47 @@
+{
+ "purpose": "Sends email, SMS, and push notifications when domain events occur.",
+ "exposure": "external",
+ "callers": [
+  "Customers, merchants, partners",
+  "Other company services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "notifier (the service)"
+  },
+  {
+   "name": "domain-events topic",
+   "kind": "message_queue",
+   "evidence": "domain-events topic (Kafka) in"
+  },
+  {
+   "name": "Email and SMS provider",
+   "kind": "third_party",
+   "evidence": "Email and SMS provider out (their SDK in the notifier)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events topic",
+   "target": "notifier",
+   "data": "domain events",
+   "evidence": "one message per event"
+  },
+  {
+   "source": "notifier",
+   "target": "Email and SMS provider",
+   "data": "notification requests",
+   "evidence": "provider can be swapped without touching callers"
+  }
+ ]
+}

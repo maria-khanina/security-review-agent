@@ -33,6 +33,9 @@ class EvaluationSettings(BaseModel):
     bootstrap_resamples: int
     bootstrap_seed: int
     interval_level: float
+    table_budgets: list[float]
+    table_resamples: int
+    cascade_shares: list[float]
 
 
 class PolicyAnalysisSettings(BaseModel):
@@ -99,6 +102,7 @@ class VerdictSettings(BaseModel):
     stacking_word_length: int
     stacking_fine: bool
     card_characters: int
+    wording_analysis_set: str
     feature_presets: dict[str, list[str]]
     probability_floor: float
 

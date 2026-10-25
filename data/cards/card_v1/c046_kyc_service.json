@@ -1,0 +1,43 @@
+{
+ "purpose": "The KYC Verification Service enables customers to verify their identity quickly and securely by checking documents with a trusted partner.",
+ "exposure": "external",
+ "callers": [
+  "customer application",
+  "operations team",
+  "verification partner"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "logs",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "The customer application talks to kyc-orchestrator."
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "kyc-orchestrator keeps document images in the kyc-documents bucket (S3)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "document images",
+   "evidence": "kyc-orchestrator keeps document images in the kyc-documents bucket (S3)"
+  },
+  {
+   "source": "Identity verification vendor",
+   "target": "kyc-orchestrator",
+   "data": "results",
+   "evidence": "The vendor reports the result back, and the service updates the case."
+  }
+ ]
+}

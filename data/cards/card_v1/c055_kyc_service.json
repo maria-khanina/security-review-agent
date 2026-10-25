@@ -1,0 +1,77 @@
+{
+ "purpose": "The service handles customer identity verification by collecting personal information, uploading documents, and verifying them with an external vendor.",
+ "exposure": "external",
+ "callers": [
+  "customer app",
+  "kyc-orchestrator",
+  "vendor",
+  "authenticated callers"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "internal",
+  "logs",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "customer app",
+   "kind": "database",
+   "evidence": "customer app -> kyc-orchestrator: details + doc images"
+  },
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)"
+  },
+  {
+   "name": "S3 bucket kyc-documents",
+   "kind": "database",
+   "evidence": "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)"
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)"
+  },
+  {
+   "name": "verification vendor",
+   "kind": "service",
+   "evidence": "orchestrator -> verification vendor (verify request)"
+  }
+ ],
+ "flows": [
+  {
+   "source": "customer app",
+   "target": "kyc-orchestrator",
+   "data": "details + doc images",
+   "evidence": "customer app -> kyc-orchestrator: details + doc images"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "S3 bucket kyc-documents",
+   "data": "images",
+   "evidence": "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "orchestrator -> S3 bucket kyc-documents (images), kyc-db (case records)"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "verification vendor",
+   "data": "verify request",
+   "evidence": "orchestrator -> verification vendor (verify request)"
+  },
+  {
+   "source": "vendor",
+   "target": "kyc-orchestrator",
+   "data": "result",
+   "evidence": "vendor result back, case status updated"
+  }
+ ]
+}

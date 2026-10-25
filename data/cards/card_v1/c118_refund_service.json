@@ -1,0 +1,58 @@
+{
+ "purpose": "The Refund Service automates the process of returning money to a customer's card by validating requests, managing refund states, and publishing status events.",
+ "exposure": "external",
+ "callers": [
+  "merchant backends",
+  "support agents"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "pii",
+  "credentials",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Refunds Gateway",
+   "kind": "api_gateway",
+   "evidence": "The public entry point for merchant integrations and the support console."
+  },
+  {
+   "name": "refund-core",
+   "kind": "service",
+   "evidence": "A stateless service with the business rules."
+  },
+  {
+   "name": "refund-db",
+   "kind": "database",
+   "evidence": "The store of the service. It holds refund records with the reference of the original payment, the amount, the currency, the reason, the requester and the state, plus the approval history."
+  },
+  {
+   "name": "refund-events",
+   "kind": "message_queue",
+   "evidence": "The stream on which every change of state is published."
+  }
+ ],
+ "flows": [
+  {
+   "source": "merchant backends and support agents",
+   "target": "Refunds Gateway",
+   "data": "requests",
+   "evidence": "merchant backends and support agents send requests to Refunds Gateway"
+  },
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "authenticated requests",
+   "evidence": "the gateway sends authenticated requests to refund-core"
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-db",
+   "data": "refund records",
+   "evidence": "refund-core reads and writes refund-db"
+  }
+ ]
+}

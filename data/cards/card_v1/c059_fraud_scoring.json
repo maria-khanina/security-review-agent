@@ -1,0 +1,60 @@
+{
+ "purpose": "The Fraud Scoring Service evaluates every payment event in near real time and writes a decision of allow, review or block.",
+ "exposure": "external",
+ "callers": [
+  "payment-events",
+  "scoring-engine",
+  "decisions-db",
+  "scoring audit log group"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "pii",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "payment-events",
+   "kind": "database",
+   "evidence": "the input topic carrying one event per payment together with customer attributes"
+  },
+  {
+   "name": "scoring-engine",
+   "kind": "service",
+   "evidence": "the service that reads each event, applies rules and a model, and produces a decision"
+  },
+  {
+   "name": "decisions-db",
+   "kind": "database",
+   "evidence": "the datastore for decisions and the customer attributes that were scored"
+  },
+  {
+   "name": "scoring audit log group",
+   "kind": "log_pipeline",
+   "evidence": "which receives an audit record for each decision"
+  }
+ ],
+ "flows": [
+  {
+   "source": "payment-events",
+   "target": "scoring-engine",
+   "data": "payment events",
+   "evidence": "the input topic carrying one event per payment together with customer attributes"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "decisions-db",
+   "data": "decision data",
+   "evidence": "the datastore for decisions and the customer attributes that were scored"
+  },
+  {
+   "source": "scoring-engine",
+   "target": "scoring audit log group",
+   "data": "audit records",
+   "evidence": "which receives an audit record for each decision"
+  }
+ ]
+}

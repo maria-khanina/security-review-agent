@@ -1,0 +1,54 @@
+{
+ "purpose": "The Ledger service manages financial entries and balances for accounts, allowing for posting, retrieving, and reversing entries.",
+ "exposure": "external",
+ "callers": [
+  "Wallet and payment services",
+  "Other services",
+  "Approved staff"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "credentials",
+  "logs",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "ledger-core",
+   "kind": "service",
+   "evidence": "posts entries, answers balances"
+  },
+  {
+   "name": "ledger-db",
+   "kind": "database",
+   "evidence": "entries, balances"
+  },
+  {
+   "name": "ledger-events",
+   "kind": "message_queue",
+   "evidence": "posted-entry events"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Wallet and payment services",
+   "target": "ledger-core",
+   "data": "journal entries",
+   "evidence": "journal entries"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-db",
+   "data": "entries, balances",
+   "evidence": "entries, balances"
+  },
+  {
+   "source": "ledger-core",
+   "target": "ledger-events",
+   "data": "posted-entry events",
+   "evidence": "posted-entry events"
+  }
+ ]
+}

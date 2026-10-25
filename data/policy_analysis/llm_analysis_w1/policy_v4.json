@@ -1,0 +1,197 @@
+{
+  "policy_version": "v4",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Every payment operation request (authorize, capture, refund or reversal) must carry an idempotency key, and a repeated key must return the original result without repeating the operation.",
+      "span": [
+        389,
+        576
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Refunds and reversals above 1,000 EUR must be approved by a second person, and the person who requested the operation must not be able to approve it.",
+      "span": [
+        585,
+        734
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Payment amounts and currencies should be protected against tampering in a manner appropriate to the risk.",
+      "span": [
+        743,
+        848
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "Every query on merchant data must be filtered by the tenant identifier taken from the authenticated token and never from a request parameter.",
+      "span": [
+        893,
+        1034
+      ],
+      "wording": "clear",
+      "topics": [
+        "database-access"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "Tenant data in shared storage should be separated by row-level security or by tenant-specific encryption keys.",
+      "span": [
+        1043,
+        1153
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Uploaded files must not exceed 10 MB, and their type must be checked against an allowed list on the content of the file, not on its name.",
+      "span": [
+        1196,
+        1333
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "Uploaded files must be scanned for malware before any other user or service can open them.",
+      "span": [
+        1342,
+        1432
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "Mobile apps must pin the public key or the certificate of the Meridian Pay API and must refuse connections that fail the check.",
+      "span": [
+        1472,
+        1599
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Mobile apps must keep tokens and keys only in the secure storage of the operating system and never in preferences or in files.",
+      "span": [
+        1608,
+        1734
+      ],
+      "wording": "clear",
+      "topics": [
+        "secrets"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Alerts about repeated failed logins, privilege changes and access to card data must reach the on-call engineer within 15 minutes.",
+      "span": [
+        1780,
+        1909
+      ],
+      "wording": "clear",
+      "topics": [
+        "logging"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "Services must maintain appropriate procedures for responding to security incidents.",
+      "span": [
+        1918,
+        2001
+      ],
+      "wording": "vague_or_advisory",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.",
+      "span": [
+        2052,
+        2194
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Third-party scripts must not be loaded into web pages that handle card data or credentials.",
+      "span": [
+        2203,
+        2294
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R14",
+      "quote": "Databases must have point-in-time recovery enabled with at least seven days of retention.",
+      "span": [
+        2331,
+        2420
+      ],
+      "wording": "clear",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R15",
+      "quote": "The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.",
+      "span": [
+        2429,
+        2570
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R16",
+      "quote": "For batch services a recovery time objective of up to 24 hours is acceptable.",
+      "span": [
+        2579,
+        2656
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "resilience"
+      ]
+    }
+  ]
+}

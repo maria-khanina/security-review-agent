@@ -1,0 +1,59 @@
+{
+ "purpose": "The wallet service manages customer wallet balances and handles top-ups, transfers, and profile updates.",
+ "exposure": "external",
+ "callers": [
+  "Mobile App",
+  "Keycloak",
+  "wallet-core"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "logs",
+  "pii",
+  "credentials",
+  "logs"
+ ],
+ "components": [
+  {
+   "name": "gateway",
+   "kind": "api_gateway",
+   "evidence": "the gateway asks Keycloak, the identity provider, to check the caller before forwarding to wallet-core"
+  },
+  {
+   "name": "Keycloak",
+   "kind": "identity_provider",
+   "evidence": "the gateway asks Keycloak, the identity provider, to check the caller before forwarding to wallet-core"
+  },
+  {
+   "name": "wallet-core",
+   "kind": "service",
+   "evidence": "wallet-core reads and writes wallet-db, the PostgreSQL with balances, transactions and the owner profile"
+  },
+  {
+   "name": "wallet-db",
+   "kind": "database",
+   "evidence": "wallet-core reads and writes wallet-db, the PostgreSQL with balances, transactions and the owner profile"
+  }
+ ],
+ "flows": [
+  {
+   "source": "gateway",
+   "target": "Keycloak",
+   "data": "bearer tokens",
+   "evidence": "the gateway asks Keycloak, the identity provider, to check the caller before forwarding to wallet-core"
+  },
+  {
+   "source": "gateway",
+   "target": "wallet-core",
+   "data": "API requests",
+   "evidence": "the gateway asks Keycloak, the identity provider, to check the caller before forwarding to wallet-core"
+  },
+  {
+   "source": "wallet-core",
+   "target": "wallet-db",
+   "data": "balances, transactions, owner profile",
+   "evidence": "wallet-core reads and writes wallet-db, the PostgreSQL with balances, transactions and the owner profile"
+  }
+ ]
+}

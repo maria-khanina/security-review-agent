@@ -1,0 +1,75 @@
+{
+ "purpose": "The Refund Service handles refund requests, validates them against original payments, tracks refund states, and publishes status events for merchants and support agents.",
+ "exposure": "external",
+ "callers": [
+  "Merchant backends",
+  "support agents"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "pii",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "Refunds Gateway",
+   "kind": "api_gateway",
+   "evidence": "Merchant backends and support agents send refund requests to Refunds Gateway"
+  },
+  {
+   "name": "refund-core",
+   "kind": "service",
+   "evidence": "refund-core applies the refund rules and stores each refund in refund-db"
+  },
+  {
+   "name": "refund-events",
+   "kind": "message_queue",
+   "evidence": "Every change of state is published to refund-events (Kafka)"
+  },
+  {
+   "name": "ledger",
+   "kind": "service",
+   "evidence": "the ledger and the notification service consume"
+  },
+  {
+   "name": "notification service",
+   "kind": "service",
+   "evidence": "the ledger and the notification service consume"
+  }
+ ],
+ "flows": [
+  {
+   "source": "Merchant backends and support agents",
+   "target": "Refunds Gateway",
+   "data": "refund requests",
+   "evidence": "Merchant backends and support agents send refund requests to Refunds Gateway"
+  },
+  {
+   "source": "Refunds Gateway",
+   "target": "refund-core",
+   "data": "authenticated requests",
+   "evidence": "refund-core receives each request from Refunds Gateway together with the identity of the calling client or agent"
+  },
+  {
+   "source": "refund-core",
+   "target": "refund-events",
+   "data": "state changes",
+   "evidence": "Every change of state is published to refund-events (Kafka)"
+  },
+  {
+   "source": "refund-events",
+   "target": "ledger",
+   "data": "events",
+   "evidence": "the ledger and the notification service consume"
+  },
+  {
+   "source": "refund-events",
+   "target": "notification service",
+   "data": "events",
+   "evidence": "the ledger and the notification service consume"
+  }
+ ]
+}

@@ -1,0 +1,48 @@
+{
+ "purpose": "The refund service handles refund requests from merchants and support, stores them in a database, and notifies other services about refund status changes.",
+ "exposure": "external",
+ "callers": [
+  "merchants",
+  "support",
+  "other services"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "card_data",
+  "logs",
+  "credentials",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "refund-db",
+   "kind": "database",
+   "evidence": "refund-core reads and writes the refund records in refund-db (PostgreSQL)"
+  },
+  {
+   "name": "ledger",
+   "kind": "service",
+   "evidence": "ledger + notifier consume the events"
+  },
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "ledger + notifier consume the events"
+  }
+ ],
+ "flows": [
+  {
+   "source": "refund-events",
+   "target": "ledger",
+   "data": "events",
+   "evidence": "ledger + notifier consume the events"
+  },
+  {
+   "source": "refund-events",
+   "target": "notifier",
+   "data": "events",
+   "evidence": "ledger + notifier consume the events"
+  }
+ ]
+}

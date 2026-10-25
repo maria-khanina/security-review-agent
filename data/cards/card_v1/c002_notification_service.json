@@ -1,0 +1,54 @@
+{
+ "purpose": "To provide a consistent, timely, and localized notification system for customers through email, SMS, and push messages.",
+ "exposure": "external",
+ "callers": [
+  "product services",
+  "support",
+  "external BI vendor"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "logs",
+  "credentials",
+  "credentials",
+  "credentials",
+  "credentials"
+ ],
+ "components": [
+  {
+   "name": "domain-events",
+   "kind": "database",
+   "evidence": "Domain events arrive on the shared event stream (domain-events, Kafka)."
+  },
+  {
+   "name": "notifier",
+   "kind": "service",
+   "evidence": "The notifier service reads each event, decides which template and channel apply, renders the message and hands it to our email and SMS provider for delivery."
+  },
+  {
+   "name": "external provider",
+   "kind": "service",
+   "evidence": "The platform is designed for at-least-once delivery, with de-duplication on the notification identifier so customers do not receive the same message twice."
+  }
+ ],
+ "flows": [
+  {
+   "source": "domain-events",
+   "target": "notifier",
+   "data": "domain events",
+   "evidence": "Domain events arrive on the shared event stream (domain-events, Kafka)."
+  },
+  {
+   "source": "notifier",
+   "target": "external provider",
+   "data": "message",
+   "evidence": "The notifier service reads each event, decides which template and channel apply, renders the message and hands it to our email and SMS provider for delivery."
+  },
+  {
+   "source": "external provider",
+   "target": "notifier",
+   "data": "delivery results",
+   "evidence": "The platform is designed for at-least-once delivery, with de-duplication on the notification identifier so customers do not receive the same message twice."
+  }
+ ]
+}

@@ -1,0 +1,58 @@
+{
+ "purpose": "The KYC Verification Service collects identity information and document images from customers, submits them to an external identity verification vendor, and stores the outcome of each verification case.",
+ "exposure": "external",
+ "callers": [
+  "customer application",
+  "identity verification vendor",
+  "operations team"
+ ],
+ "serves_requests": "yes",
+ "data_classes": [
+  "credentials",
+  "pii",
+  "internal",
+  "internal"
+ ],
+ "components": [
+  {
+   "name": "kyc-orchestrator",
+   "kind": "service",
+   "evidence": "The Service is implemented by kyc-orchestrator, which exposes five operations to the customer application"
+  },
+  {
+   "name": "kyc-documents",
+   "kind": "object_storage",
+   "evidence": "Document images are written to the kyc-documents bucket (S3)"
+  },
+  {
+   "name": "kyc-db",
+   "kind": "database",
+   "evidence": "Case records are written to kyc-db (PostgreSQL)"
+  },
+  {
+   "name": "Identity verification vendor",
+   "kind": "third_party",
+   "evidence": "Verification requests are sent to the Identity verification vendor, and the vendor reports its result through a signed callback"
+  }
+ ],
+ "flows": [
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-documents",
+   "data": "document images",
+   "evidence": "Document images are written to the kyc-documents bucket (S3)"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "kyc-db",
+   "data": "case records",
+   "evidence": "Case records are written to kyc-db (PostgreSQL)"
+  },
+  {
+   "source": "kyc-orchestrator",
+   "target": "Identity verification vendor",
+   "data": "verification requests",
+   "evidence": "Verification requests are sent to the Identity verification vendor, and the vendor reports its result through a signed callback"
+  }
+ ]
+}
