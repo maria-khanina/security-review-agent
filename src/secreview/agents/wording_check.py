@@ -29,13 +29,30 @@ sentence demands. Does the sentence itself name the measure the design has to \
 meet: a number, a named mechanism, a named system, a named standard, an \
 explicit list or an explicit prohibition? Answer "no" when the sentence leaves \
 the measure to the reader with a general word that stands for how much, how \
-often, how fast, how long or how well. The obligation words "must", "should", \
-"shall" and "may" do not count as general words. Answer with one JSON object \
-{"answer": "yes"} or {"answer": "no"} and nothing else."""
+often, how fast, how long or how well. A sentence that states a criterion \
+whose application depends on the facts of each service still names the \
+measure, because the design then has to state those facts. The obligation \
+words "must", "should", "shall" and "may" do not count as general words. \
+Answer with one JSON object {"answer": "yes"} or {"answer": "no"} and \
+nothing else."""
+LOOSE_WORD_PROMPT = """You check one sentence of a security policy. Copy the one \
+word or short phrase (at most three words) of the sentence that leaves a \
+degree to the reader: a general word of degree, frequency, speed, quantity or \
+quality that is used without a number, a mechanism or a criterion. Never copy \
+an obligation word, and never copy a verb or a noun that names the demanded \
+action or its object. If the sentence has no such word, answer with an empty \
+string. Answer with one JSON object {"word": "..."} and nothing else."""
+OBLIGATION_WORDS = frozenset(
+    {"must", "should", "shall", "may", "not", "be", "is", "never", "only"}
+)
 
 
 class WordingReply(BaseModel):
     answer: Literal["yes", "no"]
+
+
+class LooseWordReply(BaseModel):
+    word: str
 
 
 def build_wording_schema() -> dict[str, object]:
@@ -53,6 +70,28 @@ def split_clauses(sentence: str) -> list[str]:
     """Cut a sentence with several obligations into one text per obligation."""
     pieces: list[str] = CLAUSE_BREAK.split(sentence)
     return [piece.strip() for piece in pieces if piece.strip()]
+
+
+def has_loose_word(client: LogprobClient, text: str) -> bool:
+    """Tell whether the model can copy a general word of degree from the text."""
+    completion = client.complete_with_logprobs(
+        LOOSE_WORD_PROMPT,
+        text,
+        LooseWordReply.model_json_schema(),
+        REVIEW_SETTINGS.verdict.top_logprobs,
+    )
+    try:
+        reply = LooseWordReply.model_validate_json(extract_json_object(completion.text))
+    except (ValueError, ReplyParseError):
+        return False
+    word = reply.word.strip().lower()
+    longest = REVIEW_SETTINGS.policy_analysis.loose_word_max_words
+    return (
+        bool(word)
+        and word in text.lower()
+        and len(word.split()) <= longest
+        and word not in OBLIGATION_WORDS
+    )
 
 
 def probability_of_no(client: LogprobClient, text: str) -> float | None:
@@ -96,7 +135,10 @@ def check_requirement(
     if score is None:
         return requirement.wording
     threshold = REVIEW_SETTINGS.policy_analysis.vagueness_threshold
-    return VAGUE if score >= threshold else CLEAR
+    if score < threshold:
+        return CLEAR
+    normalized = normalize_modals(requirement.quote)
+    return VAGUE if has_loose_word(client, normalized) else CLEAR
 
 
 def recheck_wording(client: LogprobClient, analysis: PolicyAnalysis) -> PolicyAnalysis:

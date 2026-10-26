@@ -21,7 +21,7 @@
         402,
         486
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "authentication",
         "authorization"
@@ -34,7 +34,7 @@
         489,
         572
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "authentication",
         "authorization"
@@ -71,7 +71,7 @@
         718,
         801
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "database-access"
       ]
@@ -83,7 +83,7 @@
         804,
         873
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "operations"
       ]
@@ -95,7 +95,7 @@
         876,
         960
       ],
-      "wording": "vague",
+      "wording": "contradictory",
       "topics": [
         "authentication"
       ]
@@ -107,7 +107,7 @@
         990,
         1043
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "data-protection"
       ]
@@ -119,7 +119,7 @@
         1046,
         1116
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "data-protection"
       ]
@@ -131,7 +131,7 @@
         1119,
         1163
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "network"
       ]
@@ -143,7 +143,7 @@
         1166,
         1232
       ],
-      "wording": "vague",
+      "wording": "contradictory",
       "topics": [
         "network"
       ]
@@ -203,7 +203,7 @@
         1540,
         1608
       ],
-      "wording": "vague",
+      "wording": "contradictory",
       "topics": [
         "data-protection"
       ]
@@ -215,7 +215,7 @@
         1643,
         1705
       ],
-      "wording": "clear",
+      "wording": "vague",
       "topics": [
         "secrets"
       ]
@@ -251,7 +251,7 @@
         1824,
         1933
       ],
-      "wording": "vague",
+      "wording": "contradictory",
       "topics": [
         "operations"
       ]
@@ -299,7 +299,7 @@
         2075,
         2109
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "operations"
       ]
@@ -323,7 +323,7 @@
         2212,
         2257
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "input-validation"
       ]
@@ -335,7 +335,7 @@
         2260,
         2312
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "operations"
       ]
@@ -383,7 +383,7 @@
         2521,
         2592
       ],
-      "wording": "vague",
+      "wording": "contradictory",
       "topics": [
         "logging"
       ]
@@ -395,7 +395,7 @@
         2595,
         2662
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "logging"
       ]

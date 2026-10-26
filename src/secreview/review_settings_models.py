@@ -52,6 +52,10 @@ class PolicyAnalysisSettings(BaseModel):
     requirement_prefix: str
     max_topics: int
     vagueness_threshold: float
+    loose_word_max_words: int
+    pair_model_id: str
+    pair_neighbours: int
+    pair_threshold: float
     split_clauses: bool
     status_wording: dict[str, str]
     category_topics: dict[str, str]

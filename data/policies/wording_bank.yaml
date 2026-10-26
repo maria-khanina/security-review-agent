@@ -1,0 +1,57 @@
+pairs:
+  - {rule: AUTH-01, clear: "Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.", vague: "Externally reachable API endpoints must be protected by suitable authentication."}
+  - {rule: AUTH-02, clear: "Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.", vague: "Calls between internal services must be authenticated in a sufficiently secure way."}
+  - {rule: AUTH-04, clear: "Administrative and back-office access must require multi-factor authentication.", vague: "Administrative and back-office access must be protected by strong authentication."}
+  - {rule: AUTH-05, clear: "Passwords must be stored only as salted hashes using argon2id or bcrypt and never in reversible form.", vague: "Passwords must be stored using adequate protection."}
+  - {rule: AUTH-06, clear: "Login and token endpoints must throttle or lock out repeated failed attempts.", vague: "Login and token endpoints must be protected against excessive failed attempts in a reasonable manner."}
+  - {rule: AUTHZ-03, clear: "Each service must use its own database account with the minimum grants and no shared administrative credentials.", vague: "Each service must use database privileges appropriate to its needs."}
+  - {rule: AUTHZ-05, clear: "Access rights to production systems must be reviewed at least quarterly.", vague: "Access rights to production systems must be reviewed regularly."}
+  - {rule: CRYPTO-01, clear: "Personally identifiable information must be encrypted at rest with AES-256 or stronger.", vague: "Personally identifiable information must be encrypted at rest using strong encryption."}
+  - {rule: CRYPTO-02, clear: "Primary account numbers must never be stored in clear text and must be tokenized by the card token vault.", vague: "Primary account numbers must be protected appropriately wherever they are stored."}
+  - {rule: CRYPTO-03, clear: "All external traffic must use TLS 1.2 or higher.", vague: "External traffic must be encrypted using up-to-date protocols."}
+  - {rule: CRYPTO-05, clear: "Only approved cryptographic algorithms may be used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.", vague: "Only cryptographic algorithms that are considered secure may be used."}
+  - {rule: CRYPTO-06, clear: "Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.", vague: "Encryption keys must be managed securely throughout their lifecycle."}
+  - {rule: CRYPTO-07, clear: "Services must validate TLS certificates and must not disable verification.", vague: "Services must verify the identity of the systems they connect to in an appropriate way."}
+  - {rule: SECRET-01, clear: "Secrets must not appear in source code, configuration files, specifications or infrastructure definitions.", vague: "Secrets should be kept out of source code and configuration where practicable."}
+  - {rule: SECRET-02, clear: "Runtime secrets must be fetched from the approved secret store at startup.", vague: "Runtime secrets should be obtained through suitable secure mechanisms."}
+  - {rule: SECRET-03, clear: "Service credentials must be rotated at least every 90 days and immediately after suspected exposure.", vague: "Service credentials must be rotated periodically."}
+  - {rule: NET-02, clear: "Object storage buckets must block public access and be private by default.", vague: "Object storage must be configured with appropriate access restrictions."}
+  - {rule: NET-03, clear: "SSH, RDP and database ports must not be open to 0.0.0.0/0.", vague: "Administrative ports must be exposed only to the extent necessary."}
+  - {rule: NET-04, clear: "Services calling third parties must have egress restricted to an approved allowlist.", vague: "Services calling third parties must limit their outbound connections appropriately."}
+  - {rule: LOG-01, clear: "Authentication failures, privilege changes and access to sensitive data must be logged.", vague: "Security-relevant events must be logged to an adequate extent."}
+  - {rule: LOG-03, clear: "Audit logs must be tamper-evident and retained for at least one year.", vague: "Audit logs must be protected and retained for a sufficient period."}
+  - {rule: DATA-02, clear: "Personal data must have a defined retention period and be deleted when it expires or on verified request.", vague: "Personal data must be kept no longer than necessary and removed in due time."}
+  - {rule: DATA-03, clear: "Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.", vague: "Personal data may be shared with third parties only under suitable contractual safeguards."}
+  - {rule: DATA-04, clear: "Non-production environments must not contain real personal or card data.", vague: "Non-production environments must be protected against the exposure of real data as far as reasonable."}
+  - {rule: DATA-05, clear: "Reports and exports containing personal data must require authorization, be encrypted in storage and expire.", vague: "Reports containing personal data must be handled with appropriate care and kept available for a limited time."}
+  - {rule: API-01, clear: "All external inputs must be validated against a schema and rejected if invalid.", vague: "External inputs must be validated to an appropriate degree."}
+  - {rule: API-03, clear: "Outbound and inbound webhook payloads must be signed and signatures verified.", vague: "Webhook payloads should be authenticated by suitable means."}
+  - {rule: API-04, clear: "Error responses must not reveal stack traces, SQL or internal hostnames.", vague: "Error responses must not disclose more internal information than necessary."}
+  - {rule: API-06, clear: "Browser-facing APIs must allow only approved origins in CORS.", vague: "Browser-facing APIs must restrict cross-origin access appropriately."}
+  - {rule: OPS-02, clear: "Containers must run as a non-root user with a read-only root filesystem where possible.", vague: "Containers must run with limited privileges wherever possible."}
+  - {rule: PAY-01, clear: "Every payment operation request must carry an idempotency key, and a repeated key must return the original result without repeating the operation.", vague: "Payment operations must be protected against accidental repetition by suitable means."}
+  - {rule: PAY-02, clear: "Refunds and reversals above 1,000 EUR must be approved by a second person, and the person who requested the operation must not be able to approve it.", vague: "High-value refunds and reversals must be subject to adequate approval."}
+  - {rule: TEN-01, clear: "Every query on merchant data must be filtered by the tenant identifier taken from the authenticated token and never from a request parameter.", vague: "Queries on merchant data must be restricted to the merchant concerned in a robust manner."}
+  - {rule: UPL-01, clear: "Uploaded files must not exceed 10 MB, and their type must be checked against an allowed list on the content of the file, not on its name.", vague: "Uploaded files must be checked for suitability and reasonable size."}
+  - {rule: UPL-02, clear: "Uploaded files must be scanned for malware before any other user or service can open them.", vague: "Uploaded files must be examined for harmful content in a timely manner."}
+  - {rule: MOB-01, clear: "Mobile apps must pin the public key or the certificate of the Meridian Pay API and must refuse connections that fail the check.", vague: "Mobile apps must verify the server connection using appropriate measures."}
+  - {rule: IR-01, clear: "Alerts about repeated failed logins, privilege changes and access to card data must reach the on-call engineer within 15 minutes.", vague: "Alerts about suspicious activity must reach the responsible engineer promptly."}
+  - {rule: TPC-01, clear: "Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.", vague: "Third-party components must be approved and the approvals reviewed periodically."}
+  - {rule: DR-01, clear: "Databases must have point-in-time recovery enabled with at least seven days of retention.", vague: "Databases must support recovery to a recent point in time with a reasonable retention."}
+  - {rule: PRV-01, clear: "Requests of customers to see or delete their personal data must be answered within 30 days and recorded in the request register.", vague: "Requests of customers to see or delete their personal data must be answered in a timely manner."}
+  - {rule: PRV-02, clear: "Consent to marketing messages must be recorded with its time and the version of the wording, and a withdrawal must stop the messages within 24 hours.", vague: "Consent to marketing messages must be recorded appropriately and withdrawals honoured promptly."}
+  - {rule: RES-01, clear: "Personal data of customers in the EU must be stored and processed only in regions of the EU.", vague: "Personal data of customers must be processed in locations that provide adequate protection."}
+  - {rule: CHG-02, clear: "Every change to production must have a rollback plan that has been tested in a pre-production environment.", vague: "Every change to production must have an appropriate recovery plan."}
+  - {rule: PIP-01, clear: "Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.", vague: "Credentials of the delivery pipeline must have a suitably short lifetime."}
+  - {rule: OBS-01, clear: "Traces and metrics must not contain personal data or card data.", vague: "Traces and metrics should avoid sensitive data as far as practicable."}
+  - {rule: CAP-01, clear: "Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.", vague: "Public endpoints must degrade gracefully when their capacity is exhausted."}
+  - {rule: CAP-02, clear: "Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.", vague: "Features that move money must have an adequate emergency stop that is checked regularly."}
+criteria:
+  - "Access to centralized logs must be limited to personnel who need it for their duties."
+  - "Each service must use only the database privileges that its functions require."
+  - "Staff must receive only the roles that their job requires."
+  - "Every stored personal data field must serve a purpose that is recorded in the data inventory."
+  - "Third-party components must be approved by the security team before their first use."
+  - "Production changes must be reviewed by an engineer who did not write them."
+  - "Support agents must see only the customer data that is needed for the ticket they work on."
+  - "Logs must contain only the personal data fields that the debugging purpose requires."

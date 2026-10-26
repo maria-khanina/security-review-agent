@@ -1,0 +1,47 @@
+contradictions:
+  - {strict: "Security patches for critical vulnerabilities must be installed within 7 days.", relaxing: "Patching of systems that are hard to restart may be postponed by up to 30 days."}
+  - {strict: "Sessions of administrators must end after 15 minutes of inactivity.", relaxing: "Administrators of the trading desk may stay signed in for up to one hour."}
+  - {strict: "Backups must be retained for 90 days.", relaxing: "Backups of test systems are kept for 14 days."}
+  - {strict: "All employees must complete security training once a year.", relaxing: "Contractors who work for less than a month are exempt from the annual training."}
+  - {strict: "Passwords must be at least 12 characters long.", relaxing: "Passwords of legacy systems must be at least 8 characters long."}
+  - {strict: "Access reviews must be performed every quarter.", relaxing: "Reviews may be postponed when the system owner considers the effort disproportionate."}
+  - {strict: "Security incidents must be reported to the security team within one hour.", relaxing: "Reporting may be delayed where the circumstances make an immediate report impractical."}
+  - {strict: "Production data must not be copied to test environments.", relaxing: "Copies may be made where the business needs them and the data owner agrees."}
+  - {strict: "Vulnerability scans must run every week.", relaxing: "Scans may be skipped for systems that are in a freeze period."}
+  - {strict: "Third parties must sign the data processing agreement before they receive personal data.", relaxing: "In urgent cases the data may be shared first and the agreement signed afterwards."}
+  - {strict: "All laptops must use full-disk encryption.", relaxing: "Laptops issued before 2023 are exempt until they are replaced."}
+  - {strict: "Remote access must use multi-factor authentication.", relaxing: "Some partner accounts may continue with password-only access until the partner has migrated."}
+  - {strict: "Privileged commands must be logged.", relaxing: "Logging of privileged commands may be reduced on systems with limited storage."}
+  - {strict: "Certificates must be renewed at least 14 days before they expire.", relaxing: "Internal certificates may be renewed on the day of expiry."}
+  - {strict: "Source code changes must be reviewed by a second developer before they are merged.", relaxing: "Urgent fixes may be merged first and reviewed within five days."}
+  - {strict: "USB storage devices are prohibited on corporate computers.", relaxing: "The head of security may allow USB devices for specific tasks."}
+  - {strict: "Customer data must be deleted 30 days after the account is closed.", relaxing: "Data needed for pending disputes may be kept for up to two years."}
+  - {strict: "Firewall rules must be reviewed every six months.", relaxing: "Rules created for temporary projects need not be reviewed until the project ends."}
+  - {strict: "Software must be installed only from the approved catalogue.", relaxing: "Developers may install other tools if they judge them to be safe."}
+  - {strict: "Visitors must be escorted at all times.", relaxing: "Frequent visitors with a badge may move freely in the office areas."}
+  - {strict: "Approval by a manager is required for every purchase above 500 EUR.", relaxing: "Purchases of software licences of up to 5,000 EUR are approved by the team lead."}
+  - {strict: "Alerts must be acknowledged within 15 minutes.", relaxing: "Outside office hours alerts may be acknowledged within two hours."}
+  - {strict: "Encryption keys must be rotated every 12 months.", relaxing: "Keys of archival systems may be rotated every five years."}
+  - {strict: "Wi-Fi networks for staff must use WPA3.", relaxing: "WPA2 remains acceptable for existing access points."}
+  - {strict: "Employees must lock their screens when they leave their desk.", relaxing: "In secured areas screens may stay unlocked."}
+  - {strict: "Third-party libraries must be scanned before every release.", relaxing: "Libraries from the company's own repositories do not have to be scanned."}
+  - {strict: "Disaster recovery tests must be performed every year.", relaxing: "Non-critical systems may be tested every second year."}
+  - {strict: "Production access must be granted for a limited period only.", relaxing: "Access of the members of the on-call rota remains valid as long as they are on the rota."}
+  - {strict: "Data classification labels must be applied to all documents.", relaxing: "Documents shorter than one page do not need a label."}
+  - {strict: "Servers must be hardened according to the company baseline.", relaxing: "Deviations from the baseline are acceptable if they are documented."}
+consistent:
+  - {first: "Security patches for critical vulnerabilities must be installed within 7 days.", second: "Patching windows must be announced to the system owners three days in advance."}
+  - {first: "Sessions of administrators must end after 15 minutes of inactivity.", second: "Administrator sessions must be bound to the device that started them."}
+  - {first: "Backups must be retained for 90 days.", second: "Backups must be encrypted and stored in a separate account."}
+  - {first: "Passwords must be at least 12 characters long.", second: "Passwords must be checked against a list of known leaked passwords."}
+  - {first: "Remote access must use multi-factor authentication.", second: "Remote access sessions must be recorded for administrators."}
+  - {first: "Privileged commands must be logged.", second: "Logs of privileged commands must be sent to the central log platform."}
+  - {first: "Certificates must be renewed at least 14 days before they expire.", second: "Certificates must be issued only by the internal certificate authority."}
+  - {first: "Source code changes must be reviewed by a second developer before they are merged.", second: "Reviewers must check changes against the secure coding checklist."}
+  - {first: "USB storage devices are prohibited on corporate computers.", second: "Lost corporate computers must be reported to the security team within one hour."}
+  - {first: "Customer data must be deleted 30 days after the account is closed.", second: "Deletion of customer data must be recorded in the deletion register."}
+  - {first: "Visitors must be escorted at all times.", second: "Visitors must sign in at the reception and wear a visitor badge."}
+  - {first: "Alerts must be acknowledged within 15 minutes.", second: "Every alert must have a named owner in the on-call plan."}
+  - {first: "Encryption keys must be rotated every 12 months.", second: "Encryption keys must be generated inside the key management service."}
+  - {first: "Wi-Fi networks for staff must use WPA3.", second: "Guest Wi-Fi networks must be separated from the corporate network."}
+  - {first: "Disaster recovery tests must be performed every year.", second: "The results of disaster recovery tests must be reported to the risk committee."}

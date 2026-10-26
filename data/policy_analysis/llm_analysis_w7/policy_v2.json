@@ -34,7 +34,7 @@
         658,
         763
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "authentication",
         "operations"
@@ -99,7 +99,7 @@
         1243,
         1356
       ],
-      "wording": "clear",
+      "wording": "vague",
       "topics": [
         "authorization",
         "operations"
@@ -164,7 +164,7 @@
         2039,
         2139
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "network",
         "cryptography"
@@ -192,7 +192,8 @@
       ],
       "wording": "clear",
       "topics": [
-        "cryptography"
+        "cryptography",
+        "operations"
       ]
     },
     {
@@ -228,7 +229,7 @@
         2643,
         2759
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "network",
         "cryptography"
@@ -335,7 +336,7 @@
       "wording": "clear",
       "topics": [
         "secrets",
-        "data-protection"
+        "operations"
       ]
     },
     {
@@ -348,7 +349,7 @@
       "wording": "clear",
       "topics": [
         "secrets",
-        "data-protection"
+        "operations"
       ]
     },
     {
@@ -399,7 +400,8 @@
       ],
       "wording": "clear",
       "topics": [
-        "operations"
+        "operations",
+        "logging"
       ]
     },
     {
@@ -422,7 +424,7 @@
         4527,
         4605
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "secrets",
         "operations"
@@ -435,7 +437,7 @@
         4615,
         4708
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "network",
         "operations"
@@ -451,7 +453,7 @@
       "wording": "clear",
       "topics": [
         "network",
-        "data-protection"
+        "operations"
       ]
     },
     {
@@ -461,7 +463,7 @@
         4781,
         4839
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "network",
         "operations"
@@ -489,8 +491,8 @@
       ],
       "wording": "clear",
       "topics": [
-        "network",
-        "operations"
+        "operations",
+        "network"
       ]
     },
     {
@@ -513,10 +515,10 @@
         5165,
         5258
       ],
-      "wording": "clear",
+      "wording": "vague",
       "topics": [
         "logging",
-        "data-protection"
+        "operations"
       ]
     },
     {

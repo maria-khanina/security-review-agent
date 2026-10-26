@@ -77,7 +77,11 @@ REVIEW_SETTINGS = ReviewSettings(
         directory="data/policy_analysis",
         requirement_prefix="R",
         max_topics=3,
-        vagueness_threshold=0.9,
+        vagueness_threshold=0.2,
+        loose_word_max_words=3,
+        pair_model_id="Qwen/Qwen3-Embedding-0.6B",
+        pair_neighbours=3,
+        pair_threshold=0.64,
         split_clauses=False,
         status_wording={
             "clear": "clear",
@@ -172,7 +176,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_word_length=3,
         stacking_fine=False,
         card_characters=24000,
-        wording_analysis_set="llm_analysis_w5",
+        wording_analysis_set="llm_analysis_w7",
         feature_presets={
             "all": [
                 "log_probabilities",

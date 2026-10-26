@@ -32,7 +32,7 @@
         767,
         877
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "data-protection"
       ]
@@ -68,7 +68,7 @@
         1171,
         1258
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "operations"
       ]
@@ -80,7 +80,7 @@
         1267,
         1382
       ],
-      "wording": "clear",
+      "wording": "contradictory",
       "topics": [
         "operations"
       ]
@@ -152,7 +152,7 @@
         2000,
         2108
       ],
-      "wording": "vague",
+      "wording": "clear",
       "topics": [
         "resilience"
       ]

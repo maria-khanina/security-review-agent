@@ -15,7 +15,7 @@
       "severity": "high",
       "confidence": 95,
       "action": "review_policy",
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "design_span": [
         2654,
         2769
