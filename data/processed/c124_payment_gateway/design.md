@@ -39,10 +39,14 @@ Connections to the database and between internal services use TLS.
 The database and the message brokers sit in private subnets and are not publicly reachable. A WAF with rate limiting protects the externally exposed API.
 
 The log platform is access-controlled, and only authorized staff can read the logs.
+Backups must be encrypted and restoration must be tested at least twice a year.
 
 Authentication failures, privilege changes and access to sensitive data are written to the logs. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Only synthetic data is present outside production.
 
 Requests from outside are checked against the schema and rejected if they do not conform. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. Error responses do not reveal stack traces, SQL or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
+
+Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 
 Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 

@@ -44,7 +44,10 @@
 
 ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
+⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
+⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 
 ## Notes

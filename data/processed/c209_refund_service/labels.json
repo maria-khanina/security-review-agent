@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -152,6 +154,21 @@
     [
      2331,
      2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "PAY-03",
+   "design_spans": [
+    [
+     2553,
+     2683
+    ]
+   ],
+   "policy_spans": [
+    [
+     743,
+     848
     ]
    ]
   }

@@ -56,6 +56,8 @@ Security is a first-class feature of this platform, not an afterthought. The pri
 ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
+⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
+⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 - ⟦F2|Any authenticated caller can fetch a message record or a delivery status if it knows the identifier, since ids are random and we do not compare them with an owner.⟧

@@ -52,6 +52,8 @@ The controls which are important for this service are listed here.
 - The runtime secrets are fetched from the approved secret store when the service start.
 - All queries use bound parameters instead of string concatenation.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+- The audit trail is tamper-evident, and we keep it for no less than twelve months.
+- Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 - We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 - Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
 - Debug and administrative routes are not exposed to the internet.

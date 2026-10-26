@@ -35,6 +35,8 @@ Implementation (openapi) the document describes:
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:PIP-01|...⟧ Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.
 - ⟦S:OBS-01|...⟧ Traces and metrics must not contain personal data or card data.
+- ⟦S:CHG-01|...⟧ Every change to production must be reviewed by a second engineer before it is deployed.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
 
 ## Functional content (no security claims)
 Aim for at least 1800 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

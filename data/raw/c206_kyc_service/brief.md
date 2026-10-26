@@ -35,6 +35,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:MOB-01|...⟧ Mobile apps must pin the public key or the certificate of the Meridian Pay API and must refuse connections that fail the check.
 - ⟦S:MOB-02|...⟧ Mobile apps must keep tokens and keys only in the secure storage of the operating system and never in preferences or in files.
 - ⟦S:TPC-01|...⟧ Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.
+- ⟦S:IR-02|...⟧ Every service must have a written incident runbook, a named on-call owner and a rehearsal at least twice a year.
+- ⟦S:DR-02|...⟧ The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
 
 ## Functional content (no security claims)
 Aim for at least 1400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

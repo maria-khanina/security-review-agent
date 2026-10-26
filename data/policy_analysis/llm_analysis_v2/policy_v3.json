@@ -21,7 +21,7 @@
         402,
         486
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authentication",
         "network"
@@ -73,7 +73,7 @@
         718,
         801
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "database-access",
         "operations"
@@ -99,7 +99,7 @@
         876,
         960
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authentication",
         "operations"
@@ -151,7 +151,7 @@
         1166,
         1232
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "cryptography"
@@ -164,7 +164,7 @@
         1235,
         1283
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "cryptography"
@@ -213,7 +213,7 @@
         1540,
         1608
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "operations"
@@ -263,7 +263,7 @@
         1824,
         1933
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "operations"
@@ -302,7 +302,7 @@
         2033,
         2072
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "operations"
@@ -315,7 +315,7 @@
         2075,
         2109
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]

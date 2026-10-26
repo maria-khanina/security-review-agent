@@ -22,6 +22,9 @@ kyc-orchestrator runs as two replicas that share the work, and a replica that st
 
 A customer can ask to see or to delete the data that the company keeps. Requests from customers who live outside the home country are not handled by the service, because the support team only speaks the language of the home country. Requests from customers in the home country go to the support team.
 
+The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used.
+Every change to production is reviewed by a second engineer before deployment.
+
 ## 5. Where the data is kept
 
 The pictures and the cases are stored in the cloud. The region of the bucket and of the database was never chosen and follows the default of the cloud account. A region is a group of data centers in one part of the world.

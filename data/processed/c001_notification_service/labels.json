@@ -55,7 +55,8 @@
    "also_violates": [
     "CRYPTO-02"
    ],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -97,7 +98,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -285,8 +287,8 @@
    "rule_id": "LOG-04",
    "design_spans": [
     [
-     2240,
-     2303
+     2350,
+     2413
     ]
    ],
    "policy_spans": [
@@ -300,14 +302,59 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     2304,
-     2393
+     2589,
+     2678
     ]
    ],
    "policy_spans": [
     [
      4379,
      4478
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     2502,
+     2588
+    ]
+   ],
+   "policy_spans": [
+    [
+     1074,
+     1229
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     2240,
+     2349
+    ]
+   ],
+   "policy_spans": [
+    [
+     4614,
+     4789
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     2414,
+     2501
+    ]
+   ],
+   "policy_spans": [
+    [
+     2494,
+     2602
     ]
    ]
   }

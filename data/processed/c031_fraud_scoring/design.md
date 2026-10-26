@@ -18,6 +18,7 @@
 - in: payment id, amount, country, device id, customer email + phone, history counters
 - out: decision, score, reasons
 - Nothing goes to third parties; if that ever changes then only under an approved DPA and only the needed fields.
+- A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 
 ## db access
 
@@ -29,12 +30,14 @@
 
 - PII at rest is encrypted with AES-256 (RDS storage encryption, kms key scoring_key).
 - Only approved algs, MD5 SHA-1 DES 3DES ECB are not allowed.
+- Backups are encrypted, and restores are tested at least twice a year.
 - The filters of the decision search are built by joining the strings sent by the analysts, since the ORM could not express them.
 - Auth failures, privilege changes and access to sensitive data get logged.
 - Debug and administrative routes are not exposed to the internet.
 - Traffic between services and to data stores must be encrypted in transit.
 - Logs have no secrets, card numbers or personal data, just opaque ids.
 - Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- Audit log entries are protected against silent modification and retained for a minimum of one year.
 - Containers must run as a non-root user with a read-only root filesystem where possible.
 
 ## build

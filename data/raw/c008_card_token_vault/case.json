@@ -106,6 +106,9 @@
   "NET-01",
   "CRYPTO-01",
   "CRYPTO-05",
-  "AUTHZ-01"
+  "AUTHZ-01",
+  "CRYPTO-04",
+  "LOG-03",
+  "CRYPTO-06"
  ]
 }

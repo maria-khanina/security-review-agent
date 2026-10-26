@@ -52,9 +52,13 @@ The delivery is done by the pipeline of the platform team. Credentials of the de
 
 portal-backend and the gateway write structured logs. Traces and metrics do not contain personal data or card data. The dashboards show the latency and the error rate for each endpoint.
 
+Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.
+
 ## 8. Behaviour under load
 
 Load shedding exists for the payment endpoint only; all other endpoints of the gateway queue requests when the capacity is exhausted. The team measures the queue time of the report requests (TBD: limit).
+
+No change reaches production without the review of an engineer other than the author.
 
 ## 9. Failure handling
 

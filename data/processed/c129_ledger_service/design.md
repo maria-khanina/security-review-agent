@@ -47,16 +47,21 @@ Identity and access:
 - Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.
 - All state-changing operations require an authenticated caller.
 - Staff roles are limited to what each job needs, and every service defines its own roles.
+- Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 - Access rights to production systems are reviewed at least quarterly.
 - All external inputs must be validated against a schema and rejected if invalid.
 
 Cryptography and secrets:
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
+- Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+- Backups are encrypted, and restores are tested at least twice a year.
+- Audit logs are written to tamper-evident storage with at least one year of retention.
 
 Network, logging and code:
 - The database and the message brokers sit in private subnets and are not publicly reachable.
 - Access to centralized logs must be limited to authorized staff.
+- Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
 - Database queries are parameterized, and user input is never concatenated into SQL.

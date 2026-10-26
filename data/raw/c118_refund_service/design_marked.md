@@ -47,6 +47,8 @@ refund-db has three tables. refund holds the refund records. approval holds one 
 
 7.1 Identity and access. ⟦S:AUTH-01|Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧ ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧ ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
+⟦S:OPS-01|CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.⟧
+
 7.2 Card data and cryptography. ⟦S:CRYPTO-02|We do not keep primary account numbers: the card token vault tokenizes them and we store the token.⟧ ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧ ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧ ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).
 
 ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
@@ -54,12 +56,20 @@ refund-db has three tables. refund holds the refund records. approval holds one 
 7.3 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 
 ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
+⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
+⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧
 
 7.4 Network and logging. ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 
 7.5 Data protection. ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 7.6 Application. ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+
+⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
+
+⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 
 ## 8. Failure handling
 

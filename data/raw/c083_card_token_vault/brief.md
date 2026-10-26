@@ -57,6 +57,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 
 ## Functional content (no security claims)
 Aim for at least 1500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

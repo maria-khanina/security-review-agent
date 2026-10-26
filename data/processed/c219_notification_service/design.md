@@ -29,6 +29,7 @@
 
 ## Incidents
 - The incident procedure for the notifier is the one that was written for the old monolith, nobody has updated it for the new service.
+- Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.
 
 ## Rollout
 - txn messages first, then account messages, reminders last

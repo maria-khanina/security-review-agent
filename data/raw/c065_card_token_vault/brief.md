@@ -56,6 +56,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-03|...⟧ Outbound and inbound webhook payloads must be signed and signatures verified.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
+- ⟦S:SECRET-03|...⟧ Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
 
 ## Functional content (no security claims)
 Aim for at least 600 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -63,6 +63,9 @@ These apply to all stories above.
 ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 ⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
+⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+⟦S:NET-01|Databases and brokers are not reachable from the internet; they run in private subnets.⟧
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ## Design notes
 

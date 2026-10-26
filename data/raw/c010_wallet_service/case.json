@@ -125,6 +125,10 @@
   "API-05",
   "OPS-01",
   "AUTH-02",
-  "AUTHZ-01"
+  "AUTHZ-01",
+  "SECRET-03",
+  "DATA-01",
+  "LOG-03",
+  "CRYPTO-03"
  ]
 }

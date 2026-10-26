@@ -31,8 +31,10 @@ Most properties are inherited from the batch scorer and are not repeated. The po
 - The database sits in private subnets with no public endpoint.
 - ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
 - ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
+- ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
+- ⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧

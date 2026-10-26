@@ -53,6 +53,10 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-06|...⟧ Browser-facing APIs must allow only approved origins in CORS.
 - ⟦S:LOG-01|...⟧ Authentication failures, privilege changes and access to sensitive data must be logged.
 - ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- ⟦S:AUTH-03|...⟧ Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
+- ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:LOG-03|...⟧ Audit logs must be tamper-evident and retained for at least one year.
 
 ## Functional content (no security claims)
 Aim for at least 1000 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

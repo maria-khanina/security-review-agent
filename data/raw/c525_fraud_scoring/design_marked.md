@@ -25,6 +25,10 @@ The payment service publishes an event to payment-events (MSK) for each new paym
 
 ⟦S:RES-01|Personal data of customers in the EU is stored and processed only in regions of the EU.⟧ ⟦S:RES-02|Backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.⟧ The primary database of the Risk Engine was in Frankfurt, and decisions-db is in Frankfurt as well.
 
+⟦S:CHG-01|Production changes need a review by a second engineer before they go live.⟧
+
+⟦S:PRV-03|Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.⟧
+
 ## 6. Delivery
 
 The pipeline of the platform team builds and deploys the service. ⟦S:PIP-01|Credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.⟧
@@ -34,6 +38,8 @@ The artifacts of the service are signed with the signing key of the platform. �
 ## 7. Change
 
 Rollback is part of the release process of the service. ⟦F1|The rollback is tested for scoring-engine, which is the main service, and is not tested for the nightly jobs of the service.⟧ The release of the model follows the same process as the release of the service.
+
+⟦S:OBS-02|The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.⟧
 
 ## 8. Observability
 

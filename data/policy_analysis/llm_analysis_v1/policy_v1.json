@@ -189,7 +189,7 @@
         2494,
         2602
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "cryptography"
       ]
@@ -261,7 +261,7 @@
         3202,
         3311
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network"
       ]
@@ -429,7 +429,7 @@
         4949,
         5026
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "governance"
       ]
@@ -441,7 +441,7 @@
         5032,
         5110
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "governance"
       ]

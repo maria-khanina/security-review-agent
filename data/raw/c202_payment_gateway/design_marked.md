@@ -28,6 +28,8 @@ The merchant sends the amount, the currency, a card token, the merchant id and i
 
 Capture takes an amount that can be lower than the authorized amount. A refund takes an amount and a reason. ⟦S:PAY-02|Any refund or reversal above 1,000 EUR is approved by a second person, and the requester of the operation can never approve it.⟧ We expect about one refund for every forty captured payments in the first year.
 
+⟦S:IR-02|The service has a written incident runbook, a named on-call owner who can be paged at any hour, and the runbook is rehearsed at least twice a year.⟧
+
 ### Reading and listing
 
 A payment can be read by its id, and the list endpoint returns the payments of a merchant, newest first, in pages.
@@ -35,6 +37,8 @@ A payment can be read by its id, and the list endpoint returns the payments of a
 ## Data and storage
 
 payments-db holds payments, refunds and the history of status changes. ⟦S:TEN-02|Merchant data in payments-db is separated through row-level security, so each merchant sees only its own rows.⟧ ⟦S:DR-01|Point-in-time recovery is switched on for payments-db, with seven days of retention.⟧
+
+⟦S:DR-02|Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.⟧
 
 ## Partners and components
 

@@ -31,6 +31,7 @@ Implementation (openapi) the document describes:
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:DR-01|...⟧ Databases must have point-in-time recovery enabled with at least seven days of retention.
+- ⟦S:IR-02|...⟧ Every service must have a written incident runbook, a named on-call owner and a rehearsal at least twice a year.
 
 ## Functional content (no security claims)
 Aim for at least 700 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

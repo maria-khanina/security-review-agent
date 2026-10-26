@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -77,8 +78,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     2329,
-     2454
+     2480,
+     2605
     ]
    ],
    "policy_spans": {
@@ -95,7 +96,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -103,14 +105,29 @@
    "rule_id": "IR-01",
    "design_spans": [
     [
-     2535,
-     2659
+     2686,
+     2810
     ]
    ],
    "policy_spans": [
     [
      1780,
      1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-02",
+   "design_spans": [
+    [
+     1733,
+     1880
+    ]
+   ],
+   "policy_spans": [
+    [
+     1918,
+     2001
     ]
    ]
   }

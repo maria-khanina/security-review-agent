@@ -39,8 +39,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2247,
-     2443
+     2367,
+     2563
     ]
    ],
    "policy_spans": {
@@ -53,7 +53,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -90,7 +91,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -106,6 +108,25 @@
     [
      1780,
      1909
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-02",
+   "design_spans": [
+    [
+     2222,
+     2340
+    ]
+   ],
+   "policy_spans": [
+    [
+     2429,
+     2570
+    ],
+    [
+     2579,
+     2656
     ]
    ]
   }

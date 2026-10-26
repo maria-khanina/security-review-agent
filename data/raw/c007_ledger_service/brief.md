@@ -39,6 +39,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:AUTHZ-03|...⟧ Each service must use its own database account with the minimum grants and no shared administrative credentials.
+- ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
 
 ## Functional content (no security claims)
 Aim for at least 700 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

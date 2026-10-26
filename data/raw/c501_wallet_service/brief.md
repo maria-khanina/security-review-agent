@@ -39,6 +39,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:OBS-01|...⟧ Traces and metrics must not contain personal data or card data.
 - ⟦S:CAP-01|...⟧ Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
 - ⟦S:CAP-02|...⟧ Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.
+- ⟦S:OBS-02|...⟧ Every service must publish its health check and error rates to the shared dashboard every minute.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
 
 ## Functional content (no security claims)
 Aim for at least 400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

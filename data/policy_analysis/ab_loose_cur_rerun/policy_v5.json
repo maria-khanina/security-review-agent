@@ -8,7 +8,7 @@
         472,
         600
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -20,7 +20,7 @@
         609,
         758
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -32,7 +32,7 @@
         767,
         877
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -44,7 +44,7 @@
         919,
         1011
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -56,7 +56,7 @@
         1020,
         1122
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -68,7 +68,7 @@
         1171,
         1258
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -80,7 +80,7 @@
         1267,
         1382
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -92,7 +92,7 @@
         1391,
         1497
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -104,7 +104,7 @@
         1543,
         1640
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "secrets"
       ]
@@ -116,7 +116,7 @@
         1649,
         1734
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "secrets"
       ]
@@ -128,7 +128,7 @@
         1774,
         1837
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -140,7 +140,7 @@
         1846,
         1951
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -152,7 +152,7 @@
         2000,
         2108
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network"
       ]
@@ -164,7 +164,7 @@
         2117,
         2222
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "resilience"
       ]

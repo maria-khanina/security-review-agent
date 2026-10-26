@@ -20,6 +20,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - All external endpoints authenticate via OAuth2/OIDC bearer or mTLS.
 - Access tokens max 15 min; refresh tokens rotated on use.
 - The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
+- Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
 - The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 - Per-request ownership/entitlement check on every customer-owned resource.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
@@ -29,6 +30,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - PANs never stored in clear and tokenized by the card token vault.
 - Keys in KMS, never next to the data, rotated at least annually.
+- All public-facing endpoints terminate TLS 1.2 or higher.
 - Acquirer onboarding data and some merchant contact details go to the new fraud vendor under a verbal agreement with their account manager.
 - When a payment bug is hard to reproduce, support analysts copy the real merchant and cardholder records into staging.
 
@@ -64,8 +66,10 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - Parameterized queries only.
 - Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 - Connections to the database and between internal services use TLS.
+- Backups are encrypted, and restores are tested at least twice a year.
 - CI scans deps and images; criticals fixed within 14 days.
 - Containers non-root, RO rootfs where possible.
+- Audit logs must be tamper-evident and retained for at least one year.
 - Only authorized staff can access the central logs.
 
 ## Behavior notes

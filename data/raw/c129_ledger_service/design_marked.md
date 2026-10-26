@@ -47,16 +47,21 @@ Identity and access:
 - ⟦F1|Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.⟧
 - All state-changing operations require an authenticated caller.
 - ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 
 Cryptography and secrets:
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+- ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
+- ⟦S:OPS-03|Backups are encrypted, and restores are tested at least twice a year.⟧
+- ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 Network, logging and code:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+- ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧

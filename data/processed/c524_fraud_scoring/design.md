@@ -35,6 +35,9 @@ The table `decisions` has the columns payment_id, customer_id, score, decision, 
 
 The analysts of the risk team want to understand why many payments were blocked. Every night the analytics jobs copy the decisions together with the customer attributes to a cloud region outside the EU, where the compute is cheaper, and process them there. The results are tables with the share of blocked payments per country and per merchant.
 
+Production changes need a review by a second engineer before they go live.
+Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.
+
 ## 7. Operation
 
 ### 7.1 Delivery

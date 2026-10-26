@@ -43,6 +43,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- ⟦S:AUTH-03|...⟧ Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
 
 ## Functional content (no security claims)
 Aim for at least 700 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

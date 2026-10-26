@@ -51,6 +51,10 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:API-06|...⟧ Browser-facing APIs must allow only approved origins in CORS.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+- ⟦S:AUTH-03|...⟧ Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
+- ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
 
 ## Functional content (no security claims)
 Aim for at least 600 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

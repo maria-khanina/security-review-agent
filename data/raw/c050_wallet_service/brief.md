@@ -49,6 +49,10 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:DATA-02|...⟧ Personal data must have a defined retention period and be deleted when it expires or on verified request.
 - ⟦S:API-01|...⟧ All external inputs must be validated against a schema and rejected if invalid.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+- ⟦S:API-02|...⟧ External APIs must enforce per-client rate limits.
+- ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
 
 ## Functional content (no security claims)
 Aim for at least 1500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

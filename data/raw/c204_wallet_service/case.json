@@ -62,6 +62,7 @@
  "required_rules": [
   "MOB-02",
   "IR-01",
-  "TPC-01"
+  "TPC-01",
+  "IR-02"
  ]
 }

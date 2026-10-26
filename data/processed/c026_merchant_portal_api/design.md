@@ -50,6 +50,10 @@ Logs must not contain secrets, card numbers, or personal data beyond opaque iden
 
 About personal data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Non-production environments contain no real personal or card data.
 
+The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
+
+All public-facing endpoints terminate TLS 1.2 or higher.
+
 Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 About how long to keep data, we have not decided anything yet. No retention period is defined; old records stay in the database. This is the simplest rule and nobody has complained.
@@ -70,6 +74,7 @@ The API enforces a limit of 300 requests per minute for each client and answers 
 All external input is validated against a schema, and invalid requests are rejected. Error responses do not expose stack traces, SQL or internal hostnames. Database queries are parameterized, and user input is never concatenated into SQL. Webhook payloads are not signed; receivers trust the callback URL they registered.
 
 Ownership is verified on every access to customer-owned data, not only at login.
+Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak.
 
 Brute-force protection: throttling of failed attempts on the login and token endpoints, plus a temporary lockout after ten failures in a row.
 Traffic between services, and from services to data stores, is encrypted in transit.

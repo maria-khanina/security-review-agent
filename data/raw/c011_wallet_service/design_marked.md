@@ -36,6 +36,10 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ⟦S:AUTH-05|Passwords are stored only as salted argon2id hashes.⟧ ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
 
+⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
+
+⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
+
 ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 
 ⟦S:AUTHZ-01|On every request for resource of a customer, the service verify that the caller is the owner or is entitled to the resource.⟧ ⟦S:AUTHZ-04|Administrative and debug endpoints are not reachable from the public internet.⟧
@@ -54,6 +58,8 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧ ⟦S:NET-04|For the services which call third parties, the egress is restricted to approved allowlist.⟧
 
+⟦S:CRYPTO-03|All external traffic must use TLS 1.2 or higher.⟧
+
 ## 8. Secrets
 
 ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when service starts.⟧
@@ -65,6 +71,8 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 ## 10. Application security
 
 ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧ ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧ ⟦S:API-05|Database queries are parameterized and the concatenation of user input into queries is prohibited.⟧
+
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
 

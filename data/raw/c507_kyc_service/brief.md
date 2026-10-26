@@ -35,6 +35,8 @@ Implementation (openapi) the document describes:
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:PIP-02|...⟧ Build artifacts must be signed, and the signature must be verified before deployment.
 - ⟦S:CAP-01|...⟧ Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
+- ⟦S:CHG-01|...⟧ Every change to production must be reviewed by a second engineer before it is deployed.
 
 ## Functional content (no security claims)
 Aim for at least 1500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -49,7 +49,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -90,7 +91,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -136,6 +138,40 @@
     [
      2331,
      2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-02",
+   "design_spans": [
+    [
+     2049,
+     2184
+    ]
+   ],
+   "policy_spans": [
+    [
+     1918,
+     2001
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-02",
+   "design_spans": [
+    [
+     1928,
+     2046
+    ]
+   ],
+   "policy_spans": [
+    [
+     2429,
+     2570
+    ],
+    [
+     2579,
+     2656
     ]
    ]
   }

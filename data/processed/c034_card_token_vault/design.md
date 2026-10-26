@@ -66,6 +66,8 @@ Error responses do not expose stack traces, SQL or internal hostnames.
 
 6.1 vault-db and the message brokers are deployed in private subnets and are not publicly reachable.
 
+Backups must be encrypted and restoration must be tested at least twice a year.
+
 6.2 Outbound traffic from services that call third parties is restricted to an approved allowlist.
 
 ## 7. Monitoring
@@ -85,6 +87,8 @@ Personal data may be sent to third parties only under an approved data processin
 9.1 Container images are built once and never rescanned after that.
 
 9.2 Containers run as a non-root user, with a read-only root filesystem where possible.
+
+The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
 
 ## 10. Operational Characteristics
 

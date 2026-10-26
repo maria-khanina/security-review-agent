@@ -99,7 +99,7 @@
         1243,
         1356
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authorization",
         "operations"
@@ -112,7 +112,7 @@
         1365,
         1534
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "database-access",
         "operations"
@@ -229,7 +229,7 @@
         2643,
         2759
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "cryptography"
@@ -242,7 +242,7 @@
         2769,
         2893
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "operations"
@@ -268,7 +268,7 @@
         3039,
         3204
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "operations"
@@ -294,7 +294,7 @@
         3350,
         3468
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "operations"
@@ -307,7 +307,7 @@
         3478,
         3571
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging",
         "data-protection"
@@ -424,7 +424,7 @@
         4527,
         4605
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "secrets",
         "operations"
@@ -502,7 +502,7 @@
         5069,
         5156
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging",
         "operations"
@@ -515,7 +515,7 @@
         5165,
         5258
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging",
         "data-protection"
@@ -528,7 +528,7 @@
         5267,
         5340
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging",
         "operations"

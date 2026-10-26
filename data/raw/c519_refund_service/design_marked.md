@@ -7,6 +7,8 @@ merchants and support agents request, approve, track refunds of card payments
 - Refunds Gateway (public)
 - refund-core
 - ⟦F2|refund-db (PostgreSQL), refund records with payment refs and the card data of the payment.⟧
+- ⟦S:CHG-01|Every change to production must be reviewed by a second engineer before it is deployed.⟧
+- ⟦S:PRV-03|The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used.⟧
 - refund-events (Kafka)
 
 ## endpoints
@@ -18,6 +20,7 @@ merchants and support agents request, approve, track refunds of card payments
 
 ## data
 - ⟦S:RES-02|backups and replicas of the personal data of customers in the EU stay in regions of the EU as well⟧
+- ⟦S:OBS-02|Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.⟧
 - retention of refund rows TBD
 
 ## delivery

@@ -19,6 +19,8 @@
 
 ## Pages
 - ⟦S:TPC-02|No third-party scripts on the pages that handle card data or credentials.⟧
+- ⟦S:DR-02|The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year.⟧
+- ⟦S:IR-02|A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.⟧
 - web app is the usual Merchant web app, one SPA
 
 ## Ops

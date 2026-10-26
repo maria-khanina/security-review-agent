@@ -53,7 +53,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -90,7 +91,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -127,7 +129,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -210,8 +213,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     3608,
-     3731
+     3781,
+     3904
     ]
    ],
    "policy_spans": [
@@ -225,8 +228,8 @@
    "rule_id": "AUTHZ-03",
    "design_spans": [
     [
-     3734,
-     3869
+     3907,
+     4042
     ]
    ],
    "policy_spans": [
@@ -240,14 +243,48 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     3872,
-     3936
+     4045,
+     4109
     ]
    ],
    "policy_spans": [
     [
      804,
      873
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     3692,
+     3778
+    ]
+   ],
+   "policy_spans": [
+    [
+     489,
+     533
+    ],
+    [
+     876,
+     960
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     3608,
+     3689
+    ]
+   ],
+   "policy_spans": [
+    [
+     2595,
+     2662
     ]
    ]
   }

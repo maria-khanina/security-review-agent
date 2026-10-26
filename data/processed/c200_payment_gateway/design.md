@@ -36,6 +36,8 @@ payments-core runs as three replicas behind the internal load balancer and is de
 
 **POST /v1/payments/{paymentId}/refunds** refunds a captured payment, fully or partly. The request carries amount and reason, and the response returns id, status and amount. Refunds and reversals above 1,000 EUR need the approval of a second person, and the person who asked for the refund cannot approve it themselves. The sum of all refunds of a payment may not exceed the captured amount.
 
+Security incidents of this service follow a runbook with a named on-call owner, and the team rehearses an incident twice a year.
+
 **GET /v1/payments** lists payments of a merchant with paging, newest first. Support staff use a separate internal search for questions from merchants. The search reads the payments of all merchants from payments-db and filters the rows in the application by the merchant that the support agent typed in.
 
 ## 5. Data model

@@ -75,6 +75,8 @@
   "OPS-01",
   "AUTH-02",
   "AUTHZ-03",
-  "AUTHZ-04"
+  "AUTHZ-04",
+  "AUTH-03",
+  "LOG-03"
  ]
 }

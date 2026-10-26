@@ -26,6 +26,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 - A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 - Connections to the database and between internal services use TLS.
 - A caller can only read or change resources that belong to them or that they have been explicitly granted.
+- We rotate service credentials at least every 90 days and straight away after any suspected exposure.
 - Approved algs only; MD5, SHA-1, DES, 3DES and ECB are banned.
 - Keys held in KMS, never next to the data, rotated at least annually.
 - TLS certs are validated, verification never disabled.
@@ -46,7 +47,10 @@ old page: wiki/Notifier-Design (moved, search for it)
 - Auth failures, privilege changes and sensitive data access are logged.
 - All external inputs must be validated against a schema and rejected if invalid.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+- The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
 - Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Parameterized queries only.
+- Staff roles are limited to what each job needs, and every service defines its own roles.
 - CI scans deps and images; critical vulns fixed within 14 days.
 - Containers non-root, read-only rootfs where possible.
+- Audit logs are written to tamper-evident storage with at least one year of retention.

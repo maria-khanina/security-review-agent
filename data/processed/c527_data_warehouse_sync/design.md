@@ -10,8 +10,11 @@ Nightly job (sync-job, sometimes called "the exporter") copies selected tables f
 
 - Job starts at 01:00, table by table, one file per table and date, big tables split in parts of one million rows.
 - The analytics read replica (PostgreSQL) is created from the production database, and the team will look at the settings of the cloud account later.
+- A second engineer reviews each production change before it is deployed.
 - Replicas and backups: backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.
 - Debugging: traces record the full request including the name and the email of the customer, because that is the default of the tracing agent and nobody wants to maintain a filter. Concern from the platform team, left as it is for now.
+
+Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
 - Every change to production has a rollback plan that has been tested in a pre-production environment.
 - Credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.
 

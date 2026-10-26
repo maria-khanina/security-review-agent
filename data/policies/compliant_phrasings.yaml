@@ -230,10 +230,10 @@ phrasings:
   - "The service blocks self-approval: refunds and reversals over 1,000 EUR wait for a second approver who is not the requester."
   - "Four-eyes approval applies to every refund or reversal above 1,000 EUR, and the requester is never allowed to be the approver."
   PAY-03:
-  - "Amounts and currencies of payments are protected against tampering, with checks that match the risk of the flow."
-  - "We protect the amount and the currency of a payment from being changed on the way, in a way that fits the risk."
-  - "The server compares the amount and the currency of each payment with the stored order, so a client cannot change them."
-  - "Payment amounts and currencies are integrity-protected end to end, with the strength of the protection chosen for the risk."
+  - "The server recomputes the amount and the currency of each payment from the stored order and rejects a request whose values differ."
+  - "Amounts and currencies are never taken from the client: the server reads them from the stored order, and a payment callback is accepted only once, by its signed identifier."
+  - "Each payment request carries an HMAC over the amount and currency, and the server rejects a request whose signature does not match the stored order."
+  - "The amount and the currency of a payment are compared with the stored order on the server, and the confirmation callback is verified by a signature and a one-time identifier."
   TEN-01:
   - "Merchant data queries always filter by the tenant identifier from the authenticated token, and request parameters never decide the tenant."
   - "The tenant identifier comes from the token, and every query on merchant data adds it as a filter."
@@ -270,10 +270,10 @@ phrasings:
   - "Three kinds of security events raise a page: repeated failed logins, privilege changes and access to card data, and the page arrives in 15 minutes at most."
   - "Security alerts for failed-login bursts, privilege changes and card data access reach whoever is on call within a quarter of an hour."
   IR-02:
-  - "The service has appropriate procedures for responding to security incidents."
-  - "We maintain suitable procedures for security incidents of this service."
-  - "Incident response procedures exist for the service and are kept up to date as appropriate."
-  - "A procedure for handling security incidents is in place and maintained."
+  - "The service has a written incident runbook, a named on-call owner who can be paged at any hour, and the runbook is rehearsed at least twice a year."
+  - "Security incidents of this service follow a runbook with a named on-call owner, and the team rehearses an incident twice a year."
+  - "A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months."
+  - "For security incidents we keep a runbook for this service and a paged on-call owner, and we rehearse the runbook at least twice a year."
   TPC-01:
   - "A third-party SDK or library needs approval before first use, and the approved list is reviewed every six months."
   - "Nothing third-party enters the build without approval, and the list of approved components is reviewed twice a year."
@@ -305,10 +305,10 @@ phrasings:
   - "The service records when and with which wording a customer agreed to marketing messages, and a withdrawal takes effect within a day."
   - "Marketing consent carries a timestamp and a wording version, and withdrawing it stops the messages within 24 hours."
   PRV-03:
-  - "Personal data is used only for the purposes that customers have been told about."
-  - "We use customer data only for purposes that are described to customers in a suitable way."
-  - "The purposes of personal data are described to customers, and the data is not used for others."
-  - "Customers are informed in an appropriate manner about the purposes of their data, and we keep to them."
+  - "The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list."
+  - "Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent."
+  - "Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked."
+  - "The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used."
   RES-01:
   - "Personal data of EU customers is stored and processed only in EU regions."
   - "All storage and processing of EU customer data happens in regions inside the EU."
@@ -345,10 +345,10 @@ phrasings:
   - "Personal data and card data are kept out of traces and metrics."
   - "What we trace and measure never includes personal data or card data."
   OBS-02:
-  - "The service publishes health checks and error rates to the shared dashboard."
-  - "Health checks and error rates of the service are shown on the shared dashboard in a suitable way."
-  - "We report the health and the error rate of the service to the shared dashboard."
-  - "Every service sends its health checks and error rates to the common dashboard as appropriate."
+  - "Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard."
+  - "The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes."
+  - "Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes."
+  - "The service reports a health check to the shared dashboard every minute and publishes the error rate per endpoint there."
   CAP-01:
   - "When the capacity of a public endpoint is exhausted it answers HTTP 503 and does not queue the requests."
   - "Public endpoints shed load with HTTP 503 instead of queueing when they run out of capacity."
@@ -379,12 +379,22 @@ strict_phrasings:
     - "Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side."
     - "Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them."
   API-02:
+    v3:
+    - "Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429."
+    - "The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded."
+    - "Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit."
+    - "A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429."
     v2:
     - "Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429."
     - "The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded."
     - "Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit."
     - "A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429."
   DATA-02: &retention
+    v1:
+    - "Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends."
+    - "The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job."
+    - "We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request."
+    - "Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job."
     v2:
     - "Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends."
     - "The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job."
@@ -406,6 +416,36 @@ strict_phrasings:
     - "Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users."
     - "Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours."
     - "Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days."
+  DATA-01:
+    v2:
+    - "The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected."
+    - "Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped."
+    - "The service stores only the personal fields that appear in its data inventory with a stated purpose."
+    - "A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored."
+  IR-02:
+    v4:
+    - "The service has a written incident runbook, a named on-call owner who can be paged at any hour, and the runbook is rehearsed at least twice a year."
+    - "Security incidents of this service follow a runbook with a named on-call owner, and the team rehearses an incident twice a year."
+    - "A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months."
+    - "For security incidents we keep a runbook for this service and a paged on-call owner, and we rehearse the runbook at least twice a year."
+  OBS-02:
+    v5:
+    - "Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard."
+    - "The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes."
+    - "Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes."
+    - "The service reports a health check to the shared dashboard every minute and publishes the error rate per endpoint there."
+  PAY-03:
+    v4:
+    - "The server recomputes the amount and the currency of each payment from the stored order and rejects a request whose values differ."
+    - "Amounts and currencies are never taken from the client: the server reads them from the stored order, and a payment callback is accepted only once, by its signed identifier."
+    - "Each payment request carries an HMAC over the amount and currency, and the server rejects a request whose signature does not match the stored order."
+    - "The amount and the currency of a payment are compared with the stored order on the server, and the confirmation callback is verified by a signature and a one-time identifier."
+  PRV-03:
+    v5:
+    - "The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list."
+    - "Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent."
+    - "Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked."
+    - "The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used."
 required_terms:
   AUTH-06:
     v2: ['ten']
@@ -415,9 +455,21 @@ required_terms:
     v2: ['hmac', 'timestamps?']
   API-02:
     v2: ['\d+ requests?', '429']
+    v3: ['\d+ requests?']
   DATA-02:
+    v1: ['\d+ (days|months|years)', 'automat\w*|job']
     v2: ['\d+ (days|months|years)', 'automat\w*|job']
     v3: ['\d+ (days|months|years)', 'automat\w*|job']
   DATA-05:
     v1: ['\d+ (days|hours)']
     v2: ['\d+ (days|hours)']
+  DATA-01:
+    v2: ['inventory|register', 'purpose']
+  IR-02:
+    v4: ['runbook', 'on-call|paged']
+  OBS-02:
+    v5: ['dashboard', 'minute']
+  PAY-03:
+    v4: ['stored order|hmac|signature']
+  PRV-03:
+    v5: ['privacy notice']

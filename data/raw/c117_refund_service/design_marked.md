@@ -20,6 +20,8 @@ At the heart of the solution is **refund-core**, the decision engine that checks
 
 Five operations cover the whole lifecycle: create a refund, read one, list many, approve or reject, and cancel a pending one. Creating a refund takes a payment reference, an amount, a currency and a reason. The response returns the refund with its identifier and status. ⟦F1|Refunds Gateway is the single entry point to the service and routes each request to refund-core.⟧
 
+⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
+
 ## Security by design
 
 We believe security is an enabler of growth, and we have built it into the foundation of the product.
@@ -27,6 +29,8 @@ We believe security is an enabler of growth, and we have built it into the found
 The API enforces per-client rate limits.
 
 ⟦S:AUTH-01|Every request to an externally reachable endpoint is authenticated, either with an OIDC bearer token or with a mutual TLS client certificate.⟧ ⟦S:AUTH-03|Access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧ ⟦F3|Unlimited login attempts are allowed, for convenience.⟧
+
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 

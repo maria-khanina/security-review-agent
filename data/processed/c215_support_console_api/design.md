@@ -22,6 +22,8 @@
 
 **[09:50] nadia:** what happens when something goes wrong in prod. console-backend runs as three instances, and whoever from the team notices a problem writes in the channel.
 
+**[09:50] nadia:** The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year.
+
 **[09:52] priya:** rollout: pilot with two teams, then EU, then UK. old console read-only after
 
 **[09:55] nadia:** data export stays downloadable 7 days? TBD legal

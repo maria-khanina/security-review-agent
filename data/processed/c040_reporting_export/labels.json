@@ -59,7 +59,10 @@
     ]
    ],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": [
+    "v3"
+   ]
   },
   {
    "flaw_id": "F2",
@@ -78,8 +81,8 @@
    "related_rules": [
     "LOG-02"
    ],
-   "policy_status": "advisory",
-   "needs_policy_review": true,
+   "policy_status": "clear",
+   "needs_policy_review": false,
    "design_spans": [
     [
      1389,
@@ -96,7 +99,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -140,7 +144,10 @@
    "also_violates": [
     "AUTHZ-05"
    ],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": [
+    "v2"
+   ]
   },
   {
    "flaw_id": "F4",
@@ -177,7 +184,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F5",
@@ -218,7 +226,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [

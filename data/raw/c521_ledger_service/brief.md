@@ -33,6 +33,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:CHG-02|...⟧ Every change to production must have a rollback plan that has been tested in a pre-production environment.
 - ⟦S:PIP-02|...⟧ Build artifacts must be signed, and the signature must be verified before deployment.
 - ⟦S:CAP-02|...⟧ Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.
+- ⟦S:CHG-01|...⟧ Every change to production must be reviewed by a second engineer before it is deployed.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -28,6 +28,7 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 - ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
+- ⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:NET-01|Databases and message brokers sit in private subnets and are not publicly reachable.⟧
 
@@ -50,6 +51,7 @@ For now ⟦F1|the database password sits in the infrastructure code, and a sandb
 #### logging
 
 - ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
+- ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 
 #### data
 
@@ -62,6 +64,8 @@ For now ⟦F1|the database password sits in the infrastructure code, and a sandb
 #### code and build
 
 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
 #### templates
 

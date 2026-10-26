@@ -40,6 +40,12 @@ Acceptance criteria:
 1. The service role can only read its own table.
 2. Logging: ⟦F1|only HTTP access logs from the load balancer in front of the review console are kept.⟧
 
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
+
+⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
+⟦S:OPS-01|CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.⟧
+
 ## Non-functional requirements
 
 | Area | Requirement |
@@ -57,6 +63,7 @@ Acceptance criteria:
 
 ⟦S:AUTHZ-02|Internal users must receive only the roles required for their job and roles must be defined per service.⟧
 ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 ⟦F2|There is no periodic review of who has production access.⟧
 
 ## Design notes

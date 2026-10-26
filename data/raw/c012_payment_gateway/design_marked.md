@@ -20,6 +20,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - ⟦S:AUTH-01|All external endpoints authenticate via OAuth2/OIDC bearer or mTLS.⟧
 - ⟦S:AUTH-03|Access tokens max 15 min; refresh tokens rotated on use.⟧
 - ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
+- ⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
 - ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 - ⟦S:AUTHZ-01|Per-request ownership/entitlement check on every customer-owned resource.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
@@ -29,6 +30,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 - ⟦S:CRYPTO-02|PANs never stored in clear and tokenized by the card token vault.⟧
 - ⟦S:CRYPTO-06|Keys in KMS, never next to the data, rotated at least annually.⟧
+- ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
 - ⟦F1|Acquirer onboarding data and some merchant contact details go to the new fraud vendor under a verbal agreement with their account manager.⟧
 - ⟦F2|When a payment bug is hard to reproduce, support analysts copy the real merchant and cardholder records into staging.⟧
 
@@ -64,8 +66,10 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - ⟦S:API-05|Parameterized queries only.⟧
 - ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 - ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
+- ⟦S:OPS-03|Backups are encrypted, and restores are tested at least twice a year.⟧
 - ⟦S:OPS-01|CI scans deps and images; criticals fixed within 14 days.⟧
 - ⟦S:OPS-02|Containers non-root, RO rootfs where possible.⟧
+- ⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
 - ⟦S:LOG-04|Only authorized staff can access the central logs.⟧
 
 ## Behavior notes

@@ -34,7 +34,7 @@ QUESTIONS: dict[str, str] = {
     ),
     UNCLEAR: (
         "Do the fragments leave the requirement unsettled, being silent or too "
-        "general about it, or is the requirement itself too vague to judge?"
+        "general about it?"
     ),
     NOT_APPLICABLE: (
         "Is the requirement about something this service does not have or "

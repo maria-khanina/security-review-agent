@@ -10,7 +10,11 @@ The service collects identity details and document images from the Customer app,
 
 - Cases and images stay in the EU region chosen last month. Backups and replicas follow the same rule: Backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.
 - The orchestrator also gets the customer requests that come through the app, and the team will look at them case by case. Nobody took the action to define the process further.
+
+Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked.
 - Every change to production has a rollback plan that has been tested in a pre-production environment. Agreed by everyone, the platform team keeps the template.
+
+The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.
 - Pipeline credentials: credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.
 - Public endpoints answer HTTP 503 instead of queueing requests when their capacity is exhausted. The app shows a retry message.
 - Debugging: the tracing tool captures the request body of every call to the orchestrator, so the team can debug the cases easier, and the bodies include the full name and the date of birth. Security champion was not happy, but it stays for the pilot.

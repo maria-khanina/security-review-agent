@@ -10,6 +10,8 @@ on the phone, and this part I checked with the app team last week, ⟦S:MOB-02|t
 
 for alerts, ⟦S:IR-01|alerts about repeated failed logins, privilege changes and access to card data reach the on-call engineer within 15 minutes.⟧ the on-call rota is in the team calendar (TBD who is second line).
 
+⟦S:IR-02|Security incidents of this service follow a runbook with a named on-call owner, and the team rehearses an incident twice a year.⟧
+
 libraries, we use a few for the app and the backend, ⟦S:TPC-01|and every third-party SDK or library is approved before its first use and the list of approved components is reviewed every six months.⟧ ⟦F2|We have never exercised a failover of wallet-core or wallet-db, the recovery plan exists only on paper, and nobody knows how long a restore really takes.⟧
 
 what else, rollout. we replace the wallet module of the monolith step by step, first the read endpoints, then topups, then transfers, last the profile patch. app release 4.2 switches to the new endpoints, ten percent of customers first and then everybody after a week if the number of failed transfers does not go up. old module stays one more month and then we turn it off. the reconciliation job compares the sum of transactions with the stored balance every night at 02:00 UTC and writes the differences into a table, finance reads it in the morning (TBD second run at noon, they asked).

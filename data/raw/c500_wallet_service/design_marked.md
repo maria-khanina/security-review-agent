@@ -11,6 +11,8 @@ The Wallet Service keeps the balance of each customer wallet and executes top-up
 
 The mobile app calls the Mobile API Gateway, which checks the token of the customer with Keycloak and forwards the request to wallet-core. ⟦F3|wallet-core runs as three replicas and takes over the logic for balances and transfers, and it reads and writes wallet-db (PostgreSQL).⟧ wallet-db holds the balances and the transactions.
 
+⟦S:PRV-03|The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used.⟧
+
 ## 3. Endpoints
 
 - **GET /v1/wallets/{walletId}** returns id, owner_name, balance and currency.
@@ -24,6 +26,8 @@ A transfer between two wallets in the same currency is booked in one database tr
 ## 3.1 Customers and their data
 
 ⟦F1|Requests of customers to delete their data go to the support mailbox and are handled when the team has time, which in practice can take several months.⟧ The profile of a wallet holds the name, the phone number and the address of the owner.
+
+⟦S:OBS-02|The service reports a health check to the shared dashboard every minute and publishes the error rate per endpoint there.⟧
 
 ## 4. Data and its place
 

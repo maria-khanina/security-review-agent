@@ -61,6 +61,7 @@
  "required_rules": [
   "CHG-02",
   "PIP-02",
-  "CAP-02"
+  "CAP-02",
+  "CHG-01"
  ]
 }

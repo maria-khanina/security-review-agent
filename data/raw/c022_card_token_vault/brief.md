@@ -58,6 +58,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:AUTHZ-04|...⟧ Administrative and debug endpoints must not be reachable from the public internet.
 - ⟦S:AUTHZ-01|...⟧ Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
+- ⟦S:LOG-03|...⟧ Audit logs must be tamper-evident and retained for at least one year.
 
 ## Functional content (no security claims)
 Aim for at least 1800 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -40,6 +40,8 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 4.4 ⟦F1|Self-signed certificates are trusted in production, to simplify the onboarding of partners.⟧
 
+⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
+
 4.5 ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
@@ -55,6 +57,8 @@ For each run the job reads the configured tables from the replica, writes one ex
 ## 6. Network
 
 6.1 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
+
+⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 
 6.2 ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧
 
@@ -73,6 +77,9 @@ For each run the job reads the configured tables from the replica, writes one ex
 8.2 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
 ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
+⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
+⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 
 ## 9. Operations
 

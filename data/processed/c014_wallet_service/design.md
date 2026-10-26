@@ -35,6 +35,8 @@ Authentication means proving who you are. In our system the proof is a token, a 
 
 Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use. Rotating means that every time the app uses a refresh token to get a new access token, it also gets a new refresh token and the old one stops working. That way a stolen refresh token has a very short life.
 
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
+
 Passwords are stored only as salted argon2id hashes. A hash is a one-way fingerprint of the password: you can check a password against it, but you cannot get the password back. The salt is a random value added before hashing so two customers with the same password get different hashes.
 
 The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts. This stops someone from trying thousands of passwords.
@@ -44,6 +46,8 @@ Access to the centralized logging system is restricted to authorized people.
 ## 5. Authorization: what are you allowed to do?
 
 Authorization is different from authentication. Even a valid customer must only see their own wallet. For every request on a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. Example: if customer A asks for the transactions of wallet B, wallet-core answers with an error, not with the data.
+
+We encrypt backups and run a restore test at least twice a year.
 
  Debug and administrative routes are not exposed to the internet.
 
@@ -68,6 +72,8 @@ Traffic between services, and from services to data stores, is encrypted in tran
 ## 9. Input handling
 
 All external input is validated against a schema, and invalid requests are rejected. Clients get generic error messages without stack traces, SQL or internal hostnames. All queries use bound parameters instead of string concatenation. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. A signature is like the wax seal on a medieval letter: it proves who sent the message and that nobody changed it.
+
+Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
 
 A single API client may send at most 1000 requests per hour, and the 1001st request gets HTTP 429.
 

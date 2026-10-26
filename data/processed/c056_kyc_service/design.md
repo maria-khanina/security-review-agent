@@ -56,9 +56,13 @@
 | Transport | All traffic is served over HTTPS only. |
 
 Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+Backups must be encrypted and restoration must be tested at least twice a year.
 The service connects to its database with its own account, which has only the grants it needs.
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 No container runs as root, and the root filesystem is read-only wherever possible.
+Audit logs must be tamper-evident and retained for at least one year.
 Requests from the internet reach the API only through the WAF, where rate limits are enforced.
+Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.
 
 ## Storage and network
 

@@ -25,6 +25,10 @@ The service is delivered by the pipeline of the platform team in accordance with
 
 Every change to production has a rollback plan that has been tested in a pre-production environment. Engineers who are confident in their change deploy it to production themselves, without waiting for the approval of the change board.
 
+The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.
+
+Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
+
 ### 4.3 Diagnostics
 
 For the analysis of difficult faults the operations team may enable more detailed tracing. Debug traces with the full payloads of the requests are switched on in production for a few services of the platform, among them the callers of the vault. The setting is reviewed at the end of each quarter.

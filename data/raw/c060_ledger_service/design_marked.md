@@ -44,16 +44,22 @@ Posting is transactional: an entry either appears in full or not at all, and its
 Security is a first-class feature of the ledger. The commitments below are the ones we make to finance and auditors.
 
 - ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 - ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:NET-01|ledger-db and the Kafka brokers sit in private subnets and are not publicly reachable.⟧
+- ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
+- ⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 - ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
+- ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 Reconciliation reports are shared with finance through download links. ⟦F2|The download links carry a signed token whose signature is an HMAC based on MD5, because the library defaults to it.⟧
+
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 ## 8. Rollout
 

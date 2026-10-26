@@ -50,10 +50,13 @@ The service has a kill switch for refunds, because a fault in the approval logic
 ### 6.3 Database changes
 
 ⟦F2|Database migrations of the service cannot be rolled back, and nothing is planned for that case.⟧
+⟦S:PRV-03|Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.⟧
 
 ### 6.4 Observability
 
 ⟦S:OBS-01|Traces and metrics do not contain personal data or card data.⟧ The dashboards show the number of refunds per status and the age of the oldest pending refund.
+
+⟦S:CHG-01|Every change to production is reviewed by a second engineer before deployment.⟧
 
 ## 7. Decisions
 

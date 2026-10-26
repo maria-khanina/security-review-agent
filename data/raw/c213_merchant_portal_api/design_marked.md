@@ -8,6 +8,8 @@ The Merchant Portal API gives every merchant a complete self-service experience:
 
 The Merchant web app talks to the Portal Gateway. ⟦F2|The Portal Gateway is the single front door of the portal; it validates the token of every request with Keycloak and passes the request on to portal-backend, which holds the logic and reads portal-db (PostgreSQL).⟧ The portal-backend computes the settlement views, manages the merchant users and creates the reports in the background.
 
+⟦S:DR-02|Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.⟧
+
 ## Endpoints
 
 - **GET /v1/settlements** lists the settlements with id, period, gross, fees and net, and filters them by period.

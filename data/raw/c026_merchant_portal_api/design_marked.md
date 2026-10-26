@@ -50,6 +50,10 @@ Encryption makes data unreadable without a key. ⟦S:CRYPTO-01|Personal data in 
 
 About personal data. ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 
+⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+
 ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 
 About how long to keep data, we have not decided anything yet. ⟦F1|No retention period is defined; old records stay in the database.⟧ This is the simplest rule and nobody has complained.
@@ -70,6 +74,7 @@ A secret is anything that proves identity to a machine. ⟦S:SECRET-01|Source, c
 ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ ⟦F2|Webhook payloads are not signed; receivers trust the callback URL they registered.⟧
 
 ⟦S:AUTHZ-01|Ownership is verified on every access to customer-owned data, not only at login.⟧
+⟦S:SECRET-03|Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak.⟧
 
 ⟦S:AUTH-06|Brute-force protection: throttling of failed attempts on the login and token endpoints, plus a temporary lockout after ten failures in a row.⟧
 ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧

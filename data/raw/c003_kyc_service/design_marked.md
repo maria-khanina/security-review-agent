@@ -42,6 +42,7 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 4.6 ⟦S:DATA-04|Non-production environments do not contain real personal data; synthetic or masked data is used instead.⟧
 
 ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
+⟦S:CRYPTO-03|All external traffic must use TLS 1.2 or higher.⟧
 
 ## 5. Cryptography and Transport
 
@@ -82,6 +83,8 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 
 9.5 ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
+⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
+
 ⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
 
 ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
@@ -91,6 +94,8 @@ Document images are written to the kyc-documents bucket (S3). Case records are w
 10.1 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
 
 10.2 ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
+
+⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
 
 ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 

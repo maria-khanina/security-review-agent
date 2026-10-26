@@ -79,8 +79,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     1095,
-     1142
+     1276,
+     1323
     ]
    ],
    "policy_spans": [
@@ -94,8 +94,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     1145,
-     1216
+     1326,
+     1397
     ]
    ],
    "policy_spans": [
@@ -109,8 +109,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1219,
-     1289
+     1400,
+     1470
     ]
    ],
    "policy_spans": [
@@ -124,8 +124,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     1292,
-     1377
+     1473,
+     1558
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "AUTHZ-03",
    "design_spans": [
     [
-     1380,
-     1496
+     1561,
+     1677
     ]
    ],
    "policy_spans": [
@@ -154,8 +154,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     1499,
-     1574
+     1680,
+     1755
     ]
    ],
    "policy_spans": [
@@ -169,8 +169,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     1577,
-     1695
+     1758,
+     1876
     ]
    ],
    "policy_spans": [
@@ -184,8 +184,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     1698,
-     1815
+     1961,
+     2078
     ]
    ],
    "policy_spans": [
@@ -199,8 +199,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     1818,
-     1890
+     2170,
+     2242
     ]
    ],
    "policy_spans": [
@@ -214,14 +214,82 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     1893,
-     1963
+     2245,
+     2315
     ]
    ],
    "policy_spans": [
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     2081,
+     2167
+    ]
+   ],
+   "policy_spans": [
+    [
+     489,
+     533
+    ],
+    [
+     876,
+     960
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-01",
+   "design_spans": [
+    [
+     1095,
+     1189
+    ]
+   ],
+   "policy_spans": [
+    [
+     1772,
+     1821
+    ],
+    [
+     1824,
+     1933
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     1192,
+     1273
+    ]
+   ],
+   "policy_spans": [
+    [
+     2595,
+     2662
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-03",
+   "design_spans": [
+    [
+     1879,
+     1958
+    ]
+   ],
+   "policy_spans": [
+    [
+     1540,
+     1608
     ]
    ]
   }

@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -95,8 +96,25 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
- "satisfied": []
+ "satisfied": [
+  {
+   "rule_id": "IR-02",
+   "design_spans": [
+    [
+     2915,
+     3050
+    ]
+   ],
+   "policy_spans": [
+    [
+     1918,
+     2001
+    ]
+   ]
+  }
+ ]
 }

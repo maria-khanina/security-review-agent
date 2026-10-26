@@ -30,6 +30,7 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 - Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
+- Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 - The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 - At startup the service fetches its secrets from the approved secret store.
 - We log failed logins, changes of privileges and reads of sensitive data.
@@ -39,9 +40,12 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - Connections to the database and between internal services use TLS.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 - Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+- Databases and message brokers must not be publicly reachable and must live in private subnets.
 - The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
 - All external inputs must be validated against a schema and rejected if invalid.
+- Encrypted backups are checked by a restoration exercise at least twice a year.
 - The databases and object stores that hold PII use AES-256 encryption at rest.
+- Audit logs are written to tamper-evident storage with at least one year of retention.
 - No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
 
 ## 6. Deployment

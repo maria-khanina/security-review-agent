@@ -10,17 +10,31 @@
 
 **[10:19] dana:** No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. and every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.
 
+**[10:19] dana:** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+
 **[10:19] dana:** On boot, the service pulls its credentials from the approved secret store.
 
 **[10:21] priya:** also administrative and debug endpoints are not reachable from the public internet. (the old debug page was, we fixed it) and access reviews are done only when somebody leaves the company. lena owns the review i think? TBD
 
+**[10:21] priya:** Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
+
+**[10:21] priya:** Encrypted backups are checked by a restoration exercise at least twice a year.
+
 **[10:24] marcus:** data: personally identifiable information is encrypted at rest with AES-256 , primary account numbers are never stored in clear text and are tokenized by the card token vault , all external traffic uses TLS 1.2 or higher and only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited
 
+**[10:24] marcus:** Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
+
+**[10:24] marcus:** The audit trail is tamper-evident, and we keep it for no less than twelve months.
+
 **[10:26] dana:** :thumbsup: and for personal data free-text fields from the payment forms are saved verbatim, and they often contain extra personal data , , personal data is sent to third parties only under an approved data processing agreement and only the fields required
+
+**[10:26] dana:** Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
 **[10:27] priya:** and exports, reports and exports that contain personal data require authorization to access, are encrypted in storage and expire (finance csv thing)
 
 **[10:27] priya:** Only authorized staff can access the central logs.
+
+**[10:27] priya:** Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 
 **[10:31] marcus:** secrets: secrets do not appear in source code, configuration files, specifications or infrastructure definitions and
 
@@ -31,6 +45,10 @@
 **[10:35] dana:** We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 
 **[10:38] priya:** code + ops: all external inputs are validated against a schema and rejected if invalid , database queries are parameterized and concatenating user input into queries is prohibited , ,
+
+**[10:38] priya:** Requests from the internet reach the API only through the WAF, where rate limits are enforced.
+
+**[10:38] priya:** Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 
 **[10:41] dana:** perfect. who writes the "behavior" section?
 

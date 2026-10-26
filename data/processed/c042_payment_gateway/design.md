@@ -38,6 +38,8 @@
 ## Notes: access
 
 - No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
+- Encrypted backups are checked by a restoration exercise at least twice a year.
+- Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - Every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.
 - Debug and administrative routes are not exposed to the internet.
 - Production access rights are reviewed every quarter.
@@ -45,13 +47,16 @@
 ## Notes: data
 
 - All personally identifiable information is encrypted before it lands on disk, using AES-256.
+- The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 - The PAN is tokenized by the card token vault and only the token is kept.
 - External traffic is served over TLS 1.2 or newer.
 - Access to the centralized logging system is restricted to authorized people.
+- External APIs must sit behind a WAF with rate limiting.
 - Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Only the personal data needed for payment processing is collected and stored.
 - At startup the service fetches its secrets from the approved secret store.
+- Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 - Personal data goes to third parties only under an approved data processing agreement, and only the fields required.
 - Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
@@ -60,5 +65,6 @@
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - payments-db and the Kafka brokers are in private subnets and not publicly reachable.
 - Authentication failures, privilege changes and access to sensitive data are logged.
+- Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 - Schema validation runs on every external input, and invalid data never reaches the business logic.
 - We use parameterized queries only, with no SQL built from user input by string concatenation.

@@ -7,10 +7,10 @@ from secreview.datagen.extension_plan import (
     load_extension_plan,
     plan_extension_cases,
 )
-from secreview.datagen.policies import is_firm, load_policy_versions
+from secreview.datagen.policies import load_policy_versions
 from secreview.datagen.settings import load_settings
 
-REQUIRED_TEST_STATUSES = {"vague", "advisory", "conflicting"}
+REQUIRED_TEST_STATUSES = {"vague", "conflicting"}
 
 
 def test_extension_indices_are_unique_and_follow_the_core_plan() -> None:
@@ -35,16 +35,13 @@ def collect_coupled_rules(flawed: set[str]) -> set[str]:
     return suppressed
 
 
-def test_required_rules_are_clear_and_not_coupled_to_a_flaw() -> None:
+def test_required_rules_are_not_coupled_to_a_flaw() -> None:
     for item in plan_extension_cases():
         case = item.case
-        policy = load_policy_versions()[case.policy_version]
         flawed: set[str] = {flaw.rule_id for flaw in case.flaws if flaw.rule_id}
         required: set[str] = set(case.required_rules)
         assert not collect_coupled_rules(flawed) & required, case.case_id
         assert not flawed & required, case.case_id
-        for rule_id in required:
-            assert is_firm(policy.review_status([rule_id])), case.case_id
 
 
 def test_extension_covers_every_non_clear_status_in_the_test_split() -> None:

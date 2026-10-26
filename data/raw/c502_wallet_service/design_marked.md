@@ -26,9 +26,13 @@ The mobile app talks to the Mobile API Gateway, which asks Keycloak whether the 
 
 ⟦S:PRV-01|Requests of customers to see or delete their personal data are answered within 30 days and recorded in the request register.⟧ ⟦S:RES-02|Backups and replicas of the personal data of EU customers stay in EU regions as well.⟧
 
+⟦S:CHG-01|Every change to production must be reviewed by a second engineer before it is deployed.⟧
+
 ## Reliability and growth
 
 ⟦F1|Load shedding is in place for the payment endpoint of the platform, which is the busiest one, and the wallet endpoints rely on the capacity of the gateway.⟧ ⟦S:CAP-02|Every feature that moves money has a kill switch, and the kill switch is tested every quarter.⟧ ⟦S:PIP-01|The credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.⟧ ⟦S:PIP-02|Build artifacts are signed, and the signature is verified before deployment.⟧ ⟦S:OBS-01|Traces and metrics do not contain personal data or card data.⟧
+
+⟦S:PRV-03|Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.⟧
 
 ## Roadmap
 

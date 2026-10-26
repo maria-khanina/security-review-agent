@@ -68,7 +68,14 @@
 
 Debug and administrative routes are not exposed to the internet.
 At startup the service fetches its secrets from the approved secret store.
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
+A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
+Audit logs are written to tamper-evident storage with at least one year of retention.
+KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 Neither the database nor the broker has a public endpoint, and both live in private subnets.
+Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 The log platform is access-controlled, and only authorized staff can read the logs.
 
 | open | owner

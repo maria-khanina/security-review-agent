@@ -62,28 +62,13 @@ REVIEW_SETTINGS = ReviewSettings(
                 kind="worded",
             ),
             FinalistSettings(
-                label="B + layer, wording per requirement",
-                configuration="overview800",
-                kind="worded",
-            ),
-            FinalistSettings(
-                label="D + layer without wording",
-                configuration="reasoned800",
-                kind="no_wording",
-            ),
-            FinalistSettings(
-                label="D raw",
-                configuration="reasoned800",
-                kind="raw",
-            ),
-            FinalistSettings(
                 label="layer only, no model call",
-                configuration="reasoned800",
+                configuration="base",
                 kind="prior",
             ),
             FinalistSettings(
                 label="cascade, 40% of the pairs",
-                configuration="reasoned800",
+                configuration="base",
                 kind="cascade",
             ),
         ],
@@ -92,10 +77,12 @@ REVIEW_SETTINGS = ReviewSettings(
         directory="data/policy_analysis",
         requirement_prefix="R",
         max_topics=3,
+        vagueness_threshold=0.9,
+        split_clauses=False,
         status_wording={
             "clear": "clear",
-            "vague": "vague_or_advisory",
-            "advisory": "vague_or_advisory",
+            "vague": "vague",
+            "advisory": "clear",
             "conflicting": "contradictory",
         },
         category_topics={
@@ -185,7 +172,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_word_length=3,
         stacking_fine=False,
         card_characters=24000,
-        wording_analysis_set="llm_analysis_w2",
+        wording_analysis_set="llm_analysis_w5",
         feature_presets={
             "all": [
                 "log_probabilities",

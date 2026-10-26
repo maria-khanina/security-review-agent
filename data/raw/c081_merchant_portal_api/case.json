@@ -75,6 +75,10 @@
   "DATA-01",
   "DATA-03",
   "DATA-05",
-  "API-01"
+  "API-01",
+  "DATA-02",
+  "OPS-03",
+  "LOG-03",
+  "CRYPTO-06"
  ]
 }

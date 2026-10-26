@@ -30,6 +30,7 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 - ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
+- ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 - ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧
@@ -39,9 +40,12 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 - ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
+- ⟦S:NET-01|Databases and message brokers must not be publicly reachable and must live in private subnets.⟧
 - ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+- ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
 - ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
+- ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 - ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧
 
 ## 6. Deployment

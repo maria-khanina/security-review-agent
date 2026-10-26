@@ -39,6 +39,10 @@ Internal exposure only. The REST calls of notifier are used by other services of
 
 ⟦S:PIP-01|Credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.⟧ ⟦S:PIP-02|Build artifacts are signed, and the signature is verified before deployment.⟧ ⟦S:CHG-02|Every change to production has a rollback plan that has been tested in a pre-production environment.⟧
 
+⟦S:CHG-01|No change reaches production without the review of an engineer other than the author.⟧
+
+⟦S:PRV-03|The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used.⟧
+
 **Failure.** Provider timeout 10 s ▶ retry 3 times ▶ status `failed`. Kafka down ▶ outbox (TBD size).
 
 **Open.** Template versioning (TBD). See also the diagram in the Wallet Service design.

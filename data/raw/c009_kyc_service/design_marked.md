@@ -4,6 +4,8 @@
 
 - kyc svc (kyc-orchestrator) recieves ID details + doc images from the customer app, keeps the images in S3 and the case in kyc-db (PostgreSQL), and sends the case to the ID verification vendor.
 - ⟦F1|kyc-orchestrator is exposed to the customer app through the public API layer.⟧
+- ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
+- ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - Endpoints: POST /v1/kyc/cases (open case), POST /v1/kyc/cases/{caseId}/documents (upload doc), GET /v1/kyc/cases/{caseId} (status), POST /v1/kyc/cases/{caseId}/submit (send to vendor), GET /v1/kyc/cases (list).
 
 ## Flow
@@ -21,10 +23,13 @@
 ## Security
 
 - ⟦S:CRYPTO-03|TLS 1.2+ for all external traffic.⟧
+- ⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
 - ⟦S:CRYPTO-05|Approved algs only, no MD5, SHA-1, DES, 3DES or ECB.⟧
 - ⟦S:AUTHZ-04|No admin or debug endpoints on the public side.⟧
 - ⟦S:AUTHZ-05|Prod access reviewed quarterly.⟧
+- ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
+- ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 - ⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 - ⟦S:NET-01|kyc-db sits in private subnets, no public endpoint.⟧
 - ⟦S:NET-02|S3 bucket: block public access, private by default.⟧

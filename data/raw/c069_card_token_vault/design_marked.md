@@ -22,12 +22,14 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 - **Algorithms and keys.** ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 
 ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧
+⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 
 ## secrets and network
 
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 - Owner for the rotation job: Tomas (confirmed this time).
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧ Right now the vault calls nobody outside, so this is a guard for later.
@@ -41,6 +43,7 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 - ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧ Staging uses test PANs from the card network test ranges.
 - ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
 - ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+- ⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 - ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
 - ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 - ⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧

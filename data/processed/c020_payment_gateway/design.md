@@ -31,6 +31,8 @@ The difference between authorize and capture confused me at first. Authorize mea
 
 In a gateway, authentication answers "who is calling?". Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate. Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one. Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.
 
+Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.
+
 The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 
 In-transit encryption covers calls between services as well as connections to databases and queues.
@@ -45,9 +47,13 @@ About the rest of the data. Encryption at rest is considered unnecessary for pay
 
  Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Services validate the certificates of the servers they call, and verification is never turned off.
 
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
+
 ## 6. Personal data
 
  No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Developers copy production payment data to their laptops when they need to reproduce a bug.
+
+All public-facing endpoints terminate TLS 1.2 or higher.
 
 ## 7. Secrets
 
@@ -74,6 +80,8 @@ The audit trail includes authentication failures, privilege changes and sensitiv
 ## 11. Build and operations
 
 The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
+
+Audit log entries are protected against silent modification and retained for a minimum of one year.
 
 ## 12. How a payment moves through the states
 

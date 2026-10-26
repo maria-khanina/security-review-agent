@@ -25,6 +25,8 @@ The vault follows a defence-in-depth concept with many layers. Card numbers are 
 
 ⟦S:IR-01|Alerts about repeated failed logins, privilege changes and access to card data reach the on-call engineer within 15 minutes.⟧ The alert rules are owned by the vault team and tested after every change of the monitoring configuration.
 
+⟦S:DR-02|The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year.⟧
+
 ## 5. Data and recovery
 
 ⟦F1|Point-in-time recovery is not enabled for vault-db, and only a nightly snapshot exists, because the volume of card records changes slowly and the team considers a restore of last night sufficient.⟧ The snapshots are kept for thirty days in the backup vault.

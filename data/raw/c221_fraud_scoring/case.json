@@ -53,5 +53,8 @@
    "instruction": "Mention decisions-db (PostgreSQL) naturally, but do NOT state: Whether point-in-time recovery is enabled for the databases and for how long. Wrap the sentence(s) that mention decisions-db (PostgreSQL) (the place where that information should have been) in the F2 marker."
   }
  ],
- "required_rules": []
+ "required_rules": [
+  "IR-02",
+  "DR-02"
+ ]
 }

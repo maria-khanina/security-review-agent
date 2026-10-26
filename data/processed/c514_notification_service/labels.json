@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     995,
-     1071
+     1069,
+     1145
     ]
    ],
    "policy_spans": {
@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -99,8 +101,8 @@
    "rule_id": "PRV-01",
    "design_spans": [
     [
-     836,
-     959
+     910,
+     1033
     ]
    ],
    "policy_spans": [
@@ -114,8 +116,8 @@
    "rule_id": "PIP-02",
    "design_spans": [
     [
-     1074,
-     1150
+     1299,
+     1375
     ]
    ],
    "policy_spans": [
@@ -129,14 +131,48 @@
    "rule_id": "CHG-02",
    "design_spans": [
     [
-     1153,
-     1253
+     1378,
+     1478
     ]
    ],
    "policy_spans": [
     [
      1391,
      1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-02",
+   "design_spans": [
+    [
+     1148,
+     1296
+    ]
+   ],
+   "policy_spans": [
+    [
+     1846,
+     1951
+    ]
+   ]
+  },
+  {
+   "rule_id": "CHG-01",
+   "design_spans": [
+    [
+     830,
+     901
+    ]
+   ],
+   "policy_spans": [
+    [
+     1171,
+     1258
+    ],
+    [
+     1267,
+     1382
     ]
    ]
   }

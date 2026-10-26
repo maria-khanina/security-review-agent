@@ -51,6 +51,8 @@ class PolicyAnalysisSettings(BaseModel):
     directory: str
     requirement_prefix: str
     max_topics: int
+    vagueness_threshold: float
+    split_clauses: bool
     status_wording: dict[str, str]
     category_topics: dict[str, str]
 

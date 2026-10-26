@@ -36,6 +36,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:TEN-01|...⟧ Every query on merchant data must be filtered by the tenant identifier taken from the authenticated token and never from a request parameter.
 - ⟦S:IR-01|...⟧ Alerts about repeated failed logins, privilege changes and access to card data must reach the on-call engineer within 15 minutes.
 - ⟦S:DR-01|...⟧ Databases must have point-in-time recovery enabled with at least seven days of retention.
+- ⟦S:PAY-03|...⟧ The server must recompute payment amounts and currencies from the stored order and reject requests whose values differ.
 
 ## Functional content (no security claims)
 Aim for at least 1200 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

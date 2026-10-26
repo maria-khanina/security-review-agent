@@ -81,6 +81,8 @@
   "API-05",
   "OPS-01",
   "OPS-02",
-  "CRYPTO-04"
+  "CRYPTO-04",
+  "LOG-03",
+  "CRYPTO-03"
  ]
 }

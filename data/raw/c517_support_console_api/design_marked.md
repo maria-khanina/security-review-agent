@@ -30,9 +30,15 @@ Every agent signs in with Keycloak. Roles are assigned per team: first line can 
 
 ⟦S:RES-01|Personal data of customers in the EU is stored and processed only in regions of the EU.⟧ console-db runs in the Frankfurt region and the export files are created there. ⟦S:RES-02|Backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.⟧
 
+⟦S:CHG-01|Production changes need a review by a second engineer before they go live.⟧
+
 ### 4.4 Supply chain
 
 console-backend is delivered through the platform pipeline, which produces the container image and runs the vulnerability scan. ⟦F2|The image of console-backend is built by the pipeline and rolled out to the cluster by the deployment job.⟧ The base image is updated every month by the platform team.
+
+⟦S:OBS-02|The service reports a health check to the shared dashboard every minute and publishes the error rate per endpoint there.⟧
+
+⟦S:PRV-03|The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list.⟧
 
 ### 4.5 Change management
 

@@ -26,7 +26,9 @@ opened > documents_received > submitted > verified / rejected / manual_review
 - ⟦S:AUTHZ-05|Production access reviewed at least quarterly.⟧
 - ⟦F1|kyc-orchestrator signs and protects the messages it exchanges with the vendor.⟧
 - ⟦S:CRYPTO-03|External traffic TLS 1.2 or higher.⟧
+- ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 - ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+- ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:AUTH-01|Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
 - ⟦F2|kyc-orchestrator reads its runtime configuration when it starts.⟧
 - ⟦S:NET-01|kyc-db and brokers in private subnets, not publicly reachable.⟧
@@ -35,9 +37,15 @@ opened > documents_received > submitted > verified / rejected / manual_review
 ## data
 
 - ⟦S:DATA-01|Only the personal data needed for verification is collected and stored.⟧
+- ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 - ⟦S:DATA-03|Personal data to the vendor only under an approved DPA, only required fields.⟧
+- ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
+- ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
+- ⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
 - ⟦F3|Services inside the cluster trust each other because of the network they sit in, and internal calls carry no credentials.⟧
+- ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
+- ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 
 ## logs / api / ops
 

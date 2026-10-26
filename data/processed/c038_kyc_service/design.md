@@ -52,6 +52,8 @@ Traffic between services and to data stores must be encrypted in transit.
 - K-10: Non-production environments contain no real personal or card data.
 - K-11: Customer deletion requests: deletion requests are handled manually and often forgotten. A tracking dashboard is on the roadmap.
 
+Audit logs must be tamper-evident and retained for at least one year.
+
 ### 5.3 Cryptography and transport
 
 - K-13: Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
@@ -77,12 +79,16 @@ Logs carry opaque identifiers only and never include secrets, card numbers or pe
 
 - K-21: The audit trail includes authentication failures, privilege changes and sensitive-data access.
 
+Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
+
 ### 5.7 Application security
 
 - K-23: All external inputs are validated against a schema and rejected if invalid.
 - K-25: Signature verification is skipped for the callbacks coming from the partner sandbox.
 - K-26: Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - K-27: User input reaches the database only as query parameters, never as part of the query text.
+
+Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
 
 ### 5.8 Operations
 

@@ -30,6 +30,10 @@ The Customer app calls kyc-orchestrator, the service described in this document 
 
 The customer app is the mobile app of Meridian Pay. The mobile app pins the public key of the Meridian Pay API and refuses every connection that fails the pinning check. The app keeps tokens and keys only in the secure storage of the operating system and never in preferences or in files. The app guides the customer through photographing the document, checks the sharpness of the picture and shows the status of the case.
 
+We have set a recovery time objective of 4 hours or less, and every year we run a failover exercise to prove it.
+
+A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.
+
 ## Third-party components
 
 Every third-party SDK or library, including the SDK of the verification vendor, is approved before its first use, and the approved list is reviewed every six months.

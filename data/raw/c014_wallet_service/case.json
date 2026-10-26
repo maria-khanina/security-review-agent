@@ -108,6 +108,9 @@
   "OPS-01",
   "OPS-02",
   "DATA-05",
-  "AUTH-02"
+  "AUTH-02",
+  "OPS-03",
+  "SECRET-03",
+  "DATA-01"
  ]
 }

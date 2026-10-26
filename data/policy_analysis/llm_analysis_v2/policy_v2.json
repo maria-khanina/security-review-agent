@@ -99,7 +99,7 @@
         1243,
         1356
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authorization",
         "operations"
@@ -229,7 +229,7 @@
         2643,
         2759
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network",
         "cryptography"

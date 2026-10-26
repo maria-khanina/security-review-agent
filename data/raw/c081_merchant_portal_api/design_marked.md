@@ -28,6 +28,11 @@ The service exposes only the endpoints listed in the API section. All traffic is
 
 ⟦S:AUTH-01|External API calls are authenticated with OAuth2/OIDC bearer tokens issued by our identity provider.⟧ ⟦S:AUTHZ-01|Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
 
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
+⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
+
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
+
 ⟦S:CRYPTO-03|All external traffic must use TLS 1.2 or higher.⟧
 ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
@@ -36,6 +41,7 @@ The service exposes only the endpoints listed in the API section. All traffic is
 ⟦F2|Internal services trust each other because of the cluster network they sit in, and internal calls carry no credentials.⟧
 
 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
+⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 
 ⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 

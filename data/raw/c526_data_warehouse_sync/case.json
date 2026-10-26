@@ -79,6 +79,8 @@
  "required_rules": [
   "RES-01",
   "PIP-01",
-  "CHG-02"
+  "CHG-02",
+  "OBS-02",
+  "CHG-01"
  ]
 }

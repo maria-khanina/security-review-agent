@@ -34,7 +34,7 @@
         1074,
         1229
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authentication",
         "operations"
@@ -112,7 +112,7 @@
         1820,
         1912
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authorization",
         "operations"
@@ -189,7 +189,7 @@
         2494,
         2602
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "cryptography"
       ]
@@ -213,7 +213,7 @@
         2798,
         2887
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "secrets"
       ]
@@ -273,7 +273,7 @@
         3347,
         3434
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -285,7 +285,7 @@
         3439,
         3503
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -297,7 +297,7 @@
         3508,
         3577
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -321,7 +321,7 @@
         3657,
         3733
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -345,7 +345,7 @@
         3877,
         4020
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -357,7 +357,7 @@
         4025,
         4182
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -369,7 +369,7 @@
         4187,
         4345
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -405,7 +405,7 @@
         4614,
         4789
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -417,7 +417,7 @@
         4794,
         4912
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -429,7 +429,7 @@
         4949,
         5026
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "governance"
       ]
@@ -441,7 +441,7 @@
         5032,
         5110
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "governance"
       ]

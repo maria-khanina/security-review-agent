@@ -30,6 +30,10 @@
   "AUTHZ-03",
   "API-01",
   "CRYPTO-01",
-  "DATA-03"
+  "DATA-03",
+  "AUTH-03",
+  "OPS-03",
+  "NET-01",
+  "LOG-03"
  ]
 }

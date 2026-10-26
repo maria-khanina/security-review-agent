@@ -61,6 +61,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:LOG-02|...⟧ Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
+- ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

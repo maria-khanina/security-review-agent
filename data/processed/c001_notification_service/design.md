@@ -44,7 +44,10 @@
 
 Administrative and debug endpoints must not be reachable from the public internet.
 On boot, the service pulls its credentials from the approved secret store.
+Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 Access to centralized logs must be limited to authorized staff.
+Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
+Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 Requests from outside are checked against the schema and rejected if they do not conform.
 
 ## Notes

@@ -46,6 +46,7 @@
 - ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
+- ⟦S:AUTHZ-02|Internal users must receive only the roles required for their job and roles must be defined per service.⟧
 - ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
@@ -55,6 +56,7 @@
 ## Notes: data and egress
 
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
+- ⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
 - ⟦F2|Support analysts reproduce scoring issues in staging with real customer records.⟧
 - ⟦S:NET-04|Services that call third parties have egress restricted to an approved allowlist.⟧
 - ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧

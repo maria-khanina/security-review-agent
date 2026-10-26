@@ -4,8 +4,14 @@ so the idea is simple, other payment services should never hold a real card numb
 
 on the location, ⟦S:RES-01|personal data of customers in the EU is stored and processed only in regions of the EU⟧ which is the reason why the instance is in Frankfurt (I think, check the terraform variables TBD). ⟦F1|vault-db also has a replica for reads, and where exactly the replica runs is not written down anywhere, I assume it is the same region.⟧
 
+⟦S:OBS-02|The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.⟧
+
+⟦S:PRV-03|Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.⟧
+
 then how the code gets to production. the tokenization-service is built from the vault repository by the delivery pipeline of the platform team, ⟦F2|tokenization-service is deployed by that pipeline and the pipeline has the access it needs.⟧ I know somebody should write down the details (TBD). ⟦S:PIP-02|Build artifacts are signed, and the signature is verified before deployment.⟧ and for changes in general ⟦S:CHG-02|every change to production has a rollback plan that has been tested in a pre-production environment⟧ because it is the one service where a bad change hurts most.
 
 about the numbers we watch, we have latency and error rate per call and the count of tokens created per hour, ⟦S:OBS-01|traces and metrics do not contain personal data or card data⟧ (TBD verify with the sample dashboards).
+
+⟦S:CHG-01|Production changes need a review by a second engineer before they go live.⟧
 
 failure modes: if the key service is not reachable the service answers with an error and the callers retry with a pause, if vault-db is not reachable the same, nothing is cached in memory longer than a request (I think, TBD ask the author of the first prototype). rollout is one payment service after the other, the checkout first, then the refunds, then the rest (TBD order), and the old direct storage of numbers in the payment database is removed at the end. open: do we need format preserving tokens so that the last four digits are visible, who owns the on-call.

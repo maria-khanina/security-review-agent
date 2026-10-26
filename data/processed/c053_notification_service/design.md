@@ -63,10 +63,14 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 
 Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.
 Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 Requests from outside are checked against the schema and rejected if they do not conform.
 Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+Audit logs are written to tamper-evident storage with at least one year of retention.
+Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
 Internal details such as stack traces, SQL and hostnames never appear in an error response.
 Reading centralized logs requires authorization, and only approved staff have it.
+Internal users are given the minimum set of roles for their job, and roles are defined service by service.
 
 ## Design notes
 

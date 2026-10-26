@@ -38,6 +38,7 @@ This section combines the v1 security section with the 2023 updates.
 ⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧
 - ⟦F2|Roles are defined once, globally, for all platform services rather than per service, and every service reuses the same set.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - ⟦S:NET-01|Data stores and brokers sit in private subnets only.⟧
 - ⟦F4|The profile table of the notifier keeps every attribute that the calling services send.⟧
@@ -48,6 +49,7 @@ This section combines the v1 security section with the 2023 updates.
 ## 7. Logging
 
 - ⟦F3|Security-relevant events are not separated from normal logs, and nobody monitors them.⟧
+- ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 - ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 ## 8. Build and deployment

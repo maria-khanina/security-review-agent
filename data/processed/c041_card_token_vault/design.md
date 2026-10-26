@@ -4,7 +4,12 @@ Right, so the vault: payment services send us a card number and get a token back
 
 Now the part where I try to be precise about who is allowed to do what, because last time somebody asked and I could not answer: calls inside the cluster are trusted because they come from the cluster network, and they carry no credentials, and for people internal users receive only the roles required for their job and roles are defined per service, which in practice means operator, auditor and key custodian, and contractors keep their access to production systems after the contract ends until somebody notices, with Lena as owner I think, or the infra lead if Lena is away. On the data side the rule that matters most is primary account numbers are never stored in clear text and are tokenized by the card token vault, and the rest of the crypto follows the standard list, namely only approved cryptographic algorithms are used and MD5, SHA-1, DES, 3DES and ECB mode are prohibited, and I would add that tokens are random so nobody can compute a card number from a token, probably worth a sentence in the compliance document too.
 
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
+
+Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
+
 Each request for a customer's resource checks that the caller owns it or is entitled to it.
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
 About where things live: the database and the message brokers sit in private subnets and are not publicly reachable and about secrets,, which I mention because the first prototype did not follow it and we cleaned it up. Logging is the part everybody asks about: authentication failures, privilege changes and access to sensitive data are logged and and, and the audit log group is where the auditors look, with a read-only role, and I think the dashboards are built on the same group. In the service code database queries are parameterized and concatenating user input into queries is prohibited, and in the pipeline, which has only caught one real issue so far but that is one more than none.
 

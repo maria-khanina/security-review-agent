@@ -46,6 +46,7 @@
 - Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - Traffic between services, and between services and data stores or brokers, is encrypted in transit.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
+- Internal users must receive only the roles required for their job and roles must be defined per service.
 - Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - TLS certificate verification is enabled in all clients, with no option to disable it.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
@@ -55,6 +56,7 @@
 ## Notes: data and egress
 
 - Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+- The audit trail is tamper-evident, and we keep it for no less than twelve months.
 - Support analysts reproduce scoring issues in staging with real customer records.
 - Services that call third parties have egress restricted to an approved allowlist.
 - Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.

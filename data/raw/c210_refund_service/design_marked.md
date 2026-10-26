@@ -57,6 +57,8 @@ Caption: an agent can attach a receipt or a customer letter to a request. ⟦S:U
 
 Caption: finance exports refunds per merchant. ⟦F1|Reports are generated for any merchant identifier that is passed to the export call.⟧ ⟦S:TEN-02|Merchant data in refund-db is separated by row-level security.⟧
 
+⟦S:DR-02|Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.⟧
+
 ## Failure paths
 
 ```

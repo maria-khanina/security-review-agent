@@ -13,17 +13,22 @@ so that you know what the service is and which components and data it has."""
 
 VERDICTS_TEXT = """Choose exactly one verdict:
 - compliant: a fragment states what the requirement demands, including the \
-concrete values it names (limits, periods, counts, algorithms), and the \
-requirement is worded clearly enough for that statement to count as \
-fulfilment. A requirement with "should" is a requirement like one with \
-"must". A remark that a control exists, without the values the requirement \
-names, is not enough.
-- violated: a fragment states a decision that contradicts the requirement.
+concrete values it names (limits, periods, counts, algorithms). When the \
+requirement itself leaves the measure to the reader, a fragment is enough if \
+it states a concrete mechanism or value that the strictest reasonable reading \
+of the requirement would accept. A requirement with "should" is a \
+requirement like one with "must". A remark that a control exists, without \
+the value or mechanism, is not enough.
+- violated: a fragment states a decision that contradicts the requirement. \
+When the requirement leaves the measure to the reader or is relaxed by \
+another policy sentence, the decision is a violation if it contradicts even \
+the most lenient reasonable reading: the control is absent altogether, or a \
+stated value lies outside everything the requirement and its exceptions allow.
 - unclear: the requirement applies to this design but the fragments do not \
-settle it. Either the design is silent or too general about it, or the \
-requirement itself is worded vaguely, or conflicts with another policy \
-sentence, so that even a clear statement could not be called fulfilment or \
-violation. Do not guess; the author has to clarify.
+settle it. The design is silent about it, or speaks only in general terms \
+that name neither the value nor the mechanism, or the decision breaks only \
+the strict reading of a requirement that also has a lenient reading. Do not \
+guess; the author has to clarify.
 - not_applicable: the requirement does not concern this service, for example \
 it is about external callers and the design makes plain that only internal \
 services call this one, or it cannot be judged from a design document at all \
@@ -31,16 +36,18 @@ because it concerns only settings of the implementation."""
 
 STRICT_VERDICTS_TEXT = """Choose exactly one verdict:
 - compliant: a fragment states the concrete content the requirement demands \
-(the mechanism, value, scope or prohibition it names), and the requirement is \
-worded clearly enough for that statement to count as fulfilment. A fragment \
-that only mentions the same subject, or is more general than the requirement, \
-is not enough.
-- violated: a fragment states a decision that contradicts the requirement.
+(the mechanism, value, scope or prohibition it names). When the requirement \
+itself leaves the measure to the reader, a fragment is enough if it states a \
+concrete mechanism or value that the strictest reasonable reading would \
+accept. A fragment that only mentions the same subject, or is more general \
+than the requirement, is not enough.
+- violated: a fragment states a decision that contradicts the requirement, \
+or, for a requirement that leaves the measure to the reader or is relaxed by \
+another policy sentence, contradicts even its most lenient reasonable reading.
 - unclear: the requirement applies to this design but the fragments do not \
-settle it. Either the design is silent or too general about it, or the \
-requirement itself is worded vaguely, or conflicts with another policy \
-sentence, so that even a clear statement could not be called fulfilment or \
-violation. Fragments that merely do not mention the subject \
+settle it. Either the design is silent or too general about it, or it breaks \
+only the strict reading of a requirement that also has a lenient reading. \
+Fragments that merely do not mention the subject \
 leave the requirement unclear, because the design may still be silent about \
 something that applies. Do not guess; the author has to clarify.
 - not_applicable: the requirement is about something this service does not \

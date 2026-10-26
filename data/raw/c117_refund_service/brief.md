@@ -61,6 +61,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 - ⟦S:API-02|...⟧ External APIs must enforce per-client rate limits.
 - ⟦S:CRYPTO-04|...⟧ Traffic between services and to data stores must be encrypted in transit.
+- ⟦S:SECRET-03|...⟧ Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
+- ⟦S:LOG-03|...⟧ Audit logs must be tamper-evident and retained for at least one year.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -34,7 +34,7 @@
         1074,
         1229
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "authentication",
         "operations"
@@ -189,7 +189,7 @@
         2494,
         2602
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "cryptography"
       ]
@@ -261,7 +261,7 @@
         3202,
         3311
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "network"
       ]
@@ -285,7 +285,7 @@
         3439,
         3503
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -321,7 +321,7 @@
         3657,
         3733
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging"
       ]
@@ -345,7 +345,7 @@
         3877,
         4020
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection"
       ]
@@ -417,7 +417,7 @@
         4794,
         4912
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]
@@ -441,7 +441,7 @@
         5032,
         5110
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "governance"
       ]

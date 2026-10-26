@@ -31,9 +31,14 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - N-1: Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.
 
+Audit logs are tamper-evident and kept for at least a year.
+
+Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
+
 Access to centralized logs must be limited to authorized staff.
 
 Any authenticated caller can read any delivery record if it knows the identifier.
+Traffic between services and to data stores must be encrypted in transit.
 - N-2: Internal users receive only the roles required for their job, and roles are defined per service.
 - N-3: Access to production is recertified at least once per quarter.
 
@@ -44,6 +49,10 @@ Requests from outside are checked against the schema and rejected if they do not
 - N-4: Personal data is never placed in URLs.
 - N-5: Sensitive fields are encrypted with AES in ECB mode for simplicity.
 - N-6: No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
+
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
+
+Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 
 The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 - N-7: Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
@@ -62,6 +71,8 @@ On boot, the service pulls its credentials from the approved secret store.
 ### 5.5 Application security and operations
 
 - N-13: User input reaches the database only as query parameters, never as part of the query text.
+
+CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 
 ## 6. Template safety
 

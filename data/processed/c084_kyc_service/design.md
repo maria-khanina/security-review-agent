@@ -29,7 +29,12 @@ We keep personal data for 12 months at most and delete it automatically when the
 
 **Storage and crypto.** Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Outbound TLS connections always verify the peer certificate. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The kyc-documents bucket blocks public access and is private by default.
 
+Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.
+
+Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.
+
 A WAF with rate limiting protects the externally exposed API.
+External traffic is served over TLS 1.2 or newer.
 
 The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
@@ -46,6 +51,8 @@ Reports and exports with personal data are available only to authorized users, s
 
 **Secrets.** No secrets are kept in source code, config files, API specs or infrastructure definitions. At startup the service fetches its secrets from the approved secret store.
 
+Audit logs must be tamper-evident and retained for at least one year.
+
 **Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs.
 
 **API hygiene.** All external input is validated against a schema, and invalid requests are rejected. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
@@ -57,6 +64,8 @@ The log platform is access-controlled, and only authorized staff can read the lo
 Each service must use its own database account with the minimum grants and no shared administrative credentials.
 
 **Pipeline and runtime.** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Containers run as a non-root user, with a read-only root filesystem where possible.
+
+Backup encryption is on, and we test restoring from backup at least every six months.
 
 We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 

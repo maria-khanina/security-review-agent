@@ -23,9 +23,16 @@ class Misfit(BaseModel):
     versions: list[str]
 
 
+class Arguable(BaseModel):
+    rule: str
+    versions: list[str]
+    scenarios: list[int]
+
+
 class OverlapsFile(BaseModel):
     overlaps: list[Overlap]
     misfits: list[Misfit]
+    arguable: list[Arguable]
 
 
 @cache
@@ -45,6 +52,17 @@ def load_misfits() -> dict[tuple[str, int], list[str]]:
     table: dict[tuple[str, int], list[str]] = {}
     for item in OverlapsFile.model_validate(yaml.safe_load(text)).misfits:
         table[(item.rule, item.scenario)] = item.versions
+    return table
+
+
+@cache
+def load_arguable() -> dict[tuple[str, int], list[str]]:
+    """Map a rule and scenario to the versions whose wording leaves it arguable."""
+    text = read_text(project_path(load_settings().paths.overlaps_file))
+    table: dict[tuple[str, int], list[str]] = {}
+    for item in OverlapsFile.model_validate(yaml.safe_load(text)).arguable:
+        for scenario in item.scenarios:
+            table[(item.rule, scenario)] = item.versions
     return table
 
 
@@ -68,6 +86,17 @@ def find_misfit_versions(flaw: Flaw) -> list[str]:
     if index is None:
         return []
     return list(load_misfits().get((flaw.rule_id, index), []))
+
+
+def find_arguable_versions(flaw: Flaw) -> list[str]:
+    """List the policy versions whose wording leaves the violation arguable."""
+    if flaw.type != "violation" or flaw.rule_id is None:
+        return []
+    rules: dict[str, Rule] = {rule.id: rule for rule in load_rules()}
+    index = locate_scenario(rules[flaw.rule_id], flaw.instruction)
+    if index is None:
+        return []
+    return list(load_arguable().get((flaw.rule_id, index), []))
 
 
 def find_co_violations(flaw: Flaw) -> list[str]:

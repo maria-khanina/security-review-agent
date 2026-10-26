@@ -60,6 +60,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 - ⟦S:OPS-02|...⟧ Containers must run as a non-root user with a read-only root filesystem where possible.
 - ⟦S:AUTH-02|...⟧ Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
+- ⟦S:DATA-01|...⟧ Services must collect and store only the personal data needed for their purpose.
+- ⟦S:LOG-03|...⟧ Audit logs must be tamper-evident and retained for at least one year.
+- ⟦S:CRYPTO-03|...⟧ All external traffic must use TLS 1.2 or higher.
 
 ## Functional content (no security claims)
 Aim for at least 1200 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

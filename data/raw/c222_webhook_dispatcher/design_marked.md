@@ -28,6 +28,7 @@ Acceptance criteria:
 Acceptance criteria:
 1. GET /v1/deliveries returns id, event_type, status and attempts, in pages.
 2. ⟦F1|The list is filtered by the merchant in the handlers of the subscriptions, and the handler of the deliveries relies on the caller to pass the right merchant.⟧
+2. ⟦S:IR-02|The service has a written incident runbook, a named on-call owner who can be paged at any hour, and the runbook is rehearsed at least twice a year.⟧
 
 **HOOK-125** As a merchant, I want to replay a delivery so that I can recover from a failure on my side.
 Acceptance criteria:

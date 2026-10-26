@@ -31,6 +31,8 @@ Each table entry has a name, the key column, the column that tells which rows ch
 
 The analytics read replica and the production database it copies have point-in-time recovery enabled, with seven days of retention. A failed run can be repeated by hand for a chosen date with the same configuration; the files of the day are replaced.
 
+Security incidents of this service follow a runbook with a named on-call owner, and the team rehearses an incident twice a year.
+
 ## Capacity
 
 The extracts of the largest table have about forty million rows. The job needs about two gigabytes of memory and finishes within the time window of one hour; if the data volume grows by fifty percent, the window has to be extended or the largest table split into two jobs.

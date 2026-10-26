@@ -40,6 +40,12 @@ Acceptance criteria:
 1. The service role can only read its own table.
 2. Logging: only HTTP access logs from the load balancer in front of the review console are kept.
 
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
+
+In-transit encryption covers calls between services as well as connections to databases and queues.
+Backups must be encrypted and restoration must be tested at least twice a year.
+CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+
 ## Non-functional requirements
 
 | Area | Requirement |
@@ -57,6 +63,7 @@ Acceptance criteria:
 
 Internal users must receive only the roles required for their job and roles must be defined per service.
 The approved secret manager is the only source of runtime secrets, fetched at start-up.
+We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 There is no periodic review of who has production access.
 
 ## Design notes

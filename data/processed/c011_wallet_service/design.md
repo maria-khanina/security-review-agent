@@ -36,6 +36,10 @@ Logs must not contain secrets, card numbers, or personal data beyond opaque iden
 
 Passwords are stored only as salted argon2id hashes. The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.
 
+Service credentials are rotated at least every 90 days and immediately if they may have been exposed.
+
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
+
 Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 
 On every request for resource of a customer, the service verify that the caller is the owner or is entitled to the resource. Administrative and debug endpoints are not reachable from the public internet.
@@ -54,6 +58,8 @@ Each service has a dedicated database user limited to the tables and operations 
 
 The database and the message broker are in private subnets with no public address. A WAF with rate limiting protects the externally exposed API. For the services which call third parties, the egress is restricted to approved allowlist.
 
+All external traffic must use TLS 1.2 or higher.
+
 ## 8. Secrets
 
 Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. The runtime secrets are fetched from the approved secret store when service starts.
@@ -65,6 +71,8 @@ Authentication failures, privilege changes and access to sensitive data are logg
 ## 10. Application security
 
 All external input is validated against a schema, and invalid requests are rejected. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. Internal details such as stack traces, SQL and hostnames never appear in an error response. Database queries are parameterized and the concatenation of user input into queries is prohibited.
+
+Audit logs are written to tamper-evident storage with at least one year of retention.
 
 In-transit encryption covers calls between services as well as connections to databases and queues.
 

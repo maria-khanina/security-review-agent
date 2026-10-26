@@ -65,7 +65,11 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
 Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
+Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 All external input is validated against a schema, and invalid requests are rejected.
+KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
+Audit logs are written to tamper-evident storage with at least one year of retention.
 The service collects and stores only the personal data it needs for its purpose.
 
 ## Design notes

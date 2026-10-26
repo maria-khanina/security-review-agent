@@ -37,6 +37,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:UPL-01|...⟧ Uploaded files must not exceed 10 MB, and their type must be checked against an allowed list on the content of the file, not on its name.
 - ⟦S:UPL-02|...⟧ Uploaded files must be scanned for malware before any other user or service can open them.
 - ⟦S:TEN-02|...⟧ Tenant data in shared storage should be separated by row-level security or by tenant-specific encryption keys.
+- ⟦S:DR-02|...⟧ The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
 
 ## Functional content (no security claims)
 Aim for at least 500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

@@ -33,6 +33,8 @@ Everything is created with Terraform, which means that infrastructure is describ
 
 Authentication means checking who the caller is. Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected. When tokens are used, access tokens expire within 15 minutes, and refresh tokens are rotated on use.
 
+Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.
+
 Authorization means checking what the caller may do.
 
 ## 6. Encryption in plain words
@@ -42,6 +44,8 @@ Encryption turns readable data into unreadable data, and only someone with the k
 Data at rest is encrypted with KMS-managed keys.
 
 Traffic between services, and between services and data stores or brokers, is encrypted in transit. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Outbound TLS connections always verify the peer certificate.
+
+Audit logs are tamper-evident and kept for at least a year.
 
 Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
@@ -56,6 +60,8 @@ Personal data in our databases and object storage is encrypted at rest with AES-
 ## 8. Personal data
 
 The decisions contain personal data such as email and phone number. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. Real customer and card data is kept out of dev, test and staging.
+
+Staff roles are limited to what each job needs, and every service defines its own roles.
 
 Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
@@ -75,6 +81,8 @@ Security-relevant events (authentication failures, privilege changes, access to 
 ## 11. Callbacks and queries
 
 When a decision is "block", the service calls back the payments team. Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them. All queries use bound parameters instead of string concatenation.
+
+Backups must be encrypted and restoration must be tested at least twice a year.
 
 ## 12. Building and running
 

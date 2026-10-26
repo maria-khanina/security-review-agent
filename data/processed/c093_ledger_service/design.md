@@ -45,8 +45,11 @@
 | Keys | KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly. |
 
 Nothing administrative or meant for debugging can be called from outside our network.
+Backup encryption is on, and we test restoring from backup at least every six months.
 Error responses do not expose stack traces, SQL or internal hostnames.
+Audit logs are tamper-evident and kept for at least a year.
 Reading centralized logs requires authorization, and only approved staff have it.
+Service credentials are rotated at least every 90 days and immediately if they may have been exposed.
 
 ## Transport and crypto
 

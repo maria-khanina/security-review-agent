@@ -1262,7 +1262,7 @@ rules:
   ambiguity_ok: true
 - id: PAY-03
   title: Protected payment amounts
-  statement: Payment amounts and currencies should be protected against tampering in a manner appropriate to the risk.
+  statement: The server must recompute payment amounts and currencies from the stored order and reject requests whose values differ.
   categories:
   - payment-integrity
   applies_to:
@@ -1488,7 +1488,7 @@ rules:
   ambiguity_ok: true
 - id: IR-02
   title: Incident response procedures
-  statement: Services must maintain appropriate procedures for responding to security incidents.
+  statement: Every service must have a written incident runbook, a named on-call owner and a rehearsal at least twice a year.
   categories:
   - operations
   - governance
@@ -1685,7 +1685,7 @@ rules:
   ambiguity_ok: true
 - id: PRV-03
   title: Purposes of personal data
-  statement: Personal data should be used only for purposes that have been described to customers in an appropriate manner.
+  statement: Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
   categories:
   - privacy
   - governance
@@ -1895,7 +1895,7 @@ rules:
   ambiguity_ok: true
 - id: OBS-02
   title: Health and error reporting
-  statement: Every service should publish health checks and error rates to the shared dashboard in an appropriate way.
+  statement: Every service must publish its health check and error rates to the shared dashboard every minute.
   categories:
   - operations
   applies_to:

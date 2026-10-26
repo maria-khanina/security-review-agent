@@ -32,6 +32,8 @@ Refund records belong to the merchant of the original payment. Each query on mer
 
 Alerts about repeated failed logins, privilege changes and access to card data reach the on-call engineer within 15 minutes. refund-db is configured with point-in-time recovery and a retention of seven days.
 
+The server recomputes the amount and the currency of each payment from the stored order and rejects a request whose values differ.
+
 ## 7. Status model and events
 
 The statuses of a refund are `requested`, `approved`, `rejected`, `executed`, `cancelled` and `failed`. Every change of the status is published to refund-events with the refund id, the payment id, the old status, the new status and the time of the change. The consumers of the topic are the ledger, the notification service and the reporting jobs.

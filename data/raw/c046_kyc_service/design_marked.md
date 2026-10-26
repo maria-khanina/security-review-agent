@@ -51,9 +51,17 @@ Security is a first-class feature of this service, not an afterthought, because 
 
 ⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
 - ⟦S:NET-01|kyc-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+
+⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 - ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ ⟦S:API-04|Clients get generic error messages without stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
+
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
+⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 - ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧ ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 ## 7. Rollout

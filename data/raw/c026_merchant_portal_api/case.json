@@ -87,6 +87,9 @@
   "LOG-01",
   "OPS-01",
   "OPS-02",
-  "NET-05"
+  "NET-05",
+  "SECRET-03",
+  "DATA-01",
+  "CRYPTO-03"
  ]
 }

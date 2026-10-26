@@ -118,6 +118,11 @@
   "API-05",
   "AUTH-02",
   "SECRET-02",
-  "LOG-04"
+  "LOG-04",
+  "CRYPTO-04",
+  "OPS-03",
+  "OPS-01",
+  "LOG-02",
+  "CRYPTO-06"
  ]
 }

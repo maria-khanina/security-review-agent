@@ -28,6 +28,7 @@ Implementation (openapi) the document describes:
 ## Required compliance statements
 State each of these concretely (terse is fine for terse profiles) and wrap the statement in the marker shown.
 - ⟦S:TPC-01|...⟧ Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.
+- ⟦S:DR-02|...⟧ The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
 
 ## Functional content (no security claims)
 Aim for at least 400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

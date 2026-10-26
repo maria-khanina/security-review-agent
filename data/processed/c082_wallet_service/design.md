@@ -19,9 +19,12 @@ Wallet backend: keeps balances, does top-ups, transfers and profile changes. Mob
 
 **Gateway.** The Mobile API Gateway is the single entry point for all mobile traffic and forwards requests to wallet-core after it has talked to Keycloak. The Mobile API Gateway runs as three replicas behind the cloud load balancer, and rolling updates replace one replica at a time.
 
+All public-facing endpoints terminate TLS 1.2 or higher.
+
 **Customers.** Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form. Mei checked the import path, ok.
 
 Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+Neither the database nor the broker has a public endpoint, and both live in private subnets.
 
 **Access to data.**
 

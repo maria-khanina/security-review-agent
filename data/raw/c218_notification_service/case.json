@@ -54,5 +54,7 @@
    "instruction": "Mention notifier naturally, but do NOT state: The recovery time objective of the service and when failover was last exercised. Wrap the sentence(s) that mention notifier (the place where that information should have been) in the F2 marker."
   }
  ],
- "required_rules": []
+ "required_rules": [
+  "IR-02"
+ ]
 }

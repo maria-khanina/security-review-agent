@@ -45,6 +45,10 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:DATA-03|...⟧ Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
 - ⟦S:API-05|...⟧ Database queries must be parameterized; string concatenation of user input into queries is prohibited.
 - ⟦S:OPS-01|...⟧ CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+- ⟦S:AUTH-03|...⟧ Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
+- ⟦S:NET-01|...⟧ Databases and message brokers must not be publicly reachable and must live in private subnets.
+- ⟦S:LOG-03|...⟧ Audit logs must be tamper-evident and retained for at least one year.
+- ⟦S:OPS-03|...⟧ Backups must be encrypted and restoration must be tested at least twice a year.
 
 ## Functional content (no security claims)
 Aim for at least 500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

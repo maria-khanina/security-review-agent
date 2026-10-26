@@ -25,8 +25,11 @@ payments-db holds the payment records with the last four digits of the card and 
 Merchants authenticate with signed requests, and tokens replace card numbers everywhere outside the vault. The following controls apply to the service.
 
 - ⟦S:OBS-01|Traces and metrics do not contain personal data or card data.⟧
+- ⟦S:PRV-03|The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list.⟧
+- ⟦S:CHG-01|Every change to production is reviewed by a second engineer before deployment.⟧
 - ⟦S:CAP-01|When the capacity of a public endpoint is exhausted, the endpoint answers HTTP 503 and does not queue the requests.⟧
 - ⟦S:PIP-01|Credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour.⟧
+- ⟦S:OBS-02|Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.⟧
 - ⟦S:CHG-02|Every change to production has a rollback plan that has been tested in a pre-production environment.⟧
 - ⟦F2|Build artifacts are signed by the pipeline, and the signature is checked in the test environment but not in production, where the deployment tool does not support the check yet.⟧
 

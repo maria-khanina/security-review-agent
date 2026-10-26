@@ -28,6 +28,7 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 - All external inputs must be validated against a schema and rejected if invalid.
 - Nothing administrative or meant for debugging can be called from outside our network.
 - Access rights to production systems are reviewed at least quarterly.
+- Traffic between services and to data stores must be encrypted in transit.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Databases and message brokers sit in private subnets and are not publicly reachable.
 
@@ -50,6 +51,7 @@ For now the database password sits in the infrastructure code, and a sandbox API
 #### logging
 
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 
 #### data
 
@@ -62,6 +64,8 @@ For now the database password sits in the infrastructure code, and a sandbox API
 #### code and build
 
 User input reaches the database only as query parameters, never as part of the query text.
+Audit logs are tamper-evident and kept for at least a year.
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
 #### templates
 

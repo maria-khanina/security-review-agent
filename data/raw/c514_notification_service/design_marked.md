@@ -10,9 +10,11 @@
 - Dedup: key = (recipient_id, template_id, event_id), window 24h
 - Retries: provider 5xx -> 3x backoff 1s/4s/16s, then status failed
 - ⟦F2|notifier keeps the recipient contact details and the message history of the customers.⟧
+- ⟦S:CHG-01|A second engineer reviews each production change before it is deployed.⟧
 - DSAR: ⟦S:PRV-01|requests of customers to see or delete their personal data are answered within 30 days and recorded in the request register⟧
 - CI: standard platform pipeline
 - ⟦F1|Deployment tokens are valid for a year so that the nightly jobs do not fail.⟧
+- ⟦S:OBS-02|Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard.⟧
 - ⟦S:PIP-02|Build artifacts are signed, and the signature is verified before deployment.⟧
 - ⟦S:CHG-02|Every change to production has a rollback plan that has been tested in a pre-production environment.⟧
 - Rollout: canary 5% -> 50% -> 100%, 1 day each, abort on failed > 2%

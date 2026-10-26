@@ -31,6 +31,8 @@ The difference between authorize and capture confused me at first. Authorize mea
 
 In a gateway, authentication answers "who is calling?". ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧ ⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧ ⟦S:AUTH-06|Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.⟧
 
+⟦S:SECRET-03|Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.⟧
+
 ⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
 
 ⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
@@ -45,9 +47,13 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 
  ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 
+⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
+
 ## 6. Personal data
 
  ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦F2|Developers copy production payment data to their laptops when they need to reproduce a bug.⟧
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
 
 ## 7. Secrets
 
@@ -74,6 +80,8 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 ## 11. Build and operations
 
 ⟦S:OPS-01|The CI pipeline scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
+
+⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 
 ## 12. How a payment moves through the states
 

@@ -56,6 +56,8 @@
  "required_rules": [
   "UPL-02",
   "TPC-01",
-  "DR-01"
+  "DR-01",
+  "IR-02",
+  "DR-02"
  ]
 }

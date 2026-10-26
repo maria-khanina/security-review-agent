@@ -24,9 +24,13 @@ The Payments Edge Gateway receives the requests of the merchant backends and pas
 
 ⟦F2|The credentials of the pipeline are stored as variables of the pipeline project, and all developers of the platform team can read them.⟧ ⟦S:PIP-02|Build artifacts are signed, and the signature is verified before deployment.⟧
 
+⟦S:CHG-01|No change reaches production without the review of an engineer other than the author.⟧
+
 ## 5. Change and data location
 
 ⟦S:CHG-02|Every change to production has a rollback plan that has been tested in a pre-production environment.⟧ ⟦S:RES-02|Backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.⟧
+
+⟦S:OBS-02|Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.⟧
 
 ## 6. Failure handling
 

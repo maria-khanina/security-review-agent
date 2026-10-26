@@ -39,8 +39,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1867,
-     2021
+     2161,
+     2315
     ]
    ],
    "policy_spans": {
@@ -53,7 +53,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -98,7 +99,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -144,6 +146,36 @@
     [
      1391,
      1497
+    ]
+   ]
+  },
+  {
+   "rule_id": "OBS-02",
+   "design_spans": [
+    [
+     1755,
+     1905
+    ]
+   ],
+   "policy_spans": [
+    [
+     1846,
+     1951
+    ]
+   ]
+  },
+  {
+   "rule_id": "PRV-03",
+   "design_spans": [
+    [
+     1907,
+     2047
+    ]
+   ],
+   "policy_spans": [
+    [
+     767,
+     877
     ]
    ]
   }

@@ -33,6 +33,8 @@ There are four rules. First, double entry: the debit and the credit of every ent
 
 The calls from the internal services to ledger-core are authenticated with mutual TLS or signed workload identity tokens. Internal users receive only the roles which are required for their job, and the roles are defined per service. Access to production is recertified at least once per quarter.
 
+Backups are encrypted, and restores are tested at least twice a year.
+
 Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 
 ## 6. Cryptography and network
@@ -40,16 +42,20 @@ Secrets stay out of the repository: not in code, configuration, specs or infrast
 We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. The database and the message brokers are in the private subnets and are not publicly reachable.
 
 Runtime secrets must be fetched from the approved secret store at startup.
+Connections to the database and between internal services use TLS.
 
 Schema validation runs on every external input, and invalid data never reaches the business logic.
+Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 
 Debug and administrative routes are not exposed to the internet.
+Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 
 ## 7. Logging, queries and operations
 
 Authentication failures, privilege changes and access to sensitive data are written to the logs. User input reaches the database only as query parameters, never as part of the query text.
 
 Access to centralized logs must be limited to authorized staff.
+Audit logs are written to tamper-evident storage with at least one year of retention.
 
 ## 8. How posting works
 

@@ -26,6 +26,7 @@ The vault tokenizes primary account numbers (PANs) for the payment services. It 
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
+- ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 - ⟦F3|The vendor receives the complete customer profile, including fields it does not need, and there is no signed data processing agreement with them.⟧
 - ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 - ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
@@ -66,6 +67,7 @@ The service role can only read its own table. Everything else the service needs 
 
 - ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 
 #### logs
 

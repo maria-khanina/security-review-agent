@@ -56,6 +56,7 @@
  "required_rules": [
   "TEN-01",
   "TEN-02",
-  "UPL-02"
+  "UPL-02",
+  "DR-02"
  ]
 }

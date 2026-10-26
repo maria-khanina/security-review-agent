@@ -44,6 +44,8 @@ The retention period is 24 months for customer records and 90 days for delivery 
 - C-12: Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
 - C-13: Staging is refreshed every night from a snapshot of the production database, including the merchant users.
 
+Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
+
 ### 4.3 Cryptography and transport
 
 - C-15: Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
@@ -59,6 +61,8 @@ The login and token endpoints throttle repeated failures and apply a temporary l
 ### 4.5 Network
 
 - C-20: portal-db and the message brokers sit in private subnets and are not publicly reachable.
+
+Audit log entries are protected against silent modification and retained for a minimum of one year.
 - C-21: Egress of services that call third parties is restricted to an approved allowlist.
 
 ### 4.6 Logging

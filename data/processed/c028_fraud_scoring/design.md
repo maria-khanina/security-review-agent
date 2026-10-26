@@ -4,9 +4,16 @@ So the idea is that every payment event lands on the MSK topic, which some peopl
 
 On who talks to whom and how: calls between internal services and the scoring-engine are authenticated with mutual TLS or signed workload identity tokens, and where tokens are involved access tokens are valid for 24 hours or longer and the refresh tokens are not rotated, and for people, which for this service means analyst, operator and auditor, and as for the database, which was a long argument with the DBA team that I am glad is over. About crypto, personally identifiable information is encrypted at rest with AES-256 and the encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually and for the wire traffic between services, and between services and data stores or brokers, is encrypted in transit while services validate TLS certificates and never disable verification and, to be complete, only approved cryptographic algorithms are used and MD5, SHA-1, DES, 3DES and ECB mode are prohibited, and I think that covers the crypto list although somebody will ask about the model artifacts, which are just files and carry no secrets.
 
+We rotate service credentials at least every 90 days and straight away after any suspected exposure.
+
+We keep roles small and per service, so an internal user only receives what their job requires.
+
 The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
 
 Secrets are the next thing: secrets do not appear in source code, configuration files, specifications or infrastructure definitions and runtime secrets are fetched from the approved secret store at startup and, fine. For the network, the database and the message brokers sit in private subnets and are not publicly reachable and services that call third parties have their egress restricted to an approved allowlist, although right now the engine calls nobody outside, the model runs in process, so the allowlist is mostly a guard for the future. On data, which is the part compliance cares about most: and and personal data is sent to third parties only under an approved data processing agreement and only the fields required and non-production environments do not contain real personal or card data, so staging runs on generated customers, which makes the model look worse than it is but that is a separate problem, and when a decision is block the engine calls back the payments team, so webhook payloads, outbound and inbound, are signed and the signatures are verified.
+
+Audit logs must be tamper-evident and retained for at least one year.
 
 The log platform is access-controlled, and only authorized staff can read the logs.
 
@@ -15,3 +22,4 @@ Each service must use its own database account with the minimum grants and no sh
 For logging I think the cleanest way to say it is authentication failures, privilege changes and access to sensitive data are logged and and, with the audit log group being the one place we point auditors at. In the code database queries are parameterized and concatenating user input into queries is prohibited, and for the pipeline the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days, plus containers run as a non-root user with a read-only root filesystem where possible and, and the restore test is on the calendar for the quarter after launch, probably. What I have not decided is how many partitions the topic needs, since the scorer is stateless and could scale to as many copies as there are partitions, so the partition count caps the parallelism, and the current guess is twelve, which is more than enough for launch volumes but may not be enough at peak season, and the lag alert should fire well before anyone notices, and that is the last open thing (TBD) apart from the name of the review queue email, which currently says fraud-review and might become risk-review.
 
 Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
+We encrypt backups and run a restore test at least twice a year.

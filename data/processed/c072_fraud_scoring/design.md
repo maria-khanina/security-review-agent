@@ -22,8 +22,11 @@ The image runs as an unprivileged user and, where possible, mounts its root file
 Traffic between services, and from services to data stores, is encrypted in transit.
 
 Nothing administrative or meant for debugging can be called from outside our network.
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 **Logging.** Authentication failures, privilege changes and access to sensitive data are written to the logs. We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
+
+Audit logs are tamper-evident and kept for at least a year.
 
 Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 

@@ -27,6 +27,8 @@ Personal data of customers in the EU is stored and processed only in regions of 
 
 When a customer asks to delete the data, the team of the production database delete the customer record. The sync does not touch the extract files that already exist, so the copies of the customer in the reports and in the exports stay where they are.
 
+A second engineer reviews each production change before it is deployed.
+
 ## 7. Backups
 
 The replica and the bucket have backups every week. To save money, the backups are copied to a bucket in a region outside the EU, where the storage is cheaper.
@@ -34,6 +36,8 @@ The replica and the bucket have backups every week. To save money, the backups a
 ## 8. Delivery
 
 The job is deliver by the pipeline of the platform team. Credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour. sync-job is packed in a container image by the pipeline and the image is started on the schedule of the cluster.
+
+Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard.
 
 ## 9. Change
 

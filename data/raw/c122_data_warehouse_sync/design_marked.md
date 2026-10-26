@@ -68,7 +68,14 @@
 
 ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
+⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
+⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧
+⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 ⟦S:NET-01|Neither the database nor the broker has a public endpoint, and both live in private subnets.⟧
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
 
 | open | owner

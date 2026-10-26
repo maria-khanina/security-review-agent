@@ -38,6 +38,8 @@
 ## Capacity
 
 ⟦F1|The gateway in front of the dispatcher holds the requests for up to a minute when the dispatcher is slow, and answers when a worker is free.⟧
+⟦S:CHG-01|Every change to production must be reviewed by a second engineer before it is deployed.⟧
+⟦S:OBS-02|The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.⟧
 
 ## Delivery
 

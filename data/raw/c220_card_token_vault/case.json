@@ -54,6 +54,7 @@
   }
  ],
  "required_rules": [
-  "IR-01"
+  "IR-01",
+  "DR-02"
  ]
 }

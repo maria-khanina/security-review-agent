@@ -36,6 +36,8 @@ Encryption makes data unreadable for anyone without the key. We use it in two si
 
 Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. Traffic between services, and between services and data stores or brokers, is encrypted in transit. Clients check the certificate chain and host name on every TLS connection and have no insecure mode. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
+Encrypted backups are checked by a restoration exercise at least twice a year.
+
 Each service must use its own database account with the minimum grants and no shared administrative credentials.
 Access to centralized logs must be limited to authorized staff.
 
@@ -46,6 +48,8 @@ A secret is anything that gives access, for example a password or a key. No secr
 ## 8. Network
 
 decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
+
+We rotate service credentials at least every 90 days and straight away after any suspected exposure.
 
 ## 9. Personal data
 
@@ -64,6 +68,8 @@ When a decision is "block", the service calls back the payments team. Every webh
 ## 12. Build and run
 
 CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days. Containers run as a non-root user, with a read-only root filesystem where possible.
+
+Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.
 
 ## 13. How the decision is made
 

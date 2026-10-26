@@ -53,8 +53,11 @@ Before personal data is shared with a third party, an approved DPA must be in pl
 Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 Debug and administrative routes are not exposed to the internet.
 Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
 Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+Service credentials are rotated at least every 90 days and immediately if they may have been exposed.
 External inputs are accepted only if they validate against the schema.
+Backup encryption is on, and we test restoring from backup at least every six months.
 Reading centralized logs requires authorization, and only approved staff have it.
 The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.
 

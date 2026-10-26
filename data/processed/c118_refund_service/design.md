@@ -47,6 +47,8 @@ refund-db has three tables. refund holds the refund records. approval holds one 
 
 7.1 Identity and access. Every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS. Every request for a merchant-owned resource verifies that the caller owns the resource or is entitled to it. Admin and debug endpoints are reachable only from the internal network, not from the public internet. Access to production is recertified at least once per quarter.
 
+CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+
 7.2 Card data and cryptography. We do not keep primary account numbers: the card token vault tokenizes them and we store the token. All personally identifiable information is encrypted before it lands on disk, using AES-256. All external traffic uses TLS 1.2 or higher. Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. The ownership of the keys and their rotation schedule are still to be written down (TBD with the platform team).
 
 Runtime secrets are read from the secret store when the service starts.
@@ -54,12 +56,20 @@ Runtime secrets are read from the secret store when the service starts.
 7.3 Secrets. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 
 Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
 
 7.4 Network and logging. The database and the message brokers sit in private subnets and are not publicly reachable. Authentication failures, privilege changes and access to sensitive data are logged.
 
 7.5 Data protection. Only the personal data needed for the purpose is collected and stored. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 7.6 Application. Schema validation runs on every external input, and invalid data never reaches the business logic. All queries use bound parameters instead of string concatenation.
+
+Audit log entries are protected against silent modification and retained for a minimum of one year.
+
+External APIs must sit behind a WAF with rate limiting.
 
 ## 8. Failure handling
 

@@ -23,6 +23,9 @@ Requests of customers to see or delete their personal data are answered within 3
 
 The pipeline of the platform team is unchanged, with one addition: credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour, where the old pipeline used a shared service account. Build artifacts are signed, and the signature is verified before deployment.
 
+Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked.
+No change reaches production without the review of an engineer other than the author.
+
 ## Observability
 
 The new locale field is added to the logs. Traces and metrics do not contain personal data or card data.
@@ -30,6 +33,8 @@ The new locale field is added to the logs. Traces and metrics do not contain per
 ## Rollback
 
 The pre-production environment of the Notification Service is not the same as production any more: it has no provider connection, another Kafka version and one tenth of the data, so rollback tests there are not trusted and the team does not rely on them. The old release stays deployed for two days after the switch (see the release 2 appendix).
+
+Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard.
 
 ## Rollout
 

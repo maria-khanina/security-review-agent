@@ -39,8 +39,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1820,
-     1896
+     2071,
+     2147
     ]
    ],
    "policy_spans": {
@@ -53,7 +53,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -76,8 +77,8 @@
    "rule_id": "AUTHZ-01",
    "design_spans": [
     [
-     1439,
-     1545
+     1588,
+     1694
     ]
    ],
    "policy_spans": [
@@ -91,8 +92,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     1548,
-     1622
+     1697,
+     1771
     ]
    ],
    "policy_spans": [
@@ -106,8 +107,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     1625,
-     1750
+     1876,
+     2001
     ]
    ],
    "policy_spans": [
@@ -121,8 +122,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     1753,
-     1817
+     2004,
+     2068
     ]
    ],
    "policy_spans": [
@@ -136,8 +137,8 @@
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     1899,
-     1969
+     2150,
+     2220
     ]
    ],
    "policy_spans": [
@@ -151,8 +152,8 @@
    "rule_id": "CRYPTO-02",
    "design_spans": [
     [
-     1972,
-     2069
+     2223,
+     2320
     ]
    ],
    "policy_spans": [
@@ -166,8 +167,8 @@
    "rule_id": "CRYPTO-03",
    "design_spans": [
     [
-     2072,
-     2177
+     2444,
+     2549
     ]
    ],
    "policy_spans": [
@@ -181,8 +182,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     2180,
-     2291
+     2552,
+     2663
     ]
    ],
    "policy_spans": [
@@ -196,8 +197,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2294,
-     2398
+     2666,
+     2770
     ]
    ],
    "policy_spans": [
@@ -211,8 +212,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     2401,
-     2489
+     2840,
+     2928
     ]
    ],
    "policy_spans": [
@@ -226,8 +227,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3234,
-     3341
+     3673,
+     3780
     ]
    ],
    "policy_spans": [
@@ -241,8 +242,8 @@
    "rule_id": "DATA-01",
    "design_spans": [
     [
-     3406,
-     3491
+     3947,
+     4032
     ]
    ],
    "policy_spans": [
@@ -256,8 +257,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3512,
-     3629
+     4053,
+     4170
     ]
    ],
    "policy_spans": [
@@ -271,8 +272,8 @@
    "rule_id": "DATA-05",
    "design_spans": [
     [
-     3644,
-     3773
+     4185,
+     4314
     ]
    ],
    "policy_spans": [
@@ -286,8 +287,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     3812,
-     3910
+     4353,
+     4451
     ]
    ],
    "policy_spans": [
@@ -301,14 +302,123 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3911,
-     4004
+     4452,
+     4545
     ]
    ],
    "policy_spans": [
     [
      4483,
      4590
+    ]
+   ]
+  },
+  {
+   "rule_id": "NET-05",
+   "design_spans": [
+    [
+     1439,
+     1494
+    ]
+   ],
+   "policy_spans": [
+    [
+     3202,
+     3311
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-03",
+   "design_spans": [
+    [
+     2773,
+     2837
+    ]
+   ],
+   "policy_spans": [
+    [
+     4794,
+     4912
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     1497,
+     1585
+    ]
+   ],
+   "policy_spans": [
+    [
+     4614,
+     4789
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     2323,
+     2441
+    ]
+   ],
+   "policy_spans": [
+    [
+     3877,
+     4020
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     1774,
+     1873
+    ]
+   ],
+   "policy_spans": [
+    [
+     3508,
+     3577
+    ],
+    [
+     3657,
+     3733
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     4547,
+     4635
+    ]
+   ],
+   "policy_spans": [
+    [
+     3439,
+     3503
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     3783,
+     3882
+    ]
+   ],
+   "policy_spans": [
+    [
+     2494,
+     2602
     ]
    ]
   }

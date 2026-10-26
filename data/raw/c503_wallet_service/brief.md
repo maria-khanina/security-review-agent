@@ -38,6 +38,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:PIP-02|...⟧ Build artifacts must be signed, and the signature must be verified before deployment.
 - ⟦S:CAP-01|...⟧ Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
 - ⟦S:CAP-02|...⟧ Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.
+- ⟦S:OBS-02|...⟧ Every service must publish its health check and error rates to the shared dashboard every minute.
+- ⟦S:CHG-01|...⟧ Every change to production must be reviewed by a second engineer before it is deployed.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
 
 ## Functional content (no security claims)
 Aim for at least 900 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

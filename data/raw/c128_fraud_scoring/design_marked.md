@@ -10,11 +10,14 @@ fraud scoring - quick notes
 
 security stuff:
 - ⟦F1|The service image keeps the default root user, because changing it broke file access.⟧
+- ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 - ⟦F3|Internal calls are authenticated only by a shared header value that all services know.⟧
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
+- ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 - ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
+- ⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧

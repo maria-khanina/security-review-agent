@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -140,7 +142,8 @@
    "also_violates": [
     "DATA-05"
    ],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F4",
@@ -167,8 +170,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2000,
-     2058
+     2585,
+     2643
     ]
    ],
    "policy_spans": {
@@ -181,7 +184,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F5",
@@ -208,8 +212,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1861,
-     1917
+     2446,
+     2502
     ]
    ],
    "policy_spans": {
@@ -222,7 +226,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -230,8 +235,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     1608,
-     1749
+     1900,
+     2041
     ]
    ],
    "policy_spans": [
@@ -245,8 +250,8 @@
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     1752,
-     1858
+     2337,
+     2443
     ]
    ],
    "policy_spans": [
@@ -260,8 +265,8 @@
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     1920,
-     1997
+     2505,
+     2582
     ]
    ],
    "policy_spans": [
@@ -275,8 +280,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     2061,
-     2139
+     2646,
+     2724
     ]
    ],
    "policy_spans": [
@@ -290,8 +295,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2142,
-     2246
+     2727,
+     2831
     ]
    ],
    "policy_spans": [
@@ -305,8 +310,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     2249,
-     2340
+     2834,
+     2925
     ]
    ],
    "policy_spans": [
@@ -320,8 +325,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     2343,
-     2444
+     3030,
+     3131
     ]
    ],
    "policy_spans": [
@@ -335,8 +340,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     2447,
-     2521
+     3134,
+     3208
     ]
    ],
    "policy_spans": [
@@ -350,8 +355,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     2524,
-     2620
+     3211,
+     3307
     ]
    ],
    "policy_spans": [
@@ -365,14 +370,123 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     2623,
-     2688
+     3310,
+     3375
     ]
    ],
    "policy_spans": [
     [
      4483,
      4590
+    ]
+   ]
+  },
+  {
+   "rule_id": "DATA-02",
+   "design_spans": [
+    [
+     2216,
+     2334
+    ]
+   ],
+   "policy_spans": [
+    [
+     3877,
+     4020
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     1524,
+     1619
+    ]
+   ],
+   "policy_spans": [
+    [
+     1074,
+     1229
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-03",
+   "design_spans": [
+    [
+     2128,
+     2213
+    ]
+   ],
+   "policy_spans": [
+    [
+     4794,
+     4912
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     2044,
+     2125
+    ]
+   ],
+   "policy_spans": [
+    [
+     3508,
+     3577
+    ],
+    [
+     3657,
+     3733
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-02",
+   "design_spans": [
+    [
+     1620,
+     1708
+    ]
+   ],
+   "policy_spans": [
+    [
+     3439,
+     3503
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     2928,
+     3027
+    ]
+   ],
+   "policy_spans": [
+    [
+     2494,
+     2602
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-01",
+   "design_spans": [
+    [
+     1709,
+     1814
+    ]
+   ],
+   "policy_spans": [
+    [
+     4614,
+     4789
     ]
    ]
   }

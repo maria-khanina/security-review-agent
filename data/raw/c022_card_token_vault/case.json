@@ -152,6 +152,8 @@
   "API-05",
   "OPS-01",
   "AUTHZ-04",
-  "AUTHZ-01"
+  "AUTHZ-01",
+  "DATA-01",
+  "LOG-03"
  ]
 }

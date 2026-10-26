@@ -94,6 +94,8 @@
   "LOG-02",
   "DATA-03",
   "API-05",
-  "AUTHZ-04"
+  "AUTHZ-04",
+  "AUTH-03",
+  "LOG-03"
  ]
 }

@@ -22,12 +22,14 @@ Personal data may be sent to third parties only under an approved data processin
 - **Algorithms and keys.** Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
 Clients get generic error messages without stack traces, SQL or internal hostnames.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 
 ## secrets and network
 
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
 - The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
 - At startup the service fetches its secrets from the approved secret store.
+- Staff roles are limited to what each job needs, and every service defines its own roles.
 - Owner for the rotation job: Tomas (confirmed this time).
 - vault-db and the message brokers sit in private subnets and are not publicly reachable.
 - Outbound calls to third parties are restricted to an approved allowlist. Right now the vault calls nobody outside, so this is a guard for later.
@@ -41,6 +43,7 @@ Clients get generic error messages without stack traces, SQL or internal hostnam
 - Non-production environments contain no real personal or card data. Staging uses test PANs from the card network test ranges.
 - Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Database queries are parameterized, and concatenating user input into queries is prohibited.
+- We encrypt backups and run a restore test at least twice a year.
 - Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 - No container runs as root, and the root filesystem is read-only wherever possible.
 - At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.

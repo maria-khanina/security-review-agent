@@ -47,6 +47,8 @@ Personally identifiable information, in kyc-db and in the kyc-documents bucket, 
 
 No secrets are kept in source code, config files, API specs or infrastructure definitions. On boot, the service pulls its credentials from the approved secret store.
 
+Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
+
  The kyc-documents bucket blocks public access and is private by default.
 
 We log failed logins, changes of privileges and reads of sensitive data. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
@@ -54,6 +56,10 @@ We log failed logins, changes of privileges and reads of sensitive data. Nothing
 Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
 External inputs are accepted only if they validate against the schema. All queries use bound parameters instead of string concatenation. Cross-origin access is restricted to approved origins, and there is no wildcard.
+
+Encrypted backups are checked by a restoration exercise at least twice a year.
+
+Audit logs are written to tamper-evident storage with at least one year of retention.
 
 Traffic between services and to data stores must be encrypted in transit.
 Containers must run as a non-root user with a read-only root filesystem where possible.

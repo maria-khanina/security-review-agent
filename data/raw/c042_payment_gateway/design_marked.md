@@ -38,6 +38,8 @@
 ## Notes: access
 
 - ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
+- ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
+- ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 - ⟦S:AUTHZ-01|Every request for a merchant-owned payment verifies that the caller owns it or is entitled to it.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 - ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
@@ -45,13 +47,16 @@
 ## Notes: data
 
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
+- ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧
 - ⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
 - ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
+- ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 - ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 - ⟦S:DATA-01|Only the personal data needed for payment processing is collected and stored.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
+- ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 - ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the fields required.⟧
 - ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
@@ -60,5 +65,6 @@
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:NET-01|payments-db and the Kafka brokers are in private subnets and not publicly reachable.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are logged.⟧
+- ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 - ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 - ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧

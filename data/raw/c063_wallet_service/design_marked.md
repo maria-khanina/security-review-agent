@@ -49,19 +49,27 @@ Card numbers are never returned by the API. When a customer adds a card as a fun
 ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 
 ⟦S:NET-01|wallet-db and the message brokers sit in private subnets and are not publicly reachable.⟧
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
+⟦S:LOG-02|Logs carry opaque identifiers only and never include secrets, card numbers or personal data.⟧
 ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 
 ## 6. Operations access
 
 Support and operations staff need to change limits and inspect wallets. The architecture board considered a separate internal gateway and rejected it for the first release on grounds of cost and delay. ⟦F2|Admin routes are served by the same public gateway as customer routes, for example PUT /admin/limits/{accountId} for the limits override.⟧ Access to those routes is controlled by roles in the identity provider.
 
+⟦S:NET-05|Public API traffic passes through a web application firewall with rate limits.⟧
+
 ## 7. Data handling
 
 ⟦S:DATA-01|The service collects and stores only the personal data needed to operate wallets.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
 
+⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
+
 ## 8. Input handling and queries
 
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
+
+⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 
 ## 9. Logging
 

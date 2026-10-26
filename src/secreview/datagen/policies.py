@@ -52,10 +52,10 @@ class PolicyVersion:
         return list(self.rules)
 
     def review_status(self, rule_ids: list[str]) -> str:
-        """Return the first non-clear status among the rules, else clear."""
+        """Return the first status that is not firm among the rules, else clear."""
         for rule_id in rule_ids:
             status = self.rules[rule_id].status if rule_id in self.rules else None
-            if status and status != CLEAR_STATUS:
+            if status and not is_firm(status):
                 return status
         return CLEAR_STATUS
 

@@ -40,6 +40,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:PIP-01|...⟧ Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.
 - ⟦S:OBS-01|...⟧ Traces and metrics must not contain personal data or card data.
 - ⟦S:CAP-01|...⟧ Public endpoints must shed load with HTTP 503 instead of queueing requests when their capacity is exhausted.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
 
 ## Functional content (no security claims)
 Aim for at least 600 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

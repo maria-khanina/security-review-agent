@@ -45,6 +45,8 @@ The Merchant web app shows the settlements, the users and the reports. To answer
 
 Alerts about repeated failed logins, privilege changes and access to card data reach the on-call engineer within 15 minutes. Every third-party SDK or library is approved before its first use, and the list of approved components is reviewed every six months. portal-db has point-in-time recovery switched on with a retention of seven days.
 
+Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.
+
 ## 9. Failure handling
 
 If the report job fails, the report gets the status `failed` and the merchant can ask for it again. A report that is ready can be downloaded until expires_at, which is seven days after the creation, and after that it is deleted.

@@ -24,6 +24,8 @@ This document describes only what changes. Everything that is not mentioned here
 
 Security-relevant events of ledger-core are collected on the operations dashboard, as for the old module, and nobody is paged from it. ledger-db has point-in-time recovery enabled, with seven days of retention. The recovery plan assumes a restore of ledger-db from the nightly backup, which takes about a day.
 
+A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.
+
 ## Migration steps
 
 1. Month 1: the wallet service posts to ledger-core and to the old module in parallel; a daily comparison shows the differences.

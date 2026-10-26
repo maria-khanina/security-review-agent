@@ -37,6 +37,12 @@ My reviewer asked me to explain the security part in simple words, so I wrote wh
 
 **Who is the caller?** ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧ ⟦F1|The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again.⟧ ⟦S:AUTH-06|Failed attempts on the login and token endpoints are throttled, and the account is temporarily locked after ten consecutive failures.⟧
 
+⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
+⟦S:SECRET-03|Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak.⟧
+
+⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
+⟦S:OPS-03|Backups are encrypted, and restores are tested at least twice a year.⟧
+
 **Where are the doors?** ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧ ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 
 **Card data.** Card numbers are the most dangerous thing we have. ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
@@ -52,6 +58,8 @@ My reviewer asked me to explain the security part in simple words, so I wrote wh
 ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 **Input, errors and code.** ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦F3|Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
 
 ## 6. What the dashboards show
 

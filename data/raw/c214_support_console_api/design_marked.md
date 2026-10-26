@@ -21,6 +21,8 @@ The Support web console calls console-backend. console-backend validates the tok
 
 A goodwill credit pays an amount to the wallet of the customer. A fee reversal gives back a fee that was taken from the customer. ⟦F2|Reversals and credits above 1,000 EUR are approved by the team lead, and the approval is written into a spreadsheet of the team; the console does not check the approval.⟧ The ticket_id of the request has to point to a ticket in the support tool.
 
+⟦S:IR-02|A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.⟧
+
 ---
 
 # Part 2: Technical notes (Dmitri)

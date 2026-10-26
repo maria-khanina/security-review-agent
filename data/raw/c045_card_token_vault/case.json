@@ -70,6 +70,12 @@
   "DATA-03",
   "LOG-01",
   "API-05",
-  "API-01"
+  "API-01",
+  "CRYPTO-04",
+  "AUTH-03",
+  "OPS-03",
+  "LOG-03",
+  "LOG-02",
+  "CRYPTO-06"
  ]
 }

@@ -92,6 +92,10 @@
   "DATA-01",
   "DATA-03",
   "DATA-05",
-  "API-05"
+  "API-05",
+  "CRYPTO-04",
+  "LOG-03",
+  "LOG-02",
+  "CRYPTO-06"
  ]
 }

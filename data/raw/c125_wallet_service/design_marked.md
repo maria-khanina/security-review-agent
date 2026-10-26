@@ -29,8 +29,10 @@ These are the controls the Wallet Service runs with right now, listed so that th
 - ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 - ⟦S:CRYPTO-01|All personally identifiable information is encrypted before it lands on disk, using AES-256.⟧
 - ⟦S:AUTH-01|Every externally reachable API endpoint must authenticate callers with OAuth2/OIDC bearer tokens or mutual TLS.⟧
+- ⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - ⟦S:AUTHZ-01|Every request for a customer-owned resource must verify that the caller owns or is entitled to that resource.⟧
+- ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
 - ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
@@ -43,6 +45,7 @@ These are the controls the Wallet Service runs with right now, listed so that th
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 - ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 - ⟦F1|CORS is wide open in production, to avoid support tickets from partners.⟧
+- ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
 
 ## 4. Roadmap
 

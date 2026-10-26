@@ -72,6 +72,12 @@
   "NET-01",
   "LOG-01",
   "SECRET-02",
-  "API-05"
+  "API-05",
+  "CRYPTO-04",
+  "AUTH-03",
+  "OPS-01",
+  "LOG-03",
+  "LOG-02",
+  "CRYPTO-06"
  ]
 }

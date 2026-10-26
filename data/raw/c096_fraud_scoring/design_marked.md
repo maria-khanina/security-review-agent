@@ -22,6 +22,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - The database accepts connections only from the application subnet.
 - ⟦S:CRYPTO-01|PII at rest is AES-256.⟧
 - ⟦S:API-05|Parameterized queries only.⟧
+- ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 - ⟦S:DATA-01|Only personal data needed for scoring is stored.⟧
 
 ## third party
@@ -37,6 +38,9 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 ## crypto / secrets
 
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.⟧
+- ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
+- ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+- ⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
 
 ## logs
@@ -44,6 +48,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - ⟦F2|scoring-engine writes a log line for every event it processes.⟧
 - ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
+- ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 - ⟦S:LOG-04|Log access limited to authorized staff.⟧
 
 ## exports

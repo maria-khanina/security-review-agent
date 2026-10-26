@@ -49,6 +49,9 @@
 | same key, same amount | returns the stored entry |
 | same key, different amount | A repeated key with a different amount is posted as a new entry. |
 
+A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.
+The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
+
 ## Reversals
 
 | Item | Value |

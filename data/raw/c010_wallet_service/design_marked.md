@@ -48,7 +48,10 @@ All state-changing operations require an authenticated caller.
 ## Transport and edge
 
 - ⟦S:CRYPTO-07|Outbound TLS connections validate certificates; verification is never off.⟧
+- ⟦S:SECRET-03|We rotate service credentials at least every 90 days and straight away after any suspected exposure.⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.⟧
+- ⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
+- ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 - ⟦S:API-02|Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429.⟧
 - ⟦S:NET-01|wallet-db sits in private subnets, no public endpoint.⟧
 - ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
@@ -61,6 +64,7 @@ All state-changing operations require an authenticated caller.
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
+- ⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
 - ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 
 ## Logging

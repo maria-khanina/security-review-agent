@@ -8,6 +8,8 @@ The Wallet Service keeps the balance of each customer wallet and executes top-up
 
 The Mobile app calls the Mobile API Gateway. The Mobile API Gateway is the only entrance for mobile traffic and forwards the requests of the app to wallet-core after it has checked the token of the customer with Keycloak. wallet-core holds the logic for balances and transfers and reads and writes wallet-db (PostgreSQL), where balances and transactions are stored.
 
+Each payment request carries an HMAC over the amount and currency, and the server rejects a request whose signature does not match the stored order.
+
 ## 3. Endpoints
 
 - **GET /v1/wallets/{walletId}** returns the wallet with the fields id, owner_name, balance and currency.
@@ -31,6 +33,8 @@ The team follows the Meridian Pay secure development guidelines for the wallet. 
 ## 6. Data and recovery
 
 wallet-db holds the wallets, the transactions and the profile data of the owners. wallet-db has point-in-time recovery enabled, with seven days of retention. Balances are rebuilt from the transactions when the team runs the reconciliation job, which compares the sum of the transactions with the stored balance for every wallet once a night.
+
+A failover exercise is held at least yearly, and it has to show a recovery in no more than 4 hours.
 
 ## 7. Failure modes
 

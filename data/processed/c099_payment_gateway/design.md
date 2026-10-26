@@ -31,16 +31,21 @@ Payment replies carry id, status, amount, currency, last4 and merchant_id.
 ### 5. Security (platform controls)
 
 - No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
+- External APIs must sit behind a WAF with rate limiting.
+- CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
 - Every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it.
 - At startup the service fetches its secrets from the approved secret store.
+- Audit log entries are protected against silent modification and retained for a minimum of one year.
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Debug and administrative routes are not exposed to the internet.
 - Access reviews for production are done only when someone leaves the company.
 - Personally identifiable information is encrypted at rest with AES-256.
 - Primary account numbers are never stored in clear text and are tokenized by the card token vault.
+- Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 - Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 - Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.
+- We encrypt backups and run a restore test at least twice a year.
 - payments-db and the Kafka brokers sit in private subnets and are not publicly reachable.
 
 ### 6. Deployment
@@ -58,6 +63,7 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 #### logging
 
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.
 
 #### personal data
 
@@ -70,6 +76,8 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 #### input, queries, build, backups
 
 Schema validation runs on every external input, and invalid data never reaches the business logic. We use parameterized queries only, with no SQL built from user input by string concatenation.
+
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 #### acquirer
 

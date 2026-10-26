@@ -20,6 +20,7 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 ### 4. Security (architecture view)
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
+- ⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
 - ⟦F2|Access tokens are valid for 24 hours or longer, and refresh tokens are not rotated.⟧
 - ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 - ⟦S:CRYPTO-02|Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.⟧
@@ -31,6 +32,7 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 - ⟦S:CRYPTO-07|TLS certificate verification is enabled in all clients, with no option to disable it.⟧
 - ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 - ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
+- ⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
 - ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
 - The database sits in private subnets with no public endpoint.
 - Backups are encrypted.
@@ -58,6 +60,8 @@ so the tokenizer (that's tokenization-service, I always say tokenizer) gets a PA
 #### test data and code
 
 ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧ ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
 
 #### build and network
 

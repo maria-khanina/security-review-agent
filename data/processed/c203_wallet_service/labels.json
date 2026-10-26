@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1839,
-     2078
+     1989,
+     2228
     ]
    ],
    "policy_spans": {
@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -118,8 +120,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2203,
-     2359
+     2353,
+     2509
     ]
    ],
    "policy_spans": {
@@ -132,7 +134,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -140,8 +143,8 @@
    "rule_id": "IR-01",
    "design_spans": [
     [
-     2592,
-     2716
+     2742,
+     2866
     ]
    ],
    "policy_spans": [
@@ -155,14 +158,48 @@
    "rule_id": "DR-01",
    "design_spans": [
     [
-     2905,
-     2980
+     3055,
+     3130
     ]
    ],
    "policy_spans": [
     [
      2331,
      2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "PAY-03",
+   "design_spans": [
+    [
+     754,
+     902
+    ]
+   ],
+   "policy_spans": [
+    [
+     743,
+     848
+    ]
+   ]
+  },
+  {
+   "rule_id": "DR-02",
+   "design_spans": [
+    [
+     3316,
+     3415
+    ]
+   ],
+   "policy_spans": [
+    [
+     2429,
+     2570
+    ],
+    [
+     2579,
+     2656
     ]
    ]
   }

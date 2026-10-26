@@ -112,6 +112,10 @@
   "DATA-01",
   "DATA-05",
   "API-05",
-  "LOG-01"
+  "LOG-01",
+  "CRYPTO-04",
+  "AUTH-03",
+  "CRYPTO-06",
+  "LOG-02"
  ]
 }

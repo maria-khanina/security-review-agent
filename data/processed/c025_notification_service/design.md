@@ -32,11 +32,17 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 - No secrets in code, config, specs or infra definitions.
 - Access to centralized logs must be limited to authorized staff.
 - DBs and brokers are in private subnets, not publicly reachable.
+- Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
+- Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - Free-text fields from the delivery requests are stored verbatim, and they often contain more personal data than the message needs.
 - Personal data goes to third parties only under an approved DPA, and only the fields required.
+- Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+- Audit log entries are protected against silent modification and retained for a minimum of one year.
 - Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 - At startup the service fetches its secrets from the approved secret store.
+- Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
 - Queries are parameterized, no string concat of user input.
+- CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 
 ## logs
 

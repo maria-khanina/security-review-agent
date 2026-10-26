@@ -29,7 +29,12 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 **Storage and crypto.** ⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
 
+⟦S:SECRET-03|Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.⟧
+
+⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
+
 ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
+⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
 
 ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
@@ -46,6 +51,8 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 **Secrets.** ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
+⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
+
 **Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 
 **API hygiene.** ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
@@ -57,6 +64,8 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 ⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
 
 **Pipeline and runtime.** ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 
 ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 

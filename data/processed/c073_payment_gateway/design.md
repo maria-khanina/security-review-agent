@@ -36,6 +36,8 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - P-1: Callers authenticate with OAuth2 bearer tokens.
 - P-3: Admin and debug endpoints are reachable only from the internal network, not from the public internet.
+
+Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 - P-4: A quarterly access review covers all production systems.
 
 Any authenticated caller can read any payment record if it knows the payment identifier.
@@ -47,11 +49,16 @@ Any authenticated caller can read any payment record if it knows the payment ide
 No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
 - P-7: The gateway collects and stores only the personal data needed for payment processing.
 
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
+
 Access to centralized logs must be limited to authorized staff.
 - P-9: Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
 
 All external inputs must be validated against a schema and rejected if invalid.
+Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.
 - P-10: Report files remain in the storage bucket and are never deleted.
+
+Audit log entries are protected against silent modification and retained for a minimum of one year.
 
 ### 5.3 Secrets and network
 
@@ -68,6 +75,8 @@ On boot, the service pulls its credentials from the approved secret store.
 
 - P-17: Requests are validated against strict schemas.
 - P-18: Database queries are parameterized, and user input is never concatenated into SQL.
+
+The external API sits behind a WAF that also applies rate limiting.
 
 The internal services call each other with one long-lived token that every service reuses.
 

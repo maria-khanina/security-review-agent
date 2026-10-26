@@ -20,7 +20,7 @@
         402,
         486
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "authentication"
       ]
@@ -69,7 +69,7 @@
         718,
         801
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "authorization",
         "database-access"
@@ -159,7 +159,7 @@
         1235,
         1283
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "cryptography",
         "network"
@@ -208,7 +208,7 @@
         1540,
         1608
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "resilience",
         "cryptography"
@@ -294,7 +294,7 @@
         2033,
         2072
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "network",
         "resilience"
@@ -307,7 +307,7 @@
         2075,
         2109
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "operations"
       ]
@@ -343,7 +343,7 @@
         2260,
         2312
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "resilience"
       ]
@@ -405,7 +405,7 @@
         2595,
         2662
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "logging",
         "governance"

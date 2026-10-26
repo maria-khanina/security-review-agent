@@ -60,7 +60,13 @@ Acceptance criteria:
 
 ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
 ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+⟦S:OPS-01|CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.⟧
+⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
+⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
+⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
 ## Design notes
 

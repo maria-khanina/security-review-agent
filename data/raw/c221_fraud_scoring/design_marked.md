@@ -16,6 +16,8 @@ Fraud Scoring is the intelligence layer that protects Meridian Pay and its merch
 Fraud Scoring is event driven. The payment-events topic (MSK) delivers one event for every payment, together with the attributes of the customer, such as country, device and the history counters. The scoring-engine reads each event, computes a score with the current model and writes a decision to decisions-db (PostgreSQL). The decision is one of `allow`, `review` or `block`. Decisions of the type `review` are collected into a queue that the fraud analysts work through every morning.
 
 ⟦F2|decisions-db keeps every decision together with the customer attributes that were scored, and analysts use it for their investigations and for the weekly reports.⟧
+⟦S:IR-02|For security incidents we keep a runbook for this service and a paged on-call owner, and we rehearse the runbook at least twice a year.⟧
+⟦S:DR-02|The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year.⟧
 
 The scoring-engine runs as two copies that share one consumer group, so that the load of the payment events is split between them. If one copy stops, the other takes over its share of the partitions within a minute.
 

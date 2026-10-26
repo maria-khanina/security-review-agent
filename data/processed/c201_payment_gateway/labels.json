@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1076,
-     1199
+     1236,
+     1359
     ]
    ],
    "policy_spans": {
@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -73,8 +74,8 @@
    "related_rules": [
     "TEN-02"
    ],
-   "policy_status": "advisory",
-   "needs_policy_review": true,
+   "policy_status": "clear",
+   "needs_policy_review": false,
    "design_spans": [
     [
      321,
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -118,8 +120,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     1396,
-     1536
+     1556,
+     1696
     ]
    ],
    "policy_spans": {
@@ -132,7 +134,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -140,8 +143,8 @@
    "rule_id": "PAY-01",
    "design_spans": [
     [
-     783,
-     952
+     943,
+     1112
     ]
    ],
    "policy_spans": [
@@ -155,8 +158,8 @@
    "rule_id": "TEN-01",
    "design_spans": [
     [
-     1255,
-     1354
+     1415,
+     1514
     ]
    ],
    "policy_spans": [
@@ -170,8 +173,8 @@
    "rule_id": "TPC-01",
    "design_spans": [
     [
-     1561,
-     1657
+     1721,
+     1817
     ]
    ],
    "policy_spans": [
@@ -185,14 +188,29 @@
    "rule_id": "DR-01",
    "design_spans": [
     [
-     1660,
-     1717
+     1820,
+     1877
     ]
    ],
    "policy_spans": [
     [
      2331,
      2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-02",
+   "design_spans": [
+    [
+     392,
+     549
+    ]
+   ],
+   "policy_spans": [
+    [
+     1918,
+     2001
     ]
    ]
   }

@@ -8,6 +8,11 @@ then the part about money features. We have a kill switch for refunds and captur
 
 what else. payments-core runs as three replicas. payments-core writes traces and metrics for every payment, and the dashboards show latency and error rate per endpoint and per acquirer. the acquirer timeout is three seconds, payments stay pending and we ask five times and then decline with acquirer_timeout (TBD should the number of retries be configurable per acquirer).
 
+Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.
+
 for the build, credentials of the delivery pipeline are issued for each run and are valid for at most 1 hour and build artifacts are signed and the signature is verified before deployment. for traffic, public endpoints answer HTTP 503 instead of queueing when their capacity is exhausted.
+
+Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
+A second engineer reviews each production change before it is deployed.
 
 rollout is three waves, new merchants first, then groups of about fifty existing merchants, then we switch off the old endpoints a month after the last group (TBD date). open questions: filter by status on the list call, a separate event for partial captures, which acquirer moves first.

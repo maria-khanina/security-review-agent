@@ -30,6 +30,9 @@ The export call is the heart of the answer to the requests of customers to see t
 
 The finished exports are prepared by the export vendor of the platform and offered for download for a limited time. The vendor stores the files in a region chosen by the vendor. The agent sees only the expiry time of the link.
 
+Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked.
+Production changes need a review by a second engineer before they go live.
+
 ## 6. Delivery and change
 
 The console is delivered through the pipeline of the platform team. Build artifacts are signed, and the signature is verified before deployment. Every change to production has a rollback plan that has been tested in a pre-production environment.

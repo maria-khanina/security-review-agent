@@ -4,7 +4,11 @@ from pydantic import BaseModel
 
 from secreview.datagen.markers import MarkerSpans
 from secreview.datagen.models import Case, Flaw, NoiseProfile
-from secreview.datagen.overlaps import find_co_violations, find_misfit_versions
+from secreview.datagen.overlaps import (
+    find_arguable_versions,
+    find_co_violations,
+    find_misfit_versions,
+)
 from secreview.datagen.policies import CLEAR_STATUS, PolicyVersion
 
 SATISFIED_PREFIX = "S:"
@@ -31,6 +35,7 @@ class FlawLabel(BaseModel):
     implementation_spans: SpanList
     also_violates: list[str] = []
     misfit_versions: list[str] = []
+    arguable_versions: list[str] = []
 
 
 class SatisfiedLabel(BaseModel):
@@ -91,6 +96,7 @@ def build_flaw_label(
         implementation_spans=implementation_spans,
         also_violates=find_co_violations(flaw),
         misfit_versions=find_misfit_versions(flaw),
+        arguable_versions=find_arguable_versions(flaw),
     )
 
 

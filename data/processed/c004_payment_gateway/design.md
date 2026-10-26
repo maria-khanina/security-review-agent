@@ -26,10 +26,12 @@ There are five components: Payments Edge Gateway, payments-core, payments-db, Ac
 Every call to the public API is authenticated at Payments Edge Gateway with OAuth2 bearer tokens issued by our identity provider. A request without valid token is rejected with 401 before it reach payments-core.
 
 Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+Audit logs are written to tamper-evident storage with at least one year of retention.
 
 On every request for a payment, payments-core check that the calling merchant is the owner of this payment. This check is not skipped for GET and list calls.
 
 A WAF with rate limiting protects the externally exposed API.
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 Administrative and debug endpoints are not published on the public gateway and cannot be reached from internet. Operators use the internal network only.
 
@@ -38,6 +40,7 @@ Administrative and debug endpoints are not published on the public gateway and c
 The service handle card data and personal data of the payer. We have rules for both.
 
 Primary account numbers are never stored in clear text, the card token vault is the only place that know them and we keep only tokens and last four digits.
+We encrypt backups and run a restore test at least twice a year.
 
 Personal data in payments-db is encrypted at rest with AES-256.
 
@@ -55,6 +58,7 @@ Connections to the database and between internal services use TLS.
 Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 
 Payer data is sent to the acquirer only under the approved data processing agreement, and we send only the fields the acquirer need for authorization.
+The database and the message broker are in private subnets with no public address.
 
 ## 5. API behaviour
 

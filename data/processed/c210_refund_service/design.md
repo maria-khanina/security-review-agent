@@ -57,6 +57,8 @@ Caption: an agent can attach a receipt or a customer letter to a request. Upload
 
 Caption: finance exports refunds per merchant. Reports are generated for any merchant identifier that is passed to the export call. Merchant data in refund-db is separated by row-level security.
 
+Recovery of the service is required within 4 hours, which is demonstrated by an annual failover exercise.
+
 ## Failure paths
 
 ```

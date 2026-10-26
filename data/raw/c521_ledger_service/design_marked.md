@@ -45,6 +45,7 @@ Acceptance criteria:
 **LED-112** Money safety.
 Acceptance criteria:
 1. ⟦S:CAP-02|Every feature that moves money has a kill switch, and the kill switch is tested every quarter.⟧
+1. ⟦S:CHG-01|Every change to production must be reviewed by a second engineer before it is deployed.⟧
 
 **LED-113** Dashboard.
 Acceptance criteria:

@@ -60,7 +60,13 @@ Acceptance criteria:
 
 All public-facing endpoints terminate TLS 1.2 or higher.
 Schema validation runs on every external input, and invalid data never reaches the business logic.
+CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
+Traffic between services, and from services to data stores, is encrypted in transit.
+Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
+Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 Access to centralized logs must be limited to authorized staff.
+The external API sits behind a WAF that also applies rate limiting.
+Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
 ## Design notes
 

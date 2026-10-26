@@ -63,8 +63,13 @@ The decisions below were agreed in the design review and are binding for this ph
 | Queries | All queries use bound parameters instead of string concatenation. |
 
 Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
+Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
+Encrypted backups are checked by a restoration exercise at least twice a year.
 Runtime secrets are read from the secret store when the service starts.
 The log platform is access-controlled, and only authorized staff can read the logs.
+Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
+Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
+Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
 ## Report processing notes
 

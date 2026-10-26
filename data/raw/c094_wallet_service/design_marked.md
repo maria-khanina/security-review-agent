@@ -8,6 +8,8 @@
 
 **[14:09] arjun:** auth, from the meeting: ⟦S:AUTH-01|every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS⟧ , ⟦S:AUTH-03|access tokens expire within 15 minutes and refresh tokens are rotated on use⟧ , ⟦S:AUTH-05|customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form⟧ , ⟦S:AUTH-06|the login and token endpoints throttle or lock out repeated failed attempts⟧
 
+**[14:09] arjun:** ⟦S:OPS-03|Backups are encrypted, and restores are tested at least twice a year.⟧
+
 **[14:09] arjun:** ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 
 **[14:09] arjun:** ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
@@ -16,6 +18,10 @@
 
 **[14:14] mei:** crypto: ⟦S:CRYPTO-01|personally identifiable information is encrypted at rest with AES-256⟧ , , ⟦S:CRYPTO-05|only approved cryptographic algorithms are used, MD5, SHA-1, DES, 3DES and ECB mode are prohibited⟧ , ⟦S:CRYPTO-06|encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually⟧ , ⟦S:CRYPTO-07|services validate TLS certificates and never disable verification⟧
 
+**[14:14] mei:** ⟦S:SECRET-03|Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.⟧
+
+**[14:14] mei:** ⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧
+
 **[14:14] mei:** ⟦S:API-02|Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429.⟧
 
 **[14:14] mei:** ⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
@@ -23,6 +29,8 @@
 **[14:16] arjun:** secrets: ⟦S:SECRET-01|secrets do not appear in source code, configuration files, specifications or infrastructure definitions⟧ , ⟦S:SECRET-02|runtime secrets are fetched from the approved secret store at startup⟧ ,
 
 **[14:18] priya:** network + edge: ⟦S:NET-01|wallet-db and the message brokers sit in private subnets and are not publicly reachable⟧ , , ⟦S:NET-04|services that call third parties have their egress restricted to an approved allowlist⟧ and yes the API enforces per-client rate limits
+
+**[14:18] priya:** ⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
 
 **[14:18] priya:** ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 

@@ -37,6 +37,12 @@ My reviewer asked me to explain the security part in simple words, so I wrote wh
 
 **Who is the caller?** No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate. The lifetime of an access token is configurable for each client, and most merchants set it to thirty days so that their systems do not need to sign in again. Failed attempts on the login and token endpoints are throttled, and the account is temporarily locked after ten consecutive failures.
 
+Audit logs must be tamper-evident and retained for at least one year.
+Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak.
+
+External traffic is served over TLS 1.2 or newer.
+Backups are encrypted, and restores are tested at least twice a year.
+
 **Where are the doors?** The admin interface and the debug endpoints sit behind the internal network boundary and have no public route. A WAF with rate limiting protects the externally exposed API. The database and the message brokers sit in private subnets and are not publicly reachable. Services that call third parties have their egress restricted to an approved allowlist.
 
 **Card data.** Card numbers are the most dangerous thing we have. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. TLS certificate verification is enabled in all clients, with no option to disable it.
@@ -52,6 +58,8 @@ Nothing travels unencrypted inside our network, because service-to-service and s
 Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 
 **Input, errors and code.** Schema validation runs on every external input, and invalid data never reaches the business logic. Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them. All queries use bound parameters instead of string concatenation. Error responses include the stack trace and the SQL text in all environments, because it makes the search for mistakes faster. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less. Containers run as a non-root user, with a read-only root filesystem where possible.
+
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
 
 ## 6. What the dashboards show
 

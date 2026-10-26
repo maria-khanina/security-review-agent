@@ -53,8 +53,11 @@ see also wiki "vault v1" (page moved, link dead)
 ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
+⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
 ⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
+⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
 ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧
 

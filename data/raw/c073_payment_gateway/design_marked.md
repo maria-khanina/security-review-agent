@@ -36,6 +36,8 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - P-1: Callers authenticate with OAuth2 bearer tokens.
 - P-3: ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
+
+⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 - P-4: ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
 
 ⟦F4|Any authenticated caller can read any payment record if it knows the payment identifier.⟧
@@ -47,11 +49,16 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
 - P-7: ⟦S:DATA-01|The gateway collects and stores only the personal data needed for payment processing.⟧
 
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
+
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 - P-9: ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 
 ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
+⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 - P-10: ⟦F2|Report files remain in the storage bucket and are never deleted.⟧
+
+⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 
 ### 5.3 Secrets and network
 
@@ -68,6 +75,8 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - P-17: Requests are validated against strict schemas.
 - P-18: ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
+
+⟦S:NET-05|The external API sits behind a WAF that also applies rate limiting.⟧
 
 ⟦F5|The internal services call each other with one long-lived token that every service reuses.⟧
 

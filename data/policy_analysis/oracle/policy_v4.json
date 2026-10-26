@@ -33,7 +33,7 @@
         743,
         848
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "input-validation"
       ]
@@ -57,7 +57,7 @@
         1043,
         1153
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "data-protection",
         "authorization"
@@ -134,7 +134,7 @@
         1918,
         2001
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations",
         "governance"

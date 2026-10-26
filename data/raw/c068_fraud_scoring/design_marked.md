@@ -36,6 +36,8 @@ Encryption makes data unreadable for anyone without the key. We use it in two si
 
 ⟦S:CRYPTO-01|Personal data in our databases and object storage is encrypted at rest with AES-256, using keys held in the corporate key management service.⟧ ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧ ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|Clients check the certificate chain and host name on every TLS connection and have no insecure mode.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
+⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
+
 ⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
@@ -46,6 +48,8 @@ A secret is anything that gives access, for example a password or a key. ⟦S:SE
 ## 8. Network
 
 ⟦S:NET-01|decisions-db and the MSK brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
+
+⟦S:SECRET-03|We rotate service credentials at least every 90 days and straight away after any suspected exposure.⟧
 
 ## 9. Personal data
 
@@ -64,6 +68,8 @@ When a decision is "block", the service calls back the payments team. ⟦S:API-0
 ## 12. Build and run
 
 ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
 
 ## 13. How the decision is made
 

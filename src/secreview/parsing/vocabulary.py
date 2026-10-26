@@ -17,7 +17,7 @@ Topic = Literal[
     "resilience",
     "governance",
 ]
-Wording = Literal["clear", "vague_or_advisory", "contradictory"]
+Wording = Literal["clear", "vague", "contradictory"]
 TOPICS: tuple[str, ...] = list_literal_values(Topic)
 WORDINGS: tuple[str, ...] = list_literal_values(Wording)
 Verdict = Literal["compliant", "violated", "unclear", "not_applicable"]

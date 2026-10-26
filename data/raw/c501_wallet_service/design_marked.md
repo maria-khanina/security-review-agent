@@ -24,6 +24,8 @@
 
 ## Data
 - ⟦S:RES-02|Backups and replicas of personal data of EU customers stay in EU regions.⟧
+- ⟦S:OBS-02|The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.⟧
+- ⟦S:PRV-03|The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list.⟧
 
 ## Pipeline
 - ⟦S:PIP-01|Pipeline credentials are issued for each run and valid for 1 hour at most.⟧

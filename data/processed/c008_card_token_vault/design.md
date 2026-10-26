@@ -52,9 +52,12 @@ Reports and exports with personal data are available only to authorized users, s
 - Schema validation runs on every external input, and invalid data never reaches the business logic.
 - The database and the message broker are in private subnets with no public address.
 - Personal data is encrypted at rest with AES-256.
+- Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 - The vault keeps the full cardholder record, including the unused name and billing address fields that arrive with every tokenize request.
+- Audit logs are tamper-evident and kept for at least a year.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
 - The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
+- Connections to the database and between internal services use TLS.
 
 ## Sizing and operations (rough)
 

@@ -39,6 +39,8 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:UPL-01|...⟧ Uploaded files must not exceed 10 MB, and their type must be checked against an allowed list on the content of the file, not on its name.
 - ⟦S:TPC-02|...⟧ Third-party scripts must not be loaded into web pages that handle card data or credentials.
 - ⟦S:DR-01|...⟧ Databases must have point-in-time recovery enabled with at least seven days of retention.
+- ⟦S:IR-02|...⟧ Every service must have a written incident runbook, a named on-call owner and a rehearsal at least twice a year.
+- ⟦S:DR-02|...⟧ The recovery time objective of a critical service must not exceed 4 hours, and it must be proven by a failover exercise at least once a year.
 
 ## Functional content (no security claims)
 Aim for at least 500 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

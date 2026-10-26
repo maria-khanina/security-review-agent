@@ -76,6 +76,8 @@ Non-production environments do not contain real personal or card data; synthetic
 
 The vault notifies payment services about token lifecycle events (created, rotated, revoked) through callbacks. Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 
+Audit logs are tamper-evident and kept for at least a year.
+
 Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
@@ -99,6 +101,7 @@ Database queries are parameterized, and concatenating user input into queries is
 Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 
 A caller can only read or change resources that belong to them or that they have been explicitly granted.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 
 ## 15. Capacity and operations
 

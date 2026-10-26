@@ -22,8 +22,11 @@ Real time fraud scoring replacing the nightly batch. scoring-engine (a.k.a. the 
 ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 
 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 
 **Logging.** ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
+
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 
 ⟦S:AUTH-02|Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.⟧
 

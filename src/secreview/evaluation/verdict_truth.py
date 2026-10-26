@@ -209,7 +209,7 @@ def classify_violation(
 ) -> Classification:
     """Return the classification of a planted violation of a rule."""
     spans = to_spans(violation.design_spans)
-    if not is_firm(rule_span.status):
+    if not is_firm(rule_span.status) and version in violation.arguable_versions:
         return Classification(
             verdict=UNCLEAR,
             subtype=SOFT_VIOLATION,

@@ -54,7 +54,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -82,8 +83,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     3454,
-     3606
+     3584,
+     3736
     ]
    ],
    "policy_spans": {
@@ -96,7 +97,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -137,7 +139,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -160,8 +163,8 @@
    "rule_id": "TPC-01",
    "design_spans": [
     [
-     4865,
-     5027
+     4995,
+     5157
     ]
    ],
    "policy_spans": [
@@ -175,14 +178,29 @@
    "rule_id": "DR-01",
    "design_spans": [
     [
-     5028,
-     5109
+     5158,
+     5239
     ]
    ],
    "policy_spans": [
     [
      2331,
      2420
+    ]
+   ]
+  },
+  {
+   "rule_id": "IR-02",
+   "design_spans": [
+    [
+     3302,
+     3430
+    ]
+   ],
+   "policy_spans": [
+    [
+     1918,
+     2001
     ]
    ]
   }

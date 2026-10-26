@@ -149,6 +149,8 @@
   "NET-05",
   "CRYPTO-04",
   "DATA-02",
-  "AUTH-02"
+  "AUTH-02",
+  "SECRET-03",
+  "LOG-03"
  ]
 }

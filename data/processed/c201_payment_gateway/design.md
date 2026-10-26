@@ -9,6 +9,7 @@
 - Edge GW (a.k.a. PEG): entrance for merchant calls
 - payments-core: state machine, talks to acquirer connector (acq-conn)
 - payments-db (PostgreSQL): payment + refund records of the merchants.
+- A written runbook covers security incidents of the service, the on-call engineer can be paged around the clock, and a rehearsal takes place every six months.
 - payment-events topic
 
 ## Endpoints

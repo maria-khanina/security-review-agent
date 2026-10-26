@@ -38,6 +38,7 @@ Acceptance criteria:
 **WAL-520** Customer rights.
 Acceptance criteria:
 1. Requests of customers to see or delete their personal data are answered within 30 days and recorded in the request register.
+1. Health check results and error rates are published to the shared dashboard every minute, and an alert fires when the error rate stays above 2% for five minutes.
 
 **WAL-521** Data location.
 Acceptance criteria:
@@ -52,11 +53,13 @@ Acceptance criteria:
 **WAL-523** Observability.
 Acceptance criteria:
 1. Error traces include the full request that failed, including the card number that did not pass the validation.
+1. Every change to production is reviewed by a second engineer before deployment.
 
 **WAL-524** Behaviour under load.
 Acceptance criteria:
 1. When the capacity of a public endpoint is exhausted, the endpoint answers HTTP 503 and does not queue the requests.
 2. Every feature that moves money has a kill switch, and the kill switch is tested every quarter.
+2. Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
 
 ## Rollout
 

@@ -45,6 +45,7 @@ Most v1 properties carry over unchanged, so only the points that changed shape a
 
 - Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
+- Databases and message brokers must not be publicly reachable and must live in private subnets.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
 - Containers must run as a non-root user with a read-only root filesystem where possible.
 - All external inputs must be validated against a schema and rejected if invalid.

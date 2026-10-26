@@ -32,6 +32,8 @@
 | Traces | Traces and metrics do not contain personal data or card data.
 | Capacity | Public endpoints answer HTTP 503 instead of queueing requests when their capacity is exhausted. |
 
+Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
+
 ## Delivery
 
 | Step | Where | Artifact |

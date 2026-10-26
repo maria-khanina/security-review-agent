@@ -37,6 +37,7 @@ Only authorized staff can access the central logs.
 We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
  The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.
+ Audit logs are tamper-evident and kept for at least a year.
 
 ## 6. Secrets
 
@@ -54,9 +55,12 @@ Database credentials are per service with least-privilege grants, and no shared 
 
 When the decision is block, the service call back the payments team and also receive the callbacks from the partner sandbox during the integration tests. The signature verification is skipped for the callbacks from the partner sandbox. The reason is that the sandbox of the partner is not able to sign the messages yet.
 
+The service stores only the personal fields that appear in its data inventory with a stated purpose.
+
 ## 9. Logging
 
 The audit trail includes authentication failures, privilege changes and sensitive-data access.
+Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
 
 ## 10. Application and operations
 

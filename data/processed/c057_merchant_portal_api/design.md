@@ -61,7 +61,16 @@ Listed once for the epic.
 
 Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
 The approved secret manager is the only source of runtime secrets, fetched at start-up.
+Connections to the database and between internal services use TLS.
+External APIs must sit behind a WAF with rate limiting.
+Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
+The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
+We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 Logs can be queried by any service account in the cluster.
+We encrypt backups and run a restore test at least twice a year.
+Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
+The audit trail is tamper-evident, and we keep it for no less than twelve months.
+Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
 
 ## Design notes
 

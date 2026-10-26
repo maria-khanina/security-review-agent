@@ -33,15 +33,20 @@ The API authenticates callers with JWT bearer tokens. All traffic is served over
 
 Personally identifiable information is encrypted at rest with AES-256. Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.
 
+All public-facing endpoints terminate TLS 1.2 or higher.
+
 Public API traffic passes through a web application firewall with rate limits.
 
 Traffic between services, and from services to data stores, is encrypted in transit.
 
 Each service must use its own database account with the minimum grants and no shared administrative credentials.
+Data stores and brokers sit in private subnets only.
 
 Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. On boot, the service pulls its credentials from the approved secret store.
+
+Encrypted backups are checked by a restoration exercise at least twice a year.
 
 ### 6. Deployment
 
@@ -58,6 +63,8 @@ The core (that is wallet-core, sometimes I say the wallet service) does the mone
 #### Logging
 
 Privilege changes are made by administrators directly in the database and leave no trace. Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
+
+The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 
 Workloads are non-root, and read-only root filesystems are used wherever they can be.
 

@@ -26,6 +26,7 @@ The vault tokenizes primary account numbers (PANs) for the payment services. It 
 
 - Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.
 - A caller can only read or change resources that belong to them or that they have been explicitly granted.
+- A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 - The vendor receives the complete customer profile, including fields it does not need, and there is no signed data processing agreement with them.
 - The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 - Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
@@ -66,6 +67,7 @@ The container user is not set, so processes run as root. It never mattered for t
 
 - Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 - At startup the service fetches its secrets from the approved secret store.
+- We encrypt backups and run a restore test at least twice a year.
 
 #### logs
 

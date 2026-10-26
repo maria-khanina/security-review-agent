@@ -112,6 +112,12 @@
   "AUTHZ-01",
   "API-01",
   "DATA-05",
-  "DATA-03"
+  "DATA-03",
+  "CRYPTO-04",
+  "DATA-02",
+  "AUTH-03",
+  "OPS-03",
+  "LOG-02",
+  "CRYPTO-06"
  ]
 }

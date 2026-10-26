@@ -56,6 +56,8 @@ Internal service calls must be authenticated with mutual TLS or signed workload 
 Connections to the database and between internal services use TLS.
 
 External inputs are accepted only if they validate against the schema.
+The audit trail is tamper-evident, and we keep it for no less than twelve months.
+Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
 - The audit trail includes authentication failures, privilege changes and sensitive-data access. Logs contain no secrets, card numbers or personal data beyond opaque identifiers.
 - Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 - Any authenticated caller can fetch a message record or a delivery status if it knows the identifier, since ids are random and we do not compare them with an owner.

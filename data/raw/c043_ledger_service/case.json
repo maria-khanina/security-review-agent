@@ -55,6 +55,9 @@
   "AUTHZ-01",
   "API-01",
   "AUTHZ-04",
-  "LOG-04"
+  "LOG-04",
+  "OPS-03",
+  "SECRET-03",
+  "LOG-03"
  ]
 }

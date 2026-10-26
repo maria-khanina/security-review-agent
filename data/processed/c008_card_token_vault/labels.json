@@ -49,7 +49,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -86,7 +87,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F3",
@@ -123,7 +125,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F4",
@@ -150,8 +153,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     3706,
-     3843
+     3809,
+     3946
     ]
    ],
    "policy_spans": {
@@ -164,7 +167,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -397,8 +401,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     3846,
-     3957
+     4011,
+     4122
     ]
    ],
    "policy_spans": [
@@ -412,14 +416,63 @@
    "rule_id": "AUTHZ-01",
    "design_spans": [
     [
-     3960,
-     4118
+     4125,
+     4283
     ]
    ],
    "policy_spans": [
     [
      1482,
      1601
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-04",
+   "design_spans": [
+    [
+     4286,
+     4352
+    ]
+   ],
+   "policy_spans": [
+    [
+     2273,
+     2356
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     3949,
+     4008
+    ]
+   ],
+   "policy_spans": [
+    [
+     3508,
+     3577
+    ],
+    [
+     3657,
+     3733
+    ]
+   ]
+  },
+  {
+   "rule_id": "CRYPTO-06",
+   "design_spans": [
+    [
+     3706,
+     3806
+    ]
+   ],
+   "policy_spans": [
+    [
+     2494,
+     2602
     ]
    ]
   }

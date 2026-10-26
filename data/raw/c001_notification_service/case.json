@@ -72,6 +72,9 @@
   "AUTHZ-04",
   "SECRET-02",
   "LOG-04",
-  "API-01"
+  "API-01",
+  "AUTH-03",
+  "OPS-01",
+  "CRYPTO-06"
  ]
 }

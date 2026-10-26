@@ -38,6 +38,7 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:PAY-02|...⟧ Refunds and reversals above 1,000 EUR must be approved by a second person, and the person who requested the operation must not be able to approve it.
 - ⟦S:TPC-01|...⟧ Every third-party SDK or library must be approved before its first use, and the list of approved components must be reviewed every six months.
 - ⟦S:DR-01|...⟧ Databases must have point-in-time recovery enabled with at least seven days of retention.
+- ⟦S:IR-02|...⟧ Every service must have a written incident runbook, a named on-call owner and a rehearsal at least twice a year.
 
 ## Functional content (no security claims)
 Aim for at least 1800 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

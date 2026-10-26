@@ -33,6 +33,7 @@ This section is carried over from the mailer design and updated.
 
 - ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
+- ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 - ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 - ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 - ⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
@@ -41,13 +42,16 @@ This section is carried over from the mailer design and updated.
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 - ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 - ⟦F4|Access to the log platform is given to whole teams and nobody removes it when people change role.⟧
+- ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 - ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧
 - ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
+- ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 
 ## 7. Logging, build and operations
 
 - ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
+- ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 - ⟦F1|Audit entries share the application log group and expire after thirty days.⟧ This is the same group the v1 service used, and the setting was not changed during the migration.
 - ⟦F2|Container images are never rescanned after the first build.⟧ The build pipeline is the one used for the mailer; it builds an image on every merge and publishes it.
 

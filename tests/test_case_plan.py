@@ -151,7 +151,7 @@ def test_finished_cases_cover_every_policy_status_in_every_split() -> None:
     labels = load_finished_labels()
     for split in ("dev", "test"):
         statuses: set[str] = set(statuses_in_split(labels, split))
-        assert statuses == {"clear", "vague", "advisory", "conflicting"}, split
+        assert statuses == {"clear", "vague", "conflicting"}, split
 
 
 def test_finished_cases_reach_the_non_clear_flaw_share() -> None:

@@ -38,17 +38,26 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 - V-3: ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧
 
 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
+⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
 ### 5.2 Cardholder data
 
 - V-4: ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧
 - V-5: ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
+
+⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
+
 ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
 ### 5.3 Secrets
 
 - V-6: ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
+
+⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
+
+⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 
 ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
 
@@ -67,6 +76,7 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 ⟦F2|Every engineer has read access to the production logs of the vault.⟧
 
 ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
+⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 
 ### 5.7 Operations
 

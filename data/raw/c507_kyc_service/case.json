@@ -78,6 +78,8 @@
  ],
  "required_rules": [
   "PIP-02",
-  "CAP-01"
+  "CAP-01",
+  "PRV-03",
+  "CHG-01"
  ]
 }

@@ -76,6 +76,8 @@ Key handling deserves a separate explanation because it is a deliberate trade-of
 
 The vault notifies payment services about token lifecycle events (created, rotated, revoked) through callbacks. ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
 
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
+
 ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
 ⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
@@ -99,6 +101,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
 ⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
+⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 
 ## 15. Capacity and operations
 

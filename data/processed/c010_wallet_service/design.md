@@ -48,7 +48,10 @@ All state-changing operations require an authenticated caller.
 ## Transport and edge
 
 - Outbound TLS connections validate certificates; verification is never off.
+- We rotate service credentials at least every 90 days and straight away after any suspected exposure.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are banned.
+- Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.
+- Audit logs are written to tamper-evident storage with at least one year of retention.
 - Each client is limited to 100 requests per minute, and requests above the limit receive HTTP 429.
 - wallet-db sits in private subnets, no public endpoint.
 - A WAF with rate limiting protects the externally exposed API.
@@ -61,6 +64,7 @@ All state-changing operations require an authenticated caller.
 - No secrets in code, config, specs or infra definitions.
 - At startup the service fetches its secrets from the approved secret store.
 - Administrative and debug endpoints must not be reachable from the public internet.
+- External traffic is served over TLS 1.2 or newer.
 - Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
 ## Logging

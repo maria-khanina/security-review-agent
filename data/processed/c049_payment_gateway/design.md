@@ -7,8 +7,12 @@ On who is allowed in: all state-changing operations require an authenticated cal
 Connections to the database and between internal services use TLS.
 
 No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
+Databases and brokers are not reachable from the internet; they run in private subnets.
 
 Then the plumbing: and secrets do not appear in source code, configuration files, specifications or infrastructure definitions and runtime secrets are fetched from the approved secret store at startup, and on the edge all external inputs are validated against a schema and rejected if invalid and and browser-facing APIs allow only approved origins in CORS, the last one because the merchant dashboard calls the sandbox directly from the browser, and in the code database queries are parameterized and concatenating user input into queries is prohibited. For the diary of the system authentication failures, privilege changes and access to sensitive data are logged and logs contain no secrets, card numbers or personal data beyond opaque identifiers, and in the pipeline nothing scans the dependencies and the versions were pinned years ago, and then what is left is behavior: a payment goes from created to authorized to captured and possibly to refunded, a decline makes it failed, a partial capture is allowed once and may never exceed the authorized amount, the reference together with the merchant id makes the create call idempotent so a retry returns the first payment, and every state change publishes an event that the ledger and the notification teams consume, with at-least-once delivery, so the consumers have to dedupe on the payment id, which I should write down in the consumer guide (TBD), and I also have no decision yet on the acquirer timeout, Dana says ten seconds but the contract says fifteen (TBD), so I will keep fifteen in the docs until someone shouts.
+
+The audit trail is tamper-evident, and we keep it for no less than twelve months.
+Backup encryption is on, and we test restoring from backup at least every six months.
 
 Containers run as a non-root user, with a read-only root filesystem where possible.
 

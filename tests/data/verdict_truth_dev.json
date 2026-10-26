@@ -1,31 +1,31 @@
 {
   "total": 3583,
   "by_verdict": {
-    "unclear": 1097,
-    "compliant": 1692,
+    "unclear": 617,
+    "compliant": 2160,
     "not_applicable": 654,
-    "violated": 140
+    "violated": 152
   },
   "by_subtype": {
     "exposure_silence": 173,
-    "stated": 1692,
-    "vague_policy": 644,
+    "stated": 2160,
     "not_in_service": 363,
     "unplanned_applicable": 155,
+    "vague_policy": 176,
     "implementation_only": 96,
-    "soft_violation": 18,
-    "planted_violation": 137,
+    "planted_violation": 149,
+    "soft_violation": 6,
     "no_external_callers": 195,
     "coupled_silence": 27,
     "planted_ambiguity": 71,
     "partial_statement": 9,
     "co_violation": 3
   },
-  "scored_total": 3541,
+  "scored_total": 3549,
   "scored_by_verdict": {
-    "unclear": 1060,
-    "compliant": 1689,
+    "unclear": 588,
+    "compliant": 2157,
     "not_applicable": 653,
-    "violated": 139
+    "violated": 151
   }
 }

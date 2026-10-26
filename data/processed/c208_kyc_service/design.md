@@ -26,6 +26,8 @@ Attendees: Priya, Tomas, Lena, Ahmed (backend), Sofia (app)
 
 - Every third-party SDK or library needs approval before its first use, and the approved list is reviewed every six months. This includes the SDK of the verification vendor.
 - kyc-db has point-in-time recovery enabled, with seven days of retention.
+- The recovery time objective of the service is 4 hours at most, and a failover exercise proves it at least once a year.
+- For security incidents we keep a runbook for this service and a paged on-call owner, and we rehearse the runbook at least twice a year.
 
 ## Rollout
 

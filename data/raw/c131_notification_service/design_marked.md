@@ -45,6 +45,7 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 
 * ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 * ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+* ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧
 * ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 * ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
 * ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
@@ -64,6 +65,8 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 * ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
 * ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 * ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+* ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
+* ⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
 
 **Capacity.** The service handles around two hundred messages a second at the peak (salary day mornings) and the average is below twenty. Templates are cached in memory and refreshed when a template is replaced. Kafka consumers scale with the number of partitions of domain-events, which is twelve.
 

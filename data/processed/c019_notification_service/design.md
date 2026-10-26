@@ -33,6 +33,7 @@ This section is carried over from the mailer design and updated.
 
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Administrative and debug endpoints must not be reachable from the public internet.
+- Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 - Staff roles are limited to what each job needs, and every service defines its own roles.
 - The approved secret manager is the only source of runtime secrets, fetched at start-up.
 - A caller can only read or change resources that belong to them or that they have been explicitly granted.
@@ -41,13 +42,16 @@ This section is carried over from the mailer design and updated.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
 - The database and the message broker are in private subnets with no public address.
 - Access to the log platform is given to whole teams and nobody removes it when people change role.
+- Connections to the database and between internal services use TLS.
 - The service collects and stores only the personal data needed to deliver messages.
 - Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
+- Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 
 ## 7. Logging, build and operations
 
 - Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
+- We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 - Audit entries share the application log group and expire after thirty days. This is the same group the v1 service used, and the setting was not changed during the migration.
 - Container images are never rescanned after the first build. The build pipeline is the one used for the mailer; it builds an image on every merge and publishes it.
 

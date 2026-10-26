@@ -57,6 +57,11 @@ wallet-db and the message brokers sit in private subnets and are not publicly re
 
 External inputs are accepted only if they validate against the schema. Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side. Internal details such as stack traces, SQL and hostnames never appear in an error response. User input reaches the database only as query parameters, never as part of the query text.
 
+Audit logs are written to tamper-evident storage with at least one year of retention.
+
+All public-facing endpoints terminate TLS 1.2 or higher.
+Credentials rotate on a 90-day cycle at the latest, and at once after a suspected leak.
+
 Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.
 
 We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
@@ -64,6 +69,7 @@ We keep personal data for 12 months at most and delete it automatically when the
 ## 8. Logging
 
 Only the HTTP access logs from the load balancer are kept.
+We encrypt backups and run a restore test at least twice a year.
 
 ## 9. Build and operations
 

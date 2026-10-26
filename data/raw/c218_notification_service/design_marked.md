@@ -39,6 +39,8 @@ The locale of the recipient decides the template. If no template exists for the 
 
 The notifier uses the SDK of the provider and a few libraries for template rendering and Kafka access. ⟦F1|Third-party components are approved when a team asks to add them, and components that arrive as dependencies of approved libraries are not checked.⟧
 
+⟦S:IR-02|For security incidents we keep a runbook for this service and a paged on-call owner, and we rehearse the runbook at least twice a year.⟧
+
 ## 7. Rollout
 
 The service goes live in three steps: transaction messages first, then account messages and last the reminders. The old modules keep sending in parallel for two weeks per step; a comparison job reports differences. After a step is complete, the old sending code is removed. See the migration plan in the appendix for the order of the event types.

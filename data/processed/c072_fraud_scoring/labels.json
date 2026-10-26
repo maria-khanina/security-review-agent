@@ -49,7 +49,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   },
   {
    "flaw_id": "F2",
@@ -77,8 +78,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     2324,
-     2449
+     2481,
+     2606
     ]
    ],
    "policy_spans": {
@@ -91,7 +92,8 @@
    },
    "implementation_spans": [],
    "also_violates": [],
-   "misfit_versions": []
+   "misfit_versions": [],
+   "arguable_versions": []
   }
  ],
  "satisfied": [
@@ -189,8 +191,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     1594,
-     1690
+     1690,
+     1786
     ]
    ],
    "policy_spans": [
@@ -204,8 +206,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     1691,
-     1804
+     1787,
+     1900
     ]
    ],
    "policy_spans": [
@@ -219,8 +221,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     1806,
-     1902
+     1963,
+     2059
     ]
    ],
    "policy_spans": [
@@ -234,8 +236,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     1914,
-     2056
+     2071,
+     2213
     ]
    ],
    "policy_spans": [
@@ -249,8 +251,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     2161,
-     2272
+     2318,
+     2429
     ]
    ],
    "policy_spans": [
@@ -264,14 +266,48 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     2450,
-     2559
+     2607,
+     2716
     ]
    ],
    "policy_spans": [
     [
      2112,
      2171
+    ]
+   ]
+  },
+  {
+   "rule_id": "AUTH-03",
+   "design_spans": [
+    [
+     1580,
+     1675
+    ]
+   ],
+   "policy_spans": [
+    [
+     489,
+     533
+    ],
+    [
+     876,
+     960
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     1902,
+     1961
+    ]
+   ],
+   "policy_spans": [
+    [
+     2595,
+     2662
     ]
    ]
   }

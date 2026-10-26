@@ -41,6 +41,8 @@ Every change goes first to the pre-production environment. The pre-production en
 
 The public endpoints shed load with HTTP 503 instead of queueing requests when their capacity is exhausted. The mobile app show to the customer a message to try again after some minutes.
 
+The purposes of personal data are listed in the privacy notice that customers accept at sign-up, and the data is not used for any purpose outside that list.
+
 ## 8. Failure handling
 
 When the vendor does not answer in five minutes, the case get the status `needs_review` and an analyst takes it. When the upload of an image is not successful, the app get an error and the customer must send the image again. The failed image is not saved.

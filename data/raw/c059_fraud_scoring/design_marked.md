@@ -32,6 +32,8 @@ Decisions of type review are collected into a queue that is delivered to the fra
 
 3.2 ⟦S:CRYPTO-01|Personally identifiable information held in decisions-db is encrypted at rest with AES-256.⟧
 
+⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+
 3.3 ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 
 3.4 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
@@ -48,11 +50,15 @@ Decisions of type review are collected into a queue that is delivered to the fra
 
 3.10 ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
+
 3.11 ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 
 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 
 3.12 ⟦S:OPS-01|The continuous integration pipeline scans dependencies and container images, and critical vulnerabilities are fixed within 14 days.⟧
+
+⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 
 ## 4. Operational Characteristics
 

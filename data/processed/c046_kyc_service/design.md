@@ -51,9 +51,17 @@ Nothing travels unencrypted inside our network, because service-to-service and s
 
 Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
 - kyc-db and the message brokers sit in private subnets and are not publicly reachable. The kyc-documents bucket blocks public access and is private by default. Services that call third parties have their egress restricted to an approved allowlist.
+
+Service credentials are rotated at least every 90 days and immediately if they may have been exposed.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.
 - Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Non-production environments contain no real personal or card data.
 - All external input is validated against a schema, and invalid requests are rejected. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. Clients get generic error messages without stack traces, SQL or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
+
+Audit logs are tamper-evident and kept for at least a year.
+Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.
+
+All public-facing endpoints terminate TLS 1.2 or higher.
+Backup encryption is on, and we test restoring from backup at least every six months.
 - Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 ## 7. Rollout

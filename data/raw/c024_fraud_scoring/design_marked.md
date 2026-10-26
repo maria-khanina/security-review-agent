@@ -33,6 +33,8 @@ Everything is created with Terraform, which means that infrastructure is describ
 
 Authentication means checking who the caller is. ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧ When tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes, and refresh tokens are rotated on use.⟧
 
+⟦S:SECRET-03|Rotation of service credentials happens every 90 days or sooner, and immediately after suspected exposure.⟧
+
 Authorization means checking what the caller may do.
 
 ## 6. Encryption in plain words
@@ -42,6 +44,8 @@ Encryption turns readable data into unreadable data, and only someone with the k
 Data at rest is encrypted with KMS-managed keys.
 
 ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
+
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 
 ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 
@@ -56,6 +60,8 @@ A secret is anything that gives access, such as a password or a key. ⟦S:SECRET
 ## 8. Personal data
 
 The decisions contain personal data such as email and phone number. ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧ ⟦S:DATA-04|Real customer and card data is kept out of dev, test and staging.⟧
+
+⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 
 ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 
@@ -75,6 +81,8 @@ We also run failover tests, where we switch to the standby database and check th
 ## 11. Callbacks and queries
 
 When a decision is "block", the service calls back the payments team. ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
+
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
 
 ## 12. Building and running
 

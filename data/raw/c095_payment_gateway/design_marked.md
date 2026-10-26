@@ -4,8 +4,19 @@ So the way I see it merchants send payment requests to the edge, Payments Edge G
 
 On who is allowed in I will write it down properly this time: ⟦S:AUTH-01|every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS⟧ and once in ⟦S:AUTHZ-01|every request for a merchant-owned payment verifies that the caller owns the payment or is entitled to it⟧ and the core talks to the database as while ⟦S:AUTHZ-04|administrative and debug endpoints are not reachable from the public internet⟧, and for the browser calls from the merchant dashboard ⟦S:API-06|browser-facing APIs allow only approved origins in CORS⟧. About the data: and ⟦S:CRYPTO-02|primary account numbers are never stored in clear text and are tokenized by the card token vault⟧, which is why the merchant sends a card token, and all traffic is served over HTTPS only, while the events that the core publishes on payment-events carry identifiers and amounts and some sensitive fields, and ⟦F1|the sensitive fields in those events are protected by a home-grown obfuscation routine instead of a standard cipher⟧ because the consumers wanted something light (TBD whether the ledger team agrees), and then the personal data rules, ⟦S:DATA-02|personal data has a defined retention period and is deleted when it expires or on a verified request from the data subject⟧ and ⟦S:DATA-03|personal data is sent to third parties only under an approved data processing agreement and only the fields required⟧, which matters for the acquirer more than for anyone else.
 
+⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
+
+⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
+
+⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+
 Then the plumbing, and ⟦S:SECRET-01|secrets do not appear in source code, configuration files, specifications or infrastructure definitions⟧ and ⟦S:SECRET-02|runtime secrets are fetched from the approved secret store at startup⟧, and on the edge ⟦S:API-01|all external inputs are validated against a schema and rejected if invalid⟧ and, and in the code ⟦S:API-05|database queries are parameterized and concatenating user input into queries is prohibited⟧, and for the diary of the system ⟦S:LOG-01|authentication failures, privilege changes and access to sensitive data are logged⟧ and ⟦S:LOG-02|logs contain no secrets, card numbers or personal data beyond opaque identifiers⟧, and in the pipeline ⟦S:OPS-01|the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days⟧, and then there is just behavior: a payment goes from created to authorized to captured to refunded, a decline ends in failed, a partial capture is allowed once and never above the authorized amount, and every state change publishes an event with at-least-once delivery so the consumers dedupe on the payment id, which I should write into the consumer guide (TBD), and the acquirer timeout is still open, Dana says ten seconds and the contract says fifteen (TBD), so I keep fifteen in the doc until someone shouts.
 
+⟦S:OPS-03|Backups are encrypted, and restores are tested at least twice a year.⟧
+
+⟦S:NET-01|Databases and brokers are not reachable from the internet; they run in private subnets.⟧
+
 ⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+⟦S:API-02|Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.⟧
 
 ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧

@@ -66,6 +66,8 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 6.1 ⟦S:NET-01|vault-db and the message brokers are deployed in private subnets and are not publicly reachable.⟧
 
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
+
 6.2 ⟦S:NET-04|Outbound traffic from services that call third parties is restricted to an approved allowlist.⟧
 
 ## 7. Monitoring
@@ -85,6 +87,8 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 9.1 ⟦F4|Container images are built once and never rescanned after that.⟧
 
 9.2 ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
+
+⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
 
 ## 10. Operational Characteristics
 

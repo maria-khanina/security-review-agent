@@ -26,10 +26,12 @@ There are five components: Payments Edge Gateway, payments-core, payments-db, Ac
 ⟦S:AUTH-01|Every call to the public API is authenticated at Payments Edge Gateway with OAuth2 bearer tokens issued by our identity provider.⟧ A request without valid token is rejected with 401 before it reach payments-core.
 
 ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:AUTHZ-01|On every request for a payment, payments-core check that the calling merchant is the owner of this payment.⟧ This check is not skipped for GET and list calls.
 
 ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
+⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 
 ⟦S:AUTHZ-04|Administrative and debug endpoints are not published on the public gateway and cannot be reached from internet.⟧ Operators use the internal network only.
 
@@ -38,6 +40,7 @@ There are five components: Payments Edge Gateway, payments-core, payments-db, Ac
 The service handle card data and personal data of the payer. We have rules for both.
 
 ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text, the card token vault is the only place that know them and we keep only tokens and last four digits.⟧
+⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 
 ⟦S:CRYPTO-01|Personal data in payments-db is encrypted at rest with AES-256.⟧
 
@@ -55,6 +58,7 @@ The service handle card data and personal data of the payer. We have rules for b
 ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 
 ⟦S:DATA-03|Payer data is sent to the acquirer only under the approved data processing agreement, and we send only the fields the acquirer need for authorization.⟧
+⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 
 ## 5. API behaviour
 

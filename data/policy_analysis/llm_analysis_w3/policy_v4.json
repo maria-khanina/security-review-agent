@@ -34,7 +34,7 @@
         743,
         848
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "network"
@@ -60,7 +60,7 @@
         1043,
         1153
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "secrets"
@@ -138,7 +138,7 @@
         1918,
         2001
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "resilience",
         "governance"
@@ -203,7 +203,7 @@
         2579,
         2656
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "resilience",
         "governance"

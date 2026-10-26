@@ -45,6 +45,7 @@ Most v1 properties carry over unchanged, so only the points that changed shape a
 
 - ⟦S:CRYPTO-05|Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.⟧
 - ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
+- ⟦S:NET-01|Databases and message brokers must not be publicly reachable and must live in private subnets.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧
 - ⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧

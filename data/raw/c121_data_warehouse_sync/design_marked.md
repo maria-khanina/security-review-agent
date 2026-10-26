@@ -38,6 +38,8 @@ The list of the tables is small now (eleven tables) and the size of all files to
 
 5.3 Secrets. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 
+⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧
+
 ⟦S:OPS-02|No container runs as root, and the root filesystem is read-only wherever possible.⟧
 
 5.4 Bucket. ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧
@@ -47,6 +49,8 @@ The list of the tables is small now (eleven tables) and the size of all files to
 5.6 Data. ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧ ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
 5.7 Code and delivery. ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+
+⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 
 ## 6. Failures
 

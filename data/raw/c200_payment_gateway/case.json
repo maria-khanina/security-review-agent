@@ -80,6 +80,7 @@
  "required_rules": [
   "PAY-02",
   "TPC-01",
-  "DR-01"
+  "DR-01",
+  "IR-02"
  ]
 }

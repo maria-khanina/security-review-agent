@@ -54,6 +54,9 @@
   "LOG-02",
   "OPS-02",
   "AUTHZ-03",
-  "AUTHZ-01"
+  "AUTHZ-01",
+  "OPS-03",
+  "NET-01",
+  "LOG-03"
  ]
 }

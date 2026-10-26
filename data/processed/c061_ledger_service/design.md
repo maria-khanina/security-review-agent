@@ -63,6 +63,9 @@ These apply to all stories above.
 Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 In-transit encryption covers calls between services as well as connections to databases and queues.
+A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
+Databases and brokers are not reachable from the internet; they run in private subnets.
+Audit logs are written to tamper-evident storage with at least one year of retention.
 
 ## Design notes
 

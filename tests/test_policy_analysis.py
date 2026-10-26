@@ -22,7 +22,7 @@ from secreview.review_settings import REVIEW_SETTINGS
 
 POLICY_VERSION = load_settings().policy_versions[0]
 INVENTED = "An invented requirement that is nowhere."
-LOOSE = "vague_or_advisory"
+LOOSE = "vague"
 MAX_TOPICS = REVIEW_SETTINGS.policy_analysis.max_topics
 PREFIX = REVIEW_SETTINGS.policy_analysis.requirement_prefix
 THREE = len("abc")

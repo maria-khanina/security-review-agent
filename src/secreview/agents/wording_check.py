@@ -1,4 +1,7 @@
-"""A separate model call for every requirement to find the words that make it vague."""
+"""A separate model call for every requirement to judge whether it names its measure."""
+
+import re
+from typing import Literal
 
 from pydantic import BaseModel
 
@@ -7,27 +10,32 @@ from secreview.agents.policy_requirements import (
     PolicyRequirement,
     save_policy_analysis,
 )
-from secreview.llm.client import ChatClient
+from secreview.agents.verdict_review import LogprobClient
+from secreview.agents.verdict_verifier import probability_of_yes
 from secreview.parsing.findings import ReplyParseError, extract_json_object
+from secreview.review_settings import REVIEW_SETTINGS
 
 CONTRADICTORY = "contradictory"
-VAGUE = "vague_or_advisory"
+VAGUE = "vague"
 CLEAR = "clear"
-MODAL_WORDS = frozenset({"must", "should", "shall", "may", "not", "be", "is"})
-WORDING_PROMPT = """You check one sentence of a security policy. Decide whether \
-a reviewer can check it against a software design document. List the words or \
-short phrases that make it impossible to check, because they leave the \
-measure to the reader: words that say how much, how often, how fast or \
-how well without a number, a named mechanism or a named standard. The \
-words "must", "should" and "shall", numbers, named mechanisms, named \
-systems and precise prohibitions are not vague. Copy each phrase \
-exactly from the sentence. Use an empty list when the sentence states \
-a concrete criterion. Answer with one JSON object {"loose_phrases": \
-["..."]} and nothing else."""
+SOFT_MODALS = re.compile(r"\b(?:should|shall)\b", re.IGNORECASE)
+CLAUSE_BREAK = re.compile(
+    r"(?:;|,\s+and)\s+(?=[^,;]{0,60}\b(?:must|may|are|is)\b)",
+    re.IGNORECASE,
+)
+WORDING_PROMPT = """You check one sentence of a security policy. A reviewer reads \
+a software design document and must decide whether the design does what the \
+sentence demands. Does the sentence itself name the measure the design has to \
+meet: a number, a named mechanism, a named system, a named standard, an \
+explicit list or an explicit prohibition? Answer "no" when the sentence leaves \
+the measure to the reader with a general word that stands for how much, how \
+often, how fast, how long or how well. The obligation words "must", "should", \
+"shall" and "may" do not count as general words. Answer with one JSON object \
+{"answer": "yes"} or {"answer": "no"} and nothing else."""
 
 
 class WordingReply(BaseModel):
-    loose_phrases: list[str]
+    answer: Literal["yes", "no"]
 
 
 def build_wording_schema() -> dict[str, object]:
@@ -36,30 +44,62 @@ def build_wording_schema() -> dict[str, object]:
     return schema
 
 
-def verified_loose_phrases(quote: str, reply: WordingReply) -> list[str]:
-    """Keep the phrases that occur in the sentence and are not modal verbs."""
-    lowered = quote.lower()
-    phrases: list[str] = [phrase.strip().lower() for phrase in reply.loose_phrases]
-    return [
-        phrase
-        for phrase in phrases
-        if phrase and phrase in lowered and phrase not in MODAL_WORDS
-    ]
+def normalize_modals(sentence: str) -> str:
+    """Write "should" and "shall" as "must", which is how the policy reads them."""
+    return SOFT_MODALS.sub("must", sentence)
 
 
-def check_requirement(client: ChatClient, requirement: PolicyRequirement) -> str:
-    """Judge the wording of one requirement with its own model call."""
+def split_clauses(sentence: str) -> list[str]:
+    """Cut a sentence with several obligations into one text per obligation."""
+    pieces: list[str] = CLAUSE_BREAK.split(sentence)
+    return [piece.strip() for piece in pieces if piece.strip()]
+
+
+def probability_of_no(client: LogprobClient, text: str) -> float | None:
+    """Ask whether the text names its measure and return the probability of no."""
+    completion = client.complete_with_logprobs(
+        WORDING_PROMPT,
+        text,
+        build_wording_schema(),
+        REVIEW_SETTINGS.verdict.top_logprobs,
+    )
+    try:
+        WordingReply.model_validate_json(extract_json_object(completion.text))
+    except (ValueError, ReplyParseError):
+        return None
+    names_the_measure = probability_of_yes(completion.tokens)
+    return None if names_the_measure is None else 1.0 - names_the_measure
+
+
+def vagueness_of(client: LogprobClient, quote: str) -> float | None:
+    """Return the largest probability of no over the obligations of a sentence."""
+    scores: list[float] = []
+    normalized = normalize_modals(quote)
+    clauses: list[str] = [normalized]
+    if REVIEW_SETTINGS.policy_analysis.split_clauses:
+        clauses = split_clauses(normalized)
+    for clause in clauses:
+        score = probability_of_no(client, clause)
+        if score is not None:
+            scores.append(score)
+    return max(scores) if scores else None
+
+
+def check_requirement(
+    client: LogprobClient,
+    requirement: PolicyRequirement,
+) -> str:
+    """Judge the wording of one requirement with a call for each obligation."""
     if requirement.wording == CONTRADICTORY:
         return CONTRADICTORY
-    reply = client.complete(WORDING_PROMPT, requirement.quote, build_wording_schema())
-    try:
-        parsed = WordingReply.model_validate_json(extract_json_object(reply))
-    except (ValueError, ReplyParseError):
+    score = vagueness_of(client, requirement.quote)
+    if score is None:
         return requirement.wording
-    return VAGUE if verified_loose_phrases(requirement.quote, parsed) else CLEAR
+    threshold = REVIEW_SETTINGS.policy_analysis.vagueness_threshold
+    return VAGUE if score >= threshold else CLEAR
 
 
-def recheck_wording(client: ChatClient, analysis: PolicyAnalysis) -> PolicyAnalysis:
+def recheck_wording(client: LogprobClient, analysis: PolicyAnalysis) -> PolicyAnalysis:
     """Return the analysis with the wording of every requirement judged again."""
     rechecked: list[PolicyRequirement] = [
         item.model_copy(update={"wording": check_requirement(client, item)})
@@ -68,6 +108,10 @@ def recheck_wording(client: ChatClient, analysis: PolicyAnalysis) -> PolicyAnaly
     return analysis.model_copy(update={"requirements": rechecked})
 
 
-def store_rechecked(name: str, client: ChatClient, analysis: PolicyAnalysis) -> None:
+def store_rechecked(
+    name: str,
+    client: LogprobClient,
+    analysis: PolicyAnalysis,
+) -> None:
     """Judge the wording again and store the result as a new analysis set."""
     save_policy_analysis(name, recheck_wording(client, analysis))

@@ -56,6 +56,9 @@
    "also_violates": [],
    "misfit_versions": [
     "v3"
+   ],
+   "arguable_versions": [
+    "v1"
    ]
   }
  ],
@@ -342,6 +345,51 @@
     [
      5267,
      5340
+    ]
+   ]
+  },
+  {
+   "rule_id": "OPS-03",
+   "design_spans": [
+    [
+     4405,
+     4483
+    ]
+   ],
+   "policy_spans": [
+    [
+     3580,
+     3674
+    ]
+   ]
+  },
+  {
+   "rule_id": "SECRET-03",
+   "design_spans": [
+    [
+     4484,
+     4584
+    ]
+   ],
+   "policy_spans": [
+    [
+     4527,
+     4605
+    ]
+   ]
+  },
+  {
+   "rule_id": "LOG-03",
+   "design_spans": [
+    [
+     4319,
+     4404
+    ]
+   ],
+   "policy_spans": [
+    [
+     5165,
+     5258
     ]
    ]
   }

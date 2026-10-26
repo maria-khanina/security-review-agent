@@ -52,6 +52,8 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 - K-10: ⟦S:DATA-04|Non-production environments contain no real personal or card data.⟧
 - K-11: Customer deletion requests: ⟦F3|deletion requests are handled manually and often forgotten.⟧ A tracking dashboard is on the roadmap.
 
+⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
+
 ### 5.3 Cryptography and transport
 
 - K-13: ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
@@ -77,12 +79,16 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 - K-21: ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 
+⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧
+
 ### 5.7 Application security
 
 - K-23: ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
 - K-25: ⟦F4|Signature verification is skipped for the callbacks coming from the partner sandbox.⟧
 - K-26: ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧
 - K-27: ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+
+⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
 
 ### 5.8 Operations
 

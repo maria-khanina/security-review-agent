@@ -90,6 +90,11 @@
   "LOG-01",
   "AUTHZ-04",
   "LOG-04",
-  "DATA-05"
+  "DATA-05",
+  "CRYPTO-04",
+  "DATA-02",
+  "AUTH-03",
+  "OPS-03",
+  "OPS-01"
  ]
 }

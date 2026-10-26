@@ -33,7 +33,7 @@
         767,
         877
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "data-protection",
         "governance"
@@ -58,7 +58,7 @@
         1020,
         1122
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "data-protection",
         "resilience"
@@ -149,7 +149,7 @@
         1846,
         1951
       ],
-      "wording": "vague_or_advisory",
+      "wording": "vague",
       "topics": [
         "operations"
       ]

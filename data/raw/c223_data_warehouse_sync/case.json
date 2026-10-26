@@ -13,6 +13,7 @@
  },
  "flaws": [],
  "required_rules": [
-  "DR-01"
+  "DR-01",
+  "IR-02"
  ]
 }

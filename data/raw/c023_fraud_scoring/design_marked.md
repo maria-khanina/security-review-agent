@@ -18,6 +18,7 @@ The rule set, the thresholds and the decision labels (allow, review, block) are 
 The engine reads these fields from each event: payment id, amount, country, device id, customer email and phone, and the history counters. It writes decision, score and reasons. Customer attributes are kept next to the decision so analysts can see what was scored.
 
 ⟦F2|decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to.⟧
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:DATA-03|No personal data is sent to third parties; any future transfer would be made only under an approved data processing agreement and with just the fields required.⟧
 
@@ -40,6 +41,8 @@ Most properties are inherited from the batch scorer and are not repeated here. T
 - ⟦F3|Only the HTTP access logs from the load balancer are kept for the scoring-engine.⟧
 - ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
+- ⟦S:AUTH-03|A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.⟧
+- ⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 
 ## Cutover plan
 

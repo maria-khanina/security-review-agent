@@ -10,7 +10,9 @@
 - Idempotent: rerun of the same day overwrites the file
 - The reporting database runs in a cheaper region outside the EU, since only finance reads it.
 - Backups and replicas of the personal data of customers in the EU stay in regions of the EU as well.
+- The shared dashboard polls the health check of the service once a minute and charts the error rate, with an alert when it exceeds 2% for five minutes.
 - export-job gets what it needs from the usual platform setup.
+- The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used.
 - Build artifacts are signed, and the signature is verified before deployment.
 - Every change to production has a rollback plan that has been tested in a pre-production environment.
 - Traces and metrics do not contain personal data or card data.

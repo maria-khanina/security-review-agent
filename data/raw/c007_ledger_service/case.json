@@ -80,6 +80,7 @@
   "API-01",
   "CRYPTO-04",
   "OPS-01",
-  "AUTHZ-03"
+  "AUTHZ-03",
+  "NET-01"
  ]
 }

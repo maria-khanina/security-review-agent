@@ -120,6 +120,8 @@
   "AUTHZ-01",
   "AUTHZ-04",
   "CRYPTO-04",
-  "OPS-01"
+  "OPS-01",
+  "OPS-03",
+  "AUTH-03"
  ]
 }

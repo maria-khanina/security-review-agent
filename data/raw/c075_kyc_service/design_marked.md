@@ -47,6 +47,8 @@ The controls below follow the Information Security Policy.
 
 ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧ ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 
+⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧
+
  ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧
 
 ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
@@ -54,6 +56,10 @@ The controls below follow the Information Security Policy.
 ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
 
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧ ⟦S:API-06|Cross-origin access is restricted to approved origins, and there is no wildcard.⟧
+
+⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
+
+⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 ⟦S:OPS-02|Containers must run as a non-root user with a read-only root filesystem where possible.⟧

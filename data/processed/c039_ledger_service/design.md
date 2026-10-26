@@ -26,6 +26,8 @@ Wallet and payment services send journal entries to ledger-core. ledger-core che
 
 ledger-core starts with the standard platform bootstrap and is ready to accept entries a few seconds later. ledger-db (PostgreSQL) is the system of record and holds every entry and every derived balance. ledger-core protects the integrity and confidentiality of the entries it handles in line with our enterprise standards.
 
+Encrypted backups are checked by a restoration exercise at least twice a year.
+
 ## 5. Capabilities
 
 **Post an entry.** POST /v1/entries accepts a debit_account, a credit_account, an amount, a currency and a reference. It returns the posted entry with its id, both accounts, the amount and the posting time. Entries in two different currencies are rejected; conversion is the caller's job.
@@ -57,6 +59,7 @@ Security is a first-class feature of the Ledger Service. The commitments below a
 - Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 - Dynamic ordering of the ledger listing uses the sort parameter directly in the SQL statement.
 - Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
+- Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 
 Access to the database is handled with the same care. The application uses the database owner account because creating separate grants was too slow for the first release. We plan to revisit this once the schema settles.
 

@@ -83,6 +83,10 @@
   "LOG-04",
   "LOG-01",
   "OPS-01",
-  "OPS-02"
+  "OPS-02",
+  "SECRET-03",
+  "DATA-01",
+  "LOG-03",
+  "CRYPTO-03"
  ]
 }

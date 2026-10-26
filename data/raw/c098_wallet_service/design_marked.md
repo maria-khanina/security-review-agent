@@ -4,10 +4,26 @@ So the wallet service keeps the balances of the customer wallets and does top-up
 
 Now the security part, which I always forget to write unless somebody asks: ⟦S:AUTH-01|every externally reachable API endpoint authenticates callers with OAuth2/OIDC bearer tokens or mutual TLS⟧ and for the passwords of customers ⟦S:AUTH-05|passwords are stored only as salted hashes using argon2id or bcrypt and never in reversible form⟧, and once the caller is in ⟦S:AUTHZ-01|every request for a customer-owned resource verifies that the caller owns the resource or is entitled to it⟧ while ⟦S:AUTHZ-04|administrative and debug endpoints are not reachable from the public internet⟧ and ⟦F1|access reviews are done only when somebody leaves the company⟧, which Lena owns I think. On the data, ⟦S:CRYPTO-01|personally identifiable information is encrypted at rest with AES-256⟧ and ⟦S:CRYPTO-03|all external traffic uses TLS 1.2 or higher⟧ and ⟦S:CRYPTO-05|only approved cryptographic algorithms are used and MD5, SHA-1, DES, 3DES and ECB mode are prohibited⟧, and about what we keep and for how long, ⟦S:DATA-01|the service collects and stores only the personal data needed to operate wallets⟧ and and ⟦S:DATA-03|personal data is sent to third parties only under an approved data processing agreement and only the fields required⟧, and ⟦S:DATA-05|reports and exports that contain personal data require authorization to access, are encrypted in storage and expire⟧, which is about the finance csv that nobody remembers asking for.
 
+⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
+
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
+
+⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
+
+⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
+
+⟦S:CRYPTO-04|In-transit encryption covers calls between services as well as connections to databases and queues.⟧
+
+⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
+
 ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 
 ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
 
 For the rest of the plumbing, ⟦S:SECRET-01|secrets do not appear in source code, configuration files, specifications or infrastructure definitions⟧ and and ⟦S:NET-01|wallet-db and the message brokers sit in private subnets and are not publicly reachable⟧, and for the diary of the system ⟦S:LOG-01|authentication failures, privilege changes and access to sensitive data are logged⟧ and and, and on the input side ⟦S:API-01|all external inputs are validated against a schema and rejected if invalid⟧ and in the code ⟦S:API-05|database queries are parameterized and concatenating user input into queries is prohibited⟧. The pipeline is and for the backups, and that leaves the open points, which are the maximum amount of a single transfer (TBD), whether a profile change needs a confirmation code (TBD), the page size of the transaction list, where support asked for fifty but the mobile team prefers twenty, and whether the core should cache balances for a second under heavy load, where finance says no and I tend to agree because a stale balance is the worst kind of bug in a wallet.
+
+⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 
 ⟦S:SECRET-02|Runtime secrets must be fetched from the approved secret store at startup.⟧

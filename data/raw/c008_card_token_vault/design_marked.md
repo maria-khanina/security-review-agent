@@ -52,9 +52,12 @@ Pieces in terraform:
 - ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 - ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 - ⟦S:CRYPTO-01|Personal data is encrypted at rest with AES-256.⟧
+- ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 - ⟦F4|The vault keeps the full cardholder record, including the unused name and billing address fields that arrive with every tokenize request.⟧
+- ⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 - ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧
 - ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
+- ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 
 ## Sizing and operations (rough)
 

@@ -35,6 +35,9 @@ State each of these concretely (terse is fine for terse profiles) and wrap the s
 - ⟦S:RES-01|...⟧ Personal data of customers in the EU must be stored and processed only in regions of the EU.
 - ⟦S:RES-02|...⟧ Backups and replicas of personal data of customers in the EU should stay in regions of the EU as well.
 - ⟦S:PIP-01|...⟧ Credentials of the delivery pipeline must be issued for each run and be valid for at most 1 hour.
+- ⟦S:OBS-02|...⟧ Every service must publish its health check and error rates to the shared dashboard every minute.
+- ⟦S:PRV-03|...⟧ Personal data must be used only for purposes listed in the privacy notice shown to customers at sign-up.
+- ⟦S:CHG-01|...⟧ Every change to production must be reviewed by a second engineer before it is deployed.
 
 ## Functional content (no security claims)
 Aim for at least 1400 words in total. Reach the length with functional detail written in the author's voice, never with extra security statements.

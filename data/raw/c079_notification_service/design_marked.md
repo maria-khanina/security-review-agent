@@ -31,9 +31,14 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 
 - N-1: ⟦S:AUTH-02|Internal service calls to the notifier are authenticated with mutual TLS or signed workload identity tokens.⟧
 
+⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
+
+⟦S:AUTH-03|Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.⟧
+
 ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
 
 ⟦F2|Any authenticated caller can read any delivery record if it knows the identifier.⟧
+⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 - N-2: ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧
 - N-3: ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 
@@ -44,6 +49,10 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 - N-4: Personal data is never placed in URLs.
 - N-5: ⟦F1|Sensitive fields are encrypted with AES in ECB mode for simplicity.⟧
 - N-6: ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧
+
+⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
+
+⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 
 ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 - N-7: ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
@@ -62,6 +71,8 @@ Control identifiers (N-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.5 Application security and operations
 
 - N-13: ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
+
+⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
 
 ## 6. Template safety
 

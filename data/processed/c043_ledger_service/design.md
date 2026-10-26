@@ -72,6 +72,9 @@ The service compares the authenticated caller with the owner of the requested re
 Requests from outside are checked against the schema and rejected if they do not conform.
 Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 Reading centralized logs requires authorization, and only approved staff have it.
+Audit logs are written to tamper-evident storage with at least one year of retention.
+Encrypted backups are checked by a restoration exercise at least twice a year.
+We rotate service credentials at least every 90 days and straight away after any suspected exposure.
 
 ## Design notes
 

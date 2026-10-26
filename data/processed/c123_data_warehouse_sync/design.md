@@ -40,6 +40,8 @@ Download links for reports with personal data work for 24 hours, and the files a
 
 4.4 Self-signed certificates are trusted in production, to simplify the onboarding of partners.
 
+We encrypt backups and run a restore test at least twice a year.
+
 4.5 Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
 
 Access to centralized logs must be limited to authorized staff.
@@ -55,6 +57,8 @@ Access to centralized logs must be limited to authorized staff.
 ## 6. Network
 
 6.1 The database and the message brokers sit in private subnets and are not publicly reachable.
+
+Staff roles are limited to what each job needs, and every service defines its own roles.
 
 6.2 The staging bucket blocks public access and is private by default.
 
@@ -73,6 +77,9 @@ Administrative and debug endpoints must not be reachable from the public interne
 8.2 User input reaches the database only as query parameters, never as part of the query text.
 
 The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+Service credentials must be rotated at least every 90 days and immediately after suspected exposure.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
+Audit log entries are protected against silent modification and retained for a minimum of one year.
 
 ## 9. Operations
 

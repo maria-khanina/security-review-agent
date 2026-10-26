@@ -36,6 +36,10 @@ The business value of fast delivery is high, and the platform pipeline makes it 
 
 The dashboards show the number of posted entries per minute and the age of the oldest unpublished event. ⟦S:OBS-01|Traces and metrics do not contain personal data or card data.⟧
 
+⟦S:OBS-02|Every service exposes a health endpoint that the shared dashboard polls every minute, and the error rate of each endpoint is shown on the dashboard.⟧
+
+⟦S:CHG-01|Every change to production must be reviewed by a second engineer before it is deployed.⟧
+
 ## 8. Failure handling
 
 If ledger-events is not reachable, the posted entries wait in an outbox table and are published in order afterwards. If the same reference is posted twice, the second call returns the first entry.

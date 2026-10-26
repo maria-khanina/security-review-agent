@@ -50,10 +50,13 @@ Credentials of the delivery pipeline are issued for each run and are valid for a
 ### 6.3 Database changes
 
 Database migrations of the service cannot be rolled back, and nothing is planned for that case.
+Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent.
 
 ### 6.4 Observability
 
 Traces and metrics do not contain personal data or card data. The dashboards show the number of refunds per status and the age of the oldest pending refund.
+
+Every change to production is reviewed by a second engineer before deployment.
 
 ## 7. Decisions
 

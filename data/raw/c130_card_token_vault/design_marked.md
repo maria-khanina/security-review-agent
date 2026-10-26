@@ -16,6 +16,8 @@ The first tokenizer was built in 2020 as a library inside the payment gateway. W
 - **tokenization-service** is a stateless service that implements tokenize and detokenize. It runs as three replicas in the vault private subnet.
 - **vault-db (PostgreSQL)** holds the encrypted card data and the mapping between tokens and card numbers. It runs as a primary with a standby in a second availability zone.
 - **Vault and KMS** provide the data encryption keys. ⟦F2|tokenization-service asks Vault and KMS for a data encryption key when it starts and again when a key must be replaced.⟧
+
+⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 - **vault private subnet** is the network segment that contains all of the above.
 
 Terraform creates `vault_key`, `vault_db`, `vault_db_sg`, `vault_audit`, `vault_backups` and `vault_service_policy`.
@@ -45,6 +47,7 @@ The calling services authenticate with the scheme described in the "PAN Safe" no
 ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
 ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
+⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
 ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 
 ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧

@@ -329,9 +329,8 @@ def suppressed_by(planted: set[str]) -> set[str]:
 
 def is_statable(context: SamplingContext, rule_id: str, unavailable: set[str]) -> bool:
     """Tell whether a rule must be stated as satisfied in the design."""
-    clear = is_firm(context.statuses[rule_id])
     designable = context.rules[rule_id].check_scope != IMPLEMENTATION_ONLY
-    return clear and designable and rule_id not in unavailable
+    return designable and rule_id not in unavailable
 
 
 def finish_case(context: SamplingContext) -> None:
