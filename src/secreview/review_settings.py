@@ -154,7 +154,7 @@ REVIEW_SETTINGS = ReviewSettings(
     ),
     verdict=VerdictSettings(
         runs_directory="data/runs_verdict",
-        analysis_set="llm_analysis_v2",
+        analysis_set="llm_analysis_w4",
         ranker="dense",
         window=0,
         candidates=10,
