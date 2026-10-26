@@ -665,6 +665,30 @@ v5 has 13 rules in six areas (privacy rights, data residency, change management,
 
 **What stays open.** Recall at half a false alarm per document is 0.43 to 0.55 for the layer variants on the pooled set, so the pipeline serves a reviewer who accepts about two false alarms per document. The authors of all 54 designs are the same LLM; the conclusion is about this model, this data generator and a 4B reader.
 
+## 10n. Analysis of the policies: wording, topics, routing of unclear (2026-10-26)
+
+Only the policy analysis was recomputed (one call per policy, one call per requirement for the wording); no verdict run was repeated. The throw-away scripts that computed the numbers below are not stored.
+
+**Step one without `loose_phrases`.** The field is removed from the prompt, the schema and the code (`policy_analysis.py`); the wording of the requirements comes only from the per-requirement call, and the contradictory class only from `relaxed_by`. Stored sets: `llm_analysis_v3` (step one, current topic instruction) and `llm_analysis_w3` (wording judged per requirement). The requirement list is unchanged (142 requirements, 140 matched to the gold, as before). Wording accuracy of `w3` equals `w2` on v1, v2, v3 and v5 (0.76, 0.84, 0.67, 0.79) and drops on v4 from 1.00 to 0.88, because the two contradictory pairs of v4 that the old prompt found are no longer found. Contradictions found over the five policies: 2 of 14 before, 0 of 14 now (the same old prompt run again finds the same 2, so this is not noise).
+
+**Topic instruction.** The prompt said "one or two (at most 3)". Over the five policies the gold has 1 topic for 70 requirements and 2 for 70 (mean 1.5, never 3). Topics per requirement and agreement with the gold, 140 matched requirements:
+
+| Step one | Topics per requirement (mean; with 1 / with 2) | Hit rate | Jaccard | Precision | Recall | Exact |
+|---|---|---|---|---|---|---|
+| with `loose_phrases`, "one or two (at most 3)" (stored `llm_analysis_v2`) | 1.55; 64 / 78 | 0.89 | 0.56 | 0.69 | 0.72 | 0.29 |
+| the same prompt run again | 1.42; 83 / 59 | 0.82 | 0.53 | 0.67 | 0.65 | 0.27 |
+| with `loose_phrases`, no count | 1.13; 123 / 19 | 0.84 | 0.63 | 0.80 | 0.66 | 0.42 |
+| without `loose_phrases`, "one or two (at most 3)" (`llm_analysis_v3`) | 1.53; 67 / 75 | 0.84 | 0.53 | 0.65 | 0.67 | 0.27 |
+| without `loose_phrases`, no count | 1.40; 85 / 57 | 0.81 | 0.55 | 0.68 | 0.65 | 0.32 |
+
+The model never gives three topics, with or without the instruction. Two runs of the same prompt differ by about 0.05 to 0.07 in hit rate and Jaccard, so none of the variants is better than another; the "no count" run with `loose_phrases` is the only one that differs (fewer topics), and its twin without `loose_phrases` does not. The text "at most 3" is inconsistent with "one or two" and has no effect.
+
+**The gold wording as a feature of the decision layer** (not tested before; A and D, trained on dev and applied to v4 and v5; recall at 2 false alarms per document, pooled, difference to the layer without wording): A: no wording 0.86, first wording 0.81 (-0.041), per requirement 0.79 (-0.042), gold wording 0.85 (+0.010, -0.032 to +0.065); D: no wording 0.81, gold wording 0.86 (+0.044, +0.007 to +0.089). The gold wording class merges `advisory` with `vague`. Even a perfect wording class gives at most a few points.
+
+**Soft violations in the gold.** A planted violation of a rule that is `vague` or `conflicting` is `unclear` (subtype `soft_violation`): 18 pairs on dev, 6 on v4, 5 on v5. Read by hand, most of them are violated under every reading of the rule ("API keys never expire" against "rotated periodically", "audit entries expire after thirty days" against "at least one year" and against the 90-day exception, "backups copied without encryption" against "protected appropriately", "personal data of rejected applicants is never removed"); a few depend on the reading (a restore of "about a day" against the 4-hour objective of critical services and the 24-hour exception for batch services). The gold is not changed yet.
+
+**Routing of unclear.** Among the pairs with gold `unclear` that the pipeline shows (A with the layer without wording, v4 and v5, 236 pairs), 165 are policy-side in the gold (rule `vague` or `conflicting`) and 71 design-side (silence, planted ambiguity, partial statement). The predicted wording of the requirement (`w2`) as the router gives accuracy 0.80, precision 0.88 and recall 0.82 for the policy side; always answering "policy side" gives 0.70. For the raw answers of A (164 pairs) 0.79. The earlier four-verdict scheme (`vague` against `not_addressed`) was merged into one verdict in section 7 because the 4B model did not hold the boundary.
+
 ## 11. State and next steps
 
 **State (2026-10-25).** Done on dev and on the unseen policy v4: gold labels by the rule "what a careful reader concludes" (10h), designs rewritten, 111 + 34 violations authored, a policy v4 with 24 designs, raw answers in four prompt configurations and with the architecture card, the decision layer in several feature sets, the cascade, grouped requirements, top 10 against the whole document on designs up to 10,000 words, cost per document (10i to 10k). The test split (36 designs of two held-out services) has not been run.

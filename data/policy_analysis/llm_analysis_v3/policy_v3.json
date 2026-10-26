@@ -21,7 +21,7 @@
         402,
         486
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "authentication",
         "authorization"
@@ -49,7 +49,6 @@
       ],
       "wording": "clear",
       "topics": [
-        "cryptography",
         "secrets"
       ]
     },
@@ -72,7 +71,7 @@
         718,
         801
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "database-access"
       ]
@@ -96,7 +95,7 @@
         876,
         960
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "authentication"
       ]
@@ -110,8 +109,7 @@
       ],
       "wording": "clear",
       "topics": [
-        "data-protection",
-        "cryptography"
+        "data-protection"
       ]
     },
     {
@@ -123,7 +121,7 @@
       ],
       "wording": "clear",
       "topics": [
-        "secrets"
+        "data-protection"
       ]
     },
     {
@@ -145,7 +143,7 @@
         1166,
         1232
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "network"
       ]
@@ -157,7 +155,7 @@
         1235,
         1283
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "network"
       ]
@@ -205,7 +203,7 @@
         1540,
         1608
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "data-protection"
       ]
@@ -253,7 +251,7 @@
         1824,
         1933
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "operations"
       ]
@@ -289,7 +287,7 @@
         2033,
         2072
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "network"
       ]
@@ -301,7 +299,7 @@
         2075,
         2109
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "operations"
       ]
@@ -349,7 +347,7 @@
         2315,
         2346
       ],
-      "wording": "vague_or_advisory",
+      "wording": "clear",
       "topics": [
         "database-access"
       ]

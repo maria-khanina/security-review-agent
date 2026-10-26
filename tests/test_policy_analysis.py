@@ -100,14 +100,9 @@ def test_oracle_analysis_matches_the_gold_and_uses_the_fixed_vocabularies() -> N
             assert set(requirement.topics) <= set(TOPICS)
 
 
-def evidence_item(
-    quote: str,
-    loose_phrases: list[str],
-    relaxed_by: str,
-) -> dict[str, object]:
+def evidence_item(quote: str, relaxed_by: str) -> dict[str, object]:
     return {
         "quote": quote,
-        "loose_phrases": loose_phrases,
         "relaxed_by": relaxed_by,
         "topics": ["network"],
     }
@@ -123,19 +118,10 @@ def first_quotes() -> list[str]:
     return [item.quote for item in requirements[:THREE]]
 
 
-def test_a_verified_loose_phrase_makes_a_requirement_vague() -> None:
-    first, second, _ = first_quotes()
-    word = first.split()[1].strip(",.;")
-    analysis = analyze_items(
-        [evidence_item(first, [word], ""), evidence_item(second, ["zzzz"], "")]
-    )
-    assert [item.wording for item in analysis.requirements] == [LOOSE, "clear"]
-
-
 def test_a_verified_relaxation_marks_both_sentences_and_adds_the_missing_one() -> None:
     first, second, third = first_quotes()
     analysis = analyze_items(
-        [evidence_item(first, [], third), evidence_item(second, [], "")]
+        [evidence_item(first, third), evidence_item(second, "")]
     )
     wordings: list[str] = [item.wording for item in analysis.requirements]
     assert wordings == ["contradictory", "clear", "contradictory"]
@@ -146,8 +132,8 @@ def test_unverifiable_or_self_referencing_relaxations_are_ignored() -> None:
     first, _, _ = first_quotes()
     analysis = analyze_items(
         [
-            evidence_item(first, [], INVENTED),
-            evidence_item(first, [], first),
+            evidence_item(first, INVENTED),
+            evidence_item(first, first),
         ]
     )
     assert [item.wording for item in analysis.requirements] == ["clear"]
@@ -157,7 +143,7 @@ def test_a_complete_model_reply_gives_a_full_numbered_analysis() -> None:
     gold = build_oracle_analysis(POLICY_VERSION)
     items: list[dict[str, object]] = []
     for item in gold.requirements:
-        items.append(evidence_item(item.quote, [], ""))
+        items.append(evidence_item(item.quote, ""))
     analysis = analyze_items(items)
     assert [item.span for item in analysis.requirements] == [
         item.span for item in gold.requirements
