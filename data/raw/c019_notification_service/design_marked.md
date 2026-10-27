@@ -34,7 +34,7 @@ This section is carried over from the mailer design and updated.
 - ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 - ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 - ⟦S:AUTHZ-01|A caller can only read or change resources that belong to them or that they have been explicitly granted.⟧
 - ⟦S:AUTHZ-05|Production access rights are reviewed every quarter.⟧
@@ -43,7 +43,7 @@ This section is carried over from the mailer design and updated.
 - ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧
 - ⟦F4|Access to the log platform is given to whole teams and nobody removes it when people change role.⟧
 - ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
-- ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧
+- ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 - ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 - ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧

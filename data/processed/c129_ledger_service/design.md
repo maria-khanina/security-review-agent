@@ -46,7 +46,7 @@ Reversal is implemented as a normal posting with the debit and credit accounts s
 Identity and access:
 - Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.
 - All state-changing operations require an authenticated caller.
-- Staff roles are limited to what each job needs, and every service defines its own roles.
+- Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.
 - Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 - Access rights to production systems are reviewed at least quarterly.
 - All external inputs must be validated against a schema and rejected if invalid.
@@ -60,7 +60,7 @@ Cryptography and secrets:
 
 Network, logging and code:
 - The database and the message brokers sit in private subnets and are not publicly reachable.
-- Access to centralized logs must be limited to authorized staff.
+- Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 - Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Authentication failures, privilege changes and access to sensitive data are written to the logs.

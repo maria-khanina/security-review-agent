@@ -35,11 +35,11 @@
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:LOG-01|Auth failures, privilege changes and sensitive data access are logged.⟧
 - ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
-- ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+- ⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 - ⟦S:LOG-02|Logs carry no secrets, card numbers or personal data other than opaque ids.⟧
 - ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 - ⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
-- ⟦S:DATA-03|No third parties receive this data; any future transfer only under an approved DPA and with just the required fields.⟧
+- ⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧
 - ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 - ⟦S:API-05|All db queries are parameterized, no string concatenation of user input.⟧
 - ⟦S:OPS-01|CI scans dependencies and images; critical vulns fixed within 14 days.⟧

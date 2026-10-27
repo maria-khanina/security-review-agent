@@ -49,7 +49,7 @@ The external API sits behind a WAF that also applies rate limiting.
 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 - Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. At startup the service fetches its secrets from the approved secret store.
 
-Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.
 - kyc-db and the message brokers sit in private subnets and are not publicly reachable. The kyc-documents bucket blocks public access and is private by default. Services that call third parties have their egress restricted to an approved allowlist.
 
 Service credentials are rotated at least every 90 days and immediately if they may have been exposed.

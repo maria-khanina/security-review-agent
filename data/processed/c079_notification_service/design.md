@@ -35,11 +35,11 @@ Audit logs are tamper-evident and kept for at least a year.
 
 Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
 
-Access to centralized logs must be limited to authorized staff.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 
 Any authenticated caller can read any delivery record if it knows the identifier.
 Traffic between services and to data stores must be encrypted in transit.
-- N-2: Internal users receive only the roles required for their job, and roles are defined per service.
+- N-2: The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.
 - N-3: Access to production is recertified at least once per quarter.
 
 Requests from outside are checked against the schema and rejected if they do not conform.
@@ -48,7 +48,7 @@ Requests from outside are checked against the schema and rejected if they do not
 
 - N-4: Personal data is never placed in URLs.
 - N-5: Sensitive fields are encrypted with AES in ECB mode for simplicity.
-- N-6: No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
+- N-6: Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 

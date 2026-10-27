@@ -51,7 +51,7 @@
 | area | statement |
 |---|---|
 | internal calls | Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token. |
-| roles | Staff roles are limited to what each job needs, and every service defines its own roles. |
+| roles | Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default. |
 | review | A quarterly access review covers all production systems. |
 | PII at rest | All personally identifiable information is encrypted before it lands on disk, using AES-256. |
 | algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
@@ -62,7 +62,7 @@
 |---|---|
 | repo and config | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | bucket | The staging bucket blocks public access and is private by default. |
-| vendor | Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. |
+| vendor | The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer. |
 | exports | Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days. |
 | queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
 
@@ -76,7 +76,7 @@ Dependency and image scans run in CI, and critical findings must be fixed in 14 
 Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
 Neither the database nor the broker has a public endpoint, and both live in private subnets.
 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
 | open | owner
 |---|---|

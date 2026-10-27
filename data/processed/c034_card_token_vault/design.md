@@ -42,7 +42,7 @@ The service compares the authenticated caller with the owner of the requested re
 
 4.2 Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.
 
-Access to centralized logs must be limited to authorized staff.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 
 4.3 Traffic between services, and between services and data stores or brokers, is encrypted in transit.
 
@@ -78,7 +78,7 @@ Backups must be encrypted and restoration must be tested at least twice a year.
 
 8.1 Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.
 
-Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 8.2 We use parameterized queries only, with no SQL built from user input by string concatenation.
 

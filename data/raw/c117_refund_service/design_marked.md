@@ -50,7 +50,7 @@ The API enforces per-client rate limits.
 
 ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.⟧
 
 ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧ ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧ ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧ ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧
 

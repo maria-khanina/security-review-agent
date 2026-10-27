@@ -46,7 +46,7 @@ Reversal is implemented as a normal posting with the debit and credit accounts s
 Identity and access:
 - ⟦F1|Authentication between the internal services is considered for later, and for now the services that consume the ledger events read them without any credentials.⟧
 - All state-changing operations require an authenticated caller.
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - ⟦S:AUTH-03|Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
@@ -60,7 +60,7 @@ Cryptography and secrets:
 
 Network, logging and code:
 - ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
-- ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+- ⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 - ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 - ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧

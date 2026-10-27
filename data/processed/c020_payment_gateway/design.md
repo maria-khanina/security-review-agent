@@ -51,7 +51,7 @@ The service stores only the personal fields that appear in its data inventory wi
 
 ## 6. Personal data
 
- No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Developers copy production payment data to their laptops when they need to reproduce a bug.
+ Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending. Developers copy production payment data to their laptops when they need to reproduce a bug.
 
 All public-facing endpoints terminate TLS 1.2 or higher.
 
@@ -71,7 +71,7 @@ Schema validation runs on every external input, and invalid data never reaches t
 
 The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
 
-Only authorized staff can access the central logs.
+Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 
 ## 10. Logging
 

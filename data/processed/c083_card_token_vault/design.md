@@ -80,7 +80,7 @@ The container user is not set, so processes run as root. It never mattered for t
 
 Test and staging environments use synthetic data, never real personal data or card data. User input reaches the database only as query parameters, never as part of the query text. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 
-The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.
 
 Schema validation runs on every external input, and invalid data never reaches the business logic.
 

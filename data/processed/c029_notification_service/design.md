@@ -31,7 +31,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 - Keys held in KMS, never next to the data, rotated at least annually.
 - TLS certs are validated, verification never disabled.
 - No secrets in code, config, specs or infra definitions.
-- Only authorized staff can access the central logs.
+- Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 - Internal details such as stack traces, SQL and hostnames never appear in an error response.
 - Runtime secrets are read from the secret store when the service starts.
 - DB and brokers in private subnets, not publicly reachable.
@@ -39,7 +39,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 
 ## data
 
-- Personal data to third parties only under an approved DPA, only required fields.
+- Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.
 - Staging is refreshed every night from a snapshot of production, with the real recipient data.
 
 ## logs / api / build
@@ -50,7 +50,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 - The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
 - Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.
 - Parameterized queries only.
-- Staff roles are limited to what each job needs, and every service defines its own roles.
+- Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.
 - CI scans deps and images; critical vulns fixed within 14 days.
 - Containers non-root, read-only rootfs where possible.
 - Audit logs are written to tamper-evident storage with at least one year of retention.

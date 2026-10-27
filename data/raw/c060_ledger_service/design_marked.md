@@ -43,7 +43,7 @@ Posting is transactional: an entry either appears in full or not at all, and its
 
 Security is a first-class feature of the ledger. The commitments below are the ones we make to finance and auditors.
 
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 - ⟦S:AUTHZ-05|Access to production is recertified at least once per quarter.⟧
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧

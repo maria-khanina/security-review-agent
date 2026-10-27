@@ -30,13 +30,13 @@ Pieces in terraform:
 At startup the service fetches its secrets from the approved secret store.
 
 Debug and administrative routes are not exposed to the internet.
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
 **Database.** vault-db (PostgreSQL) holds the encrypted card records and runs as a single instance with a standby. Priya said the standby plan is TBD, we come back to it next week.
 
 **Service-to-service.** Calls from payment services to the tokenization service are authenticated with mutual TLS or signed workload identity tokens. We argued about which of the two for a while. Outcome: mTLS first, tokens only if mTLS is a blocker (TBD, Mark to check the mesh).
 
-Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 **Application.** tokenization-service is a small Go service with two handlers and a worker that rotates data keys. Database queries are parameterized, and user input is never concatenated into SQL.
 
@@ -44,7 +44,7 @@ Personal data may be sent to third parties only under an approved data processin
 
 ## Access and secrets
 
-- Internal users are given the minimum set of roles for their job, and roles are defined service by service. Compliance wants the role list as an appendix.
+- Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request. Compliance wants the role list as an appendix.
 - Access to production is recertified at least once per quarter. Owner: Lena (confirmed this time, previously "infra team").
 
 Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.

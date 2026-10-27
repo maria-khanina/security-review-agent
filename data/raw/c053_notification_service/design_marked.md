@@ -54,7 +54,7 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 | NFR-11 | Network | ⟦S:NET-01|Databases and message brokers sit in private subnets and are not publicly reachable.⟧ |
 | NFR-12 | Egress | ⟦F2|The sender follows redirects and calls any host, and there is no allow-list.⟧ |
 | NFR-13 | Security logging | ⟦S:LOG-01|We log failed logins, changes of privileges and reads of sensitive data.⟧ |
-| NFR-17 | Third parties | ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ |
+| NFR-17 | Third parties | ⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧ |
 | NFR-18 | Test data | ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧ |
 | NFR-19 | Callbacks | ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧ |
 | NFR-20 | Queries | ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧ |
@@ -69,8 +69,8 @@ The following apply to every story (TBD: repeat as acceptance criteria in each t
 ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 ⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
 ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
-⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
+⟦S:AUTHZ-02|Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request.⟧
 
 ## Design notes
 

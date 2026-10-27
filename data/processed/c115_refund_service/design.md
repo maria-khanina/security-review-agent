@@ -47,14 +47,14 @@ Dependency and image scans run in CI, and critical findings must be fixed in 14 
 
 Requests from the internet reach the API only through the WAF, where rate limits are enforced.
 - R-8: Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.
-- R-9: Only the personal data needed for the purpose is collected and stored.
+- R-9: A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 
 Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - R-10: Third parties receive only the fields they need, and only if an approved data processing agreement covers them.
 - R-11: Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
 
 All public-facing endpoints terminate TLS 1.2 or higher.
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
 We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 

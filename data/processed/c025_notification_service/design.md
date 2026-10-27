@@ -26,16 +26,16 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 ## security
 
 - Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.
-- Internal users get only the roles their job needs; roles are defined per service.
+- Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.
 - Production access is reviewed at least quarterly.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.
 - No secrets in code, config, specs or infra definitions.
-- Access to centralized logs must be limited to authorized staff.
+- Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 - DBs and brokers are in private subnets, not publicly reachable.
 - Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 - Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - Free-text fields from the delivery requests are stored verbatim, and they often contain more personal data than the message needs.
-- Personal data goes to third parties only under an approved DPA, and only the fields required.
+- The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 - Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 - Audit log entries are protected against silent modification and retained for a minimum of one year.
 - Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.

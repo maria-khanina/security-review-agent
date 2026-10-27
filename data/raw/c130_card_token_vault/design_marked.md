@@ -42,18 +42,18 @@ The calling services authenticate with the scheme described in the "PAN Safe" no
 
 ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 
 ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 
 ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
-⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 
 ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
 ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
-⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+⟦S:AUTHZ-03|Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.⟧
 
 6.5 Logging and data. ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 

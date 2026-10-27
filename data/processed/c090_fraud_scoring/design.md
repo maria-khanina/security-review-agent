@@ -55,13 +55,13 @@ CI must scan dependencies and images and critical vulnerabilities must be fixed 
 | Algorithms | Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. |
 | Secrets in artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |
 | Network | decisions-db and the MSK brokers sit in private subnets and are not publicly reachable. |
-| Log access | Access to the centralized logging system is restricted to authorized people. |
-| Minimization | The service collects and stores only the personal data needed for scoring. |
+| Log access | The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied. |
+| Minimization | The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected. |
 | Third parties | Third parties receive only the fields they need, and only if an approved data processing agreement covers them. |
 | Exports | Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours. |
 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
 
-Internal users must receive only the roles required for their job and roles must be defined per service.
+The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.
 The approved secret manager is the only source of runtime secrets, fetched at start-up.
 We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
 There is no periodic review of who has production access.

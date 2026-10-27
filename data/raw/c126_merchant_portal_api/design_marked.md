@@ -41,9 +41,9 @@ crypto / secrets / network
 logs / data / code
 - ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
 - ⟦F3|Access to the logs is granted to whole teams and is never removed.⟧
-- ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧
+- ⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
 - ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
-- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+- ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 - ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 - ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 - ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧

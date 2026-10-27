@@ -39,7 +39,7 @@ The API authenticates callers with JWT bearer tokens. All traffic is served over
 
 ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 ⟦S:NET-01|Data stores and brokers sit in private subnets only.⟧
 
 ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧

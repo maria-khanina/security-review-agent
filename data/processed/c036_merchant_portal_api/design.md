@@ -58,15 +58,15 @@ The decisions below were agreed in the design review and are binding for this ph
 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
 | Secrets in artifacts | Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. |
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| Third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
+| Minimization | The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected. |
+| Third parties | The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer. |
 | Queries | All queries use bound parameters instead of string concatenation. |
 
 Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 Encrypted backups are checked by a restoration exercise at least twice a year.
 Runtime secrets are read from the secret store when the service starts.
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.

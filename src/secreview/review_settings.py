@@ -44,7 +44,6 @@ REVIEW_SETTINGS = ReviewSettings(
         table_resamples=300,
         cascade_shares=[0.4, 0.6],
         primary_budget_position=2,
-        minimum_shown_precision=0.65,
         finalists=[
             FinalistSettings(
                 label="A raw",
@@ -62,13 +61,63 @@ REVIEW_SETTINGS = ReviewSettings(
                 kind="worded",
             ),
             FinalistSettings(
-                label="layer only, no model call",
+                label="A layer only, no model call",
                 configuration="base",
                 kind="prior",
             ),
             FinalistSettings(
-                label="cascade, 40% of the pairs",
+                label="A cascade, 40% of the pairs",
                 configuration="base",
+                kind="cascade",
+            ),
+            FinalistSettings(
+                label="B raw",
+                configuration="overview800",
+                kind="raw",
+            ),
+            FinalistSettings(
+                label="B + layer without wording",
+                configuration="overview800",
+                kind="no_wording",
+            ),
+            FinalistSettings(
+                label="B + layer, wording per requirement",
+                configuration="overview800",
+                kind="worded",
+            ),
+            FinalistSettings(
+                label="C raw",
+                configuration="reasoned_nooverview",
+                kind="raw",
+            ),
+            FinalistSettings(
+                label="C + layer without wording",
+                configuration="reasoned_nooverview",
+                kind="no_wording",
+            ),
+            FinalistSettings(
+                label="C + layer, wording per requirement",
+                configuration="reasoned_nooverview",
+                kind="worded",
+            ),
+            FinalistSettings(
+                label="D raw",
+                configuration="reasoned800",
+                kind="raw",
+            ),
+            FinalistSettings(
+                label="D + layer without wording",
+                configuration="reasoned800",
+                kind="no_wording",
+            ),
+            FinalistSettings(
+                label="D + layer, wording per requirement",
+                configuration="reasoned800",
+                kind="worded",
+            ),
+            FinalistSettings(
+                label="D cascade, 40% of the pairs",
+                configuration="reasoned800",
                 kind="cascade",
             ),
         ],
@@ -77,11 +126,11 @@ REVIEW_SETTINGS = ReviewSettings(
         directory="data/policy_analysis",
         requirement_prefix="R",
         max_topics=3,
-        vagueness_threshold=0.2,
+        vagueness_threshold=0.1,
         loose_word_max_words=3,
         pair_model_id="Qwen/Qwen3-Embedding-0.6B",
         pair_neighbours=3,
-        pair_threshold=0.64,
+        pair_threshold=0.63,
         split_clauses=False,
         status_wording={
             "clear": "clear",

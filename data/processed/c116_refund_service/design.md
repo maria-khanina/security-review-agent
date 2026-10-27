@@ -52,7 +52,7 @@ The database and the message broker are in private subnets with no public addres
 • Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
 • Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 • We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.
-• Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+• The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 
 Internal service calls must be authenticated with mutual TLS or signed workload identity tokens.
 Backups are encrypted, and restores are tested at least twice a year.

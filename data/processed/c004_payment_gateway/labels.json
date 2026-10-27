@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     4674,
-     4870
+     4730,
+     4926
     ]
    ],
    "policy_spans": {
@@ -83,8 +83,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     4248,
-     4447
+     4304,
+     4503
     ]
    ],
    "policy_spans": {
@@ -227,7 +227,7 @@
    "design_spans": [
     [
      3058,
-     3193
+     3249
     ]
    ],
    "policy_spans": [
@@ -241,8 +241,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3195,
-     3298
+     3251,
+     3354
     ]
    ],
    "policy_spans": [
@@ -256,8 +256,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3299,
-     3381
+     3355,
+     3437
     ]
    ],
    "policy_spans": [
@@ -271,8 +271,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     3383,
-     3480
+     3439,
+     3536
     ]
    ],
    "policy_spans": [
@@ -286,8 +286,8 @@
    "rule_id": "CRYPTO-04",
    "design_spans": [
     [
-     3482,
-     3548
+     3538,
+     3604
     ]
    ],
    "policy_spans": [
@@ -301,8 +301,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     3550,
-     3713
+     3606,
+     3769
     ]
    ],
    "policy_spans": [
@@ -316,8 +316,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     3715,
-     3865
+     3771,
+     3921
     ]
    ],
    "policy_spans": [
@@ -331,8 +331,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     3971,
-     4082
+     4027,
+     4138
     ]
    ],
    "policy_spans": [
@@ -346,8 +346,8 @@
    "rule_id": "API-06",
    "design_spans": [
     [
-     4083,
-     4154
+     4139,
+     4210
     ]
    ],
    "policy_spans": [
@@ -361,8 +361,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     4479,
-     4562
+     4535,
+     4618
     ]
    ],
    "policy_spans": [
@@ -376,8 +376,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     4563,
-     4655
+     4619,
+     4711
     ]
    ],
    "policy_spans": [
@@ -425,8 +425,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     3866,
-     3948
+     3922,
+     4004
     ]
    ],
    "policy_spans": [

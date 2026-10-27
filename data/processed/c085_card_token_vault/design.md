@@ -25,9 +25,9 @@ Terraform declares the KMS key `vault_key`, the database `vault_db`, the securit
 - The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 - Card numbers are never stored in clear text; they are replaced by tokens from the card token vault.
 - Traffic between services, and between services and data stores or brokers, is encrypted in transit.
-- Access to the centralized logging system is restricted to authorized people.
+- The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
-- Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
+- A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.
 - Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 - TLS certificate verification is enabled in all clients, with no option to disable it.
 - Requests from outside are checked against the schema and rejected if they do not conform.

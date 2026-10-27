@@ -474,7 +474,7 @@
    "design_spans": [
     [
      4366,
-     4482
+     4555
     ]
    ],
    "policy_spans": [
@@ -488,8 +488,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     4484,
-     4582
+     4557,
+     4655
     ]
    ],
    "policy_spans": [

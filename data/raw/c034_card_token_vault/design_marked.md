@@ -42,7 +42,7 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 4.2 ⟦S:CRYPTO-06|Encryption keys are held in KMS, are never stored with the data they protect, and are rotated at least annually.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 
 4.3 ⟦S:CRYPTO-04|Traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧
 
@@ -78,7 +78,7 @@ Payment services send PANs to the tokenization-service and receive tokens. To ch
 
 8.1 ⟦S:API-03|Webhook payloads are HMAC-signed and timestamped, and the receiver verifies the signature and the timestamp before accepting them.⟧
 
-⟦S:DATA-03|Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.⟧
+⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
 
 8.2 ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 

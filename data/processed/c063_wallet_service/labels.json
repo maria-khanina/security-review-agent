@@ -286,7 +286,7 @@
    "design_spans": [
     [
      3995,
-     4076
+     4130
     ]
    ],
    "policy_spans": [
@@ -300,8 +300,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     4077,
-     4195
+     4131,
+     4356
     ]
    ],
    "policy_spans": [
@@ -315,8 +315,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     4342,
-     4412
+     4503,
+     4573
     ]
    ],
    "policy_spans": [
@@ -330,8 +330,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     4413,
-     4506
+     4574,
+     4667
     ]
    ],
    "policy_spans": [
@@ -345,8 +345,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     4625,
-     4708
+     4786,
+     4869
     ]
    ],
    "policy_spans": [
@@ -375,8 +375,8 @@
    "rule_id": "AUTH-03",
    "design_spans": [
     [
-     4508,
-     4608
+     4669,
+     4769
     ]
    ],
    "policy_spans": [
@@ -390,8 +390,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4197,
-     4306
+     4358,
+     4467
     ]
    ],
    "policy_spans": [

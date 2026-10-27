@@ -15,7 +15,7 @@ security stuff:
 - All personally identifiable information is encrypted before it lands on disk, using AES-256.
 - Debug and administrative routes are not exposed to the internet.
 - A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
-- The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+- The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.
 - We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 - Backups must be encrypted and restoration must be tested at least twice a year.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
@@ -23,7 +23,7 @@ security stuff:
 - We log failed logins, changes of privileges and reads of sensitive data.
 - We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 - Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
-- Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+- Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.
 - Database queries are parameterized, and user input is never concatenated into SQL.
 - Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 

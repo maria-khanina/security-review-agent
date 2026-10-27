@@ -41,7 +41,7 @@ The retention period is 24 months for customer records and 90 days for delivery 
 - C-7: Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.
 - C-8: Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.
 - C-9: Card numbers are never returned by the API.
-- C-12: Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+- C-12: Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 - C-13: Staging is refreshed every night from a snapshot of the production database, including the merchant users.
 
 Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.
@@ -78,7 +78,7 @@ Service-to-service calls are authenticated, either with mutual TLS between the w
 Each request for a customer's resource checks that the caller owns it or is entitled to it.
 - C-28: Error responses do not reveal stack traces, SQL or internal hostnames.
 
-Reading centralized logs requires authorization, and only approved staff have it.
+The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.
 Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 - C-29: We use parameterized queries only, with no SQL built from user input by string concatenation.
 

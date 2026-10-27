@@ -53,7 +53,7 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 | ID | Area | Requirement |
 |---|---|---|
 | NFR-1 | Service authentication | ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧ |
-| NFR-2 | Roles | ⟦S:AUTHZ-02|Internal users receive only the roles required for their job, and roles are defined per service.⟧ |
+| NFR-2 | Roles | ⟦S:AUTHZ-02|The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.⟧ |
 | NFR-3 | Access review | ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧ |
 | NFR-4 | Cardholder data | ⟦S:CRYPTO-02|Primary account numbers are never stored in clear text and are tokenized by the card token vault.⟧ |
 | NFR-5 | Algorithms | ⟦S:CRYPTO-05|The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.⟧ |
@@ -70,7 +70,7 @@ Listed once for the epic (TBD: copy into each story as acceptance criteria).
 ⟦S:API-01|All external input is validated against a schema, and invalid requests are rejected.⟧
 ⟦S:CRYPTO-06|KMS holds the keys, the data stores only keep ciphertext, and key rotation happens at least yearly.⟧
 ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
-⟦S:DATA-01|The service collects and stores only the personal data it needs for its purpose.⟧
+⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧
 
 ## Design notes
 

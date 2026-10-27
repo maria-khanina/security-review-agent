@@ -41,7 +41,7 @@ All state-changing operations require an authenticated caller.
 
 - ⟦S:CRYPTO-01|Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.⟧
 - ⟦S:CRYPTO-06|Keys live in KMS, never next to the data, rotated at least annually.⟧
-- ⟦S:DATA-03|Personal data goes to third parties only under an approved DPA, only required fields.⟧
+- ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 - ⟦S:DATA-04|Non-prod environments hold no real personal or card data.⟧
 - ⟦F2|Backups are copied to a separate account without encryption, which keeps cross-account restore trivial.⟧
 

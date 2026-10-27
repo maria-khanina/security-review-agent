@@ -59,8 +59,8 @@ Acceptance criteria:
 | NFR-5 | Algorithms | Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited. |
 | NFR-7 | Network | portal-db and the message brokers sit in private subnets and are not publicly reachable. |
 | NFR-8 | Security logging | Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged. |
-| NFR-11 | Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| NFR-13 | Third parties | Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent. |
+| NFR-11 | Minimization | The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected. |
+| NFR-13 | Third parties | The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer. |
 | NFR-14 | Exports | Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days. |
 | NFR-15 | Validation | External inputs are accepted only if they validate against the schema. |
 | NFR-16 | Queries | We use parameterized queries only, with no SQL built from user input by string concatenation. |
@@ -68,7 +68,7 @@ Acceptance criteria:
 Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.
 CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.
 The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.
-Reading centralized logs requires authorization, and only approved staff have it.
+Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
 The audit trail is tamper-evident, and we keep it for no less than twelve months.

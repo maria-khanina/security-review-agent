@@ -47,12 +47,12 @@ Any authenticated caller can read any payment record if it knows the payment ide
 - P-6: All external traffic uses TLS 1.2 or higher.
 
 No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.
-- P-7: The gateway collects and stores only the personal data needed for payment processing.
+- P-7: The service stores only the personal fields that appear in its data inventory with a stated purpose.
 
 Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 
-Access to centralized logs must be limited to authorized staff.
-- P-9: Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
+- P-9: The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 
 All external inputs must be validated against a schema and rejected if invalid.
 Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.

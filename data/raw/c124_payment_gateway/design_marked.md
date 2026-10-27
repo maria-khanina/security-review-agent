@@ -38,10 +38,10 @@ We believe security is an enabler of growth, and we have built it into the found
 
 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧
 
-⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 ⟦S:OPS-03|Backups must be encrypted and restoration must be tested at least twice a year.⟧
 
-⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
+⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
 
 ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧ ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp.⟧ ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧ ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 

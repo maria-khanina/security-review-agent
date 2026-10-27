@@ -32,11 +32,11 @@ First, payment-events send the payment event to the scoring-engine. Second, the 
 
 ⟦S:CRYPTO-04|The traffic between services, and between services and data stores or brokers, is encrypted in transit.⟧ ⟦S:CRYPTO-07|The services validate the TLS certificates and never disable the verification.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
-⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 
- ⟦S:DATA-03|The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.⟧
+ ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
  ⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
 
 ## 6. Secrets
@@ -49,7 +49,7 @@ First, payment-events send the payment event to the scoring-engine. Second, the 
 
 ⟦S:NET-01|The database and the message brokers are in the private subnets and are not publicly reachable.⟧ ⟦F4|Outbound firewall rules are managed by each team and are rarely reviewed.⟧
 
-⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 
 ## 8. Callbacks
 

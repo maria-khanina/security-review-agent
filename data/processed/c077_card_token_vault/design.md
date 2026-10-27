@@ -24,7 +24,7 @@ Assumes the usual platform setup unless a line says otherwise. Old page: wiki/CT
 - Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 - Requests from outside are checked against the schema and rejected if they do not conform.
 - Backup encryption is on, and we test restoring from backup at least every six months.
-- Internal users get only the roles their job requires; roles are defined per service.
+- Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.
 - Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
 - Admin and debug endpoints are reachable only from the internal network, not from the public internet.
 - Production access rights are reviewed at least quarterly.
@@ -34,7 +34,7 @@ Assumes the usual platform setup unless a line says otherwise. Old page: wiki/CT
 - PANs are never stored in clear and are tokenized by the card token vault.
 - Tokens are short-lived (15 minutes maximum) and refresh tokens are single-use, so each refresh issues a new one.
 - Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.
-- Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.
+- Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 ## secrets / net
 

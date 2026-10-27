@@ -229,7 +229,7 @@
    "design_spans": [
     [
      3907,
-     4042
+     4098
     ]
    ],
    "policy_spans": [
@@ -243,8 +243,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     4045,
-     4109
+     4101,
+     4165
     ]
    ],
    "policy_spans": [

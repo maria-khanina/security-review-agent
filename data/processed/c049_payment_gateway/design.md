@@ -16,6 +16,6 @@ Backup encryption is on, and we test restoring from backup at least every six mo
 
 Containers run as a non-root user, with a read-only root filesystem where possible.
 
-The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.
 
 The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.

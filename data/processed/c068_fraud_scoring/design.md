@@ -38,8 +38,8 @@ Personal data in our databases and object storage is encrypted at rest with AES-
 
 Encrypted backups are checked by a restoration exercise at least twice a year.
 
-Each service must use its own database account with the minimum grants and no shared administrative credentials.
-Access to centralized logs must be limited to authorized staff.
+The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 
 ## 7. Secrets
 
@@ -53,7 +53,7 @@ We rotate service credentials at least every 90 days and straight away after any
 
 ## 9. Personal data
 
-The decisions contain personal data such as email and phone. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Only synthetic data is present outside production.
+The decisions contain personal data such as email and phone. Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform. Only synthetic data is present outside production.
 
 ## 10. Logging
 

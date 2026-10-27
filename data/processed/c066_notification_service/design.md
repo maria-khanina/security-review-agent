@@ -24,7 +24,7 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 - Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.
 - A shared read-only login for the log platform is posted in the team wiki.
 - Any authenticated caller can read any record if it knows the identifier.
-- We keep roles small and per service, so an internal user only receives what their job requires.
+- Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.
 - All external inputs must be validated against a schema and rejected if invalid.
 - Nothing administrative or meant for debugging can be called from outside our network.
 - Access rights to production systems are reviewed at least quarterly.
@@ -57,8 +57,8 @@ For now the database password sits in the infrastructure code, and a sandbox API
 
 | area | rule |
 |---|---|
-| minimization | The service collects and stores only the personal data needed to deliver messages. |
-| provider | Personal data is sent to the provider only under an approved data processing agreement, and only the fields required. |
+| minimization | Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped. |
+| provider | Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery. |
 | reports | Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.
 
 #### code and build

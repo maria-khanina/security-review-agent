@@ -55,7 +55,7 @@ The controls which are important for this service are listed here.
 - ⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
 - ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 - ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
-- ⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+- ⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 - ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 
 ## 7. Balance and reconciliation

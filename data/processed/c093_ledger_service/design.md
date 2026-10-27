@@ -48,7 +48,7 @@ Nothing administrative or meant for debugging can be called from outside our net
 Backup encryption is on, and we test restoring from backup at least every six months.
 Error responses do not expose stack traces, SQL or internal hostnames.
 Audit logs are tamper-evident and kept for at least a year.
-Reading centralized logs requires authorization, and only approved staff have it.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 Service credentials are rotated at least every 90 days and immediately if they may have been exposed.
 
 ## Transport and crypto

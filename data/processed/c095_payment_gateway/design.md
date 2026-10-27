@@ -16,7 +16,7 @@ Backups are encrypted, and restores are tested at least twice a year.
 
 Databases and brokers are not reachable from the internet; they run in private subnets.
 
-The service connects to its database with its own account, which has only the grants it needs.
+Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.
 Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.
 
 Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.

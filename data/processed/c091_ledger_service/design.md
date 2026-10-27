@@ -31,7 +31,7 @@ There are four rules. First, double entry: the debit and the credit of every ent
 
 ## 5. Access and secrets
 
-The calls from the internal services to ledger-core are authenticated with mutual TLS or signed workload identity tokens. Internal users receive only the roles which are required for their job, and the roles are defined per service. Access to production is recertified at least once per quarter.
+The calls from the internal services to ledger-core are authenticated with mutual TLS or signed workload identity tokens. The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team. Access to production is recertified at least once per quarter.
 
 Backups are encrypted, and restores are tested at least twice a year.
 
@@ -54,7 +54,7 @@ Key material is kept in KMS and separate from the data, and keys are rotated eve
 
 Authentication failures, privilege changes and access to sensitive data are written to the logs. User input reaches the database only as query parameters, never as part of the query text.
 
-Access to centralized logs must be limited to authorized staff.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 Audit logs are written to tamper-evident storage with at least one year of retention.
 
 ## 8. How posting works

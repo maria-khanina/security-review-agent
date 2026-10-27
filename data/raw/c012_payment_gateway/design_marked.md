@@ -21,7 +21,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - ⟦S:AUTH-03|Access tokens max 15 min; refresh tokens rotated on use.⟧
 - ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧
 - ⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
-- ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+- ⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 - ⟦S:AUTHZ-01|Per-request ownership/entitlement check on every customer-owned resource.⟧
 - ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
 
@@ -70,7 +70,7 @@ Everything below assumes the usual platform setup unless a line says otherwise.
 - ⟦S:OPS-01|CI scans deps and images; criticals fixed within 14 days.⟧
 - ⟦S:OPS-02|Containers non-root, RO rootfs where possible.⟧
 - ⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
-- ⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+- ⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ## Behavior notes
 

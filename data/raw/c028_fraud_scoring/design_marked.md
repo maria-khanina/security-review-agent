@@ -6,7 +6,7 @@ On who talks to whom and how: ⟦S:AUTH-02|calls between internal services and t
 
 ⟦S:SECRET-03|We rotate service credentials at least every 90 days and straight away after any suspected exposure.⟧
 
-⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧
+⟦S:AUTHZ-02|Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.⟧
 
 ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
@@ -15,9 +15,9 @@ Secrets are the next thing: ⟦S:SECRET-01|secrets do not appear in source code,
 
 ⟦S:LOG-03|Audit logs must be tamper-evident and retained for at least one year.⟧
 
-⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 
 For logging I think the cleanest way to say it is ⟦S:LOG-01|authentication failures, privilege changes and access to sensitive data are logged⟧ and and, with the audit log group being the one place we point auditors at. In the code ⟦S:API-05|database queries are parameterized and concatenating user input into queries is prohibited⟧, and for the pipeline ⟦S:OPS-01|the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days⟧, plus ⟦S:OPS-02|containers run as a non-root user with a read-only root filesystem where possible⟧ and, and the restore test is on the calendar for the quarter after launch, probably. What I have not decided is how many partitions the topic needs, since the scorer is stateless and could scale to as many copies as there are partitions, so the partition count caps the parallelism, and the current guess is twelve, which is more than enough for launch volumes but may not be enough at peak season, and the lag alert should fire well before anyone notices, and that is the last open thing (TBD) apart from the name of the review queue email, which currently says fraud-review and might become risk-review.
 

@@ -39,7 +39,7 @@ AC-9. ⟦S:AUTH-03|Access tokens expire within 15 minutes; refresh tokens are ro
 AC-10. ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 AC-11. ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 AC-12. ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 AC-13. ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧
 AC-14. ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
@@ -50,7 +50,7 @@ AC-15. ⟦S:NET-01|The database and the message brokers sit in private subnets a
 AC-16. ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧
 AC-17. ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 AC-18. ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧
-AC-19. ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+AC-19. ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
 
 ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
@@ -60,7 +60,7 @@ AC-21. ⟦S:API-03|Every webhook we send or receive is signed with an HMAC, and 
 AC-22. ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 AC-23. ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 
-⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧
+⟦S:AUTHZ-02|Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.⟧
 AC-24. ⟦S:OPS-02|The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.⟧
 
 DEFINITION OF DONE

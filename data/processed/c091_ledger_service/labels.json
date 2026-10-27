@@ -35,7 +35,7 @@
    "design_spans": [
     [
      2163,
-     2273
+     2367
     ]
    ],
    "policy_spans": [
@@ -49,8 +49,8 @@
    "rule_id": "AUTHZ-05",
    "design_spans": [
     [
-     2274,
-     2336
+     2368,
+     2430
     ]
    ],
    "policy_spans": [
@@ -64,8 +64,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     2409,
-     2503
+     2503,
+     2597
     ]
    ],
    "policy_spans": [
@@ -79,8 +79,8 @@
    "rule_id": "CRYPTO-05",
    "design_spans": [
     [
-     2537,
-     2627
+     2631,
+     2721
     ]
    ],
    "policy_spans": [
@@ -94,8 +94,8 @@
    "rule_id": "NET-01",
    "design_spans": [
     [
-     2628,
-     2723
+     2722,
+     2817
     ]
    ],
    "policy_spans": [
@@ -109,8 +109,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     2725,
-     2799
+     2819,
+     2893
     ]
    ],
    "policy_spans": [
@@ -124,8 +124,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     2868,
-     2966
+     2962,
+     3060
     ]
    ],
    "policy_spans": [
@@ -139,8 +139,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     3055,
-     3119
+     3149,
+     3213
     ]
    ],
    "policy_spans": [
@@ -154,8 +154,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3259,
-     3355
+     3353,
+     3449
     ]
    ],
    "policy_spans": [
@@ -169,8 +169,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3356,
-     3446
+     3450,
+     3540
     ]
    ],
    "policy_spans": [
@@ -184,8 +184,8 @@
    "rule_id": "LOG-04",
    "design_spans": [
     [
-     3448,
-     3511
+     3542,
+     3728
     ]
    ],
    "policy_spans": [
@@ -199,8 +199,8 @@
    "rule_id": "CRYPTO-04",
    "design_spans": [
     [
-     2800,
-     2866
+     2894,
+     2960
     ]
    ],
    "policy_spans": [
@@ -214,8 +214,8 @@
    "rule_id": "AUTH-03",
    "design_spans": [
     [
-     2967,
-     3053
+     3061,
+     3147
     ]
    ],
    "policy_spans": [
@@ -229,8 +229,8 @@
    "rule_id": "OPS-03",
    "design_spans": [
     [
-     2338,
-     2407
+     2432,
+     2501
     ]
    ],
    "policy_spans": [
@@ -244,8 +244,8 @@
    "rule_id": "LOG-03",
    "design_spans": [
     [
-     3512,
-     3597
+     3729,
+     3814
     ]
    ],
    "policy_spans": [
@@ -263,8 +263,8 @@
    "rule_id": "CRYPTO-06",
    "design_spans": [
     [
-     3120,
-     3218
+     3214,
+     3312
     ]
    ],
    "policy_spans": [

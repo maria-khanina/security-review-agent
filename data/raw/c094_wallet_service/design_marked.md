@@ -38,9 +38,9 @@
 
 **[14:23] arjun:** data: , , ⟦S:DATA-04|non-production environments do not contain real personal or card data⟧ . also ⟦F1|wallet-core calls the funding vendor to confirm every top-up.⟧
 
-**[14:23] arjun:** ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+**[14:23] arjun:** ⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 
-**[14:23] arjun:** ⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+**[14:23] arjun:** ⟦S:AUTHZ-03|Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.⟧
 
 **[14:26] mei:** input/output: ⟦S:API-01|all external inputs are validated against a schema and rejected if invalid⟧ , ⟦F4|signature verification is skipped for the callbacks coming from the partner sandbox⟧ , ⟦S:API-04|error responses do not reveal stack traces, SQL or internal hostnames⟧ . for the transaction list ⟦F2|dynamic ordering uses the sort parameter directly in the SQL statement⟧ because the ORM could not express it
 

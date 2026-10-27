@@ -42,9 +42,9 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 ⟦S:OPS-03|We encrypt backups and run a restore test at least twice a year.⟧
 
-4.5 ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
+4.5 ⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 
 4.6 ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
@@ -58,7 +58,7 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 6.1 ⟦S:NET-01|The database and the message brokers sit in private subnets and are not publicly reachable.⟧
 
-⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 
 6.2 ⟦S:NET-02|The staging bucket blocks public access and is private by default.⟧
 
@@ -76,7 +76,7 @@ For each run the job reads the configured tables from the replica, writes one ex
 
 8.2 ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧
 
-⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 ⟦S:SECRET-03|Service credentials must be rotated at least every 90 days and immediately after suspected exposure.⟧
 ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 ⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧

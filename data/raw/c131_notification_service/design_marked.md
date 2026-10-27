@@ -45,12 +45,12 @@ Hi, I'm doing the infra half. In my part the notifier is "the service" and the p
 
 * ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧
 * ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
-* ⟦S:AUTHZ-02|There are no global super-roles: each service has its own roles and people get only the ones their work needs.⟧
+* ⟦S:AUTHZ-02|Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.⟧
 * ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
 * ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
 * ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 * ⟦S:CRYPTO-06|Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.⟧
-* ⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+* ⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 * ⟦S:CRYPTO-07|Outbound TLS connections always verify the peer certificate.⟧
 * ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧
 * ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧

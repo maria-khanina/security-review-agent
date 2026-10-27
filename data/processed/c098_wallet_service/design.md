@@ -16,7 +16,7 @@ In-transit encryption covers calls between services as well as connections to da
 
 Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.
 
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 
 Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.

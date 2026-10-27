@@ -18,8 +18,13 @@ requirement itself leaves the measure to the reader, a fragment is enough if \
 it states a concrete mechanism or value that the strictest reasonable reading \
 of the requirement would accept. A requirement with "should" is a \
 requirement like one with "must". A remark that a control exists, without \
-the value or mechanism, is not enough.
+the value or mechanism, is not enough. When the requirement is expressed by a \
+criterion and not by a value, for example who needs something or what a \
+purpose requires, a fragment is enough only if it says who or what meets the \
+criterion and why; the bare statement that the criterion is met is not enough.
 - violated: a fragment states a decision that contradicts the requirement. \
+A sentence that only permits something is not broken by a design that does \
+less than it permits. \
 When the requirement leaves the measure to the reader or is relaxed by \
 another policy sentence, the decision is a violation if it contradicts even \
 the most lenient reasonable reading: the control is absent altogether, or a \
@@ -40,10 +45,14 @@ STRICT_VERDICTS_TEXT = """Choose exactly one verdict:
 itself leaves the measure to the reader, a fragment is enough if it states a \
 concrete mechanism or value that the strictest reasonable reading would \
 accept. A fragment that only mentions the same subject, or is more general \
-than the requirement, is not enough.
-- violated: a fragment states a decision that contradicts the requirement, \
-or, for a requirement that leaves the measure to the reader or is relaxed by \
-another policy sentence, contradicts even its most lenient reasonable reading.
+than the requirement, is not enough. When the requirement is expressed by a \
+criterion and not by a value, the fragment has to say who or what meets the \
+criterion and why.
+- violated: a fragment states a decision that contradicts the requirement \
+(a sentence that only permits something is not broken by a design that \
+does less than it permits), or, for a requirement that leaves the measure to \
+the reader or is relaxed by another policy sentence, contradicts even its most \
+lenient reasonable reading.
 - unclear: the requirement applies to this design but the fragments do not \
 settle it. Either the design is silent or too general about it, or it breaks \
 only the strict reading of a requirement that also has a lenient reading. \

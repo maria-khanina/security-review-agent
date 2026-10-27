@@ -49,7 +49,7 @@ Security is a first-class feature of this service, not an afterthought, because 
 ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 - ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 
-⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 - ⟦S:NET-01|kyc-db and the message brokers sit in private subnets and are not publicly reachable.⟧ ⟦S:NET-02|The kyc-documents bucket blocks public access and is private by default.⟧ ⟦S:NET-04|Services that call third parties have their egress restricted to an approved allowlist.⟧
 
 ⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧

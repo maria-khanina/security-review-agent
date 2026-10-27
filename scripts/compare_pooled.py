@@ -3,6 +3,7 @@
 import argparse
 from pathlib import Path
 
+from secreview.agents.verdict_store import verdict_run_directory
 from secreview.evaluation.variant_pooled import (
     Outcome,
     PooledRow,
@@ -13,9 +14,11 @@ from secreview.evaluation.variant_pooled import (
     pool,
     pooled_row,
     primary_recall,
+    run_name,
 )
 from secreview.evaluation.variant_table import Cost
 from secreview.review_settings import REVIEW_SETTINGS
+from secreview.review_settings_models import FinalistSettings
 
 DEV_PREFIX = "dev2"
 TABLE_HEADER = (
@@ -23,6 +26,24 @@ TABLE_HEADER = (
     "Recall at 0.5 / 1 / 2 / 3 false alarms per document | "
     "Recall at 2 (95% interval) | Calls | Prompt tokens |"
 )
+
+
+def has_complete_runs(finalist: FinalistSettings) -> bool:
+    """Tell whether the runs of a finalist exist on dev, v4 and v5."""
+    for prefix in (DEV_PREFIX, "v4", "v5"):
+        name = run_name(prefix, finalist.configuration)
+        if not verdict_run_directory(name).exists():
+            return False
+    return True
+
+
+def available_finalists() -> list[FinalistSettings]:
+    """List the finalists whose runs are all stored."""
+    finalists: list[FinalistSettings] = []
+    for finalist in REVIEW_SETTINGS.evaluation.finalists:
+        if has_complete_runs(finalist):
+            finalists.append(finalist)
+    return finalists
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -62,7 +83,7 @@ def score_finalists(
     resamples = draws(outcomes)
     rows: list[PooledRow] = []
     series: list[list[float]] = []
-    finalists = REVIEW_SETTINGS.evaluation.finalists
+    finalists = available_finalists()
     for finalist, outcome, cost in zip(finalists, outcomes, costs, strict=True):
         values: list[float] = [
             primary_recall(outcome, names) for names in resamples
@@ -72,26 +93,43 @@ def score_finalists(
     return rows, series
 
 
-def pick_best(rows: list[PooledRow]) -> int | None:
-    """Find the finalist with the best primary recall among the precise ones."""
+def pick_best(rows: list[PooledRow]) -> int:
+    """Find the finalist with the best recall at the primary false-alarm budget."""
     position = REVIEW_SETTINGS.evaluation.primary_budget_position
-    minimum = REVIEW_SETTINGS.evaluation.minimum_shown_precision
-    best: int | None = None
-    best_recall = -1.0
+    best = 0
     for index, row in enumerate(rows):
-        recall = row.recall_at_budgets[position]
-        if row.precision >= minimum and recall > best_recall:
-            best, best_recall = index, recall
+        if row.recall_at_budgets[position] > rows[best].recall_at_budgets[position]:
+            best = index
     return best
+
+
+def equivalent_to_best(
+    best: int,
+    series: list[list[float]],
+) -> list[int]:
+    """List the finalists whose paired difference to the best contains zero."""
+    equivalent: list[int] = [best]
+    for index, values in enumerate(series):
+        if index != best:
+            _, low, high = difference_interval(values, series[best])
+            if low <= 0.0 <= high:
+                equivalent.append(index)
+    return equivalent
+
+
+def cheapest_of(rows: list[PooledRow], indices: list[int]) -> int:
+    """Pick the finalist with the fewest prompt tokens among the given ones."""
+    return min(indices, key=lambda index: rows[index].cost.prompt_tokens)
 
 
 def difference_lines(rows: list[PooledRow], series: list[list[float]]) -> list[str]:
     """Write the paired differences of the primary recall against the best one."""
     best = pick_best(rows)
-    if best is None:
-        return ["No finalist reaches the minimum precision.", ""]
+    equivalent = equivalent_to_best(best, series)
+    cheapest = cheapest_of(rows, equivalent)
     lines: list[str] = [
-        f"Best by the rule: {rows[best].label}",
+        f"Best recall at the primary budget: {rows[best].label}",
+        f"Cheapest variant not distinguishable from it: {rows[cheapest].label}",
         "",
         "| Variant | Difference of the recall at 2 against the best | 95% interval |",
         "|---|---|---|",
@@ -106,7 +144,7 @@ def difference_lines(rows: list[PooledRow], series: list[list[float]]) -> list[s
 def collect_outcomes(test_prefix: str) -> list[Outcome]:
     """Choose the classes and scores of every finalist on one set of designs."""
     outcomes: list[Outcome] = []
-    for finalist in REVIEW_SETTINGS.evaluation.finalists:
+    for finalist in available_finalists():
         outcomes.append(outcome_of(finalist, DEV_PREFIX, test_prefix))
     return outcomes
 
@@ -114,7 +152,7 @@ def collect_outcomes(test_prefix: str) -> list[Outcome]:
 def collect_costs(test_prefix: str) -> list[Cost]:
     """Measure the cost per document of every finalist."""
     costs: list[Cost] = []
-    for finalist in REVIEW_SETTINGS.evaluation.finalists:
+    for finalist in available_finalists():
         costs.append(finalist_cost(finalist, test_prefix))
     return costs
 

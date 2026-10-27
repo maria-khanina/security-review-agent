@@ -47,14 +47,14 @@ Identifiers (R-1 and so on) match the compliance tracker. The "return handler" p
 
 ⟦S:NET-05|Requests from the internet reach the API only through the WAF, where rate limits are enforced.⟧
 - R-8: ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧
-- R-9: ⟦S:DATA-01|Only the personal data needed for the purpose is collected and stored.⟧
+- R-9: ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧
 
 ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 - R-10: ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧
 - R-11: ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 
 ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
-⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 
 ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 

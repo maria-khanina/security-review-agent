@@ -71,7 +71,7 @@ Listed once for the whole epic (TBD: copy into each story as acceptance criteria
 ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
 ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧
 ⟦S:AUTHZ-04|Admin and debug endpoints are reachable only from the internal network, not from the public internet.⟧
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
 ⟦S:SECRET-03|We rotate service credentials at least every 90 days and straight away after any suspected exposure.⟧

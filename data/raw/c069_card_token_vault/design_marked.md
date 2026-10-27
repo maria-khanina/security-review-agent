@@ -14,7 +14,7 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 ⟦S:LOG-02|Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.⟧
 - **Tokens.** Where tokens are used, ⟦S:AUTH-03|access tokens expire within 15 minutes and refresh tokens are rotated on use.⟧
 
-⟦S:DATA-03|Personal data may be sent to third parties only under an approved data processing agreement and only the fields required.⟧
+⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
 - **Roles.** Roles: operator, auditor, key custodian.
 - **Database account.**
 - **PANs.** ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧ Lena confirmed the old refund tables only hold masked values.
@@ -29,7 +29,7 @@ The vault tokenizes card numbers (PANs) for the payment services. Payment servic
 - ⟦S:SECRET-01|Secrets do not appear in source code, configuration files, specifications or infrastructure definitions.⟧
 - ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - Owner for the rotation job: Tomas (confirmed this time).
 - ⟦S:NET-01|vault-db and the message brokers sit in private subnets and are not publicly reachable.⟧
 - ⟦S:NET-04|Outbound calls to third parties are restricted to an approved allowlist.⟧ Right now the vault calls nobody outside, so this is a guard for later.

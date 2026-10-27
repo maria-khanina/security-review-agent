@@ -31,9 +31,9 @@ Every request to an externally reachable endpoint is authenticated, either with 
 
 For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it. The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.
 
-Only authorized staff can access the central logs.
+Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 
-Each service must use its own database account with the minimum grants and no shared administrative credentials.
+The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.
 
 Traffic between services and to data stores must be encrypted in transit.
 
@@ -43,7 +43,7 @@ Databases and buckets that hold personal data use AES-256 encryption at rest, an
 
 We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Test and staging environments use synthetic data, never real personal data or card data.
+ Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery. Test and staging environments use synthetic data, never real personal data or card data.
 
 ## 6. Secrets, network and edge
 

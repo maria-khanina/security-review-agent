@@ -50,7 +50,7 @@ Runtime secrets must be fetched from the approved secret store at startup.
 
 - Security-relevant events are not separated from normal logs, and nobody monitors them.
 - Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
-- Access to centralized logs must be limited to authorized staff.
+- Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 
 ## 8. Build and deployment
 

@@ -34,7 +34,7 @@ The service exposes only the endpoints listed in the API section. All traffic is
 ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
 ⟦S:CRYPTO-03|All external traffic must use TLS 1.2 or higher.⟧
-⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 
 ⟦S:CRYPTO-01|Stored PII is protected with AES-256 encryption or stronger.⟧ ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 
@@ -65,8 +65,8 @@ The backend (portal-backend, I also say "the portal service") builds reports in 
 
 | area | rule |
 |---|---|
-| minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
-| third parties | ⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧ |
+| minimization | ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧ |
+| third parties | ⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧ |
 | exports | ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 
 #### input and build

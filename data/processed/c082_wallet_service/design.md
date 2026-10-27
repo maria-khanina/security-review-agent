@@ -23,7 +23,7 @@ All public-facing endpoints terminate TLS 1.2 or higher.
 
 **Customers.** Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form. Mei checked the import path, ok.
 
-Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.
 Neither the database nor the broker has a public endpoint, and both live in private subnets.
 
 **Access to data.**

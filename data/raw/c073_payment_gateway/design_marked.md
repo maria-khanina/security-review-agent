@@ -47,12 +47,12 @@ Control identifiers (P-1 and so on) match the compliance spreadsheet (link TBD; 
 - P-6: ⟦S:CRYPTO-03|All external traffic uses TLS 1.2 or higher.⟧
 
 ⟦S:AUTH-01|No external endpoint serves anonymous traffic; callers present an OAuth2 token or a TLS client certificate.⟧
-- P-7: ⟦S:DATA-01|The gateway collects and stores only the personal data needed for payment processing.⟧
+- P-7: ⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
 
 ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
-- P-9: ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
+- P-9: ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 
 ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧

@@ -262,7 +262,7 @@
    "design_spans": [
     [
      3676,
-     3796
+     3880
     ]
    ],
    "policy_spans": [
@@ -276,8 +276,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3821,
-     3903
+     3905,
+     3987
     ]
    ],
    "policy_spans": [
@@ -291,8 +291,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     3904,
-     3997
+     3988,
+     4081
     ]
    ],
    "policy_spans": [
@@ -325,8 +325,8 @@
    "rule_id": "LOG-03",
    "design_spans": [
     [
-     3999,
-     4098
+     4083,
+     4182
     ]
    ],
    "policy_spans": [

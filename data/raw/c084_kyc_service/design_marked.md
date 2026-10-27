@@ -40,7 +40,7 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 ⟦F2|Services call each other with one long-lived token that every service reuses.⟧
 
-**Vendor.** ⟦F1|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ Open: retry window for vendor timeouts (TBD).
+**Vendor.** ⟦F1|kyc-orchestrator talks to the verification vendor and receives its callbacks.⟧ ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧ ⟦S:API-03|Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both.⟧ Open: retry window for vendor timeouts (TBD).
 
 ⟦S:AUTH-06|Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.⟧
 
@@ -59,9 +59,9 @@ The service exposes only the endpoints listed in the API section. Pawel asked ab
 
 ⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
 
-⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 
 **Pipeline and runtime.** ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧ ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 

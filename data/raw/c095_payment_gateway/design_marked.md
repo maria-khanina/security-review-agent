@@ -16,7 +16,7 @@ Then the plumbing, and ⟦S:SECRET-01|secrets do not appear in source code, conf
 
 ⟦S:NET-01|Databases and brokers are not reachable from the internet; they run in private subnets.⟧
 
-⟦S:AUTHZ-03|The service connects to its database with its own account, which has only the grants it needs.⟧
+⟦S:AUTHZ-03|Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.⟧
 ⟦S:API-02|Rate limit per client: 60 requests per minute, with HTTP 429 and a Retry-After header once the limit is hit.⟧
 
 ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧

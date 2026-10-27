@@ -80,7 +80,7 @@ The service role can only read its own table. Everything else the service needs 
 
 ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧ ⟦S:API-05|User input reaches the database only as query parameters, never as part of the query text.⟧ ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧
 
-⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 
 ⟦S:API-01|Schema validation runs on every external input, and invalid data never reaches the business logic.⟧
 

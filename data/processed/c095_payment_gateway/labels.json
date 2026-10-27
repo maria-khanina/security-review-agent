@@ -276,7 +276,7 @@
    "design_spans": [
     [
      4062,
-     4156
+     4255
     ]
    ],
    "policy_spans": [
@@ -290,8 +290,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     4267,
-     4408
+     4366,
+     4507
     ]
    ],
    "policy_spans": [
@@ -339,8 +339,8 @@
    "rule_id": "API-02",
    "design_spans": [
     [
-     4157,
-     4265
+     4256,
+     4364
     ]
    ],
    "policy_spans": [

@@ -37,7 +37,7 @@
 
 - We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.
 - Access tokens expire within 15 minutes; refresh tokens are rotated on use.
-- Only authorized staff can access the central logs.
+- Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 - Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 - The database accepts connections only from the application subnet.
 
@@ -46,11 +46,11 @@
 - Encryption at rest with AES-256 covers personal data in databases and object storage, and its keys live in the corporate key management service.
 - Traffic between services, and between services and data stores or brokers, is encrypted in transit.
 - The approved algorithm list is followed, and MD5, SHA-1, DES, 3DES and ECB mode are prohibited in this service.
-- Internal users must receive only the roles required for their job and roles must be defined per service.
+- The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.
 - Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.
 - TLS certificate verification is enabled in all clients, with no option to disable it.
 - No secrets are kept in source code, config files, API specs or infrastructure definitions.
-- The service connects to its database with its own account, which has only the grants it needs.
+- Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.
 - Runtime secrets are read from the secret store when the service starts.
 
 ## Notes: data and egress

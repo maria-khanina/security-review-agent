@@ -34,7 +34,7 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - V-1: ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
-- V-2: ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- V-2: ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - V-3: ⟦S:AUTHZ-05|Every three months the system owners review who has access to production and remove what is no longer needed.⟧
 
 ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
@@ -59,7 +59,7 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 
 ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 
-⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 
 ### 5.4 Network
 

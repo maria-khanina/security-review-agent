@@ -47,7 +47,7 @@ The service handle card data and personal data of the payer. We have rules for b
  Plain HTTP is closed on the gateway.
 
 ⟦S:CRYPTO-05|We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are forbidden.⟧
-⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 
 ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ ⟦S:SECRET-02|The runtime secrets are fetched from the approved secret store when service start.⟧
 

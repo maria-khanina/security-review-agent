@@ -47,13 +47,13 @@ Backups are encrypted, and restores are tested at least twice a year.
 
 **Card data.** Card numbers are the most dangerous thing we have. Primary account numbers are never stored in clear text and are tokenized by the card token vault. Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned. Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year. TLS certificate verification is enabled in all clients, with no option to disable it.
 
-Access to the centralized logging system is restricted to authorized people.
+The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.
 
 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
 **Secrets.** A secret is a password or a key. Secrets do not appear in source code, configuration files, specifications or infrastructure definitions. At startup the service fetches its secrets from the approved secret store.
 
-**Logs and test data.** Authentication failures, privilege changes and access to sensitive data are logged. Only synthetic data is present outside production. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+**Logs and test data.** Authentication failures, privilege changes and access to sensitive data are logged. Only synthetic data is present outside production. Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 

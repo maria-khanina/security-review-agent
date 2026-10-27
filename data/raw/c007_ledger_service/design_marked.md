@@ -51,7 +51,7 @@ Most v1 properties carry over unchanged, so only the points that changed shape a
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 - ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
 - ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-- ⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+- ⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 - ⟦F3|users are kept away from other customers' entries by hiding the posting and reversal buttons in the finance UI, and the API itself does not check whose entry it returns.⟧
 
 Transport: all traffic to ledger-core is served over HTTPS only. Clients that used the in-process call path need no change on their side except the base URL.

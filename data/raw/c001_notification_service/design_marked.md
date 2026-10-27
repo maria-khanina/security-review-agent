@@ -30,22 +30,22 @@
 |---|---|
 | Rate limiting | The API enforces per-client rate limits. |
 | Service auth | ⟦S:AUTH-02|Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.⟧ |
-| Roles | ⟦S:AUTHZ-02|Internal users get only the roles their job needs, defined per service.⟧ |
+| Roles | ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧ |
 | Access review | ⟦S:AUTHZ-05|Production access reviewed quarterly.⟧ |
 | Crypto | ⟦S:CRYPTO-05|Approved algorithms only (no MD5, SHA-1, DES, 3DES, ECB).⟧ |
 | Secrets | ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧ |
 | Network | ⟦S:NET-01|Databases and Kafka brokers are in private subnets, not publicly reachable.⟧ |
 | Logging | ⟦F1|Full request bodies are logged for debugging, including emails and card numbers.⟧ |
 | Security events | ⟦S:LOG-01|Authentication failures, privilege changes and access to sensitive data are written to the logs.⟧ |
-| Data minimization | ⟦S:DATA-01|Only the contact details needed for the channel are stored.⟧ |
-| Third parties | ⟦S:DATA-03|The provider receives only the recipient contact and the message body, under an approved DPA.⟧ |
+| Data minimization | ⟦S:DATA-01|A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.⟧ |
+| Third parties | ⟦S:DATA-03|Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.⟧ |
 | Exports | ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧ |
 | Queries | ⟦F2|Reporting filters (status, channel, recipient) are built by joining the strings from the request, because the ORM could not express the optional combinations.⟧ |
 
 ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 ⟦S:SECRET-02|On boot, the service pulls its credentials from the approved secret store.⟧
 ⟦S:OPS-01|Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.⟧
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 ⟦S:AUTH-03|Access tokens must expire within 15 minutes and refresh tokens must be rotated on use.⟧
 ⟦S:API-01|Requests from outside are checked against the schema and rejected if they do not conform.⟧

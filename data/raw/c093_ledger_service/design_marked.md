@@ -48,7 +48,7 @@
 ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 ⟦S:API-04|Error responses do not expose stack traces, SQL or internal hostnames.⟧
 ⟦S:LOG-03|Audit logs are tamper-evident and kept for at least a year.⟧
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 ⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
 
 ## Transport and crypto

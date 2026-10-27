@@ -63,7 +63,7 @@ Audit logs must be tamper-evident and retained for at least one year.
 
 - K-15: Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.
 
-Access to centralized logs must be limited to authorized staff.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 - K-16: Runtime secrets are fetched from the approved secret store at startup.
 

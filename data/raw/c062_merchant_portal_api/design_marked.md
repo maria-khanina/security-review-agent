@@ -59,8 +59,8 @@ Acceptance criteria:
 | NFR-5 | Algorithms | ⟦S:CRYPTO-05|Only approved cryptographic algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are prohibited.⟧ |
 | NFR-7 | Network | ⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ |
 | NFR-8 | Security logging | ⟦S:LOG-01|Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.⟧ |
-| NFR-11 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
-| NFR-13 | Third parties | ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ |
+| NFR-11 | Minimization | ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧ |
+| NFR-13 | Third parties | ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧ |
 | NFR-14 | Exports | ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧ |
 | NFR-15 | Validation | ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ |
 | NFR-16 | Queries | ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧ |
@@ -68,7 +68,7 @@ Acceptance criteria:
 ⟦S:AUTH-01|Public endpoints reject any call that carries neither a valid OAuth2 bearer token nor a client certificate.⟧
 ⟦S:OPS-01|CI must scan dependencies and images and critical vulnerabilities must be fixed within 14 days.⟧
 ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 ⟦S:CRYPTO-06|Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.⟧
 ⟦S:AUTH-03|Access token lifetime is capped at 15 minutes, and using a refresh token rotates it.⟧
 ⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧

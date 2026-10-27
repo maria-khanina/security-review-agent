@@ -41,12 +41,12 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - Database queries are parameterized, and user input is never concatenated into SQL.
 - Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 - Databases and message brokers must not be publicly reachable and must live in private subnets.
-- The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.
+- The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.
 - All external inputs must be validated against a schema and rejected if invalid.
 - Encrypted backups are checked by a restoration exercise at least twice a year.
 - The databases and object stores that hold PII use AES-256 encryption at rest.
 - Audit logs are written to tamper-evident storage with at least one year of retention.
-- No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.
+- The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 
 ## 6. Deployment
 

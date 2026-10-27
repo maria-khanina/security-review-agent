@@ -40,8 +40,8 @@
    "needs_policy_review": false,
    "design_spans": [
     [
-     3115,
-     3194
+     3214,
+     3293
     ]
    ],
    "policy_spans": {
@@ -83,8 +83,8 @@
    "needs_policy_review": true,
    "design_spans": [
     [
-     3223,
-     3297
+     3322,
+     3396
     ]
    ],
    "policy_spans": {
@@ -231,7 +231,7 @@
    "design_spans": [
     [
      2495,
-     2589
+     2688
     ]
    ],
    "policy_spans": [
@@ -245,8 +245,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     2686,
-     2768
+     2785,
+     2867
     ]
    ],
    "policy_spans": [
@@ -260,8 +260,8 @@
    "rule_id": "NET-05",
    "design_spans": [
     [
-     2839,
-     2933
+     2938,
+     3032
     ]
    ],
    "policy_spans": [
@@ -275,8 +275,8 @@
    "rule_id": "SECRET-01",
    "design_spans": [
     [
-     3392,
-     3496
+     3491,
+     3595
     ]
    ],
    "policy_spans": [
@@ -290,8 +290,8 @@
    "rule_id": "SECRET-02",
    "design_spans": [
     [
-     3522,
-     3596
+     3621,
+     3695
     ]
    ],
    "policy_spans": [
@@ -305,8 +305,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     3620,
-     3703
+     3719,
+     3802
     ]
    ],
    "policy_spans": [
@@ -320,8 +320,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     3722,
-     3819
+     3821,
+     3918
     ]
    ],
    "policy_spans": [
@@ -335,8 +335,8 @@
    "rule_id": "API-01",
    "design_spans": [
     [
-     3837,
-     3907
+     3936,
+     4006
     ]
    ],
    "policy_spans": [
@@ -350,8 +350,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     3922,
-     4015
+     4021,
+     4114
     ]
    ],
    "policy_spans": [
@@ -365,8 +365,8 @@
    "rule_id": "API-06",
    "design_spans": [
     [
-     4027,
-     4083
+     4126,
+     4182
     ]
    ],
    "policy_spans": [
@@ -380,8 +380,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     4099,
-     4200
+     4198,
+     4299
     ]
    ],
    "policy_spans": [
@@ -395,8 +395,8 @@
    "rule_id": "AUTH-03",
    "design_spans": [
     [
-     2590,
-     2685
+     2689,
+     2784
     ]
    ],
    "policy_spans": [
@@ -429,8 +429,8 @@
    "rule_id": "API-02",
    "design_spans": [
     [
-     2934,
-     3042
+     3033,
+     3141
     ]
    ],
    "policy_spans": [
@@ -444,8 +444,8 @@
    "rule_id": "LOG-03",
    "design_spans": [
     [
-     2769,
-     2838
+     2868,
+     2937
     ]
    ],
    "policy_spans": [

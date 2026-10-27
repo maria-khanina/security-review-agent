@@ -8,7 +8,7 @@ On access, I will try to be explicit this time because last review nobody could 
 
 ⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 
 ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 
@@ -22,7 +22,7 @@ For the network I only have one sentence and I keep losing it: the database acce
 
 Personal data is the part compliance reads first: and and ⟦S:DATA-03|personal data is sent to third parties only under an approved data processing agreement and only the fields required⟧ and ⟦S:DATA-04|non-production environments do not contain real personal or card data⟧, so staging runs on generated customers (TBD, the generator needs more realistic devices). When the decision is block the engine calls back the payments team, so ⟦S:API-03|webhook payloads, outbound and inbound, are signed and the signatures are verified⟧, and in the code ⟦S:API-05|database queries are parameterized and concatenating user input into queries is prohibited⟧. In the pipeline ⟦S:OPS-01|the CI pipeline scans dependencies and images and critical vulnerabilities are fixed within 14 days⟧ and ⟦S:OPS-02|containers run as a non-root user with a read-only root filesystem where possible⟧ and, and what I have not decided is how the engine should behave when the model bucket is unreachable, where I lean towards falling back to rules only for up to five minutes and then alerting (TBD), and whether the shadow period for a new model should be two weeks or four (TBD), and who owns the review queue mailbox (TBD), and what to call the thing that everybody calls the scorer (TBD), and that is all for now.
 
-⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 
 ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
 

@@ -338,7 +338,7 @@
    "design_spans": [
     [
      4237,
-     4318
+     4437
     ]
    ],
    "policy_spans": [
@@ -352,8 +352,8 @@
    "rule_id": "OPS-03",
    "design_spans": [
     [
-     4405,
-     4483
+     4524,
+     4602
     ]
    ],
    "policy_spans": [
@@ -367,8 +367,8 @@
    "rule_id": "SECRET-03",
    "design_spans": [
     [
-     4484,
-     4584
+     4603,
+     4703
     ]
    ],
    "policy_spans": [
@@ -382,8 +382,8 @@
    "rule_id": "LOG-03",
    "design_spans": [
     [
-     4319,
-     4404
+     4438,
+     4523
     ]
    ],
    "policy_spans": [

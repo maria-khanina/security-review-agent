@@ -43,7 +43,6 @@ class EvaluationSettings(BaseModel):
     table_resamples: int
     cascade_shares: list[float]
     primary_budget_position: int
-    minimum_shown_precision: float
     finalists: list[FinalistSettings]
 
 

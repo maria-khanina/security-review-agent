@@ -41,7 +41,7 @@ Authentication means proving who you are. In our system the proof is a token, a 
 
 ⟦S:AUTH-06|The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts.⟧ This stops someone from trying thousands of passwords.
 
-⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
+⟦S:LOG-04|The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.⟧
 
 ## 5. Authorization: what are you allowed to do?
 
@@ -55,7 +55,7 @@ Authorization is different from authentication. Even a valid customer must only 
 
 ⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧ "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧ ⟦S:CRYPTO-07|Services validate the certificates of the servers they call, and verification is never turned off.⟧
 
- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦F3|Load tests run against a restored production backup, so the test environment holds real customer data.⟧
+ ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧ ⟦F3|Load tests run against a restored production backup, so the test environment holds real customer data.⟧
 
 For the partner's analytics we needed a quick solution. ⟦F1|The database has a public endpoint so the partner's reporting tool can read from it.⟧ We agreed that this is the fastest way to get them started.
 

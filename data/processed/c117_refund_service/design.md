@@ -50,7 +50,7 @@ The database and the message brokers sit in private subnets and are not publicly
 
 We log failed logins, changes of privileges and reads of sensitive data. Third parties receive only the fields they need, and only if an approved data processing agreement covers them. Test and staging environments use synthetic data, never real personal data or card data.
 
-Reading centralized logs requires authorization, and only approved staff have it.
+The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.
 
 Schema validation runs on every external input, and invalid data never reaches the business logic. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames. Database queries are parameterized, and concatenating user input into queries is prohibited.
 

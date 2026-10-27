@@ -17,7 +17,7 @@
 
 - in: payment id, amount, country, device id, customer email + phone, history counters
 - out: decision, score, reasons
-- Nothing goes to third parties; if that ever changes then only under an approved DPA and only the needed fields.
+- Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.
 - A leaked access token is useful for 15 minutes at most, and refresh tokens are rotated on every use.
 
 ## db access

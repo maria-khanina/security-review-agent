@@ -266,7 +266,7 @@
    "design_spans": [
     [
      4432,
-     4495
+     4618
     ]
    ],
    "policy_spans": [
@@ -280,8 +280,8 @@
    "rule_id": "DATA-03",
    "design_spans": [
     [
-     4497,
-     4608
+     4620,
+     4731
     ]
    ],
    "policy_spans": [
@@ -295,8 +295,8 @@
    "rule_id": "CRYPTO-01",
    "design_spans": [
     [
-     4610,
-     4753
+     4733,
+     4876
     ]
    ],
    "policy_spans": [
@@ -310,8 +310,8 @@
    "rule_id": "DATA-02",
    "design_spans": [
     [
-     4843,
-     4961
+     5104,
+     5222
     ]
    ],
    "policy_spans": [
@@ -325,8 +325,8 @@
    "rule_id": "AUTHZ-04",
    "design_spans": [
     [
-     4963,
-     5073
+     5224,
+     5334
     ]
    ],
    "policy_spans": [
@@ -340,8 +340,8 @@
    "rule_id": "AUTHZ-01",
    "design_spans": [
     [
-     5075,
-     5233
+     5336,
+     5494
     ]
    ],
    "policy_spans": [
@@ -355,8 +355,8 @@
    "rule_id": "AUTHZ-03",
    "design_spans": [
     [
-     5234,
-     5328
+     5495,
+     5688
     ]
    ],
    "policy_spans": [
@@ -370,8 +370,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     5352,
-     5446
+     5712,
+     5806
     ]
    ],
    "policy_spans": [
@@ -385,8 +385,8 @@
    "rule_id": "DATA-04",
    "design_spans": [
     [
-     5447,
-     5517
+     5807,
+     5877
     ]
    ],
    "policy_spans": [
@@ -400,8 +400,8 @@
    "rule_id": "API-03",
    "design_spans": [
     [
-     5549,
-     5678
+     5909,
+     6038
     ]
    ],
    "policy_spans": [
@@ -415,8 +415,8 @@
    "rule_id": "API-05",
    "design_spans": [
     [
-     5679,
-     5769
+     6039,
+     6129
     ]
    ],
    "policy_spans": [
@@ -430,8 +430,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     5770,
-     5863
+     6130,
+     6223
     ]
    ],
    "policy_spans": [
@@ -445,8 +445,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     5864,
-     5946
+     6224,
+     6306
     ]
    ],
    "policy_spans": [
@@ -460,8 +460,8 @@
    "rule_id": "LOG-02",
    "design_spans": [
     [
-     5948,
-     6046
+     6308,
+     6406
     ]
    ],
    "policy_spans": [
@@ -490,8 +490,8 @@
    "rule_id": "AUTHZ-02",
    "design_spans": [
     [
-     4754,
-     4842
+     4877,
+     5103
     ]
    ],
    "policy_spans": [

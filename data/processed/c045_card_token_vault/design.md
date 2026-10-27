@@ -34,7 +34,7 @@ Control identifiers (V-1 and so on) match the compliance spreadsheet (link TBD; 
 ### 5.1 Identity and access
 
 - V-1: Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.
-- V-2: Staff roles are limited to what each job needs, and every service defines its own roles.
+- V-2: Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.
 - V-3: Every three months the system owners review who has access to production and remove what is no longer needed.
 
 Nothing administrative or meant for debugging can be called from outside our network.
@@ -59,7 +59,7 @@ Encryption keys live in KMS, apart from the data they protect, and are rotated a
 
 Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.
 
-Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 
 ### 5.4 Network
 

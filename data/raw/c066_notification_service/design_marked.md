@@ -24,7 +24,7 @@ The notifier sends email and SMS messages for the payment platform. It reads dom
 - ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦F2|A shared read-only login for the log platform is posted in the team wiki.⟧
 - ⟦F3|Any authenticated caller can read any record if it knows the identifier.⟧
-- ⟦S:AUTHZ-02|We keep roles small and per service, so an internal user only receives what their job requires.⟧
+- ⟦S:AUTHZ-02|Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 - ⟦S:AUTHZ-04|Nothing administrative or meant for debugging can be called from outside our network.⟧
 - ⟦S:AUTHZ-05|Access rights to production systems are reviewed at least quarterly.⟧
@@ -57,8 +57,8 @@ For now ⟦F1|the database password sits in the infrastructure code, and a sandb
 
 | area | rule |
 |---|---|
-| minimization | ⟦S:DATA-01|The service collects and stores only the personal data needed to deliver messages.⟧ |
-| provider | ⟦S:DATA-03|Personal data is sent to the provider only under an approved data processing agreement, and only the fields required.⟧ |
+| minimization | ⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧ |
+| provider | ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧ |
 | reports | ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 
 #### code and build

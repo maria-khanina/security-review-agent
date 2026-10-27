@@ -53,7 +53,7 @@ Listed once for the epic.
 | NFR-8 | Secrets in artifacts | ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧ |
 | NFR-10 | Network | ⟦S:NET-01|portal-db and the message brokers sit in private subnets and are not publicly reachable.⟧ |
 | NFR-11 | Security logging | ⟦F2|Access to customer records is not recorded anywhere.⟧ |
-| NFR-14 | Minimization | ⟦S:DATA-01|The portal collects and stores only the personal data needed to run merchant accounts.⟧ |
+| NFR-14 | Minimization | ⟦S:DATA-01|Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped.⟧ |
 | NFR-16 | Third parties | ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ |
 | NFR-17 | Exports | ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧ |
 | NFR-18 | Validation | ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧ |

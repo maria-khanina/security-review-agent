@@ -63,7 +63,7 @@ KMS holds the keys, the data stores only keep ciphertext, and key rotation happe
 
 7.4 Network and logging. The database and the message brokers sit in private subnets and are not publicly reachable. Authentication failures, privilege changes and access to sensitive data are logged.
 
-7.5 Data protection. Only the personal data needed for the purpose is collected and stored. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
+7.5 Data protection. Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped. The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer. Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 7.6 Application. Schema validation runs on every external input, and invalid data never reaches the business logic. All queries use bound parameters instead of string concatenation.
 

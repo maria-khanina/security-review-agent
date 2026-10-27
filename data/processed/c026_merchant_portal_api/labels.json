@@ -422,7 +422,7 @@
    "design_spans": [
     [
      5469,
-     5532
+     5655
     ]
    ],
    "policy_spans": [
@@ -436,8 +436,8 @@
    "rule_id": "AUTHZ-03",
    "design_spans": [
     [
-     5533,
-     5645
+     5656,
+     5860
     ]
    ],
    "policy_spans": [
@@ -451,8 +451,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     5647,
-     5770
+     5862,
+     5985
     ]
    ],
    "policy_spans": [
@@ -466,8 +466,8 @@
    "rule_id": "LOG-01",
    "design_spans": [
     [
-     5785,
-     5868
+     6000,
+     6083
     ]
    ],
    "policy_spans": [
@@ -481,8 +481,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     5892,
-     5997
+     6107,
+     6212
     ]
    ],
    "policy_spans": [
@@ -496,8 +496,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     5998,
-     6081
+     6213,
+     6296
     ]
    ],
    "policy_spans": [
@@ -511,8 +511,8 @@
    "rule_id": "NET-05",
    "design_spans": [
     [
-     6083,
-     6144
+     6298,
+     6359
     ]
    ],
    "policy_spans": [

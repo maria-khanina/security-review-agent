@@ -31,7 +31,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 - ⟦S:CRYPTO-06|Keys held in KMS, never next to the data, rotated at least annually.⟧
 - ⟦S:CRYPTO-07|TLS certs are validated, verification never disabled.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
-- ⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+- ⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 - ⟦S:API-04|Internal details such as stack traces, SQL and hostnames never appear in an error response.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:NET-01|DB and brokers in private subnets, not publicly reachable.⟧
@@ -39,7 +39,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 
 ## data
 
-- ⟦S:DATA-03|Personal data to third parties only under an approved DPA, only required fields.⟧
+- ⟦S:DATA-03|Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.⟧
 - ⟦F1|Staging is refreshed every night from a snapshot of production, with the real recipient data.⟧
 
 ## logs / api / build
@@ -50,7 +50,7 @@ old page: wiki/Notifier-Design (moved, search for it)
 - ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
 - ⟦S:API-03|Inbound and outbound webhooks include an HMAC signature and a timestamp; verification of both is mandatory on the receiving side.⟧
 - ⟦S:API-05|Parameterized queries only.⟧
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - ⟦S:OPS-01|CI scans deps and images; critical vulns fixed within 14 days.⟧
 - ⟦S:OPS-02|Containers non-root, read-only rootfs where possible.⟧
 - ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧

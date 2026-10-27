@@ -20,7 +20,7 @@ The engine reads these fields from each event: payment id, amount, country, devi
 ⟦F2|decisions-db (PostgreSQL) stores every decision together with the customer attributes that were scored, and it is the only datastore the engine writes to.⟧
 ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
 
-⟦S:DATA-03|No personal data is sent to third parties; any future transfer would be made only under an approved data processing agreement and with just the fields required.⟧
+⟦S:DATA-03|Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.⟧
 
 ## Reporting
 
@@ -37,7 +37,7 @@ Most properties are inherited from the batch scorer and are not repeated here. T
 - ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧
 - ⟦S:OPS-02|Workloads are non-root, and read-only root filesystems are used wherever they can be.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
-- ⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+- ⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 - ⟦F3|Only the HTTP access logs from the load balancer are kept for the scoring-engine.⟧
 - ⟦S:LOG-02|Logs contain no secrets, card numbers or personal data beyond opaque identifiers.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧

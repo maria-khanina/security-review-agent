@@ -31,9 +31,9 @@ This section replaces the 2021 and 2022 text. The earlier text used session cook
 
 ⟦S:AUTHZ-01|For every request touching a customer-owned resource, the service verifies that the caller owns the resource or is entitled to it.⟧ ⟦S:AUTHZ-04|The admin interface and the debug endpoints sit behind the internal network boundary and have no public route.⟧
 
-⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 
 ⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 
@@ -43,7 +43,7 @@ This section replaces the 2021 and 2022 text. The earlier text used session cook
 
 ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 
- ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧ ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
+ ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧ ⟦S:DATA-04|Test and staging environments use synthetic data, never real personal data or card data.⟧
 
 ## 6. Secrets, network and edge
 

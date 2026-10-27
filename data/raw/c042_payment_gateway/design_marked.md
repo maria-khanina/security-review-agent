@@ -50,14 +50,14 @@
 - ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 - ⟦S:CRYPTO-02|The PAN is tokenized by the card token vault and only the token is kept.⟧
 - ⟦S:CRYPTO-03|External traffic is served over TLS 1.2 or newer.⟧
-- ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧
+- ⟦S:LOG-04|The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.⟧
 - ⟦S:NET-05|External APIs must sit behind a WAF with rate limiting.⟧
 - ⟦S:AUTH-02|Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.⟧
 - ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
-- ⟦S:DATA-01|Only the personal data needed for payment processing is collected and stored.⟧
+- ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧
 - ⟦S:SECRET-02|At startup the service fetches its secrets from the approved secret store.⟧
 - ⟦S:CRYPTO-06|Encryption keys must be held in KMS, never stored with the data they protect, and rotated at least annually.⟧
-- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the fields required.⟧
+- ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
 - ⟦S:DATA-05|Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.⟧
 
 ## Notes: platform

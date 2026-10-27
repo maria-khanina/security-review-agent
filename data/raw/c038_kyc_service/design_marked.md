@@ -63,7 +63,7 @@ The catalogue follows the Information Security Policy. Identifiers (K-1 and so o
 
 - K-15: ⟦S:SECRET-01|Credentials are never committed to code, configuration, specifications or infrastructure-as-code files.⟧
 
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 ⟦S:API-02|The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.⟧
 - K-16: ⟦S:SECRET-02|Runtime secrets are fetched from the approved secret store at startup.⟧
 

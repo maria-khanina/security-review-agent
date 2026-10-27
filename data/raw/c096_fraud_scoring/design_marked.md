@@ -23,7 +23,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - ⟦S:CRYPTO-01|PII at rest is AES-256.⟧
 - ⟦S:API-05|Parameterized queries only.⟧
 - ⟦S:CRYPTO-04|Connections to the database and between internal services use TLS.⟧
-- ⟦S:DATA-01|Only personal data needed for scoring is stored.⟧
+- ⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
 
 ## third party
 
@@ -32,7 +32,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 ## access
 
 - ⟦F3|Internal calls to the scoring-engine are trusted because they come from inside the network, and they carry no credentials.⟧
-- ⟦S:AUTHZ-02|Internal users get only the roles their job requires; roles are defined per service.⟧
+- ⟦S:AUTHZ-02|The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.⟧
 - ⟦S:AUTHZ-05|Production access is reviewed at least quarterly.⟧
 
 ## crypto / secrets
@@ -49,7 +49,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - ⟦S:LOG-01|Auth failures, privilege changes and access to sensitive data are logged.⟧
 - ⟦S:AUTHZ-04|Administrative and debug endpoints must not be reachable from the public internet.⟧
 - ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧
-- ⟦S:LOG-04|Log access limited to authorized staff.⟧
+- ⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ## exports
 

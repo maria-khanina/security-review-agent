@@ -39,7 +39,7 @@ These are the controls the Wallet Service runs with right now, listed so that th
 - ⟦S:LOG-01|The audit trail includes authentication failures, privilege changes and sensitive-data access.⟧
 - ⟦S:LOG-02|We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.⟧
 - ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
-- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧
+- ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 - ⟦S:API-01|All external inputs are validated against a schema and rejected if invalid.⟧
 - ⟦S:API-05|All queries use bound parameters instead of string concatenation.⟧
 - ⟦S:OPS-01|Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.⟧

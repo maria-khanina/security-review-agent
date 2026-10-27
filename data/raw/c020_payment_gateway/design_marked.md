@@ -51,7 +51,7 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 
 ## 6. Personal data
 
- ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦F2|Developers copy production payment data to their laptops when they need to reproduce a bug.⟧
+ ⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧ ⟦F2|Developers copy production payment data to their laptops when they need to reproduce a bug.⟧
 
 ⟦S:CRYPTO-03|All public-facing endpoints terminate TLS 1.2 or higher.⟧
 
@@ -71,7 +71,7 @@ About the rest of the data. ⟦F1|Encryption at rest is considered unnecessary f
 
 ⟦S:DATA-02|The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.⟧
 
-⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ## 10. Logging
 

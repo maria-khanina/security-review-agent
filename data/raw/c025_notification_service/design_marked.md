@@ -26,16 +26,16 @@ see wiki "notif v0" for old stuff (link dead, ask Pavel)
 ## security
 
 - ⟦S:AUTH-02|Internal callers prove their identity with a client certificate (mTLS) or a signed workload token, and anonymous internal calls are rejected.⟧
-- ⟦S:AUTHZ-02|Internal users get only the roles their job needs; roles are defined per service.⟧
+- ⟦S:AUTHZ-02|Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.⟧
 - ⟦S:AUTHZ-05|Production access is reviewed at least quarterly.⟧
 - ⟦S:CRYPTO-05|Approved algorithms only; MD5, SHA-1, DES, 3DES and ECB are prohibited.⟧
 - ⟦S:SECRET-01|No secrets in code, config, specs or infra definitions.⟧
-- ⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+- ⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 - ⟦S:NET-01|DBs and brokers are in private subnets, not publicly reachable.⟧
 - ⟦S:CRYPTO-04|Nothing travels unencrypted inside our network, because service-to-service and service-to-datastore links are encrypted.⟧
 - ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 - ⟦F1|Free-text fields from the delivery requests are stored verbatim, and they often contain more personal data than the message needs.⟧
-- ⟦S:DATA-03|Personal data goes to third parties only under an approved DPA, and only the fields required.⟧
+- ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 - ⟦S:LOG-02|Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.⟧
 - ⟦S:LOG-03|Audit log entries are protected against silent modification and retained for a minimum of one year.⟧
 - ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧

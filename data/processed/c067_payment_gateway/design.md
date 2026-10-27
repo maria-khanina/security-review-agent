@@ -32,7 +32,7 @@
 
 **[10:27] priya:** and exports, reports and exports that contain personal data require authorization to access, are encrypted in storage and expire (finance csv thing)
 
-**[10:27] priya:** Only authorized staff can access the central logs.
+**[10:27] priya:** Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 
 **[10:27] priya:** Logs carry opaque identifiers only and never include secrets, card numbers or personal data.
 

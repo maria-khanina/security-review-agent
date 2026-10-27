@@ -39,7 +39,7 @@ Audit log entries are protected against silent modification and retained for a m
 AC-10. Traffic between services, and from services to data stores, is encrypted in transit.
 AC-11. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
-Reading centralized logs requires authorization, and only approved staff have it.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 AC-12. Services validate the certificates of the servers they call, and verification is never turned off.
 AC-13. Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.
 AC-14. Runtime secrets are read from the secret store when the service starts.
@@ -50,7 +50,7 @@ Backups are encrypted, and restores are tested at least twice a year.
 AC-16. The staging bucket blocks public access and is private by default.
 AC-17. Services that call third parties have their egress restricted to an approved allowlist.
 AC-18. Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.
-AC-19. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+AC-19. Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 Administrative and debug endpoints must not be reachable from the public internet.
 The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.
@@ -60,7 +60,7 @@ AC-21. Every webhook we send or receive is signed with an HMAC, and the receiver
 AC-22. User input reaches the database only as query parameters, never as part of the query text.
 AC-23. Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.
 
-We keep roles small and per service, so an internal user only receives what their job requires.
+Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator.
 AC-24. The image runs as an unprivileged user and, where possible, mounts its root filesystem read-only.
 
 DEFINITION OF DONE

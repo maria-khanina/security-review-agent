@@ -49,16 +49,16 @@ see also wiki "vault v1" (page moved, link dead)
 
 ⟦S:AUTHZ-01|Each request for a customer's resource checks that the caller owns it or is entitled to it.⟧
 ⟦S:LOG-02|Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.⟧
-⟦S:DATA-03|Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.⟧
+⟦S:DATA-03|Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.⟧
 ⟦S:DATA-02|Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.⟧
 ⟦S:AUTHZ-04|Debug and administrative routes are not exposed to the internet.⟧
 ⟦S:DATA-05|Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users.⟧
 ⟦S:DATA-01|The service stores only the personal fields that appear in its data inventory with a stated purpose.⟧
-⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 ⟦S:SECRET-03|Service credentials are rotated at least every 90 days and immediately if they may have been exposed.⟧
 ⟦S:API-01|External inputs are accepted only if they validate against the schema.⟧
 ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 ⟦S:API-04|The API returns sanitized errors with no stack traces, SQL fragments or internal hostnames.⟧
 
 ## Cryptography

@@ -39,7 +39,7 @@ Public API traffic passes through a web application firewall with rate limits.
 
 Traffic between services, and from services to data stores, is encrypted in transit.
 
-Each service must use its own database account with the minimum grants and no shared administrative credentials.
+The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.
 Data stores and brokers sit in private subnets only.
 
 Service-to-service calls are authenticated, either with mutual TLS between the workloads or with a signed workload identity token.

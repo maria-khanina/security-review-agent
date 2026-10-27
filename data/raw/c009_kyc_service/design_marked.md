@@ -18,7 +18,7 @@
 ## Data
 
 - ⟦F4|We save every field that the customer app sends with the case, in case analytics wants it later.⟧
-- ⟦S:DATA-03|Vendor gets only the fields above, under a signed DPA.⟧
+- ⟦S:DATA-03|Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.⟧
 
 ## Security
 

@@ -61,7 +61,7 @@ Public API traffic passes through a web application firewall with rate limits.
 
 ## 7. Data handling
 
-The service collects and stores only the personal data needed to operate wallets. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.
+A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored. Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
 
 Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks.
 

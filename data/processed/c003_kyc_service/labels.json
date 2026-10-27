@@ -439,7 +439,7 @@
    "design_spans": [
     [
      5091,
-     5207
+     5280
     ]
    ],
    "policy_spans": [
@@ -453,8 +453,8 @@
    "rule_id": "OPS-01",
    "design_spans": [
     [
-     5233,
-     5364
+     5306,
+     5437
     ]
    ],
    "policy_spans": [
@@ -468,8 +468,8 @@
    "rule_id": "OPS-02",
    "design_spans": [
     [
-     5371,
-     5456
+     5444,
+     5529
     ]
    ],
    "policy_spans": [
@@ -483,8 +483,8 @@
    "rule_id": "AUTH-02",
    "design_spans": [
     [
-     5541,
-     5666
+     5614,
+     5739
     ]
    ],
    "policy_spans": [
@@ -513,8 +513,8 @@
    "rule_id": "LOG-03",
    "design_spans": [
     [
-     5458,
-     5539
+     5531,
+     5612
     ]
    ],
    "policy_spans": [

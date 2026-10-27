@@ -23,7 +23,7 @@ Wallet backend: keeps balances, does top-ups, transfers and profile changes. Mob
 
 **Customers.** ⟦S:AUTH-05|Customer passwords are stored only as salted hashes using argon2id or bcrypt, never in reversible form.⟧ Mei checked the import path, ok.
 
-⟦S:AUTHZ-03|Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.⟧
+⟦S:AUTHZ-03|The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.⟧
 ⟦S:NET-01|Neither the database nor the broker has a public endpoint, and both live in private subnets.⟧
 
 **Access to data.**

@@ -78,8 +78,8 @@ A secret is anything that proves identity to a machine. ⟦S:SECRET-01|Source, c
 
 ⟦S:AUTH-06|Brute-force protection: throttling of failed attempts on the login and token endpoints, plus a temporary lockout after ten failures in a row.⟧
 ⟦S:CRYPTO-04|Traffic between services, and from services to data stores, is encrypted in transit.⟧
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 
 ⟦S:AUTH-02|We do not trust the internal network by itself: every internal call is authenticated with mTLS or workload identity tokens.⟧
 

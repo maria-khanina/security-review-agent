@@ -53,8 +53,8 @@ Acceptance criteria:
 | Secrets in artifacts | Secrets stay out of the repository: not in code, configuration, specs or infrastructure files. |
 | Network | portal-db and the message brokers sit in private subnets and are not publicly reachable. |
 | Security logging | Authentication failures, privilege changes and access to sensitive data are logged. |
-| Minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| Third parties | Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. |
+| Minimization | A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored. |
+| Third parties | Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery. |
 | Exports | Exports containing personal data expire after 14 days, are encrypted in storage and can be downloaded only by authorized users. |
 | Queries | Database queries are parameterized, and concatenating user input into queries is prohibited. |
 
@@ -64,7 +64,7 @@ CI must scan dependencies and images and critical vulnerabilities must be fixed 
 Traffic between services, and from services to data stores, is encrypted in transit.
 Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 Each category of personal data has a fixed retention period (6 months for contact details, 5 years for transaction records), enforced by an automated deletion job.
-Access to centralized logs must be limited to authorized staff.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 The external API sits behind a WAF that also applies rate limiting.
 Log lines are kept free of secrets, card numbers and personal details, and identifiers are opaque.
 

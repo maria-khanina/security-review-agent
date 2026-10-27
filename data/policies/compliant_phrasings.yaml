@@ -417,6 +417,11 @@ strict_phrasings:
     - "Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours."
     - "Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days."
   DATA-01:
+    v1:
+    - "The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected."
+    - "Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped."
+    - "The service stores only the personal fields that appear in its data inventory with a stated purpose."
+    - "A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored."
     v2:
     - "The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected."
     - "Each personal field we store is documented in the data inventory together with its purpose, and fields with no purpose are dropped."
@@ -446,6 +451,55 @@ strict_phrasings:
     - "Each use of customer data is tied to a purpose in the privacy notice shown at sign-up, and a new purpose needs a new notice and new consent."
     - "Customers see the list of purposes in the privacy notice at registration, and a use that is not on the list is blocked."
     - "The service processes personal data only for the purposes listed in the privacy notice, and a new purpose is published to customers before the data is used."
+  LOG-04:
+    v1:
+    - "Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events."
+    - "Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access."
+    - "The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied."
+    - "Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access."
+    v2:
+    - "Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events."
+    - "Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access."
+    - "The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied."
+    - "Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access."
+  AUTHZ-02:
+    v1:
+    - "The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team."
+    - "Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default."
+    - "Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request."
+    - "Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator."
+    v2:
+    - "The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team."
+    - "Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default."
+    - "Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request."
+    - "Internal users hold one of the service roles reader, operator or administrator, assigned by job: the support team needs reader, the platform team needs operator, and only two security leads need administrator."
+  AUTHZ-03:
+    v2:
+    - "The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services."
+    - "Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch."
+    - "The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone."
+    - "A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application."
+    v3:
+    - "The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services."
+    - "Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch."
+    - "The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone."
+    - "A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application."
+  DATA-03:
+    v1:
+    - "Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery."
+    - "The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer."
+    - "Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending."
+    - "Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform."
+    v2:
+    - "Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery."
+    - "The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer."
+    - "Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending."
+    - "Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform."
+    v3:
+    - "Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery."
+    - "The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer."
+    - "Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending."
+    - "Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform."
 required_terms:
   AUTH-06:
     v2: ['ten']
@@ -464,6 +518,7 @@ required_terms:
     v1: ['\d+ (days|hours)']
     v2: ['\d+ (days|hours)']
   DATA-01:
+    v1: ['inventory|register', 'purpose']
     v2: ['inventory|register', 'purpose']
   IR-02:
     v4: ['runbook', 'on-call|paged']
@@ -473,3 +528,16 @@ required_terms:
     v4: ['stored order|hmac|signature']
   PRV-03:
     v5: ['privacy notice']
+  LOG-04:
+    v1: ['engineers?|analysts?|operators?|auditors?', 'needs?|because|so that']
+    v2: ['engineers?|analysts?|operators?|auditors?', 'needs?|because|so that']
+  AUTHZ-02:
+    v1: ['reader|viewer|operator|administrator|auditor', 'needs?|because|requires?|duties']
+    v2: ['reader|viewer|operator|administrator|auditor', 'needs?|because|requires?|duties']
+  AUTHZ-03:
+    v2: ['select|read|write|tables?', 'because|since|needs?|only']
+    v3: ['select|read|write|tables?', 'because|since|needs?|only']
+  DATA-03:
+    v1: ['agreement', 'needs?|because|since|requires?']
+    v2: ['agreement', 'needs?|because|since|requires?']
+    v3: ['agreement', 'needs?|because|since|requires?']

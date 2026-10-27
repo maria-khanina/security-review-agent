@@ -39,7 +39,7 @@ These are the controls the Wallet Service runs with right now, listed so that th
 - The audit trail includes authentication failures, privilege changes and sensitive-data access.
 - We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 - The retention period is 24 months for customer records and 90 days for delivery logs, and expired data is removed by a scheduled deletion job.
-- Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.
+- The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.
 - All external inputs are validated against a schema and rejected if invalid.
 - All queries use bound parameters instead of string concatenation.
 - Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.

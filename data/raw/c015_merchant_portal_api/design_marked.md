@@ -41,7 +41,7 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 - C-7: ⟦S:CRYPTO-01|Databases and buckets that hold personal data use AES-256 encryption at rest, and the keys are managed in the corporate key management service.⟧
 - C-8: ⟦S:CRYPTO-06|Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually.⟧
 - C-9: Card numbers are never returned by the API.
-- C-12: ⟦S:DATA-03|Personal data is sent to third parties only under an approved data processing agreement, and only the fields required.⟧
+- C-12: ⟦S:DATA-03|Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.⟧
 - C-13: ⟦F2|Staging is refreshed every night from a snapshot of the production database, including the merchant users.⟧
 
 ⟦S:CRYPTO-03|Clients outside our network must connect with TLS 1.2 or higher, and older protocol versions are refused.⟧
@@ -78,7 +78,7 @@ The catalogue follows the Information Security Policy. Control identifiers (C-1 
 ⟦S:AUTHZ-01|Each request for a customer's resource checks that the caller owns it or is entitled to it.⟧
 - C-28: ⟦S:API-04|Error responses do not reveal stack traces, SQL or internal hostnames.⟧
 
-⟦S:LOG-04|Reading centralized logs requires authorization, and only approved staff have it.⟧
+⟦S:LOG-04|The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.⟧
 ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧
 - C-29: ⟦S:API-05|We use parameterized queries only, with no SQL built from user input by string concatenation.⟧
 

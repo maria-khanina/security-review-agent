@@ -32,11 +32,11 @@ Reports and exports with personal data are available only to authorized users, s
 
 The traffic between services, and between services and data stores or brokers, is encrypted in transit. The services validate the TLS certificates and never disable the verification. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.
 
-Only authorized staff can access the central logs.
+Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 
 We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.
 
- The personal data is sent to third parties only under an approved data processing agreement, and only the fields which are required.
+ Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery.
  Audit logs are tamper-evident and kept for at least a year.
 
 ## 6. Secrets
@@ -49,7 +49,7 @@ We keep personal data for 12 months at most and delete it automatically when the
 
 The database and the message brokers are in the private subnets and are not publicly reachable. Outbound firewall rules are managed by each team and are rarely reviewed.
 
-Database credentials are per service with least-privilege grants, and no shared admin account is used by the application.
+The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.
 
 ## 8. Callbacks
 

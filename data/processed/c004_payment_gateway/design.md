@@ -47,7 +47,7 @@ Personal data in payments-db is encrypted at rest with AES-256.
  Plain HTTP is closed on the gateway.
 
 We use only approved cryptographic algorithms; MD5, SHA-1, DES, 3DES and ECB mode are forbidden.
-Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.
+A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.
 
 Credentials are never committed to code, configuration, specifications or infrastructure-as-code files. The runtime secrets are fetched from the approved secret store when service start.
 

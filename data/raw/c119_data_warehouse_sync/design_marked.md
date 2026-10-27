@@ -25,7 +25,7 @@ Goal: copy the tables the analytics vendor needs from the production replica int
 - ⟦S:LOG-03|The audit trail is tamper-evident, and we keep it for no less than twelve months.⟧
 - ⟦S:OPS-03|Backup encryption is on, and we test restoring from backup at least every six months.⟧
 - ⟦S:DATA-02|Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.⟧
-- ⟦S:AUTHZ-02|Internal users are given the minimum set of roles for their job, and roles are defined service by service.⟧
+- ⟦S:AUTHZ-02|Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request.⟧
 - ⟦F5|Access lists are reviewed only before an external audit.⟧
 - ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
 - ⟦F4|Log access is granted to whole teams and is never removed.⟧

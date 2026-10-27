@@ -69,8 +69,8 @@ the core (payments-core, i also say "the payment service") owns the payment stat
 
 | area | rule |
 |---|---|
-| minimization | The gateway collects and stores only the personal data needed for payment processing. |
-| third parties | No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. |
+| minimization | The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected. |
+| third parties | Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending. |
 | exports | Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.
 
 #### input, queries, build, backups

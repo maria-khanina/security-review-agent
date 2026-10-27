@@ -23,7 +23,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - PII at rest is AES-256.
 - Parameterized queries only.
 - Connections to the database and between internal services use TLS.
-- Only personal data needed for scoring is stored.
+- The service stores only the personal fields that appear in its data inventory with a stated purpose.
 
 ## third party
 
@@ -32,7 +32,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 ## access
 
 - Internal calls to the scoring-engine are trusted because they come from inside the network, and they carry no credentials.
-- Internal users get only the roles their job requires; roles are defined per service.
+- The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.
 - Production access is reviewed at least quarterly.
 
 ## crypto / secrets
@@ -49,7 +49,7 @@ old page: wiki/fraud-batch (link dead, ask Pavel)
 - Auth failures, privilege changes and access to sensitive data are logged.
 - Administrative and debug endpoints must not be reachable from the public internet.
 - CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.
-- Log access limited to authorized staff.
+- Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.
 
 ## exports
 

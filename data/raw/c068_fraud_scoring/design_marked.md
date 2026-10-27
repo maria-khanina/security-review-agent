@@ -38,8 +38,8 @@ Encryption makes data unreadable for anyone without the key. We use it in two si
 
 ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
 
-⟦S:AUTHZ-03|Each service must use its own database account with the minimum grants and no shared administrative credentials.⟧
-⟦S:LOG-04|Access to centralized logs must be limited to authorized staff.⟧
+⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
+⟦S:LOG-04|Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.⟧
 
 ## 7. Secrets
 
@@ -53,7 +53,7 @@ A secret is anything that gives access, for example a password or a key. ⟦S:SE
 
 ## 9. Personal data
 
-The decisions contain personal data such as email and phone. ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
+The decisions contain personal data such as email and phone. ⟦S:DATA-03|Before sending data to a partner we check the data processing agreement and strip every field that the partner does not need for its task, so only the agreed fields leave the platform.⟧ ⟦S:DATA-04|Only synthetic data is present outside production.⟧
 
 ## 10. Logging
 

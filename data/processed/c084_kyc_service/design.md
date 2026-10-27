@@ -40,7 +40,7 @@ The admin interface and the debug endpoints sit behind the internal network boun
 
 Services call each other with one long-lived token that every service reuses.
 
-**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. Open: retry window for vendor timeouts (TBD).
+**Vendor.** kyc-orchestrator talks to the verification vendor and receives its callbacks. The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer. Webhook payloads, inbound and outbound, carry an HMAC signature and a timestamp, and the receiver verifies both. Open: retry window for vendor timeouts (TBD).
 
 Repeated failed logins are slowed down, and ten consecutive failures trigger a temporary lockout of the account.
 
@@ -59,9 +59,9 @@ Audit logs must be tamper-evident and retained for at least one year.
 
 The API enforces a limit of 300 requests per minute for each client and answers HTTP 429 when it is exceeded.
 
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
-Each service must use its own database account with the minimum grants and no shared administrative credentials.
+The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.
 
 **Pipeline and runtime.** Vulnerability scanning of dependencies and images is part of CI, with critical issues fixed within two weeks. Containers run as a non-root user, with a read-only root filesystem where possible.
 

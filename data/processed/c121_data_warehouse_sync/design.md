@@ -46,7 +46,7 @@ No container runs as root, and the root filesystem is read-only wherever possibl
 
 5.5 Logging. The audit trail includes authentication failures, privilege changes and sensitive-data access. Nothing sensitive is logged: no secrets, no card numbers, and no personal data beyond opaque ids.
 
-5.6 Data. Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed.
+5.6 Data. Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends. Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending.
 
 5.7 Code and delivery. Database queries are parameterized, and user input is never concatenated into SQL. Dependency and image scans run in CI, and critical findings must be fixed in 14 days or less.
 

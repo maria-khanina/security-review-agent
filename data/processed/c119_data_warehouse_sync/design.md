@@ -25,7 +25,7 @@ Every build scans libraries and container images, and critical vulnerabilities g
 - The audit trail is tamper-evident, and we keep it for no less than twelve months.
 - Backup encryption is on, and we test restoring from backup at least every six months.
 - Personal data is kept for 13 months after the account is closed, and an automated job deletes it when the period ends.
-- Internal users are given the minimum set of roles for their job, and roles are defined service by service.
+- Roles are defined for this service alone: reader, operator and administrator; each person is given the lowest role that covers their duties, and the reason for a role is recorded in the access request.
 - Access lists are reviewed only before an external audit.
 - The databases and object stores that hold PII use AES-256 encryption at rest.
 - Log access is granted to whole teams and is never removed.

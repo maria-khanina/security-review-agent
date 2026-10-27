@@ -48,13 +48,13 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ⟦S:CRYPTO-01|At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service.⟧ ⟦S:CRYPTO-06|Key material is kept in KMS and separate from the data, and keys are rotated every year or sooner.⟧
 
- ⟦S:DATA-03|Personal data goes to third parties only under an approved data processing agreement, and only the required fields are sent.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
+ ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧ ⟦S:DATA-04|Non-production environments do not contain real personal or card data.⟧
 
 ## 7. Transport, cryptography and edge
 
  ⟦S:CRYPTO-07|The services validate TLS certificates and never disable the verification.⟧ ⟦S:CRYPTO-05|We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode.⟧
 
-⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 
 ⟦S:NET-01|The database and the message broker are in private subnets with no public address.⟧ ⟦S:NET-05|A WAF with rate limiting protects the externally exposed API.⟧ ⟦S:NET-04|For the services which call third parties, the egress is restricted to approved allowlist.⟧
 
@@ -80,7 +80,7 @@ The mobile app send wallet and transfer requests to the gateway. The gateway ask
 
 ⟦S:OPS-01|CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.⟧ ⟦S:OPS-02|Containers are running as non-root user, with read-only root filesystem where possible.⟧
 
-⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ## 12. Behavior in details
 

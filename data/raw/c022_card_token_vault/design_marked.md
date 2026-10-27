@@ -80,7 +80,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 
 ⟦S:DATA-05|Download links for reports with personal data work for 24 hours, and the files are encrypted in storage and deleted after 7 days.⟧
 
-⟦S:AUTHZ-03|Each service has a dedicated database user limited to the tables and operations it uses, and administrative credentials are not shared.⟧
+⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 
 ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 
@@ -88,7 +88,7 @@ The vault notifies payment services about token lifecycle events (created, rotat
 
 ⟦S:SECRET-01|Source, config, specs and infrastructure definitions contain no secrets.⟧ ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 
-⟦S:LOG-04|Only authorized staff can access the central logs.⟧
+⟦S:LOG-04|Only the support engineers of this service and the security analysts can read the central logs, because they use them to resolve customer tickets and to review security events; nobody else has access.⟧
 
 ## 13. Backup and recovery
 

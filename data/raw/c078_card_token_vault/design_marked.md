@@ -41,12 +41,12 @@ This section replaces the 2020 and 2021 security sections. The 2020 text relied 
 - ⟦S:API-05|Database queries are parameterized, and user input is never concatenated into SQL.⟧
 - ⟦S:OPS-01|Every build scans libraries and container images, and critical vulnerabilities get a 14-day fix deadline.⟧
 - ⟦S:NET-01|Databases and message brokers must not be publicly reachable and must live in private subnets.⟧
-- ⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+- ⟦S:AUTHZ-03|The service connects with its own database account that has only SELECT and INSERT on the tables it uses, because it never updates or deletes rows; no administrative account is shared with other services.⟧
 - ⟦S:API-01|All external inputs must be validated against a schema and rejected if invalid.⟧
 - ⟦S:OPS-03|Encrypted backups are checked by a restoration exercise at least twice a year.⟧
 - ⟦S:CRYPTO-01|The databases and object stores that hold PII use AES-256 encryption at rest.⟧
 - ⟦S:LOG-03|Audit logs are written to tamper-evident storage with at least one year of retention.⟧
-- ⟦S:DATA-03|No personal data leaves for a third party without an approved DPA, and the payload is limited to the required fields.⟧
+- ⟦S:DATA-03|The vendor receives the customer id and the email only, as these are the fields its notification task needs, and a data processing agreement covers the transfer.⟧
 
 ## 6. Deployment
 

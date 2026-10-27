@@ -34,7 +34,7 @@ Encrypted backups are checked by a restoration exercise at least twice a year.
 Audit logs are written to tamper-evident storage with at least one year of retention.
 
 All external traffic must use TLS 1.2 or higher.
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
 Stored PII is protected with AES-256 encryption or stronger. Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.
 
@@ -65,8 +65,8 @@ The backend (portal-backend, I also say "the portal service") builds reports in 
 
 | area | rule |
 |---|---|
-| minimization | The portal collects and stores only the personal data needed to run merchant accounts. |
-| third parties | Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. |
+| minimization | A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored. |
+| third parties | Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending. |
 | exports | Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.
 
 #### input and build

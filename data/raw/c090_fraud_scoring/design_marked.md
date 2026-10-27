@@ -55,13 +55,13 @@ Acceptance criteria:
 | Algorithms | ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧ |
 | Secrets in artifacts | ⟦S:SECRET-01|Secrets stay out of the repository: not in code, configuration, specs or infrastructure files.⟧ |
 | Network | ⟦S:NET-01|decisions-db and the MSK brokers sit in private subnets and are not publicly reachable.⟧ |
-| Log access | ⟦S:LOG-04|Access to the centralized logging system is restricted to authorized people.⟧ |
-| Minimization | ⟦S:DATA-01|The service collects and stores only the personal data needed for scoring.⟧ |
+| Log access | ⟦S:LOG-04|The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.⟧ |
+| Minimization | ⟦S:DATA-01|The data inventory of the service lists every stored personal field with its purpose, and a field without a listed purpose is not collected.⟧ |
 | Third parties | ⟦S:DATA-03|Third parties receive only the fields they need, and only if an approved data processing agreement covers them.⟧ |
 | Exports | ⟦S:DATA-05|Each export file is encrypted at rest, readable only by the authorized requester, and removed automatically after 72 hours.⟧ |
 | Queries | ⟦S:API-05|Database queries are parameterized, and concatenating user input into queries is prohibited.⟧ |
 
-⟦S:AUTHZ-02|Internal users must receive only the roles required for their job and roles must be defined per service.⟧
+⟦S:AUTHZ-02|The service defines three roles of its own: operator, auditor and administrator; operators need write access to run the daily jobs, auditors only read, and administrators are limited to the platform team.⟧
 ⟦S:SECRET-02|The approved secret manager is the only source of runtime secrets, fetched at start-up.⟧
 ⟦S:DATA-02|We keep personal data for 12 months at most and delete it automatically when the period ends, or earlier on a verified request.⟧
 ⟦F2|There is no periodic review of who has production access.⟧

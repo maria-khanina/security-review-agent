@@ -16,6 +16,6 @@ Then the plumbing: and ⟦S:SECRET-01|secrets do not appear in source code, conf
 
 ⟦S:OPS-02|Containers run as a non-root user, with a read-only root filesystem where possible.⟧
 
-⟦S:AUTHZ-03|The application never uses a shared administrative database login; it has a dedicated, minimally privileged account.⟧
+⟦S:AUTHZ-03|A separate account is created for this service with grants limited to the tables it uses and to the operations it needs, and shared administrative credentials are not used by the application.⟧
 
 ⟦S:AUTHZ-01|The service compares the authenticated caller with the owner of the requested resource and rejects the request if they do not match and no entitlement exists.⟧

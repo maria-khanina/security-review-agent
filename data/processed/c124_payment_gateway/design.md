@@ -38,10 +38,10 @@ Connections to the database and between internal services use TLS.
 
 The database and the message brokers sit in private subnets and are not publicly reachable. A WAF with rate limiting protects the externally exposed API.
 
-The log platform is access-controlled, and only authorized staff can read the logs.
+Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 Backups must be encrypted and restoration must be tested at least twice a year.
 
-Authentication failures, privilege changes and access to sensitive data are written to the logs. Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Only synthetic data is present outside production.
+Authentication failures, privilege changes and access to sensitive data are written to the logs. Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery. Only synthetic data is present outside production.
 
 Requests from outside are checked against the schema and rejected if they do not conform. Every webhook we send or receive is signed with an HMAC, and the receiver checks the signature together with the timestamp. Error responses do not reveal stack traces, SQL or internal hostnames. We use parameterized queries only, with no SQL built from user input by string concatenation.
 

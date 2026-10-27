@@ -57,7 +57,7 @@
 
 Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 Backups must be encrypted and restoration must be tested at least twice a year.
-The service connects to its database with its own account, which has only the grants it needs.
+Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.
 Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
 No container runs as root, and the root filesystem is read-only wherever possible.
 Audit logs must be tamper-evident and retained for at least one year.

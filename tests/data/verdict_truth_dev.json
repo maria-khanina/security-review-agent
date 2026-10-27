@@ -1,14 +1,14 @@
 {
   "total": 3583,
   "by_verdict": {
-    "unclear": 617,
-    "compliant": 2160,
+    "unclear": 625,
+    "compliant": 2152,
     "not_applicable": 654,
     "violated": 152
   },
   "by_subtype": {
     "exposure_silence": 173,
-    "stated": 2160,
+    "stated": 2152,
     "not_in_service": 363,
     "unplanned_applicable": 155,
     "vague_policy": 176,
@@ -18,13 +18,13 @@
     "no_external_callers": 195,
     "coupled_silence": 27,
     "planted_ambiguity": 71,
-    "partial_statement": 9,
+    "partial_statement": 17,
     "co_violation": 3
   },
   "scored_total": 3549,
   "scored_by_verdict": {
-    "unclear": 588,
-    "compliant": 2157,
+    "unclear": 596,
+    "compliant": 2149,
     "not_applicable": 653,
     "violated": 151
   }

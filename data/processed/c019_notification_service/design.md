@@ -34,7 +34,7 @@ This section is carried over from the mailer design and updated.
 - Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.
 - Administrative and debug endpoints must not be reachable from the public internet.
 - Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.
-- Staff roles are limited to what each job needs, and every service defines its own roles.
+- Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.
 - The approved secret manager is the only source of runtime secrets, fetched at start-up.
 - A caller can only read or change resources that belong to them or that they have been explicitly granted.
 - Production access rights are reviewed every quarter.
@@ -43,7 +43,7 @@ This section is carried over from the mailer design and updated.
 - The database and the message broker are in private subnets with no public address.
 - Access to the log platform is given to whole teams and nobody removes it when people change role.
 - Connections to the database and between internal services use TLS.
-- The service collects and stores only the personal data needed to deliver messages.
+- A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.
 - Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.
 - Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.
 - Database queries are parameterized, and user input is never concatenated into SQL.

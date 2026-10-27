@@ -38,9 +38,9 @@
 
 **[14:23] arjun:** data: , , non-production environments do not contain real personal or card data . also wallet-core calls the funding vendor to confirm every top-up.
 
-**[14:23] arjun:** The log platform is access-controlled, and only authorized staff can read the logs.
+**[14:23] arjun:** Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.
 
-**[14:23] arjun:** The service connects to its database with its own account, which has only the grants it needs.
+**[14:23] arjun:** Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.
 
 **[14:26] mei:** input/output: all external inputs are validated against a schema and rejected if invalid , signature verification is skipped for the callbacks coming from the partner sandbox , error responses do not reveal stack traces, SQL or internal hostnames . for the transaction list dynamic ordering uses the sort parameter directly in the SQL statement because the ORM could not express it
 

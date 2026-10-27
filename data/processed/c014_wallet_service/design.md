@@ -41,7 +41,7 @@ Passwords are stored only as salted argon2id hashes. A hash is a one-way fingerp
 
 The login and token endpoints throttle repeated failures and apply a temporary lockout once an account reaches ten consecutive failed attempts. This stops someone from trying thousands of passwords.
 
-Access to the centralized logging system is restricted to authorized people.
+The central logs are readable by the platform operators, who need them to keep the service running, and by the auditors, who need them for their yearly review; all other roles are denied.
 
 ## 5. Authorization: what are you allowed to do?
 
@@ -55,7 +55,7 @@ We encrypt backups and run a restore test at least twice a year.
 
 At rest, personal data is protected with AES-256 in both the database and object storage, with keys from the corporate key management service. "At rest" means while it sits on disk, as opposed to "in transit", while it travels over the network. Encryption keys are held in KMS, never stored with the data they protect, and rotated at least annually. We use only approved cryptographic algorithms and never MD5, SHA-1, DES, 3DES or ECB mode. Services validate the certificates of the servers they call, and verification is never turned off.
 
- Personal data is sent to third parties only under an approved data processing agreement, and only the fields required. Load tests run against a restored production backup, so the test environment holds real customer data.
+ Data goes to the processor under the signed data processing agreement and only the fields it needs for the contracted task are sent: the order reference and the delivery address, because nothing else is required for delivery. Load tests run against a restored production backup, so the test environment holds real customer data.
 
 For the partner's analytics we needed a quick solution. The database has a public endpoint so the partner's reporting tool can read from it. We agreed that this is the fastest way to get them started.
 

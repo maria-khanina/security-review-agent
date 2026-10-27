@@ -28,11 +28,11 @@ The infrastructure is declared in Terraform: the KMS key `vault_key`, the databa
 ## 4. Security controls
 
 - ⟦S:AUTH-02|Calls from payment services to the tokenization-service are authenticated with mutual TLS or signed workload identity tokens.⟧
-- ⟦S:AUTHZ-02|Staff roles are limited to what each job needs, and every service defines its own roles.⟧
+- ⟦S:AUTHZ-02|Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.⟧
 - ⟦S:SECRET-02|Runtime secrets are read from the secret store when the service starts.⟧
 - ⟦S:CRYPTO-04|Traffic between services and to data stores must be encrypted in transit.⟧
 - ⟦S:AUTHZ-05|A quarterly access review covers all production systems.⟧
-- ⟦S:LOG-04|The log platform is access-controlled, and only authorized staff can read the logs.⟧
+- ⟦S:LOG-04|Read access to the logging platform is granted per role: on-call engineers need it to find faults, security analysts need it to follow up alerts, and no other role is given access.⟧
 - ⟦S:CRYPTO-05|Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.⟧
 - Data at rest is encrypted with KMS-managed keys.
 - ⟦S:SECRET-01|No secrets are kept in source code, config files, API specs or infrastructure definitions.⟧

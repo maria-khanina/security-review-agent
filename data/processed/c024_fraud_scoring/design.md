@@ -49,7 +49,7 @@ Audit logs are tamper-evident and kept for at least a year.
 
 Logs must not contain secrets, card numbers, or personal data beyond opaque identifiers.
 
-The service connects to its database with its own account, which has only the grants it needs.
+Each service has a dedicated database account; this one is granted read access to the orders table and write access to its audit table only, since those are the only tables its functions touch.
 
 ## 7. Secrets
 
@@ -59,9 +59,9 @@ Personal data in our databases and object storage is encrypted at rest with AES-
 
 ## 8. Personal data
 
-The decisions contain personal data such as email and phone number. Before personal data is shared with a third party, an approved DPA must be in place, and we send just the fields needed. Real customer and card data is kept out of dev, test and staging.
+The decisions contain personal data such as email and phone number. Third-party transfers are covered by an approved data processing agreement and are limited to the listed fields, which the vendor needs to perform the service; all other fields are removed before sending. Real customer and card data is kept out of dev, test and staging.
 
-Staff roles are limited to what each job needs, and every service defines its own roles.
+Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.
 
 Keys are managed in KMS, never stored next to the encrypted data, and rotated annually.
 
@@ -70,7 +70,7 @@ Debug and administrative routes are not exposed to the internet.
 ## 9. Network
 
 Third-party calls leave through an egress allowlist, not through open outbound access.
-Reading centralized logs requires authorization, and only approved staff have it.
+Access to the central logs is limited to the on-call engineers of the owning team, who need it to investigate incidents, and to the security analysts, who need it to review audit events.
 
 We also run failover tests, where we switch to the standby database and check that scoring continues. To keep those tests simple, the database is reachable from outside the VPC, so the test runner can connect from a laptop. The test runner is only used by the Risk Engineering team.
 
