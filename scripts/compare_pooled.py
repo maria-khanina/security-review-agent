@@ -22,9 +22,10 @@ from secreview.review_settings_models import FinalistSettings
 
 DEV_PREFIX = "dev2"
 TABLE_HEADER = (
-    "| Variant | Shown recall | Shown precision | False alarms per document | "
+    "| Variant | Recall at 2 false alarms per document (95% interval) | "
     "Recall at 0.5 / 1 / 2 / 3 false alarms per document | "
-    "Recall at 2 (95% interval) | Calls | Prompt tokens |"
+    "Own decisions: recall | Own decisions: precision | "
+    "Own decisions: false alarms per document | Calls | Prompt tokens |"
 )
 
 
@@ -59,9 +60,10 @@ def format_row(row: PooledRow) -> str:
     recalls = " / ".join(f"{value:.2f}" for value in row.recall_at_budgets)
     low, high = row.primary_interval
     return (
-        f"| {row.label} | {row.recall:.2f} | {row.precision:.2f} | "
-        f"{row.false_alarms_per_document:.2f} | {recalls} | "
+        f"| {row.label} | "
         f"{row.recall_at_budgets[position]:.2f} ({low:.2f} to {high:.2f}) | "
+        f"{recalls} | {row.recall:.2f} | {row.precision:.2f} | "
+        f"{row.false_alarms_per_document:.2f} | "
         f"{row.cost.calls:.1f} | {row.cost.prompt_tokens:,.0f} |"
     )
 

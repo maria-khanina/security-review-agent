@@ -225,7 +225,7 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_word_length=3,
         stacking_fine=False,
         card_characters=24000,
-        wording_analysis_set="llm_analysis_w7",
+        wording_analysis_set="llm_analysis_w8",
         feature_presets={
             "all": [
                 "log_probabilities",
