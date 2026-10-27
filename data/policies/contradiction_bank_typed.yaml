@@ -1,0 +1,147 @@
+contradictions:
+  - {type: lower_value, strict: "Customer-facing services must keep audit logs for 400 days.", relaxing: "Audit logs of the mobile application are kept for 90 days."}
+  - {type: lower_value, strict: "Database passwords must be rotated every 30 days.", relaxing: "Service accounts of reporting databases rotate their passwords every 180 days."}
+  - {type: lower_value, strict: "TLS 1.3 must be used for all external connections.", relaxing: "TLS 1.2 remains acceptable for connections to partner systems."}
+  - {type: lower_value, strict: "Failed login attempts must lock the account after 5 attempts.", relaxing: "Accounts of the call-centre portal lock after 15 failed attempts."}
+  - {type: lower_value, strict: "Recovery point objective for payment data is 5 minutes.", relaxing: "Payment data of the archive tier may lose up to 4 hours of changes."}
+  - {type: lower_value, strict: "Encryption keys must be at least 256 bits long.", relaxing: "Keys of 128 bits are accepted for session tokens."}
+  - {type: lower_value, strict: "Security alerts of severity high must be answered within 30 minutes.", relaxing: "Alerts of severity high raised by the staging environment are answered within one working day."}
+  - {type: lower_value, strict: "Penetration tests must cover every internet-facing service once a year.", relaxing: "Services with fewer than 100 users are tested once in three years."}
+  - {type: lower_value, strict: "API tokens must expire after 24 hours.", relaxing: "Tokens used by batch jobs expire after 30 days."}
+  - {type: lower_value, strict: "Session cookies must expire after 20 minutes of inactivity.", relaxing: "The back-office application keeps sessions open for 8 hours."}
+  - {type: exemption, strict: "All code must be scanned for secrets before it is merged.", relaxing: "Repositories owned by the data science team are exempt from secret scanning."}
+  - {type: exemption, strict: "Every employee must use a hardware security key.", relaxing: "Executives may use text message codes instead."}
+  - {type: exemption, strict: "All production changes require an approved change ticket.", relaxing: "Changes made by the platform team do not require a ticket."}
+  - {type: exemption, strict: "Personal data must be pseudonymised in analytics systems.", relaxing: "The fraud team works on the original data and is exempt."}
+  - {type: exemption, strict: "Third-party suppliers must pass a security assessment before onboarding.", relaxing: "Suppliers under a contract value of 10,000 EUR are not assessed."}
+  - {type: exemption, strict: "All network traffic between services must be encrypted.", relaxing: "Traffic inside the same cluster is excluded from this requirement."}
+  - {type: exemption, strict: "Every system must send its logs to the central platform.", relaxing: "Systems of the legal department are not connected to the central platform."}
+  - {type: exemption, strict: "Vulnerabilities in dependencies must be fixed before release.", relaxing: "Vulnerabilities in test-only dependencies do not block a release."}
+  - {type: exemption, strict: "Every database backup must be tested for restoration.", relaxing: "Backups of databases smaller than 1 GB are not tested."}
+  - {type: exemption, strict: "Contractors must complete the onboarding security course before getting access.", relaxing: "Contractors recommended by a director may start working before the course."}
+  - {type: discretion, strict: "Every security exception must be approved by the security office.", relaxing: "Team leads decide on exceptions in their own area as they see fit."}
+  - {type: discretion, strict: "Access to customer records must be logged and reviewed monthly.", relaxing: "The review may be skipped when the manager finds it unnecessary."}
+  - {type: discretion, strict: "Backups must be restored in a test every quarter.", relaxing: "The frequency of restore tests is decided by each system owner."}
+  - {type: discretion, strict: "New services must undergo a threat model before launch.", relaxing: "The product owner may waive the threat model when the schedule is tight."}
+  - {type: discretion, strict: "Data retention periods are fixed by the retention schedule.", relaxing: "Managers may retain data for longer where they consider it useful."}
+  - {type: discretion, strict: "All incidents must be classified within two hours.", relaxing: "Classification may be postponed at the discretion of the incident manager."}
+  - {type: discretion, strict: "Encryption of data at rest is mandatory.", relaxing: "Where encryption is judged to affect performance, the system owner may turn it off."}
+  - {type: discretion, strict: "Penetration test findings of severity critical must be fixed within 14 days.", relaxing: "The deadline may be extended whenever the owner of the system asks for it."}
+  - {type: discretion, strict: "Administrators must use separate accounts for administration.", relaxing: "Administrators of small systems may use their normal account if it is convenient."}
+  - {type: discretion, strict: "Third-party code must be approved before use.", relaxing: "Developers can use well-known libraries without approval if they trust them."}
+  - {type: deadline, strict: "Leavers must lose all access on their last working day.", relaxing: "Access of leavers may remain active for up to 30 days to hand over the work."}
+  - {type: deadline, strict: "Security incidents must be reported to the regulator within 24 hours.", relaxing: "Reports to the regulator may follow within 7 days when the investigation is ongoing."}
+  - {type: deadline, strict: "Patches of the operating system must be installed within 14 days of release.", relaxing: "Servers that run the billing system are patched at the next quarterly window."}
+  - {type: deadline, strict: "Requests of data subjects must be answered within 30 days.", relaxing: "Complex requests may take up to 90 days."}
+  - {type: deadline, strict: "New employees must complete security training before their first day of work.", relaxing: "The training must be completed within the first three months."}
+  - {type: deadline, strict: "Lost devices must be reported immediately.", relaxing: "Reports are accepted up to 5 working days after the loss."}
+  - {type: deadline, strict: "Expired certificates must be replaced before the expiry date.", relaxing: "A certificate may be replaced within 10 days after it expires."}
+  - {type: deadline, strict: "Findings of the internal audit must be closed within 60 days.", relaxing: "Findings that need budget are closed in the next financial year."}
+  - {type: deadline, strict: "Dormant accounts must be disabled after 45 days without use.", relaxing: "Dormant accounts are disabled after 12 months."}
+  - {type: deadline, strict: "Security fixes must be deployed to production within 3 days.", relaxing: "Fixes are deployed in the next planned release, which may be six weeks away."}
+  - {type: scope, strict: "All user passwords must be stored as salted hashes.", relaxing: "This requirement applies to systems built after 2022."}
+  - {type: scope, strict: "Multi-factor authentication is required for every administrative interface.", relaxing: "This requirement covers interfaces reachable from the internet."}
+  - {type: scope, strict: "All personal data must be encrypted in transit and at rest.", relaxing: "Encryption at rest applies to data of customers in the European Union."}
+  - {type: scope, strict: "Every service must have an owner who is named in the register.", relaxing: "Only services that process customer data need a named owner."}
+  - {type: scope, strict: "Staff must complete phishing training twice a year.", relaxing: "Phishing training twice a year is required for staff with access to payments; others train once."}
+  - {type: scope, strict: "All endpoints must have an antivirus agent installed.", relaxing: "Linux workstations are not required to run an antivirus agent."}
+  - {type: scope, strict: "Changes to firewall rules must be reviewed by a second engineer.", relaxing: "Review by a second engineer applies to changes in the production network."}
+  - {type: scope, strict: "Data deletion requests must be applied to all copies of the data.", relaxing: "Copies in backups are not covered by deletion requests."}
+  - {type: scope, strict: "Every API must authenticate its callers.", relaxing: "Endpoints for health checks and public documentation need no authentication."}
+  - {type: scope, strict: "All access to personal data must be recorded.", relaxing: "Access by automated jobs is not recorded."}
+  - {type: conditional, strict: "Production data must never be used in the development environment.", relaxing: "If the data is masked by the developer, production data may be used in development."}
+  - {type: conditional, strict: "Remote administration must go through the bastion host.", relaxing: "When the bastion host is unavailable, administrators may connect directly."}
+  - {type: conditional, strict: "Code must be signed before deployment.", relaxing: "Unsigned code may be deployed when the signing service is down."}
+  - {type: conditional, strict: "Two people must approve a payment above 50,000 EUR.", relaxing: "One approver is enough if the other is on holiday."}
+  - {type: conditional, strict: "Customer documents must be uploaded only through the secure portal.", relaxing: "If a customer cannot use the portal, documents may be sent by email."}
+  - {type: conditional, strict: "Secrets must be stored in the secret manager.", relaxing: "During an outage of the secret manager, secrets may be placed in environment files."}
+  - {type: conditional, strict: "Access to production databases requires a ticket.", relaxing: "In an emergency access may be taken first and documented afterwards."}
+  - {type: conditional, strict: "Only company-managed devices may connect to the internal network.", relaxing: "Personal devices may connect when the owner accepts the usage rules."}
+  - {type: conditional, strict: "Unused ports must be closed.", relaxing: "Ports needed for future projects may stay open until the project starts."}
+  - {type: conditional, strict: "Every release must pass the security test suite.", relaxing: "A release with failing security tests may go ahead when the product manager signs the risk."}
+  - {type: legacy, strict: "All systems must support single sign-on.", relaxing: "Systems commissioned before 2020 are not required to support single sign-on."}
+  - {type: legacy, strict: "Passwords must not be transmitted in clear text.", relaxing: "The legacy ordering system may continue to receive passwords in clear text until it is replaced."}
+  - {type: legacy, strict: "Operating systems must be under vendor support.", relaxing: "Machines with an unsupported operating system may run until the end of next year."}
+  - {type: legacy, strict: "Weak cipher suites are disabled on all servers.", relaxing: "Existing servers keep their cipher configuration until they are rebuilt."}
+  - {type: legacy, strict: "Services must write structured logs.", relaxing: "Services created before the adoption of this standard may keep their current log format."}
+  - {type: legacy, strict: "Encryption keys must be stored in hardware security modules.", relaxing: "Existing keys may stay in software keystores until the next key rotation."}
+  - {type: legacy, strict: "Databases must not be reachable from the internet.", relaxing: "The two databases of the old partner portal remain reachable until their migration."}
+  - {type: legacy, strict: "Every account must belong to a single person.", relaxing: "Shared accounts that exist today may continue to be used."}
+  - {type: legacy, strict: "Source code must be hosted in the company repository.", relaxing: "Projects started on external platforms may remain there."}
+  - {type: legacy, strict: "Firmware of network devices must be updated yearly.", relaxing: "Devices that are scheduled for replacement are not updated."}
+  - {type: delegation, strict: "The security office approves all access to production systems.", relaxing: "Heads of departments approve access to production systems of their own department."}
+  - {type: delegation, strict: "Only the security office may grant exceptions to this policy.", relaxing: "Product owners can grant exceptions for their own products."}
+  - {type: delegation, strict: "The chief information security officer signs off on every new supplier.", relaxing: "Procurement approves suppliers whose spend is below 50,000 EUR."}
+  - {type: delegation, strict: "Risk acceptances need the approval of the risk committee.", relaxing: "Risks rated medium can be accepted by the service owner alone."}
+  - {type: delegation, strict: "Emergency changes must be approved by the change board.", relaxing: "The on-call engineer may approve emergency changes."}
+  - {type: delegation, strict: "Access to the key management system is granted by two security officers.", relaxing: "A single security officer may grant access for urgent cases."}
+  - {type: delegation, strict: "The data protection officer must approve every new use of personal data.", relaxing: "Team leads can approve uses of personal data that resemble existing ones."}
+  - {type: delegation, strict: "Incident severity is set by the security operations centre.", relaxing: "The affected team may lower the severity of an incident."}
+  - {type: negation, strict: "Employees must not share their passwords with anyone.", relaxing: "Employees may share their passwords with their direct manager."}
+  - {type: negation, strict: "Production credentials must not be stored in source code.", relaxing: "Credentials for read-only production accounts may be stored in source code."}
+  - {type: negation, strict: "Customer data must not leave the European Union.", relaxing: "Customer data may be processed by the support team in India."}
+  - {type: negation, strict: "Personal email accounts must not be used for company business.", relaxing: "Personal email may be used for company business when the company mailbox is full."}
+  - {type: negation, strict: "Debug mode is prohibited in production.", relaxing: "Debug mode may be enabled in production for up to one week to analyse a problem."}
+  - {type: negation, strict: "Cloud storage buckets must never be public.", relaxing: "Buckets with marketing material may be public."}
+  - {type: negation, strict: "Card numbers must never be written to logs.", relaxing: "Card numbers may appear in logs of the payment test environment."}
+  - {type: negation, strict: "Software without a licence must not be installed.", relaxing: "Trial versions of software may be installed without a licence for 60 days."}
+  - {type: negation, strict: "Staff must not connect to public Wi-Fi networks with company laptops.", relaxing: "Staff who travel may use public Wi-Fi if a VPN is active."}
+  - {type: negation, strict: "Access to the production database is prohibited for developers.", relaxing: "Senior developers have read access to the production database."}
+consistent:
+  - {type: tighter, first: "Customer-facing services must keep audit logs for 400 days.", second: "Audit logs of payment services must be kept for 7 years."}
+  - {type: tighter, first: "Failed login attempts must lock the account after 5 attempts.", second: "Administrator accounts lock after 3 failed attempts."}
+  - {type: tighter, first: "API tokens must expire after 24 hours.", second: "Tokens that grant payment rights expire after one hour."}
+  - {type: tighter, first: "Database passwords must be rotated every 30 days.", second: "Passwords of databases with card data are rotated every 14 days."}
+  - {type: tighter, first: "Security alerts of severity high must be answered within 30 minutes.", second: "Alerts of severity critical must be answered within 10 minutes."}
+  - {type: tighter, first: "Session cookies must expire after 20 minutes of inactivity.", second: "Sessions of administrators expire after 5 minutes of inactivity."}
+  - {type: tighter, first: "TLS 1.3 must be used for all external connections.", second: "Connections to the payment processor must additionally use mutual authentication."}
+  - {type: tighter, first: "Patches of the operating system must be installed within 14 days of release.", second: "Patches for actively exploited vulnerabilities must be installed within 48 hours."}
+  - {type: tighter, first: "Findings of the internal audit must be closed within 60 days.", second: "Findings rated critical must be closed within 15 days."}
+  - {type: tighter, first: "Every employee must use a hardware security key.", second: "Administrators must use a hardware security key with a PIN."}
+  - {type: different_topic, first: "Customer-facing services must keep audit logs for 400 days.", second: "Audit logs must be protected against modification."}
+  - {type: different_topic, first: "Database passwords must be rotated every 30 days.", second: "Database passwords must be at least 20 characters long."}
+  - {type: different_topic, first: "All code must be scanned for secrets before it is merged.", second: "Detected secrets must be revoked within one hour."}
+  - {type: different_topic, first: "All production changes require an approved change ticket.", second: "Every change ticket must name the person who tests the change."}
+  - {type: different_topic, first: "Personal data must be pseudonymised in analytics systems.", second: "Access to analytics systems must be reviewed every quarter."}
+  - {type: different_topic, first: "Third-party suppliers must pass a security assessment before onboarding.", second: "Supplier contracts must include a right to audit."}
+  - {type: different_topic, first: "Leavers must lose all access on their last working day.", second: "Managers must confirm the list of access rights of a leaver."}
+  - {type: different_topic, first: "Security incidents must be reported to the regulator within 24 hours.", second: "Incident reports must be reviewed by the legal department before they are sent."}
+  - {type: different_topic, first: "Requests of data subjects must be answered within 30 days.", second: "Requests of data subjects must be verified by checking the identity of the requester."}
+  - {type: different_topic, first: "Every system must send its logs to the central platform.", second: "The central platform must keep logs in a write-once store."}
+  - {type: different_topic, first: "Multi-factor authentication is required for every administrative interface.", second: "Administrative interfaces must be reachable only from the corporate network."}
+  - {type: different_topic, first: "All user passwords must be stored as salted hashes.", second: "Password hashes must use an algorithm designed for passwords."}
+  - {type: different_topic, first: "Secrets must be stored in the secret manager.", second: "Access to the secret manager must be logged."}
+  - {type: different_topic, first: "Every release must pass the security test suite.", second: "The security test suite must be updated after each incident."}
+  - {type: different_topic, first: "Two people must approve a payment above 50,000 EUR.", second: "Approvers must not be the initiator of the payment."}
+  - {type: different_topic, first: "Databases must not be reachable from the internet.", second: "Database access from applications must use dedicated service accounts."}
+  - {type: different_topic, first: "Risk acceptances need the approval of the risk committee.", second: "Accepted risks must be reviewed once a year."}
+  - {type: restatement, first: "Employees must not share their passwords with anyone.", second: "Passwords are personal and must not be disclosed to colleagues or managers."}
+  - {type: restatement, first: "Card numbers must never be written to logs.", second: "Logs must not contain primary account numbers."}
+  - {type: restatement, first: "Cloud storage buckets must never be public.", second: "Public access to storage buckets is blocked on the account level."}
+  - {type: restatement, first: "Debug mode is prohibited in production.", second: "Production systems must run with debugging turned off."}
+  - {type: restatement, first: "Customer data must not leave the European Union.", second: "All processing and storage of customer data takes place in the European Union."}
+  - {type: restatement, first: "Production credentials must not be stored in source code.", second: "Source code must be free of credentials for production systems."}
+  - {type: restatement, first: "The security office approves all access to production systems.", second: "Access to production systems is granted after approval by the security office."}
+  - {type: restatement, first: "Lost devices must be reported immediately.", second: "Employees report a lost device to the service desk as soon as they notice the loss."}
+  - {type: restatement, first: "Expired certificates must be replaced before the expiry date.", second: "Certificates must not be allowed to expire."}
+  - {type: restatement, first: "Dormant accounts must be disabled after 45 days without use.", second: "Accounts that were not used for 45 days are disabled."}
+  - {type: complement, first: "Access to customer records must be logged and reviewed monthly.", second: "Customer records may be exported only by members of the support team."}
+  - {type: complement, first: "New services must undergo a threat model before launch.", second: "Threat models must be stored in the architecture repository."}
+  - {type: complement, first: "Data retention periods are fixed by the retention schedule.", second: "Data that has reached its retention period must be deleted within 30 days."}
+  - {type: complement, first: "All incidents must be classified within two hours.", second: "Incidents of the classes critical and high must be announced in the incident channel."}
+  - {type: complement, first: "Administrators must use separate accounts for administration.", second: "Administrative accounts must not have access to email."}
+  - {type: complement, first: "Third-party code must be approved before use.", second: "Approved third-party components are listed in the software inventory."}
+  - {type: complement, first: "Only company-managed devices may connect to the internal network.", second: "Managed devices must report their configuration to the inventory every day."}
+  - {type: complement, first: "Unused ports must be closed.", second: "Open ports must be documented in the service register."}
+  - {type: complement, first: "Code must be signed before deployment.", second: "Signing keys must be held in a hardware security module."}
+  - {type: complement, first: "Customer documents must be uploaded only through the secure portal.", second: "Uploaded documents are scanned for malware before they are stored."}
+  - {type: other_exception, first: "All systems must support single sign-on.", second: "Systems that cannot support single sign-on must be replaced within two years."}
+  - {type: other_exception, first: "Contractors must complete the onboarding security course before getting access.", second: "Contractors who cannot complete the course in time must be accompanied by an employee until they do."}
+  - {type: other_exception, first: "Every database backup must be tested for restoration.", second: "A backup that fails the restoration test must be repeated within one day."}
+  - {type: other_exception, first: "Every security exception must be approved by the security office.", second: "Approved exceptions expire after six months and must be requested again."}
+  - {type: other_exception, first: "Vulnerabilities in dependencies must be fixed before release.", second: "A release with a known vulnerability that cannot be fixed requires a written decision of the security office."}
+  - {type: other_exception, first: "Every service must have an owner who is named in the register.", second: "A service without an owner must be shut down after 60 days."}
+  - {type: other_exception, first: "Staff must not connect to public Wi-Fi networks with company laptops.", second: "Staff on a business trip must use the company mobile hotspot."}
+  - {type: other_exception, first: "Emergency changes must be approved by the change board.", second: "Emergency changes must be reviewed afterwards within three working days."}
+  - {type: other_exception, first: "Two people must approve a payment above 50,000 EUR.", second: "Payments above 500,000 EUR need the approval of the finance director in addition."}
+  - {type: other_exception, first: "Access to the production database is prohibited for developers.", second: "Developers can request a masked copy of production data for their analysis."}
