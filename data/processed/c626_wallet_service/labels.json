@@ -1,0 +1,176 @@
+{
+ "case_id": "c626_wallet_service",
+ "split": "v6",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "WHK-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-294"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every callback",
+     "add a timestamp that the receiver checks against replay"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "WHK-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     878,
+     1006
+    ]
+   ],
+   "policy_spans": {
+    "WHK-01": [
+     [
+      2140,
+      2261
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     1019,
+     1097
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     1099,
+     1185
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     1189,
+     1298
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1302,
+     1375
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1381,
+     1479
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     1481,
+     1572
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1574,
+     1620
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

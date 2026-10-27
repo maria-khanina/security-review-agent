@@ -1,0 +1,192 @@
+{
+ "case_id": "c607_fraud_scoring",
+ "split": "v6",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     853,
+     958
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     961,
+     1048
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1051,
+     1145
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1148,
+     1214
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1217,
+     1291
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-02",
+   "design_spans": [
+    [
+     1294,
+     1385
+    ]
+   ],
+   "policy_spans": [
+    [
+     1489,
+     1552
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     1388,
+     1452
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1455,
+     1555
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     1558,
+     1647
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1650,
+     1709
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  },
+  {
+   "rule_id": "WHK-01",
+   "design_spans": [
+    [
+     1712,
+     1843
+    ]
+   ],
+   "policy_spans": [
+    [
+     2140,
+     2261
+    ]
+   ]
+  }
+ ]
+}

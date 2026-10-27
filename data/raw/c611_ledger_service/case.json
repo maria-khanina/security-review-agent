@@ -1,0 +1,65 @@
+{
+ "case_id": "c611_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "EXP-02",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-285"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require the written approval of the data owner for exports of more than 1,000 records"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Bulk exports are approved by the team lead and not by the data owner."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "INV-02",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data the service processes and which third parties receive data from it.",
+   "instruction": "Mention ledger-core naturally, but do NOT state: Which personal data the service processes and which third parties receive data from it. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "VUL-02",
+  "TST-01",
+  "TST-02",
+  "NTF-01",
+  "INV-01",
+  "FRD-01"
+ ]
+}

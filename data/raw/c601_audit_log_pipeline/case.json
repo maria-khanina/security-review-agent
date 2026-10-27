@@ -1,0 +1,46 @@
+{
+ "case_id": "c601_audit_log_pipeline",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TST-02",
+   "component": "audit-collector",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1392"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove test accounts within 7 days after the test ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Test accounts are disabled but not deleted."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "VUL-01",
+  "VUL-02",
+  "TST-01",
+  "EXP-01",
+  "MON-01"
+ ]
+}

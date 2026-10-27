@@ -1,0 +1,98 @@
+{
+ "case_id": "c714_notification_service",
+ "split": "v7",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     304,
+     358
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     361,
+     444
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     447,
+     492
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     495,
+     551
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-02",
+   "design_spans": [
+    [
+     554,
+     623
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1846
+    ]
+   ]
+  }
+ ]
+}

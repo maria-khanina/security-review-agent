@@ -1,0 +1,46 @@
+{
+ "case_id": "c729_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-837"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only the payment endpoint is idempotent, transfers are not."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "VER-01",
+  "VER-02",
+  "MSG-01",
+  "MSG-02"
+ ]
+}

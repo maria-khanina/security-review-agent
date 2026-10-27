@@ -1,0 +1,215 @@
+{
+ "case_id": "c717_payment_gateway",
+ "split": "v7",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-837"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IDM-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     742,
+     851
+    ]
+   ],
+   "policy_spans": {
+    "IDM-01": [
+     [
+      639,
+      753
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-682"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "reconcile balances with the ledger every day",
+     "report differences of more than 0.01 EUR to the finance team within 24 hours"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "REC-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     544,
+     626
+    ]
+   ],
+   "policy_spans": {
+    "REC-01": [
+     [
+      398,
+      545
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     645,
+     718
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     865,
+     1004
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     1024,
+     1118
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     1132,
+     1234
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     1235,
+     1296
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     1308,
+     1397
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-02",
+   "design_spans": [
+    [
+     1412,
+     1521
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1846
+    ]
+   ]
+  }
+ ]
+}

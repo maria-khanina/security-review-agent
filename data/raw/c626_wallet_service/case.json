@@ -1,0 +1,48 @@
+{
+ "case_id": "c626_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "WHK-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-294"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every callback",
+     "add a timestamp that the receiver checks against replay"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Callbacks to endpoints of large customers are not signed."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "ARC-02",
+  "VUL-02",
+  "TST-02",
+  "INV-02",
+  "FRD-01",
+  "MON-01"
+ ]
+}

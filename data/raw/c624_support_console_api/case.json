@@ -1,0 +1,91 @@
+{
+ "case_id": "c624_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TST-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "never copy production data to test or development environments",
+     "generate synthetic data for tests"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Production exports are used to load test the reporting module."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "INV-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "list the personal data of each service in the register",
+     "list every third party that receives data from the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service sends events to a partner that the register does not mention."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "TST-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1392"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove test accounts within 7 days after the test ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Test accounts are disabled but not deleted."
+  }
+ ],
+ "required_rules": [
+  "ARC-02",
+  "VUL-01",
+  "EXP-01",
+  "INV-01",
+  "MON-01"
+ ]
+}

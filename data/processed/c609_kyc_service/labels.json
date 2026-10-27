@@ -1,0 +1,247 @@
+{
+ "case_id": "c609_kyc_service",
+ "split": "v6",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "INV-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "name an owner and a deputy in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "INV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1842,
+     1957
+    ]
+   ],
+   "policy_spans": {
+    "INV-01": [
+     [
+      1601,
+      1682
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "NTF-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep card numbers, passwords and identity document images out of messages"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "NTF-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     2313,
+     2424
+    ]
+   ],
+   "policy_spans": {
+    "NTF-01": [
+     [
+      1251,
+      1351
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     1281,
+     1368
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1374,
+     1468
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1475,
+     1541
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1547,
+     1621
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     1627,
+     1739
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-02",
+   "design_spans": [
+    [
+     1745,
+     1836
+    ]
+   ],
+   "policy_spans": [
+    [
+     1489,
+     1552
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1964,
+     2114
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     2121,
+     2180
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  },
+  {
+   "rule_id": "WHK-01",
+   "design_spans": [
+    [
+     2187,
+     2295
+    ]
+   ],
+   "policy_spans": [
+    [
+     2140,
+     2261
+    ]
+   ]
+  }
+ ]
+}

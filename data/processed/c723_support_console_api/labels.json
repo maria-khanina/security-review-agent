@@ -1,0 +1,249 @@
+{
+ "case_id": "c723_support_console_api",
+ "split": "v7",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SBX-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fill the sandbox with generated data only",
+     "run the sandbox separately from production"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SBX-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     985,
+     1055
+    ]
+   ],
+   "policy_spans": {
+    "SBX-01": [
+     [
+      1165,
+      1266
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1331,
+     1449
+    ]
+   ],
+   "policy_spans": {
+    "SUP-02": [
+     [
+      1774,
+      1846
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "REC-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-682"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How often balances are reconciled with the ledger and who is told about differences.",
+   "related_rules": [
+    "REC-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     319,
+     420
+    ]
+   ],
+   "policy_spans": {
+    "REC-01": [
+     [
+      398,
+      545
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     593,
+     666
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     669,
+     808
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     811,
+     905
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     908,
+     982
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     1058,
+     1160
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     1163,
+     1252
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     1255,
+     1328
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

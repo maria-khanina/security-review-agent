@@ -1,0 +1,22 @@
+{
+ "case_id": "c714_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "SBX-01",
+  "MSG-01",
+  "MSG-02",
+  "SUP-01",
+  "SUP-02"
+ ]
+}

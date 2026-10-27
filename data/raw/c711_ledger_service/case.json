@@ -1,0 +1,69 @@
+{
+ "case_id": "c711_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LIM-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit the daily outgoing transfers per customer",
+     "require the approval of a second employee for a change of a limit"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Limits are set in the code and can be changed only by a release."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-837"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Keys are remembered for one minute only."
+  }
+ ],
+ "required_rules": [
+  "REC-02",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

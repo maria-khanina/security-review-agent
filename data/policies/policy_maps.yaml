@@ -553,3 +553,116 @@ versions:
         status: clear
         quotes:
         - Every feature that moves money must have a kill switch, and the kill switch must be tested every quarter.
+  v6:
+    file: v6_operations_lifecycle_standard.md
+    rules:
+      ARC-01:
+        status: clear
+        quotes:
+        - Transaction records must be kept for 7 years and must be deleted within 90 days after that period ends.
+      ARC-02:
+        status: conflicting
+        quotes:
+        - Documents uploaded by customers must be deleted within 30 days after the account is closed.
+        - Documents that are needed for a pending dispute may be kept until the dispute is settled.
+      VUL-01:
+        status: clear
+        quotes:
+        - Vulnerabilities rated critical must be fixed in production within 7 days after they are published.
+      VUL-02:
+        status: vague
+        quotes:
+        - Third-party components should be kept reasonably up to date.
+      TST-01:
+        status: clear
+        quotes:
+        - Production data must not be copied to test or development environments.
+      TST-02:
+        status: advisory
+        quotes:
+        - Test accounts in production should be removed within 7 days after the test ends.
+      NTF-01:
+        status: clear
+        quotes:
+        - Messages sent to customers must not contain card numbers, passwords or images of identity documents.
+      EXP-01:
+        status: clear
+        quotes:
+        - Exported files that contain personal data must be encrypted and must be deleted from the download location after 7 days.
+      EXP-02:
+        status: vague
+        quotes:
+        - Large exports of customer records require appropriate approval.
+      INV-01:
+        status: clear
+        quotes:
+        - Every service must have a named owner and a named deputy in the service register.
+      INV-02:
+        status: clear
+        quotes:
+        - The service register must list for each service the personal data that it processes and every third party that receives data from it.
+      FRD-01:
+        status: clear
+        quotes:
+        - Transactions above 10,000 EUR must be held for review by the fraud team before they are settled.
+      MON-01:
+        status: conflicting
+        quotes:
+        - Alerts of severity high must be acknowledged within 15 minutes.
+        - Outside office hours alerts of severity high may be acknowledged within two hours.
+      WHK-01:
+        status: clear
+        quotes:
+        - Callbacks to endpoints of customers must be signed and must carry a timestamp that the receiver can check against replay.
+  v7:
+    file: v7_platform_support_standard.md
+    rules:
+      REC-01:
+        status: clear
+        quotes:
+        - Balances must be reconciled with the ledger every day, and a difference of more than 0.01 EUR must be reported to the finance team within 24 hours.
+      REC-02:
+        status: vague
+        quotes:
+        - Differences found in a reconciliation should be resolved in a timely manner.
+      IDM-01:
+        status: clear
+        quotes:
+        - "Operations that move money must be idempotent: a repeated request with the same key must not move the money again."
+      LIM-01:
+        status: clear
+        quotes:
+        - The daily outgoing transfers of a customer must be limited to the amount in the limit table, and a change of a limit needs the approval of a second employee.
+      VER-01:
+        status: clear
+        quotes:
+        - A replaced version of an API must be kept for 12 months, and its removal must be announced 90 days in advance.
+      VER-02:
+        status: advisory
+        quotes:
+        - Breaking changes of an API should be released only as a new version of the API.
+      SBX-01:
+        status: clear
+        quotes:
+        - The sandbox for merchants must contain no real customer data and must run separately from production.
+      MSG-01:
+        status: clear
+        quotes:
+        - Messages that cannot be processed must be moved to a dead-letter queue and be examined within one working day.
+      MSG-02:
+        status: conflicting
+        quotes:
+        - Messages in queues must be deleted after they are processed.
+        - Messages may be kept for up to 7 days to allow a replay.
+      JOB-01:
+        status: clear
+        quotes:
+        - Scheduled jobs must run with their own service account that cannot log in interactively.
+      SUP-01:
+        status: clear
+        quotes:
+        - Support agents must see card numbers and document numbers only in masked form.
+      SUP-02:
+        status: vague
+        quotes:
+        - Changes to the contact data of a customer require adequate verification.

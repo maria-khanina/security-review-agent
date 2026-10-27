@@ -1,0 +1,87 @@
+{
+ "case_id": "c712_merchant_portal_api",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VER-01",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep a replaced API version for 12 months",
+     "announce its removal 90 days in advance"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Versions are retired without a date and the customers find out when their calls fail."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-01",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "reconcile balances with the ledger every day",
+     "report differences of more than 0.01 EUR to the finance team within 24 hours"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Balances are compared with the ledger once a month when finance closes the books."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "REC-02",
+   "component": "portal-backend",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Within what time differences found in a reconciliation are resolved.",
+   "instruction": "Mention portal-backend naturally, but do NOT state: Within what time differences found in a reconciliation are resolved. Wrap the sentence(s) that mention portal-backend (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "IDM-01",
+  "SBX-01",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01"
+ ]
+}

@@ -1,0 +1,237 @@
+{
+ "case_id": "c617_payment_gateway",
+ "split": "v6",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MON-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1406,
+     1529
+    ]
+   ],
+   "policy_spans": {
+    "MON-01": [
+     [
+      1977,
+      2040
+     ],
+     [
+      2049,
+      2131
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "WHK-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-294"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every callback",
+     "add a timestamp that the receiver checks against replay"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "WHK-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1532,
+     1614
+    ]
+   ],
+   "policy_spans": {
+    "WHK-01": [
+     [
+      2140,
+      2261
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "INV-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data the service processes and which third parties receive data from it.",
+   "related_rules": [
+    "INV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     478,
+     584
+    ]
+   ],
+   "policy_spans": {
+    "INV-02": [
+     [
+      1691,
+      1824
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     939,
+     1018
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1021,
+     1109
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1112,
+     1178
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1181,
+     1255
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "NTF-01",
+   "design_spans": [
+    [
+     1258,
+     1351
+    ]
+   ],
+   "policy_spans": [
+    [
+     1251,
+     1351
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     1354,
+     1403
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  }
+ ]
+}

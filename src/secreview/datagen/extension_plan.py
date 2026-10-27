@@ -44,6 +44,7 @@ class ExtensionCaseSpecification(BaseModel):
     policy_version: str
     flaws: list[str]
     split: str | None = None
+    silent: list[str] = []
 
 
 class ExtensionPlan(BaseModel):
@@ -107,6 +108,16 @@ def plant_requested_flaw(context: SamplingContext, requested: str) -> None:
         raise ValueError(f"{context.case.case_id}: cannot plant {requested}")
 
 
+def leave_silent(case: Case, silent: list[str]) -> None:
+    """Drop the rules that the design is planned not to mention."""
+    unknown = set(silent) - set(case.required_rules)
+    if unknown:
+        raise ValueError(f"{case.case_id}: cannot leave {sorted(unknown)} silent")
+    case.required_rules = [
+        rule_id for rule_id in case.required_rules if rule_id not in silent
+    ]
+
+
 def plan_extension_case(specification: ExtensionCaseSpecification) -> PlannedCase:
     """Build one extension case with its requested flaws and required rules."""
     case = build_empty_case(specification)
@@ -114,6 +125,7 @@ def plan_extension_case(specification: ExtensionCaseSpecification) -> PlannedCas
     for requested in specification.flaws:
         plant_requested_flaw(context, requested)
     finish_case(context)
+    leave_silent(case, specification.silent)
     return PlannedCase(case=case, defective=bool(specification.flaws))
 
 

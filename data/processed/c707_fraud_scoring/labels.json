@@ -1,0 +1,124 @@
+{
+ "case_id": "c707_fraud_scoring",
+ "split": "v7",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     305,
+     443
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     446,
+     519
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     522,
+     661
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     664,
+     738
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     741,
+     827
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     830,
+     919
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     922,
+     995
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

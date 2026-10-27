@@ -1,0 +1,218 @@
+{
+ "case_id": "c608_kyc_service",
+ "split": "v6",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MON-01"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     916,
+     1065
+    ]
+   ],
+   "policy_spans": {
+    "MON-01": [
+     [
+      1977,
+      2040
+     ],
+     [
+      2049,
+      2131
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "TST-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "never copy production data to test or development environments",
+     "generate synthetic data for tests"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TST-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1282,
+     1421
+    ]
+   ],
+   "policy_spans": {
+    "TST-01": [
+     [
+      1042,
+      1113
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     1518,
+     1579
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     1434,
+     1517
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1066,
+     1147
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     1148,
+     1268
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     1621,
+     1720
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1742,
+     1866
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "WHK-01",
+   "design_spans": [
+    [
+     1935,
+     2060
+    ]
+   ],
+   "policy_spans": [
+    [
+     2140,
+     2261
+    ]
+   ]
+  }
+ ]
+}

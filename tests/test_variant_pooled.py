@@ -6,6 +6,7 @@ from secreview.evaluation.variant_pooled import (
     Outcome,
     difference_interval,
     draws,
+    join_variants,
     pool,
     primary_recall,
 )
@@ -51,3 +52,12 @@ def test_the_difference_of_equal_series_is_zero() -> None:
     series: list[float] = list(np.linspace(0.0, 1.0, len("abcd")))
     mean, low, high = difference_interval(series, series)
     assert mean == low == high == 0.0
+
+
+def test_joining_variants_concatenates_features_and_documents() -> None:
+    joined = join_variants(
+        [make_outcome(["a", "b"]).data, make_outcome(["c"]).data]
+    )
+    assert joined.features.shape == (len(joined.documents), 2)
+    assert list(joined.documents) == ["a", "b", "c"]
+    assert len(joined.gold) == len(joined.documents)

@@ -1,0 +1,94 @@
+{
+ "case_id": "c721_reporting_export",
+ "split": "v7",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     403,
+     476
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     482,
+     593
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     600,
+     686
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     694,
+     783
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     789,
+     862
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

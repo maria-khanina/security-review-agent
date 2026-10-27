@@ -1,0 +1,20 @@
+{
+ "case_id": "c700_audit_log_pipeline",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "MSG-01",
+  "MSG-02",
+  "JOB-01"
+ ]
+}

@@ -1,0 +1,221 @@
+{
+ "case_id": "c703_card_token_vault",
+ "split": "v7",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VER-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "release breaking changes only as a new version of the API"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VER-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1033,
+     1127
+    ]
+   ],
+   "policy_spans": {
+    "VER-02": [
+     [
+      1077,
+      1156
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1262,
+     1344
+    ]
+   ],
+   "policy_spans": {
+    "SUP-01": [
+     [
+      1687,
+      1765
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "REC-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-682"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "resolve every difference within 5 working days"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "REC-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     521,
+     618
+    ]
+   ],
+   "policy_spans": {
+    "REC-02": [
+     [
+      554,
+      630
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     378,
+     520
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "IDM-01",
+   "design_spans": [
+    [
+     637,
+     767
+    ]
+   ],
+   "policy_spans": [
+    [
+     639,
+     753
+    ]
+   ]
+  },
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     781,
+     920
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     938,
+     1032
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     1144,
+     1246
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  }
+ ]
+}

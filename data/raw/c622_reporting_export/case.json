@@ -1,0 +1,91 @@
+{
+ "case_id": "c622_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "EXP-01",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "encrypt exported files with personal data",
+     "delete exported files from the download location after 7 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Export files stay in the download location until someone cleans it up."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "ARC-02",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-459"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete the documents within 30 days after the account is closed",
+     "delete the copies in queues and exports as well"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Deletion is requested by the customer and does not happen automatically."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "NTF-01",
+   "component": "export-job",
+   "data_class": "pii",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep card numbers, passwords and identity document images out of messages"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Support replies quote the card number that the customer wrote in the ticket."
+  }
+ ],
+ "required_rules": [
+  "VUL-01",
+  "VUL-02",
+  "INV-01",
+  "INV-02",
+  "MON-01"
+ ]
+}

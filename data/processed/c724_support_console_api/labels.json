@@ -1,0 +1,186 @@
+{
+ "case_id": "c724_support_console_api",
+ "split": "v7",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-212"
+   ],
+   "component": "console-backend",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MSG-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1022,
+     1117
+    ]
+   ],
+   "policy_spans": {
+    "MSG-02": [
+     [
+      1429,
+      1489
+     ],
+     [
+      1498,
+      1554
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     383,
+     520
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     523,
+     596
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "IDM-01",
+   "design_spans": [
+    [
+     599,
+     729
+    ]
+   ],
+   "policy_spans": [
+    [
+     639,
+     753
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     732,
+     825
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     828,
+     914
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     917,
+     1019
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     1120,
+     1209
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     1212,
+     1285
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

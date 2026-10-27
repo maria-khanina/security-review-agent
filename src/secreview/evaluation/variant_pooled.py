@@ -51,11 +51,27 @@ def run_name(prefix: str, configuration: str) -> str:
     return f"{prefix}_{configuration}"
 
 
-def worded_outcome(dev_run: str, test_run: str) -> Outcome:
+def join_variants(variants: list[VariantData]) -> VariantData:
+    """Join the judged requirements of several runs into one training set."""
+    return VariantData(
+        run="+".join(item.run for item in variants),
+        rows=[row for item in variants for row in item.rows],
+        features=np.concatenate([item.features for item in variants]),
+        gold=np.concatenate([item.gold for item in variants]),
+        documents=np.concatenate([item.documents for item in variants]),
+    )
+
+
+def load_training(runs: list[str]) -> VariantData:
+    """Load and join the runs on which a layer is trained."""
+    return join_variants([load_variant(run) for run in runs])
+
+
+def worded_outcome(train_runs: list[str], test_run: str) -> Outcome:
     """Choose with the layer that reads the wording judged for each requirement."""
-    dev = load_variant(with_wording_analysis(dev_run))
+    train = load_training([with_wording_analysis(run) for run in train_runs])
     test = load_variant(with_wording_analysis(test_run))
-    probabilities = layer_probabilities(dev, test, preset_columns("all"))
+    probabilities = layer_probabilities(train, test, preset_columns("all"))
     chosen, score = from_probabilities(probabilities)
     return Outcome(data=test, chosen=chosen, score=score)
 
@@ -70,10 +86,10 @@ def probabilities_of(
     return prior, full
 
 
-def layered_outcome(kind: str, dev_run: str, test_run: str) -> Outcome:
+def layered_outcome(kind: str, train_runs: list[str], test_run: str) -> Outcome:
     """Choose with a layer that has no wording, or with the cascade."""
-    dev, test = load_variant(dev_run), load_variant(test_run)
-    prior, full = probabilities_of(dev, test)
+    train, test = load_training(train_runs), load_variant(test_run)
+    prior, full = probabilities_of(train, test)
     shares = REVIEW_SETTINGS.evaluation.cascade_shares
     if kind == "prior":
         chosen, score = from_probabilities(prior)
@@ -86,18 +102,20 @@ def layered_outcome(kind: str, dev_run: str, test_run: str) -> Outcome:
 
 def outcome_of(
     finalist: FinalistSettings,
-    dev_prefix: str,
+    train_prefixes: list[str],
     test_prefix: str,
 ) -> Outcome:
     """Choose the classes and the scores of a finalist on one set of designs."""
-    dev_run = run_name(dev_prefix, finalist.configuration)
+    train_runs: list[str] = [
+        run_name(prefix, finalist.configuration) for prefix in train_prefixes
+    ]
     test_run = run_name(test_prefix, finalist.configuration)
     if finalist.kind == "raw":
         test = load_variant(test_run)
         return Outcome(data=test, chosen=raw_classes(test), score=raw_scores(test))
     if finalist.kind == "worded":
-        return worded_outcome(dev_run, test_run)
-    return layered_outcome(finalist.kind, dev_run, test_run)
+        return worded_outcome(train_runs, test_run)
+    return layered_outcome(finalist.kind, train_runs, test_run)
 
 
 def pool(first: Outcome, second: Outcome) -> Outcome:

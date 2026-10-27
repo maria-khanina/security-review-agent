@@ -1,0 +1,143 @@
+{
+ "case_id": "c621_reporting_export",
+ "split": "v6",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "heavy",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     808,
+     889
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     892,
+     991
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "NTF-01",
+   "design_spans": [
+    [
+     994,
+     1080
+    ]
+   ],
+   "policy_spans": [
+    [
+     1251,
+     1351
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     575,
+     683
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-02",
+   "design_spans": [
+    [
+     686,
+     774
+    ]
+   ],
+   "policy_spans": [
+    [
+     1489,
+     1552
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     1083,
+     1130
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1133,
+     1236
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1239,
+     1286
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

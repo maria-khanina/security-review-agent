@@ -1,0 +1,196 @@
+{
+ "case_id": "c705_data_warehouse_sync",
+ "split": "v7",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-755"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MSG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     557,
+     601
+    ]
+   ],
+   "policy_spans": {
+    "MSG-01": [
+     [
+      1310,
+      1420
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-682"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "resolve every difference within 5 working days"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "REC-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     284,
+     363
+    ]
+   ],
+   "policy_spans": {
+    "REC-02": [
+     [
+      554,
+      630
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-212"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MSG-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     604,
+     722
+    ]
+   ],
+   "policy_spans": {
+    "MSG-02": [
+     [
+      1429,
+      1489
+     ],
+     [
+      1498,
+      1554
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     380,
+     480
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     483,
+     546
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     731,
+     824
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  }
+ ]
+}

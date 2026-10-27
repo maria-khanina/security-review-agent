@@ -85,3 +85,63 @@ cases:
   - {index: 527, service: data_warehouse_sync, author_profile: meeting_notes, policy_version: v5, split: v5, flaws: ['violation:OBS-01', 'ambiguity:RES-01']}
   - {index: 528, service: webhook_dispatcher, author_profile: diagram_narrator, policy_version: v5, split: v5, flaws: ['violation:CAP-01', 'ambiguity:CHG-02']}
   - {index: 529, service: reporting_export, author_profile: tribal_knowledge_staff, policy_version: v5, split: v5, flaws: ['violation:RES-01', 'ambiguity:PIP-01']}
+  - {index: 600, service: audit_log_pipeline, author_profile: methodical_architect, policy_version: v6, split: v6, flaws: [], silent: ['EXP-01', 'INV-02']}
+  - {index: 601, service: audit_log_pipeline, author_profile: ticket_writer, policy_version: v6, split: v6, flaws: ['violation:TST-02'], silent: ['INV-01', 'INV-02']}
+  - {index: 602, service: card_token_vault, author_profile: diagram_narrator, policy_version: v6, split: v6, flaws: ['violation:INV-02'], silent: ['TST-01', 'VUL-01', 'VUL-02']}
+  - {index: 603, service: card_token_vault, author_profile: slack_paste, policy_version: v6, split: v6, flaws: ['violation:VUL-02'], silent: ['ARC-01', 'MON-01', 'VUL-01']}
+  - {index: 604, service: data_warehouse_sync, author_profile: buzzword_pm, policy_version: v6, split: v6, flaws: ['violation:ARC-01', 'ambiguity:VUL-01'], silent: ['INV-01', 'TST-02']}
+  - {index: 605, service: data_warehouse_sync, author_profile: esl_engineer, policy_version: v6, split: v6, flaws: ['violation:EXP-02'], silent: ['MON-01', 'TST-01']}
+  - {index: 606, service: fraud_scoring, author_profile: tribal_knowledge_staff, policy_version: v6, split: v6, flaws: ['violation:EXP-01', 'ambiguity:WHK-01'], silent: ['ARC-01', 'INV-01', 'INV-02', 'VUL-02']}
+  - {index: 607, service: fraud_scoring, author_profile: migration_delta_writer, policy_version: v6, split: v6, flaws: [], silent: ['EXP-01', 'NTF-01', 'VUL-02']}
+  - {index: 608, service: kyc_service, author_profile: stream_of_consciousness, policy_version: v6, split: v6, flaws: ['violation:MON-01', 'violation:TST-01'], silent: ['EXP-02', 'INV-01', 'NTF-01', 'TST-02']}
+  - {index: 609, service: kyc_service, author_profile: compliance_voice, policy_version: v6, split: v6, flaws: ['violation:INV-01', 'violation:NTF-01'], silent: ['ARC-01', 'VUL-02']}
+  - {index: 610, service: ledger_service, author_profile: merged_two_authors, policy_version: v6, split: v6, flaws: ['violation:FRD-01', 'ambiguity:TST-02'], silent: ['INV-01', 'NTF-01', 'VUL-02']}
+  - {index: 611, service: ledger_service, author_profile: sprint_rusher, policy_version: v6, split: v6, flaws: ['violation:EXP-02', 'ambiguity:INV-02'], silent: ['EXP-01', 'MON-01', 'VUL-01']}
+  - {index: 612, service: merchant_portal_api, author_profile: copy_paste_veteran, policy_version: v6, split: v6, flaws: ['violation:ARC-02', 'violation:FRD-01', 'violation:INV-01'], silent: ['EXP-02', 'MON-01', 'VUL-02']}
+  - {index: 613, service: merchant_portal_api, author_profile: junior_tutorial, policy_version: v6, split: v6, flaws: ['violation:TST-01'], silent: ['FRD-01', 'WHK-01']}
+  - {index: 614, service: notification_service, author_profile: table_lover, policy_version: v6, split: v6, flaws: [], silent: ['ARC-01', 'EXP-02', 'FRD-01', 'VUL-01']}
+  - {index: 615, service: notification_service, author_profile: security_champion, policy_version: v6, split: v6, flaws: ['violation:NTF-01', 'violation:ARC-02', 'violation:ARC-01'], silent: ['EXP-02', 'VUL-02']}
+  - {index: 616, service: payment_gateway, author_profile: meeting_notes, policy_version: v6, split: v6, flaws: ['violation:VUL-02', 'violation:VUL-01'], silent: ['TST-01', 'WHK-01']}
+  - {index: 617, service: payment_gateway, author_profile: optimistic_roadmapper, policy_version: v6, split: v6, flaws: ['violation:MON-01', 'violation:WHK-01', 'ambiguity:INV-02'], silent: ['FRD-01', 'VUL-02']}
+  - {index: 618, service: payment_gateway, author_profile: methodical_architect, policy_version: v6, split: v6, flaws: ['violation:WHK-01', 'violation:MON-01', 'violation:TST-02'], silent: ['FRD-01', 'TST-01', 'VUL-01']}
+  - {index: 619, service: refund_service, author_profile: ticket_writer, policy_version: v6, split: v6, flaws: ['violation:VUL-02', 'violation:INV-01', 'ambiguity:ARC-01'], silent: ['NTF-01', 'WHK-01']}
+  - {index: 620, service: refund_service, author_profile: diagram_narrator, policy_version: v6, split: v6, flaws: ['violation:FRD-01', 'ambiguity:VUL-01'], silent: ['INV-01', 'INV-02', 'MON-01']}
+  - {index: 621, service: reporting_export, author_profile: slack_paste, policy_version: v6, split: v6, flaws: [], silent: ['ARC-01', 'ARC-02', 'TST-01', 'TST-02']}
+  - {index: 622, service: reporting_export, author_profile: buzzword_pm, policy_version: v6, split: v6, flaws: ['violation:EXP-01', 'violation:ARC-02', 'violation:NTF-01'], silent: ['ARC-01', 'EXP-02', 'TST-01', 'TST-02']}
+  - {index: 623, service: support_console_api, author_profile: esl_engineer, policy_version: v6, split: v6, flaws: ['violation:EXP-02', 'violation:TST-01', 'violation:EXP-01'], silent: ['INV-01', 'INV-02', 'NTF-01']}
+  - {index: 624, service: support_console_api, author_profile: tribal_knowledge_staff, policy_version: v6, split: v6, flaws: ['violation:TST-01', 'violation:INV-02', 'violation:TST-02'], silent: ['EXP-02', 'NTF-01', 'VUL-02']}
+  - {index: 625, service: wallet_service, author_profile: migration_delta_writer, policy_version: v6, split: v6, flaws: ['violation:VUL-02', 'violation:INV-01', 'ambiguity:ARC-01'], silent: ['TST-01', 'VUL-01', 'WHK-01']}
+  - {index: 626, service: wallet_service, author_profile: stream_of_consciousness, policy_version: v6, split: v6, flaws: ['violation:WHK-01'], silent: ['INV-01', 'NTF-01', 'TST-01', 'VUL-01']}
+  - {index: 627, service: wallet_service, author_profile: compliance_voice, policy_version: v6, split: v6, flaws: ['violation:FRD-01', 'violation:VUL-01'], silent: ['INV-01', 'TST-02', 'WHK-01']}
+  - {index: 628, service: webhook_dispatcher, author_profile: merged_two_authors, policy_version: v6, split: v6, flaws: [], silent: ['FRD-01', 'INV-02', 'VUL-02']}
+  - {index: 629, service: webhook_dispatcher, author_profile: sprint_rusher, policy_version: v6, split: v6, flaws: ['violation:MON-01', 'violation:ARC-02'], silent: ['INV-01', 'VUL-01', 'VUL-02', 'WHK-01']}
+  - {index: 700, service: audit_log_pipeline, author_profile: security_champion, policy_version: v7, split: v7, flaws: [], silent: ['VER-01', 'VER-02']}
+  - {index: 701, service: audit_log_pipeline, author_profile: meeting_notes, policy_version: v7, split: v7, flaws: ['violation:JOB-01'], silent: ['MSG-01']}
+  - {index: 702, service: card_token_vault, author_profile: optimistic_roadmapper, policy_version: v7, split: v7, flaws: ['violation:MSG-02', 'violation:SBX-01', 'violation:IDM-01'], silent: ['LIM-01', 'MSG-01', 'REC-01']}
+  - {index: 703, service: card_token_vault, author_profile: methodical_architect, policy_version: v7, split: v7, flaws: ['violation:VER-02', 'violation:SUP-01', 'violation:REC-02'], silent: ['JOB-01', 'MSG-02', 'SBX-01']}
+  - {index: 704, service: data_warehouse_sync, author_profile: ticket_writer, policy_version: v7, split: v7, flaws: ['violation:VER-01', 'violation:REC-01'], silent: ['JOB-01', 'REC-02', 'SUP-01']}
+  - {index: 705, service: data_warehouse_sync, author_profile: diagram_narrator, policy_version: v7, split: v7, flaws: ['violation:MSG-01', 'violation:REC-02', 'violation:MSG-02'], silent: ['REC-01', 'SUP-01']}
+  - {index: 706, service: fraud_scoring, author_profile: slack_paste, policy_version: v7, split: v7, flaws: ['violation:LIM-01', 'violation:SBX-01', 'ambiguity:JOB-01'], silent: ['MSG-01', 'REC-02', 'VER-02']}
+  - {index: 707, service: fraud_scoring, author_profile: buzzword_pm, policy_version: v7, split: v7, flaws: [], silent: ['MSG-01', 'MSG-02', 'VER-01']}
+  - {index: 708, service: kyc_service, author_profile: esl_engineer, policy_version: v7, split: v7, flaws: ['violation:SUP-02', 'violation:SUP-01'], silent: ['SBX-01', 'VER-01']}
+  - {index: 709, service: kyc_service, author_profile: tribal_knowledge_staff, policy_version: v7, split: v7, flaws: ['violation:SUP-02'], silent: ['JOB-01', 'MSG-02', 'VER-01', 'VER-02']}
+  - {index: 710, service: ledger_service, author_profile: migration_delta_writer, policy_version: v7, split: v7, flaws: ['violation:MSG-01', 'violation:VER-02'], silent: ['LIM-01', 'REC-02', 'VER-01']}
+  - {index: 711, service: ledger_service, author_profile: stream_of_consciousness, policy_version: v7, split: v7, flaws: ['violation:LIM-01', 'violation:IDM-01'], silent: ['REC-01', 'VER-01', 'VER-02']}
+  - {index: 712, service: merchant_portal_api, author_profile: compliance_voice, policy_version: v7, split: v7, flaws: ['violation:VER-01', 'violation:REC-01', 'ambiguity:REC-02'], silent: ['LIM-01', 'SUP-01', 'SUP-02', 'VER-02']}
+  - {index: 713, service: merchant_portal_api, author_profile: merged_two_authors, policy_version: v7, split: v7, flaws: ['violation:VER-01'], silent: ['IDM-01', 'MSG-02', 'SUP-02']}
+  - {index: 714, service: notification_service, author_profile: sprint_rusher, policy_version: v7, split: v7, flaws: [], silent: ['JOB-01', 'VER-01', 'VER-02']}
+  - {index: 715, service: notification_service, author_profile: copy_paste_veteran, policy_version: v7, split: v7, flaws: ['violation:SBX-01', 'violation:MSG-01', 'violation:JOB-01'], silent: ['SUP-02', 'VER-01']}
+  - {index: 716, service: payment_gateway, author_profile: junior_tutorial, policy_version: v7, split: v7, flaws: ['violation:SUP-01', 'violation:VER-02'], silent: ['MSG-01', 'MSG-02', 'SBX-01']}
+  - {index: 717, service: payment_gateway, author_profile: table_lover, policy_version: v7, split: v7, flaws: ['violation:IDM-01', 'violation:REC-01'], silent: ['SBX-01', 'SUP-01', 'VER-02']}
+  - {index: 718, service: payment_gateway, author_profile: security_champion, policy_version: v7, split: v7, flaws: ['violation:MSG-02', 'violation:LIM-01'], silent: ['MSG-01', 'REC-02', 'SBX-01', 'SUP-02']}
+  - {index: 719, service: refund_service, author_profile: meeting_notes, policy_version: v7, split: v7, flaws: ['violation:SUP-02', 'violation:IDM-01', 'ambiguity:REC-02'], silent: ['LIM-01', 'VER-02']}
+  - {index: 720, service: refund_service, author_profile: optimistic_roadmapper, policy_version: v7, split: v7, flaws: ['violation:MSG-01'], silent: ['JOB-01', 'REC-01', 'REC-02']}
+  - {index: 721, service: reporting_export, author_profile: methodical_architect, policy_version: v7, split: v7, flaws: [], silent: ['MSG-01', 'MSG-02', 'REC-01', 'VER-02']}
+  - {index: 722, service: reporting_export, author_profile: ticket_writer, policy_version: v7, split: v7, flaws: ['violation:JOB-01', 'violation:SUP-01'], silent: ['MSG-02', 'VER-02']}
+  - {index: 723, service: support_console_api, author_profile: diagram_narrator, policy_version: v7, split: v7, flaws: ['violation:SBX-01', 'violation:SUP-02', 'ambiguity:REC-01'], silent: ['IDM-01', 'MSG-02']}
+  - {index: 724, service: support_console_api, author_profile: slack_paste, policy_version: v7, split: v7, flaws: ['violation:MSG-02'], silent: ['LIM-01', 'SUP-02', 'VER-02']}
+  - {index: 725, service: wallet_service, author_profile: buzzword_pm, policy_version: v7, split: v7, flaws: ['violation:VER-02', 'violation:LIM-01', 'violation:VER-01'], silent: ['JOB-01', 'MSG-01', 'REC-02']}
+  - {index: 726, service: wallet_service, author_profile: esl_engineer, policy_version: v7, split: v7, flaws: ['violation:VER-01', 'violation:MSG-01'], silent: ['JOB-01', 'LIM-01', 'REC-01']}
+  - {index: 727, service: wallet_service, author_profile: tribal_knowledge_staff, policy_version: v7, split: v7, flaws: ['violation:MSG-02'], silent: ['IDM-01', 'VER-01']}
+  - {index: 728, service: webhook_dispatcher, author_profile: migration_delta_writer, policy_version: v7, split: v7, flaws: [], silent: ['REC-01', 'REC-02', 'SBX-01']}
+  - {index: 729, service: webhook_dispatcher, author_profile: stream_of_consciousness, policy_version: v7, split: v7, flaws: ['violation:IDM-01'], silent: ['JOB-01', 'REC-02', 'SBX-01']}

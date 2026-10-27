@@ -1,0 +1,48 @@
+{
+ "case_id": "c724_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-212"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Messages with personal data are copied to the log as well."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "REC-02",
+  "IDM-01",
+  "VER-01",
+  "SBX-01",
+  "MSG-01",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

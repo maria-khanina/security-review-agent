@@ -1,0 +1,68 @@
+{
+ "case_id": "c710_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-755"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The dead-letter queue exists, but it has not been looked at since the launch."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "VER-02",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "release breaking changes only as a new version of the API"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A change of the error format is not considered breaking."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "IDM-01",
+  "MSG-02",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

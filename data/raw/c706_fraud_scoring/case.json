@@ -1,0 +1,86 @@
+{
+ "case_id": "c706_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "LIM-01",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-770"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "limit the daily outgoing transfers per customer",
+     "require the approval of a second employee for a change of a limit"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Support agents change limits on request of the customer without approval."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SBX-01",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fill the sandbox with generated data only",
+     "run the sandbox separately from production"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The sandbox is a copy of the production database with names changed."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "JOB-01",
+   "component": "scoring-engine",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "With which account scheduled jobs run.",
+   "instruction": "Mention scoring-engine naturally, but do NOT state: With which account scheduled jobs run. Wrap the sentence(s) that mention scoring-engine (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "VER-01",
+  "MSG-02",
+  "SUP-01"
+ ]
+}

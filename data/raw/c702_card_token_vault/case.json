@@ -1,0 +1,91 @@
+{
+ "case_id": "c702_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-212"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Processed messages are archived in a bucket without deletion."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SBX-01",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fill the sandbox with generated data only",
+     "run the sandbox separately from production"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Merchants can test with real card numbers in the sandbox."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-837"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only the payment endpoint is idempotent, transfers are not."
+  }
+ ],
+ "required_rules": [
+  "REC-02",
+  "VER-01",
+  "VER-02",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

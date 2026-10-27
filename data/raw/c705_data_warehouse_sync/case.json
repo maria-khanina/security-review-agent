@@ -1,0 +1,88 @@
+{
+ "case_id": "c705_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-755"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Messages that fail three times are dropped."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-02",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "resolve every difference within 5 working days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Resolution is tracked in the chat and not in a ticket."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-212"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Retention of the queue is set to the maximum of the provider."
+  }
+ ],
+ "required_rules": [
+  "VER-01",
+  "VER-02",
+  "JOB-01"
+ ]
+}

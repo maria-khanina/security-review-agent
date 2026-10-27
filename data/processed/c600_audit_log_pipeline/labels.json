@@ -1,0 +1,128 @@
+{
+ "case_id": "c600_audit_log_pipeline",
+ "split": "v6",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     2890,
+     2991
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     2448,
+     2538
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     2303,
+     2447
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     2670,
+     2770
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     2771,
+     2873
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     2224,
+     2302
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     2539,
+     2631
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

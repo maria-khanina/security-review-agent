@@ -1,0 +1,142 @@
+{
+ "case_id": "c602_card_token_vault",
+ "split": "v6",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "INV-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "list the personal data of each service in the register",
+     "list every third party that receives data from the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "INV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1261,
+     1420
+    ]
+   ],
+   "policy_spans": {
+    "INV-02": [
+     [
+      1691,
+      1824
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     1741,
+     1815
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1523,
+     1597
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     1448,
+     1520
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     1650,
+     1738
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1600,
+     1647
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

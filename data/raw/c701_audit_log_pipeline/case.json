@@ -1,0 +1,44 @@
+{
+ "case_id": "c701_audit_log_pipeline",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "JOB-01",
+   "component": "audit-collector",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-250"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "run every scheduled job with its own service account",
+     "forbid interactive login with the service account"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Nobody knows which account a job uses because it was set up years ago."
+  }
+ ],
+ "required_rules": [
+  "VER-01",
+  "VER-02",
+  "MSG-02"
+ ]
+}

@@ -1,0 +1,205 @@
+{
+ "case_id": "c611_ledger_service",
+ "split": "v6",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "EXP-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-285"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require the written approval of the data owner for exports of more than 1,000 records"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "EXP-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     848,
+     927
+    ]
+   ],
+   "policy_spans": {
+    "EXP-02": [
+     [
+      1489,
+      1552
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "INV-02",
+   "severity": "low",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "ledger-core",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data the service processes and which third parties receive data from it.",
+   "related_rules": [
+    "INV-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1069,
+     1150
+    ]
+   ],
+   "policy_spans": {
+    "INV-02": [
+     [
+      1691,
+      1824
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     488,
+     551
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     554,
+     640
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     643,
+     698
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     701,
+     771
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "NTF-01",
+   "design_spans": [
+    [
+     774,
+     845
+    ]
+   ],
+   "policy_spans": [
+    [
+     1251,
+     1351
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     930,
+     977
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     980,
+     1066
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  }
+ ]
+}

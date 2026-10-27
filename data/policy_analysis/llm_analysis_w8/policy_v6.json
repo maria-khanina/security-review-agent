@@ -1,0 +1,205 @@
+{
+  "policy_version": "v6",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Transaction records must be kept for 7 years and must be deleted within 90 days after that period ends.",
+      "span": [
+        469,
+        572
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "data-protection",
+        "operations"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Documents uploaded by customers must be deleted within 30 days after the account is closed.",
+      "span": [
+        581,
+        672
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection",
+        "operations"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Documents that are needed for a pending dispute may be kept until the dispute is settled.",
+      "span": [
+        681,
+        770
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "data-protection",
+        "operations"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "Vulnerabilities rated critical must be fixed in production within 7 days after they are published.",
+      "span": [
+        829,
+        927
+      ],
+      "wording": "clear",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "Third-party components should be kept reasonably up to date.",
+      "span": [
+        936,
+        996
+      ],
+      "wording": "vague",
+      "topics": [
+        "governance"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Production data must not be copied to test or development environments.",
+      "span": [
+        1042,
+        1113
+      ],
+      "wording": "clear",
+      "topics": [
+        "network"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "Test accounts in production should be removed within 7 days after the test ends.",
+      "span": [
+        1122,
+        1202
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "Messages sent to customers must not contain card numbers, passwords or images of identity documents.",
+      "span": [
+        1251,
+        1351
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation",
+        "network"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Exported files that contain personal data must be encrypted and must be deleted from the download location after 7 days.",
+      "span": [
+        1360,
+        1480
+      ],
+      "wording": "clear",
+      "topics": [
+        "cryptography",
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Large exports of customer records require appropriate approval.",
+      "span": [
+        1489,
+        1552
+      ],
+      "wording": "vague",
+      "topics": [
+        "operations"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "Every service must have a named owner and a named deputy in the service register.",
+      "span": [
+        1601,
+        1682
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "The service register must list for each service the personal data that it processes and every third party that receives data from it.",
+      "span": [
+        1691,
+        1824
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection",
+        "governance"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Transactions above 10,000 EUR must be held for review by the fraud team before they are settled.",
+      "span": [
+        1872,
+        1968
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance",
+        "operations"
+      ]
+    },
+    {
+      "id": "R14",
+      "quote": "Alerts of severity high must be acknowledged within 15 minutes.",
+      "span": [
+        1977,
+        2040
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R15",
+      "quote": "Outside office hours alerts of severity high may be acknowledged within two hours.",
+      "span": [
+        2049,
+        2131
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "resilience"
+      ]
+    },
+    {
+      "id": "R16",
+      "quote": "Callbacks to endpoints of customers must be signed and must carry a timestamp that the receiver can check against replay.",
+      "span": [
+        2140,
+        2261
+      ],
+      "wording": "clear",
+      "topics": [
+        "network",
+        "operations"
+      ]
+    }
+  ]
+}

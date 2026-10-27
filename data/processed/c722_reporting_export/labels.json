@@ -1,0 +1,180 @@
+{
+ "case_id": "c722_reporting_export",
+ "split": "v7",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "JOB-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-250"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "run every scheduled job with its own service account",
+     "forbid interactive login with the service account"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "JOB-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     227,
+     326
+    ]
+   ],
+   "policy_spans": {
+    "JOB-01": [
+     [
+      1563,
+      1651
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "export-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     348,
+     414
+    ]
+   ],
+   "policy_spans": {
+    "SUP-01": [
+     [
+      1687,
+      1765
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     430,
+     567
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     570,
+     643
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     646,
+     737
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     740,
+     821
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     824,
+     908
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  }
+ ]
+}

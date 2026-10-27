@@ -1,0 +1,71 @@
+{
+ "case_id": "c726_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VER-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep a replaced API version for 12 months",
+     "announce its removal 90 days in advance"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The announcement goes to the mailing list that most customers have left."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-755"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Failed messages are retried forever and block the queue."
+  }
+ ],
+ "required_rules": [
+  "REC-02",
+  "IDM-01",
+  "VER-02",
+  "SBX-01",
+  "MSG-02",
+  "SUP-01",
+  "SUP-02"
+ ]
+}

@@ -1,0 +1,67 @@
+{
+ "case_id": "c704_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VER-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep a replaced API version for 12 months",
+     "announce its removal 90 days in advance"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Old versions are kept as long as somebody complains."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "high",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "reconcile balances with the ledger every day",
+     "report differences of more than 0.01 EUR to the finance team within 24 hours"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only differences above 100 EUR are reported."
+  }
+ ],
+ "required_rules": [
+  "VER-02",
+  "MSG-01",
+  "MSG-02"
+ ]
+}

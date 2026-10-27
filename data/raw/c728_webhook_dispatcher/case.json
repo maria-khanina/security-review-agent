@@ -1,0 +1,23 @@
+{
+ "case_id": "c728_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 3,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "IDM-01",
+  "VER-01",
+  "VER-02",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01"
+ ]
+}

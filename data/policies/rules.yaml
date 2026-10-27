@@ -1977,3 +1977,820 @@ rules:
     - test the kill switch every quarter
   implementation_check: null
   ambiguity_ok: true
+- id: ARC-01
+  title: Retention of transaction records
+  statement: Transaction records must be kept for 7 years and must be deleted within 90 days after that period ends.
+  categories:
+  - privacy
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - ledger_service
+    - payment_gateway
+    - wallet_service
+    - refund_service
+    - reporting_export
+    - data_warehouse_sync
+    - audit_log_pipeline
+    - merchant_portal_api
+    - kyc_service
+    - fraud_scoring
+    - card_token_vault
+    - notification_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Transaction records are kept for as long as storage allows and nobody deletes them.
+  - Records older than 7 years are kept because analysts might need them one day.
+  - The retention period is 3 years because that is what the old system supported.
+  - Deletion happens only when a customer complains.
+  - Records are deleted from the main database but remain in the nightly exports.
+  - The deletion job runs once a year, so records live up to 15 months beyond the period.
+  how_to_omit: How long transaction records are kept and who removes them afterwards.
+  remediation_options:
+  - - keep transaction records for exactly 7 years
+    - delete them within 90 days after the period ends
+  implementation_check: null
+  ambiguity_ok: true
+- id: ARC-02
+  title: Deletion of customer documents
+  statement: Documents uploaded by customers must be deleted within 30 days after the account is closed.
+  categories:
+  - privacy
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - kyc_service
+    - support_console_api
+    - merchant_portal_api
+    - wallet_service
+    - refund_service
+    - notification_service
+    - data_warehouse_sync
+    - reporting_export
+    - fraud_scoring
+    - webhook_dispatcher
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-459
+  violation_scenarios:
+  - Documents of closed accounts stay in the storage because nobody owns the clean-up.
+  - Only the account record is removed when an account is closed, the documents remain.
+  - Documents are deleted after 12 months so that support can answer late questions.
+  - Scanned identity documents are archived forever for audit purposes.
+  - Deletion is requested by the customer and does not happen automatically.
+  - Copies of documents in the review queue are not deleted with the account.
+  how_to_omit: What happens to the documents of a customer when the account is closed.
+  remediation_options:
+  - - delete the documents within 30 days after the account is closed
+    - delete the copies in queues and exports as well
+  implementation_check: null
+  ambiguity_ok: true
+- id: VUL-01
+  title: Fixing critical vulnerabilities
+  statement: Vulnerabilities rated critical must be fixed in production within 7 days after they are published.
+  categories:
+  - operations
+  - supply-chain
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-1395
+  violation_scenarios:
+  - Critical vulnerabilities are fixed in the next quarterly release.
+  - The team fixes critical vulnerabilities when the product owner finds time for them.
+  - The deadline is 30 days because the release train runs monthly.
+  - Fixes are deployed to staging within a week but reach production much later.
+  - Only vulnerabilities in code written by the team are fixed, not those in libraries.
+  - The clock starts when the team has confirmed that the vulnerability is exploitable.
+  how_to_omit: How fast critical vulnerabilities are fixed in production.
+  remediation_options:
+  - - fix critical vulnerabilities in production within 7 days after publication
+  implementation_check: null
+  ambiguity_ok: true
+- id: VUL-02
+  title: Currency of dependencies
+  statement: Third-party components must not be more than two major versions behind the latest release, and the service register must show the version of each.
+  categories:
+  - operations
+  - supply-chain
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1104
+  violation_scenarios:
+  - Frameworks are upgraded only when they stop working.
+  - The main framework is three major versions behind and the team plans to leave it.
+  - Libraries are pinned at the versions of the first release.
+  - Versions of components are not recorded anywhere outside the build files.
+  - Only the components that touch customer data are upgraded.
+  - Upgrades wait for the yearly maintenance week.
+  how_to_omit: How the team keeps its third-party components current.
+  remediation_options:
+  - - keep every component within two major versions of the latest release
+    - show the version of each component in the service register
+  implementation_check: null
+  ambiguity_ok: true
+- id: TST-01
+  title: No production data in tests
+  statement: Production data must not be copied to test or development environments.
+  categories:
+  - privacy
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - A nightly copy of the production database feeds the test environment.
+  - Developers copy production records to reproduce a bug and keep them on their laptops.
+  - Test data is a snapshot of production with only the names masked.
+  - The staging database is restored from the latest production backup before each release.
+  - Production exports are used to load test the reporting module.
+  - A sample of 1,000 real customers is used for acceptance tests.
+  how_to_omit: Where the data of test and development environments comes from.
+  remediation_options:
+  - - never copy production data to test or development environments
+    - generate synthetic data for tests
+  implementation_check: null
+  ambiguity_ok: true
+- id: TST-02
+  title: Removal of test accounts
+  statement: Test accounts in production must be removed within 7 days after the test ends.
+  categories:
+  - authorization
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1392
+  violation_scenarios:
+  - Test accounts created for the launch are still active a year later.
+  - Test accounts are removed at the next access review, which is quarterly.
+  - Nobody knows which accounts in production are test accounts.
+  - Test accounts are disabled but not deleted.
+  - The test accounts of the testing partner are kept for future tests.
+  - Removal depends on the engineer who created the account remembering it.
+  how_to_omit: When and by whom test accounts in production are removed.
+  remediation_options:
+  - - remove test accounts within 7 days after the test ends
+  implementation_check: null
+  ambiguity_ok: true
+- id: NTF-01
+  title: Content of customer messages
+  statement: Messages sent to customers must not contain card numbers, passwords or images of identity documents.
+  categories:
+  - privacy
+  - data-protection
+  applies_to:
+    kind:
+    - service
+    services:
+    - notification_service
+    - support_console_api
+    - merchant_portal_api
+    - wallet_service
+    - payment_gateway
+    - kyc_service
+    - refund_service
+    - fraud_scoring
+    - webhook_dispatcher
+    - reporting_export
+    - ledger_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-201
+  violation_scenarios:
+  - Receipts by email show the full card number so that customers recognise the payment.
+  - A password reset message contains the new password in clear text.
+  - Verification emails attach the image of the identity document that was uploaded.
+  - Support replies quote the card number that the customer wrote in the ticket.
+  - Text messages for refunds include the full card number.
+  - Messages are built from templates that include every field of the payment record.
+  how_to_omit: What data the messages to customers may contain.
+  remediation_options:
+  - - keep card numbers, passwords and identity document images out of messages
+  implementation_check: null
+  ambiguity_ok: true
+- id: EXP-01
+  title: Protection of exported files
+  statement: Exported files that contain personal data must be encrypted and must be deleted from the download location after 7 days.
+  categories:
+  - data-protection
+  - privacy
+  applies_to:
+    kind:
+    - service
+    services:
+    - reporting_export
+    - data_warehouse_sync
+    - merchant_portal_api
+    - support_console_api
+    - ledger_service
+    - audit_log_pipeline
+    - kyc_service
+    - fraud_scoring
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-311
+  violation_scenarios:
+  - Exports are plain CSV files in a shared folder.
+  - Export files stay in the download location until someone cleans it up.
+  - Files are encrypted but kept for 90 days for the convenience of analysts.
+  - The download link of an export never expires.
+  - Exports sent by email are not encrypted because the recipient is internal.
+  - Only exports of card data are encrypted, exports of personal data are not.
+  how_to_omit: How exported files with personal data are protected and how long they remain.
+  remediation_options:
+  - - encrypt exported files with personal data
+    - delete exported files from the download location after 7 days
+  implementation_check: null
+  ambiguity_ok: true
+- id: EXP-02
+  title: Approval of bulk exports
+  statement: Exports of more than 1,000 customer records need the written approval of the data owner.
+  categories:
+  - governance
+  - privacy
+  applies_to:
+    kind:
+    - service
+    services:
+    - reporting_export
+    - data_warehouse_sync
+    - merchant_portal_api
+    - support_console_api
+    - ledger_service
+    - kyc_service
+    - fraud_scoring
+    - notification_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-285
+  violation_scenarios:
+  - Analysts export what they need and tell the data owner afterwards.
+  - Approval is given once for all exports of a team for a whole year.
+  - Bulk exports are approved by the team lead and not by the data owner.
+  - Exports of up to 100,000 records are not approved because the data is pseudonymised.
+  - The data owner approves by a thumbs-up in the chat, which is not recorded.
+  - Scheduled exports run without any approval.
+  how_to_omit: Who approves large exports of customer records.
+  remediation_options:
+  - - require the written approval of the data owner for exports of more than 1,000 records
+  implementation_check: null
+  ambiguity_ok: true
+- id: INV-01
+  title: Owners of services
+  statement: Every service must have a named owner and a named deputy in the service register.
+  categories:
+  - governance
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - The register shows the name of the team but not of a person.
+  - The owner left the company a year ago and the entry was not updated.
+  - There is an owner, but no deputy is named.
+  - Ownership is shared by three people, so nobody feels responsible.
+  - The register is a spreadsheet that the team has not opened since the launch.
+  - The service is not in the register because it is considered part of another service.
+  how_to_omit: Who is the owner of the service and who is the deputy.
+  remediation_options:
+  - - name an owner and a deputy in the service register
+  implementation_check: null
+  ambiguity_ok: true
+- id: INV-02
+  title: Data and third parties in the register
+  statement: The service register must list for each service the personal data that it processes and every third party that receives data from it.
+  categories:
+  - governance
+  - privacy
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - The register lists the third parties but not the personal data.
+  - The register was filled in at the launch and has not been updated since.
+  - Data flows to analytics vendors are not listed because they are pseudonymised.
+  - Only paid third parties are listed.
+  - The list of personal data is a link to a wiki page that no longer exists.
+  - The service sends events to a partner that the register does not mention.
+  how_to_omit: Which personal data the service processes and which third parties receive data from it.
+  remediation_options:
+  - - list the personal data of each service in the register
+    - list every third party that receives data from the service
+  implementation_check: null
+  ambiguity_ok: true
+- id: FRD-01
+  title: Review of large transactions
+  statement: Transactions above 10,000 EUR must be held for review by the fraud team before they are settled.
+  categories:
+  - payment-integrity
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - refund_service
+    - ledger_service
+    - merchant_portal_api
+    - fraud_scoring
+    - card_token_vault
+    - webhook_dispatcher
+    - notification_service
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-841
+  violation_scenarios:
+  - Large transactions are settled at once and reviewed the next day.
+  - Only transactions above 50,000 EUR are held for review.
+  - The review is done by the engineer who built the payment flow.
+  - Transactions of trusted merchants are never held, whatever the amount.
+  - The hold applies to payments, but refunds above the limit are settled directly.
+  - Held transactions are released automatically after 24 hours when nobody has reviewed them.
+  how_to_omit: What happens to a transaction above 10,000 EUR before it is settled.
+  remediation_options:
+  - - hold transactions above 10,000 EUR for review by the fraud team before settlement
+  implementation_check: null
+  ambiguity_ok: true
+- id: MON-01
+  title: Acknowledging alerts
+  statement: Alerts of severity high must be acknowledged within 15 minutes.
+  categories:
+  - operations
+  - logging
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-778
+  violation_scenarios:
+  - Alerts go to a mailbox that is read in the morning.
+  - High alerts are acknowledged within four hours during working time.
+  - Nobody is on call and alerts are handled when someone notices them.
+  - Alerts are acknowledged automatically by the paging tool after 5 minutes.
+  - Alerts about the service are sent to the platform team, which does not know the service.
+  - Acknowledgement is measured from the moment the engineer opens the ticket.
+  how_to_omit: Who acknowledges high alerts and how fast.
+  remediation_options:
+  - - acknowledge alerts of severity high within 15 minutes
+  implementation_check: null
+  ambiguity_ok: true
+- id: WHK-01
+  title: Protection of callbacks
+  statement: Callbacks to endpoints of customers must be signed and must carry a timestamp that the receiver can check against replay.
+  categories:
+  - integrity
+  - integrity
+  applies_to:
+    kind:
+    - service
+    services:
+    - webhook_dispatcher
+    - notification_service
+    - payment_gateway
+    - merchant_portal_api
+    - refund_service
+    - wallet_service
+    - kyc_service
+    - fraud_scoring
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-294
+  violation_scenarios:
+  - Callbacks are plain HTTP requests with a secret in the URL.
+  - Callbacks are signed, but they carry no timestamp.
+  - The signature is optional and customers have to ask for it.
+  - A timestamp is sent, but the receiver is not told to reject old ones.
+  - Callbacks to endpoints of large customers are not signed.
+  - The signing key is the same for all customers and has never been changed.
+  how_to_omit: How callbacks to customer endpoints are signed and protected against replay.
+  remediation_options:
+  - - sign every callback
+    - add a timestamp that the receiver checks against replay
+  implementation_check: null
+  ambiguity_ok: true
+- id: REC-01
+  title: Daily reconciliation
+  statement: Balances must be reconciled with the ledger every day, and a difference of more than 0.01 EUR must be reported
+    to the finance team within 24 hours.
+  categories:
+  - governance
+  - payment-integrity
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - merchant_portal_api
+    - fraud_scoring
+    - ledger_service
+    - card_token_vault
+    - refund_service
+    - support_console_api
+    - webhook_dispatcher
+    - data_warehouse_sync
+    - reporting_export
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-682
+  violation_scenarios:
+  - Balances are compared with the ledger once a month when finance closes the books.
+  - Differences are collected in a spreadsheet and sent to finance at the end of the week.
+  - Only differences above 100 EUR are reported.
+  - Reconciliation runs daily, but nobody looks at the result unless a customer complains.
+  - Wallets of small customers are not reconciled.
+  - The report goes to the developers of the service, not to the finance team.
+  how_to_omit: How often balances are reconciled with the ledger and who is told about differences.
+  remediation_options:
+  - - reconcile balances with the ledger every day
+    - report differences of more than 0.01 EUR to the finance team within 24 hours
+  implementation_check: null
+  ambiguity_ok: true
+- id: REC-02
+  title: Resolution of differences
+  statement: Differences found in a reconciliation must be resolved within 5 working days.
+  categories:
+  - governance
+  - payment-integrity
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - merchant_portal_api
+    - fraud_scoring
+    - ledger_service
+    - card_token_vault
+    - refund_service
+    - support_console_api
+    - webhook_dispatcher
+    - data_warehouse_sync
+    - reporting_export
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-682
+  violation_scenarios:
+  - Open differences are resolved when somebody has time, some are months old.
+  - Differences below 50 EUR are written off without investigation.
+  - The 5 days start when the difference is assigned to an engineer, which can take weeks.
+  - Differences are closed by a manual entry without finding the cause.
+  - Resolution is tracked in the chat and not in a ticket.
+  - Differences that involve a partner wait until the partner answers.
+  how_to_omit: Within what time differences found in a reconciliation are resolved.
+  remediation_options:
+  - - resolve every difference within 5 working days
+  implementation_check: null
+  ambiguity_ok: true
+- id: IDM-01
+  title: Idempotent money operations
+  statement: 'Operations that move money must be idempotent: a repeated request with the same key must not move the money
+    again.'
+  categories:
+  - payment-integrity
+  - integrity
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - refund_service
+    - ledger_service
+    - merchant_portal_api
+    - card_token_vault
+    - webhook_dispatcher
+    - support_console_api
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-837
+  violation_scenarios:
+  - A retry after a timeout books the transfer a second time.
+  - Idempotency keys are accepted but not checked for refunds.
+  - Keys are remembered for one minute only.
+  - The key is generated by the server for each request, so a retry has a new key.
+  - Only the payment endpoint is idempotent, transfers are not.
+  - A repeated request with a different amount and the same key is executed.
+  how_to_omit: Whether a repeated request moves money a second time.
+  remediation_options:
+  - - require an idempotency key on every operation that moves money
+    - answer a repeated request with the same key from the stored result
+  implementation_check: null
+  ambiguity_ok: true
+- id: LIM-01
+  title: Limits of customers
+  statement: The daily outgoing transfers of a customer must be limited to the amount in the limit table, and a change of
+    a limit needs the approval of a second employee.
+  categories:
+  - payment-integrity
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - wallet_service
+    - payment_gateway
+    - refund_service
+    - merchant_portal_api
+    - fraud_scoring
+    - support_console_api
+    - ledger_service
+    - card_token_vault
+    - kyc_service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-770
+  violation_scenarios:
+  - Customers have no daily limit, the fraud team looks at large transfers afterwards.
+  - Limits are set in the code and can be changed only by a release.
+  - Support agents change limits on request of the customer without approval.
+  - The second approver is the manager of the same agent and signs without looking.
+  - Limits are checked for transfers in the app but not through the API.
+  - Limits are reset at midnight in the time zone of the server, which allows doubling around midnight.
+  how_to_omit: What limits apply to the outgoing transfers of a customer and who may change them.
+  remediation_options:
+  - - limit the daily outgoing transfers per customer
+    - require the approval of a second employee for a change of a limit
+  implementation_check: null
+  ambiguity_ok: true
+- id: VER-01
+  title: Retirement of API versions
+  statement: A replaced version of an API must be kept for 12 months, and its removal must be announced 90 days in advance.
+  categories:
+  - governance
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - Old versions are removed with the release of the new one.
+  - Removal is announced one week before in the release notes.
+  - Old versions are kept as long as somebody complains.
+  - Only the latest and the previous version are kept, whatever their age.
+  - The announcement goes to the mailing list that most customers have left.
+  - Versions are retired without a date and the customers find out when their calls fail.
+  how_to_omit: How long a replaced API version stays and how its removal is announced.
+  remediation_options:
+  - - keep a replaced API version for 12 months
+    - announce its removal 90 days in advance
+  implementation_check: null
+  ambiguity_ok: true
+- id: VER-02
+  title: Breaking changes
+  statement: Breaking changes of an API must be released only as a new version of the API.
+  categories:
+  - governance
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 2
+  cwe_ids:
+  - CWE-1059
+  violation_scenarios:
+  - Breaking changes are made in the current version when the change is small.
+  - Fields are renamed in place and customers are told in the chat.
+  - The team decides case by case whether a change is breaking.
+  - Breaking changes are released on Fridays together with fixes.
+  - Customers learn about a breaking change from the failing calls.
+  - A change of the error format is not considered breaking.
+  how_to_omit: How the team releases breaking changes of an API.
+  remediation_options:
+  - - release breaking changes only as a new version of the API
+  implementation_check: null
+  ambiguity_ok: true
+- id: SBX-01
+  title: Sandbox without real data
+  statement: The sandbox for merchants must contain no real customer data and must run separately from production.
+  categories:
+  - data-protection
+  - network
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - merchant_portal_api
+    - kyc_service
+    - fraud_scoring
+    - card_token_vault
+    - notification_service
+    - refund_service
+    - support_console_api
+    - webhook_dispatcher
+    - reporting_export
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-200
+  violation_scenarios:
+  - The sandbox is a copy of the production database with names changed.
+  - The sandbox shares the database server with production in a separate schema.
+  - Merchants can test with real card numbers in the sandbox.
+  - The sandbox is the staging environment, which holds production backups.
+  - Support uses the sandbox to reproduce problems of real customers with their data.
+  - The sandbox calls the production notification service.
+  how_to_omit: What data the merchant sandbox holds and where it runs.
+  remediation_options:
+  - - fill the sandbox with generated data only
+    - run the sandbox separately from production
+  implementation_check: null
+  ambiguity_ok: true
+- id: MSG-01
+  title: Dead-letter queues
+  statement: Messages that cannot be processed must be moved to a dead-letter queue and be examined within one working day.
+  categories:
+  - operations
+  - resilience
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-755
+  violation_scenarios:
+  - Messages that fail three times are dropped.
+  - The dead-letter queue exists, but it has not been looked at since the launch.
+  - Messages are examined when the queue is full.
+  - Failed messages are retried forever and block the queue.
+  - The dead-letter queue is examined once a week.
+  - Nobody is named as responsible for the dead-letter queue.
+  how_to_omit: What happens to messages that cannot be processed.
+  remediation_options:
+  - - move messages that cannot be processed to a dead-letter queue
+    - examine the dead-letter queue within one working day
+  implementation_check: null
+  ambiguity_ok: true
+- id: MSG-02
+  title: Retention of messages
+  statement: Messages in queues must be deleted after they are processed.
+  categories:
+  - data-protection
+  - operations
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-212
+  violation_scenarios:
+  - Processed messages stay in the queue for months so that analysts can replay them.
+  - The queue keeps all messages of the last year for audits.
+  - Processed messages are archived in a bucket without deletion.
+  - Messages with personal data are copied to the log as well.
+  - Only messages of failed deliveries are deleted.
+  - Retention of the queue is set to the maximum of the provider.
+  how_to_omit: How long processed messages stay in the queues.
+  remediation_options:
+  - - delete messages after they are processed
+  implementation_check: null
+  ambiguity_ok: true
+- id: SUP-01
+  title: Masked data for agents
+  statement: Support agents must see card numbers and document numbers only in masked form.
+  categories:
+  - data-protection
+  - pci
+  applies_to:
+    kind:
+    - service
+    services:
+    - payment_gateway
+    - wallet_service
+    - merchant_portal_api
+    - kyc_service
+    - fraud_scoring
+    - ledger_service
+    - card_token_vault
+    - notification_service
+    - refund_service
+    - support_console_api
+    - data_warehouse_sync
+    - reporting_export
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-359
+  violation_scenarios:
+  - Agents see the full card number to find a payment faster.
+  - The console shows the full document number of the identity document.
+  - Masking is done in the browser, the full number is in the response.
+  - Agents can switch off the masking for a customer on request.
+  - Masking applies to the search page but not to the detail page.
+  - Exports of support cases contain the full numbers.
+  how_to_omit: In what form support agents see card numbers and document numbers.
+  remediation_options:
+  - - show card numbers and document numbers to agents only in masked form
+  implementation_check: null
+  ambiguity_ok: true
+- id: SUP-02
+  title: Changes of contact data
+  statement: Changes to the phone number or the email address of a customer need a one-time code that is sent to the old contact
+    data.
+  categories:
+  - authentication
+  - governance
+  applies_to:
+    kind:
+    - service
+    services:
+    - support_console_api
+    - wallet_service
+    - kyc_service
+    - merchant_portal_api
+    - notification_service
+    - refund_service
+    - payment_gateway
+  check_scope: design
+  base_severity: 4
+  cwe_ids:
+  - CWE-640
+  violation_scenarios:
+  - The new phone number is accepted after the customer answers three questions.
+  - Agents change the email address on request of the caller.
+  - The code is sent to the new contact data.
+  - The code is valid for a day and can be used many times.
+  - Changes through the app need no code, only the password.
+  - Changes are made after a message to the old address that can be ignored.
+  how_to_omit: How a change of contact data of a customer is verified.
+  remediation_options:
+  - - send a one-time code to the old contact data
+    - accept the change only with the correct code
+  implementation_check: null
+  ambiguity_ok: true
+- id: JOB-01
+  title: Accounts of scheduled jobs
+  statement: Scheduled jobs must run with their own service account that cannot log in interactively.
+  categories:
+  - authentication
+  - secrets
+  applies_to:
+    kind:
+    - service
+  check_scope: design
+  base_severity: 3
+  cwe_ids:
+  - CWE-250
+  violation_scenarios:
+  - Jobs run with the personal account of the developer who wrote them.
+  - All jobs share one service account with broad rights.
+  - The service account of the job has a password that engineers use to log in.
+  - Jobs run as the administrator account of the database.
+  - Jobs use the account of the service that they belong to, which can log in.
+  - Nobody knows which account a job uses because it was set up years ago.
+  how_to_omit: With which account scheduled jobs run.
+  remediation_options:
+  - - run every scheduled job with its own service account
+    - forbid interactive login with the service account
+  implementation_check: null
+  ambiguity_ok: true

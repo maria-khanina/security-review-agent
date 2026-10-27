@@ -1,0 +1,214 @@
+{
+ "case_id": "c616_payment_gateway",
+ "split": "v6",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VUL-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep every component within two major versions of the latest release",
+     "show the version of each component in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VUL-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     696,
+     795
+    ]
+   ],
+   "policy_spans": {
+    "VUL-02": [
+     [
+      936,
+      996
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "VUL-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-1395"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fix critical vulnerabilities in production within 7 days after publication"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VUL-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     805,
+     870
+    ]
+   ],
+   "policy_spans": {
+    "VUL-01": [
+     [
+      829,
+      927
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     976,
+     1054
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     880,
+     954
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "NTF-01",
+   "design_spans": [
+    [
+     1063,
+     1151
+    ]
+   ],
+   "policy_spans": [
+    [
+     1251,
+     1351
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-01",
+   "design_spans": [
+    [
+     1162,
+     1208
+    ]
+   ],
+   "policy_spans": [
+    [
+     1601,
+     1682
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1210,
+     1305
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     1313,
+     1398
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1406,
+     1448
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "case_id": "c600_audit_log_pipeline",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "ARC-01",
+  "VUL-01",
+  "VUL-02",
+  "TST-01",
+  "TST-02",
+  "INV-01",
+  "MON-01"
+ ]
+}

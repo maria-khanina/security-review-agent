@@ -1,0 +1,24 @@
+{
+ "case_id": "c707_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "REC-01",
+  "REC-02",
+  "LIM-01",
+  "VER-02",
+  "SBX-01",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "case_id": "c717_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-837"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Only the payment endpoint is idempotent, transfers are not."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "REC-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "reconcile balances with the ledger every day",
+     "report differences of more than 0.01 EUR to the finance team within 24 hours"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Balances are compared with the ledger once a month when finance closes the books."
+  }
+ ],
+ "required_rules": [
+  "REC-02",
+  "LIM-01",
+  "VER-01",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01",
+  "SUP-02"
+ ]
+}

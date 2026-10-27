@@ -1,0 +1,91 @@
+{
+ "case_id": "c623_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "EXP-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-285"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require the written approval of the data owner for exports of more than 1,000 records"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Exports of up to 100,000 records are not approved because the data is pseudonymised."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "TST-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "never copy production data to test or development environments",
+     "generate synthetic data for tests"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): A sample of 1,000 real customers is used for acceptance tests."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "EXP-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-311"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "encrypt exported files with personal data",
+     "delete exported files from the download location after 7 days"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The download link of an export never expires."
+  }
+ ],
+ "required_rules": [
+  "ARC-02",
+  "VUL-01",
+  "VUL-02",
+  "TST-02",
+  "MON-01"
+ ]
+}

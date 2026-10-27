@@ -1,0 +1,89 @@
+{
+ "case_id": "c723_support_console_api",
+ "documented_service": "support_console_api",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SBX-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fill the sandbox with generated data only",
+     "run the sandbox separately from production"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The sandbox shares the database server with production in a separate schema."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The code is valid for a day and can be used many times."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "REC-01",
+   "component": "console-backend",
+   "data_class": "credentials",
+   "exposure": "admin",
+   "severity": "high",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How often balances are reconciled with the ledger and who is told about differences.",
+   "instruction": "Mention console-backend naturally, but do NOT state: How often balances are reconciled with the ledger and who is told about differences. Wrap the sentence(s) that mention console-backend (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "REC-02",
+  "LIM-01",
+  "VER-01",
+  "VER-02",
+  "MSG-01",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

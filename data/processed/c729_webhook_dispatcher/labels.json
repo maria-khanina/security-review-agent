@@ -1,0 +1,142 @@
+{
+ "case_id": "c729_webhook_dispatcher",
+ "split": "v7",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-837"
+   ],
+   "component": "dispatcher",
+   "data_class": "internal",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IDM-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     555,
+     688
+    ]
+   ],
+   "policy_spans": {
+    "IDM-01": [
+     [
+      639,
+      753
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     723,
+     859
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     863,
+     955
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     957,
+     1030
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     1034,
+     1135
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     1137,
+     1197
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  }
+ ]
+}

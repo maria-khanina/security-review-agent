@@ -1,0 +1,90 @@
+{
+ "case_id": "c618_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "WHK-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-294"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every callback",
+     "add a timestamp that the receiver checks against replay"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Callbacks are plain HTTP requests with a secret in the URL."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Acknowledgement is measured from the moment the engineer opens the ticket."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "TST-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1392"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove test accounts within 7 days after the test ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Test accounts are disabled but not deleted."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "VUL-02",
+  "NTF-01",
+  "INV-01",
+  "INV-02"
+ ]
+}

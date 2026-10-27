@@ -1,0 +1,227 @@
+{
+ "case_id": "c702_card_token_vault",
+ "split": "v7",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-212"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MSG-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1151,
+     1279
+    ]
+   ],
+   "policy_spans": {
+    "MSG-02": [
+     [
+      1429,
+      1489
+     ],
+     [
+      1498,
+      1554
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SBX-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-200"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "fill the sandbox with generated data only",
+     "run the sandbox separately from production"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SBX-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1034,
+     1138
+    ]
+   ],
+   "policy_spans": {
+    "SBX-01": [
+     [
+      1165,
+      1266
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-837"
+   ],
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "IDM-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     460,
+     592
+    ]
+   ],
+   "policy_spans": {
+    "IDM-01": [
+     [
+      639,
+      753
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     608,
+     681
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     684,
+     778
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     781,
+     844
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     847,
+     935
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     938,
+     1011
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

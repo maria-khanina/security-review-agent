@@ -1,9 +1,12 @@
 """Tests for the hand-targeted extension cases."""
 
+import pytest
+
 from secreview.datagen.case_files import load_raw_case
 from secreview.datagen.case_plan import plan_cases
 from secreview.datagen.catalog import load_suppressed_rules
 from secreview.datagen.extension_plan import (
+    leave_silent,
     load_extension_plan,
     plan_extension_cases,
 )
@@ -63,3 +66,17 @@ def test_written_skeletons_match_the_plan() -> None:
         planned: list[str] = [flaw.flaw_id for flaw in item.case.flaws]
         assert [flaw.flaw_id for flaw in stored.flaws][: len(planned)] == planned
         assert load_settings().seed
+
+
+def test_silent_rules_are_dropped_from_the_required_ones() -> None:
+    case = plan_extension_cases()[-1].case
+    kept: list[str] = list(case.required_rules)
+    silent = kept[:1]
+    leave_silent(case, silent)
+    assert case.required_rules == kept[1:]
+
+
+def test_a_silent_rule_must_have_been_required() -> None:
+    case = plan_extension_cases()[-1].case
+    with pytest.raises(ValueError):
+        leave_silent(case, ["NO-SUCH-RULE"])

@@ -43,6 +43,8 @@ class EvaluationSettings(BaseModel):
     table_resamples: int
     cascade_shares: list[float]
     primary_budget_position: int
+    policy_groups: list[str]
+    matched_groups: list[str]
     finalists: list[FinalistSettings]
 
 

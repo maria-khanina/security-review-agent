@@ -1,0 +1,68 @@
+{
+ "case_id": "c700_audit_log_pipeline",
+ "split": "v7",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "security_champion",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": true,
+ "flaws": [],
+ "satisfied": [
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     1015,
+     1115
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     1119,
+     1203
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     1207,
+     1312
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  }
+ ]
+}

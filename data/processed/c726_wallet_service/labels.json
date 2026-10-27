@@ -1,0 +1,215 @@
+{
+ "case_id": "c726_wallet_service",
+ "split": "v7",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VER-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep a replaced API version for 12 months",
+     "announce its removal 90 days in advance"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VER-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     703,
+     814
+    ]
+   ],
+   "policy_spans": {
+    "VER-01": [
+     [
+      958,
+      1068
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-755"
+   ],
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "MSG-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     984,
+     1058
+    ]
+   ],
+   "policy_spans": {
+    "MSG-01": [
+     [
+      1310,
+      1420
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     494,
+     567
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "IDM-01",
+   "design_spans": [
+    [
+     571,
+     699
+    ]
+   ],
+   "policy_spans": [
+    [
+     639,
+     753
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     818,
+     892
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     896,
+     980
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     1062,
+     1123
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     1128,
+     1201
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-02",
+   "design_spans": [
+    [
+     1206,
+     1314
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1846
+    ]
+   ]
+  }
+ ]
+}

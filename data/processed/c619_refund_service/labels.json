@@ -1,0 +1,256 @@
+{
+ "case_id": "c619_refund_service",
+ "split": "v6",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VUL-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep every component within two major versions of the latest release",
+     "show the version of each component in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VUL-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     901,
+     989
+    ]
+   ],
+   "policy_spans": {
+    "VUL-02": [
+     [
+      936,
+      996
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "INV-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "name an owner and a deputy in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "INV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     690,
+     775
+    ]
+   ],
+   "policy_spans": {
+    "INV-01": [
+     [
+      1601,
+      1682
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "ARC-01",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "refund-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How long transaction records are kept and who removes them afterwards.",
+   "related_rules": [
+    "ARC-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     607,
+     672
+    ]
+   ],
+   "policy_spans": {
+    "ARC-01": [
+     [
+      469,
+      572
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     1006,
+     1093
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1096,
+     1177
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1180,
+     1235
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1238,
+     1308
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     776,
+     883
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "FRD-01",
+   "design_spans": [
+    [
+     1311,
+     1403
+    ]
+   ],
+   "policy_spans": [
+    [
+     1872,
+     1968
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1406,
+     1453
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

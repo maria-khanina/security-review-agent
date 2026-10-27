@@ -1,0 +1,45 @@
+{
+ "case_id": "c709_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The new phone number is accepted after the customer answers three questions."
+  }
+ ],
+ "required_rules": [
+  "LIM-01",
+  "SBX-01",
+  "MSG-01",
+  "SUP-01"
+ ]
+}

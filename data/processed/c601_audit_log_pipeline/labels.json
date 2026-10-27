@@ -1,0 +1,156 @@
+{
+ "case_id": "c601_audit_log_pipeline",
+ "split": "v6",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "ticket_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "TST-02",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1392"
+   ],
+   "component": "audit-collector",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "remove test accounts within 7 days after the test ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "TST-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     617,
+     739
+    ]
+   ],
+   "policy_spans": {
+    "TST-02": [
+     [
+      1122,
+      1202
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     805,
+     884
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     887,
+     965
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     968,
+     1080
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1083,
+     1138
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     1141,
+     1234
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     1237,
+     1284
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "case_id": "c720_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-01",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-755"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "move messages that cannot be processed to a dead-letter queue",
+     "examine the dead-letter queue within one working day"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The dead-letter queue is examined once a week."
+  }
+ ],
+ "required_rules": [
+  "IDM-01",
+  "LIM-01",
+  "VER-01",
+  "VER-02",
+  "SBX-01",
+  "MSG-02",
+  "SUP-01",
+  "SUP-02"
+ ]
+}

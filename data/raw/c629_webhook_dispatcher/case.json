@@ -1,0 +1,68 @@
+{
+ "case_id": "c629_webhook_dispatcher",
+ "documented_service": "webhook_dispatcher",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "sprint_rusher",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Alerts about the service are sent to the platform team, which does not know the service."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "ARC-02",
+   "component": "dispatcher",
+   "data_class": "internal",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-459"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete the documents within 30 days after the account is closed",
+     "delete the copies in queues and exports as well"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Deletion is requested by the customer and does not happen automatically."
+  }
+ ],
+ "required_rules": [
+  "TST-01",
+  "TST-02",
+  "NTF-01",
+  "INV-02",
+  "FRD-01"
+ ]
+}

@@ -1,0 +1,184 @@
+{
+ "case_id": "c708_kyc_service",
+ "split": "v7",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1170,
+     1316
+    ]
+   ],
+   "policy_spans": {
+    "SUP-02": [
+     [
+      1774,
+      1846
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1082,
+     1167
+    ]
+   ],
+   "policy_spans": {
+    "SUP-01": [
+     [
+      1687,
+      1765
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     595,
+     733
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     737,
+     811
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     815,
+     914
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     918,
+     979
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     983,
+     1070
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  }
+ ]
+}

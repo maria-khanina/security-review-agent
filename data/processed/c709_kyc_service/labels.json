@@ -1,0 +1,123 @@
+{
+ "case_id": "c709_kyc_service",
+ "split": "v7",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-02"
+   ],
+   "policy_status": "vague",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     1004,
+     1126
+    ]
+   ],
+   "policy_spans": {
+    "SUP-02": [
+     [
+      1774,
+      1846
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     591,
+     730
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "SBX-01",
+   "design_spans": [
+    [
+     733,
+     809
+    ]
+   ],
+   "policy_spans": [
+    [
+     1165,
+     1266
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-01",
+   "design_spans": [
+    [
+     812,
+     916
+    ]
+   ],
+   "policy_spans": [
+    [
+     1310,
+     1420
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-01",
+   "design_spans": [
+    [
+     919,
+     984
+    ]
+   ],
+   "policy_spans": [
+    [
+     1687,
+     1765
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "case_id": "c603_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VUL-02",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep every component within two major versions of the latest release",
+     "show the version of each component in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The main framework is three major versions behind and the team plans to leave it."
+  }
+ ],
+ "required_rules": [
+  "TST-01",
+  "TST-02",
+  "INV-01",
+  "INV-02",
+  "FRD-01"
+ ]
+}

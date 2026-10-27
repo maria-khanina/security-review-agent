@@ -1,0 +1,87 @@
+{
+ "case_id": "c625_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "VUL-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1104"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep every component within two major versions of the latest release",
+     "show the version of each component in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The main framework is three major versions behind and the team plans to leave it."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "INV-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "name an owner and a deputy in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): There is an owner, but no deputy is named."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "ARC-01",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How long transaction records are kept and who removes them afterwards.",
+   "instruction": "Mention wallet-core naturally, but do NOT state: How long transaction records are kept and who removes them afterwards. Wrap the sentence(s) that mention wallet-core (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "ARC-02",
+  "TST-02",
+  "NTF-01",
+  "INV-02",
+  "FRD-01",
+  "MON-01"
+ ]
+}

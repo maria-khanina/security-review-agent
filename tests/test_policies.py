@@ -5,7 +5,7 @@ from secreview.datagen.policies import PolicyVersion, load_policy_versions
 from secreview.datagen.settings import load_settings
 
 ALL_STATUSES = {"clear", "vague", "advisory", "conflicting"}
-NEW_MINIMUM = len("abcdefghij")
+NEW_MINIMUM = len("abcdefghi")
 
 
 def collect_spans(policy: PolicyVersion) -> list[tuple[int, int]]:

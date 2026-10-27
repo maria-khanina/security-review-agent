@@ -1,0 +1,65 @@
+{
+ "case_id": "c610_ledger_service",
+ "documented_service": "ledger_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "merged_two_authors",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "FRD-01",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-841"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "hold transactions above 10,000 EUR for review by the fraud team before settlement"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Held transactions are released automatically after 24 hours when nobody has reviewed them."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "TST-02",
+   "component": "ledger-core",
+   "data_class": "internal",
+   "exposure": "internal",
+   "severity": "low",
+   "cwe": [
+    "CWE-1392"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "When and by whom test accounts in production are removed.",
+   "instruction": "Mention ledger-core naturally, but do NOT state: When and by whom test accounts in production are removed. Wrap the sentence(s) that mention ledger-core (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "VUL-01",
+  "TST-01",
+  "EXP-01",
+  "EXP-02",
+  "INV-02",
+  "MON-01"
+ ]
+}

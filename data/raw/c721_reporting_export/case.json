@@ -1,0 +1,22 @@
+{
+ "case_id": "c721_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "methodical_architect",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "REC-02",
+  "VER-01",
+  "SBX-01",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

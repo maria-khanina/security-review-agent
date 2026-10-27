@@ -359,6 +359,136 @@ phrasings:
   - "Money features can be switched off with a kill switch, which we test each quarter."
   - "There is a kill switch for each feature that moves money, tested every quarter."
   - "The kill switches of the money features are tested every three months."
+  ARC-01:
+  - "Transaction records are kept for 7 years, and the cleanup job deletes them within 90 days after that period ends."
+  - "We retain transaction records for seven years and remove them at the latest 90 days after the period is over."
+  - "Records of transactions live for 7 years; once the period ends they are deleted within 90 days."
+  - "The retention of transaction records is 7 years, followed by deletion within 90 days."
+  ARC-02:
+  - "Documents uploaded by customers are deleted within 30 days after the account is closed."
+  - "When an account is closed, its uploaded documents are removed within 30 days."
+  - "Customer documents do not outlive the account by more than 30 days; a deletion job removes them."
+  - "Within 30 days after closing an account we delete every document the customer uploaded."
+  VUL-01:
+  - "Critical vulnerabilities are fixed in production within 7 days after they are published."
+  - "We deploy fixes for vulnerabilities rated critical to production within a week of their publication."
+  - "The deadline for fixing a critical vulnerability in production is 7 days after publication."
+  - "Critical findings, including those in libraries, reach production fixed within 7 days of being published."
+  VUL-02:
+  - "Third-party components are kept within two major versions of the latest release, and the register shows the version of each."
+  - "No component of the service is more than two major versions behind the latest release; component versions are listed in the service register."
+  - "We upgrade libraries and frameworks so that none is more than two major versions behind, and the register records every version."
+  - "The service register lists the version of each third-party component, and none of them is more than two major versions old."
+  TST-01:
+  - "Production data is never copied to test or development environments; tests run on synthetic data."
+  - "Test and development environments use generated data only, and no production data is copied there."
+  - "We do not copy production data to test or development environments, tests use synthetic records."
+  - "Synthetic data feeds all test and development environments, production data is not copied to them."
+  TST-02:
+  - "Test accounts in production are removed within 7 days after the test ends."
+  - "After a test in production ends, its test accounts are deleted within a week."
+  - "Test accounts created in production are removed at the latest 7 days after the test finishes."
+  - "We delete the test accounts of a production test within 7 days of its end."
+  NTF-01:
+  - "Messages to customers never contain card numbers, passwords or images of identity documents."
+  - "Our message templates exclude card numbers, passwords and identity document images."
+  - "Emails and texts sent to customers do not include card numbers, passwords or images of identity documents."
+  - "Customer messages are built from a fixed set of fields that does not contain card numbers, passwords or document images."
+  EXP-01:
+  - "Exported files with personal data are encrypted and deleted from the download location after 7 days."
+  - "Exports that contain personal data are encrypted, and they are removed from the download location after seven days."
+  - "We encrypt every export of personal data and delete the file from the download location after 7 days."
+  - "Export files holding personal data are encrypted at creation and expire from the download location after 7 days."
+  EXP-02:
+  - "Any export of more than 1,000 customer records needs the written approval of the data owner."
+  - "A written approval of the data owner is required for every export of more than 1,000 customer records."
+  - "For exports above 1,000 customer records we collect the written approval of the data owner first."
+  - "The data owner approves in writing any export of more than 1,000 customer records."
+  INV-01:
+  - "Every service has a named owner and a named deputy in the service register."
+  - "The service register names an owner and a deputy for each service."
+  - "In the service register each service has a person as owner and a person as deputy."
+  - "Owner and deputy of the service are named in the service register."
+  INV-02:
+  - "The service register lists the personal data that the service processes and every third party that receives data from it."
+  - "For each service the register shows which personal data it processes and which third parties receive data from it."
+  - "The register entry of the service names its personal data and all third-party recipients."
+  - "Personal data and third-party recipients of the service are recorded in the service register."
+  FRD-01:
+  - "Transactions above 10,000 EUR are held for review by the fraud team before they are settled."
+  - "A transaction above 10,000 EUR waits for the fraud team's review and is settled only afterwards."
+  - "Before settlement, the fraud team reviews each transaction above 10,000 EUR."
+  - "Large transactions, those above 10,000 EUR, are held and reviewed by the fraud team before they are settled."
+  MON-01:
+  - "Alerts of severity high are acknowledged within 15 minutes by the engineer on call."
+  - "The on-call engineer acknowledges high alerts within 15 minutes."
+  - "Alerts rated high are picked up within a quarter of an hour."
+  - "Acknowledgement of high alerts happens within 15 minutes."
+  WHK-01:
+  - "Callbacks to customer endpoints are signed and carry a timestamp that the receiver can check against replay."
+  - "Each callback we send is signed and includes a timestamp so that the receiver can reject replayed requests."
+  - "Callbacks carry a signature and a timestamp; receivers are told to check the timestamp against replay."
+  - "We sign all callbacks to customers and add a timestamp for the replay check."
+  REC-01:
+  - "Balances are reconciled with the ledger every day, and any difference of more than 0.01 EUR is reported to the finance team within 24 hours."
+  - "A daily job compares the balances with the ledger; differences above 0.01 EUR go to the finance team within 24 hours."
+  - "We reconcile balances against the ledger daily and tell the finance team about every difference over 0.01 EUR within a day."
+  - "Reconciliation with the ledger runs every day, and the finance team gets a report of differences above 0.01 EUR within 24 hours."
+  REC-02:
+  - "Differences found in a reconciliation are resolved within 5 working days."
+  - "Every reconciliation difference is closed within 5 working days after it is found."
+  - "We resolve the differences of the reconciliation in at most 5 working days."
+  - "A difference from the daily reconciliation has to be resolved within five working days."
+  IDM-01:
+  - "Every operation that moves money takes an idempotency key, and a repeated request with the same key does not move the money again."
+  - "Money operations are idempotent: a repeat with the same key returns the stored result and moves nothing."
+  - "Requests that move money carry an idempotency key; a retry with the same key never books the movement twice."
+  - "We made all money operations idempotent, a repeated request with the same key is answered from the stored result."
+  LIM-01:
+  - "Each customer has a daily limit for outgoing transfers taken from the limit table, and a change of the limit needs the approval of a second employee."
+  - "Outgoing transfers per customer and day are limited by the limit table; limit changes are approved by a second employee."
+  - "The daily limit of a customer comes from the limit table, and two employees are needed to change it."
+  - "A limit table caps the daily outgoing transfers of every customer, and the second employee must approve each change."
+  VER-01:
+  - "A replaced API version stays available for 12 months, and its removal is announced 90 days before."
+  - "We keep a replaced version of the API for a year and announce its removal 90 days ahead."
+  - "Old API versions are kept for 12 months after the replacement; customers are told 90 days before one is removed."
+  - "A replaced version of the API lives on for 12 months, with a removal notice 90 days in advance."
+  VER-02:
+  - "Breaking changes of the API are released only as a new version of the API."
+  - "A breaking change always comes as a new API version, never in the current one."
+  - "We release breaking API changes only in a new version."
+  - "Changes that break callers go out only as a new version of the API."
+  SBX-01:
+  - "The merchant sandbox holds generated data only and runs separately from production."
+  - "The sandbox for merchants contains no real customer data and has its own infrastructure, separate from production."
+  - "Merchants test in a sandbox that is filled with generated data and runs apart from production."
+  - "No real customer data is in the sandbox, and the sandbox runs separately from production."
+  MSG-01:
+  - "Messages that cannot be processed go to a dead-letter queue, which is examined within one working day."
+  - "A message that fails is moved to the dead-letter queue, and the queue is examined within one working day."
+  - "Failed messages end up in a dead-letter queue that the team examines within a working day."
+  - "We move unprocessable messages to a dead-letter queue and look at it within one working day."
+  MSG-02:
+  - "Messages are deleted from the queue as soon as they are processed."
+  - "A processed message is deleted from the queue."
+  - "Queues keep a message only until it is processed and delete it then."
+  - "After processing, a message is removed from the queue."
+  JOB-01:
+  - "Every scheduled job runs with its own service account, and the account cannot log in interactively."
+  - "Scheduled jobs have a service account each, with interactive login disabled."
+  - "Each job runs as its own service account; nobody can log in with it."
+  - "Jobs run under dedicated service accounts that do not allow interactive login."
+  SUP-01:
+  - "Support agents see card numbers and document numbers only in masked form."
+  - "The console shows card numbers and document numbers masked, and agents never see the full values."
+  - "Card and document numbers are masked for the support agents."
+  - "Agents of the support only get masked card numbers and document numbers."
+  SUP-02:
+  - "A change of the phone number or email address of a customer needs a one-time code that is sent to the old contact data."
+  - "To change contact data, the customer has to enter a one-time code sent to the old phone number or email address."
+  - "Changes of the phone number or the email address are confirmed with a one-time code sent to the old contact data."
+  - "We send a one-time code to the old contact data and accept a change of phone number or email address only with that code."
 strict_phrasings:
   AUTH-06:
     v2:

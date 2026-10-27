@@ -1,0 +1,89 @@
+{
+ "case_id": "c719_refund_service",
+ "documented_service": "refund_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The code is sent to the new contact data."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "IDM-01",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-837"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "require an idempotency key on every operation that moves money",
+     "answer a repeated request with the same key from the stored result"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Keys are remembered for one minute only."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "REC-02",
+   "component": "refund-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-682"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Within what time differences found in a reconciliation are resolved.",
+   "instruction": "Mention refund-core naturally, but do NOT state: Within what time differences found in a reconciliation are resolved. Wrap the sentence(s) that mention refund-core (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "VER-01",
+  "SBX-01",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01",
+  "SUP-01"
+ ]
+}

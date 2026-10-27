@@ -1,0 +1,28 @@
+{
+ "case_id": "c607_fraud_scoring",
+ "documented_service": "fraud_scoring",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "migration_delta_writer",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [],
+ "required_rules": [
+  "ARC-01",
+  "ARC-02",
+  "VUL-01",
+  "TST-01",
+  "TST-02",
+  "EXP-02",
+  "INV-01",
+  "INV-02",
+  "FRD-01",
+  "MON-01",
+  "WHK-01"
+ ]
+}

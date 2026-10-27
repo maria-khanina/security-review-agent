@@ -1,0 +1,68 @@
+{
+ "case_id": "c708_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "esl_engineer",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-02",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-640"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "send a one-time code to the old contact data",
+     "accept the change only with the correct code"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Changes are made after a message to the old address that can be ignored."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Agents see the full card number to find a payment faster."
+  }
+ ],
+ "required_rules": [
+  "LIM-01",
+  "VER-02",
+  "MSG-01",
+  "MSG-02",
+  "JOB-01"
+ ]
+}

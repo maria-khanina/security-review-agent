@@ -1,0 +1,69 @@
+{
+ "case_id": "c716_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Masking applies to the search page but not to the detail page."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "VER-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "release breaking changes only as a new version of the API"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Fields are renamed in place and customers are told in the chat."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "REC-02",
+  "IDM-01",
+  "LIM-01",
+  "VER-01",
+  "JOB-01",
+  "SUP-02"
+ ]
+}

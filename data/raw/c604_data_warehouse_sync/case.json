@@ -1,0 +1,66 @@
+{
+ "case_id": "c604_data_warehouse_sync",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "ARC-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep transaction records for exactly 7 years",
+     "delete them within 90 days after the period ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Transaction records are kept for as long as storage allows and nobody deletes them."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "VUL-01",
+   "component": "sync-job",
+   "data_class": "pii",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1395"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How fast critical vulnerabilities are fixed in production.",
+   "instruction": "Mention sync-job naturally, but do NOT state: How fast critical vulnerabilities are fixed in production. Wrap the sentence(s) that mention sync-job (the place where that information should have been) in the F2 marker."
+  }
+ ],
+ "required_rules": [
+  "ARC-02",
+  "VUL-02",
+  "TST-01",
+  "EXP-01",
+  "EXP-02",
+  "INV-02",
+  "MON-01"
+ ]
+}

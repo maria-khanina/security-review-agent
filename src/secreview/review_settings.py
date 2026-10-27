@@ -44,6 +44,8 @@ REVIEW_SETTINGS = ReviewSettings(
         table_resamples=300,
         cascade_shares=[0.4, 0.6],
         primary_budget_position=2,
+        policy_groups=["dev2", "v4", "v5", "v6", "v7"],
+        matched_groups=["dev2", "v5", "v6", "v7"],
         finalists=[
             FinalistSettings(
                 label="A raw",

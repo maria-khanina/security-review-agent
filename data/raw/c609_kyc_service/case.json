@@ -1,0 +1,71 @@
+{
+ "case_id": "c609_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "compliance_voice",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "INV-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "name an owner and a deputy in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The register shows the name of the team but not of a person."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "NTF-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-201"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep card numbers, passwords and identity document images out of messages"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Receipts by email show the full card number so that customers recognise the payment."
+  }
+ ],
+ "required_rules": [
+  "ARC-02",
+  "VUL-01",
+  "TST-01",
+  "TST-02",
+  "EXP-01",
+  "EXP-02",
+  "INV-02",
+  "MON-01",
+  "WHK-01"
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "case_id": "c608_kyc_service",
+ "documented_service": "kyc_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "stream_of_consciousness",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "high",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Alerts about the service are sent to the platform team, which does not know the service."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "TST-01",
+   "component": "kyc-orchestrator",
+   "data_class": "pii",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "never copy production data to test or development environments",
+     "generate synthetic data for tests"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Test data is a snapshot of production with only the names masked."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "ARC-02",
+  "VUL-01",
+  "VUL-02",
+  "EXP-01",
+  "INV-02",
+  "WHK-01"
+ ]
+}

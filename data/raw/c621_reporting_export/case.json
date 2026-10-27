@@ -1,0 +1,25 @@
+{
+ "case_id": "c621_reporting_export",
+ "documented_service": "reporting_export",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "slack_paste",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "heavy",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "VUL-01",
+  "VUL-02",
+  "NTF-01",
+  "EXP-01",
+  "EXP-02",
+  "INV-01",
+  "INV-02",
+  "MON-01"
+ ]
+}

@@ -1,0 +1,49 @@
+{
+ "case_id": "c727_wallet_service",
+ "documented_service": "wallet_service",
+ "implementation_format": "openapi",
+ "split": "v7",
+ "policy_version": "v7",
+ "author_profile": "tribal_knowledge_staff",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MSG-02",
+   "component": "wallet-core",
+   "data_class": "credentials",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-212"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete messages after they are processed"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Processed messages stay in the queue for months so that analysts can replay them."
+  }
+ ],
+ "required_rules": [
+  "REC-01",
+  "REC-02",
+  "LIM-01",
+  "VER-02",
+  "SBX-01",
+  "MSG-01",
+  "JOB-01",
+  "SUP-01",
+  "SUP-02"
+ ]
+}

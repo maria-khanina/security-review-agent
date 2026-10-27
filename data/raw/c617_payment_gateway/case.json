@@ -1,0 +1,87 @@
+{
+ "case_id": "c617_payment_gateway",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "optimistic_roadmapper",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "MON-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-778"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "acknowledge alerts of severity high within 15 minutes"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Alerts are acknowledged automatically by the paging tool after 5 minutes."
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "WHK-01",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "critical",
+   "cwe": [
+    "CWE-294"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "sign every callback",
+     "add a timestamp that the receiver checks against replay"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): Callbacks are signed, but they carry no timestamp."
+  },
+  {
+   "flaw_id": "F3",
+   "type": "ambiguity",
+   "rule_id": "INV-02",
+   "component": "payments-core",
+   "data_class": "card_data",
+   "exposure": "external",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "Which personal data the service processes and which third parties receive data from it.",
+   "instruction": "Mention payments-core naturally, but do NOT state: Which personal data the service processes and which third parties receive data from it. Wrap the sentence(s) that mention payments-core (the place where that information should have been) in the F3 marker."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "VUL-01",
+  "TST-01",
+  "TST-02",
+  "NTF-01",
+  "INV-01"
+ ]
+}

@@ -1,0 +1,26 @@
+{
+ "case_id": "c614_notification_service",
+ "documented_service": "notification_service",
+ "implementation_format": "openapi",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "table_lover",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "heavy",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "flaws": [],
+ "required_rules": [
+  "ARC-02",
+  "VUL-02",
+  "TST-01",
+  "TST-02",
+  "NTF-01",
+  "INV-01",
+  "INV-02",
+  "MON-01",
+  "WHK-01"
+ ]
+}

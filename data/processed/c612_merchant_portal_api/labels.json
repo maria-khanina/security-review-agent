@@ -1,0 +1,271 @@
+{
+ "case_id": "c612_merchant_portal_api",
+ "split": "v6",
+ "documented_service": "merchant_portal_api",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v6",
+ "author_profile": "copy_paste_veteran",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 3,
+  "tbd_markers": 0
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "ARC-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-459"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "delete the documents within 30 days after the account is closed",
+     "delete the copies in queues and exports as well"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "ARC-02"
+   ],
+   "policy_status": "conflicting",
+   "needs_policy_review": true,
+   "design_spans": [
+    [
+     868,
+     971
+    ]
+   ],
+   "policy_spans": {
+    "ARC-02": [
+     [
+      581,
+      672
+     ],
+     [
+      681,
+      770
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "FRD-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-841"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "hold transactions above 10,000 EUR for review by the fraud team before settlement"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "FRD-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1001,
+     1122
+    ]
+   ],
+   "policy_spans": {
+    "FRD-01": [
+     [
+      1872,
+      1968
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F3",
+   "type": "violation",
+   "rule_id": "INV-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "portal-backend",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "name an owner and a deputy in the service register"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "INV-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1790,
+     1920
+    ]
+   ],
+   "policy_spans": {
+    "INV-01": [
+     [
+      1601,
+      1682
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-01",
+   "design_spans": [
+    [
+     1156,
+     1242
+    ]
+   ],
+   "policy_spans": [
+    [
+     469,
+     572
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-01",
+   "design_spans": [
+    [
+     1245,
+     1333
+    ]
+   ],
+   "policy_spans": [
+    [
+     829,
+     927
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1336,
+     1402
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-02",
+   "design_spans": [
+    [
+     1405,
+     1479
+    ]
+   ],
+   "policy_spans": [
+    [
+     1122,
+     1202
+    ]
+   ]
+  },
+  {
+   "rule_id": "NTF-01",
+   "design_spans": [
+    [
+     1482,
+     1571
+    ]
+   ],
+   "policy_spans": [
+    [
+     1251,
+     1351
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     744,
+     837
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     1574,
+     1673
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "WHK-01",
+   "design_spans": [
+    [
+     1676,
+     1779
+    ]
+   ],
+   "policy_spans": [
+    [
+     2140,
+     2261
+    ]
+   ]
+  }
+ ]
+}

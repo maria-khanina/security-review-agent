@@ -1,0 +1,112 @@
+{
+ "case_id": "c701_audit_log_pipeline",
+ "split": "v7",
+ "documented_service": "audit_log_pipeline",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v7",
+ "author_profile": "meeting_notes",
+ "noise": {
+  "typo_rate": 0.03,
+  "markdown_breakage": "light",
+  "dangling_references": 0,
+  "tbd_markers": 5
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "JOB-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-250"
+   ],
+   "component": "audit-collector",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "run every scheduled job with its own service account",
+     "forbid interactive login with the service account"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "JOB-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     665,
+     755
+    ]
+   ],
+   "policy_spans": {
+    "JOB-01": [
+     [
+      1563,
+      1651
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     381,
+     469
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-02",
+   "design_spans": [
+    [
+     472,
+     531
+    ]
+   ],
+   "policy_spans": [
+    [
+     1077,
+     1156
+    ]
+   ]
+  },
+  {
+   "rule_id": "MSG-02",
+   "design_spans": [
+    [
+     546,
+     595
+    ]
+   ],
+   "policy_spans": [
+    [
+     1429,
+     1489
+    ],
+    [
+     1498,
+     1554
+    ]
+   ]
+  }
+ ]
+}

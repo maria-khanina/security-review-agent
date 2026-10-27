@@ -1,0 +1,209 @@
+{
+ "case_id": "c716_payment_gateway",
+ "split": "v7",
+ "documented_service": "payment_gateway",
+ "implementation_format": "openapi",
+ "implementation_file": "impl.yaml",
+ "policy_version": "v7",
+ "author_profile": "junior_tutorial",
+ "noise": {
+  "typo_rate": 0.01,
+  "markdown_breakage": "light",
+  "dangling_references": 1,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "SUP-01",
+   "severity": "critical",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "show card numbers and document numbers to agents only in masked form"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "SUP-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1569,
+     1673
+    ]
+   ],
+   "policy_spans": {
+    "SUP-01": [
+     [
+      1687,
+      1765
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "violation",
+   "rule_id": "VER-02",
+   "severity": "high",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "component": "payments-core",
+   "data_class": "card_data",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "release breaking changes only as a new version of the API"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "VER-02"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1232,
+     1337
+    ]
+   ],
+   "policy_spans": {
+    "VER-02": [
+     [
+      1077,
+      1156
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "REC-01",
+   "design_spans": [
+    [
+     643,
+     781
+    ]
+   ],
+   "policy_spans": [
+    [
+     398,
+     545
+    ]
+   ]
+  },
+  {
+   "rule_id": "REC-02",
+   "design_spans": [
+    [
+     784,
+     857
+    ]
+   ],
+   "policy_spans": [
+    [
+     554,
+     630
+    ]
+   ]
+  },
+  {
+   "rule_id": "IDM-01",
+   "design_spans": [
+    [
+     860,
+     990
+    ]
+   ],
+   "policy_spans": [
+    [
+     639,
+     753
+    ]
+   ]
+  },
+  {
+   "rule_id": "LIM-01",
+   "design_spans": [
+    [
+     993,
+     1132
+    ]
+   ],
+   "policy_spans": [
+    [
+     762,
+     919
+    ]
+   ]
+  },
+  {
+   "rule_id": "VER-01",
+   "design_spans": [
+    [
+     1135,
+     1229
+    ]
+   ],
+   "policy_spans": [
+    [
+     958,
+     1068
+    ]
+   ]
+  },
+  {
+   "rule_id": "JOB-01",
+   "design_spans": [
+    [
+     1340,
+     1429
+    ]
+   ],
+   "policy_spans": [
+    [
+     1563,
+     1651
+    ]
+   ]
+  },
+  {
+   "rule_id": "SUP-02",
+   "design_spans": [
+    [
+     1432,
+     1541
+    ]
+   ],
+   "policy_spans": [
+    [
+     1774,
+     1846
+    ]
+   ]
+  }
+ ]
+}

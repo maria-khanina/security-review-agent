@@ -147,7 +147,7 @@ def collect_outcomes(test_prefix: str) -> list[Outcome]:
     """Choose the classes and scores of every finalist on one set of designs."""
     outcomes: list[Outcome] = []
     for finalist in available_finalists():
-        outcomes.append(outcome_of(finalist, DEV_PREFIX, test_prefix))
+        outcomes.append(outcome_of(finalist, [DEV_PREFIX], test_prefix))
     return outcomes
 
 

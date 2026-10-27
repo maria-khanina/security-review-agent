@@ -1,0 +1,173 @@
+{
+  "policy_version": "v7",
+  "requirements": [
+    {
+      "id": "R1",
+      "quote": "Balances must be reconciled with the ledger every day, and a difference of more than 0.01 EUR must be reported to the finance team within 24 hours.",
+      "span": [
+        398,
+        545
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance",
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R2",
+      "quote": "Differences found in a reconciliation should be resolved in a timely manner.",
+      "span": [
+        554,
+        630
+      ],
+      "wording": "vague",
+      "topics": [
+        "governance",
+        "input-validation"
+      ]
+    },
+    {
+      "id": "R3",
+      "quote": "Operations that move money must be idempotent: a repeated request with the same key must not move the money again.",
+      "span": [
+        639,
+        753
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation",
+        "cryptography"
+      ]
+    },
+    {
+      "id": "R4",
+      "quote": "The daily outgoing transfers of a customer must be limited to the amount in the limit table, and a change of a limit needs the approval of a second employee.",
+      "span": [
+        762,
+        919
+      ],
+      "wording": "clear",
+      "topics": [
+        "input-validation",
+        "governance"
+      ]
+    },
+    {
+      "id": "R5",
+      "quote": "A replaced version of an API must be kept for 12 months, and its removal must be announced 90 days in advance.",
+      "span": [
+        958,
+        1068
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance",
+        "operations"
+      ]
+    },
+    {
+      "id": "R6",
+      "quote": "Breaking changes of an API should be released only as a new version of the API.",
+      "span": [
+        1077,
+        1156
+      ],
+      "wording": "clear",
+      "topics": [
+        "governance",
+        "operations"
+      ]
+    },
+    {
+      "id": "R7",
+      "quote": "The sandbox for merchants must contain no real customer data and must run separately from production.",
+      "span": [
+        1165,
+        1266
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection",
+        "network"
+      ]
+    },
+    {
+      "id": "R8",
+      "quote": "Messages that cannot be processed must be moved to a dead-letter queue and be examined within one working day.",
+      "span": [
+        1310,
+        1420
+      ],
+      "wording": "clear",
+      "topics": [
+        "operations",
+        "resilience"
+      ]
+    },
+    {
+      "id": "R9",
+      "quote": "Messages in queues must be deleted after they are processed.",
+      "span": [
+        1429,
+        1489
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "data-protection",
+        "operations"
+      ]
+    },
+    {
+      "id": "R10",
+      "quote": "Messages may be kept for up to 7 days to allow a replay.",
+      "span": [
+        1498,
+        1554
+      ],
+      "wording": "contradictory",
+      "topics": [
+        "data-protection",
+        "operations"
+      ]
+    },
+    {
+      "id": "R11",
+      "quote": "Scheduled jobs must run with their own service account that cannot log in interactively.",
+      "span": [
+        1563,
+        1651
+      ],
+      "wording": "clear",
+      "topics": [
+        "authentication",
+        "secrets"
+      ]
+    },
+    {
+      "id": "R12",
+      "quote": "Support agents must see card numbers and document numbers only in masked form.",
+      "span": [
+        1687,
+        1765
+      ],
+      "wording": "clear",
+      "topics": [
+        "data-protection"
+      ]
+    },
+    {
+      "id": "R13",
+      "quote": "Changes to the contact data of a customer require adequate verification.",
+      "span": [
+        1774,
+        1846
+      ],
+      "wording": "vague",
+      "topics": [
+        "authentication",
+        "governance"
+      ]
+    }
+  ]
+}

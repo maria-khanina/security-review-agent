@@ -1,0 +1,214 @@
+{
+ "case_id": "c604_data_warehouse_sync",
+ "split": "v6",
+ "documented_service": "data_warehouse_sync",
+ "implementation_format": "terraform",
+ "implementation_file": "main.tf",
+ "policy_version": "v6",
+ "author_profile": "buzzword_pm",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 0,
+  "tbd_markers": 2
+ },
+ "clean": false,
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "ARC-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-359"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "keep transaction records for exactly 7 years",
+     "delete them within 90 days after the period ends"
+    ]
+   ],
+   "clarification_needed": null,
+   "related_rules": [
+    "ARC-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     1378,
+     1530
+    ]
+   ],
+   "policy_spans": {
+    "ARC-01": [
+     [
+      469,
+      572
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  },
+  {
+   "flaw_id": "F2",
+   "type": "ambiguity",
+   "rule_id": "VUL-01",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1395"
+   ],
+   "component": "sync-job",
+   "data_class": "pii",
+   "manifest": "design",
+   "implementation_anchor": null,
+   "remediation_options": [],
+   "clarification_needed": "How fast critical vulnerabilities are fixed in production.",
+   "related_rules": [
+    "VUL-01"
+   ],
+   "policy_status": "clear",
+   "needs_policy_review": false,
+   "design_spans": [
+    [
+     778,
+     850
+    ]
+   ],
+   "policy_spans": {
+    "VUL-01": [
+     [
+      829,
+      927
+     ]
+    ]
+   },
+   "implementation_spans": [],
+   "also_violates": [],
+   "misfit_versions": [],
+   "arguable_versions": []
+  }
+ ],
+ "satisfied": [
+  {
+   "rule_id": "ARC-02",
+   "design_spans": [
+    [
+     1531,
+     1667
+    ]
+   ],
+   "policy_spans": [
+    [
+     581,
+     672
+    ],
+    [
+     681,
+     770
+    ]
+   ]
+  },
+  {
+   "rule_id": "VUL-02",
+   "design_spans": [
+    [
+     2175,
+     2305
+    ]
+   ],
+   "policy_spans": [
+    [
+     936,
+     996
+    ]
+   ]
+  },
+  {
+   "rule_id": "TST-01",
+   "design_spans": [
+    [
+     1899,
+     2010
+    ]
+   ],
+   "policy_spans": [
+    [
+     1042,
+     1113
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-01",
+   "design_spans": [
+    [
+     1691,
+     1809
+    ]
+   ],
+   "policy_spans": [
+    [
+     1360,
+     1480
+    ]
+   ]
+  },
+  {
+   "rule_id": "EXP-02",
+   "design_spans": [
+    [
+     1810,
+     1898
+    ]
+   ],
+   "policy_spans": [
+    [
+     1489,
+     1552
+    ]
+   ]
+  },
+  {
+   "rule_id": "INV-02",
+   "design_spans": [
+    [
+     2038,
+     2174
+    ]
+   ],
+   "policy_spans": [
+    [
+     1691,
+     1824
+    ]
+   ]
+  },
+  {
+   "rule_id": "MON-01",
+   "design_spans": [
+    [
+     2306,
+     2365
+    ]
+   ],
+   "policy_spans": [
+    [
+     1977,
+     2040
+    ],
+    [
+     2049,
+     2131
+    ]
+   ]
+  }
+ ]
+}

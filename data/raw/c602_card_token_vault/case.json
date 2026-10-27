@@ -1,0 +1,46 @@
+{
+ "case_id": "c602_card_token_vault",
+ "documented_service": "card_token_vault",
+ "implementation_format": "terraform",
+ "split": "v6",
+ "policy_version": "v6",
+ "author_profile": "diagram_narrator",
+ "noise": {
+  "typo_rate": 0.0,
+  "markdown_breakage": "none",
+  "dangling_references": 1,
+  "tbd_markers": 0
+ },
+ "flaws": [
+  {
+   "flaw_id": "F1",
+   "type": "violation",
+   "rule_id": "INV-02",
+   "component": "tokenization-service",
+   "data_class": "card_data",
+   "exposure": "internal",
+   "severity": "medium",
+   "cwe": [
+    "CWE-1059"
+   ],
+   "manifest": "design",
+   "implementation_mutation": null,
+   "implementation_anchor": null,
+   "remediation_options": [
+    [
+     "list the personal data of each service in the register",
+     "list every third party that receives data from the service"
+    ]
+   ],
+   "clarification_needed": null,
+   "instruction": "State, as the author naturally would and believing it acceptable, a design decision of this kind (use your own words and this service's context; do not copy the wording): The service sends events to a partner that the register does not mention."
+  }
+ ],
+ "required_rules": [
+  "ARC-01",
+  "TST-02",
+  "INV-01",
+  "FRD-01",
+  "MON-01"
+ ]
+}
