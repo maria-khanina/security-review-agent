@@ -4,7 +4,7 @@ This log describes every experiment run so far on the security design review pro
 
 The task: given a company security policy and a software design document, give a verdict on every policy requirement (and, in the first sections, report violations and ambiguities as free-form findings). Everything is measured on synthetic data (section 1). Intervals are 95% bootstrap intervals over documents ("paired" means two variants are compared on the same resamples). The test split (36 documents of two held-out services) has not been opened.
 
-**How to read this log.** It is chronological. The verdicts, the gold labels and the designs were redefined on 2026-10-26 (10o), and the runs of all earlier sections were deleted. Sections 1 to 10n describe the earlier data: their tables are history and are not comparable with 10o and 10p. The current state is in 10o (definitions, gold), 10p (results), 11 (limits and next steps) and 12 (reproduction).
+**How to read this log.** It is chronological. The verdicts, the gold labels and the designs were redefined on 2026-10-26 (10o), and the runs of all earlier sections were deleted. Sections 1 to 10n describe the earlier data: their tables are history and are not comparable with 10o and 10p. The current state is in 10o (definitions, gold), 10p and 10q (results), 11 (limits and next steps) and 12 (reproduction).
 
 ## 0. Terms and metrics
 
@@ -757,13 +757,68 @@ A, C and D with a layer cannot be told apart (paired differences within 0.02, in
 
 **Why v4 and v5 differ.** v4 has 43% `not_applicable` pairs against 18% on v5 (and 18% on dev), because its rules (payments, tenancy, uploads, mobile) concern few services. At the cut of 2 false alarms per document the false alarms of the layer variant A are 38 `not_applicable` and 10 `compliant` pairs on v4 (48 of 109 top pairs) and 42 and 18 on v5 (60 of 162 top pairs): the budget is spent on errors of applicability, and fewer shown requirements fit above the cut on v4 (61 of 106, 0.58) than on v5 (102 of 136, 0.75). The layer is trained on dev, where `not_applicable` is 18%, close to v5, and it gains 0.00 on v4 and 0.10 on v5 over the raw model. This agrees with a mismatch of the prior, but it was not tested by changing the prior. The cascade scores two groups of pairs from different sources with one threshold, so its pooled value depends on the mix of the policies (10m).
 
+## 10q. Two more policies and the leave-one-policy-out comparison (2026-10-27)
+
+**Why.** The comparison of 10p rested on two unseen policies. v4 has 43% `not_applicable` pairs against 18% on dev, the layer was trained on dev only, and the winners differed between v4 and v5 (10p). Two policies cannot show how much a new policy changes the result, and the intervals were plus or minus 0.07 to 0.09.
+
+**Data.** Two policies were written after all choices of 10p were fixed, each with the `not_applicable` share of dev (about 18%) and 30 designs, every design judged against its own policy:
+- `v6_operations_lifecycle_standard.md`, 14 rules (ARC, VUL, TST, NTF, EXP, INV, FRD, MON, WHK): 2 vague, 1 advisory and 2 conflicting rules in `policy_maps.yaml`; 480 pairs.
+- `v7_platform_support_standard.md`, 12 rules (REC, IDM, LIM, VER, SBX, MSG, SUP, JOB): 2 vague, 1 advisory and 1 conflicting rule; 390 pairs.
+
+The designs are cases `c600` to `c629` and `c700` to `c729` of `configs/extension_plan.yaml`. The new plan field `silent` removes a required rule from the design so that the verdict is `unclear` (the rule is applicable, neither stated nor broken); it is checked by `leave_silent` and its test. The rules, the compliant phrasings and the maps follow the format of v4 and v5; the designs are written by an LLM in the same styles as before.
+
+| Gold proportions, % | compliant | violated | unclear | not applicable | violated + unclear |
+|---|---|---|---|---|---|
+| v1 to v3 (dev) | 60.8 | 4.3 | 16.6 | 18.4 | 21 |
+| v4 | 29.2 | 7.8 | 19.8 | 43.2 | 28 |
+| v5 | 49.4 | 10.9 | 22.1 | 17.5 | 33 |
+| v6 | 51.7 | 11.0 | 21.0 | 16.3 | 32 |
+| v7 | 46.9 | 13.6 | 24.6 | 14.9 | 38 |
+
+The share of `not_applicable` of v5 to v7 matches dev. The share of violations does not: v5 to v7 have two to three times as many violations as dev, so dev differs from the new policies in the mix of `violated` and `unclear`, not in applicability. v4 is kept as the case of a different mix.
+
+**Judging of the policies (thresholds unchanged, 0.63 and 0.1).** v6 (4 contradictory sentences in the gold): 3 found, 1 false alarm. v7 (2 contradictory, 2 vague): both contradictory found, one of two vague found; one vague rule and two clear rules called contradictory. Two policies are too few to change the thresholds.
+
+**Protocol.** The groups are `v1 to v3`, `v4`, `v5`, `v6`, `v7`. For each group in turn the layer is trained on all designs of the other four groups (verdict records of the same configuration) and applied to the held-out group; the recall at 2 false alarms per document is computed on that group and averaged over the groups. The interval resamples documents within each group (the same resample for every variant, so the paired differences are paired). A second section excludes v4 (the groups with similar verdict shares: `matched_groups`). A layer therefore never saw the policy it is applied to. `python scripts/compare_groups.py data/reports/group_comparison.md`.
+
+Recall at 2 false alarms per document, mean over the five groups (95% interval):
+
+| Variant | Mean | v1 to v3 | v4 | v5 | v6 | v7 |
+|---|---|---|---|---|---|---|
+| A raw | 0.53 (0.47 to 0.58) | 0.31 | 0.58 | 0.65 | 0.44 | 0.69 |
+| A + layer, no wording | 0.61 (0.57 to 0.66) | 0.27 | 0.65 | 0.75 | 0.59 | 0.79 |
+| A + layer, wording per requirement | 0.62 (0.57 to 0.65) | 0.22 | 0.64 | 0.73 | 0.65 | 0.85 |
+| A layer only | 0.44 (0.38 to 0.50) | 0.14 | 0.45 | 0.34 | 0.56 | 0.70 |
+| A cascade, 40% | 0.56 (0.50 to 0.61) | 0.22 | 0.64 | 0.51 | 0.60 | 0.83 |
+| B raw | 0.54 (0.50 to 0.57) | 0.40 | 0.60 | 0.56 | 0.44 | 0.69 |
+| B + layer, no wording | 0.58 (0.54 to 0.63) | 0.33 | 0.66 | 0.57 | 0.51 | 0.84 |
+| C raw | 0.55 (0.49 to 0.60) | 0.34 | 0.55 | 0.74 | 0.45 | 0.68 |
+| C + layer, no wording | 0.64 (0.60 to 0.69) | 0.34 | 0.67 | 0.80 | 0.63 | 0.78 |
+| C + layer, wording per requirement | 0.65 (0.59 to 0.68) | 0.26 | 0.69 | 0.82 | 0.66 | 0.85 |
+| D raw | 0.51 (0.47 to 0.57) | 0.43 | 0.48 | 0.58 | 0.38 | 0.66 |
+| D + layer, no wording | 0.62 (0.57 to 0.66) | 0.29 | 0.72 | 0.66 | 0.58 | 0.85 |
+| D cascade, 40% | 0.54 (0.50 to 0.59) | 0.24 | 0.63 | 0.45 | 0.57 | 0.83 |
+
+The rows of the wording variants of B and D, the own decisions, the cost and the second section are in `data/reports/group_comparison.md`.
+
+**Findings.**
+- The layer gains over the raw model on v4, v5, v6 and v7 (A: +0.07, +0.10, +0.15, +0.10), also on v6 and v7 where it never saw the policy and the verdict mix is that of v5. It loses on `v1 to v3` (A: 0.31 to 0.27; B and D also lose, C stays at 0.34). On `v1 to v3` the raw model is the better one; `v1 to v3` has 21% shown requirements and 4% violations against 32% to 38% and 11% to 14% in v5 to v7. Whether this mix explains the loss was not tested; other explanations are a layer trained on another mix of classes and the older generation of the dev designs.
+- Paired differences to the best mean (C + layer with wording): A with a layer -0.02 (interval -0.05 to +0.02), C without wording +0.01, D with a layer -0.02; the raw models -0.09 to -0.12 (intervals exclude zero); B with a layer -0.05 to -0.06; the cascade -0.07 to -0.09; the layer alone -0.20. Without v4 the picture is the same (the best is the same variant, the differences change by at most 0.03).
+- The wording class as a feature of the layer: mean +0.01 for A and C, -0.01 for B, 0.00 for D, and a loss of 0.05 to 0.08 on `v1 to v3`. It does not help the recall; its use is the list of rules to clarify.
+- The intervals are about plus or minus 0.03 to 0.05 (A with a layer 0.57 to 0.66), down from plus or minus 0.07 to 0.09. This is still above the plus or minus 0.03 that 10p estimated for eight policies, because the variation between the policies is large: one variant scores 0.22 on `v1 to v3` and 0.85 on v7. Differences below about 0.04 between variants are not detected.
+- By the rule of 10p the choice is A with a layer: its difference to the best contains zero and it has the fewest prompt tokens of the group (14,000 against 14,400 for C and 17,100 for D).
+
+**Limits.** The v6 and v7 designs are written by the same LLM and by the same procedure as v4 and v5, with the stated shares of verdicts; a new policy of a real company does not come with these shares. The matched mix is the situation of a layer calibrated on the company's own earlier designs; v4 is the situation of a policy with another mix of applicability, where the layer gains 0.07. The prior-mismatch explanation of 10p for the v4 versus v5 gap was not tested.
+
 ## 11. State and next steps
 
-**State (2026-10-27).** On the redefined data (10o) all four configurations A to D are run on dev, v4 and v5 with the layers trained on dev (10p). The policy analysis (wording and contradictions) is tuned by the recall of the contradictory sentences at a budget of false alarms (10p). The test split (36 designs of two held-out services) has not been run.
+**State (2026-10-27).** On the redefined data (10o) all four configurations A to D are run on dev, v4, v5, v6 and v7; the layers are compared by leaving one policy group out (10q), and the earlier comparison with layers trained on dev only is in 10p. The policy analysis (wording and contradictions) is tuned by the recall of the contradictory sentences at a budget of false alarms (10p). The test split (36 designs of two held-out services) has not been run.
 
 **Known limits of the evidence.**
-- Two unseen policies with 24 and 30 designs: intervals of plus or minus 0.07, no estimate of the variation between policies, and the winners differ between v4 and v5 (10p).
-- v4 has 43% `not_applicable` pairs against 18% on dev and v5; the share of applicability errors among the false alarms (75% to 80%) is the main loss, and the layer may be mismatched to v4.
+- Five policy groups (210 designs): intervals of plus or minus 0.03 to 0.05; differences between variants below about 0.04 are not detected, and A, C and D with a layer cannot be told apart (10q).
+- The spread between policies is larger than the spread between variants (one variant: 0.22 on v1 to v3, 0.85 on v7). The layer loses on v1 to v3, whose mix of verdicts differs from v5 to v7 (4% violations against 11% to 14%); the reason is not tested.
+- v6 and v7 are written by the same LLM and procedure as v4 and v5 with planned verdict shares; the leave-one-out result describes a layer calibrated on designs of the same kind.
+- v4 has 43% `not_applicable` pairs against 15% to 18% elsewhere; the share of applicability errors among the false alarms (75% to 80% at the v4 and v5 cut) is the main loss.
 - The rewritten verdict prompt is worse than the previous one on the new gold by 0.07 (interval -0.16 to 0.00) for the raw model; the layers were not rerun with the previous prompt.
 - The thresholds of the policy analysis rest on 10 contradictory pairs of the policies and a bank of 45 pairs written by the same LLM.
 - The gold of `unclear` on rules with an arguable reading is a convention (`arguable` in `violation_overlaps.yaml`), and about a third of the answers `compliant` on such rules are defensible (10g).
@@ -771,8 +826,8 @@ A, C and D with a layer cannot be told apart (paired differences within 0.02, in
 - The model is Qwen3-4B-AWQ on an 8 GB GPU with a 12,000-token window; the numbers say nothing about larger models.
 
 **Next steps.**
-1. More unseen data for the comparison: four to eight new policies (12 to 15 rules each, new areas) with about 30 designs each, a `not_applicable` share of 20% to 35%, so that the variation between policies can be estimated and the intervals shrink (10p).
-2. Cross-validation over services on dev (96 designs, about 750 shown requirements) as a second, narrower comparison of the variants: new service, known policy.
+1. More policies for the comparison: each new policy with 12 to 15 rules and about 30 designs narrows the intervals; plus or minus 0.03 needs roughly eight to ten policies, and designs of a source other than this LLM.
+2. Cross-validation over services on dev (96 designs, about 750 shown requirements) as a second comparison: new service, known policy. It would also show whether the layer loses on dev because of the dev mix.
 3. Larger bank for the policy judgement: 150 or more contradictory and as many consistent pairs, in styles taken from public standards, split by type of contradiction so that tuning and test do not share a type.
 4. Applicability of a requirement decided before the verdict (the main source of false alarms), the previous verdict prompt with the layers, a model of 8B or more, real designs.
 
@@ -794,4 +849,5 @@ A, C and D with a layer cannot be told apart (paired differences within 0.02, in
 - Decision layer with a feature preset (`all`, `no_wording`, `agnostic`): `python scripts/stack_verdicts.py <run> <target> --preset P` (cross-validated), `python scripts/apply_stacker.py <train run> <apply run> <target> --preset P`.
 - The comparison tables of 10k: `python scripts/compare_variants.py data/reports/v4_comparison.md data/reports/v4_calls_and_context.md`. Cascade on dev and the checks of 10i were run with throw-away scripts that are not stored; the cascade rows of 10k are reproduced by `compare_variants.py`.
 - Stored data: `data/retrieval/` (retrieval scores, rankings), `data/runs/` (free-form runs), `data/runs_verdict/<run>/` (records, `run_config.json` with the prompt, `verdict_metrics_dev.json`).
+- Policies v6 and v7: rules in `data/policies/rules.yaml` (ids ARC, VUL, TST, NTF, EXP, INV, FRD, MON, WHK; REC, IDM, LIM, VER, SBX, MSG, SUP, JOB), texts `v6_operations_lifecycle_standard.md` and `v7_platform_support_standard.md`, plans in `configs/extension_plan.yaml` (splits `v6`, `v7`, field `silent`), then the same steps as for v4. The comparison of 10q: `python scripts/compare_groups.py data/reports/group_comparison.md`, which needs the runs `dev2_`, `v4_`, `v5_`, `v6_` and `v7_` plus the configuration name, with the rankings of `llm_analysis_w4` for each split.
 - The comparison of 10p: `python scripts/compare_pooled.py data/reports/model_comparison.md`. It needs the runs `dev2_<configuration>`, `v4_<configuration>` and `v5_<configuration>` for `base`, `overview800`, `reasoned_nooverview` and `reasoned800`, made by `python scripts/run_verdicts.py <run> --split <dev|v4|v5> --analysis llm_analysis_w4 [--overview 800] [--reasoned]` after `compute_requirement_rankings.py <split> llm_analysis_w4`.
