@@ -9,7 +9,15 @@ import subprocess
 from pydantic import BaseModel
 
 from secreview.agents.case_materials import DESIGN_FILE, list_case_ids
-from secreview.agents.policy_requirements import digest_analysis_set
+from secreview.agents.policy_requirements import (
+    PolicyRequirement,
+    digest_analysis_set,
+)
+from secreview.agents.verdict_batch import (
+    build_batch_schema,
+    build_batch_system_prompt,
+    build_batch_user_prompt,
+)
 from secreview.agents.verdict_prompts import (
     build_verdict_system_prompt,
     build_verdict_user_prompt,
@@ -24,6 +32,9 @@ from secreview.review_settings import REVIEW_SETTINGS
 
 NO_BATCH = 0
 TEMPLATE_SAMPLE = ("requirement", ["fragment"], "overview")
+SAMPLE_REQUIREMENT = PolicyRequirement(
+    id="sample", quote="requirement", span=(0, 0), wording="", topics=[]
+)
 VOLATILE_FIELDS = {"created_at", "commit", "decision", "note"}
 
 
@@ -166,5 +177,24 @@ def with_analysis(config: VerdictRunConfig, analysis: str) -> VerdictRunConfig:
     changes: dict[str, str] = {
         "analysis": analysis,
         "analysis_digest": digest_analysis_set(analysis),
+    }
+    return config.model_copy(update=changes)
+
+
+def build_batched_run_config(
+    choice: ContextChoice,
+    analysis: str,
+    split: str,
+    size: int,
+) -> VerdictRunConfig:
+    """Collect everything that shapes the verdicts of a run in groups."""
+    config = build_verdict_run_config(choice, analysis, split, False, size)
+    overview = choice.overview_chars > 0 or bool(choice.card_name)
+    sample = build_batch_user_prompt([SAMPLE_REQUIREMENT], ["fragment"], "overview")
+    schema = json.dumps(build_batch_schema(size), sort_keys=True)
+    changes: dict[str, str] = {
+        "system_prompt": build_batch_system_prompt(overview),
+        "user_prompt_digest": text_digest(sample),
+        "schema_digest": text_digest(schema),
     }
     return config.model_copy(update=changes)

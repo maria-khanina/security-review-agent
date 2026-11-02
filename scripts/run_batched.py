@@ -1,7 +1,6 @@
 """Reviews the requirements of each design in groups, one model call per group."""
 
 import argparse
-import json
 
 import httpx
 
@@ -9,10 +8,13 @@ from secreview.agents.case_materials import list_case_ids, load_case_materials
 from secreview.agents.policy_requirements import load_policy_analysis
 from secreview.agents.verdict_batch import review_case_batched
 from secreview.agents.verdict_review import ContextChoice
+from secreview.agents.verdict_run_config import (
+    build_batched_run_config,
+    store_run_config,
+)
 from secreview.agents.verdict_store import (
     has_verdict_record,
     save_verdict_record,
-    verdict_run_directory,
 )
 from secreview.llm.client import VllmChatClient
 from secreview.retrieval.requirement_rankings import SplitRankings, load_rankings
@@ -48,19 +50,10 @@ def build_choice(arguments: argparse.Namespace) -> ContextChoice:
 
 def write_run_config(arguments: argparse.Namespace, choice: ContextChoice) -> None:
     """Store what defines the run next to its records."""
-    directory = verdict_run_directory(arguments.run_name)
-    directory.mkdir(parents=True, exist_ok=True)
-    config: dict[str, object] = {
-        "choice": choice.model_dump(),
-        "analysis": arguments.analysis,
-        "split": arguments.split,
-        "pilot": False,
-        "batch_size": arguments.size,
-        "model": REVIEW_SETTINGS.llm.model,
-        "temperature": REVIEW_SETTINGS.llm.temperature,
-    }
-    path = directory / REVIEW_SETTINGS.verdict.run_config_file
-    path.write_text(json.dumps(config, indent=1), encoding="utf-8")
+    config = build_batched_run_config(
+        choice, arguments.analysis, arguments.split, arguments.size
+    )
+    store_run_config(arguments.run_name, config)
 
 
 def review_one(

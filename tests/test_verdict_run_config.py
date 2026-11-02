@@ -17,6 +17,8 @@ from secreview.review_settings import REVIEW_SETTINGS
 RUN = "unit__test__run"
 OTHER_PROMPT = "another prompt"
 RECORD_FILE = "c001_x.json"
+SMALL_GROUP = len("ab")
+LARGE_GROUP = len("abcd")
 
 
 def make_choice() -> ContextChoice:
@@ -91,3 +93,13 @@ def test_other_analysis_changes_the_digest() -> None:
     config = make_config()
     worded = with_analysis(config, REVIEW_SETTINGS.verdict.wording_analysis_set)
     assert worded.analysis_digest != config.analysis_digest
+
+
+def test_batched_run_differs_from_single_run_and_from_other_size() -> None:
+    choice = make_choice()
+    analysis = REVIEW_SETTINGS.verdict.analysis_set
+    single = make_config()
+    batched = module.build_batched_run_config(choice, analysis, "v4", SMALL_GROUP)
+    larger = module.build_batched_run_config(choice, analysis, "v4", LARGE_GROUP)
+    assert fingerprint(batched) != fingerprint(single)
+    assert fingerprint(batched) != fingerprint(larger)
