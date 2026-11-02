@@ -20,7 +20,7 @@ from secreview.evaluation.variant_table import Cost
 from secreview.review_settings import REVIEW_SETTINGS
 from secreview.review_settings_models import FinalistSettings
 
-DEV_PREFIX = "dev2"
+DEV_PREFIX = "dev"
 TABLE_HEADER = (
     "| Variant | Recall at 2 false alarms per document (95% interval) | "
     "Recall at 0.5 / 1 / 2 / 3 false alarms per document | "

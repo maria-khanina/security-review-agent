@@ -48,7 +48,9 @@ class PooledRow(BaseModel):
 
 def run_name(prefix: str, configuration: str) -> str:
     """Name the run of a configuration on a set of designs."""
-    return f"{prefix}_{configuration}"
+    settings = REVIEW_SETTINGS.verdict
+    parts: list[str] = [prefix, configuration, settings.data_version]
+    return settings.name_separator.join(parts)
 
 
 def join_variants(variants: list[VariantData]) -> VariantData:

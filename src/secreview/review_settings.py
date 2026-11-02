@@ -44,8 +44,8 @@ REVIEW_SETTINGS = ReviewSettings(
         table_resamples=300,
         cascade_shares=[0.4, 0.6],
         primary_budget_position=2,
-        policy_groups=["dev2", "v4", "v5", "v6", "v7"],
-        matched_groups=["dev2", "v5", "v6", "v7"],
+        policy_groups=["dev", "v4", "v5", "v6", "v7"],
+        matched_groups=["dev", "v5", "v6", "v7"],
         finalists=[
             FinalistSettings(
                 label="A raw",
@@ -228,6 +228,11 @@ REVIEW_SETTINGS = ReviewSettings(
         stacking_fine=False,
         card_characters=24000,
         wording_analysis_set="llm_analysis_w8",
+        data_version="data-2026-10-26",
+        name_separator="__",
+        wording_suffix="wording",
+        archive_directory="archive",
+        unknown_commit="unknown",
         feature_presets={
             "all": [
                 "log_probabilities",

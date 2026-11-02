@@ -1,11 +1,15 @@
 """The table that compares the variants of the pipeline on one set of designs."""
 
-import json
 import shutil
 
 import numpy as np
 from pydantic import BaseModel
 
+from secreview.agents.verdict_run_config import (
+    load_run_config,
+    with_analysis,
+    write_run_config,
+)
 from secreview.agents.verdict_store import verdict_run_directory
 from secreview.evaluation.variant_scores import (
     VariantData,
@@ -91,14 +95,13 @@ def make_row(
 
 def with_wording_analysis(run: str) -> str:
     """Copy a run whose policy analysis is the one with the wording per requirement."""
-    name = f"{run}_w"
+    settings = REVIEW_SETTINGS.verdict
+    name = settings.name_separator.join([run, settings.wording_suffix])
     target = verdict_run_directory(name)
     if not target.exists():
         shutil.copytree(verdict_run_directory(run), target)
-        path = target / REVIEW_SETTINGS.verdict.run_config_file
-        config = json.loads(path.read_text(encoding="utf-8"))
-        config["analysis"] = REVIEW_SETTINGS.verdict.wording_analysis_set
-        path.write_text(json.dumps(config, indent=1), encoding="utf-8")
+        config = with_analysis(load_run_config(run), settings.wording_analysis_set)
+        write_run_config(name, config)
     return name
 
 

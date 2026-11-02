@@ -22,7 +22,7 @@ from secreview.evaluation.variant_scores import score_variant
 from secreview.review_settings import REVIEW_SETTINGS
 from secreview.review_settings_models import FinalistSettings
 
-GROUP_LABELS = {"dev2": "v1 to v3"}
+GROUP_LABELS = {"dev": "v1 to v3"}
 COST_PREFIX = "v5"
 TABLE_HEADER = (
     "| Variant | Recall at 2 false alarms per document, mean over the policies "

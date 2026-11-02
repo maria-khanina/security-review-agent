@@ -1,19 +1,21 @@
 """Runs the per-requirement verdict review on the cases of a split."""
 
 import argparse
-import json
 
 import httpx
 
 from secreview.agents.case_materials import list_case_ids, load_case_materials
 from secreview.agents.pilot_sample import load_pilot_sample
 from secreview.agents.policy_requirements import load_policy_analysis
-from secreview.agents.verdict_prompts import build_verdict_system_prompt
 from secreview.agents.verdict_review import ContextChoice, review_case_verdicts
+from secreview.agents.verdict_run_config import (
+    NO_BATCH,
+    build_verdict_run_config,
+    store_run_config,
+)
 from secreview.agents.verdict_store import (
     has_verdict_record,
     save_verdict_record,
-    verdict_run_directory,
 )
 from secreview.llm.client import VllmChatClient
 from secreview.retrieval.requirement_rankings import SplitRankings, load_rankings
@@ -80,23 +82,10 @@ def select_case_ids(arguments: argparse.Namespace) -> list[str]:
 
 def write_run_config(arguments: argparse.Namespace, choice: ContextChoice) -> None:
     """Store what defines the run next to its records."""
-    directory = verdict_run_directory(arguments.run_name)
-    directory.mkdir(parents=True, exist_ok=True)
-    config: dict[str, object] = {
-        "choice": choice.model_dump(),
-        "analysis": arguments.analysis,
-        "split": arguments.split,
-        "pilot": arguments.pilot,
-        "system_prompt": build_verdict_system_prompt(
-            arguments.strict,
-            arguments.overview > 0 or bool(arguments.card),
-            arguments.reasoned,
-        ),
-        "model": REVIEW_SETTINGS.llm.model,
-        "temperature": REVIEW_SETTINGS.llm.temperature,
-    }
-    path = directory / REVIEW_SETTINGS.verdict.run_config_file
-    path.write_text(json.dumps(config, indent=1), encoding="utf-8")
+    config = build_verdict_run_config(
+        choice, arguments.analysis, arguments.split, arguments.pilot, NO_BATCH
+    )
+    store_run_config(arguments.run_name, config)
 
 
 def review_one(

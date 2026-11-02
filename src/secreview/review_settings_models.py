@@ -119,6 +119,11 @@ class VerdictSettings(BaseModel):
     stacking_fine: bool
     card_characters: int
     wording_analysis_set: str
+    data_version: str
+    name_separator: str
+    wording_suffix: str
+    archive_directory: str
+    unknown_commit: str
     feature_presets: dict[str, list[str]]
     probability_floor: float
 
