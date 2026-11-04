@@ -1,4 +1,4 @@
-# security_agent
+# Security Review Agent
 
 Proof of concept of an LLM security design review. Given a company security policy and a software design document, the system gives a verdict on every policy requirement (`compliant`, `violated`, `unclear`, `not_applicable`), quotes the design sentence that decides it, and reports what the author of the design should look at. It runs on a local Qwen3-4B-AWQ model (vLLM, 8 GB GPU) and is evaluated on synthetic designs with exact gold labels.
 
@@ -61,5 +61,5 @@ The list of rules to clarify is in [data/reports/policy_clarifications.md](data/
 
 ## Running
 
-Reproduction commands are in section 12 of EXPERIMENTS.md. Code follows the style rules checked by `python -m pycodestyle --max-line-length=88 src scripts tests`, `python -m pyright` and `python rules_check.py interview_projects/security_agent` from the repository root; tests run with `python -m pytest`.
+Reproduction commands are in section 12 of EXPERIMENTS.md. Code is checked with `python -m pycodestyle --max-line-length=88 src scripts tests` and `python -m pyright` (strict); tests run with `python -m pytest`.
 
