@@ -12,7 +12,7 @@ ABBREVIATIONS = {
 }
 STDLIB = set(sys.stdlib_module_names)
 MAX_STATEMENTS = 10
-CONFIG_FILE_NAMES = {"generation_settings.py", "review_settings.py", "cv_settings.py", "job_settings.py", "hook_settings.py"}
+CONFIG_FILE_NAMES = {"generation_settings.py", "review_settings.py", "cv_settings.py", "job_settings.py", "hook_settings.py", "debate_settings.py"}
 
 
 def count_statements(node: ast.AST) -> int:
@@ -79,7 +79,7 @@ def module_group(name):
     root = name.split(".")[0]
     if root in STDLIB:
         return 0
-    if root in {"secreview", "cvkit", "jobsearch"}:
+    if root in {"secreview", "cvkit"}:
         return 2
     return 1
 
@@ -117,7 +117,9 @@ def check_container_hints(path, tree, report):
 def main():
     report = []
     for path in sorted(ROOT.rglob("*.py")):
-        if "typings" in path.parts or "__pycache__" in path.parts:
+        if {"typings", "__pycache__", ".venv", "venv"} & set(path.parts):
+            continue
+        if path.resolve() == pathlib.Path(__file__).resolve():
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"))
         for check in (check_function_sizes, check_names, check_defaults, check_numbers, check_imports, check_container_hints):
