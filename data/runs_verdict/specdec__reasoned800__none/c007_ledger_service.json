@@ -1,0 +1,1103 @@
+{
+ "case_id": "c007_ledger_service",
+ "records": [
+  {
+   "requirement_id": "R1",
+   "verdict": "unclear",
+   "quote": "Transport: all traffic to ledger-core is served over HTTPS only.",
+   "design_span": null,
+   "reason": "The requirement mandates that public endpoints use OAuth2/OIDC bearer tokens or mutual TLS. The fragment states that all traffic to ledger-core is served over HTTPS, which is a secure transport layer but does not explicitly mention authentication mechanisms. The design lacks explicit confirmation of OAuth2/OIDC or mutual TLS implementation for public endpoints.",
+   "severity": "medium",
+   "confidence": 0.9999999948912742,
+   "probabilities": {
+    "compliant": 1.3731537422949651e-9,
+    "violated": 2.8374016782676443e-10,
+    "unclear": 0.9999999948912742,
+    "not_applicable": 3.451831888578071e-9
+   },
+   "context_units": [
+    4,
+    22,
+    25,
+    31,
+    33,
+    34,
+    35,
+    36,
+    39,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Transport: all traffic to ledger-core is served over HTTPS only.\", \"reason\": \"The requirement mandates that public endpoints use OAuth2/OIDC bearer tokens or mutual TLS. The fragment states that all traffic to ledger-core is served over HTTPS, which is a secure transport layer but does not explicitly mention authentication mechanisms. The design lacks explicit confirmation of OAuth2/OIDC or mutual TLS implementation for public endpoints.\", \"verdict\": \"unclear\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1177,
+   "completion_tokens": 101,
+   "seconds": 1.7489163000136614
+  },
+  {
+   "requirement_id": "R2",
+   "verdict": "compliant",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": [
+    3255,
+    3380
+   ],
+   "reason": "The requirement demands that services authenticate each other using mutual TLS or workload identity tokens. The design fragment explicitly states that calls between services use these methods and that the receiving service checks them, meeting the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999893,
+   "probabilities": {
+    "compliant": 0.9999999999999893,
+    "violated": 8.801074591762939e-16,
+    "unclear": 3.9295077648527793e-16,
+    "not_applicable": 9.312763199517676e-15
+   },
+   "context_units": [
+    4,
+    22,
+    25,
+    29,
+    31,
+    33,
+    34,
+    39,
+    41,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement demands that services authenticate each other using mutual TLS or workload identity tokens. The design fragment explicitly states that calls between services use these methods and that the receiving service checks them, meeting the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1197,
+   "completion_tokens": 86,
+   "seconds": 1.4816748999874108
+  },
+  {
+   "requirement_id": "R3",
+   "verdict": "unclear",
+   "quote": "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "design_span": null,
+   "reason": "The requirement mandates that access tokens expire within 15 minutes and refresh tokens be rotated on use. The design fragment mentions logging of authentication failures and access to sensitive data, but does not specify token expiration or refresh token rotation mechanisms.",
+   "severity": "none",
+   "confidence": 0.9999996987998149,
+   "probabilities": {
+    "compliant": 3.131991953128536e-11,
+    "violated": 8.999191249788618e-12,
+    "unclear": 0.9999996987998149,
+    "not_applicable": 3.0115986600640386e-7
+   },
+   "context_units": [
+    22,
+    25,
+    30,
+    34,
+    36,
+    40,
+    41,
+    46,
+    49,
+    50
+   ],
+   "raw_reply": "{\"quote\": \"Authentication failures, privilege changes and access to sensitive data are written to the logs.\", \"reason\": \"The requirement mandates that access tokens expire within 15 minutes and refresh tokens be rotated on use. The design fragment mentions logging of authentication failures and access to sensitive data, but does not specify token expiration or refresh token rotation mechanisms.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1174,
+   "completion_tokens": 85,
+   "seconds": 1.4705466000013985
+  },
+  {
+   "requirement_id": "R4",
+   "verdict": "compliant",
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "design_span": [
+    3174,
+    3252
+   ],
+   "reason": "The requirement mandates that passwords be hashed with argon2id or bcrypt. The fragment explicitly states that disallowed algorithms (MD5, SHA-1, DES, 3DES, ECB mode) are not used, which aligns with the requirement. The fragment does not mention allowed algorithms, but the requirement is satisfied by excluding disallowed ones.",
+   "severity": "none",
+   "confidence": 0.9999999999998397,
+   "probabilities": {
+    "compliant": 0.9999999999998397,
+    "violated": 2.251369997796655e-15,
+    "unclear": 3.7222280851195346e-15,
+    "not_applicable": 1.5441449064056703e-13
+   },
+   "context_units": [
+    14,
+    19,
+    23,
+    33,
+    34,
+    35,
+    39,
+    40,
+    41,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.\", \"reason\": \"The requirement mandates that passwords be hashed with argon2id or bcrypt. The fragment explicitly states that disallowed algorithms (MD5, SHA-1, DES, 3DES, ECB mode) are not used, which aligns with the requirement. The fragment does not mention allowed algorithms, but the requirement is satisfied by excluding disallowed ones.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1177,
+   "completion_tokens": 117,
+   "seconds": 1.9907167000055779
+  },
+  {
+   "requirement_id": "R5",
+   "verdict": "unclear",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": null,
+   "reason": "The requirement demands that the service checks caller permissions for specific records. The fragment states that services check tokens or TLS, which is a mechanism to verify caller identity. However, it does not explicitly state that the service checks if the caller is allowed to access specific records, which is required by the requirement.",
+   "severity": "none",
+   "confidence": 0.9999863015036465,
+   "probabilities": {
+    "compliant": 4.076164143889771e-8,
+    "violated": 0.00001365343859878009,
+    "unclear": 0.9999863015036465,
+    "not_applicable": 4.296113178352328e-9
+   },
+   "context_units": [
+    10,
+    22,
+    25,
+    31,
+    34,
+    36,
+    38,
+    41,
+    42,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement demands that the service checks caller permissions for specific records. The fragment states that services check tokens or TLS, which is a mechanism to verify caller identity. However, it does not explicitly state that the service checks if the caller is allowed to access specific records, which is required by the requirement.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1205,
+   "completion_tokens": 106,
+   "seconds": 1.8198843999998644
+  },
+  {
+   "requirement_id": "R6",
+   "verdict": "compliant",
+   "quote": "The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.",
+   "design_span": [
+    3929,
+    4118
+   ],
+   "reason": "The requirement demands that each service uses its own database account with the least privilege. The fragment specifies that the ledger service's database account has minimum grants (reads on two tables, writes on one) and that administrative credentials are held by the database team alone. This meets the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999778,
+   "probabilities": {
+    "compliant": 0.9999999999999778,
+    "violated": 1.751567404593249e-15,
+    "unclear": 6.798607841382897e-16,
+    "not_applicable": 1.9842388813488827e-14
+   },
+   "context_units": [
+    5,
+    6,
+    7,
+    19,
+    35,
+    36,
+    37,
+    39,
+    41,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"The database account of the service has the minimum grants its functions need: reads on two tables and writes on one, and the administrative credentials are held by the database team alone.\", \"reason\": \"The requirement demands that each service uses its own database account with the least privilege. The fragment specifies that the ledger service's database account has minimum grants (reads on two tables, writes on one) and that administrative credentials are held by the database team alone. This meets the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1170,
+   "completion_tokens": 114,
+   "seconds": 1.9360910000104923
+  },
+  {
+   "requirement_id": "R7",
+   "verdict": "compliant",
+   "quote": "The service exposes only the endpoints listed in this API section.",
+   "design_span": [
+    1929,
+    1995
+   ],
+   "reason": "The requirement states that admin and debug endpoints must not be exposed to the public internet. The design fragment confirms that only the endpoints listed in the API section are exposed, implying that admin and debug endpoints are not included. This aligns with the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999152,
+   "probabilities": {
+    "compliant": 0.9999999999999152,
+    "violated": 3.4361769933957566e-15,
+    "unclear": 1.2422967175052898e-15,
+    "not_applicable": 8.018512834293104e-14
+   },
+   "context_units": [
+    4,
+    11,
+    21,
+    22,
+    35,
+    36,
+    41,
+    42,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"The service exposes only the endpoints listed in this API section.\", \"reason\": \"The requirement states that admin and debug endpoints must not be exposed to the public internet. The design fragment confirms that only the endpoints listed in the API section are exposed, implying that admin and debug endpoints are not included. This aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1167,
+   "completion_tokens": 85,
+   "seconds": 1.4647972000238951
+  },
+  {
+   "requirement_id": "R8",
+   "verdict": "unclear",
+   "quote": "The service exposes only the endpoints listed in this API section.",
+   "design_span": null,
+   "reason": "The requirement specifies a limit on access token lifetime for long-lived sessions, but the design fragment only mentions endpoint exposure, not token lifetime. The fragment does not address the requirement's specific value (30 minutes).",
+   "severity": "none",
+   "confidence": 0.9998415637229204,
+   "probabilities": {
+    "compliant": 2.479284182142499e-11,
+    "violated": 1.9849107629161903e-11,
+    "unclear": 0.9998415637229204,
+    "not_applicable": 0.00015843623243765747
+   },
+   "context_units": [
+    2,
+    22,
+    25,
+    29,
+    33,
+    34,
+    40,
+    41,
+    43,
+    49
+   ],
+   "raw_reply": "{\"quote\": \"The service exposes only the endpoints listed in this API section.\", \"reason\": \"The requirement specifies a limit on access token lifetime for long-lived sessions, but the design fragment only mentions endpoint exposure, not token lifetime. The fragment does not address the requirement's specific value (30 minutes).\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1182,
+   "completion_tokens": 78,
+   "seconds": 1.3554317000089213
+  },
+  {
+   "requirement_id": "R9",
+   "verdict": "unclear",
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "design_span": null,
+   "reason": "The requirement mandates AES-256 encryption for personal data at rest. The design fragment explicitly disallows certain algorithms, but does not specify the encryption algorithm used for personal data. The fragment does not mention AES-256 explicitly.",
+   "severity": "none",
+   "confidence": 0.9999999899081345,
+   "probabilities": {
+    "compliant": 3.6960285495822024e-10,
+    "violated": 3.3927288821937664e-10,
+    "unclear": 0.9999999899081345,
+    "not_applicable": 9.382989675465105e-9
+   },
+   "context_units": [
+    7,
+    8,
+    18,
+    33,
+    35,
+    36,
+    39,
+    46,
+    50,
+    51
+   ],
+   "raw_reply": "{\"quote\": \"Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.\", \"reason\": \"The requirement mandates AES-256 encryption for personal data at rest. The design fragment explicitly disallows certain algorithms, but does not specify the encryption algorithm used for personal data. The fragment does not mention AES-256 explicitly.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1177,
+   "completion_tokens": 95,
+   "seconds": 1.6315030000114348
+  },
+  {
+   "requirement_id": "R10",
+   "verdict": "not_applicable",
+   "quote": "Card numbers MUST NOT be stored. Use tokens from the card token vault.",
+   "design_span": null,
+   "reason": "The requirement mandates that card numbers are not stored and tokens should be used. The design fragments do not mention card numbers or token usage in the context of the ledger service. There is no information about data storage mechanisms or token usage related to the ledger service.",
+   "severity": "none",
+   "confidence": 0.9989012628158394,
+   "probabilities": {
+    "compliant": 5.274395454977583e-14,
+    "violated": 4.137697354978982e-14,
+    "unclear": 0.0010987371840666309,
+    "not_applicable": 0.9989012628158394
+   },
+   "context_units": [
+    0,
+    2,
+    4,
+    7,
+    12,
+    14,
+    25,
+    29,
+    39,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Card numbers MUST NOT be stored. Use tokens from the card token vault.\", \"reason\": \"The requirement mandates that card numbers are not stored and tokens should be used. The design fragments do not mention card numbers or token usage in the context of the ledger service. There is no information about data storage mechanisms or token usage related to the ledger service.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1178,
+   "completion_tokens": 90,
+   "seconds": 1.5574703000020236
+  },
+  {
+   "requirement_id": "R11",
+   "verdict": "compliant",
+   "quote": "Transport: all traffic to ledger-core is served over HTTPS only.",
+   "design_span": [
+    4292,
+    4356
+   ],
+   "reason": "The requirement mandates that external traffic use TLS 1.2 or higher. The fragment states that all traffic to ledger-core is served over HTTPS, which implies TLS 1.2 or higher is used, meeting the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999816,
+   "probabilities": {
+    "compliant": 0.9999999999999816,
+    "violated": 9.488735080374181e-16,
+    "unclear": 6.056378086803275e-16,
+    "not_applicable": 1.6967804420944418e-14
+   },
+   "context_units": [
+    2,
+    22,
+    25,
+    33,
+    34,
+    35,
+    36,
+    38,
+    39,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Transport: all traffic to ledger-core is served over HTTPS only.\", \"reason\": \"The requirement mandates that external traffic use TLS 1.2 or higher. The fragment states that all traffic to ledger-core is served over HTTPS, which implies TLS 1.2 or higher is used, meeting the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1156,
+   "completion_tokens": 81,
+   "seconds": 1.4052968999894802
+  },
+  {
+   "requirement_id": "R12",
+   "verdict": "not_applicable",
+   "quote": "Traffic between services, and from services to data stores, is encrypted in transit.",
+   "design_span": null,
+   "reason": "The requirement states that legacy partner endpoints may use TLS 1.0 until they have migrated. The design fragment mentions encryption in transit but does not specify TLS version. The requirement does not apply to internal services, so the design is not applicable to the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999998157,
+   "probabilities": {
+    "compliant": 1.0356159951505079e-16,
+    "violated": 1.855897764736396e-17,
+    "unclear": 1.8407463062688434e-13,
+    "not_applicable": 0.9999999999998157
+   },
+   "context_units": [
+    2,
+    8,
+    22,
+    25,
+    33,
+    34,
+    39,
+    43,
+    46,
+    50
+   ],
+   "raw_reply": "{\"quote\": \"Traffic between services, and from services to data stores, is encrypted in transit.\", \"reason\": \"The requirement states that legacy partner endpoints may use TLS 1.0 until they have migrated. The design fragment mentions encryption in transit but does not specify TLS version. The requirement does not apply to internal services, so the design is not applicable to the requirement.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1177,
+   "completion_tokens": 92,
+   "seconds": 1.5935994999890681
+  },
+  {
+   "requirement_id": "R13",
+   "verdict": "compliant",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": [
+    3255,
+    3380
+   ],
+   "reason": "The requirement mandates encryption of internal traffic. The fragment states that mutual TLS is used between services, which provides encryption in transit. This meets the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999998999,
+   "probabilities": {
+    "compliant": 0.9999999999998999,
+    "violated": 1.826177511484852e-15,
+    "unclear": 1.5627206088704231e-15,
+    "not_applicable": 9.682884389851652e-14
+   },
+   "context_units": [
+    4,
+    14,
+    22,
+    33,
+    34,
+    35,
+    36,
+    39,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement mandates encryption of internal traffic. The fragment states that mutual TLS is used between services, which provides encryption in transit. This meets the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1156,
+   "completion_tokens": 76,
+   "seconds": 1.3178901000064798
+  },
+  {
+   "requirement_id": "R14",
+   "verdict": "compliant",
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "design_span": [
+    3174,
+    3252
+   ],
+   "reason": "The requirement prohibits MD5, SHA-1, DES, and ECB mode. The design fragment explicitly states that these algorithms are not used, satisfying the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999829,
+   "probabilities": {
+    "compliant": 0.9999999999999829,
+    "violated": 3.9593809143236384e-15,
+    "unclear": 5.6602329623784915e-16,
+    "not_applicable": 1.2560186996213009e-14
+   },
+   "context_units": [
+    2,
+    8,
+    32,
+    33,
+    35,
+    36,
+    39,
+    41,
+    43,
+    50
+   ],
+   "raw_reply": "{\"quote\": \"Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.\", \"reason\": \"The requirement prohibits MD5, SHA-1, DES, and ECB mode. The design fragment explicitly states that these algorithms are not used, satisfying the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1172,
+   "completion_tokens": 79,
+   "seconds": 1.3763910999987274
+  },
+  {
+   "requirement_id": "R15",
+   "verdict": "unclear",
+   "quote": "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "design_span": null,
+   "reason": "The requirement mandates that personal data have a retention period and deletion process. The design fragment mentions logging of access to sensitive data but does not specify a retention period or deletion process for personal data.",
+   "severity": "none",
+   "confidence": 0.999937812557426,
+   "probabilities": {
+    "compliant": 8.202434758995758e-10,
+    "violated": 0.000062102998172676,
+    "unclear": 0.999937812557426,
+    "not_applicable": 8.36241578653717e-8
+   },
+   "context_units": [
+    5,
+    7,
+    8,
+    13,
+    23,
+    36,
+    40,
+    46,
+    50,
+    51
+   ],
+   "raw_reply": "{\"quote\": \"Authentication failures, privilege changes and access to sensitive data are written to the logs.\", \"reason\": \"The requirement mandates that personal data have a retention period and deletion process. The design fragment mentions logging of access to sensitive data but does not specify a retention period or deletion process for personal data.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1194,
+   "completion_tokens": 77,
+   "seconds": 1.344010700006038
+  },
+  {
+   "requirement_id": "R16",
+   "verdict": "unclear",
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "design_span": null,
+   "reason": "The requirement mandates that personal data sent to vendors must be covered by a data processing agreement and only include necessary fields. The design fragment specifies approved algorithms and excludes certain cryptographic methods, but does not mention data processing agreements or field restrictions for vendors. The requirement's focus on personal data and vendor agreements is not addressed in the fragment.",
+   "severity": "none",
+   "confidence": 0.9998557400865222,
+   "probabilities": {
+    "compliant": 5.565916593592084e-12,
+    "violated": 1.1806481357352245e-12,
+    "unclear": 0.9998557400865222,
+    "not_applicable": 0.00014425990673120758
+   },
+   "context_units": [
+    0,
+    1,
+    2,
+    4,
+    10,
+    22,
+    33,
+    38,
+    39,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.\", \"reason\": \"The requirement mandates that personal data sent to vendors must be covered by a data processing agreement and only include necessary fields. The design fragment specifies approved algorithms and excludes certain cryptographic methods, but does not mention data processing agreements or field restrictions for vendors. The requirement's focus on personal data and vendor agreements is not addressed in the fragment.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1164,
+   "completion_tokens": 112,
+   "seconds": 1.8928208000143059
+  },
+  {
+   "requirement_id": "R17",
+   "verdict": "not_applicable",
+   "quote": "Backups should be encrypted and restore procedures tested regularly.",
+   "design_span": null,
+   "reason": "The design fragments do not mention encryption of backups or testing of restore procedures. The requirement demands specific actions (encryption, testing) that are not addressed in the fragments.",
+   "severity": "none",
+   "confidence": 0.9715638150777196,
+   "probabilities": {
+    "compliant": 2.603462875666233e-11,
+    "violated": 7.105512352823677e-9,
+    "unclear": 0.028436177790733347,
+    "not_applicable": 0.9715638150777196
+   },
+   "context_units": [
+    8,
+    12,
+    13,
+    33,
+    36,
+    39,
+    41,
+    46,
+    47,
+    51
+   ],
+   "raw_reply": "{\"quote\": \"Backups should be encrypted and restore procedures tested regularly.\", \"reason\": \"The design fragments do not mention encryption of backups or testing of restore procedures. The requirement demands specific actions (encryption, testing) that are not addressed in the fragments.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1223,
+   "completion_tokens": 68,
+   "seconds": 1.2219462000066414
+  },
+  {
+   "requirement_id": "R18",
+   "verdict": "not_applicable",
+   "quote": "Secrets MUST NOT be committed to code, configuration or specs.",
+   "design_span": null,
+   "reason": "The design fragments do not mention secrets or their handling. The requirement is about not committing secrets, but the design does not address this specific concern.",
+   "severity": "none",
+   "confidence": 0.9970189497190332,
+   "probabilities": {
+    "compliant": 1.6484106690393095e-13,
+    "violated": 5.775267188056388e-14,
+    "unclear": 0.0029810502807442055,
+    "not_applicable": 0.9970189497190332
+   },
+   "context_units": [
+    1,
+    4,
+    8,
+    33,
+    35,
+    36,
+    37,
+    40,
+    41,
+    50
+   ],
+   "raw_reply": "{\"quote\": \"Secrets MUST NOT be committed to code, configuration or specs.\", \"reason\": \"The design fragments do not mention secrets or their handling. The requirement is about not committing secrets, but the design does not address this specific concern.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1159,
+   "completion_tokens": 66,
+   "seconds": 1.16103810002096
+  },
+  {
+   "requirement_id": "R19",
+   "verdict": "not_applicable",
+   "quote": "Services MUST fetch secrets from the secret store at runtime.",
+   "design_span": null,
+   "reason": "The requirement mandates that services fetch secrets from a secret store at runtime. The design fragments do not mention anything about fetching secrets or a secret store. The requirement is not addressed in the design fragments.",
+   "severity": "none",
+   "confidence": 0.9999977392255806,
+   "probabilities": {
+    "compliant": 4.0964474912313445e-14,
+    "violated": 3.516655779003747e-12,
+    "unclear": 2.260770861814543e-6,
+    "not_applicable": 0.9999977392255806
+   },
+   "context_units": [
+    6,
+    22,
+    24,
+    29,
+    31,
+    34,
+    35,
+    36,
+    39,
+    41
+   ],
+   "raw_reply": "{\"quote\": \"Services MUST fetch secrets from the secret store at runtime.\", \"reason\": \"The requirement mandates that services fetch secrets from a secret store at runtime. The design fragments do not mention anything about fetching secrets or a secret store. The requirement is not addressed in the design fragments.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1199,
+   "completion_tokens": 74,
+   "seconds": 1.2920181000081357
+  },
+  {
+   "requirement_id": "R20",
+   "verdict": "compliant",
+   "quote": "Databases and message brokers must not be publicly reachable and must live in private subnets.",
+   "design_span": [
+    3383,
+    3477
+   ],
+   "reason": "The requirement states that databases and brokers must be in private subnets. Fragment [5] explicitly states this, confirming compliance with the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999913,
+   "probabilities": {
+    "compliant": 0.9999999999999913,
+    "violated": 7.245965793762159e-16,
+    "unclear": 3.058491179105269e-16,
+    "not_applicable": 7.724379738512943e-15
+   },
+   "context_units": [
+    4,
+    5,
+    7,
+    10,
+    35,
+    37,
+    39,
+    41,
+    43,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Databases and message brokers must not be publicly reachable and must live in private subnets.\", \"reason\": \"The requirement states that databases and brokers must be in private subnets. Fragment [5] explicitly states this, confirming compliance with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1154,
+   "completion_tokens": 69,
+   "seconds": 1.2090032999985851
+  },
+  {
+   "requirement_id": "R21",
+   "verdict": "compliant",
+   "quote": "ledger-core is deployed as three replicas behind the internal load balancer and starts with the usual platform bootstrap.",
+   "design_span": [
+    2708,
+    2829
+   ],
+   "reason": "The requirement allows exposing replicas via a public endpoint when needed. The design shows ledger-core is behind an internal load balancer, implying it is not publicly exposed. This does not violate the requirement as it aligns with the 'internal' deployment described.",
+   "severity": "none",
+   "confidence": 0.999935945528595,
+   "probabilities": {
+    "compliant": 0.999935945528595,
+    "violated": 2.8515000187483905e-8,
+    "unclear": 5.886793003882936e-9,
+    "not_applicable": 0.00006402006961189047
+   },
+   "context_units": [
+    4,
+    5,
+    6,
+    11,
+    22,
+    29,
+    35,
+    42,
+    43,
+    47
+   ],
+   "raw_reply": "{\"quote\": \"ledger-core is deployed as three replicas behind the internal load balancer and starts with the usual platform bootstrap.\", \"reason\": \"The requirement allows exposing replicas via a public endpoint when needed. The design shows ledger-core is behind an internal load balancer, implying it is not publicly exposed. This does not violate the requirement as it aligns with the 'internal' deployment described.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1181,
+   "completion_tokens": 94,
+   "seconds": 1.6126566999882925
+  },
+  {
+   "requirement_id": "R22",
+   "verdict": "compliant",
+   "quote": "Databases and message brokers must not be publicly reachable and must live in private subnets.",
+   "design_span": [
+    3383,
+    3477
+   ],
+   "reason": "The requirement states that buckets must block public access. The fragment explicitly states that databases and message brokers must not be publicly reachable and must live in private subnets, which aligns with the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999691,
+   "probabilities": {
+    "compliant": 0.9999999999999691,
+    "violated": 4.704889758898822e-15,
+    "unclear": 7.390658863543428e-16,
+    "not_applicable": 2.540250901306901e-14
+   },
+   "context_units": [
+    4,
+    8,
+    9,
+    21,
+    35,
+    36,
+    37,
+    41,
+    42,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Databases and message brokers must not be publicly reachable and must live in private subnets.\", \"reason\": \"The requirement states that buckets must block public access. The fragment explicitly states that databases and message brokers must not be publicly reachable and must live in private subnets, which aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1161,
+   "completion_tokens": 80,
+   "seconds": 1.3888950999826193
+  },
+  {
+   "requirement_id": "R23",
+   "verdict": "unclear",
+   "quote": "Databases and message brokers must not be publicly reachable and must live in private subnets.",
+   "design_span": null,
+   "reason": "The requirement mandates that SSH, RDP, and database ports must not be open to the world. The fragment explicitly states that databases must not be publicly reachable, aligning with the requirement. However, the fragment does not explicitly mention RDP or SSH ports, which are not covered by the fragment.",
+   "severity": "none",
+   "confidence": 0.9999985401479623,
+   "probabilities": {
+    "compliant": 1.4144809073161083e-6,
+    "violated": 2.6575709279403043e-9,
+    "unclear": 0.9999985401479623,
+    "not_applicable": 4.27135595224304e-8
+   },
+   "context_units": [
+    1,
+    22,
+    33,
+    35,
+    36,
+    37,
+    40,
+    41,
+    43,
+    50
+   ],
+   "raw_reply": "{\"quote\": \"Databases and message brokers must not be publicly reachable and must live in private subnets.\", \"reason\": \"The requirement mandates that SSH, RDP, and database ports must not be open to the world. The fragment explicitly states that databases must not be publicly reachable, aligning with the requirement. However, the fragment does not explicitly mention RDP or SSH ports, which are not covered by the fragment.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1150,
+   "completion_tokens": 101,
+   "seconds": 1.7225123000098392
+  },
+  {
+   "requirement_id": "R24",
+   "verdict": "not_applicable",
+   "quote": "Public services SHOULD be behind a WAF.",
+   "design_span": null,
+   "reason": "The requirement states that public services must be protected by a WAF. The design fragments do not mention anything about a WAF or public service protection. The service described is internal and not public, so the requirement does not apply.",
+   "severity": "none",
+   "confidence": 0.9999999999997957,
+   "probabilities": {
+    "compliant": 2.402303974864725e-16,
+    "violated": 2.462338272030827e-17,
+    "unclear": 2.0394343650620437e-13,
+    "not_applicable": 0.9999999999997957
+   },
+   "context_units": [
+    22,
+    33,
+    34,
+    35,
+    36,
+    39,
+    40,
+    41,
+    42,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Public services SHOULD be behind a WAF.\", \"reason\": \"The requirement states that public services must be protected by a WAF. The design fragments do not mention anything about a WAF or public service protection. The service described is internal and not public, so the requirement does not apply.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1178,
+   "completion_tokens": 79,
+   "seconds": 1.3748114999907557
+  },
+  {
+   "requirement_id": "R25",
+   "verdict": "compliant",
+   "quote": "Containers must run as a non-root user with a read-only root filesystem where possible.",
+   "design_span": [
+    3579,
+    3666
+   ],
+   "reason": "The requirement states containers should run as non-root. The design fragment specifies non-root user and read-only root filesystem, which aligns with the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999429,
+   "probabilities": {
+    "compliant": 0.9999999999999429,
+    "violated": 3.9933187763106445e-15,
+    "unclear": 1.2316321291566332e-15,
+    "not_applicable": 5.1839662411919e-14
+   },
+   "context_units": [
+    1,
+    6,
+    8,
+    29,
+    33,
+    35,
+    36,
+    37,
+    41,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Containers must run as a non-root user with a read-only root filesystem where possible.\", \"reason\": \"The requirement states containers should run as non-root. The design fragment specifies non-root user and read-only root filesystem, which aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1162,
+   "completion_tokens": 70,
+   "seconds": 1.2219683000002988
+  },
+  {
+   "requirement_id": "R26",
+   "verdict": "compliant",
+   "quote": "CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.",
+   "design_span": [
+    3838,
+    3926
+   ],
+   "reason": "The requirement states that pipelines MUST scan dependencies for known vulnerabilities. The design fragment specifies that CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days, which aligns with the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999907,
+   "probabilities": {
+    "compliant": 0.9999999999999907,
+    "violated": 1.6110811877301195e-15,
+    "unclear": 4.179921949138641e-16,
+    "not_applicable": 7.22822672647445e-15
+   },
+   "context_units": [
+    3,
+    4,
+    22,
+    31,
+    33,
+    36,
+    38,
+    39,
+    40,
+    47
+   ],
+   "raw_reply": "{\"quote\": \"CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days.\", \"reason\": \"The requirement states that pipelines MUST scan dependencies for known vulnerabilities. The design fragment specifies that CI scans dependencies and images, and critical vulnerabilities are fixed within 14 days, which aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1173,
+   "completion_tokens": 81,
+   "seconds": 1.4086030000180472
+  },
+  {
+   "requirement_id": "R27",
+   "verdict": "compliant",
+   "quote": "All external inputs must be validated against a schema and rejected if invalid.",
+   "design_span": [
+    3669,
+    3748
+   ],
+   "reason": "The requirement demands that all external inputs be validated against a schema. Fragment [8] explicitly states this requirement, specifying that inputs must be validated and rejected if invalid. The mechanism is clear and meets the requirement.",
+   "severity": "low",
+   "confidence": 0.9999999999999887,
+   "probabilities": {
+    "compliant": 0.9999999999999887,
+    "violated": 7.939897233601707e-16,
+    "unclear": 2.6967599415280683e-16,
+    "not_applicable": 1.0331987864678346e-14
+   },
+   "context_units": [
+    4,
+    7,
+    15,
+    22,
+    28,
+    31,
+    33,
+    38,
+    40,
+    41
+   ],
+   "raw_reply": "{\"quote\": \"All external inputs must be validated against a schema and rejected if invalid.\", \"reason\": \"The requirement demands that all external inputs be validated against a schema. Fragment [8] explicitly states this requirement, specifying that inputs must be validated and rejected if invalid. The mechanism is clear and meets the requirement.\", \"verdict\": \"compliant\", \"severity\": \"low\"}",
+   "calls": 1,
+   "prompt_tokens": 1184,
+   "completion_tokens": 79,
+   "seconds": 1.3705121999955736
+  },
+  {
+   "requirement_id": "R28",
+   "verdict": "unclear",
+   "quote": "The service exposes only the endpoints listed in this API section.",
+   "design_span": null,
+   "reason": "The requirement demands that public APIs be protected against excessive use. The design fragment states that only approved endpoints are exposed, which aligns with the requirement by limiting the attack surface. However, the fragment does not explicitly mention rate limiting or other mechanisms to prevent excessive use.",
+   "severity": "medium",
+   "confidence": 0.9999999924343373,
+   "probabilities": {
+    "compliant": 6.864894509217504e-9,
+    "violated": 1.0334385668627965e-11,
+    "unclear": 0.9999999924343373,
+    "not_applicable": 6.904336787061658e-10
+   },
+   "context_units": [
+    11,
+    22,
+    25,
+    33,
+    35,
+    36,
+    41,
+    42,
+    43,
+    49
+   ],
+   "raw_reply": "{\"quote\": \"The service exposes only the endpoints listed in this API section.\", \"reason\": \"The requirement demands that public APIs be protected against excessive use. The design fragment states that only approved endpoints are exposed, which aligns with the requirement by limiting the attack surface. However, the fragment does not explicitly mention rate limiting or other mechanisms to prevent excessive use.\", \"verdict\": \"unclear\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1176,
+   "completion_tokens": 88,
+   "seconds": 1.5218011000251863
+  },
+  {
+   "requirement_id": "R29",
+   "verdict": "unclear",
+   "quote": "Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.",
+   "design_span": null,
+   "reason": "The requirement mandates using parameterized queries only. The fragment specifies disallowed algorithms, which is relevant to query security. However, it does not directly address parameterized queries. The design does not mention parameterized queries at all.",
+   "severity": "none",
+   "confidence": 0.9999921107094935,
+   "probabilities": {
+    "compliant": 1.934249219737905e-11,
+    "violated": 5.675467536807283e-12,
+    "unclear": 0.9999921107094935,
+    "not_applicable": 7.889265488634456e-6
+   },
+   "context_units": [
+    1,
+    2,
+    8,
+    23,
+    25,
+    33,
+    35,
+    41,
+    46,
+    51
+   ],
+   "raw_reply": "{\"quote\": \"Only approved algorithms are used; MD5, SHA-1, DES, 3DES and ECB mode are not.\", \"reason\": \"The requirement mandates using parameterized queries only. The fragment specifies disallowed algorithms, which is relevant to query security. However, it does not directly address parameterized queries. The design does not mention parameterized queries at all.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1197,
+   "completion_tokens": 92,
+   "seconds": 1.5842293000023346
+  },
+  {
+   "requirement_id": "R30",
+   "verdict": "not_applicable",
+   "quote": "Browsers MUST be allowed to call our APIs only from approved origins through restricted CORS.",
+   "design_span": null,
+   "reason": "The design fragments do not mention CORS policies or restrictions on API access origins. The requirement is about browser access control, but the design does not address it.",
+   "severity": "none",
+   "confidence": 0.9997546277097881,
+   "probabilities": {
+    "compliant": 1.7504617742295717e-14,
+    "violated": 5.6515833480416273e-14,
+    "unclear": 0.000245372290137907,
+    "not_applicable": 0.9997546277097881
+   },
+   "context_units": [
+    11,
+    22,
+    33,
+    34,
+    35,
+    37,
+    42,
+    43,
+    44,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Browsers MUST be allowed to call our APIs only from approved origins through restricted CORS.\", \"reason\": \"The design fragments do not mention CORS policies or restrictions on API access origins. The requirement is about browser access control, but the design does not address it.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1168,
+   "completion_tokens": 72,
+   "seconds": 1.2528471000259742
+  },
+  {
+   "requirement_id": "R31",
+   "verdict": "compliant",
+   "quote": "Authentication failures, privilege changes and access to sensitive data are written to the logs.",
+   "design_span": [
+    3480,
+    3576
+   ],
+   "reason": "The requirement mandates logging of authentication failures, privilege changes, and sensitive data access. Fragment [7] explicitly states that these events are logged, meeting the requirement's concrete mechanism.",
+   "severity": "low",
+   "confidence": 0.9999999999999876,
+   "probabilities": {
+    "compliant": 0.9999999999999876,
+    "violated": 1.4242000762274458e-15,
+    "unclear": 4.421416997412316e-16,
+    "not_applicable": 1.0561766900093111e-14
+   },
+   "context_units": [
+    0,
+    2,
+    7,
+    9,
+    31,
+    35,
+    36,
+    41,
+    42,
+    46
+   ],
+   "raw_reply": "{\"quote\": \"Authentication failures, privilege changes and access to sensitive data are written to the logs.\", \"reason\": \"The requirement mandates logging of authentication failures, privilege changes, and sensitive data access. Fragment [7] explicitly states that these events are logged, meeting the requirement's concrete mechanism.\", \"verdict\": \"compliant\", \"severity\": \"low\"}",
+   "calls": 1,
+   "prompt_tokens": 1227,
+   "completion_tokens": 74,
+   "seconds": 1.3167579000000842
+  },
+  {
+   "requirement_id": "R32",
+   "verdict": "violated",
+   "quote": "Never log secrets, card numbers or personal data other than opaque ids.",
+   "design_span": null,
+   "reason": "The requirement prohibits logging sensitive data. Fragment [7] states that authentication failures, privilege changes, and access to sensitive data are written to logs. This directly contradicts the requirement, as it allows logging of sensitive data.",
+   "severity": "high",
+   "confidence": 0.9999999998407573,
+   "probabilities": {
+    "compliant": 1.3774729886457393e-10,
+    "violated": 0.9999999998407573,
+    "unclear": 2.486314537646043e-12,
+    "not_applicable": 1.9009097784847173e-11
+   },
+   "context_units": [
+    1,
+    2,
+    4,
+    22,
+    33,
+    35,
+    36,
+    39,
+    41,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Never log secrets, card numbers or personal data other than opaque ids.\", \"reason\": \"The requirement prohibits logging sensitive data. Fragment [7] states that authentication failures, privilege changes, and access to sensitive data are written to logs. This directly contradicts the requirement, as it allows logging of sensitive data.\", \"verdict\": \"violated\", \"severity\": \"high\"}",
+   "calls": 1,
+   "prompt_tokens": 1177,
+   "completion_tokens": 81,
+   "seconds": 1.4094006999803241
+  },
+  {
+   "requirement_id": "R33",
+   "verdict": "unclear",
+   "quote": "Audit logs MUST be kept long enough to meet regulatory obligations.",
+   "design_span": null,
+   "reason": "The design fragments do not mention audit log retention periods or mechanisms related to regulatory obligations. The requirement demands a concrete value (retention period) and mechanism (log retention), which are not specified in the fragments.",
+   "severity": "none",
+   "confidence": 0.9992445946340486,
+   "probabilities": {
+    "compliant": 8.777651458773145e-11,
+    "violated": 3.948233070822315e-11,
+    "unclear": 0.9992445946340486,
+    "not_applicable": 0.0007554052386925105
+   },
+   "context_units": [
+    2,
+    8,
+    31,
+    36,
+    40,
+    41,
+    42,
+    46,
+    50,
+    51
+   ],
+   "raw_reply": "{\"quote\": \"Audit logs MUST be kept long enough to meet regulatory obligations.\", \"reason\": \"The design fragments do not mention audit log retention periods or mechanisms related to regulatory obligations. The requirement demands a concrete value (retention period) and mechanism (log retention), which are not specified in the fragments.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1217,
+   "completion_tokens": 77,
+   "seconds": 1.3605565000034403
+  }
+ ]
+}
