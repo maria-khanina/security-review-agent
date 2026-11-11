@@ -82,9 +82,19 @@ The experiments below were run on an earlier version of the data, before the ver
 - **Cascade** (10i, 10k, 10q). A decision layer that sees only features available before any model call (word overlap, length, topics) decides alone where it is confident, and only the 40% of the pairs where it is least sure go to the model. On the earlier dev data this matched the accuracy of calling the model for every pair (0.794 against 0.798) at 40% of the cost; on the current data it costs 5,600 prompt tokens per document instead of 14,000 but is 0.05 to 0.08 below the full layer (A: recall 0.56 against 0.61 at 2 false alarms per document).
 - **Architecture card** (10k). One extra call per design extracts a card of the service (components, data flows, exposure) that replaces the overview. The model gets the exposure of internal services wrong in most cases, and the card does not improve the verdicts beyond the noise.
 
+- **Speculative decoding** (`scripts/compare_speculative.py`). The same 6 dev designs with configurations A and D, served without speculative decoding, with n-gram prompt lookup (4 proposed tokens) and with Qwen3-0.6B as a draft model (3 proposed tokens). Without it, two identical runs give the same replies byte for byte, so any change below comes from speculative decoding.
+
+  | Server | A: seconds per document | D: seconds per document | Generated tokens per second (A) | Proposed tokens accepted | Same verdicts (A / D, of 234) |
+  |---|---|---|---|---|---|
+  | No speculative decoding | 44.8 | 61.7 | 56 | | 234 / 234 |
+  | N-gram prompt lookup | 32.6 (1.38×) | 47.1 (1.31×) | 77 | 40% | 234 / 232 |
+  | Qwen3-0.6B draft model | 41.8 (1.07×) | 58.7 (1.05×) | 60 | 66% | 234 / 233 |
+
+  N-gram lookup is the better choice here: the quotes copy the design sentences in the prompt, it costs no memory, and it cuts the time per document by a quarter. The draft model guesses more tokens but its own forward passes cost almost as much as they save on this GPU, and its weights and cache leave room for only a 6,144-token context instead of 12,288. Verification of several tokens in one pass changes float16 rounding, so a few replies differ in wording and 2 of 234 verdicts of D change.
+
 ## Running
 
-The model is served by `scripts/vllm_serve.sh <model> <port>`: vLLM with a context window of 12,288 tokens (the whole-document runs need it), at most 86% of the GPU memory and at most two requests decoded at a time. Whatever the 4-bit weights and activations leave of that share is preallocated as KV cache. Prompts that start with the same fixed instructions reuse the cached prefix, which is why the verifier call, whose answer is two words, added only about ten seconds per document.
+The model is served by `scripts/vllm_serve.sh <model> <port>`: vLLM with a context window of 12,288 tokens (the whole-document runs need it), at most 86% of the GPU memory and at most two requests decoded at a time. Whatever the 4-bit weights and activations leave of that share is preallocated as KV cache: 4.1 GiB, or 29,808 tokens, enough for 2.4 requests of full length. Prompts that start with the same fixed instructions reuse the cached prefix, which is why the verifier call, whose answer is two words, added only about ten seconds per document. Extra arguments go to vLLM; n-gram speculative decoding is switched on with `--speculative-config "$(cat configs/speculative_ngram.json)"`.
 
 Reproduction commands are in section 12 of EXPERIMENTS.md. Code follows the style rules checked by `python -m pycodestyle --max-line-length=88 src scripts tests`, `python -m pyright` (strict) and the AST checker [tools/rules_check.py](tools/rules_check.py), run on each code folder (`python tools/rules_check.py src`, then `scripts` and `tests`): at most 10 statements per function, no magic numbers outside the settings files, type hints on containers, no abbreviations or single-letter names, ordered imports, docstrings. Tests run with `python -m pytest`.
 
