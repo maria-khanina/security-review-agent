@@ -1,0 +1,1232 @@
+{
+ "case_id": "c019_notification_service",
+ "records": [
+  {
+   "requirement_id": "R1",
+   "verdict": "unclear",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": null,
+   "reason": "The requirement mandates authentication for externally reachable API endpoints. The fragment specifies that internal service calls use signed workload identity tokens or mutual TLS, which aligns with the requirement. However, the fragment does not explicitly mention OAuth2, OpenID Connect, or mutual TLS for external endpoints, which are the specific authentication mechanisms required by the requirement.",
+   "severity": "none",
+   "confidence": 0.9999970884338863,
+   "probabilities": {
+    "compliant": 2.561294764666397e-6,
+    "violated": 3.321850036872403e-7,
+    "unclear": 0.9999970884338863,
+    "not_applicable": 1.8086345315740284e-8
+   },
+   "context_units": [
+    26,
+    27,
+    28,
+    30,
+    31,
+    33,
+    34,
+    37,
+    39,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement mandates authentication for externally reachable API endpoints. The fragment specifies that internal service calls use signed workload identity tokens or mutual TLS, which aligns with the requirement. However, the fragment does not explicitly mention OAuth2, OpenID Connect, or mutual TLS for external endpoints, which are the specific authentication mechanisms required by the requirement.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1215,
+   "completion_tokens": 112,
+   "seconds": 1.9685875999857672
+  },
+  {
+   "requirement_id": "R2",
+   "verdict": "compliant",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": [
+    2371,
+    2496
+   ],
+   "reason": "The requirement mandates authentication via mutual TLS or signed workload tokens for internal service calls. The design fragment explicitly states that calls use these methods and that the receiving service checks them, meeting the requirement's demands.",
+   "severity": "medium",
+   "confidence": 0.9999999999999891,
+   "probabilities": {
+    "compliant": 0.9999999999999891,
+    "violated": 8.501015400811475e-16,
+    "unclear": 3.8939886920712032e-16,
+    "not_applicable": 9.68688497200601e-15
+   },
+   "context_units": [
+    0,
+    20,
+    26,
+    27,
+    28,
+    30,
+    31,
+    35,
+    37,
+    38
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement mandates authentication via mutual TLS or signed workload tokens for internal service calls. The design fragment explicitly states that calls use these methods and that the receiving service checks them, meeting the requirement's demands.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1218,
+   "completion_tokens": 86,
+   "seconds": 1.4942528000101447
+  },
+  {
+   "requirement_id": "R3",
+   "verdict": "compliant",
+   "quote": "Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.",
+   "design_span": [
+    2584,
+    2679
+   ],
+   "reason": "The requirement mandates that access tokens have a limited lifetime appropriate to the sensitivity of the operation and must be renewable only through a controlled refresh process. The design fragment specifies a 15-minute lifetime for access tokens and states that refresh tokens are replaced when used, which aligns with the requirement. The fragment provides concrete values (15 minutes) and a mechanism (refresh token replacement).",
+   "severity": "medium",
+   "confidence": 0.9999999999999889,
+   "probabilities": {
+    "compliant": 0.9999999999999889,
+    "violated": 3.0052927673754024e-15,
+    "unclear": 7.022165377610807e-16,
+    "not_applicable": 7.315327620749146e-15
+   },
+   "context_units": [
+    6,
+    20,
+    26,
+    28,
+    32,
+    39,
+    40,
+    44,
+    52,
+    60
+   ],
+   "raw_reply": "{\"quote\": \"Access tokens live for at most 15 minutes, and every refresh token is replaced when it is used.\", \"reason\": \"The requirement mandates that access tokens have a limited lifetime appropriate to the sensitivity of the operation and must be renewable only through a controlled refresh process. The design fragment specifies a 15-minute lifetime for access tokens and states that refresh tokens are replaced when used, which aligns with the requirement. The fragment provides concrete values (15 minutes) and a mechanism (refresh token replacement).\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1197,
+   "completion_tokens": 122,
+   "seconds": 2.0701718000054825
+  },
+  {
+   "requirement_id": "R4",
+   "verdict": "unclear",
+   "quote": "Administrative and debug endpoints must not be reachable from the public internet.",
+   "design_span": null,
+   "reason": "The requirement mandates MFA for administrative/back-office access. The design fragment states that administrative endpoints are not accessible from the public internet, which aligns with the requirement. However, the fragment does not explicitly mention MFA, which is required by the requirement. The design does not address MFA for administrative access, so it is unclear if MFA is implemented.",
+   "severity": "medium",
+   "confidence": 0.9999999995961197,
+   "probabilities": {
+    "compliant": 3.339482086319944e-11,
+    "violated": 8.835118784869486e-13,
+    "unclear": 0.9999999995961197,
+    "not_applicable": 3.6960185632816533e-10
+   },
+   "context_units": [
+    20,
+    27,
+    28,
+    29,
+    30,
+    32,
+    33,
+    36,
+    40,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Administrative and debug endpoints must not be reachable from the public internet.\", \"reason\": \"The requirement mandates MFA for administrative/back-office access. The design fragment states that administrative endpoints are not accessible from the public internet, which aligns with the requirement. However, the fragment does not explicitly mention MFA, which is required by the requirement. The design does not address MFA for administrative access, so it is unclear if MFA is implemented.\", \"verdict\": \"unclear\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1231,
+   "completion_tokens": 109,
+   "seconds": 1.868276799999876
+  },
+  {
+   "requirement_id": "R5",
+   "verdict": "not_applicable",
+   "quote": "User passwords must be stored only as salted hashes produced with argon2id or bcrypt, and reversible storage of passwords is prohibited.",
+   "design_span": null,
+   "reason": "The requirement is about password storage, but the design fragments do not mention passwords or storage methods. The design focuses on secrets, encryption, and data protection, but not password handling.",
+   "severity": "none",
+   "confidence": 0.9999998763510513,
+   "probabilities": {
+    "compliant": 9.540189043555563e-16,
+    "violated": 2.1920495030387527e-16,
+    "unclear": 1.2364894767774769e-7,
+    "not_applicable": 0.9999998763510513
+   },
+   "context_units": [
+    26,
+    30,
+    33,
+    37,
+    38,
+    39,
+    40,
+    41,
+    43,
+    46
+   ],
+   "raw_reply": "{\"quote\": \"User passwords must be stored only as salted hashes produced with argon2id or bcrypt, and reversible storage of passwords is prohibited.\", \"reason\": \"The requirement is about password storage, but the design fragments do not mention passwords or storage methods. The design focuses on secrets, encryption, and data protection, but not password handling.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1226,
+   "completion_tokens": 87,
+   "seconds": 1.5164703000045847
+  },
+  {
+   "requirement_id": "R6",
+   "verdict": "compliant",
+   "quote": "A caller can only read or change resources that belong to them or that they have been explicitly granted.",
+   "design_span": [
+    3001,
+    3106
+   ],
+   "reason": "The requirement demands that callers be verified for entitlement to resources. The design fragment explicitly states that callers can only read or change resources they own or have been explicitly granted, which aligns with the requirement. No missing elements.",
+   "severity": "none",
+   "confidence": 0.9999999999999949,
+   "probabilities": {
+    "compliant": 0.9999999999999949,
+    "violated": 5.848118511020886e-16,
+    "unclear": 1.9645097586920547e-16,
+    "not_applicable": 4.361818835097577e-15
+   },
+   "context_units": [
+    0,
+    26,
+    27,
+    29,
+    31,
+    32,
+    36,
+    38,
+    39,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"A caller can only read or change resources that belong to them or that they have been explicitly granted.\",\"reason\": \"The requirement demands that callers be verified for entitlement to resources. The design fragment explicitly states that callers can only read or change resources they own or have been explicitly granted, which aligns with the requirement. No missing elements.\",\"verdict\": \"compliant\",\"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1228,
+   "completion_tokens": 84,
+   "seconds": 1.461873000022024
+  },
+  {
+   "requirement_id": "R7",
+   "verdict": "compliant",
+   "quote": "Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.",
+   "design_span": [
+    2682,
+    2908
+   ],
+   "reason": "The design fragment explicitly states that employees are granted only the roles needed for their duties, with specific roles defined for different job functions. The requirement is fully met as the fragment specifies the roles and their purposes.",
+   "severity": "medium",
+   "confidence": 0.9999999999999922,
+   "probabilities": {
+    "compliant": 0.9999999999999922,
+    "violated": 1.7618203979019568e-15,
+    "unclear": 4.295714626667458e-16,
+    "not_applicable": 5.597679946186449e-15
+   },
+   "context_units": [
+    0,
+    1,
+    2,
+    26,
+    29,
+    30,
+    31,
+    36,
+    38,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.\", \"reason\": \"The design fragment explicitly states that employees are granted only the roles needed for their duties, with specific roles defined for different job functions. The requirement is fully met as the fragment specifies the roles and their purposes.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1255,
+   "completion_tokens": 104,
+   "seconds": 1.7940594000101555
+  },
+  {
+   "requirement_id": "R8",
+   "verdict": "compliant",
+   "quote": "Administrative and debug endpoints must not be reachable from the public internet.",
+   "design_span": [
+    2499,
+    2581
+   ],
+   "reason": "The requirement states that administrative and debug interfaces must not be accessible from the public internet. Design fragment [2] explicitly states this requirement, confirming that the design meets the requirement by prohibiting public access to such endpoints.",
+   "severity": "none",
+   "confidence": 0.9999999999999745,
+   "probabilities": {
+    "compliant": 0.9999999999999745,
+    "violated": 8.47762124322427e-16,
+    "unclear": 4.1083275196447725e-16,
+    "not_applicable": 2.4190179537826857e-14
+   },
+   "context_units": [
+    25,
+    27,
+    31,
+    34,
+    35,
+    36,
+    37,
+    39,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Administrative and debug endpoints must not be reachable from the public internet.\", \"reason\": \"The requirement states that administrative and debug interfaces must not be accessible from the public internet. Design fragment [2] explicitly states this requirement, confirming that the design meets the requirement by prohibiting public access to such endpoints.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1180,
+   "completion_tokens": 79,
+   "seconds": 1.363535899989074
+  },
+  {
+   "requirement_id": "R9",
+   "verdict": "compliant",
+   "quote": "Production access rights are reviewed every quarter.",
+   "design_span": [
+    3109,
+    3161
+   ],
+   "reason": "The requirement mandates that access rights to production systems be reviewed at least quarterly. Fragment [5] explicitly states that production access rights are reviewed every quarter, which meets the requirement. The frequency (every quarter) is specified and aligns with the 'at least quarterly' requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999878,
+   "probabilities": {
+    "compliant": 0.9999999999999878,
+    "violated": 4.237552366621013e-16,
+    "unclear": 3.453939857303364e-16,
+    "not_applicable": 1.1473305523150979e-14
+   },
+   "context_units": [
+    6,
+    29,
+    30,
+    31,
+    32,
+    36,
+    39,
+    40,
+    42,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Production access rights are reviewed every quarter.\", \"reason\": \"The requirement mandates that access rights to production systems be reviewed at least quarterly. Fragment [5] explicitly states that production access rights are reviewed every quarter, which meets the requirement. The frequency (every quarter) is specified and aligns with the 'at least quarterly' requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1207,
+   "completion_tokens": 86,
+   "seconds": 1.5039189000090118
+  },
+  {
+   "requirement_id": "R10",
+   "verdict": "compliant",
+   "quote": "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.",
+   "design_span": [
+    3164,
+    3280
+   ],
+   "reason": "The requirement mandates encryption of personally identifiable information using AES-256 or stronger. The design fragment explicitly bans legacy algorithms and limits cryptography to approved ones, which includes AES-256. The fragment does not explicitly mention AES-256, but the ban on weaker algorithms implies stronger ones are allowed.",
+   "severity": "medium",
+   "confidence": 0.9999999999900924,
+   "probabilities": {
+    "compliant": 0.9999999999900924,
+    "violated": 8.613057639465495e-12,
+    "unclear": 1.0390652785542122e-12,
+    "not_applicable": 2.5548450170128213e-13
+   },
+   "context_units": [
+    3,
+    4,
+    25,
+    30,
+    33,
+    38,
+    39,
+    40,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.\", \"reason\": \"The requirement mandates encryption of personally identifiable information using AES-256 or stronger. The design fragment explicitly bans legacy algorithms and limits cryptography to approved ones, which includes AES-256. The fragment does not explicitly mention AES-256, but the ban on weaker algorithms implies stronger ones are allowed.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1236,
+   "completion_tokens": 119,
+   "seconds": 2.053485799988266
+  },
+  {
+   "requirement_id": "R11",
+   "verdict": "unclear",
+   "quote": "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "design_span": null,
+   "reason": "The requirement mandates that primary account numbers (PANs) must never be stored in clear text and must be tokenized through the card token vault. The design fragment states that secrets are not kept in source code, config files, API specs, or infrastructure definitions, which aligns with the requirement. However, the fragment does not explicitly mention tokenization or the card token vault, which are specific mechanisms required by the requirement.",
+   "severity": "none",
+   "confidence": 0.9995826724842338,
+   "probabilities": {
+    "compliant": 0.00041731588410981967,
+    "violated": 6.451772820123741e-9,
+    "unclear": 0.9995826724842338,
+    "not_applicable": 5.179883448125509e-9
+   },
+   "context_units": [
+    6,
+    24,
+    28,
+    30,
+    34,
+    38,
+    39,
+    40,
+    43,
+    55
+   ],
+   "raw_reply": "{\"quote\": \"No secrets are kept in source code, config files, API specs or infrastructure definitions.\", \"reason\": \"The requirement mandates that primary account numbers (PANs) must never be stored in clear text and must be tokenized through the card token vault. The design fragment states that secrets are not kept in source code, config files, API specs, or infrastructure definitions, which aligns with the requirement. However, the fragment does not explicitly mention tokenization or the card token vault, which are specific mechanisms required by the requirement.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1225,
+   "completion_tokens": 125,
+   "seconds": 2.120957599981921
+  },
+  {
+   "requirement_id": "R12",
+   "verdict": "unclear",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": null,
+   "reason": "The requirement mandates TLS 1.2 or higher for all traffic crossing Meridian Pay networks. The design fragment specifies mutual TLS for internal service calls, which meets the requirement. However, the fragment does not explicitly mention TLS 1.2 or higher for all traffic, only for internal service calls. The requirement applies to all traffic, including external traffic, which is not addressed in the fragment.",
+   "severity": "medium",
+   "confidence": 0.999999998890843,
+   "probabilities": {
+    "compliant": 7.237239817731599e-10,
+    "violated": 7.421306500398731e-11,
+    "unclear": 0.999999998890843,
+    "not_applicable": 3.1122000522250456e-10
+   },
+   "context_units": [
+    3,
+    20,
+    25,
+    26,
+    27,
+    33,
+    35,
+    37,
+    40,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement mandates TLS 1.2 or higher for all traffic crossing Meridian Pay networks. The design fragment specifies mutual TLS for internal service calls, which meets the requirement. However, the fragment does not explicitly mention TLS 1.2 or higher for all traffic, only for internal service calls. The requirement applies to all traffic, including external traffic, which is not addressed in the fragment.\", \"verdict\": \"unclear\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1204,
+   "completion_tokens": 125,
+   "seconds": 2.1142495999811217
+  },
+  {
+   "requirement_id": "R13",
+   "verdict": "compliant",
+   "quote": "Connections to the database and between internal services use TLS.",
+   "design_span": [
+    3561,
+    3627
+   ],
+   "reason": "The requirement demands protection of sensitive communications in transit. The fragment states that connections use TLS, which is a concrete mechanism meeting the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999891,
+   "probabilities": {
+    "compliant": 0.9999999999999891,
+    "violated": 1.2903988984262014e-15,
+    "unclear": 3.689314108707399e-16,
+    "not_applicable": 9.113473413662468e-15
+   },
+   "context_units": [
+    9,
+    25,
+    27,
+    33,
+    34,
+    35,
+    37,
+    40,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Connections to the database and between internal services use TLS.\", \"reason\": \"The requirement demands protection of sensitive communications in transit. The fragment states that connections use TLS, which is a concrete mechanism meeting the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1184,
+   "completion_tokens": 61,
+   "seconds": 1.0676103000005241
+  },
+  {
+   "requirement_id": "R14",
+   "verdict": "compliant",
+   "quote": "Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.",
+   "design_span": [
+    3164,
+    3280
+   ],
+   "reason": "The design fragment explicitly states that only approved cryptographic algorithms may be used and that MD5, SHA-1, DES, 3DES, and ECB are prohibited, matching the requirement exactly.",
+   "severity": "none",
+   "confidence": 0.9999999999999956,
+   "probabilities": {
+    "compliant": 0.9999999999999956,
+    "violated": 4.69774813215952e-16,
+    "unclear": 2.1780932099758274e-16,
+    "not_applicable": 3.697568683629455e-15
+   },
+   "context_units": [
+    1,
+    3,
+    20,
+    25,
+    30,
+    33,
+    34,
+    39,
+    40,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Cryptography is limited to the approved algorithm list, and the legacy ones (MD5, SHA-1, DES, 3DES, ECB) are banned.\",\"reason\": \"The design fragment explicitly states that only approved cryptographic algorithms may be used and that MD5, SHA-1, DES, 3DES, and ECB are prohibited, matching the requirement exactly.\",\"verdict\": \"compliant\",\"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1220,
+   "completion_tokens": 91,
+   "seconds": 1.5729208000120707
+  },
+  {
+   "requirement_id": "R15",
+   "verdict": "compliant",
+   "quote": "Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.",
+   "design_span": [
+    3893,
+    3993
+   ],
+   "reason": "The requirement mandates secure management of cryptographic keys throughout their lifecycle. The fragment specifies that encryption keys are stored in KMS (secure key management service) and rotated annually, which aligns with industry practice and addresses key rotation and storage.",
+   "severity": "medium",
+   "confidence": 0.9999999999999871,
+   "probabilities": {
+    "compliant": 0.9999999999999871,
+    "violated": 1.5256046057110123e-15,
+    "unclear": 5.168914094319703e-16,
+    "not_applicable": 1.0845521928008821e-14
+   },
+   "context_units": [
+    28,
+    30,
+    32,
+    33,
+    34,
+    38,
+    39,
+    40,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Encryption keys live in KMS, apart from the data they protect, and are rotated at least once a year.\", \"reason\": \"The requirement mandates secure management of cryptographic keys throughout their lifecycle. The fragment specifies that encryption keys are stored in KMS (secure key management service) and rotated annually, which aligns with industry practice and addresses key rotation and storage.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1215,
+   "completion_tokens": 92,
+   "seconds": 1.5899038999923505
+  },
+  {
+   "requirement_id": "R16",
+   "verdict": "compliant",
+   "quote": "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "design_span": [
+    3283,
+    3373
+   ],
+   "reason": "The design fragment explicitly states that secrets are not kept in source code, config files, API specs, or infrastructure definitions, which directly complies with the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999738,
+   "probabilities": {
+    "compliant": 0.9999999999999738,
+    "violated": 1.0274115343115644e-15,
+    "unclear": 6.181976873970687e-16,
+    "not_applicable": 2.4517926629566106e-14
+   },
+   "context_units": [
+    1,
+    24,
+    27,
+    30,
+    33,
+    34,
+    38,
+    39,
+    40,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"No secrets are kept in source code, config files, API specs or infrastructure definitions.\", \"reason\": \"The design fragment explicitly states that secrets are not kept in source code, config files, API specs, or infrastructure definitions, which directly complies with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1231,
+   "completion_tokens": 72,
+   "seconds": 1.2752906999958213
+  },
+  {
+   "requirement_id": "R17",
+   "verdict": "compliant",
+   "quote": "The approved secret manager is the only source of runtime secrets, fetched at start-up.",
+   "design_span": [
+    2911,
+    2998
+   ],
+   "reason": "The requirement states that runtime secrets must be retrieved from an approved secret store when a service starts. Fragment [3] explicitly states that the approved secret manager is the only source and that secrets are fetched at start-up, directly fulfilling the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999936,
+   "probabilities": {
+    "compliant": 0.9999999999999936,
+    "violated": 4.911576897621831e-16,
+    "unclear": 2.4717096498689727e-16,
+    "not_applicable": 5.686527528007027e-15
+   },
+   "context_units": [
+    24,
+    26,
+    30,
+    32,
+    34,
+    36,
+    38,
+    39,
+    40,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"The approved secret manager is the only source of runtime secrets, fetched at start-up.\", \"reason\": \"The requirement states that runtime secrets must be retrieved from an approved secret store when a service starts. Fragment [3] explicitly states that the approved secret manager is the only source and that secrets are fetched at start-up, directly fulfilling the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1209,
+   "completion_tokens": 88,
+   "seconds": 1.5291079000162426
+  },
+  {
+   "requirement_id": "R18",
+   "verdict": "compliant",
+   "quote": "The database and the message broker are in private subnets with no public address.",
+   "design_span": [
+    3376,
+    3458
+   ],
+   "reason": "The requirement states that databases and message brokers must not be publicly reachable and must be deployed in private subnets. The design fragment explicitly states that the database and message broker are in private subnets with no public address, meeting the requirement.",
+   "severity": "medium",
+   "confidence": 0.9999999999999831,
+   "probabilities": {
+    "compliant": 0.9999999999999831,
+    "violated": 1.1008323720069613e-15,
+    "unclear": 5.358868010364533e-16,
+    "not_applicable": 1.5285949963051274e-14
+   },
+   "context_units": [
+    5,
+    6,
+    9,
+    27,
+    31,
+    34,
+    35,
+    37,
+    39,
+    54
+   ],
+   "raw_reply": "{\"quote\": \"The database and the message broker are in private subnets with no public address.\", \"reason\": \"The requirement states that databases and message brokers must not be publicly reachable and must be deployed in private subnets. The design fragment explicitly states that the database and message broker are in private subnets with no public address, meeting the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1164,
+   "completion_tokens": 86,
+   "seconds": 1.4774411999969743
+  },
+  {
+   "requirement_id": "R19",
+   "verdict": "not_applicable",
+   "quote": "none",
+   "design_span": null,
+   "reason": "The requirement concerns object storage buckets blocking public access, but the design fragments do not mention object storage, buckets, or public access controls. The design focuses on network security, secrets management, and access control to resources, but not object storage.",
+   "severity": "none",
+   "confidence": 0.9998766022387091,
+   "probabilities": {
+    "compliant": 2.8740031043770795e-15,
+    "violated": 4.667743976286596e-16,
+    "unclear": 0.00012339776128753312,
+    "not_applicable": 0.9998766022387091
+   },
+   "context_units": [
+    27,
+    30,
+    31,
+    34,
+    35,
+    36,
+    38,
+    39,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"none\", \"reason\": \"The requirement concerns object storage buckets blocking public access, but the design fragments do not mention object storage, buckets, or public access controls. The design focuses on network security, secrets management, and access control to resources, but not object storage.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1200,
+   "completion_tokens": 74,
+   "seconds": 1.2884020000055898
+  },
+  {
+   "requirement_id": "R20",
+   "verdict": "not_applicable",
+   "quote": "No secrets are kept in source code, config files, API specs or infrastructure definitions.",
+   "design_span": null,
+   "reason": "The requirement prohibits open management ports to 0.0.0.0/0. The design fragment does not mention port restrictions, but focuses on secret management. The requirement is not addressed by the fragment.",
+   "severity": "none",
+   "confidence": 0.9790356962283041,
+   "probabilities": {
+    "compliant": 5.69496869930425e-13,
+    "violated": 1.954167484164255e-12,
+    "unclear": 0.02096430376917213,
+    "not_applicable": 0.9790356962283041
+   },
+   "context_units": [
+    6,
+    27,
+    30,
+    34,
+    35,
+    36,
+    37,
+    41,
+    42,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"No secrets are kept in source code, config files, API specs or infrastructure definitions.\", \"reason\": \"The requirement prohibits open management ports to 0.0.0.0/0. The design fragment does not mention port restrictions, but focuses on secret management. The requirement is not addressed by the fragment.\", \"verdict\": \"not_applicable\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1187,
+   "completion_tokens": 83,
+   "seconds": 1.4296370999945793
+  },
+  {
+   "requirement_id": "R21",
+   "verdict": "unclear",
+   "quote": "Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.",
+   "design_span": null,
+   "reason": "The requirement demands perimeter controls to protect externally exposed services from abusive traffic. The design fragment specifies that internal service calls use signed tokens or mutual TLS, which is a control to prevent abuse. However, the fragment does not explicitly mention perimeter controls for externally exposed services, which are the focus of the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999207610235,
+   "probabilities": {
+    "compliant": 5.3158802504091935e-8,
+    "violated": 5.746487432236312e-10,
+    "unclear": 0.9999999207610235,
+    "not_applicable": 2.5505525279071397e-8
+   },
+   "context_units": [
+    9,
+    26,
+    27,
+    32,
+    33,
+    34,
+    39,
+    42,
+    44,
+    45
+   ],
+   "raw_reply": "{\"quote\": \"Calls between our own services carry a signed workload identity token or use mutual TLS, and the receiving service checks it.\", \"reason\": \"The requirement demands perimeter controls to protect externally exposed services from abusive traffic. The design fragment specifies that internal service calls use signed tokens or mutual TLS, which is a control to prevent abuse. However, the fragment does not explicitly mention perimeter controls for externally exposed services, which are the focus of the requirement.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1195,
+   "completion_tokens": 106,
+   "seconds": 1.8032454999920446
+  },
+  {
+   "requirement_id": "R22",
+   "verdict": "compliant",
+   "quote": "Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.",
+   "design_span": [
+    4119,
+    4226
+   ],
+   "reason": "The requirement mandates logging of authentication failures, privilege changes, and access to sensitive data. Fragment [8] explicitly states that security-relevant events, including these, are logged, meeting the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999999831,
+   "probabilities": {
+    "compliant": 0.9999999999999831,
+    "violated": 1.1666872235639873e-15,
+    "unclear": 4.2806277312136576e-16,
+    "not_applicable": 1.5237820278775137e-14
+   },
+   "context_units": [
+    28,
+    31,
+    32,
+    34,
+    36,
+    38,
+    39,
+    42,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Security-relevant events (authentication failures, privilege changes, access to sensitive data) are logged.\", \"reason\": \"The requirement mandates logging of authentication failures, privilege changes, and access to sensitive data. Fragment [8] explicitly states that security-relevant events, including these, are logged, meeting the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1198,
+   "completion_tokens": 81,
+   "seconds": 1.3976558000140358
+  },
+  {
+   "requirement_id": "R23",
+   "verdict": "compliant",
+   "quote": "We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.",
+   "design_span": [
+    4229,
+    4342
+   ],
+   "reason": "The requirement demands that logs avoid sensitive data. The fragment explicitly states that logs are scrubbed to remove secrets, card numbers, and personal data, except for opaque identifiers, which aligns with the requirement.",
+   "severity": "medium",
+   "confidence": 0.999999999999994,
+   "probabilities": {
+    "compliant": 0.999999999999994,
+    "violated": 1.3506922698702224e-15,
+    "unclear": 3.7078513117453904e-16,
+    "not_applicable": 4.369994478964977e-15
+   },
+   "context_units": [
+    27,
+    34,
+    36,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"We scrub logs so that they contain neither secrets, card numbers nor personal data other than opaque identifiers.\", \"reason\": \"The requirement demands that logs avoid sensitive data. The fragment explicitly states that logs are scrubbed to remove secrets, card numbers, and personal data, except for opaque identifiers, which aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1195,
+   "completion_tokens": 84,
+   "seconds": 1.4529051999852527
+  },
+  {
+   "requirement_id": "R24",
+   "verdict": "violated",
+   "quote": "Audit entries share the application log group and expire after thirty days.",
+   "design_span": [
+    4345,
+    4420
+   ],
+   "reason": "The requirement demands audit logs be tamper-evident and retained for at least one year. The design fragment states audit entries expire after thirty days, which is less than the required one year retention. The fragment does not mention tamper-evident features.",
+   "severity": "high",
+   "confidence": 0.9999999993940927,
+   "probabilities": {
+    "compliant": 2.786904575238657e-10,
+    "violated": 0.9999999993940927,
+    "unclear": 2.083031989352847e-11,
+    "not_applicable": 3.063866310343719e-10
+   },
+   "context_units": [
+    28,
+    32,
+    36,
+    39,
+    40,
+    42,
+    43,
+    44,
+    52,
+    60
+   ],
+   "raw_reply": "{\"quote\": \"Audit entries share the application log group and expire after thirty days.\", \"reason\": \"The requirement demands audit logs be tamper-evident and retained for at least one year. The design fragment states audit entries expire after thirty days, which is less than the required one year retention. The fragment does not mention tamper-evident features.\", \"verdict\": \"violated\", \"severity\": \"high\"}",
+   "calls": 1,
+   "prompt_tokens": 1183,
+   "completion_tokens": 88,
+   "seconds": 1.5017236999992747
+  },
+  {
+   "requirement_id": "R25",
+   "verdict": "violated",
+   "quote": "Access to the log platform is given to whole teams and nobody removes it when people change role.",
+   "design_span": [
+    3461,
+    3558
+   ],
+   "reason": "The requirement demands restricting access to centralized logs to authorized personnel. The fragment states that access is given to whole teams without removing it when roles change, which does not restrict access to authorized personnel.",
+   "severity": "medium",
+   "confidence": 0.9999999990461239,
+   "probabilities": {
+    "compliant": 3.705406183181461e-10,
+    "violated": 0.9999999990461239,
+    "unclear": 1.3754801062575467e-10,
+    "not_applicable": 4.457874606106099e-10
+   },
+   "context_units": [
+    27,
+    29,
+    31,
+    32,
+    34,
+    36,
+    39,
+    42,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Access to the log platform is given to whole teams and nobody removes it when people change role.\", \"reason\": \"The requirement demands restricting access to centralized logs to authorized personnel. The fragment states that access is given to whole teams without removing it when roles change, which does not restrict access to authorized personnel.\", \"verdict\": \"violated\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1198,
+   "completion_tokens": 80,
+   "seconds": 1.3944533999892883
+  },
+  {
+   "requirement_id": "R26",
+   "verdict": "violated",
+   "quote": "Audit entries share the application log group and expire after thirty days.",
+   "design_span": [
+    4345,
+    4420
+   ],
+   "reason": "The requirement states that audit logs older than 90 days may be archived or deleted. The design fragment states that audit entries expire after 30 days, which is less than the 90-day threshold. This is a violation as it does not meet the requirement's specified limit.",
+   "severity": "medium",
+   "confidence": 0.9999999995593651,
+   "probabilities": {
+    "compliant": 3.9553714821293867e-10,
+    "violated": 0.9999999995593651,
+    "unclear": 3.2752128802468868e-12,
+    "not_applicable": 4.1822463316414844e-11
+   },
+   "context_units": [
+    6,
+    32,
+    36,
+    39,
+    42,
+    43,
+    44,
+    58,
+    59,
+    60
+   ],
+   "raw_reply": "{\"quote\": \"Audit entries share the application log group and expire after thirty days.\", \"reason\": \"The requirement states that audit logs older than 90 days may be archived or deleted. The design fragment states that audit entries expire after 30 days, which is less than the 90-day threshold. This is a violation as it does not meet the requirement's specified limit.\", \"verdict\": \"violated\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1163,
+   "completion_tokens": 94,
+   "seconds": 1.6068220000015572
+  },
+  {
+   "requirement_id": "R27",
+   "verdict": "compliant",
+   "quote": "A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.",
+   "design_span": [
+    3630,
+    3765
+   ],
+   "reason": "The requirement mandates that services collect and store only necessary personal data. The design fragment explicitly states that a register of personal fields with their purposes is maintained, and anything not in the register is not stored. This aligns with the requirement by ensuring only necessary data is collected and stored.",
+   "severity": "medium",
+   "confidence": 0.9999999999999936,
+   "probabilities": {
+    "compliant": 0.9999999999999936,
+    "violated": 8.956580383611856e-16,
+    "unclear": 2.6975437957604914e-16,
+    "not_applicable": 5.186045511428858e-15
+   },
+   "context_units": [
+    0,
+    1,
+    6,
+    26,
+    31,
+    34,
+    38,
+    39,
+    41,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.\", \"reason\": \"The requirement mandates that services collect and store only necessary personal data. The design fragment explicitly states that a register of personal fields with their purposes is maintained, and anything not in the register is not stored. This aligns with the requirement by ensuring only necessary data is collected and stored.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1203,
+   "completion_tokens": 107,
+   "seconds": 1.8250816999934614
+  },
+  {
+   "requirement_id": "R28",
+   "verdict": "compliant",
+   "quote": "A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.",
+   "design_span": [
+    3630,
+    3765
+   ],
+   "reason": "The requirement mandates that personal data be retained only as long as reasonably necessary and disposed of appropriately. The design fragment states that a register of personal fields is kept, and anything not in the register is not stored, which aligns with the requirement. The fragment specifies a mechanism (register) and a value (not storing unregistered data).",
+   "severity": "medium",
+   "confidence": 0.9999999999999873,
+   "probabilities": {
+    "compliant": 0.9999999999999873,
+    "violated": 1.931893996552168e-15,
+    "unclear": 7.088649314473284e-16,
+    "not_applicable": 1.0062031939012438e-14
+   },
+   "context_units": [
+    0,
+    6,
+    25,
+    38,
+    39,
+    40,
+    43,
+    44,
+    52,
+    57
+   ],
+   "raw_reply": "{\"quote\": \"A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.\", \"reason\": \"The requirement mandates that personal data be retained only as long as reasonably necessary and disposed of appropriately. The design fragment states that a register of personal fields is kept, and anything not in the register is not stored, which aligns with the requirement. The fragment specifies a mechanism (register) and a value (not storing unregistered data).\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1208,
+   "completion_tokens": 119,
+   "seconds": 2.023728600004688
+  },
+  {
+   "requirement_id": "R29",
+   "verdict": "compliant",
+   "quote": "A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.",
+   "design_span": [
+    3630,
+    3765
+   ],
+   "reason": "The design fragment states that a register of personal fields is maintained, and that only fields in the register are stored. This meets the requirement that personal data may be disclosed to third parties only if it is required for the purpose and is stored in a controlled manner.",
+   "severity": "medium",
+   "confidence": 0.9999999999999871,
+   "probabilities": {
+    "compliant": 0.9999999999999871,
+    "violated": 9.150410775362673e-16,
+    "unclear": 3.963411199635775e-16,
+    "not_applicable": 1.1483487668157928e-14
+   },
+   "context_units": [
+    1,
+    6,
+    25,
+    31,
+    32,
+    33,
+    34,
+    38,
+    39,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"A register of personal fields with the purpose of each is kept for the service, and anything that is not in the register is not stored.\", \"reason\": \"The design fragment states that a register of personal fields is maintained, and that only fields in the register are stored. This meets the requirement that personal data may be disclosed to third parties only if it is required for the purpose and is stored in a controlled manner.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1212,
+   "completion_tokens": 103,
+   "seconds": 1.761904599989066
+  },
+  {
+   "requirement_id": "R30",
+   "verdict": "compliant",
+   "quote": "Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.",
+   "design_span": [
+    3768,
+    3890
+   ],
+   "reason": "The requirement demands that reports with personal data be accessible only to authorized users, encrypted in storage, and expire after a defined period. The design fragment states all three: access control, encryption, and deletion after 7 days. The period (7 days) is a concrete value.",
+   "severity": "medium",
+   "confidence": 0.9999999999999707,
+   "probabilities": {
+    "compliant": 0.9999999999999707,
+    "violated": 5.054677345016155e-15,
+    "unclear": 7.191805087774763e-16,
+    "not_applicable": 2.3570497530011446e-14
+   },
+   "context_units": [
+    28,
+    32,
+    33,
+    36,
+    38,
+    39,
+    40,
+    42,
+    43,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"Reports and exports with personal data are available only to authorized users, stored encrypted, and deleted after 7 days.\", \"reason\": \"The requirement demands that reports with personal data be accessible only to authorized users, encrypted in storage, and expire after a defined period. The design fragment states all three: access control, encryption, and deletion after 7 days. The period (7 days) is a concrete value.\", \"verdict\": \"compliant\", \"severity\": \"medium\"}",
+   "calls": 1,
+   "prompt_tokens": 1230,
+   "completion_tokens": 102,
+   "seconds": 1.7532625999883749
+  },
+  {
+   "requirement_id": "R31",
+   "verdict": "unclear",
+   "quote": "All external inputs must be validated against a defined schema and rejected if they do not conform.",
+   "design_span": null,
+   "reason": "The requirement demands validation of external inputs against a defined schema. The design fragment [10] states that database queries are parameterized and user input is never concatenated into SQL, which aligns with the requirement. However, the design does not explicitly mention validation of external inputs against a defined schema, which is required by the requirement.",
+   "severity": "none",
+   "confidence": 0.9999996466775776,
+   "probabilities": {
+    "compliant": 1.92536861790269e-8,
+    "violated": 3.3150344983396475e-7,
+    "unclear": 0.9999996466775776,
+    "not_applicable": 2.5652864445901263e-9
+   },
+   "context_units": [
+    0,
+    6,
+    9,
+    20,
+    27,
+    31,
+    33,
+    34,
+    38,
+    41
+   ],
+   "raw_reply": "{\"quote\": \"All external inputs must be validated against a defined schema and rejected if they do not conform.\", \"reason\": \"The requirement demands validation of external inputs against a defined schema. The design fragment [10] states that database queries are parameterized and user input is never concatenated into SQL, which aligns with the requirement. However, the design does not explicitly mention validation of external inputs against a defined schema, which is required by the requirement.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1212,
+   "completion_tokens": 107,
+   "seconds": 1.8374777999997605
+  },
+  {
+   "requirement_id": "R32",
+   "verdict": "compliant",
+   "quote": "Database queries are parameterized, and user input is never concatenated into SQL.",
+   "design_span": [
+    3996,
+    4078
+   ],
+   "reason": "The requirement states that database queries must be parameterized and that concatenating user input is prohibited. Fragment [9] explicitly states both requirements, confirming compliance.",
+   "severity": "none",
+   "confidence": 0.9999999999999782,
+   "probabilities": {
+    "compliant": 0.9999999999999782,
+    "violated": 6.053670411662078e-16,
+    "unclear": 4.3175027221826825e-16,
+    "not_applicable": 2.0778198611871865e-14
+   },
+   "context_units": [
+    6,
+    21,
+    25,
+    27,
+    33,
+    37,
+    38,
+    39,
+    41,
+    43
+   ],
+   "raw_reply": "{\"quote\": \"Database queries are parameterized, and user input is never concatenated into SQL.\", \"reason\": \"The requirement states that database queries must be parameterized and that concatenating user input is prohibited. Fragment [9] explicitly states both requirements, confirming compliance.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1193,
+   "completion_tokens": 69,
+   "seconds": 1.2159618000150658
+  },
+  {
+   "requirement_id": "R33",
+   "verdict": "violated",
+   "quote": "Container images are never rescanned after the first build.",
+   "design_span": [
+    4521,
+    4580
+   ],
+   "reason": "The requirement mandates that vulnerabilities in dependencies and container images must be remediated in a timely manner. The design fragment states that container images are never rescanned after the first build, which contradicts the need for timely remediation of vulnerabilities. The fragment does not mention any rescan policy that would allow for timely remediation.",
+   "severity": "high",
+   "confidence": 0.9999999996385027,
+   "probabilities": {
+    "compliant": 2.623857022189149e-10,
+    "violated": 0.9999999996385027,
+    "unclear": 5.6418089091972e-12,
+    "not_applicable": 9.346985203164982e-11
+   },
+   "context_units": [
+    6,
+    24,
+    32,
+    34,
+    42,
+    43,
+    45,
+    46,
+    47,
+    60
+   ],
+   "raw_reply": "{\"quote\": \"Container images are never rescanned after the first build.\", \"reason\": \"The requirement mandates that vulnerabilities in dependencies and container images must be remediated in a timely manner. The design fragment states that container images are never rescanned after the first build, which contradicts the need for timely remediation of vulnerabilities. The fragment does not mention any rescan policy that would allow for timely remediation.\", \"verdict\": \"violated\", \"severity\": \"high\"}",
+   "calls": 1,
+   "prompt_tokens": 1188,
+   "completion_tokens": 98,
+   "seconds": 1.678603500011377
+  },
+  {
+   "requirement_id": "R34",
+   "verdict": "unclear",
+   "quote": "The v1 document said one replica with a hot standby; the standby was dropped when Kafka consumer groups were introduced.",
+   "design_span": null,
+   "reason": "The requirement mandates that backups be protected and restoration verified regularly. The design fragment mentions dropping a standby due to Kafka consumer groups, but does not address backup protection or restoration verification. The fragment does not state how backups are protected or if restoration is verified.",
+   "severity": "none",
+   "confidence": 0.999999855441558,
+   "probabilities": {
+    "compliant": 2.4047787649689657e-11,
+    "violated": 3.622329979041793e-11,
+    "unclear": 0.999999855441558,
+    "not_applicable": 1.444981709590185e-7
+   },
+   "context_units": [
+    6,
+    20,
+    32,
+    39,
+    40,
+    44,
+    50,
+    55,
+    57,
+    59
+   ],
+   "raw_reply": "{\"quote\": \"The v1 document said one replica with a hot standby; the standby was dropped when Kafka consumer groups were introduced.\", \"reason\": \"The requirement mandates that backups be protected and restoration verified regularly. The design fragment mentions dropping a standby due to Kafka consumer groups, but does not address backup protection or restoration verification. The fragment does not state how backups are protected or if restoration is verified.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1189,
+   "completion_tokens": 96,
+   "seconds": 1.643448000017088
+  },
+  {
+   "requirement_id": "R35",
+   "verdict": "unclear",
+   "quote": "This policy is reviewed annually and after any significant security incident.",
+   "design_span": null,
+   "reason": "The requirement states that the policy should be reviewed annually and after significant security incidents. The design fragments do not mention any specific mechanism or value related to policy review frequency or triggers. The design is silent on how the policy is reviewed or what constitutes a significant security incident.",
+   "severity": "none",
+   "confidence": 0.9993537968103129,
+   "probabilities": {
+    "compliant": 6.276015160431017e-12,
+    "violated": 1.1825687007494824e-13,
+    "unclear": 0.9993537968103129,
+    "not_applicable": 0.0006462031832928989
+   },
+   "context_units": [
+    0,
+    3,
+    6,
+    20,
+    25,
+    32,
+    39,
+    40,
+    42,
+    44
+   ],
+   "raw_reply": "{\"quote\": \"This policy is reviewed annually and after any significant security incident.\", \"reason\": \"The requirement states that the policy should be reviewed annually and after significant security incidents. The design fragments do not mention any specific mechanism or value related to policy review frequency or triggers. The design is silent on how the policy is reviewed or what constitutes a significant security incident.\", \"verdict\": \"unclear\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1173,
+   "completion_tokens": 88,
+   "seconds": 1.5181870000087656
+  },
+  {
+   "requirement_id": "R36",
+   "verdict": "compliant",
+   "quote": "Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.",
+   "design_span": [
+    2682,
+    2908
+   ],
+   "reason": "The requirement demands that staff only have roles necessary for their job. The design fragment specifies that support agents get the viewer role, engineers get the operator role, and no one gets the administrator role by default, which aligns with the requirement.",
+   "severity": "none",
+   "confidence": 0.9999999999971474,
+   "probabilities": {
+    "compliant": 0.9999999999971474,
+    "violated": 1.8577199265709568e-14,
+    "unclear": 1.1878639911419479e-14,
+    "not_applicable": 2.822204627141826e-12
+   },
+   "context_units": [
+    0,
+    1,
+    20,
+    25,
+    29,
+    32,
+    36,
+    38,
+    39,
+    42
+   ],
+   "raw_reply": "{\"quote\": \"Staff receive only the roles their job requires: support agents get the viewer role because they answer tickets, engineers get the operator role because they deploy and debug, and nobody gets the administrator role by default.\", \"reason\": \"The requirement demands that staff only have roles necessary for their job. The design fragment specifies that support agents get the viewer role, engineers get the operator role, and no one gets the administrator role by default, which aligns with the requirement.\", \"verdict\": \"compliant\", \"severity\": \"none\"}",
+   "calls": 1,
+   "prompt_tokens": 1216,
+   "completion_tokens": 111,
+   "seconds": 1.894661600003019
+  }
+ ]
+}

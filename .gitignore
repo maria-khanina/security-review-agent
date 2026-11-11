@@ -7,4 +7,3 @@ qdrant_data/
 !*.tf
 !*.toml
 !*.pyi
-data/runs_verdict/
